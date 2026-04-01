@@ -32,13 +32,11 @@ type ApiUploadCertificateRequest struct {
 	password *string
 }
 
-// Archivo .p12 o .pfx
 func (r ApiUploadCertificateRequest) File(file *os.File) ApiUploadCertificateRequest {
 	r.file = file
 	return r
 }
 
-// Contraseña del certificado
 func (r ApiUploadCertificateRequest) Password(password string) ApiUploadCertificateRequest {
 	r.password = &password
 	return r

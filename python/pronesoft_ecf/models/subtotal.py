@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,7 +30,18 @@ class Subtotal(BaseModel):
     number: StrictInt
     amount: Union[StrictFloat, StrictInt]
     description: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["number", "amount", "description"]
+    taxable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount")
+    taxable_amount1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount1")
+    taxable_amount2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount2")
+    taxable_amount3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount3")
+    total_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalITBIS")
+    itbis1: Optional[Union[StrictFloat, StrictInt]] = None
+    itbis2: Optional[Union[StrictFloat, StrictInt]] = None
+    itbis3: Optional[Union[StrictFloat, StrictInt]] = None
+    additional_taxes: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="additionalTaxes")
+    exempt_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="exemptAmount")
+    lines: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["number", "amount", "description", "taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxes", "exemptAmount", "lines"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -85,7 +96,18 @@ class Subtotal(BaseModel):
         _obj = cls.model_validate({
             "number": obj.get("number"),
             "amount": obj.get("amount"),
-            "description": obj.get("description")
+            "description": obj.get("description"),
+            "taxableAmount": obj.get("taxableAmount"),
+            "taxableAmount1": obj.get("taxableAmount1"),
+            "taxableAmount2": obj.get("taxableAmount2"),
+            "taxableAmount3": obj.get("taxableAmount3"),
+            "totalITBIS": obj.get("totalITBIS"),
+            "itbis1": obj.get("itbis1"),
+            "itbis2": obj.get("itbis2"),
+            "itbis3": obj.get("itbis3"),
+            "additionalTaxes": obj.get("additionalTaxes"),
+            "exemptAmount": obj.get("exemptAmount"),
+            "lines": obj.get("lines")
         })
         return _obj
 

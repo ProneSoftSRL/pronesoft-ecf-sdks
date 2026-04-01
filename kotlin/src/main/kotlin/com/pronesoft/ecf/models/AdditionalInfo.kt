@@ -32,6 +32,8 @@ import com.squareup.moshi.JsonClass
  *
  * @param grossWeight 
  * @param packageQuantity 
+ * @param containerId 
+ * @param sealId 
  */
 
 
@@ -41,7 +43,13 @@ data class AdditionalInfo (
     val grossWeight: java.math.BigDecimal? = null,
 
     @Json(name = "packageQuantity")
-    val packageQuantity: java.math.BigDecimal? = null
+    val packageQuantity: java.math.BigDecimal? = null,
+
+    @Json(name = "containerId")
+    val containerId: kotlin.String? = null,
+
+    @Json(name = "sealId")
+    val sealId: kotlin.String? = null
 
 ) {
 

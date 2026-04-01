@@ -11,6 +11,9 @@ Name | Type | Description | Notes
 **driver** | **String** |  | [optional] 
 **vehicleId** | **String** |  | [optional] 
 **licensePlate** | **String** |  | [optional] 
+**route** | **String** |  | [optional] 
+**departureDate** | [**DateTime**](DateTime.md) |  | [optional] 
+**arrivalDate** | [**DateTime**](DateTime.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

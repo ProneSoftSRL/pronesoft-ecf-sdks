@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Type** | **string** |  | 
 **BillingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
-**Quantity** | **string** | Decimal string | 
-**UnitPrice** | **string** | Decimal string | 
+**Quantity** | **string** |  | 
+**UnitPrice** | **string** |  | 
 **Amount** | **float32** |  | 
 **DiscountAmount** | Pointer to **float32** |  | [optional] 
 **AdditionalTaxes** | Pointer to [**[]ItemAdditionalTax**](ItemAdditionalTax.md) |  | [optional] 

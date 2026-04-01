@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **event** | [**WebhookEventType**](WebhookEventType.md) |  | 
 **timestamp** | **datetime** |  | 
 **business_rnc** | **str** |  | 
-**data** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  | 
+**data** | **object** |  | 
 
 ## Example
 

@@ -42,8 +42,8 @@ class DigitalCertificatesApi:
     def upload_certificate(
         self,
         rnc: Annotated[str, Field(strict=True)],
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Archivo .p12 o .pfx")],
-        password: Annotated[StrictStr, Field(description="Contraseña del certificado")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        password: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62,9 +62,9 @@ class DigitalCertificatesApi:
 
         :param rnc: (required)
         :type rnc: str
-        :param file: Archivo .p12 o .pfx (required)
+        :param file: (required)
         :type file: bytes
-        :param password: Contraseña del certificado (required)
+        :param password: (required)
         :type password: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -116,8 +116,8 @@ class DigitalCertificatesApi:
     def upload_certificate_with_http_info(
         self,
         rnc: Annotated[str, Field(strict=True)],
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Archivo .p12 o .pfx")],
-        password: Annotated[StrictStr, Field(description="Contraseña del certificado")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        password: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -136,9 +136,9 @@ class DigitalCertificatesApi:
 
         :param rnc: (required)
         :type rnc: str
-        :param file: Archivo .p12 o .pfx (required)
+        :param file: (required)
         :type file: bytes
-        :param password: Contraseña del certificado (required)
+        :param password: (required)
         :type password: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -190,8 +190,8 @@ class DigitalCertificatesApi:
     def upload_certificate_without_preload_content(
         self,
         rnc: Annotated[str, Field(strict=True)],
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Archivo .p12 o .pfx")],
-        password: Annotated[StrictStr, Field(description="Contraseña del certificado")],
+        file: Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]],
+        password: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -210,9 +210,9 @@ class DigitalCertificatesApi:
 
         :param rnc: (required)
         :type rnc: str
-        :param file: Archivo .p12 o .pfx (required)
+        :param file: (required)
         :type file: bytes
-        :param password: Contraseña del certificado (required)
+        :param password: (required)
         :type password: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

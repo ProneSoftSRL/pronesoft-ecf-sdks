@@ -14,7 +14,12 @@
 |**expirationDate** | **OffsetDateTime** |  |  [optional] |
 |**incomeType** | [**IncomeTypeEnum**](#IncomeTypeEnum) |  |  [optional] |
 |**paymentType** | [**PaymentTypeEnum**](#PaymentTypeEnum) |  |  [optional] |
-|**creditNoteIndicator** | [**CreditNoteIndicatorEnum**](#CreditNoteIndicatorEnum) | 0: ≤30 días, 1: &gt;30 días |  [optional] |
+|**paymentDeadline** | **OffsetDateTime** |  |  [optional] |
+|**paymentTerms** | **String** |  |  [optional] |
+|**paymentAccountType** | **AccountType** |  |  [optional] |
+|**paymentAccountNumber** | **String** |  |  [optional] |
+|**paymentBank** | **String** |  |  [optional] |
+|**creditNoteIndicator** | [**CreditNoteIndicatorEnum**](#CreditNoteIndicatorEnum) | 0: emision affected ≤ 30 days, 1: &gt; 30 days |  [optional] |
 |**issuerRNC** | **String** |  |  [optional] |
 |**issuerBusinessName** | **String** |  |  [optional] |
 |**issuerEmail** | **String** |  |  [optional] |

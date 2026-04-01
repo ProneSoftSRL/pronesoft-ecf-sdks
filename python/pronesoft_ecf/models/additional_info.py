@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,7 +29,9 @@ class AdditionalInfo(BaseModel):
     """ # noqa: E501
     gross_weight: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="grossWeight")
     package_quantity: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="packageQuantity")
-    __properties: ClassVar[List[str]] = ["grossWeight", "packageQuantity"]
+    container_id: Optional[StrictStr] = Field(default=None, alias="containerId")
+    seal_id: Optional[StrictStr] = Field(default=None, alias="sealId")
+    __properties: ClassVar[List[str]] = ["grossWeight", "packageQuantity", "containerId", "sealId"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -83,7 +85,9 @@ class AdditionalInfo(BaseModel):
 
         _obj = cls.model_validate({
             "grossWeight": obj.get("grossWeight"),
-            "packageQuantity": obj.get("packageQuantity")
+            "packageQuantity": obj.get("packageQuantity"),
+            "containerId": obj.get("containerId"),
+            "sealId": obj.get("sealId")
         })
         return _obj
 

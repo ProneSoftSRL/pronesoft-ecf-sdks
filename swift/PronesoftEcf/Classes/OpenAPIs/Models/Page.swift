@@ -16,12 +16,34 @@ public struct Page: Codable, JSONEncodable, Hashable {
     public var lineFrom: Int
     public var lineTo: Int
     public var subtotal: Double?
+    public var taxableAmount: Double?
+    public var taxableAmount1: Double?
+    public var taxableAmount2: Double?
+    public var taxableAmount3: Double?
+    public var totalITBIS: Double?
+    public var itbis1: Double?
+    public var itbis2: Double?
+    public var itbis3: Double?
+    public var additionalTaxes: Double?
+    public var exemptAmount: Double?
+    public var nonBillableAmount: Double?
 
-    public init(pageNumber: Int, lineFrom: Int, lineTo: Int, subtotal: Double? = nil) {
+    public init(pageNumber: Int, lineFrom: Int, lineTo: Int, subtotal: Double? = nil, taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxes: Double? = nil, exemptAmount: Double? = nil, nonBillableAmount: Double? = nil) {
         self.pageNumber = pageNumber
         self.lineFrom = lineFrom
         self.lineTo = lineTo
         self.subtotal = subtotal
+        self.taxableAmount = taxableAmount
+        self.taxableAmount1 = taxableAmount1
+        self.taxableAmount2 = taxableAmount2
+        self.taxableAmount3 = taxableAmount3
+        self.totalITBIS = totalITBIS
+        self.itbis1 = itbis1
+        self.itbis2 = itbis2
+        self.itbis3 = itbis3
+        self.additionalTaxes = additionalTaxes
+        self.exemptAmount = exemptAmount
+        self.nonBillableAmount = nonBillableAmount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -29,6 +51,17 @@ public struct Page: Codable, JSONEncodable, Hashable {
         case lineFrom
         case lineTo
         case subtotal
+        case taxableAmount
+        case taxableAmount1
+        case taxableAmount2
+        case taxableAmount3
+        case totalITBIS
+        case itbis1
+        case itbis2
+        case itbis3
+        case additionalTaxes
+        case exemptAmount
+        case nonBillableAmount
     }
 
     // Encodable protocol methods
@@ -39,6 +72,17 @@ public struct Page: Codable, JSONEncodable, Hashable {
         try container.encode(lineFrom, forKey: .lineFrom)
         try container.encode(lineTo, forKey: .lineTo)
         try container.encodeIfPresent(subtotal, forKey: .subtotal)
+        try container.encodeIfPresent(taxableAmount, forKey: .taxableAmount)
+        try container.encodeIfPresent(taxableAmount1, forKey: .taxableAmount1)
+        try container.encodeIfPresent(taxableAmount2, forKey: .taxableAmount2)
+        try container.encodeIfPresent(taxableAmount3, forKey: .taxableAmount3)
+        try container.encodeIfPresent(totalITBIS, forKey: .totalITBIS)
+        try container.encodeIfPresent(itbis1, forKey: .itbis1)
+        try container.encodeIfPresent(itbis2, forKey: .itbis2)
+        try container.encodeIfPresent(itbis3, forKey: .itbis3)
+        try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
+        try container.encodeIfPresent(exemptAmount, forKey: .exemptAmount)
+        try container.encodeIfPresent(nonBillableAmount, forKey: .nonBillableAmount)
     }
 }
 

@@ -48,7 +48,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * Buyer
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Buyer {
   public static final String SERIALIZED_NAME_TAX_ID = "taxId";
   @SerializedName(SERIALIZED_NAME_TAX_ID)
@@ -69,6 +69,16 @@ public class Buyer {
   @SerializedName(SERIALIZED_NAME_ADDRESS)
   @javax.annotation.Nullable
   private String address;
+
+  public static final String SERIALIZED_NAME_MUNICIPALITY_CODE = "municipalityCode";
+  @SerializedName(SERIALIZED_NAME_MUNICIPALITY_CODE)
+  @javax.annotation.Nullable
+  private String municipalityCode;
+
+  public static final String SERIALIZED_NAME_PROVINCE_CODE = "provinceCode";
+  @SerializedName(SERIALIZED_NAME_PROVINCE_CODE)
+  @javax.annotation.Nullable
+  private String provinceCode;
 
   public static final String SERIALIZED_NAME_DELIVERY_ADDRESS = "deliveryAddress";
   @SerializedName(SERIALIZED_NAME_DELIVERY_ADDRESS)
@@ -154,6 +164,44 @@ public class Buyer {
   }
 
 
+  public Buyer municipalityCode(@javax.annotation.Nullable String municipalityCode) {
+    this.municipalityCode = municipalityCode;
+    return this;
+  }
+
+  /**
+   * Get municipalityCode
+   * @return municipalityCode
+   */
+  @javax.annotation.Nullable
+  public String getMunicipalityCode() {
+    return municipalityCode;
+  }
+
+  public void setMunicipalityCode(@javax.annotation.Nullable String municipalityCode) {
+    this.municipalityCode = municipalityCode;
+  }
+
+
+  public Buyer provinceCode(@javax.annotation.Nullable String provinceCode) {
+    this.provinceCode = provinceCode;
+    return this;
+  }
+
+  /**
+   * Get provinceCode
+   * @return provinceCode
+   */
+  @javax.annotation.Nullable
+  public String getProvinceCode() {
+    return provinceCode;
+  }
+
+  public void setProvinceCode(@javax.annotation.Nullable String provinceCode) {
+    this.provinceCode = provinceCode;
+  }
+
+
   public Buyer deliveryAddress(@javax.annotation.Nullable String deliveryAddress) {
     this.deliveryAddress = deliveryAddress;
     return this;
@@ -187,12 +235,14 @@ public class Buyer {
         Objects.equals(this.name, buyer.name) &&
         Objects.equals(this.email, buyer.email) &&
         Objects.equals(this.address, buyer.address) &&
+        Objects.equals(this.municipalityCode, buyer.municipalityCode) &&
+        Objects.equals(this.provinceCode, buyer.provinceCode) &&
         Objects.equals(this.deliveryAddress, buyer.deliveryAddress);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(taxId, name, email, address, deliveryAddress);
+    return Objects.hash(taxId, name, email, address, municipalityCode, provinceCode, deliveryAddress);
   }
 
   @Override
@@ -203,6 +253,8 @@ public class Buyer {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
+    sb.append("    municipalityCode: ").append(toIndentedString(municipalityCode)).append("\n");
+    sb.append("    provinceCode: ").append(toIndentedString(provinceCode)).append("\n");
     sb.append("    deliveryAddress: ").append(toIndentedString(deliveryAddress)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -222,7 +274,7 @@ public class Buyer {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("taxId", "name", "email", "address", "deliveryAddress"));
+    openapiFields = new HashSet<String>(Arrays.asList("taxId", "name", "email", "address", "municipalityCode", "provinceCode", "deliveryAddress"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("name"));
@@ -267,6 +319,12 @@ public class Buyer {
       }
       if ((jsonObj.get("address") != null && !jsonObj.get("address").isJsonNull()) && !jsonObj.get("address").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `address` to be a primitive type in the JSON string but got `%s`", jsonObj.get("address").toString()));
+      }
+      if ((jsonObj.get("municipalityCode") != null && !jsonObj.get("municipalityCode").isJsonNull()) && !jsonObj.get("municipalityCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `municipalityCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("municipalityCode").toString()));
+      }
+      if ((jsonObj.get("provinceCode") != null && !jsonObj.get("provinceCode").isJsonNull()) && !jsonObj.get("provinceCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `provinceCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("provinceCode").toString()));
       }
       if ((jsonObj.get("deliveryAddress") != null && !jsonObj.get("deliveryAddress").isJsonNull()) && !jsonObj.get("deliveryAddress").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `deliveryAddress` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryAddress").toString()));

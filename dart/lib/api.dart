@@ -28,23 +28,25 @@ part 'auth/oauth.dart';
 part 'auth/http_basic_auth.dart';
 part 'auth/http_bearer_auth.dart';
 
+part 'api/associated_companies_api.dart';
 part 'api/authentication_api.dart';
 part 'api/digital_certificates_api.dart';
 part 'api/ecf_submission_api.dart';
 part 'api/tax_sequences_api.dart';
 part 'api/webhook_configuration_api.dart';
 
+part 'model/account_type.dart';
 part 'model/additional_info.dart';
 part 'model/alternative_currency.dart';
+part 'model/associated_company.dart';
+part 'model/associated_company_subscription.dart';
+part 'model/associated_company_subscription_plan.dart';
 part 'model/billing_indicator.dart';
 part 'model/buyer.dart';
-part 'model/certification_completed_payload.dart';
-part 'model/commercial_approval_payload.dart';
+part 'model/create_associated_company201_response.dart';
 part 'model/create_tax_sequence_request.dart';
 part 'model/create_webhook_config.dart';
 part 'model/discount_or_surcharge.dart';
-part 'model/document_received_payload.dart';
-part 'model/document_status_changed_payload.dart';
 part 'model/ecf_submission_response.dart';
 part 'model/electronic_document.dart';
 part 'model/environment.dart';
@@ -59,6 +61,7 @@ part 'model/o_auth_token_request.dart';
 part 'model/o_auth_token_response.dart';
 part 'model/page.dart';
 part 'model/payment_method.dart';
+part 'model/print_format.dart';
 part 'model/reference_info.dart';
 part 'model/subquantity.dart';
 part 'model/subtotal.dart';
@@ -69,7 +72,6 @@ part 'model/upload_certificate201_response.dart';
 part 'model/webhook_config_response.dart';
 part 'model/webhook_event_type.dart';
 part 'model/webhook_notification_payload.dart';
-part 'model/webhook_notification_payload_data.dart';
 
 
 /// An [ApiClient] instance that uses the default values obtained from

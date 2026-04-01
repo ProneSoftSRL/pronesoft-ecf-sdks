@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **name** | **str** |  | 
 **email** | **str** |  | [optional] 
 **address** | **str** |  | [optional] 
+**municipality_code** | **str** |  | [optional] 
+**province_code** | **str** |  | [optional] 
 **delivery_address** | **str** |  | [optional] 
 
 ## Example

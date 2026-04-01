@@ -25,6 +25,8 @@ type Buyer struct {
 	Name string `json:"name"`
 	Email *string `json:"email,omitempty"`
 	Address *string `json:"address,omitempty"`
+	MunicipalityCode *string `json:"municipalityCode,omitempty"`
+	ProvinceCode *string `json:"provinceCode,omitempty"`
 	DeliveryAddress *string `json:"deliveryAddress,omitempty"`
 }
 
@@ -168,6 +170,70 @@ func (o *Buyer) SetAddress(v string) {
 	o.Address = &v
 }
 
+// GetMunicipalityCode returns the MunicipalityCode field value if set, zero value otherwise.
+func (o *Buyer) GetMunicipalityCode() string {
+	if o == nil || IsNil(o.MunicipalityCode) {
+		var ret string
+		return ret
+	}
+	return *o.MunicipalityCode
+}
+
+// GetMunicipalityCodeOk returns a tuple with the MunicipalityCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Buyer) GetMunicipalityCodeOk() (*string, bool) {
+	if o == nil || IsNil(o.MunicipalityCode) {
+		return nil, false
+	}
+	return o.MunicipalityCode, true
+}
+
+// HasMunicipalityCode returns a boolean if a field has been set.
+func (o *Buyer) HasMunicipalityCode() bool {
+	if o != nil && !IsNil(o.MunicipalityCode) {
+		return true
+	}
+
+	return false
+}
+
+// SetMunicipalityCode gets a reference to the given string and assigns it to the MunicipalityCode field.
+func (o *Buyer) SetMunicipalityCode(v string) {
+	o.MunicipalityCode = &v
+}
+
+// GetProvinceCode returns the ProvinceCode field value if set, zero value otherwise.
+func (o *Buyer) GetProvinceCode() string {
+	if o == nil || IsNil(o.ProvinceCode) {
+		var ret string
+		return ret
+	}
+	return *o.ProvinceCode
+}
+
+// GetProvinceCodeOk returns a tuple with the ProvinceCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Buyer) GetProvinceCodeOk() (*string, bool) {
+	if o == nil || IsNil(o.ProvinceCode) {
+		return nil, false
+	}
+	return o.ProvinceCode, true
+}
+
+// HasProvinceCode returns a boolean if a field has been set.
+func (o *Buyer) HasProvinceCode() bool {
+	if o != nil && !IsNil(o.ProvinceCode) {
+		return true
+	}
+
+	return false
+}
+
+// SetProvinceCode gets a reference to the given string and assigns it to the ProvinceCode field.
+func (o *Buyer) SetProvinceCode(v string) {
+	o.ProvinceCode = &v
+}
+
 // GetDeliveryAddress returns the DeliveryAddress field value if set, zero value otherwise.
 func (o *Buyer) GetDeliveryAddress() string {
 	if o == nil || IsNil(o.DeliveryAddress) {
@@ -219,6 +285,12 @@ func (o Buyer) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.Address) {
 		toSerialize["address"] = o.Address
+	}
+	if !IsNil(o.MunicipalityCode) {
+		toSerialize["municipalityCode"] = o.MunicipalityCode
+	}
+	if !IsNil(o.ProvinceCode) {
+		toSerialize["provinceCode"] = o.ProvinceCode
 	}
 	if !IsNil(o.DeliveryAddress) {
 		toSerialize["deliveryAddress"] = o.DeliveryAddress

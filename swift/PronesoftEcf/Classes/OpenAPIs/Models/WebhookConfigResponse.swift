@@ -17,13 +17,15 @@ public struct WebhookConfigResponse: Codable, JSONEncodable, Hashable {
     public var eventTypes: [WebhookEventType]?
     public var isActive: Bool?
     public var createdAt: Date?
+    public var lastTriggeredAt: Date?
 
-    public init(id: String? = nil, url: String? = nil, eventTypes: [WebhookEventType]? = nil, isActive: Bool? = nil, createdAt: Date? = nil) {
+    public init(id: String? = nil, url: String? = nil, eventTypes: [WebhookEventType]? = nil, isActive: Bool? = nil, createdAt: Date? = nil, lastTriggeredAt: Date? = nil) {
         self.id = id
         self.url = url
         self.eventTypes = eventTypes
         self.isActive = isActive
         self.createdAt = createdAt
+        self.lastTriggeredAt = lastTriggeredAt
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -32,6 +34,7 @@ public struct WebhookConfigResponse: Codable, JSONEncodable, Hashable {
         case eventTypes
         case isActive
         case createdAt
+        case lastTriggeredAt
     }
 
     // Encodable protocol methods
@@ -43,6 +46,7 @@ public struct WebhookConfigResponse: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(eventTypes, forKey: .eventTypes)
         try container.encodeIfPresent(isActive, forKey: .isActive)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(lastTriggeredAt, forKey: .lastTriggeredAt)
     }
 }
 

@@ -23,13 +23,46 @@ module PronesoftEcf
 
     attr_accessor :subtotal
 
+    attr_accessor :taxable_amount
+
+    attr_accessor :taxable_amount1
+
+    attr_accessor :taxable_amount2
+
+    attr_accessor :taxable_amount3
+
+    attr_accessor :total_itbis
+
+    attr_accessor :itbis1
+
+    attr_accessor :itbis2
+
+    attr_accessor :itbis3
+
+    attr_accessor :additional_taxes
+
+    attr_accessor :exempt_amount
+
+    attr_accessor :non_billable_amount
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'page_number' => :'pageNumber',
         :'line_from' => :'lineFrom',
         :'line_to' => :'lineTo',
-        :'subtotal' => :'subtotal'
+        :'subtotal' => :'subtotal',
+        :'taxable_amount' => :'taxableAmount',
+        :'taxable_amount1' => :'taxableAmount1',
+        :'taxable_amount2' => :'taxableAmount2',
+        :'taxable_amount3' => :'taxableAmount3',
+        :'total_itbis' => :'totalITBIS',
+        :'itbis1' => :'itbis1',
+        :'itbis2' => :'itbis2',
+        :'itbis3' => :'itbis3',
+        :'additional_taxes' => :'additionalTaxes',
+        :'exempt_amount' => :'exemptAmount',
+        :'non_billable_amount' => :'nonBillableAmount'
       }
     end
 
@@ -49,7 +82,18 @@ module PronesoftEcf
         :'page_number' => :'Integer',
         :'line_from' => :'Integer',
         :'line_to' => :'Integer',
-        :'subtotal' => :'Float'
+        :'subtotal' => :'Float',
+        :'taxable_amount' => :'Float',
+        :'taxable_amount1' => :'Float',
+        :'taxable_amount2' => :'Float',
+        :'taxable_amount3' => :'Float',
+        :'total_itbis' => :'Float',
+        :'itbis1' => :'Float',
+        :'itbis2' => :'Float',
+        :'itbis3' => :'Float',
+        :'additional_taxes' => :'Float',
+        :'exempt_amount' => :'Float',
+        :'non_billable_amount' => :'Float'
       }
     end
 
@@ -95,6 +139,50 @@ module PronesoftEcf
 
       if attributes.key?(:'subtotal')
         self.subtotal = attributes[:'subtotal']
+      end
+
+      if attributes.key?(:'taxable_amount')
+        self.taxable_amount = attributes[:'taxable_amount']
+      end
+
+      if attributes.key?(:'taxable_amount1')
+        self.taxable_amount1 = attributes[:'taxable_amount1']
+      end
+
+      if attributes.key?(:'taxable_amount2')
+        self.taxable_amount2 = attributes[:'taxable_amount2']
+      end
+
+      if attributes.key?(:'taxable_amount3')
+        self.taxable_amount3 = attributes[:'taxable_amount3']
+      end
+
+      if attributes.key?(:'total_itbis')
+        self.total_itbis = attributes[:'total_itbis']
+      end
+
+      if attributes.key?(:'itbis1')
+        self.itbis1 = attributes[:'itbis1']
+      end
+
+      if attributes.key?(:'itbis2')
+        self.itbis2 = attributes[:'itbis2']
+      end
+
+      if attributes.key?(:'itbis3')
+        self.itbis3 = attributes[:'itbis3']
+      end
+
+      if attributes.key?(:'additional_taxes')
+        self.additional_taxes = attributes[:'additional_taxes']
+      end
+
+      if attributes.key?(:'exempt_amount')
+        self.exempt_amount = attributes[:'exempt_amount']
+      end
+
+      if attributes.key?(:'non_billable_amount')
+        self.non_billable_amount = attributes[:'non_billable_amount']
       end
     end
 
@@ -166,7 +254,18 @@ module PronesoftEcf
           page_number == o.page_number &&
           line_from == o.line_from &&
           line_to == o.line_to &&
-          subtotal == o.subtotal
+          subtotal == o.subtotal &&
+          taxable_amount == o.taxable_amount &&
+          taxable_amount1 == o.taxable_amount1 &&
+          taxable_amount2 == o.taxable_amount2 &&
+          taxable_amount3 == o.taxable_amount3 &&
+          total_itbis == o.total_itbis &&
+          itbis1 == o.itbis1 &&
+          itbis2 == o.itbis2 &&
+          itbis3 == o.itbis3 &&
+          additional_taxes == o.additional_taxes &&
+          exempt_amount == o.exempt_amount &&
+          non_billable_amount == o.non_billable_amount
     end
 
     # @see the `==` method
@@ -178,7 +277,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [page_number, line_from, line_to, subtotal].hash
+      [page_number, line_from, line_to, subtotal, taxable_amount, taxable_amount1, taxable_amount2, taxable_amount3, total_itbis, itbis1, itbis2, itbis3, additional_taxes, exempt_amount, non_billable_amount].hash
     end
 
     # Builds the object from hash

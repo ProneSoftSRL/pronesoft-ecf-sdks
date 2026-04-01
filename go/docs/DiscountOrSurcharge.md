@@ -8,6 +8,10 @@ Name | Type | Description | Notes
 **Type** | **string** |  | 
 **ValueType** | **string** |  | 
 **Amount** | **float32** |  | 
+**Description** | Pointer to **string** |  | [optional] 
+**PercentageValue** | Pointer to **float32** |  | [optional] 
+**AlternativeCurrencyAmount** | Pointer to **float32** |  | [optional] 
+**BillingIndicator** | Pointer to [**BillingIndicator**](BillingIndicator.md) |  | [optional] 
 
 ## Methods
 
@@ -107,6 +111,106 @@ and a boolean to check if the value has been set.
 
 SetAmount sets Amount field to given value.
 
+
+### GetDescription
+
+`func (o *DiscountOrSurcharge) GetDescription() string`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *DiscountOrSurcharge) GetDescriptionOk() (*string, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *DiscountOrSurcharge) SetDescription(v string)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *DiscountOrSurcharge) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
+
+### GetPercentageValue
+
+`func (o *DiscountOrSurcharge) GetPercentageValue() float32`
+
+GetPercentageValue returns the PercentageValue field if non-nil, zero value otherwise.
+
+### GetPercentageValueOk
+
+`func (o *DiscountOrSurcharge) GetPercentageValueOk() (*float32, bool)`
+
+GetPercentageValueOk returns a tuple with the PercentageValue field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPercentageValue
+
+`func (o *DiscountOrSurcharge) SetPercentageValue(v float32)`
+
+SetPercentageValue sets PercentageValue field to given value.
+
+### HasPercentageValue
+
+`func (o *DiscountOrSurcharge) HasPercentageValue() bool`
+
+HasPercentageValue returns a boolean if a field has been set.
+
+### GetAlternativeCurrencyAmount
+
+`func (o *DiscountOrSurcharge) GetAlternativeCurrencyAmount() float32`
+
+GetAlternativeCurrencyAmount returns the AlternativeCurrencyAmount field if non-nil, zero value otherwise.
+
+### GetAlternativeCurrencyAmountOk
+
+`func (o *DiscountOrSurcharge) GetAlternativeCurrencyAmountOk() (*float32, bool)`
+
+GetAlternativeCurrencyAmountOk returns a tuple with the AlternativeCurrencyAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAlternativeCurrencyAmount
+
+`func (o *DiscountOrSurcharge) SetAlternativeCurrencyAmount(v float32)`
+
+SetAlternativeCurrencyAmount sets AlternativeCurrencyAmount field to given value.
+
+### HasAlternativeCurrencyAmount
+
+`func (o *DiscountOrSurcharge) HasAlternativeCurrencyAmount() bool`
+
+HasAlternativeCurrencyAmount returns a boolean if a field has been set.
+
+### GetBillingIndicator
+
+`func (o *DiscountOrSurcharge) GetBillingIndicator() BillingIndicator`
+
+GetBillingIndicator returns the BillingIndicator field if non-nil, zero value otherwise.
+
+### GetBillingIndicatorOk
+
+`func (o *DiscountOrSurcharge) GetBillingIndicatorOk() (*BillingIndicator, bool)`
+
+GetBillingIndicatorOk returns a tuple with the BillingIndicator field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBillingIndicator
+
+`func (o *DiscountOrSurcharge) SetBillingIndicator(v BillingIndicator)`
+
+SetBillingIndicator sets BillingIndicator field to given value.
+
+### HasBillingIndicator
+
+`func (o *DiscountOrSurcharge) HasBillingIndicator() bool`
+
+HasBillingIndicator returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **createTaxSequence**
-> createTaxSequence(createTaxSequenceRequest)
+> createTaxSequence(xTenantId, createTaxSequenceRequest)
 
 Crear nueva secuencia fiscal
 
@@ -26,10 +26,11 @@ import 'package:pronesoft_ecf/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api_instance = TaxSequencesApi();
+final xTenantId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 final createTaxSequenceRequest = CreateTaxSequenceRequest(); // CreateTaxSequenceRequest | 
 
 try {
-    api_instance.createTaxSequence(createTaxSequenceRequest);
+    api_instance.createTaxSequence(xTenantId, createTaxSequenceRequest);
 } catch (e) {
     print('Exception when calling TaxSequencesApi->createTaxSequence: $e\n');
 }
@@ -39,6 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **xTenantId** | **String**|  | 
  **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | 
 
 ### Return type

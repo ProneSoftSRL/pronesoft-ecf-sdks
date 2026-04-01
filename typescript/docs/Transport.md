@@ -8,6 +8,9 @@ Name | Type | Description | Notes
 **driver** | **string** |  | [optional] [default to undefined]
 **vehicleId** | **string** |  | [optional] [default to undefined]
 **licensePlate** | **string** |  | [optional] [default to undefined]
+**route** | **string** |  | [optional] [default to undefined]
+**departureDate** | **string** |  | [optional] [default to undefined]
+**arrivalDate** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -18,6 +21,9 @@ const instance: Transport = {
     driver,
     vehicleId,
     licensePlate,
+    route,
+    departureDate,
+    arrivalDate,
 };
 ```
 

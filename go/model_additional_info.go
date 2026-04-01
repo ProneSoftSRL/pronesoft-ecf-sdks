@@ -21,6 +21,8 @@ var _ MappedNullable = &AdditionalInfo{}
 type AdditionalInfo struct {
 	GrossWeight *float32 `json:"grossWeight,omitempty"`
 	PackageQuantity *float32 `json:"packageQuantity,omitempty"`
+	ContainerId *string `json:"containerId,omitempty"`
+	SealId *string `json:"sealId,omitempty"`
 }
 
 // NewAdditionalInfo instantiates a new AdditionalInfo object
@@ -104,6 +106,70 @@ func (o *AdditionalInfo) SetPackageQuantity(v float32) {
 	o.PackageQuantity = &v
 }
 
+// GetContainerId returns the ContainerId field value if set, zero value otherwise.
+func (o *AdditionalInfo) GetContainerId() string {
+	if o == nil || IsNil(o.ContainerId) {
+		var ret string
+		return ret
+	}
+	return *o.ContainerId
+}
+
+// GetContainerIdOk returns a tuple with the ContainerId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AdditionalInfo) GetContainerIdOk() (*string, bool) {
+	if o == nil || IsNil(o.ContainerId) {
+		return nil, false
+	}
+	return o.ContainerId, true
+}
+
+// HasContainerId returns a boolean if a field has been set.
+func (o *AdditionalInfo) HasContainerId() bool {
+	if o != nil && !IsNil(o.ContainerId) {
+		return true
+	}
+
+	return false
+}
+
+// SetContainerId gets a reference to the given string and assigns it to the ContainerId field.
+func (o *AdditionalInfo) SetContainerId(v string) {
+	o.ContainerId = &v
+}
+
+// GetSealId returns the SealId field value if set, zero value otherwise.
+func (o *AdditionalInfo) GetSealId() string {
+	if o == nil || IsNil(o.SealId) {
+		var ret string
+		return ret
+	}
+	return *o.SealId
+}
+
+// GetSealIdOk returns a tuple with the SealId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AdditionalInfo) GetSealIdOk() (*string, bool) {
+	if o == nil || IsNil(o.SealId) {
+		return nil, false
+	}
+	return o.SealId, true
+}
+
+// HasSealId returns a boolean if a field has been set.
+func (o *AdditionalInfo) HasSealId() bool {
+	if o != nil && !IsNil(o.SealId) {
+		return true
+	}
+
+	return false
+}
+
+// SetSealId gets a reference to the given string and assigns it to the SealId field.
+func (o *AdditionalInfo) SetSealId(v string) {
+	o.SealId = &v
+}
+
 func (o AdditionalInfo) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -119,6 +185,12 @@ func (o AdditionalInfo) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.PackageQuantity) {
 		toSerialize["packageQuantity"] = o.PackageQuantity
+	}
+	if !IsNil(o.ContainerId) {
+		toSerialize["containerId"] = o.ContainerId
+	}
+	if !IsNil(o.SealId) {
+		toSerialize["sealId"] = o.SealId
 	}
 	return toSerialize, nil
 }

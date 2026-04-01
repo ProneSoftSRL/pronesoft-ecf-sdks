@@ -17,6 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
@@ -30,7 +31,10 @@ class Transport(BaseModel):
     driver: Optional[StrictStr] = None
     vehicle_id: Optional[StrictStr] = Field(default=None, alias="vehicleId")
     license_plate: Optional[StrictStr] = Field(default=None, alias="licensePlate")
-    __properties: ClassVar[List[str]] = ["driver", "vehicleId", "licensePlate"]
+    route: Optional[StrictStr] = None
+    departure_date: Optional[datetime] = Field(default=None, alias="departureDate")
+    arrival_date: Optional[datetime] = Field(default=None, alias="arrivalDate")
+    __properties: ClassVar[List[str]] = ["driver", "vehicleId", "licensePlate", "route", "departureDate", "arrivalDate"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -85,7 +89,10 @@ class Transport(BaseModel):
         _obj = cls.model_validate({
             "driver": obj.get("driver"),
             "vehicleId": obj.get("vehicleId"),
-            "licensePlate": obj.get("licensePlate")
+            "licensePlate": obj.get("licensePlate"),
+            "route": obj.get("route"),
+            "departureDate": obj.get("departureDate"),
+            "arrivalDate": obj.get("arrivalDate")
         })
         return _obj
 

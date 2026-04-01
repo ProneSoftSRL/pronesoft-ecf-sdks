@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.AssociatedCompanySubscription
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -33,6 +34,18 @@ import com.squareup.moshi.JsonClass
  * @param id 
  * @param name 
  * @param rnc 
+ * @param phone 
+ * @param address 
+ * @param city 
+ * @param country 
+ * @param website 
+ * @param logoPath 
+ * @param type 
+ * @param createdAt 
+ * @param docsIssuedThisMonth 
+ * @param purchasedDocsConsumedThisMonth 
+ * @param ownerEmail 
+ * @param subscription 
  */
 
 
@@ -45,10 +58,56 @@ data class AssociatedCompany (
     val name: kotlin.String? = null,
 
     @Json(name = "rnc")
-    val rnc: kotlin.String? = null
+    val rnc: kotlin.String? = null,
+
+    @Json(name = "phone")
+    val phone: kotlin.String? = null,
+
+    @Json(name = "address")
+    val address: kotlin.String? = null,
+
+    @Json(name = "city")
+    val city: kotlin.String? = null,
+
+    @Json(name = "country")
+    val country: kotlin.String? = null,
+
+    @Json(name = "website")
+    val website: java.net.URI? = null,
+
+    @Json(name = "logoPath")
+    val logoPath: kotlin.String? = null,
+
+    @Json(name = "type")
+    val type: AssociatedCompany.Type? = null,
+
+    @Json(name = "createdAt")
+    val createdAt: java.time.OffsetDateTime? = null,
+
+    @Json(name = "docsIssuedThisMonth")
+    val docsIssuedThisMonth: kotlin.Int? = null,
+
+    @Json(name = "purchasedDocsConsumedThisMonth")
+    val purchasedDocsConsumedThisMonth: kotlin.Int? = null,
+
+    @Json(name = "ownerEmail")
+    val ownerEmail: kotlin.String? = null,
+
+    @Json(name = "subscription")
+    val subscription: AssociatedCompanySubscription? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: MAIN,ASSOCIATED
+     */
+    @JsonClass(generateAdapter = false)
+    enum class Type(val value: kotlin.String) {
+        @Json(name = "MAIN") MAIN("MAIN"),
+        @Json(name = "ASSOCIATED") ASSOCIATED("ASSOCIATED");
+    }
 
 }
 

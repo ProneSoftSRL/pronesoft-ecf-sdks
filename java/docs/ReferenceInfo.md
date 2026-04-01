@@ -8,7 +8,10 @@
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**modifiedInvoiceNumber** | **String** |  |  |
+|**otherContributorRNC** | **String** |  |  [optional] |
+|**modifiedInvoiceDate** | **LocalDate** |  |  [optional] |
 |**modificationCode** | [**ModificationCodeEnum**](#ModificationCodeEnum) |  |  |
+|**modificationReason** | **String** |  |  [optional] |
 
 
 

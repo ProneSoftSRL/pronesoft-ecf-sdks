@@ -7,8 +7,8 @@
 | **name** | **kotlin.String** |  |  |
 | **type** | [**inline**](#Type) |  |  |
 | **billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  |  |
-| **quantity** | **kotlin.String** | Decimal string |  |
-| **unitPrice** | **kotlin.String** | Decimal string |  |
+| **quantity** | **kotlin.String** |  |  |
+| **unitPrice** | **kotlin.String** |  |  |
 | **amount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  |
 | **lineNumber** | **kotlin.Int** |  |  [optional] |
 | **discountAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |

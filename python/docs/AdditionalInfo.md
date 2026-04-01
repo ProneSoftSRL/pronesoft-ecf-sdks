@@ -7,6 +7,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **gross_weight** | **float** |  | [optional] 
 **package_quantity** | **float** |  | [optional] 
+**container_id** | **str** |  | [optional] 
+**seal_id** | **str** |  | [optional] 
 
 ## Example
 

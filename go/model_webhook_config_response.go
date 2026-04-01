@@ -25,6 +25,7 @@ type WebhookConfigResponse struct {
 	EventTypes []WebhookEventType `json:"eventTypes,omitempty"`
 	IsActive *bool `json:"isActive,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	LastTriggeredAt NullableTime `json:"lastTriggeredAt,omitempty"`
 }
 
 // NewWebhookConfigResponse instantiates a new WebhookConfigResponse object
@@ -204,6 +205,48 @@ func (o *WebhookConfigResponse) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
+// GetLastTriggeredAt returns the LastTriggeredAt field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *WebhookConfigResponse) GetLastTriggeredAt() time.Time {
+	if o == nil || IsNil(o.LastTriggeredAt.Get()) {
+		var ret time.Time
+		return ret
+	}
+	return *o.LastTriggeredAt.Get()
+}
+
+// GetLastTriggeredAtOk returns a tuple with the LastTriggeredAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *WebhookConfigResponse) GetLastTriggeredAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.LastTriggeredAt.Get(), o.LastTriggeredAt.IsSet()
+}
+
+// HasLastTriggeredAt returns a boolean if a field has been set.
+func (o *WebhookConfigResponse) HasLastTriggeredAt() bool {
+	if o != nil && o.LastTriggeredAt.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLastTriggeredAt gets a reference to the given NullableTime and assigns it to the LastTriggeredAt field.
+func (o *WebhookConfigResponse) SetLastTriggeredAt(v time.Time) {
+	o.LastTriggeredAt.Set(&v)
+}
+// SetLastTriggeredAtNil sets the value for LastTriggeredAt to be an explicit nil
+func (o *WebhookConfigResponse) SetLastTriggeredAtNil() {
+	o.LastTriggeredAt.Set(nil)
+}
+
+// UnsetLastTriggeredAt ensures that no value is present for LastTriggeredAt, not even an explicit nil
+func (o *WebhookConfigResponse) UnsetLastTriggeredAt() {
+	o.LastTriggeredAt.Unset()
+}
+
 func (o WebhookConfigResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -228,6 +271,9 @@ func (o WebhookConfigResponse) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.CreatedAt) {
 		toSerialize["createdAt"] = o.CreatedAt
+	}
+	if o.LastTriggeredAt.IsSet() {
+		toSerialize["lastTriggeredAt"] = o.LastTriggeredAt.Get()
 	}
 	return toSerialize, nil
 }

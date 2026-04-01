@@ -25,9 +25,7 @@ type Item struct {
 	Name string `json:"name"`
 	Type string `json:"type"`
 	BillingIndicator BillingIndicator `json:"billingIndicator"`
-	// Decimal string
 	Quantity string `json:"quantity"`
-	// Decimal string
 	UnitPrice string `json:"unitPrice"`
 	Amount float32 `json:"amount"`
 	DiscountAmount *float32 `json:"discountAmount,omitempty"`

@@ -22,8 +22,10 @@ class TaxSequencesApi {
   ///
   /// Parameters:
   ///
+  /// * [String] xTenantId (required):
+  ///
   /// * [CreateTaxSequenceRequest] createTaxSequenceRequest (required):
-  Future<Response> createTaxSequenceWithHttpInfo(CreateTaxSequenceRequest createTaxSequenceRequest,) async {
+  Future<Response> createTaxSequenceWithHttpInfo(String xTenantId, CreateTaxSequenceRequest createTaxSequenceRequest,) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences';
 
@@ -33,6 +35,8 @@ class TaxSequencesApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+    headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
 
     const contentTypes = <String>['application/json'];
 
@@ -52,9 +56,11 @@ class TaxSequencesApi {
   ///
   /// Parameters:
   ///
+  /// * [String] xTenantId (required):
+  ///
   /// * [CreateTaxSequenceRequest] createTaxSequenceRequest (required):
-  Future<void> createTaxSequence(CreateTaxSequenceRequest createTaxSequenceRequest,) async {
-    final response = await createTaxSequenceWithHttpInfo(createTaxSequenceRequest,);
+  Future<void> createTaxSequence(String xTenantId, CreateTaxSequenceRequest createTaxSequenceRequest,) async {
+    final response = await createTaxSequenceWithHttpInfo(xTenantId, createTaxSequenceRequest,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

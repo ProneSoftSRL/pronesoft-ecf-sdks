@@ -33,6 +33,9 @@ import com.squareup.moshi.JsonClass
  * @param driver 
  * @param vehicleId 
  * @param licensePlate 
+ * @param route 
+ * @param departureDate 
+ * @param arrivalDate 
  */
 
 
@@ -45,7 +48,16 @@ data class Transport (
     val vehicleId: kotlin.String? = null,
 
     @Json(name = "licensePlate")
-    val licensePlate: kotlin.String? = null
+    val licensePlate: kotlin.String? = null,
+
+    @Json(name = "route")
+    val route: kotlin.String? = null,
+
+    @Json(name = "departureDate")
+    val departureDate: java.time.OffsetDateTime? = null,
+
+    @Json(name = "arrivalDate")
+    val arrivalDate: java.time.OffsetDateTime? = null
 
 ) {
 

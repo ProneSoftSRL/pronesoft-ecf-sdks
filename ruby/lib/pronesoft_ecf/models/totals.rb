@@ -17,25 +17,79 @@ module PronesoftEcf
   class Totals < ApiModelBase
     attr_accessor :taxable_amount
 
+    attr_accessor :taxable_amount1
+
+    attr_accessor :taxable_amount2
+
+    attr_accessor :taxable_amount3
+
+    attr_accessor :exempt_amount
+
+    attr_accessor :itbis_rate1
+
+    attr_accessor :itbis_rate2
+
+    attr_accessor :itbis_rate3
+
     attr_accessor :total_itbis
 
-    attr_accessor :total_amount
+    attr_accessor :itbis1
 
-    attr_accessor :amount_to_pay
+    attr_accessor :itbis2
+
+    attr_accessor :itbis3
 
     attr_accessor :additional_tax_amount
 
-    attr_accessor :exempt_amount
+    attr_accessor :additional_taxes
+
+    attr_accessor :total_amount
+
+    attr_accessor :non_billable_amount
+
+    attr_accessor :period_amount
+
+    attr_accessor :previous_balance
+
+    attr_accessor :advance_payment_amount
+
+    attr_accessor :amount_to_pay
+
+    attr_accessor :total_withheld_itbis
+
+    attr_accessor :total_income_tax_withholding
+
+    attr_accessor :total_itbis_perception
+
+    attr_accessor :total_isr_perception
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'taxable_amount' => :'taxableAmount',
+        :'taxable_amount1' => :'taxableAmount1',
+        :'taxable_amount2' => :'taxableAmount2',
+        :'taxable_amount3' => :'taxableAmount3',
+        :'exempt_amount' => :'exemptAmount',
+        :'itbis_rate1' => :'itbisRate1',
+        :'itbis_rate2' => :'itbisRate2',
+        :'itbis_rate3' => :'itbisRate3',
         :'total_itbis' => :'totalITBIS',
-        :'total_amount' => :'totalAmount',
-        :'amount_to_pay' => :'amountToPay',
+        :'itbis1' => :'itbis1',
+        :'itbis2' => :'itbis2',
+        :'itbis3' => :'itbis3',
         :'additional_tax_amount' => :'additionalTaxAmount',
-        :'exempt_amount' => :'exemptAmount'
+        :'additional_taxes' => :'additionalTaxes',
+        :'total_amount' => :'totalAmount',
+        :'non_billable_amount' => :'nonBillableAmount',
+        :'period_amount' => :'periodAmount',
+        :'previous_balance' => :'previousBalance',
+        :'advance_payment_amount' => :'advancePaymentAmount',
+        :'amount_to_pay' => :'amountToPay',
+        :'total_withheld_itbis' => :'totalWithheldITBIS',
+        :'total_income_tax_withholding' => :'totalIncomeTaxWithholding',
+        :'total_itbis_perception' => :'totalITBISPerception',
+        :'total_isr_perception' => :'totalISRPerception'
       }
     end
 
@@ -53,11 +107,29 @@ module PronesoftEcf
     def self.openapi_types
       {
         :'taxable_amount' => :'Float',
+        :'taxable_amount1' => :'Float',
+        :'taxable_amount2' => :'Float',
+        :'taxable_amount3' => :'Float',
+        :'exempt_amount' => :'Float',
+        :'itbis_rate1' => :'Float',
+        :'itbis_rate2' => :'Float',
+        :'itbis_rate3' => :'Float',
         :'total_itbis' => :'Float',
-        :'total_amount' => :'Float',
-        :'amount_to_pay' => :'Float',
+        :'itbis1' => :'Float',
+        :'itbis2' => :'Float',
+        :'itbis3' => :'Float',
         :'additional_tax_amount' => :'Float',
-        :'exempt_amount' => :'Float'
+        :'additional_taxes' => :'Array<ItemAdditionalTax>',
+        :'total_amount' => :'Float',
+        :'non_billable_amount' => :'Float',
+        :'period_amount' => :'Float',
+        :'previous_balance' => :'Float',
+        :'advance_payment_amount' => :'Float',
+        :'amount_to_pay' => :'Float',
+        :'total_withheld_itbis' => :'Float',
+        :'total_income_tax_withholding' => :'Float',
+        :'total_itbis_perception' => :'Float',
+        :'total_isr_perception' => :'Float'
       }
     end
 
@@ -87,8 +159,58 @@ module PronesoftEcf
         self.taxable_amount = attributes[:'taxable_amount']
       end
 
+      if attributes.key?(:'taxable_amount1')
+        self.taxable_amount1 = attributes[:'taxable_amount1']
+      end
+
+      if attributes.key?(:'taxable_amount2')
+        self.taxable_amount2 = attributes[:'taxable_amount2']
+      end
+
+      if attributes.key?(:'taxable_amount3')
+        self.taxable_amount3 = attributes[:'taxable_amount3']
+      end
+
+      if attributes.key?(:'exempt_amount')
+        self.exempt_amount = attributes[:'exempt_amount']
+      end
+
+      if attributes.key?(:'itbis_rate1')
+        self.itbis_rate1 = attributes[:'itbis_rate1']
+      end
+
+      if attributes.key?(:'itbis_rate2')
+        self.itbis_rate2 = attributes[:'itbis_rate2']
+      end
+
+      if attributes.key?(:'itbis_rate3')
+        self.itbis_rate3 = attributes[:'itbis_rate3']
+      end
+
       if attributes.key?(:'total_itbis')
         self.total_itbis = attributes[:'total_itbis']
+      end
+
+      if attributes.key?(:'itbis1')
+        self.itbis1 = attributes[:'itbis1']
+      end
+
+      if attributes.key?(:'itbis2')
+        self.itbis2 = attributes[:'itbis2']
+      end
+
+      if attributes.key?(:'itbis3')
+        self.itbis3 = attributes[:'itbis3']
+      end
+
+      if attributes.key?(:'additional_tax_amount')
+        self.additional_tax_amount = attributes[:'additional_tax_amount']
+      end
+
+      if attributes.key?(:'additional_taxes')
+        if (value = attributes[:'additional_taxes']).is_a?(Array)
+          self.additional_taxes = value
+        end
       end
 
       if attributes.key?(:'total_amount')
@@ -97,16 +219,40 @@ module PronesoftEcf
         self.total_amount = nil
       end
 
+      if attributes.key?(:'non_billable_amount')
+        self.non_billable_amount = attributes[:'non_billable_amount']
+      end
+
+      if attributes.key?(:'period_amount')
+        self.period_amount = attributes[:'period_amount']
+      end
+
+      if attributes.key?(:'previous_balance')
+        self.previous_balance = attributes[:'previous_balance']
+      end
+
+      if attributes.key?(:'advance_payment_amount')
+        self.advance_payment_amount = attributes[:'advance_payment_amount']
+      end
+
       if attributes.key?(:'amount_to_pay')
         self.amount_to_pay = attributes[:'amount_to_pay']
       end
 
-      if attributes.key?(:'additional_tax_amount')
-        self.additional_tax_amount = attributes[:'additional_tax_amount']
+      if attributes.key?(:'total_withheld_itbis')
+        self.total_withheld_itbis = attributes[:'total_withheld_itbis']
       end
 
-      if attributes.key?(:'exempt_amount')
-        self.exempt_amount = attributes[:'exempt_amount']
+      if attributes.key?(:'total_income_tax_withholding')
+        self.total_income_tax_withholding = attributes[:'total_income_tax_withholding']
+      end
+
+      if attributes.key?(:'total_itbis_perception')
+        self.total_itbis_perception = attributes[:'total_itbis_perception']
+      end
+
+      if attributes.key?(:'total_isr_perception')
+        self.total_isr_perception = attributes[:'total_isr_perception']
       end
     end
 
@@ -115,6 +261,10 @@ module PronesoftEcf
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      if !@additional_taxes.nil? && @additional_taxes.length > 20
+        invalid_properties.push('invalid value for "additional_taxes", number of items must be less than or equal to 20.')
+      end
+
       if @total_amount.nil?
         invalid_properties.push('invalid value for "total_amount", total_amount cannot be nil.')
       end
@@ -126,8 +276,23 @@ module PronesoftEcf
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      return false if !@additional_taxes.nil? && @additional_taxes.length > 20
       return false if @total_amount.nil?
       true
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] additional_taxes Value to be assigned
+    def additional_taxes=(additional_taxes)
+      if additional_taxes.nil?
+        fail ArgumentError, 'additional_taxes cannot be nil'
+      end
+
+      if additional_taxes.length > 20
+        fail ArgumentError, 'invalid value for "additional_taxes", number of items must be less than or equal to 20.'
+      end
+
+      @additional_taxes = additional_taxes
     end
 
     # Custom attribute writer method with validation
@@ -146,11 +311,29 @@ module PronesoftEcf
       return true if self.equal?(o)
       self.class == o.class &&
           taxable_amount == o.taxable_amount &&
+          taxable_amount1 == o.taxable_amount1 &&
+          taxable_amount2 == o.taxable_amount2 &&
+          taxable_amount3 == o.taxable_amount3 &&
+          exempt_amount == o.exempt_amount &&
+          itbis_rate1 == o.itbis_rate1 &&
+          itbis_rate2 == o.itbis_rate2 &&
+          itbis_rate3 == o.itbis_rate3 &&
           total_itbis == o.total_itbis &&
-          total_amount == o.total_amount &&
-          amount_to_pay == o.amount_to_pay &&
+          itbis1 == o.itbis1 &&
+          itbis2 == o.itbis2 &&
+          itbis3 == o.itbis3 &&
           additional_tax_amount == o.additional_tax_amount &&
-          exempt_amount == o.exempt_amount
+          additional_taxes == o.additional_taxes &&
+          total_amount == o.total_amount &&
+          non_billable_amount == o.non_billable_amount &&
+          period_amount == o.period_amount &&
+          previous_balance == o.previous_balance &&
+          advance_payment_amount == o.advance_payment_amount &&
+          amount_to_pay == o.amount_to_pay &&
+          total_withheld_itbis == o.total_withheld_itbis &&
+          total_income_tax_withholding == o.total_income_tax_withholding &&
+          total_itbis_perception == o.total_itbis_perception &&
+          total_isr_perception == o.total_isr_perception
     end
 
     # @see the `==` method
@@ -162,7 +345,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [taxable_amount, total_itbis, total_amount, amount_to_pay, additional_tax_amount, exempt_amount].hash
+      [taxable_amount, taxable_amount1, taxable_amount2, taxable_amount3, exempt_amount, itbis_rate1, itbis_rate2, itbis_rate3, total_itbis, itbis1, itbis2, itbis3, additional_tax_amount, additional_taxes, total_amount, non_billable_amount, period_amount, previous_balance, advance_payment_amount, amount_to_pay, total_withheld_itbis, total_income_tax_withholding, total_itbis_perception, total_isr_perception].hash
     end
 
     # Builds the object from hash

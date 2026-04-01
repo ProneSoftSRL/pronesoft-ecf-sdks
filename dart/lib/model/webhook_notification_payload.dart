@@ -28,7 +28,7 @@ class WebhookNotificationPayload {
 
   String businessRnc;
 
-  WebhookNotificationPayloadData data;
+  Object data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is WebhookNotificationPayload &&
@@ -89,7 +89,7 @@ class WebhookNotificationPayload {
         event: WebhookEventType.fromJson(json[r'event'])!,
         timestamp: mapDateTime(json, r'timestamp', r'')!,
         businessRnc: mapValueOfType<String>(json, r'businessRnc')!,
-        data: WebhookNotificationPayloadData.fromJson(json[r'data'])!,
+        data: mapValueOfType<Object>(json, r'data')!,
       );
     }
     return null;

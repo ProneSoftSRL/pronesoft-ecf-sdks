@@ -17,7 +17,13 @@ module PronesoftEcf
   class ReferenceInfo < ApiModelBase
     attr_accessor :modified_invoice_number
 
+    attr_accessor :other_contributor_rnc
+
+    attr_accessor :modified_invoice_date
+
     attr_accessor :modification_code
+
+    attr_accessor :modification_reason
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -45,7 +51,10 @@ module PronesoftEcf
     def self.attribute_map
       {
         :'modified_invoice_number' => :'modifiedInvoiceNumber',
-        :'modification_code' => :'modificationCode'
+        :'other_contributor_rnc' => :'otherContributorRNC',
+        :'modified_invoice_date' => :'modifiedInvoiceDate',
+        :'modification_code' => :'modificationCode',
+        :'modification_reason' => :'modificationReason'
       }
     end
 
@@ -63,7 +72,10 @@ module PronesoftEcf
     def self.openapi_types
       {
         :'modified_invoice_number' => :'String',
-        :'modification_code' => :'String'
+        :'other_contributor_rnc' => :'String',
+        :'modified_invoice_date' => :'Date',
+        :'modification_code' => :'String',
+        :'modification_reason' => :'String'
       }
     end
 
@@ -95,10 +107,22 @@ module PronesoftEcf
         self.modified_invoice_number = nil
       end
 
+      if attributes.key?(:'other_contributor_rnc')
+        self.other_contributor_rnc = attributes[:'other_contributor_rnc']
+      end
+
+      if attributes.key?(:'modified_invoice_date')
+        self.modified_invoice_date = attributes[:'modified_invoice_date']
+      end
+
       if attributes.key?(:'modification_code')
         self.modification_code = attributes[:'modification_code']
       else
         self.modification_code = nil
+      end
+
+      if attributes.key?(:'modification_reason')
+        self.modification_reason = attributes[:'modification_reason']
       end
     end
 
@@ -155,7 +179,10 @@ module PronesoftEcf
       return true if self.equal?(o)
       self.class == o.class &&
           modified_invoice_number == o.modified_invoice_number &&
-          modification_code == o.modification_code
+          other_contributor_rnc == o.other_contributor_rnc &&
+          modified_invoice_date == o.modified_invoice_date &&
+          modification_code == o.modification_code &&
+          modification_reason == o.modification_reason
     end
 
     # @see the `==` method
@@ -167,7 +194,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [modified_invoice_number, modification_code].hash
+      [modified_invoice_number, other_contributor_rnc, modified_invoice_date, modification_code, modification_reason].hash
     end
 
     # Builds the object from hash

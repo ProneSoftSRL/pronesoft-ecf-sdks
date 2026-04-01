@@ -18,7 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Union
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from pronesoft_ecf.models.billing_indicator import BillingIndicator
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -31,7 +32,11 @@ class DiscountOrSurcharge(BaseModel):
     type: StrictStr
     value_type: StrictStr = Field(alias="valueType")
     amount: Union[StrictFloat, StrictInt]
-    __properties: ClassVar[List[str]] = ["lineNumber", "type", "valueType", "amount"]
+    description: Optional[StrictStr] = None
+    percentage_value: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="percentageValue")
+    alternative_currency_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="alternativeCurrencyAmount")
+    billing_indicator: Optional[BillingIndicator] = Field(default=None, alias="billingIndicator")
+    __properties: ClassVar[List[str]] = ["lineNumber", "type", "valueType", "amount", "description", "percentageValue", "alternativeCurrencyAmount", "billingIndicator"]
 
     @field_validator('type')
     def type_validate_enum(cls, value):
@@ -101,7 +106,11 @@ class DiscountOrSurcharge(BaseModel):
             "lineNumber": obj.get("lineNumber"),
             "type": obj.get("type"),
             "valueType": obj.get("valueType"),
-            "amount": obj.get("amount")
+            "amount": obj.get("amount"),
+            "description": obj.get("description"),
+            "percentageValue": obj.get("percentageValue"),
+            "alternativeCurrencyAmount": obj.get("alternativeCurrencyAmount"),
+            "billingIndicator": obj.get("billingIndicator")
         })
         return _obj
 

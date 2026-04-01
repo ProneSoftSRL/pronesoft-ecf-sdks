@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **EventTypes** | Pointer to [**[]WebhookEventType**](WebhookEventType.md) |  | [optional] 
 **IsActive** | Pointer to **bool** |  | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] 
+**LastTriggeredAt** | Pointer to **NullableTime** |  | [optional] 
 
 ## Methods
 
@@ -154,6 +155,41 @@ SetCreatedAt sets CreatedAt field to given value.
 
 HasCreatedAt returns a boolean if a field has been set.
 
+### GetLastTriggeredAt
+
+`func (o *WebhookConfigResponse) GetLastTriggeredAt() time.Time`
+
+GetLastTriggeredAt returns the LastTriggeredAt field if non-nil, zero value otherwise.
+
+### GetLastTriggeredAtOk
+
+`func (o *WebhookConfigResponse) GetLastTriggeredAtOk() (*time.Time, bool)`
+
+GetLastTriggeredAtOk returns a tuple with the LastTriggeredAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastTriggeredAt
+
+`func (o *WebhookConfigResponse) SetLastTriggeredAt(v time.Time)`
+
+SetLastTriggeredAt sets LastTriggeredAt field to given value.
+
+### HasLastTriggeredAt
+
+`func (o *WebhookConfigResponse) HasLastTriggeredAt() bool`
+
+HasLastTriggeredAt returns a boolean if a field has been set.
+
+### SetLastTriggeredAtNil
+
+`func (o *WebhookConfigResponse) SetLastTriggeredAtNil(b bool)`
+
+ SetLastTriggeredAtNil sets the value for LastTriggeredAt to be an explicit nil
+
+### UnsetLastTriggeredAt
+`func (o *WebhookConfigResponse) UnsetLastTriggeredAt()`
+
+UnsetLastTriggeredAt ensures that no value is present for LastTriggeredAt, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

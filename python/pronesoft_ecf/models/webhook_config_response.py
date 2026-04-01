@@ -34,7 +34,8 @@ class WebhookConfigResponse(BaseModel):
     event_types: Optional[List[WebhookEventType]] = Field(default=None, alias="eventTypes")
     is_active: Optional[StrictBool] = Field(default=None, alias="isActive")
     created_at: Optional[datetime] = Field(default=None, alias="createdAt")
-    __properties: ClassVar[List[str]] = ["id", "url", "eventTypes", "isActive", "createdAt"]
+    last_triggered_at: Optional[datetime] = Field(default=None, alias="lastTriggeredAt")
+    __properties: ClassVar[List[str]] = ["id", "url", "eventTypes", "isActive", "createdAt", "lastTriggeredAt"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -75,6 +76,11 @@ class WebhookConfigResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if last_triggered_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.last_triggered_at is None and "last_triggered_at" in self.model_fields_set:
+            _dict['lastTriggeredAt'] = None
+
         return _dict
 
     @classmethod
@@ -91,7 +97,8 @@ class WebhookConfigResponse(BaseModel):
             "url": obj.get("url"),
             "eventTypes": obj.get("eventTypes"),
             "isActive": obj.get("isActive"),
-            "createdAt": obj.get("createdAt")
+            "createdAt": obj.get("createdAt"),
+            "lastTriggeredAt": obj.get("lastTriggeredAt")
         })
         return _obj
 

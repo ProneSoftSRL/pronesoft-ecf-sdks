@@ -12,29 +12,84 @@ import AnyCodable
 
 public struct Totals: Codable, JSONEncodable, Hashable {
 
+    public static let additionalTaxesRule = ArrayRule(minItems: nil, maxItems: 20, uniqueItems: false)
     public var taxableAmount: Double?
-    public var totalITBIS: Double?
-    public var totalAmount: Double
-    public var amountToPay: Double?
-    public var additionalTaxAmount: Double?
+    public var taxableAmount1: Double?
+    public var taxableAmount2: Double?
+    public var taxableAmount3: Double?
     public var exemptAmount: Double?
+    public var itbisRate1: Double?
+    public var itbisRate2: Double?
+    public var itbisRate3: Double?
+    public var totalITBIS: Double?
+    public var itbis1: Double?
+    public var itbis2: Double?
+    public var itbis3: Double?
+    public var additionalTaxAmount: Double?
+    public var additionalTaxes: [ItemAdditionalTax]?
+    public var totalAmount: Double
+    public var nonBillableAmount: Double?
+    public var periodAmount: Double?
+    public var previousBalance: Double?
+    public var advancePaymentAmount: Double?
+    public var amountToPay: Double?
+    public var totalWithheldITBIS: Double?
+    public var totalIncomeTaxWithholding: Double?
+    public var totalITBISPerception: Double?
+    public var totalISRPerception: Double?
 
-    public init(taxableAmount: Double? = nil, totalITBIS: Double? = nil, totalAmount: Double, amountToPay: Double? = nil, additionalTaxAmount: Double? = nil, exemptAmount: Double? = nil) {
+    public init(taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, exemptAmount: Double? = nil, itbisRate1: Double? = nil, itbisRate2: Double? = nil, itbisRate3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxAmount: Double? = nil, additionalTaxes: [ItemAdditionalTax]? = nil, totalAmount: Double, nonBillableAmount: Double? = nil, periodAmount: Double? = nil, previousBalance: Double? = nil, advancePaymentAmount: Double? = nil, amountToPay: Double? = nil, totalWithheldITBIS: Double? = nil, totalIncomeTaxWithholding: Double? = nil, totalITBISPerception: Double? = nil, totalISRPerception: Double? = nil) {
         self.taxableAmount = taxableAmount
-        self.totalITBIS = totalITBIS
-        self.totalAmount = totalAmount
-        self.amountToPay = amountToPay
-        self.additionalTaxAmount = additionalTaxAmount
+        self.taxableAmount1 = taxableAmount1
+        self.taxableAmount2 = taxableAmount2
+        self.taxableAmount3 = taxableAmount3
         self.exemptAmount = exemptAmount
+        self.itbisRate1 = itbisRate1
+        self.itbisRate2 = itbisRate2
+        self.itbisRate3 = itbisRate3
+        self.totalITBIS = totalITBIS
+        self.itbis1 = itbis1
+        self.itbis2 = itbis2
+        self.itbis3 = itbis3
+        self.additionalTaxAmount = additionalTaxAmount
+        self.additionalTaxes = additionalTaxes
+        self.totalAmount = totalAmount
+        self.nonBillableAmount = nonBillableAmount
+        self.periodAmount = periodAmount
+        self.previousBalance = previousBalance
+        self.advancePaymentAmount = advancePaymentAmount
+        self.amountToPay = amountToPay
+        self.totalWithheldITBIS = totalWithheldITBIS
+        self.totalIncomeTaxWithholding = totalIncomeTaxWithholding
+        self.totalITBISPerception = totalITBISPerception
+        self.totalISRPerception = totalISRPerception
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taxableAmount
-        case totalITBIS
-        case totalAmount
-        case amountToPay
-        case additionalTaxAmount
+        case taxableAmount1
+        case taxableAmount2
+        case taxableAmount3
         case exemptAmount
+        case itbisRate1
+        case itbisRate2
+        case itbisRate3
+        case totalITBIS
+        case itbis1
+        case itbis2
+        case itbis3
+        case additionalTaxAmount
+        case additionalTaxes
+        case totalAmount
+        case nonBillableAmount
+        case periodAmount
+        case previousBalance
+        case advancePaymentAmount
+        case amountToPay
+        case totalWithheldITBIS
+        case totalIncomeTaxWithholding
+        case totalITBISPerception
+        case totalISRPerception
     }
 
     // Encodable protocol methods
@@ -42,11 +97,29 @@ public struct Totals: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(taxableAmount, forKey: .taxableAmount)
-        try container.encodeIfPresent(totalITBIS, forKey: .totalITBIS)
-        try container.encode(totalAmount, forKey: .totalAmount)
-        try container.encodeIfPresent(amountToPay, forKey: .amountToPay)
-        try container.encodeIfPresent(additionalTaxAmount, forKey: .additionalTaxAmount)
+        try container.encodeIfPresent(taxableAmount1, forKey: .taxableAmount1)
+        try container.encodeIfPresent(taxableAmount2, forKey: .taxableAmount2)
+        try container.encodeIfPresent(taxableAmount3, forKey: .taxableAmount3)
         try container.encodeIfPresent(exemptAmount, forKey: .exemptAmount)
+        try container.encodeIfPresent(itbisRate1, forKey: .itbisRate1)
+        try container.encodeIfPresent(itbisRate2, forKey: .itbisRate2)
+        try container.encodeIfPresent(itbisRate3, forKey: .itbisRate3)
+        try container.encodeIfPresent(totalITBIS, forKey: .totalITBIS)
+        try container.encodeIfPresent(itbis1, forKey: .itbis1)
+        try container.encodeIfPresent(itbis2, forKey: .itbis2)
+        try container.encodeIfPresent(itbis3, forKey: .itbis3)
+        try container.encodeIfPresent(additionalTaxAmount, forKey: .additionalTaxAmount)
+        try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
+        try container.encode(totalAmount, forKey: .totalAmount)
+        try container.encodeIfPresent(nonBillableAmount, forKey: .nonBillableAmount)
+        try container.encodeIfPresent(periodAmount, forKey: .periodAmount)
+        try container.encodeIfPresent(previousBalance, forKey: .previousBalance)
+        try container.encodeIfPresent(advancePaymentAmount, forKey: .advancePaymentAmount)
+        try container.encodeIfPresent(amountToPay, forKey: .amountToPay)
+        try container.encodeIfPresent(totalWithheldITBIS, forKey: .totalWithheldITBIS)
+        try container.encodeIfPresent(totalIncomeTaxWithholding, forKey: .totalIncomeTaxWithholding)
+        try container.encodeIfPresent(totalITBISPerception, forKey: .totalITBISPerception)
+        try container.encodeIfPresent(totalISRPerception, forKey: .totalISRPerception)
     }
 }
 

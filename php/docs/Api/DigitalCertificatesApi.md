@@ -35,8 +35,8 @@ $apiInstance = new PronesoftEcf\Api\DigitalCertificatesApi(
     $config
 );
 $rnc = 'rnc_example'; // string
-$file = '/path/to/file.txt'; // \SplFileObject | Archivo .p12 o .pfx
-$password = 'password_example'; // string | Contraseña del certificado
+$file = '/path/to/file.txt'; // \SplFileObject
+$password = 'password_example'; // string
 
 try {
     $result = $apiInstance->uploadCertificate($rnc, $file, $password);
@@ -51,8 +51,8 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **rnc** | **string**|  | |
-| **file** | **\SplFileObject****\SplFileObject**| Archivo .p12 o .pfx | |
-| **password** | **string**| Contraseña del certificado | |
+| **file** | **\SplFileObject****\SplFileObject**|  | |
+| **password** | **string**|  | |
 
 ### Return type
 

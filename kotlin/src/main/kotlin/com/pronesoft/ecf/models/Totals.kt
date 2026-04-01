@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.ItemAdditionalTax
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -32,10 +33,28 @@ import com.squareup.moshi.JsonClass
  *
  * @param totalAmount 
  * @param taxableAmount 
- * @param totalITBIS 
- * @param amountToPay 
- * @param additionalTaxAmount 
+ * @param taxableAmount1 
+ * @param taxableAmount2 
+ * @param taxableAmount3 
  * @param exemptAmount 
+ * @param itbisRate1 
+ * @param itbisRate2 
+ * @param itbisRate3 
+ * @param totalITBIS 
+ * @param itbis1 
+ * @param itbis2 
+ * @param itbis3 
+ * @param additionalTaxAmount 
+ * @param additionalTaxes 
+ * @param nonBillableAmount 
+ * @param periodAmount 
+ * @param previousBalance 
+ * @param advancePaymentAmount 
+ * @param amountToPay 
+ * @param totalWithheldITBIS 
+ * @param totalIncomeTaxWithholding 
+ * @param totalITBISPerception 
+ * @param totalISRPerception 
  */
 
 
@@ -47,17 +66,71 @@ data class Totals (
     @Json(name = "taxableAmount")
     val taxableAmount: java.math.BigDecimal? = null,
 
+    @Json(name = "taxableAmount1")
+    val taxableAmount1: java.math.BigDecimal? = null,
+
+    @Json(name = "taxableAmount2")
+    val taxableAmount2: java.math.BigDecimal? = null,
+
+    @Json(name = "taxableAmount3")
+    val taxableAmount3: java.math.BigDecimal? = null,
+
+    @Json(name = "exemptAmount")
+    val exemptAmount: java.math.BigDecimal? = null,
+
+    @Json(name = "itbisRate1")
+    val itbisRate1: java.math.BigDecimal? = null,
+
+    @Json(name = "itbisRate2")
+    val itbisRate2: java.math.BigDecimal? = null,
+
+    @Json(name = "itbisRate3")
+    val itbisRate3: java.math.BigDecimal? = null,
+
     @Json(name = "totalITBIS")
     val totalITBIS: java.math.BigDecimal? = null,
 
-    @Json(name = "amountToPay")
-    val amountToPay: java.math.BigDecimal? = null,
+    @Json(name = "itbis1")
+    val itbis1: java.math.BigDecimal? = null,
+
+    @Json(name = "itbis2")
+    val itbis2: java.math.BigDecimal? = null,
+
+    @Json(name = "itbis3")
+    val itbis3: java.math.BigDecimal? = null,
 
     @Json(name = "additionalTaxAmount")
     val additionalTaxAmount: java.math.BigDecimal? = null,
 
-    @Json(name = "exemptAmount")
-    val exemptAmount: java.math.BigDecimal? = null
+    @Json(name = "additionalTaxes")
+    val additionalTaxes: kotlin.collections.List<ItemAdditionalTax>? = null,
+
+    @Json(name = "nonBillableAmount")
+    val nonBillableAmount: java.math.BigDecimal? = null,
+
+    @Json(name = "periodAmount")
+    val periodAmount: java.math.BigDecimal? = null,
+
+    @Json(name = "previousBalance")
+    val previousBalance: java.math.BigDecimal? = null,
+
+    @Json(name = "advancePaymentAmount")
+    val advancePaymentAmount: java.math.BigDecimal? = null,
+
+    @Json(name = "amountToPay")
+    val amountToPay: java.math.BigDecimal? = null,
+
+    @Json(name = "totalWithheldITBIS")
+    val totalWithheldITBIS: java.math.BigDecimal? = null,
+
+    @Json(name = "totalIncomeTaxWithholding")
+    val totalIncomeTaxWithholding: java.math.BigDecimal? = null,
+
+    @Json(name = "totalITBISPerception")
+    val totalITBISPerception: java.math.BigDecimal? = null,
+
+    @Json(name = "totalISRPerception")
+    val totalISRPerception: java.math.BigDecimal? = null
 
 ) {
 

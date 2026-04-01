@@ -1,5 +1,6 @@
 # AccountType
 
+CT: Corriente, AH: Ahorros, OT: Otros
 
 ## Enum
 

@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.BillingIndicator
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -34,6 +35,10 @@ import com.squareup.moshi.JsonClass
  * @param type 
  * @param valueType 
  * @param amount 
+ * @param description 
+ * @param percentageValue 
+ * @param alternativeCurrencyAmount 
+ * @param billingIndicator 
  */
 
 
@@ -49,7 +54,19 @@ data class DiscountOrSurcharge (
     val valueType: DiscountOrSurcharge.ValueType,
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal
+    val amount: java.math.BigDecimal,
+
+    @Json(name = "description")
+    val description: kotlin.String? = null,
+
+    @Json(name = "percentageValue")
+    val percentageValue: java.math.BigDecimal? = null,
+
+    @Json(name = "alternativeCurrencyAmount")
+    val alternativeCurrencyAmount: java.math.BigDecimal? = null,
+
+    @Json(name = "billingIndicator")
+    val billingIndicator: BillingIndicator? = null
 
 ) {
 

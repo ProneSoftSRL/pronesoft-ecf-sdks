@@ -69,14 +69,20 @@ public class ApiClient {
     protected String basePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
     protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "https://api.ecf.sandbox.pronesoft.com/api/v1",
-      "Sandbox (Pruebas)",
-      new HashMap<String, ServerVariable>()
-    ),
-    new ServerConfiguration(
-      "https://api.ecf.pronesoft.com/api/v1",
-      "Producción",
-      new HashMap<String, ServerVariable>()
+      "https://{host}/api/v1",
+      "Servidor de Pronesoft eCF",
+      new HashMap<String, ServerVariable>() {{
+        put("host", new ServerVariable(
+          "Sandbox (api.ecf.sandbox.pronesoft.com) o Producción (api.ecf.pronesoft.com)",
+          "api.ecf.sandbox.pronesoft.com",
+          new HashSet<String>(
+            Arrays.asList(
+              "api.ecf.sandbox.pronesoft.com",
+              "api.ecf.pronesoft.com"
+            )
+          )
+        ));
+      }}
     )
   ));
     protected Integer serverIndex = 0;
@@ -176,7 +182,7 @@ public class ApiClient {
             this.basePath = basePath;
         }
 
-        String tokenUrl = "https://api.ecf.sandbox.pronesoft.com/api/v1/oauth/token";
+        String tokenUrl = "oauth/token";
         if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
             URI uri = URI.create(getBasePath());
             tokenUrl = uri.getScheme() + ":" +
@@ -218,7 +224,7 @@ public class ApiClient {
         json = new JSON();
 
         // Set default User-Agent.
-        setUserAgent("OpenAPI-Generator/1.0.1/java");
+        setUserAgent("OpenAPI-Generator/1.1.0/java");
 
         authentications = new HashMap<String, Authentication>();
     }

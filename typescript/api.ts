@@ -23,14 +23,63 @@ import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
+/**
+ * CT: Corriente, AH: Ahorros, OT: Otros
+ */
+
+export const AccountType = {
+    Ct: 'CT',
+    Ah: 'AH',
+    Ot: 'OT',
+} as const;
+
+export type AccountType = typeof AccountType[keyof typeof AccountType];
+
+
 export interface AdditionalInfo {
     'grossWeight'?: number;
     'packageQuantity'?: number;
+    'containerId'?: string;
+    'sealId'?: string;
 }
 export interface AlternativeCurrency {
     'code': string;
     'exchangeRate': number;
     'totalAmount'?: number;
+}
+export interface AssociatedCompany {
+    'id'?: string;
+    'name'?: string;
+    'rnc'?: string;
+    'phone'?: string;
+    'address'?: string;
+    'city'?: string;
+    'country'?: string;
+    'website'?: string | null;
+    'logoPath'?: string | null;
+    'type'?: AssociatedCompanyTypeEnum;
+    'createdAt'?: string;
+    'docsIssuedThisMonth'?: number;
+    'purchasedDocsConsumedThisMonth'?: number;
+    'ownerEmail'?: string;
+    'subscription'?: AssociatedCompanySubscription;
+}
+
+export const AssociatedCompanyTypeEnum = {
+    Main: 'MAIN',
+    Associated: 'ASSOCIATED',
+} as const;
+
+export type AssociatedCompanyTypeEnum = typeof AssociatedCompanyTypeEnum[keyof typeof AssociatedCompanyTypeEnum];
+
+export interface AssociatedCompanySubscription {
+    'status'?: string;
+    'expirationDate'?: string;
+    'plan'?: AssociatedCompanySubscriptionPlan;
+}
+export interface AssociatedCompanySubscriptionPlan {
+    'name'?: string;
+    'maxDocsPerMonth'?: number;
 }
 /**
  * 0: No Facturable, 1: Tasa 18%, 2: Tasa 16%, 3: Tasa 0%, 4: Exento
@@ -52,27 +101,14 @@ export interface Buyer {
     'name': string;
     'email'?: string;
     'address'?: string;
+    'municipalityCode'?: string;
+    'provinceCode'?: string;
     'deliveryAddress'?: string;
 }
-export interface CertificationCompletedPayload {
-    'processId'?: string;
-    'rnc'?: string;
-    'status'?: string;
-    'downloadUrl'?: string;
+export interface CreateAssociatedCompany201Response {
+    'message'?: string;
+    'business'?: AssociatedCompany;
 }
-export interface CommercialApprovalPayload {
-    'encf'?: string;
-    'approvalStatus'?: CommercialApprovalPayloadApprovalStatusEnum;
-    'approvalDate'?: string;
-}
-
-export const CommercialApprovalPayloadApprovalStatusEnum = {
-    Approved: 'approved',
-    Rejected: 'rejected',
-} as const;
-
-export type CommercialApprovalPayloadApprovalStatusEnum = typeof CommercialApprovalPayloadApprovalStatusEnum[keyof typeof CommercialApprovalPayloadApprovalStatusEnum];
-
 export interface CreateTaxSequenceRequest {
     'type': InvoiceType;
     'from': number;
@@ -91,6 +127,10 @@ export interface DiscountOrSurcharge {
     'type': DiscountOrSurchargeTypeEnum;
     'valueType': DiscountOrSurchargeValueTypeEnum;
     'amount': number;
+    'description'?: string;
+    'percentageValue'?: number;
+    'alternativeCurrencyAmount'?: number;
+    'billingIndicator'?: BillingIndicator;
 }
 
 export const DiscountOrSurchargeTypeEnum = {
@@ -106,25 +146,6 @@ export const DiscountOrSurchargeValueTypeEnum = {
 
 export type DiscountOrSurchargeValueTypeEnum = typeof DiscountOrSurchargeValueTypeEnum[keyof typeof DiscountOrSurchargeValueTypeEnum];
 
-export interface DocumentReceivedPayload {
-    'encf'?: string;
-    'senderRnc'?: string;
-    'totalAmount'?: number;
-    'status'?: DocumentReceivedPayloadStatusEnum;
-}
-
-export const DocumentReceivedPayloadStatusEnum = {
-    Received: 'received',
-    Rejected: 'rejected',
-} as const;
-
-export type DocumentReceivedPayloadStatusEnum = typeof DocumentReceivedPayloadStatusEnum[keyof typeof DocumentReceivedPayloadStatusEnum];
-
-export interface DocumentStatusChangedPayload {
-    'encf'?: string;
-    'status'?: string;
-    'dgiiMessage'?: string;
-}
 export interface EcfSubmissionResponse {
     'success': boolean;
     'documentId': string;
@@ -140,8 +161,13 @@ export interface ElectronicDocument {
     'expirationDate'?: string;
     'incomeType'?: ElectronicDocumentIncomeTypeEnum;
     'paymentType'?: ElectronicDocumentPaymentTypeEnum;
+    'paymentDeadline'?: string;
+    'paymentTerms'?: string;
+    'paymentAccountType'?: AccountType;
+    'paymentAccountNumber'?: string;
+    'paymentBank'?: string;
     /**
-     * 0: ≤30 días, 1: >30 días
+     * 0: emision affected ≤ 30 days, 1: > 30 days
      */
     'creditNoteIndicator'?: ElectronicDocumentCreditNoteIndicatorEnum;
     'issuerRNC'?: string;
@@ -232,13 +258,7 @@ export interface Item {
     'name': string;
     'type': ItemTypeEnum;
     'billingIndicator': BillingIndicator;
-    /**
-     * Decimal string
-     */
     'quantity': string;
-    /**
-     * Decimal string
-     */
     'unitPrice': string;
     'amount': number;
     'discountAmount'?: number;
@@ -276,6 +296,17 @@ export interface Page {
     'lineFrom': number;
     'lineTo': number;
     'subtotal'?: number;
+    'taxableAmount'?: number;
+    'taxableAmount1'?: number;
+    'taxableAmount2'?: number;
+    'taxableAmount3'?: number;
+    'totalITBIS'?: number;
+    'itbis1'?: number;
+    'itbis2'?: number;
+    'itbis3'?: number;
+    'additionalTaxes'?: number;
+    'exemptAmount'?: number;
+    'nonBillableAmount'?: number;
 }
 
 export const PaymentMethod = {
@@ -292,9 +323,22 @@ export const PaymentMethod = {
 export type PaymentMethod = typeof PaymentMethod[keyof typeof PaymentMethod];
 
 
+
+export const PrintFormat = {
+    A4: 'A4',
+    Thermal80: 'thermal_80',
+    Thermal58: 'thermal_58',
+} as const;
+
+export type PrintFormat = typeof PrintFormat[keyof typeof PrintFormat];
+
+
 export interface ReferenceInfo {
     'modifiedInvoiceNumber': string;
+    'otherContributorRNC'?: string;
+    'modifiedInvoiceDate'?: string;
     'modificationCode': ReferenceInfoModificationCodeEnum;
+    'modificationReason'?: string;
 }
 
 export const ReferenceInfoModificationCodeEnum = {
@@ -315,6 +359,17 @@ export interface Subtotal {
     'number': number;
     'amount': number;
     'description'?: string;
+    'taxableAmount'?: number;
+    'taxableAmount1'?: number;
+    'taxableAmount2'?: number;
+    'taxableAmount3'?: number;
+    'totalITBIS'?: number;
+    'itbis1'?: number;
+    'itbis2'?: number;
+    'itbis3'?: number;
+    'additionalTaxes'?: number;
+    'exemptAmount'?: number;
+    'lines'?: number;
 }
 export interface TaxSequence {
     'id'?: string;
@@ -323,16 +378,37 @@ export interface TaxSequence {
 }
 export interface Totals {
     'taxableAmount'?: number;
-    'totalITBIS'?: number;
-    'totalAmount': number;
-    'amountToPay'?: number;
-    'additionalTaxAmount'?: number;
+    'taxableAmount1'?: number;
+    'taxableAmount2'?: number;
+    'taxableAmount3'?: number;
     'exemptAmount'?: number;
+    'itbisRate1'?: number;
+    'itbisRate2'?: number;
+    'itbisRate3'?: number;
+    'totalITBIS'?: number;
+    'itbis1'?: number;
+    'itbis2'?: number;
+    'itbis3'?: number;
+    'additionalTaxAmount'?: number;
+    'additionalTaxes'?: Array<ItemAdditionalTax>;
+    'totalAmount': number;
+    'nonBillableAmount'?: number;
+    'periodAmount'?: number;
+    'previousBalance'?: number;
+    'advancePaymentAmount'?: number;
+    'amountToPay'?: number;
+    'totalWithheldITBIS'?: number;
+    'totalIncomeTaxWithholding'?: number;
+    'totalITBISPerception'?: number;
+    'totalISRPerception'?: number;
 }
 export interface Transport {
     'driver'?: string;
     'vehicleId'?: string;
     'licensePlate'?: string;
+    'route'?: string;
+    'departureDate'?: string;
+    'arrivalDate'?: string;
 }
 export interface UploadCertificate201Response {
     'message'?: string;
@@ -345,6 +421,7 @@ export interface WebhookConfigResponse {
     'eventTypes'?: Array<WebhookEventType>;
     'isActive'?: boolean;
     'createdAt'?: string;
+    'lastTriggeredAt'?: string | null;
 }
 
 export const WebhookEventType = {
@@ -355,7 +432,15 @@ export const WebhookEventType = {
     CommercialApproval: 'commercial.approval',
     CertificateExpiring: 'certificate.expiring',
     PlanUsageAlert: 'plan.usage_alert',
+    PlanPaymentFailed: 'plan.payment_failed',
+    BillingInvoiceReady: 'billing.invoice_ready',
     SequenceDepleted: 'sequence.depleted',
+    SequenceVoided: 'sequence.voided',
+    BranchCreated: 'branch.created',
+    BranchStatusChanged: 'branch.status_changed',
+    MemberInvited: 'member.invited',
+    MemberJoined: 'member.joined',
+    MemberRemoved: 'member.removed',
     CertificationCompleted: 'certification.completed',
 } as const;
 
@@ -367,14 +452,337 @@ export interface WebhookNotificationPayload {
     'event': WebhookEventType;
     'timestamp': string;
     'businessRnc': string;
-    'data': WebhookNotificationPayloadData;
+    'data': object;
 }
 
 
+
 /**
- * @type WebhookNotificationPayloadData
+ * AssociatedCompaniesApi - axios parameter creator
  */
-export type WebhookNotificationPayloadData = CertificationCompletedPayload | CommercialApprovalPayload | DocumentReceivedPayload | DocumentStatusChangedPayload;
+export const AssociatedCompaniesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Crear nueva empresa asociada
+         * @param {string} xTenantId 
+         * @param {string} email 
+         * @param {string} password 
+         * @param {string} name 
+         * @param {string} rnc 
+         * @param {string} phone 
+         * @param {string} address 
+         * @param {string} city 
+         * @param {string} country 
+         * @param {string} [firstName] 
+         * @param {string} [lastName] 
+         * @param {string} [jobTitle] 
+         * @param {string} [website] 
+         * @param {string} [category] 
+         * @param {string} [monthlySalesRange] 
+         * @param {PrintFormat} [printerType] 
+         * @param {File} [logo] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createAssociatedCompany: async (xTenantId: string, email: string, password: string, name: string, rnc: string, phone: string, address: string, city: string, country: string, firstName?: string, lastName?: string, jobTitle?: string, website?: string, category?: string, monthlySalesRange?: string, printerType?: PrintFormat, logo?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xTenantId' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'xTenantId', xTenantId)
+            // verify required parameter 'email' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'email', email)
+            // verify required parameter 'password' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'password', password)
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'name', name)
+            // verify required parameter 'rnc' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'rnc', rnc)
+            // verify required parameter 'phone' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'phone', phone)
+            // verify required parameter 'address' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'address', address)
+            // verify required parameter 'city' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'city', city)
+            // verify required parameter 'country' is not null or undefined
+            assertParamExists('createAssociatedCompany', 'country', country)
+            const localVarPath = `/associated-companies`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication oauth2 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "oauth2", [], configuration)
+
+
+            if (email !== undefined) { 
+                localVarFormParams.append('email', email as any);
+            }
+
+            if (password !== undefined) { 
+                localVarFormParams.append('password', password as any);
+            }
+
+            if (firstName !== undefined) { 
+                localVarFormParams.append('firstName', firstName as any);
+            }
+
+            if (lastName !== undefined) { 
+                localVarFormParams.append('lastName', lastName as any);
+            }
+
+            if (jobTitle !== undefined) { 
+                localVarFormParams.append('jobTitle', jobTitle as any);
+            }
+
+            if (name !== undefined) { 
+                localVarFormParams.append('name', name as any);
+            }
+
+            if (rnc !== undefined) { 
+                localVarFormParams.append('rnc', rnc as any);
+            }
+
+            if (phone !== undefined) { 
+                localVarFormParams.append('phone', phone as any);
+            }
+
+            if (address !== undefined) { 
+                localVarFormParams.append('address', address as any);
+            }
+
+            if (city !== undefined) { 
+                localVarFormParams.append('city', city as any);
+            }
+
+            if (country !== undefined) { 
+                localVarFormParams.append('country', country as any);
+            }
+
+            if (website !== undefined) { 
+                localVarFormParams.append('website', website as any);
+            }
+
+            if (category !== undefined) { 
+                localVarFormParams.append('category', category as any);
+            }
+
+            if (monthlySalesRange !== undefined) { 
+                localVarFormParams.append('monthlySalesRange', monthlySalesRange as any);
+            }
+
+            if (printerType !== undefined) { 
+                localVarFormParams.append('printerType', printerType as any);
+            }
+
+            if (logo !== undefined) { 
+                localVarFormParams.append('logo', logo as any);
+            }
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            if (xTenantId != null) {
+                localVarHeaderParameter['x-tenant-id'] = String(xTenantId);
+            }
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Listar sucursales (Asociadas)
+         * @param {string} xTenantId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listAssociatedCompanies: async (xTenantId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xTenantId' is not null or undefined
+            assertParamExists('listAssociatedCompanies', 'xTenantId', xTenantId)
+            const localVarPath = `/associated-companies`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication oauth2 required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "oauth2", [], configuration)
+
+            localVarHeaderParameter['Accept'] = 'application/json';
+
+            if (xTenantId != null) {
+                localVarHeaderParameter['x-tenant-id'] = String(xTenantId);
+            }
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AssociatedCompaniesApi - functional programming interface
+ */
+export const AssociatedCompaniesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AssociatedCompaniesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Crear nueva empresa asociada
+         * @param {string} xTenantId 
+         * @param {string} email 
+         * @param {string} password 
+         * @param {string} name 
+         * @param {string} rnc 
+         * @param {string} phone 
+         * @param {string} address 
+         * @param {string} city 
+         * @param {string} country 
+         * @param {string} [firstName] 
+         * @param {string} [lastName] 
+         * @param {string} [jobTitle] 
+         * @param {string} [website] 
+         * @param {string} [category] 
+         * @param {string} [monthlySalesRange] 
+         * @param {PrintFormat} [printerType] 
+         * @param {File} [logo] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createAssociatedCompany(xTenantId: string, email: string, password: string, name: string, rnc: string, phone: string, address: string, city: string, country: string, firstName?: string, lastName?: string, jobTitle?: string, website?: string, category?: string, monthlySalesRange?: string, printerType?: PrintFormat, logo?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateAssociatedCompany201Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssociatedCompaniesApi.createAssociatedCompany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Listar sucursales (Asociadas)
+         * @param {string} xTenantId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listAssociatedCompanies(xTenantId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AssociatedCompany>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listAssociatedCompanies(xTenantId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AssociatedCompaniesApi.listAssociatedCompanies']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * AssociatedCompaniesApi - factory interface
+ */
+export const AssociatedCompaniesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AssociatedCompaniesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Crear nueva empresa asociada
+         * @param {string} xTenantId 
+         * @param {string} email 
+         * @param {string} password 
+         * @param {string} name 
+         * @param {string} rnc 
+         * @param {string} phone 
+         * @param {string} address 
+         * @param {string} city 
+         * @param {string} country 
+         * @param {string} [firstName] 
+         * @param {string} [lastName] 
+         * @param {string} [jobTitle] 
+         * @param {string} [website] 
+         * @param {string} [category] 
+         * @param {string} [monthlySalesRange] 
+         * @param {PrintFormat} [printerType] 
+         * @param {File} [logo] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createAssociatedCompany(xTenantId: string, email: string, password: string, name: string, rnc: string, phone: string, address: string, city: string, country: string, firstName?: string, lastName?: string, jobTitle?: string, website?: string, category?: string, monthlySalesRange?: string, printerType?: PrintFormat, logo?: File, options?: RawAxiosRequestConfig): AxiosPromise<CreateAssociatedCompany201Response> {
+            return localVarFp.createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Listar sucursales (Asociadas)
+         * @param {string} xTenantId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listAssociatedCompanies(xTenantId: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<AssociatedCompany>> {
+            return localVarFp.listAssociatedCompanies(xTenantId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AssociatedCompaniesApi - object-oriented interface
+ */
+export class AssociatedCompaniesApi extends BaseAPI {
+    /**
+     * 
+     * @summary Crear nueva empresa asociada
+     * @param {string} xTenantId 
+     * @param {string} email 
+     * @param {string} password 
+     * @param {string} name 
+     * @param {string} rnc 
+     * @param {string} phone 
+     * @param {string} address 
+     * @param {string} city 
+     * @param {string} country 
+     * @param {string} [firstName] 
+     * @param {string} [lastName] 
+     * @param {string} [jobTitle] 
+     * @param {string} [website] 
+     * @param {string} [category] 
+     * @param {string} [monthlySalesRange] 
+     * @param {PrintFormat} [printerType] 
+     * @param {File} [logo] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public createAssociatedCompany(xTenantId: string, email: string, password: string, name: string, rnc: string, phone: string, address: string, city: string, country: string, firstName?: string, lastName?: string, jobTitle?: string, website?: string, category?: string, monthlySalesRange?: string, printerType?: PrintFormat, logo?: File, options?: RawAxiosRequestConfig) {
+        return AssociatedCompaniesApiFp(this.configuration).createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Listar sucursales (Asociadas)
+     * @param {string} xTenantId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public listAssociatedCompanies(xTenantId: string, options?: RawAxiosRequestConfig) {
+        return AssociatedCompaniesApiFp(this.configuration).listAssociatedCompanies(xTenantId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 
 /**
@@ -488,8 +896,8 @@ export const DigitalCertificatesApiAxiosParamCreator = function (configuration?:
          * 
          * @summary Cargar Certificado Digital (P12)
          * @param {string} rnc 
-         * @param {File} file Archivo .p12 o .pfx
-         * @param {string} password Contraseña del certificado
+         * @param {File} file 
+         * @param {string} password 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -552,8 +960,8 @@ export const DigitalCertificatesApiFp = function(configuration?: Configuration) 
          * 
          * @summary Cargar Certificado Digital (P12)
          * @param {string} rnc 
-         * @param {File} file Archivo .p12 o .pfx
-         * @param {string} password Contraseña del certificado
+         * @param {File} file 
+         * @param {string} password 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -576,8 +984,8 @@ export const DigitalCertificatesApiFactory = function (configuration?: Configura
          * 
          * @summary Cargar Certificado Digital (P12)
          * @param {string} rnc 
-         * @param {File} file Archivo .p12 o .pfx
-         * @param {string} password Contraseña del certificado
+         * @param {File} file 
+         * @param {string} password 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -595,8 +1003,8 @@ export class DigitalCertificatesApi extends BaseAPI {
      * 
      * @summary Cargar Certificado Digital (P12)
      * @param {string} rnc 
-     * @param {File} file Archivo .p12 o .pfx
-     * @param {string} password Contraseña del certificado
+     * @param {File} file 
+     * @param {string} password 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -737,11 +1145,14 @@ export const TaxSequencesApiAxiosParamCreator = function (configuration?: Config
         /**
          * 
          * @summary Crear nueva secuencia fiscal
+         * @param {string} xTenantId 
          * @param {CreateTaxSequenceRequest} createTaxSequenceRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTaxSequence: async (createTaxSequenceRequest: CreateTaxSequenceRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createTaxSequence: async (xTenantId: string, createTaxSequenceRequest: CreateTaxSequenceRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xTenantId' is not null or undefined
+            assertParamExists('createTaxSequence', 'xTenantId', xTenantId)
             // verify required parameter 'createTaxSequenceRequest' is not null or undefined
             assertParamExists('createTaxSequence', 'createTaxSequenceRequest', createTaxSequenceRequest)
             const localVarPath = `/tax-sequences`;
@@ -762,6 +1173,9 @@ export const TaxSequencesApiAxiosParamCreator = function (configuration?: Config
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
+            if (xTenantId != null) {
+                localVarHeaderParameter['x-tenant-id'] = String(xTenantId);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -883,12 +1297,13 @@ export const TaxSequencesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Crear nueva secuencia fiscal
+         * @param {string} xTenantId 
          * @param {CreateTaxSequenceRequest} createTaxSequenceRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createTaxSequence(createTaxSequenceRequest, options);
+        async createTaxSequence(xTenantId: string, createTaxSequenceRequest: CreateTaxSequenceRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createTaxSequence(xTenantId, createTaxSequenceRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TaxSequencesApi.createTaxSequence']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -934,12 +1349,13 @@ export const TaxSequencesApiFactory = function (configuration?: Configuration, b
         /**
          * 
          * @summary Crear nueva secuencia fiscal
+         * @param {string} xTenantId 
          * @param {CreateTaxSequenceRequest} createTaxSequenceRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.createTaxSequence(createTaxSequenceRequest, options).then((request) => request(axios, basePath));
+        createTaxSequence(xTenantId: string, createTaxSequenceRequest: CreateTaxSequenceRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.createTaxSequence(xTenantId, createTaxSequenceRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -974,12 +1390,13 @@ export class TaxSequencesApi extends BaseAPI {
     /**
      * 
      * @summary Crear nueva secuencia fiscal
+     * @param {string} xTenantId 
      * @param {CreateTaxSequenceRequest} createTaxSequenceRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, options?: RawAxiosRequestConfig) {
-        return TaxSequencesApiFp(this.configuration).createTaxSequence(createTaxSequenceRequest, options).then((request) => request(this.axios, this.basePath));
+    public createTaxSequence(xTenantId: string, createTaxSequenceRequest: CreateTaxSequenceRequest, options?: RawAxiosRequestConfig) {
+        return TaxSequencesApiFp(this.configuration).createTaxSequence(xTenantId, createTaxSequenceRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

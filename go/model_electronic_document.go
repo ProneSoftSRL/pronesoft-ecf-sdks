@@ -29,7 +29,12 @@ type ElectronicDocument struct {
 	ExpirationDate *time.Time `json:"expirationDate,omitempty"`
 	IncomeType *string `json:"incomeType,omitempty"`
 	PaymentType *string `json:"paymentType,omitempty"`
-	// 0: ≤30 días, 1: >30 días
+	PaymentDeadline *time.Time `json:"paymentDeadline,omitempty"`
+	PaymentTerms *string `json:"paymentTerms,omitempty"`
+	PaymentAccountType *AccountType `json:"paymentAccountType,omitempty"`
+	PaymentAccountNumber *string `json:"paymentAccountNumber,omitempty"`
+	PaymentBank *string `json:"paymentBank,omitempty"`
+	// 0: emision affected ≤ 30 days, 1: > 30 days
 	CreditNoteIndicator *string `json:"creditNoteIndicator,omitempty"`
 	IssuerRNC *string `json:"issuerRNC,omitempty" validate:"regexp=^[0-9]{9}|[0-9]{11}$"`
 	IssuerBusinessName *string `json:"issuerBusinessName,omitempty"`
@@ -264,6 +269,166 @@ func (o *ElectronicDocument) HasPaymentType() bool {
 // SetPaymentType gets a reference to the given string and assigns it to the PaymentType field.
 func (o *ElectronicDocument) SetPaymentType(v string) {
 	o.PaymentType = &v
+}
+
+// GetPaymentDeadline returns the PaymentDeadline field value if set, zero value otherwise.
+func (o *ElectronicDocument) GetPaymentDeadline() time.Time {
+	if o == nil || IsNil(o.PaymentDeadline) {
+		var ret time.Time
+		return ret
+	}
+	return *o.PaymentDeadline
+}
+
+// GetPaymentDeadlineOk returns a tuple with the PaymentDeadline field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ElectronicDocument) GetPaymentDeadlineOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.PaymentDeadline) {
+		return nil, false
+	}
+	return o.PaymentDeadline, true
+}
+
+// HasPaymentDeadline returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasPaymentDeadline() bool {
+	if o != nil && !IsNil(o.PaymentDeadline) {
+		return true
+	}
+
+	return false
+}
+
+// SetPaymentDeadline gets a reference to the given time.Time and assigns it to the PaymentDeadline field.
+func (o *ElectronicDocument) SetPaymentDeadline(v time.Time) {
+	o.PaymentDeadline = &v
+}
+
+// GetPaymentTerms returns the PaymentTerms field value if set, zero value otherwise.
+func (o *ElectronicDocument) GetPaymentTerms() string {
+	if o == nil || IsNil(o.PaymentTerms) {
+		var ret string
+		return ret
+	}
+	return *o.PaymentTerms
+}
+
+// GetPaymentTermsOk returns a tuple with the PaymentTerms field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ElectronicDocument) GetPaymentTermsOk() (*string, bool) {
+	if o == nil || IsNil(o.PaymentTerms) {
+		return nil, false
+	}
+	return o.PaymentTerms, true
+}
+
+// HasPaymentTerms returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasPaymentTerms() bool {
+	if o != nil && !IsNil(o.PaymentTerms) {
+		return true
+	}
+
+	return false
+}
+
+// SetPaymentTerms gets a reference to the given string and assigns it to the PaymentTerms field.
+func (o *ElectronicDocument) SetPaymentTerms(v string) {
+	o.PaymentTerms = &v
+}
+
+// GetPaymentAccountType returns the PaymentAccountType field value if set, zero value otherwise.
+func (o *ElectronicDocument) GetPaymentAccountType() AccountType {
+	if o == nil || IsNil(o.PaymentAccountType) {
+		var ret AccountType
+		return ret
+	}
+	return *o.PaymentAccountType
+}
+
+// GetPaymentAccountTypeOk returns a tuple with the PaymentAccountType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ElectronicDocument) GetPaymentAccountTypeOk() (*AccountType, bool) {
+	if o == nil || IsNil(o.PaymentAccountType) {
+		return nil, false
+	}
+	return o.PaymentAccountType, true
+}
+
+// HasPaymentAccountType returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasPaymentAccountType() bool {
+	if o != nil && !IsNil(o.PaymentAccountType) {
+		return true
+	}
+
+	return false
+}
+
+// SetPaymentAccountType gets a reference to the given AccountType and assigns it to the PaymentAccountType field.
+func (o *ElectronicDocument) SetPaymentAccountType(v AccountType) {
+	o.PaymentAccountType = &v
+}
+
+// GetPaymentAccountNumber returns the PaymentAccountNumber field value if set, zero value otherwise.
+func (o *ElectronicDocument) GetPaymentAccountNumber() string {
+	if o == nil || IsNil(o.PaymentAccountNumber) {
+		var ret string
+		return ret
+	}
+	return *o.PaymentAccountNumber
+}
+
+// GetPaymentAccountNumberOk returns a tuple with the PaymentAccountNumber field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ElectronicDocument) GetPaymentAccountNumberOk() (*string, bool) {
+	if o == nil || IsNil(o.PaymentAccountNumber) {
+		return nil, false
+	}
+	return o.PaymentAccountNumber, true
+}
+
+// HasPaymentAccountNumber returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasPaymentAccountNumber() bool {
+	if o != nil && !IsNil(o.PaymentAccountNumber) {
+		return true
+	}
+
+	return false
+}
+
+// SetPaymentAccountNumber gets a reference to the given string and assigns it to the PaymentAccountNumber field.
+func (o *ElectronicDocument) SetPaymentAccountNumber(v string) {
+	o.PaymentAccountNumber = &v
+}
+
+// GetPaymentBank returns the PaymentBank field value if set, zero value otherwise.
+func (o *ElectronicDocument) GetPaymentBank() string {
+	if o == nil || IsNil(o.PaymentBank) {
+		var ret string
+		return ret
+	}
+	return *o.PaymentBank
+}
+
+// GetPaymentBankOk returns a tuple with the PaymentBank field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ElectronicDocument) GetPaymentBankOk() (*string, bool) {
+	if o == nil || IsNil(o.PaymentBank) {
+		return nil, false
+	}
+	return o.PaymentBank, true
+}
+
+// HasPaymentBank returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasPaymentBank() bool {
+	if o != nil && !IsNil(o.PaymentBank) {
+		return true
+	}
+
+	return false
+}
+
+// SetPaymentBank gets a reference to the given string and assigns it to the PaymentBank field.
+func (o *ElectronicDocument) SetPaymentBank(v string) {
+	o.PaymentBank = &v
 }
 
 // GetCreditNoteIndicator returns the CreditNoteIndicator field value if set, zero value otherwise.
@@ -752,6 +917,21 @@ func (o ElectronicDocument) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.PaymentType) {
 		toSerialize["paymentType"] = o.PaymentType
+	}
+	if !IsNil(o.PaymentDeadline) {
+		toSerialize["paymentDeadline"] = o.PaymentDeadline
+	}
+	if !IsNil(o.PaymentTerms) {
+		toSerialize["paymentTerms"] = o.PaymentTerms
+	}
+	if !IsNil(o.PaymentAccountType) {
+		toSerialize["paymentAccountType"] = o.PaymentAccountType
+	}
+	if !IsNil(o.PaymentAccountNumber) {
+		toSerialize["paymentAccountNumber"] = o.PaymentAccountNumber
+	}
+	if !IsNil(o.PaymentBank) {
+		toSerialize["paymentBank"] = o.PaymentBank
 	}
 	if !IsNil(o.CreditNoteIndicator) {
 		toSerialize["creditNoteIndicator"] = o.CreditNoteIndicator

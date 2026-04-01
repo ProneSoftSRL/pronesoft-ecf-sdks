@@ -40,8 +40,8 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.DigitalCertificatesApi(api_client)
     rnc = 'rnc_example' # str | 
-    file = None # bytes | Archivo .p12 o .pfx
-    password = 'password_example' # str | Contraseña del certificado
+    file = None # bytes | 
+    password = 'password_example' # str | 
 
     try:
         # Cargar Certificado Digital (P12)
@@ -60,8 +60,8 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **rnc** | **str**|  | 
- **file** | **bytes**| Archivo .p12 o .pfx | 
- **password** | **str**| Contraseña del certificado | 
+ **file** | **bytes**|  | 
+ **password** | **str**|  | 
 
 ### Return type
 

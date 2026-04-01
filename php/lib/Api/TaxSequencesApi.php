@@ -136,6 +136,7 @@ class TaxSequencesApi
      *
      * Crear nueva secuencia fiscal
      *
+     * @param  string $x_tenant_id x_tenant_id (required)
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request create_tax_sequence_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
@@ -143,9 +144,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function createTaxSequence($create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
+    public function createTaxSequence($x_tenant_id, $create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
     {
-        $this->createTaxSequenceWithHttpInfo($create_tax_sequence_request, $contentType);
+        $this->createTaxSequenceWithHttpInfo($x_tenant_id, $create_tax_sequence_request, $contentType);
     }
 
     /**
@@ -153,6 +154,7 @@ class TaxSequencesApi
      *
      * Crear nueva secuencia fiscal
      *
+     * @param  string $x_tenant_id (required)
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
@@ -160,9 +162,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createTaxSequenceWithHttpInfo($create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
+    public function createTaxSequenceWithHttpInfo($x_tenant_id, $create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
     {
-        $request = $this->createTaxSequenceRequest($create_tax_sequence_request, $contentType);
+        $request = $this->createTaxSequenceRequest($x_tenant_id, $create_tax_sequence_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -202,15 +204,16 @@ class TaxSequencesApi
      *
      * Crear nueva secuencia fiscal
      *
+     * @param  string $x_tenant_id (required)
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTaxSequenceAsync($create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
+    public function createTaxSequenceAsync($x_tenant_id, $create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
     {
-        return $this->createTaxSequenceAsyncWithHttpInfo($create_tax_sequence_request, $contentType)
+        return $this->createTaxSequenceAsyncWithHttpInfo($x_tenant_id, $create_tax_sequence_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -223,16 +226,17 @@ class TaxSequencesApi
      *
      * Crear nueva secuencia fiscal
      *
+     * @param  string $x_tenant_id (required)
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createTaxSequenceAsyncWithHttpInfo($create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
+    public function createTaxSequenceAsyncWithHttpInfo($x_tenant_id, $create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
     {
         $returnType = '';
-        $request = $this->createTaxSequenceRequest($create_tax_sequence_request, $contentType);
+        $request = $this->createTaxSequenceRequest($x_tenant_id, $create_tax_sequence_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -260,14 +264,22 @@ class TaxSequencesApi
     /**
      * Create request for operation 'createTaxSequence'
      *
+     * @param  string $x_tenant_id (required)
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createTaxSequenceRequest($create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
+    public function createTaxSequenceRequest($x_tenant_id, $create_tax_sequence_request, string $contentType = self::contentTypes['createTaxSequence'][0])
     {
+
+        // verify the required parameter 'x_tenant_id' is set
+        if ($x_tenant_id === null || (is_array($x_tenant_id) && count($x_tenant_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $x_tenant_id when calling createTaxSequence'
+            );
+        }
 
         // verify the required parameter 'create_tax_sequence_request' is set
         if ($create_tax_sequence_request === null || (is_array($create_tax_sequence_request) && count($create_tax_sequence_request) === 0)) {
@@ -285,6 +297,10 @@ class TaxSequencesApi
         $multipart = false;
 
 
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
 
 
 

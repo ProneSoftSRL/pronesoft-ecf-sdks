@@ -8,10 +8,15 @@ info:
   title: eCF-Pronesoft Master Integration API
   version: 1.1.0
 servers:
-- description: Sandbox (Pruebas)
-  url: https://api.ecf.sandbox.pronesoft.com/api/v1
-- description: Producción
-  url: https://api.ecf.pronesoft.com/api/v1
+- description: Servidor de Pronesoft eCF
+  url: "https://{host}/api/v1"
+  variables:
+    host:
+      default: api.ecf.sandbox.pronesoft.com
+      description: Sandbox (api.ecf.sandbox.pronesoft.com) o Producción (api.ecf.pronesoft.com)
+      enum:
+      - api.ecf.sandbox.pronesoft.com
+      - api.ecf.pronesoft.com
 security:
 - oauth2: []
 tags:
@@ -120,6 +125,16 @@ paths:
       - application/json
     post:
       operationId: createTaxSequence
+      parameters:
+      - explode: false
+        in: header
+        name: x-tenant-id
+        required: true
+        schema:
+          description: Identificador único de la empresa/sucursal (Tenant).
+          format: uuid
+          type: string
+        style: simple
       requestBody:
         content:
           application/json:
@@ -234,6 +249,64 @@ paths:
       tags:
       - eCF Submission
       x-content-type: application/json
+      x-accepts:
+      - application/json
+  /associated-companies:
+    get:
+      operationId: listAssociatedCompanies
+      parameters:
+      - explode: false
+        in: header
+        name: x-tenant-id
+        required: true
+        schema:
+          description: Identificador único de la empresa/sucursal (Tenant).
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AssociatedCompany"
+                type: array
+          description: Lista de empresas asociadas
+      summary: Listar sucursales (Asociadas)
+      tags:
+      - Associated Companies
+      x-accepts:
+      - application/json
+    post:
+      operationId: createAssociatedCompany
+      parameters:
+      - explode: false
+        in: header
+        name: x-tenant-id
+        required: true
+        schema:
+          description: Identificador único de la empresa/sucursal (Tenant).
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateAssociatedCompanyRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createAssociatedCompany_201_response"
+          description: Empresa creada
+      summary: Crear nueva empresa asociada
+      tags:
+      - Associated Companies
+      x-content-type: multipart/form-data
       x-accepts:
       - application/json
   /{rnc}/webhooks:
@@ -396,72 +469,299 @@ components:
       - commercial.approval
       - certificate.expiring
       - plan.usage_alert
+      - plan.payment_failed
+      - billing.invoice_ready
       - sequence.depleted
+      - sequence.voided
+      - branch.created
+      - branch.status_changed
+      - member.invited
+      - member.joined
+      - member.removed
       - certification.completed
       type: string
+    PrintFormat:
+      enum:
+      - A4
+      - thermal_80
+      - thermal_58
+      type: string
+    AccountType:
+      description: "CT: Corriente, AH: Ahorros, OT: Otros"
+      enum:
+      - CT
+      - AH
+      - OT
+      type: string
+    AssociatedCompany:
+      example:
+        docsIssuedThisMonth: 0
+        country: country
+        website: https://openapi-generator.tech
+        address: address
+        city: city
+        rnc: rnc
+        logoPath: logoPath
+        subscription:
+          plan:
+            name: name
+            maxDocsPerMonth: 1
+          status: status
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+        type: MAIN
+        ownerEmail: ownerEmail
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        purchasedDocsConsumedThisMonth: 6
+        phone: phone
+        name: name
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          format: uuid
+          type: string
+        name:
+          type: string
+        rnc:
+          pattern: "^[0-9]{9}|[0-9]{11}$"
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        website:
+          format: uri
+          nullable: true
+          type: string
+        logoPath:
+          nullable: true
+          type: string
+        type:
+          enum:
+          - MAIN
+          - ASSOCIATED
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        docsIssuedThisMonth:
+          type: integer
+        purchasedDocsConsumedThisMonth:
+          type: integer
+        ownerEmail:
+          format: email
+          type: string
+        subscription:
+          $ref: "#/components/schemas/AssociatedCompany_subscription"
+      type: object
+    CreateAssociatedCompanyRequest:
+      properties:
+        email:
+          format: email
+          type: string
+        password:
+          minLength: 8
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        name:
+          type: string
+        rnc:
+          pattern: "^[0-9]{9}|[0-9]{11}$"
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        website:
+          format: uri
+          type: string
+        category:
+          type: string
+        monthlySalesRange:
+          type: string
+        printerType:
+          $ref: "#/components/schemas/PrintFormat"
+        logo:
+          format: binary
+          type: string
+      required:
+      - address
+      - city
+      - country
+      - email
+      - name
+      - password
+      - phone
+      - rnc
+      type: object
     ElectronicDocument:
       example:
+        paymentAccountType: CT
+        paymentBank: paymentBank
+        alternativeCurrency:
+          totalAmount: 6.704019297950036
+          code: code
+          exchangeRate: 5.944895607614016
+        paymentType: "1"
+        pages:
+        - taxableAmount: 7.260521264802104
+          pageNumber: 6
+          additionalTaxes: 6.073898085781152
+          lineTo: 1
+          exemptAmount: 8.251625748923757
+          itbis2: 5.507386964179881
+          lineFrom: 4
+          itbis1: 7.933506881737151
+          itbis3: 4.86315908102884
+          nonBillableAmount: 4.459605034958679
+          totalITBIS: 0.5199002018724985
+          subtotal: 4.678947989005849
+          taxableAmount2: 0.8774076871421566
+          taxableAmount1: 9.132027271330688
+          taxableAmount3: 9.702963800023566
+        - taxableAmount: 7.260521264802104
+          pageNumber: 6
+          additionalTaxes: 6.073898085781152
+          lineTo: 1
+          exemptAmount: 8.251625748923757
+          itbis2: 5.507386964179881
+          lineFrom: 4
+          itbis1: 7.933506881737151
+          itbis3: 4.86315908102884
+          nonBillableAmount: 4.459605034958679
+          totalITBIS: 0.5199002018724985
+          subtotal: 4.678947989005849
+          taxableAmount2: 0.8774076871421566
+          taxableAmount1: 9.132027271330688
+          taxableAmount3: 9.702963800023566
+        invoiceNumber: invoiceNumber
+        additionalInfo:
+          grossWeight: 6.778324963048013
+          sealId: sealId
+          packageQuantity: 6.878052220127876
+          containerId: containerId
+        invoiceType: "31"
+        issueDate: 2000-01-23T04:56:07.000+00:00
+        paymentTerms: paymentTerms
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+        paymentAccountNumber: paymentAccountNumber
         subtotals:
-        - number: 1
-          amount: 4.965218492984954
+        - taxableAmount: 7.143538047012306
+          amount: 3.0937452626664474
+          additionalTaxes: 3.0205796992916243
           description: description
-        - number: 1
-          amount: 4.965218492984954
+          exemptAmount: 3.0576100241049344
+          itbis2: 8.969578798196912
+          itbis1: 4.652396432933246
+          itbis3: 7.740351818741173
+          number: 3
+          totalITBIS: 0.10263654006109402
+          taxableAmount2: 7.058770351582356
+          taxableAmount1: 0.8851374739011653
+          taxableAmount3: 6.519180951018382
+          lines: 7
+        - taxableAmount: 7.143538047012306
+          amount: 3.0937452626664474
+          additionalTaxes: 3.0205796992916243
           description: description
+          exemptAmount: 3.0576100241049344
+          itbis2: 8.969578798196912
+          itbis1: 4.652396432933246
+          itbis3: 7.740351818741173
+          number: 3
+          totalITBIS: 0.10263654006109402
+          taxableAmount2: 7.058770351582356
+          taxableAmount1: 0.8851374739011653
+          taxableAmount3: 6.519180951018382
+          lines: 7
         creditNoteIndicator: "0"
         incomeType: "01"
         totals:
-          amountToPay: 4.145608029883936
+          itbisRate2: 1.0246457001441578
+          amountToPay: 6.438423552598547
           taxableAmount: 9.301444243932576
-          totalAmount: 2.027123023002322
-          totalITBIS: 3.616076749251911
-          additionalTaxAmount: 7.386281948385884
-          exemptAmount: 1.2315135367772556
+          itbisRate1: 1.2315135367772556
+          totalITBISPerception: 1.284659006116532
+          itbisRate3: 1.4894159098541704
+          additionalTaxes:
+          - amount: 5.962133916683182
+            code: code
+          - amount: 5.962133916683182
+            code: code
+          - amount: 5.962133916683182
+            code: code
+          - amount: 5.962133916683182
+            code: code
+          - amount: 5.962133916683182
+            code: code
+          totalISRPerception: 2.8841621266687802
+          advancePaymentAmount: 9.018348186070783
+          exemptAmount: 7.386281948385884
+          additionalTaxAmount: 5.025004791520295
+          itbis2: 1.1730742509559433
+          itbis1: 7.457744773683766
+          itbis3: 4.965218492984954
+          previousBalance: 8.762042012749001
+          nonBillableAmount: 9.369310271410669
+          periodAmount: 6.683562403749608
+          totalIncomeTaxWithholding: 6.965117697638846
+          totalAmount: 9.965781217890562
+          totalITBIS: 6.84685269835264
+          taxableAmount2: 2.027123023002322
+          taxableAmount1: 3.616076749251911
+          taxableAmount3: 4.145608029883936
+          totalWithheldITBIS: 3.5571952270680973
         transport:
           licensePlate: licensePlate
+          route: route
           driver: driver
           vehicleId: vehicleId
+          departureDate: 2000-01-23T04:56:07.000+00:00
+          arrivalDate: 2000-01-23T04:56:07.000+00:00
         issuerEmail: issuerEmail
         version: "1.0"
-        alternativeCurrency:
-          totalAmount: 7.457744773683766
-          code: code
-          exchangeRate: 6.84685269835264
-        paymentType: "1"
         buyer:
           address: address
           deliveryAddress: deliveryAddress
           taxId: taxId
+          provinceCode: provinceCode
           name: name
+          municipalityCode: municipalityCode
           email: email
         issuerPhones:
         - issuerPhones
         - issuerPhones
         - issuerPhones
-        pages:
-        - pageNumber: 9
-          subtotal: 9.018348186070783
-          lineTo: 8
-          lineFrom: 6
-        - pageNumber: 9
-          subtotal: 9.018348186070783
-          lineTo: 8
-          lineFrom: 6
-        invoiceNumber: invoiceNumber
-        additionalInfo:
-          grossWeight: 1.0246457001441578
-          packageQuantity: 1.4894159098541704
-        invoiceType: "31"
         discountsOrSurcharges:
-        - amount: 9.965781217890562
+        - amount: 3.2588565619047607
+          alternativeCurrencyAmount: 0.2025324113236393
           valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 4.078845849666752
           lineNumber: 5
           type: D
-        - amount: 9.965781217890562
+        - amount: 3.2588565619047607
+          alternativeCurrencyAmount: 0.2025324113236393
           valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 4.078845849666752
           lineNumber: 5
           type: D
-        issueDate: 2000-01-23T04:56:07.000+00:00
+        paymentDeadline: 2000-01-23T04:56:07.000+00:00
         items:
         - unitPrice: unitPrice
           alcoholDegree: 7.061401241503109
@@ -560,9 +860,11 @@ components:
           type: "1"
         issuerRNC: issuerRNC
         referenceInfo:
+          modifiedInvoiceDate: 2000-01-23
+          modificationReason: modificationReason
+          otherContributorRNC: otherContributorRNC
           modifiedInvoiceNumber: modifiedInvoiceNumber
           modificationCode: "1"
-        expirationDate: 2000-01-23T04:56:07.000+00:00
         issuerBusinessName: issuerBusinessName
       properties:
         version:
@@ -595,8 +897,22 @@ components:
           - "2"
           - "3"
           type: string
+        paymentDeadline:
+          format: date-time
+          type: string
+        paymentTerms:
+          maxLength: 15
+          type: string
+        paymentAccountType:
+          $ref: "#/components/schemas/AccountType"
+        paymentAccountNumber:
+          maxLength: 28
+          type: string
+        paymentBank:
+          maxLength: 75
+          type: string
         creditNoteIndicator:
-          description: "0: ≤30 días, 1: >30 días"
+          description: "0: emision affected ≤ 30 days, 1: > 30 days"
           enum:
           - "0"
           - "1"
@@ -659,7 +975,9 @@ components:
         address: address
         deliveryAddress: deliveryAddress
         taxId: taxId
+        provinceCode: provinceCode
         name: name
+        municipalityCode: municipalityCode
         email: email
       properties:
         taxId:
@@ -673,6 +991,10 @@ components:
           type: string
         address:
           maxLength: 100
+          type: string
+        municipalityCode:
+          type: string
+        provinceCode:
           type: string
         deliveryAddress:
           type: string
@@ -714,10 +1036,8 @@ components:
         billingIndicator:
           $ref: "#/components/schemas/BillingIndicator"
         quantity:
-          description: Decimal string
           type: string
         unitPrice:
-          description: Decimal string
           type: string
         amount:
           type: number
@@ -743,24 +1063,91 @@ components:
       type: object
     Totals:
       example:
-        amountToPay: 4.145608029883936
+        itbisRate2: 1.0246457001441578
+        amountToPay: 6.438423552598547
         taxableAmount: 9.301444243932576
-        totalAmount: 2.027123023002322
-        totalITBIS: 3.616076749251911
-        additionalTaxAmount: 7.386281948385884
-        exemptAmount: 1.2315135367772556
+        itbisRate1: 1.2315135367772556
+        totalITBISPerception: 1.284659006116532
+        itbisRate3: 1.4894159098541704
+        additionalTaxes:
+        - amount: 5.962133916683182
+          code: code
+        - amount: 5.962133916683182
+          code: code
+        - amount: 5.962133916683182
+          code: code
+        - amount: 5.962133916683182
+          code: code
+        - amount: 5.962133916683182
+          code: code
+        totalISRPerception: 2.8841621266687802
+        advancePaymentAmount: 9.018348186070783
+        exemptAmount: 7.386281948385884
+        additionalTaxAmount: 5.025004791520295
+        itbis2: 1.1730742509559433
+        itbis1: 7.457744773683766
+        itbis3: 4.965218492984954
+        previousBalance: 8.762042012749001
+        nonBillableAmount: 9.369310271410669
+        periodAmount: 6.683562403749608
+        totalIncomeTaxWithholding: 6.965117697638846
+        totalAmount: 9.965781217890562
+        totalITBIS: 6.84685269835264
+        taxableAmount2: 2.027123023002322
+        taxableAmount1: 3.616076749251911
+        taxableAmount3: 4.145608029883936
+        totalWithheldITBIS: 3.5571952270680973
       properties:
         taxableAmount:
           type: number
+        taxableAmount1:
+          type: number
+        taxableAmount2:
+          type: number
+        taxableAmount3:
+          type: number
+        exemptAmount:
+          type: number
+        itbisRate1:
+          type: number
+        itbisRate2:
+          type: number
+        itbisRate3:
+          type: number
         totalITBIS:
           type: number
-        totalAmount:
+        itbis1:
           type: number
-        amountToPay:
+        itbis2:
+          type: number
+        itbis3:
           type: number
         additionalTaxAmount:
           type: number
-        exemptAmount:
+        additionalTaxes:
+          items:
+            $ref: "#/components/schemas/ItemAdditionalTax"
+          maxItems: 20
+          type: array
+        totalAmount:
+          type: number
+        nonBillableAmount:
+          type: number
+        periodAmount:
+          type: number
+        previousBalance:
+          type: number
+        advancePaymentAmount:
+          type: number
+        amountToPay:
+          type: number
+        totalWithheldITBIS:
+          type: number
+        totalIncomeTaxWithholding:
+          type: number
+        totalITBISPerception:
+          type: number
+        totalISRPerception:
           type: number
       required:
       - totalAmount
@@ -768,11 +1155,7 @@ components:
     WebhookNotificationPayload:
       example:
         businessRnc: businessRnc
-        data:
-          totalAmount: 0.8008281904610115
-          encf: encf
-          senderRnc: senderRnc
-          status: received
+        data: "{}"
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         event: document.received
         timestamp: 2000-01-23T04:56:07.000+00:00
@@ -788,7 +1171,7 @@ components:
         businessRnc:
           type: string
         data:
-          $ref: "#/components/schemas/WebhookNotificationPayload_data"
+          type: object
       required:
       - businessRnc
       - data
@@ -796,71 +1179,21 @@ components:
       - id
       - timestamp
       type: object
-    DocumentReceivedPayload:
-      example:
-        totalAmount: 0.8008281904610115
-        encf: encf
-        senderRnc: senderRnc
-        status: received
-      properties:
-        encf:
-          type: string
-        senderRnc:
-          type: string
-        totalAmount:
-          type: number
-        status:
-          enum:
-          - received
-          - rejected
-          type: string
-      type: object
-    CommercialApprovalPayload:
-      properties:
-        encf:
-          type: string
-        approvalStatus:
-          enum:
-          - approved
-          - rejected
-          type: string
-        approvalDate:
-          type: string
-      type: object
-    DocumentStatusChangedPayload:
-      properties:
-        encf:
-          type: string
-        status:
-          type: string
-        dgiiMessage:
-          type: string
-      type: object
-    CertificationCompletedPayload:
-      properties:
-        processId:
-          type: string
-        rnc:
-          type: string
-        status:
-          type: string
-        downloadUrl:
-          format: uri
-          type: string
-      type: object
     WebhookConfigResponse:
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
         id: id
+        lastTriggeredAt: 2000-01-23T04:56:07.000+00:00
         eventTypes:
         - document.received
         - document.received
         isActive: true
-        url: url
+        url: https://openapi-generator.tech
       properties:
         id:
           type: string
         url:
+          format: uri
           type: string
         eventTypes:
           items:
@@ -870,6 +1203,10 @@ components:
           type: boolean
         createdAt:
           format: date-time
+          type: string
+        lastTriggeredAt:
+          format: date-time
+          nullable: true
           type: string
       type: object
     CreateWebhookConfig:
@@ -899,9 +1236,20 @@ components:
       type: object
     Subtotal:
       example:
-        number: 1
-        amount: 4.965218492984954
+        taxableAmount: 7.143538047012306
+        amount: 3.0937452626664474
+        additionalTaxes: 3.0205796992916243
         description: description
+        exemptAmount: 3.0576100241049344
+        itbis2: 8.969578798196912
+        itbis1: 4.652396432933246
+        itbis3: 7.740351818741173
+        number: 3
+        totalITBIS: 0.10263654006109402
+        taxableAmount2: 7.058770351582356
+        taxableAmount1: 0.8851374739011653
+        taxableAmount3: 6.519180951018382
+        lines: 7
       properties:
         number:
           type: integer
@@ -909,14 +1257,40 @@ components:
           type: number
         description:
           type: string
+        taxableAmount:
+          type: number
+        taxableAmount1:
+          type: number
+        taxableAmount2:
+          type: number
+        taxableAmount3:
+          type: number
+        totalITBIS:
+          type: number
+        itbis1:
+          type: number
+        itbis2:
+          type: number
+        itbis3:
+          type: number
+        additionalTaxes:
+          type: number
+        exemptAmount:
+          type: number
+        lines:
+          type: integer
       required:
       - amount
       - number
       type: object
     DiscountOrSurcharge:
       example:
-        amount: 9.965781217890562
+        amount: 3.2588565619047607
+        alternativeCurrencyAmount: 0.2025324113236393
         valueType: $
+        description: description
+        billingIndicator: null
+        percentageValue: 4.078845849666752
         lineNumber: 5
         type: D
       properties:
@@ -934,6 +1308,14 @@ components:
           type: string
         amount:
           type: number
+        description:
+          type: string
+        percentageValue:
+          type: number
+        alternativeCurrencyAmount:
+          type: number
+        billingIndicator:
+          $ref: "#/components/schemas/BillingIndicator"
       required:
       - amount
       - lineNumber
@@ -942,10 +1324,21 @@ components:
       type: object
     Page:
       example:
-        pageNumber: 9
-        subtotal: 9.018348186070783
-        lineTo: 8
-        lineFrom: 6
+        taxableAmount: 7.260521264802104
+        pageNumber: 6
+        additionalTaxes: 6.073898085781152
+        lineTo: 1
+        exemptAmount: 8.251625748923757
+        itbis2: 5.507386964179881
+        lineFrom: 4
+        itbis1: 7.933506881737151
+        itbis3: 4.86315908102884
+        nonBillableAmount: 4.459605034958679
+        totalITBIS: 0.5199002018724985
+        subtotal: 4.678947989005849
+        taxableAmount2: 0.8774076871421566
+        taxableAmount1: 9.132027271330688
+        taxableAmount3: 9.702963800023566
       properties:
         pageNumber:
           type: integer
@@ -955,6 +1348,28 @@ components:
           type: integer
         subtotal:
           type: number
+        taxableAmount:
+          type: number
+        taxableAmount1:
+          type: number
+        taxableAmount2:
+          type: number
+        taxableAmount3:
+          type: number
+        totalITBIS:
+          type: number
+        itbis1:
+          type: number
+        itbis2:
+          type: number
+        itbis3:
+          type: number
+        additionalTaxes:
+          type: number
+        exemptAmount:
+          type: number
+        nonBillableAmount:
+          type: number
       required:
       - lineFrom
       - lineTo
@@ -963,8 +1378,11 @@ components:
     Transport:
       example:
         licensePlate: licensePlate
+        route: route
         driver: driver
         vehicleId: vehicleId
+        departureDate: 2000-01-23T04:56:07.000+00:00
+        arrivalDate: 2000-01-23T04:56:07.000+00:00
       properties:
         driver:
           type: string
@@ -972,22 +1390,36 @@ components:
           type: string
         licensePlate:
           type: string
+        route:
+          type: string
+        departureDate:
+          format: date-time
+          type: string
+        arrivalDate:
+          format: date-time
+          type: string
       type: object
     AdditionalInfo:
       example:
-        grossWeight: 1.0246457001441578
-        packageQuantity: 1.4894159098541704
+        grossWeight: 6.778324963048013
+        sealId: sealId
+        packageQuantity: 6.878052220127876
+        containerId: containerId
       properties:
         grossWeight:
           type: number
         packageQuantity:
           type: number
+        containerId:
+          type: string
+        sealId:
+          type: string
       type: object
     AlternativeCurrency:
       example:
-        totalAmount: 7.457744773683766
+        totalAmount: 6.704019297950036
         code: code
-        exchangeRate: 6.84685269835264
+        exchangeRate: 5.944895607614016
       properties:
         code:
           maxLength: 3
@@ -1002,10 +1434,18 @@ components:
       type: object
     ReferenceInfo:
       example:
+        modifiedInvoiceDate: 2000-01-23
+        modificationReason: modificationReason
+        otherContributorRNC: otherContributorRNC
         modifiedInvoiceNumber: modifiedInvoiceNumber
         modificationCode: "1"
       properties:
         modifiedInvoiceNumber:
+          type: string
+        otherContributorRNC:
+          type: string
+        modifiedInvoiceDate:
+          format: date
           type: string
         modificationCode:
           enum:
@@ -1014,6 +1454,8 @@ components:
           - "3"
           - "4"
           - "5"
+          type: string
+        modificationReason:
           type: string
       required:
       - modificationCode
@@ -1141,11 +1583,9 @@ components:
     uploadCertificate_request:
       properties:
         file:
-          description: Archivo .p12 o .pfx
           format: binary
           type: string
         password:
-          description: Contraseña del certificado
           format: password
           type: string
       required:
@@ -1206,12 +1646,62 @@ components:
         data:
           $ref: "#/components/schemas/getNextNumber_200_response_data"
       type: object
-    WebhookNotificationPayload_data:
-      oneOf:
-      - $ref: "#/components/schemas/DocumentReceivedPayload"
-      - $ref: "#/components/schemas/CommercialApprovalPayload"
-      - $ref: "#/components/schemas/DocumentStatusChangedPayload"
-      - $ref: "#/components/schemas/CertificationCompletedPayload"
+    createAssociatedCompany_201_response:
+      example:
+        business:
+          docsIssuedThisMonth: 0
+          country: country
+          website: https://openapi-generator.tech
+          address: address
+          city: city
+          rnc: rnc
+          logoPath: logoPath
+          subscription:
+            plan:
+              name: name
+              maxDocsPerMonth: 1
+            status: status
+            expirationDate: 2000-01-23T04:56:07.000+00:00
+          type: MAIN
+          ownerEmail: ownerEmail
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          purchasedDocsConsumedThisMonth: 6
+          phone: phone
+          name: name
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        message: message
+      properties:
+        message:
+          type: string
+        business:
+          $ref: "#/components/schemas/AssociatedCompany"
+      type: object
+    AssociatedCompany_subscription_plan:
+      example:
+        name: name
+        maxDocsPerMonth: 1
+      properties:
+        name:
+          type: string
+        maxDocsPerMonth:
+          type: integer
+      type: object
+    AssociatedCompany_subscription:
+      example:
+        plan:
+          name: name
+          maxDocsPerMonth: 1
+        status: status
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+      properties:
+        status:
+          type: string
+        expirationDate:
+          format: date-time
+          type: string
+        plan:
+          $ref: "#/components/schemas/AssociatedCompany_subscription_plan"
+      type: object
   securitySchemes:
     oauth2:
       description: |
@@ -1224,6 +1714,6 @@ components:
             documents:write: Permisos para enviar y modificar documentos.
             ecf:submit: Permiso especializado para el envío de facturas e-CF.
             admin: Acceso administrativo completo a la plataforma.
-          tokenUrl: https://api.ecf.sandbox.pronesoft.com/api/v1/oauth/token
+          tokenUrl: oauth/token
       type: oauth2
 

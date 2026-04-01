@@ -21,12 +21,21 @@ module PronesoftEcf
 
     attr_accessor :license_plate
 
+    attr_accessor :route
+
+    attr_accessor :departure_date
+
+    attr_accessor :arrival_date
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'driver' => :'driver',
         :'vehicle_id' => :'vehicleId',
-        :'license_plate' => :'licensePlate'
+        :'license_plate' => :'licensePlate',
+        :'route' => :'route',
+        :'departure_date' => :'departureDate',
+        :'arrival_date' => :'arrivalDate'
       }
     end
 
@@ -45,7 +54,10 @@ module PronesoftEcf
       {
         :'driver' => :'String',
         :'vehicle_id' => :'String',
-        :'license_plate' => :'String'
+        :'license_plate' => :'String',
+        :'route' => :'String',
+        :'departure_date' => :'Time',
+        :'arrival_date' => :'Time'
       }
     end
 
@@ -82,6 +94,18 @@ module PronesoftEcf
       if attributes.key?(:'license_plate')
         self.license_plate = attributes[:'license_plate']
       end
+
+      if attributes.key?(:'route')
+        self.route = attributes[:'route']
+      end
+
+      if attributes.key?(:'departure_date')
+        self.departure_date = attributes[:'departure_date']
+      end
+
+      if attributes.key?(:'arrival_date')
+        self.arrival_date = attributes[:'arrival_date']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -106,7 +130,10 @@ module PronesoftEcf
       self.class == o.class &&
           driver == o.driver &&
           vehicle_id == o.vehicle_id &&
-          license_plate == o.license_plate
+          license_plate == o.license_plate &&
+          route == o.route &&
+          departure_date == o.departure_date &&
+          arrival_date == o.arrival_date
     end
 
     # @see the `==` method
@@ -118,7 +145,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [driver, vehicle_id, license_plate].hash
+      [driver, vehicle_id, license_plate, route, departure_date, arrival_date].hash
     end
 
     # Builds the object from hash

@@ -61,7 +61,8 @@ class WebhookConfigResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'string',
         'event_types' => '\PronesoftEcf\Model\WebhookEventType[]',
         'is_active' => 'bool',
-        'created_at' => '\DateTime'
+        'created_at' => '\DateTime',
+        'last_triggered_at' => '\DateTime'
     ];
 
     /**
@@ -73,10 +74,11 @@ class WebhookConfigResponse implements ModelInterface, ArrayAccess, \JsonSeriali
      */
     protected static $openAPIFormats = [
         'id' => null,
-        'url' => null,
+        'url' => 'uri',
         'event_types' => null,
         'is_active' => null,
-        'created_at' => 'date-time'
+        'created_at' => 'date-time',
+        'last_triggered_at' => 'date-time'
     ];
 
     /**
@@ -89,7 +91,8 @@ class WebhookConfigResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => false,
         'event_types' => false,
         'is_active' => false,
-        'created_at' => false
+        'created_at' => false,
+        'last_triggered_at' => true
     ];
 
     /**
@@ -182,7 +185,8 @@ class WebhookConfigResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'url',
         'event_types' => 'eventTypes',
         'is_active' => 'isActive',
-        'created_at' => 'createdAt'
+        'created_at' => 'createdAt',
+        'last_triggered_at' => 'lastTriggeredAt'
     ];
 
     /**
@@ -195,7 +199,8 @@ class WebhookConfigResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'setUrl',
         'event_types' => 'setEventTypes',
         'is_active' => 'setIsActive',
-        'created_at' => 'setCreatedAt'
+        'created_at' => 'setCreatedAt',
+        'last_triggered_at' => 'setLastTriggeredAt'
     ];
 
     /**
@@ -208,7 +213,8 @@ class WebhookConfigResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         'url' => 'getUrl',
         'event_types' => 'getEventTypes',
         'is_active' => 'getIsActive',
-        'created_at' => 'getCreatedAt'
+        'created_at' => 'getCreatedAt',
+        'last_triggered_at' => 'getLastTriggeredAt'
     ];
 
     /**
@@ -273,6 +279,7 @@ class WebhookConfigResponse implements ModelInterface, ArrayAccess, \JsonSeriali
         $this->setIfExists('event_types', $data ?? [], null);
         $this->setIfExists('is_active', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
+        $this->setIfExists('last_triggered_at', $data ?? [], null);
     }
 
     /**
@@ -448,6 +455,40 @@ class WebhookConfigResponse implements ModelInterface, ArrayAccess, \JsonSeriali
             throw new \InvalidArgumentException('non-nullable created_at cannot be null');
         }
         $this->container['created_at'] = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets last_triggered_at
+     *
+     * @return \DateTime|null
+     */
+    public function getLastTriggeredAt()
+    {
+        return $this->container['last_triggered_at'];
+    }
+
+    /**
+     * Sets last_triggered_at
+     *
+     * @param \DateTime|null $last_triggered_at last_triggered_at
+     *
+     * @return self
+     */
+    public function setLastTriggeredAt($last_triggered_at)
+    {
+        if (is_null($last_triggered_at)) {
+            array_push($this->openAPINullablesSetToNull, 'last_triggered_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('last_triggered_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['last_triggered_at'] = $last_triggered_at;
 
         return $this;
     }

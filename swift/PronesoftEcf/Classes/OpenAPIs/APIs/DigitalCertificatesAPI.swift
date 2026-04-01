@@ -16,8 +16,8 @@ open class DigitalCertificatesAPI {
      Cargar Certificado Digital (P12)
      
      - parameter rnc: (path)  
-     - parameter file: (form) Archivo .p12 o .pfx 
-     - parameter password: (form) Contraseña del certificado 
+     - parameter file: (form)  
+     - parameter password: (form)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -40,8 +40,8 @@ open class DigitalCertificatesAPI {
        - type: oauth2
        - name: oauth2
      - parameter rnc: (path)  
-     - parameter file: (form) Archivo .p12 o .pfx 
-     - parameter password: (form) Contraseña del certificado 
+     - parameter file: (form)  
+     - parameter password: (form)  
      - returns: RequestBuilder<UploadCertificate201Response> 
      */
     open class func uploadCertificateWithRequestBuilder(rnc: String, file: URL, password: String) -> RequestBuilder<UploadCertificate201Response> {

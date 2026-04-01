@@ -21,7 +21,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import org.openapitools.client.model.ItemAdditionalTax;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,37 +52,127 @@ import Pronesoft.Ecf.JSON;
 /**
  * Totals
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Totals {
   public static final String SERIALIZED_NAME_TAXABLE_AMOUNT = "taxableAmount";
   @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT)
   @javax.annotation.Nullable
   private BigDecimal taxableAmount;
 
+  public static final String SERIALIZED_NAME_TAXABLE_AMOUNT1 = "taxableAmount1";
+  @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT1)
+  @javax.annotation.Nullable
+  private BigDecimal taxableAmount1;
+
+  public static final String SERIALIZED_NAME_TAXABLE_AMOUNT2 = "taxableAmount2";
+  @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT2)
+  @javax.annotation.Nullable
+  private BigDecimal taxableAmount2;
+
+  public static final String SERIALIZED_NAME_TAXABLE_AMOUNT3 = "taxableAmount3";
+  @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT3)
+  @javax.annotation.Nullable
+  private BigDecimal taxableAmount3;
+
+  public static final String SERIALIZED_NAME_EXEMPT_AMOUNT = "exemptAmount";
+  @SerializedName(SERIALIZED_NAME_EXEMPT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal exemptAmount;
+
+  public static final String SERIALIZED_NAME_ITBIS_RATE1 = "itbisRate1";
+  @SerializedName(SERIALIZED_NAME_ITBIS_RATE1)
+  @javax.annotation.Nullable
+  private BigDecimal itbisRate1;
+
+  public static final String SERIALIZED_NAME_ITBIS_RATE2 = "itbisRate2";
+  @SerializedName(SERIALIZED_NAME_ITBIS_RATE2)
+  @javax.annotation.Nullable
+  private BigDecimal itbisRate2;
+
+  public static final String SERIALIZED_NAME_ITBIS_RATE3 = "itbisRate3";
+  @SerializedName(SERIALIZED_NAME_ITBIS_RATE3)
+  @javax.annotation.Nullable
+  private BigDecimal itbisRate3;
+
   public static final String SERIALIZED_NAME_TOTAL_I_T_B_I_S = "totalITBIS";
   @SerializedName(SERIALIZED_NAME_TOTAL_I_T_B_I_S)
   @javax.annotation.Nullable
   private BigDecimal totalITBIS;
 
-  public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "totalAmount";
-  @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)
-  @javax.annotation.Nonnull
-  private BigDecimal totalAmount;
-
-  public static final String SERIALIZED_NAME_AMOUNT_TO_PAY = "amountToPay";
-  @SerializedName(SERIALIZED_NAME_AMOUNT_TO_PAY)
+  public static final String SERIALIZED_NAME_ITBIS1 = "itbis1";
+  @SerializedName(SERIALIZED_NAME_ITBIS1)
   @javax.annotation.Nullable
-  private BigDecimal amountToPay;
+  private BigDecimal itbis1;
+
+  public static final String SERIALIZED_NAME_ITBIS2 = "itbis2";
+  @SerializedName(SERIALIZED_NAME_ITBIS2)
+  @javax.annotation.Nullable
+  private BigDecimal itbis2;
+
+  public static final String SERIALIZED_NAME_ITBIS3 = "itbis3";
+  @SerializedName(SERIALIZED_NAME_ITBIS3)
+  @javax.annotation.Nullable
+  private BigDecimal itbis3;
 
   public static final String SERIALIZED_NAME_ADDITIONAL_TAX_AMOUNT = "additionalTaxAmount";
   @SerializedName(SERIALIZED_NAME_ADDITIONAL_TAX_AMOUNT)
   @javax.annotation.Nullable
   private BigDecimal additionalTaxAmount;
 
-  public static final String SERIALIZED_NAME_EXEMPT_AMOUNT = "exemptAmount";
-  @SerializedName(SERIALIZED_NAME_EXEMPT_AMOUNT)
+  public static final String SERIALIZED_NAME_ADDITIONAL_TAXES = "additionalTaxes";
+  @SerializedName(SERIALIZED_NAME_ADDITIONAL_TAXES)
   @javax.annotation.Nullable
-  private BigDecimal exemptAmount;
+  private List<ItemAdditionalTax> additionalTaxes = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "totalAmount";
+  @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)
+  @javax.annotation.Nonnull
+  private BigDecimal totalAmount;
+
+  public static final String SERIALIZED_NAME_NON_BILLABLE_AMOUNT = "nonBillableAmount";
+  @SerializedName(SERIALIZED_NAME_NON_BILLABLE_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal nonBillableAmount;
+
+  public static final String SERIALIZED_NAME_PERIOD_AMOUNT = "periodAmount";
+  @SerializedName(SERIALIZED_NAME_PERIOD_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal periodAmount;
+
+  public static final String SERIALIZED_NAME_PREVIOUS_BALANCE = "previousBalance";
+  @SerializedName(SERIALIZED_NAME_PREVIOUS_BALANCE)
+  @javax.annotation.Nullable
+  private BigDecimal previousBalance;
+
+  public static final String SERIALIZED_NAME_ADVANCE_PAYMENT_AMOUNT = "advancePaymentAmount";
+  @SerializedName(SERIALIZED_NAME_ADVANCE_PAYMENT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal advancePaymentAmount;
+
+  public static final String SERIALIZED_NAME_AMOUNT_TO_PAY = "amountToPay";
+  @SerializedName(SERIALIZED_NAME_AMOUNT_TO_PAY)
+  @javax.annotation.Nullable
+  private BigDecimal amountToPay;
+
+  public static final String SERIALIZED_NAME_TOTAL_WITHHELD_I_T_B_I_S = "totalWithheldITBIS";
+  @SerializedName(SERIALIZED_NAME_TOTAL_WITHHELD_I_T_B_I_S)
+  @javax.annotation.Nullable
+  private BigDecimal totalWithheldITBIS;
+
+  public static final String SERIALIZED_NAME_TOTAL_INCOME_TAX_WITHHOLDING = "totalIncomeTaxWithholding";
+  @SerializedName(SERIALIZED_NAME_TOTAL_INCOME_TAX_WITHHOLDING)
+  @javax.annotation.Nullable
+  private BigDecimal totalIncomeTaxWithholding;
+
+  public static final String SERIALIZED_NAME_TOTAL_I_T_B_I_S_PERCEPTION = "totalITBISPerception";
+  @SerializedName(SERIALIZED_NAME_TOTAL_I_T_B_I_S_PERCEPTION)
+  @javax.annotation.Nullable
+  private BigDecimal totalITBISPerception;
+
+  public static final String SERIALIZED_NAME_TOTAL_I_S_R_PERCEPTION = "totalISRPerception";
+  @SerializedName(SERIALIZED_NAME_TOTAL_I_S_R_PERCEPTION)
+  @javax.annotation.Nullable
+  private BigDecimal totalISRPerception;
 
   public Totals() {
   }
@@ -103,79 +196,60 @@ public class Totals {
   }
 
 
-  public Totals totalITBIS(@javax.annotation.Nullable BigDecimal totalITBIS) {
-    this.totalITBIS = totalITBIS;
+  public Totals taxableAmount1(@javax.annotation.Nullable BigDecimal taxableAmount1) {
+    this.taxableAmount1 = taxableAmount1;
     return this;
   }
 
   /**
-   * Get totalITBIS
-   * @return totalITBIS
+   * Get taxableAmount1
+   * @return taxableAmount1
    */
   @javax.annotation.Nullable
-  public BigDecimal getTotalITBIS() {
-    return totalITBIS;
+  public BigDecimal getTaxableAmount1() {
+    return taxableAmount1;
   }
 
-  public void setTotalITBIS(@javax.annotation.Nullable BigDecimal totalITBIS) {
-    this.totalITBIS = totalITBIS;
+  public void setTaxableAmount1(@javax.annotation.Nullable BigDecimal taxableAmount1) {
+    this.taxableAmount1 = taxableAmount1;
   }
 
 
-  public Totals totalAmount(@javax.annotation.Nonnull BigDecimal totalAmount) {
-    this.totalAmount = totalAmount;
+  public Totals taxableAmount2(@javax.annotation.Nullable BigDecimal taxableAmount2) {
+    this.taxableAmount2 = taxableAmount2;
     return this;
   }
 
   /**
-   * Get totalAmount
-   * @return totalAmount
-   */
-  @javax.annotation.Nonnull
-  public BigDecimal getTotalAmount() {
-    return totalAmount;
-  }
-
-  public void setTotalAmount(@javax.annotation.Nonnull BigDecimal totalAmount) {
-    this.totalAmount = totalAmount;
-  }
-
-
-  public Totals amountToPay(@javax.annotation.Nullable BigDecimal amountToPay) {
-    this.amountToPay = amountToPay;
-    return this;
-  }
-
-  /**
-   * Get amountToPay
-   * @return amountToPay
+   * Get taxableAmount2
+   * @return taxableAmount2
    */
   @javax.annotation.Nullable
-  public BigDecimal getAmountToPay() {
-    return amountToPay;
+  public BigDecimal getTaxableAmount2() {
+    return taxableAmount2;
   }
 
-  public void setAmountToPay(@javax.annotation.Nullable BigDecimal amountToPay) {
-    this.amountToPay = amountToPay;
+  public void setTaxableAmount2(@javax.annotation.Nullable BigDecimal taxableAmount2) {
+    this.taxableAmount2 = taxableAmount2;
   }
 
 
-  public Totals additionalTaxAmount(@javax.annotation.Nullable BigDecimal additionalTaxAmount) {
-    this.additionalTaxAmount = additionalTaxAmount;
+  public Totals taxableAmount3(@javax.annotation.Nullable BigDecimal taxableAmount3) {
+    this.taxableAmount3 = taxableAmount3;
     return this;
   }
 
   /**
-   * Get additionalTaxAmount
-   * @return additionalTaxAmount
+   * Get taxableAmount3
+   * @return taxableAmount3
    */
   @javax.annotation.Nullable
-  public BigDecimal getAdditionalTaxAmount() {
-    return additionalTaxAmount;
+  public BigDecimal getTaxableAmount3() {
+    return taxableAmount3;
   }
 
-  public void setAdditionalTaxAmount(@javax.annotation.Nullable BigDecimal additionalTaxAmount) {
-    this.additionalTaxAmount = additionalTaxAmount;
+  public void setTaxableAmount3(@javax.annotation.Nullable BigDecimal taxableAmount3) {
+    this.taxableAmount3 = taxableAmount3;
   }
 
 
@@ -198,6 +272,375 @@ public class Totals {
   }
 
 
+  public Totals itbisRate1(@javax.annotation.Nullable BigDecimal itbisRate1) {
+    this.itbisRate1 = itbisRate1;
+    return this;
+  }
+
+  /**
+   * Get itbisRate1
+   * @return itbisRate1
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbisRate1() {
+    return itbisRate1;
+  }
+
+  public void setItbisRate1(@javax.annotation.Nullable BigDecimal itbisRate1) {
+    this.itbisRate1 = itbisRate1;
+  }
+
+
+  public Totals itbisRate2(@javax.annotation.Nullable BigDecimal itbisRate2) {
+    this.itbisRate2 = itbisRate2;
+    return this;
+  }
+
+  /**
+   * Get itbisRate2
+   * @return itbisRate2
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbisRate2() {
+    return itbisRate2;
+  }
+
+  public void setItbisRate2(@javax.annotation.Nullable BigDecimal itbisRate2) {
+    this.itbisRate2 = itbisRate2;
+  }
+
+
+  public Totals itbisRate3(@javax.annotation.Nullable BigDecimal itbisRate3) {
+    this.itbisRate3 = itbisRate3;
+    return this;
+  }
+
+  /**
+   * Get itbisRate3
+   * @return itbisRate3
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbisRate3() {
+    return itbisRate3;
+  }
+
+  public void setItbisRate3(@javax.annotation.Nullable BigDecimal itbisRate3) {
+    this.itbisRate3 = itbisRate3;
+  }
+
+
+  public Totals totalITBIS(@javax.annotation.Nullable BigDecimal totalITBIS) {
+    this.totalITBIS = totalITBIS;
+    return this;
+  }
+
+  /**
+   * Get totalITBIS
+   * @return totalITBIS
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTotalITBIS() {
+    return totalITBIS;
+  }
+
+  public void setTotalITBIS(@javax.annotation.Nullable BigDecimal totalITBIS) {
+    this.totalITBIS = totalITBIS;
+  }
+
+
+  public Totals itbis1(@javax.annotation.Nullable BigDecimal itbis1) {
+    this.itbis1 = itbis1;
+    return this;
+  }
+
+  /**
+   * Get itbis1
+   * @return itbis1
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbis1() {
+    return itbis1;
+  }
+
+  public void setItbis1(@javax.annotation.Nullable BigDecimal itbis1) {
+    this.itbis1 = itbis1;
+  }
+
+
+  public Totals itbis2(@javax.annotation.Nullable BigDecimal itbis2) {
+    this.itbis2 = itbis2;
+    return this;
+  }
+
+  /**
+   * Get itbis2
+   * @return itbis2
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbis2() {
+    return itbis2;
+  }
+
+  public void setItbis2(@javax.annotation.Nullable BigDecimal itbis2) {
+    this.itbis2 = itbis2;
+  }
+
+
+  public Totals itbis3(@javax.annotation.Nullable BigDecimal itbis3) {
+    this.itbis3 = itbis3;
+    return this;
+  }
+
+  /**
+   * Get itbis3
+   * @return itbis3
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbis3() {
+    return itbis3;
+  }
+
+  public void setItbis3(@javax.annotation.Nullable BigDecimal itbis3) {
+    this.itbis3 = itbis3;
+  }
+
+
+  public Totals additionalTaxAmount(@javax.annotation.Nullable BigDecimal additionalTaxAmount) {
+    this.additionalTaxAmount = additionalTaxAmount;
+    return this;
+  }
+
+  /**
+   * Get additionalTaxAmount
+   * @return additionalTaxAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getAdditionalTaxAmount() {
+    return additionalTaxAmount;
+  }
+
+  public void setAdditionalTaxAmount(@javax.annotation.Nullable BigDecimal additionalTaxAmount) {
+    this.additionalTaxAmount = additionalTaxAmount;
+  }
+
+
+  public Totals additionalTaxes(@javax.annotation.Nullable List<ItemAdditionalTax> additionalTaxes) {
+    this.additionalTaxes = additionalTaxes;
+    return this;
+  }
+
+  public Totals addAdditionalTaxesItem(ItemAdditionalTax additionalTaxesItem) {
+    if (this.additionalTaxes == null) {
+      this.additionalTaxes = new ArrayList<>();
+    }
+    this.additionalTaxes.add(additionalTaxesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalTaxes
+   * @return additionalTaxes
+   */
+  @javax.annotation.Nullable
+  public List<ItemAdditionalTax> getAdditionalTaxes() {
+    return additionalTaxes;
+  }
+
+  public void setAdditionalTaxes(@javax.annotation.Nullable List<ItemAdditionalTax> additionalTaxes) {
+    this.additionalTaxes = additionalTaxes;
+  }
+
+
+  public Totals totalAmount(@javax.annotation.Nonnull BigDecimal totalAmount) {
+    this.totalAmount = totalAmount;
+    return this;
+  }
+
+  /**
+   * Get totalAmount
+   * @return totalAmount
+   */
+  @javax.annotation.Nonnull
+  public BigDecimal getTotalAmount() {
+    return totalAmount;
+  }
+
+  public void setTotalAmount(@javax.annotation.Nonnull BigDecimal totalAmount) {
+    this.totalAmount = totalAmount;
+  }
+
+
+  public Totals nonBillableAmount(@javax.annotation.Nullable BigDecimal nonBillableAmount) {
+    this.nonBillableAmount = nonBillableAmount;
+    return this;
+  }
+
+  /**
+   * Get nonBillableAmount
+   * @return nonBillableAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getNonBillableAmount() {
+    return nonBillableAmount;
+  }
+
+  public void setNonBillableAmount(@javax.annotation.Nullable BigDecimal nonBillableAmount) {
+    this.nonBillableAmount = nonBillableAmount;
+  }
+
+
+  public Totals periodAmount(@javax.annotation.Nullable BigDecimal periodAmount) {
+    this.periodAmount = periodAmount;
+    return this;
+  }
+
+  /**
+   * Get periodAmount
+   * @return periodAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getPeriodAmount() {
+    return periodAmount;
+  }
+
+  public void setPeriodAmount(@javax.annotation.Nullable BigDecimal periodAmount) {
+    this.periodAmount = periodAmount;
+  }
+
+
+  public Totals previousBalance(@javax.annotation.Nullable BigDecimal previousBalance) {
+    this.previousBalance = previousBalance;
+    return this;
+  }
+
+  /**
+   * Get previousBalance
+   * @return previousBalance
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getPreviousBalance() {
+    return previousBalance;
+  }
+
+  public void setPreviousBalance(@javax.annotation.Nullable BigDecimal previousBalance) {
+    this.previousBalance = previousBalance;
+  }
+
+
+  public Totals advancePaymentAmount(@javax.annotation.Nullable BigDecimal advancePaymentAmount) {
+    this.advancePaymentAmount = advancePaymentAmount;
+    return this;
+  }
+
+  /**
+   * Get advancePaymentAmount
+   * @return advancePaymentAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getAdvancePaymentAmount() {
+    return advancePaymentAmount;
+  }
+
+  public void setAdvancePaymentAmount(@javax.annotation.Nullable BigDecimal advancePaymentAmount) {
+    this.advancePaymentAmount = advancePaymentAmount;
+  }
+
+
+  public Totals amountToPay(@javax.annotation.Nullable BigDecimal amountToPay) {
+    this.amountToPay = amountToPay;
+    return this;
+  }
+
+  /**
+   * Get amountToPay
+   * @return amountToPay
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getAmountToPay() {
+    return amountToPay;
+  }
+
+  public void setAmountToPay(@javax.annotation.Nullable BigDecimal amountToPay) {
+    this.amountToPay = amountToPay;
+  }
+
+
+  public Totals totalWithheldITBIS(@javax.annotation.Nullable BigDecimal totalWithheldITBIS) {
+    this.totalWithheldITBIS = totalWithheldITBIS;
+    return this;
+  }
+
+  /**
+   * Get totalWithheldITBIS
+   * @return totalWithheldITBIS
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTotalWithheldITBIS() {
+    return totalWithheldITBIS;
+  }
+
+  public void setTotalWithheldITBIS(@javax.annotation.Nullable BigDecimal totalWithheldITBIS) {
+    this.totalWithheldITBIS = totalWithheldITBIS;
+  }
+
+
+  public Totals totalIncomeTaxWithholding(@javax.annotation.Nullable BigDecimal totalIncomeTaxWithholding) {
+    this.totalIncomeTaxWithholding = totalIncomeTaxWithholding;
+    return this;
+  }
+
+  /**
+   * Get totalIncomeTaxWithholding
+   * @return totalIncomeTaxWithholding
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTotalIncomeTaxWithholding() {
+    return totalIncomeTaxWithholding;
+  }
+
+  public void setTotalIncomeTaxWithholding(@javax.annotation.Nullable BigDecimal totalIncomeTaxWithholding) {
+    this.totalIncomeTaxWithholding = totalIncomeTaxWithholding;
+  }
+
+
+  public Totals totalITBISPerception(@javax.annotation.Nullable BigDecimal totalITBISPerception) {
+    this.totalITBISPerception = totalITBISPerception;
+    return this;
+  }
+
+  /**
+   * Get totalITBISPerception
+   * @return totalITBISPerception
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTotalITBISPerception() {
+    return totalITBISPerception;
+  }
+
+  public void setTotalITBISPerception(@javax.annotation.Nullable BigDecimal totalITBISPerception) {
+    this.totalITBISPerception = totalITBISPerception;
+  }
+
+
+  public Totals totalISRPerception(@javax.annotation.Nullable BigDecimal totalISRPerception) {
+    this.totalISRPerception = totalISRPerception;
+    return this;
+  }
+
+  /**
+   * Get totalISRPerception
+   * @return totalISRPerception
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTotalISRPerception() {
+    return totalISRPerception;
+  }
+
+  public void setTotalISRPerception(@javax.annotation.Nullable BigDecimal totalISRPerception) {
+    this.totalISRPerception = totalISRPerception;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -209,16 +652,34 @@ public class Totals {
     }
     Totals totals = (Totals) o;
     return Objects.equals(this.taxableAmount, totals.taxableAmount) &&
+        Objects.equals(this.taxableAmount1, totals.taxableAmount1) &&
+        Objects.equals(this.taxableAmount2, totals.taxableAmount2) &&
+        Objects.equals(this.taxableAmount3, totals.taxableAmount3) &&
+        Objects.equals(this.exemptAmount, totals.exemptAmount) &&
+        Objects.equals(this.itbisRate1, totals.itbisRate1) &&
+        Objects.equals(this.itbisRate2, totals.itbisRate2) &&
+        Objects.equals(this.itbisRate3, totals.itbisRate3) &&
         Objects.equals(this.totalITBIS, totals.totalITBIS) &&
-        Objects.equals(this.totalAmount, totals.totalAmount) &&
-        Objects.equals(this.amountToPay, totals.amountToPay) &&
+        Objects.equals(this.itbis1, totals.itbis1) &&
+        Objects.equals(this.itbis2, totals.itbis2) &&
+        Objects.equals(this.itbis3, totals.itbis3) &&
         Objects.equals(this.additionalTaxAmount, totals.additionalTaxAmount) &&
-        Objects.equals(this.exemptAmount, totals.exemptAmount);
+        Objects.equals(this.additionalTaxes, totals.additionalTaxes) &&
+        Objects.equals(this.totalAmount, totals.totalAmount) &&
+        Objects.equals(this.nonBillableAmount, totals.nonBillableAmount) &&
+        Objects.equals(this.periodAmount, totals.periodAmount) &&
+        Objects.equals(this.previousBalance, totals.previousBalance) &&
+        Objects.equals(this.advancePaymentAmount, totals.advancePaymentAmount) &&
+        Objects.equals(this.amountToPay, totals.amountToPay) &&
+        Objects.equals(this.totalWithheldITBIS, totals.totalWithheldITBIS) &&
+        Objects.equals(this.totalIncomeTaxWithholding, totals.totalIncomeTaxWithholding) &&
+        Objects.equals(this.totalITBISPerception, totals.totalITBISPerception) &&
+        Objects.equals(this.totalISRPerception, totals.totalISRPerception);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(taxableAmount, totalITBIS, totalAmount, amountToPay, additionalTaxAmount, exemptAmount);
+    return Objects.hash(taxableAmount, taxableAmount1, taxableAmount2, taxableAmount3, exemptAmount, itbisRate1, itbisRate2, itbisRate3, totalITBIS, itbis1, itbis2, itbis3, additionalTaxAmount, additionalTaxes, totalAmount, nonBillableAmount, periodAmount, previousBalance, advancePaymentAmount, amountToPay, totalWithheldITBIS, totalIncomeTaxWithholding, totalITBISPerception, totalISRPerception);
   }
 
   @Override
@@ -226,11 +687,29 @@ public class Totals {
     StringBuilder sb = new StringBuilder();
     sb.append("class Totals {\n");
     sb.append("    taxableAmount: ").append(toIndentedString(taxableAmount)).append("\n");
-    sb.append("    totalITBIS: ").append(toIndentedString(totalITBIS)).append("\n");
-    sb.append("    totalAmount: ").append(toIndentedString(totalAmount)).append("\n");
-    sb.append("    amountToPay: ").append(toIndentedString(amountToPay)).append("\n");
-    sb.append("    additionalTaxAmount: ").append(toIndentedString(additionalTaxAmount)).append("\n");
+    sb.append("    taxableAmount1: ").append(toIndentedString(taxableAmount1)).append("\n");
+    sb.append("    taxableAmount2: ").append(toIndentedString(taxableAmount2)).append("\n");
+    sb.append("    taxableAmount3: ").append(toIndentedString(taxableAmount3)).append("\n");
     sb.append("    exemptAmount: ").append(toIndentedString(exemptAmount)).append("\n");
+    sb.append("    itbisRate1: ").append(toIndentedString(itbisRate1)).append("\n");
+    sb.append("    itbisRate2: ").append(toIndentedString(itbisRate2)).append("\n");
+    sb.append("    itbisRate3: ").append(toIndentedString(itbisRate3)).append("\n");
+    sb.append("    totalITBIS: ").append(toIndentedString(totalITBIS)).append("\n");
+    sb.append("    itbis1: ").append(toIndentedString(itbis1)).append("\n");
+    sb.append("    itbis2: ").append(toIndentedString(itbis2)).append("\n");
+    sb.append("    itbis3: ").append(toIndentedString(itbis3)).append("\n");
+    sb.append("    additionalTaxAmount: ").append(toIndentedString(additionalTaxAmount)).append("\n");
+    sb.append("    additionalTaxes: ").append(toIndentedString(additionalTaxes)).append("\n");
+    sb.append("    totalAmount: ").append(toIndentedString(totalAmount)).append("\n");
+    sb.append("    nonBillableAmount: ").append(toIndentedString(nonBillableAmount)).append("\n");
+    sb.append("    periodAmount: ").append(toIndentedString(periodAmount)).append("\n");
+    sb.append("    previousBalance: ").append(toIndentedString(previousBalance)).append("\n");
+    sb.append("    advancePaymentAmount: ").append(toIndentedString(advancePaymentAmount)).append("\n");
+    sb.append("    amountToPay: ").append(toIndentedString(amountToPay)).append("\n");
+    sb.append("    totalWithheldITBIS: ").append(toIndentedString(totalWithheldITBIS)).append("\n");
+    sb.append("    totalIncomeTaxWithholding: ").append(toIndentedString(totalIncomeTaxWithholding)).append("\n");
+    sb.append("    totalITBISPerception: ").append(toIndentedString(totalITBISPerception)).append("\n");
+    sb.append("    totalISRPerception: ").append(toIndentedString(totalISRPerception)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -249,7 +728,7 @@ public class Totals {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("taxableAmount", "totalITBIS", "totalAmount", "amountToPay", "additionalTaxAmount", "exemptAmount"));
+    openapiFields = new HashSet<String>(Arrays.asList("taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "exemptAmount", "itbisRate1", "itbisRate2", "itbisRate3", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxAmount", "additionalTaxes", "totalAmount", "nonBillableAmount", "periodAmount", "previousBalance", "advancePaymentAmount", "amountToPay", "totalWithheldITBIS", "totalIncomeTaxWithholding", "totalITBISPerception", "totalISRPerception"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("totalAmount"));
@@ -283,6 +762,20 @@ public class Totals {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if (jsonObj.get("additionalTaxes") != null && !jsonObj.get("additionalTaxes").isJsonNull()) {
+        JsonArray jsonArrayadditionalTaxes = jsonObj.getAsJsonArray("additionalTaxes");
+        if (jsonArrayadditionalTaxes != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("additionalTaxes").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `additionalTaxes` to be an array in the JSON string but got `%s`", jsonObj.get("additionalTaxes").toString()));
+          }
+
+          // validate the optional field `additionalTaxes` (array)
+          for (int i = 0; i < jsonArrayadditionalTaxes.size(); i++) {
+            ItemAdditionalTax.validateJsonElement(jsonArrayadditionalTaxes.get(i));
+          };
+        }
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

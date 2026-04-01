@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import org.openapitools.client.model.BillingIndicator;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,7 +50,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * DiscountOrSurcharge
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class DiscountOrSurcharge {
   public static final String SERIALIZED_NAME_LINE_NUMBER = "lineNumber";
   @SerializedName(SERIALIZED_NAME_LINE_NUMBER)
@@ -175,6 +176,26 @@ public class DiscountOrSurcharge {
   @javax.annotation.Nonnull
   private BigDecimal amount;
 
+  public static final String SERIALIZED_NAME_DESCRIPTION = "description";
+  @SerializedName(SERIALIZED_NAME_DESCRIPTION)
+  @javax.annotation.Nullable
+  private String description;
+
+  public static final String SERIALIZED_NAME_PERCENTAGE_VALUE = "percentageValue";
+  @SerializedName(SERIALIZED_NAME_PERCENTAGE_VALUE)
+  @javax.annotation.Nullable
+  private BigDecimal percentageValue;
+
+  public static final String SERIALIZED_NAME_ALTERNATIVE_CURRENCY_AMOUNT = "alternativeCurrencyAmount";
+  @SerializedName(SERIALIZED_NAME_ALTERNATIVE_CURRENCY_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal alternativeCurrencyAmount;
+
+  public static final String SERIALIZED_NAME_BILLING_INDICATOR = "billingIndicator";
+  @SerializedName(SERIALIZED_NAME_BILLING_INDICATOR)
+  @javax.annotation.Nullable
+  private BillingIndicator billingIndicator;
+
   public DiscountOrSurcharge() {
   }
 
@@ -254,6 +275,82 @@ public class DiscountOrSurcharge {
   }
 
 
+  public DiscountOrSurcharge description(@javax.annotation.Nullable String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Get description
+   * @return description
+   */
+  @javax.annotation.Nullable
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(@javax.annotation.Nullable String description) {
+    this.description = description;
+  }
+
+
+  public DiscountOrSurcharge percentageValue(@javax.annotation.Nullable BigDecimal percentageValue) {
+    this.percentageValue = percentageValue;
+    return this;
+  }
+
+  /**
+   * Get percentageValue
+   * @return percentageValue
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getPercentageValue() {
+    return percentageValue;
+  }
+
+  public void setPercentageValue(@javax.annotation.Nullable BigDecimal percentageValue) {
+    this.percentageValue = percentageValue;
+  }
+
+
+  public DiscountOrSurcharge alternativeCurrencyAmount(@javax.annotation.Nullable BigDecimal alternativeCurrencyAmount) {
+    this.alternativeCurrencyAmount = alternativeCurrencyAmount;
+    return this;
+  }
+
+  /**
+   * Get alternativeCurrencyAmount
+   * @return alternativeCurrencyAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getAlternativeCurrencyAmount() {
+    return alternativeCurrencyAmount;
+  }
+
+  public void setAlternativeCurrencyAmount(@javax.annotation.Nullable BigDecimal alternativeCurrencyAmount) {
+    this.alternativeCurrencyAmount = alternativeCurrencyAmount;
+  }
+
+
+  public DiscountOrSurcharge billingIndicator(@javax.annotation.Nullable BillingIndicator billingIndicator) {
+    this.billingIndicator = billingIndicator;
+    return this;
+  }
+
+  /**
+   * Get billingIndicator
+   * @return billingIndicator
+   */
+  @javax.annotation.Nullable
+  public BillingIndicator getBillingIndicator() {
+    return billingIndicator;
+  }
+
+  public void setBillingIndicator(@javax.annotation.Nullable BillingIndicator billingIndicator) {
+    this.billingIndicator = billingIndicator;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -267,12 +364,16 @@ public class DiscountOrSurcharge {
     return Objects.equals(this.lineNumber, discountOrSurcharge.lineNumber) &&
         Objects.equals(this.type, discountOrSurcharge.type) &&
         Objects.equals(this.valueType, discountOrSurcharge.valueType) &&
-        Objects.equals(this.amount, discountOrSurcharge.amount);
+        Objects.equals(this.amount, discountOrSurcharge.amount) &&
+        Objects.equals(this.description, discountOrSurcharge.description) &&
+        Objects.equals(this.percentageValue, discountOrSurcharge.percentageValue) &&
+        Objects.equals(this.alternativeCurrencyAmount, discountOrSurcharge.alternativeCurrencyAmount) &&
+        Objects.equals(this.billingIndicator, discountOrSurcharge.billingIndicator);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNumber, type, valueType, amount);
+    return Objects.hash(lineNumber, type, valueType, amount, description, percentageValue, alternativeCurrencyAmount, billingIndicator);
   }
 
   @Override
@@ -283,6 +384,10 @@ public class DiscountOrSurcharge {
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    valueType: ").append(toIndentedString(valueType)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    percentageValue: ").append(toIndentedString(percentageValue)).append("\n");
+    sb.append("    alternativeCurrencyAmount: ").append(toIndentedString(alternativeCurrencyAmount)).append("\n");
+    sb.append("    billingIndicator: ").append(toIndentedString(billingIndicator)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -301,7 +406,7 @@ public class DiscountOrSurcharge {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("lineNumber", "type", "valueType", "amount"));
+    openapiFields = new HashSet<String>(Arrays.asList("lineNumber", "type", "valueType", "amount", "description", "percentageValue", "alternativeCurrencyAmount", "billingIndicator"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("lineNumber", "type", "valueType", "amount"));
@@ -345,6 +450,13 @@ public class DiscountOrSurcharge {
       }
       // validate the required field `valueType`
       ValueTypeEnum.validateJsonElement(jsonObj.get("valueType"));
+      if ((jsonObj.get("description") != null && !jsonObj.get("description").isJsonNull()) && !jsonObj.get("description").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `description` to be a primitive type in the JSON string but got `%s`", jsonObj.get("description").toString()));
+      }
+      // validate the optional field `billingIndicator`
+      if (jsonObj.get("billingIndicator") != null && !jsonObj.get("billingIndicator").isJsonNull()) {
+        BillingIndicator.validateJsonElement(jsonObj.get("billingIndicator"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

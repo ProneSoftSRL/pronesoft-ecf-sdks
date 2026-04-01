@@ -26,7 +26,7 @@ type WebhookNotificationPayload struct {
 	Event WebhookEventType `json:"event"`
 	Timestamp time.Time `json:"timestamp"`
 	BusinessRnc string `json:"businessRnc"`
-	Data WebhookNotificationPayloadData `json:"data"`
+	Data map[string]interface{} `json:"data"`
 }
 
 type _WebhookNotificationPayload WebhookNotificationPayload
@@ -35,7 +35,7 @@ type _WebhookNotificationPayload WebhookNotificationPayload
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebhookNotificationPayload(id string, event WebhookEventType, timestamp time.Time, businessRnc string, data WebhookNotificationPayloadData) *WebhookNotificationPayload {
+func NewWebhookNotificationPayload(id string, event WebhookEventType, timestamp time.Time, businessRnc string, data map[string]interface{}) *WebhookNotificationPayload {
 	this := WebhookNotificationPayload{}
 	this.Id = id
 	this.Event = event
@@ -150,9 +150,9 @@ func (o *WebhookNotificationPayload) SetBusinessRnc(v string) {
 }
 
 // GetData returns the Data field value
-func (o *WebhookNotificationPayload) GetData() WebhookNotificationPayloadData {
+func (o *WebhookNotificationPayload) GetData() map[string]interface{} {
 	if o == nil {
-		var ret WebhookNotificationPayloadData
+		var ret map[string]interface{}
 		return ret
 	}
 
@@ -161,15 +161,15 @@ func (o *WebhookNotificationPayload) GetData() WebhookNotificationPayloadData {
 
 // GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
-func (o *WebhookNotificationPayload) GetDataOk() (*WebhookNotificationPayloadData, bool) {
+func (o *WebhookNotificationPayload) GetDataOk() (map[string]interface{}, bool) {
 	if o == nil {
-		return nil, false
+		return map[string]interface{}{}, false
 	}
-	return &o.Data, true
+	return o.Data, true
 }
 
 // SetData sets field value
-func (o *WebhookNotificationPayload) SetData(v WebhookNotificationPayloadData) {
+func (o *WebhookNotificationPayload) SetData(v map[string]interface{}) {
 	o.Data = v
 }
 

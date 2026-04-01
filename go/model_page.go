@@ -25,6 +25,17 @@ type Page struct {
 	LineFrom int32 `json:"lineFrom"`
 	LineTo int32 `json:"lineTo"`
 	Subtotal *float32 `json:"subtotal,omitempty"`
+	TaxableAmount *float32 `json:"taxableAmount,omitempty"`
+	TaxableAmount1 *float32 `json:"taxableAmount1,omitempty"`
+	TaxableAmount2 *float32 `json:"taxableAmount2,omitempty"`
+	TaxableAmount3 *float32 `json:"taxableAmount3,omitempty"`
+	TotalITBIS *float32 `json:"totalITBIS,omitempty"`
+	Itbis1 *float32 `json:"itbis1,omitempty"`
+	Itbis2 *float32 `json:"itbis2,omitempty"`
+	Itbis3 *float32 `json:"itbis3,omitempty"`
+	AdditionalTaxes *float32 `json:"additionalTaxes,omitempty"`
+	ExemptAmount *float32 `json:"exemptAmount,omitempty"`
+	NonBillableAmount *float32 `json:"nonBillableAmount,omitempty"`
 }
 
 type _Page Page
@@ -153,6 +164,358 @@ func (o *Page) SetSubtotal(v float32) {
 	o.Subtotal = &v
 }
 
+// GetTaxableAmount returns the TaxableAmount field value if set, zero value otherwise.
+func (o *Page) GetTaxableAmount() float32 {
+	if o == nil || IsNil(o.TaxableAmount) {
+		var ret float32
+		return ret
+	}
+	return *o.TaxableAmount
+}
+
+// GetTaxableAmountOk returns a tuple with the TaxableAmount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetTaxableAmountOk() (*float32, bool) {
+	if o == nil || IsNil(o.TaxableAmount) {
+		return nil, false
+	}
+	return o.TaxableAmount, true
+}
+
+// HasTaxableAmount returns a boolean if a field has been set.
+func (o *Page) HasTaxableAmount() bool {
+	if o != nil && !IsNil(o.TaxableAmount) {
+		return true
+	}
+
+	return false
+}
+
+// SetTaxableAmount gets a reference to the given float32 and assigns it to the TaxableAmount field.
+func (o *Page) SetTaxableAmount(v float32) {
+	o.TaxableAmount = &v
+}
+
+// GetTaxableAmount1 returns the TaxableAmount1 field value if set, zero value otherwise.
+func (o *Page) GetTaxableAmount1() float32 {
+	if o == nil || IsNil(o.TaxableAmount1) {
+		var ret float32
+		return ret
+	}
+	return *o.TaxableAmount1
+}
+
+// GetTaxableAmount1Ok returns a tuple with the TaxableAmount1 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetTaxableAmount1Ok() (*float32, bool) {
+	if o == nil || IsNil(o.TaxableAmount1) {
+		return nil, false
+	}
+	return o.TaxableAmount1, true
+}
+
+// HasTaxableAmount1 returns a boolean if a field has been set.
+func (o *Page) HasTaxableAmount1() bool {
+	if o != nil && !IsNil(o.TaxableAmount1) {
+		return true
+	}
+
+	return false
+}
+
+// SetTaxableAmount1 gets a reference to the given float32 and assigns it to the TaxableAmount1 field.
+func (o *Page) SetTaxableAmount1(v float32) {
+	o.TaxableAmount1 = &v
+}
+
+// GetTaxableAmount2 returns the TaxableAmount2 field value if set, zero value otherwise.
+func (o *Page) GetTaxableAmount2() float32 {
+	if o == nil || IsNil(o.TaxableAmount2) {
+		var ret float32
+		return ret
+	}
+	return *o.TaxableAmount2
+}
+
+// GetTaxableAmount2Ok returns a tuple with the TaxableAmount2 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetTaxableAmount2Ok() (*float32, bool) {
+	if o == nil || IsNil(o.TaxableAmount2) {
+		return nil, false
+	}
+	return o.TaxableAmount2, true
+}
+
+// HasTaxableAmount2 returns a boolean if a field has been set.
+func (o *Page) HasTaxableAmount2() bool {
+	if o != nil && !IsNil(o.TaxableAmount2) {
+		return true
+	}
+
+	return false
+}
+
+// SetTaxableAmount2 gets a reference to the given float32 and assigns it to the TaxableAmount2 field.
+func (o *Page) SetTaxableAmount2(v float32) {
+	o.TaxableAmount2 = &v
+}
+
+// GetTaxableAmount3 returns the TaxableAmount3 field value if set, zero value otherwise.
+func (o *Page) GetTaxableAmount3() float32 {
+	if o == nil || IsNil(o.TaxableAmount3) {
+		var ret float32
+		return ret
+	}
+	return *o.TaxableAmount3
+}
+
+// GetTaxableAmount3Ok returns a tuple with the TaxableAmount3 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetTaxableAmount3Ok() (*float32, bool) {
+	if o == nil || IsNil(o.TaxableAmount3) {
+		return nil, false
+	}
+	return o.TaxableAmount3, true
+}
+
+// HasTaxableAmount3 returns a boolean if a field has been set.
+func (o *Page) HasTaxableAmount3() bool {
+	if o != nil && !IsNil(o.TaxableAmount3) {
+		return true
+	}
+
+	return false
+}
+
+// SetTaxableAmount3 gets a reference to the given float32 and assigns it to the TaxableAmount3 field.
+func (o *Page) SetTaxableAmount3(v float32) {
+	o.TaxableAmount3 = &v
+}
+
+// GetTotalITBIS returns the TotalITBIS field value if set, zero value otherwise.
+func (o *Page) GetTotalITBIS() float32 {
+	if o == nil || IsNil(o.TotalITBIS) {
+		var ret float32
+		return ret
+	}
+	return *o.TotalITBIS
+}
+
+// GetTotalITBISOk returns a tuple with the TotalITBIS field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetTotalITBISOk() (*float32, bool) {
+	if o == nil || IsNil(o.TotalITBIS) {
+		return nil, false
+	}
+	return o.TotalITBIS, true
+}
+
+// HasTotalITBIS returns a boolean if a field has been set.
+func (o *Page) HasTotalITBIS() bool {
+	if o != nil && !IsNil(o.TotalITBIS) {
+		return true
+	}
+
+	return false
+}
+
+// SetTotalITBIS gets a reference to the given float32 and assigns it to the TotalITBIS field.
+func (o *Page) SetTotalITBIS(v float32) {
+	o.TotalITBIS = &v
+}
+
+// GetItbis1 returns the Itbis1 field value if set, zero value otherwise.
+func (o *Page) GetItbis1() float32 {
+	if o == nil || IsNil(o.Itbis1) {
+		var ret float32
+		return ret
+	}
+	return *o.Itbis1
+}
+
+// GetItbis1Ok returns a tuple with the Itbis1 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetItbis1Ok() (*float32, bool) {
+	if o == nil || IsNil(o.Itbis1) {
+		return nil, false
+	}
+	return o.Itbis1, true
+}
+
+// HasItbis1 returns a boolean if a field has been set.
+func (o *Page) HasItbis1() bool {
+	if o != nil && !IsNil(o.Itbis1) {
+		return true
+	}
+
+	return false
+}
+
+// SetItbis1 gets a reference to the given float32 and assigns it to the Itbis1 field.
+func (o *Page) SetItbis1(v float32) {
+	o.Itbis1 = &v
+}
+
+// GetItbis2 returns the Itbis2 field value if set, zero value otherwise.
+func (o *Page) GetItbis2() float32 {
+	if o == nil || IsNil(o.Itbis2) {
+		var ret float32
+		return ret
+	}
+	return *o.Itbis2
+}
+
+// GetItbis2Ok returns a tuple with the Itbis2 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetItbis2Ok() (*float32, bool) {
+	if o == nil || IsNil(o.Itbis2) {
+		return nil, false
+	}
+	return o.Itbis2, true
+}
+
+// HasItbis2 returns a boolean if a field has been set.
+func (o *Page) HasItbis2() bool {
+	if o != nil && !IsNil(o.Itbis2) {
+		return true
+	}
+
+	return false
+}
+
+// SetItbis2 gets a reference to the given float32 and assigns it to the Itbis2 field.
+func (o *Page) SetItbis2(v float32) {
+	o.Itbis2 = &v
+}
+
+// GetItbis3 returns the Itbis3 field value if set, zero value otherwise.
+func (o *Page) GetItbis3() float32 {
+	if o == nil || IsNil(o.Itbis3) {
+		var ret float32
+		return ret
+	}
+	return *o.Itbis3
+}
+
+// GetItbis3Ok returns a tuple with the Itbis3 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetItbis3Ok() (*float32, bool) {
+	if o == nil || IsNil(o.Itbis3) {
+		return nil, false
+	}
+	return o.Itbis3, true
+}
+
+// HasItbis3 returns a boolean if a field has been set.
+func (o *Page) HasItbis3() bool {
+	if o != nil && !IsNil(o.Itbis3) {
+		return true
+	}
+
+	return false
+}
+
+// SetItbis3 gets a reference to the given float32 and assigns it to the Itbis3 field.
+func (o *Page) SetItbis3(v float32) {
+	o.Itbis3 = &v
+}
+
+// GetAdditionalTaxes returns the AdditionalTaxes field value if set, zero value otherwise.
+func (o *Page) GetAdditionalTaxes() float32 {
+	if o == nil || IsNil(o.AdditionalTaxes) {
+		var ret float32
+		return ret
+	}
+	return *o.AdditionalTaxes
+}
+
+// GetAdditionalTaxesOk returns a tuple with the AdditionalTaxes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetAdditionalTaxesOk() (*float32, bool) {
+	if o == nil || IsNil(o.AdditionalTaxes) {
+		return nil, false
+	}
+	return o.AdditionalTaxes, true
+}
+
+// HasAdditionalTaxes returns a boolean if a field has been set.
+func (o *Page) HasAdditionalTaxes() bool {
+	if o != nil && !IsNil(o.AdditionalTaxes) {
+		return true
+	}
+
+	return false
+}
+
+// SetAdditionalTaxes gets a reference to the given float32 and assigns it to the AdditionalTaxes field.
+func (o *Page) SetAdditionalTaxes(v float32) {
+	o.AdditionalTaxes = &v
+}
+
+// GetExemptAmount returns the ExemptAmount field value if set, zero value otherwise.
+func (o *Page) GetExemptAmount() float32 {
+	if o == nil || IsNil(o.ExemptAmount) {
+		var ret float32
+		return ret
+	}
+	return *o.ExemptAmount
+}
+
+// GetExemptAmountOk returns a tuple with the ExemptAmount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetExemptAmountOk() (*float32, bool) {
+	if o == nil || IsNil(o.ExemptAmount) {
+		return nil, false
+	}
+	return o.ExemptAmount, true
+}
+
+// HasExemptAmount returns a boolean if a field has been set.
+func (o *Page) HasExemptAmount() bool {
+	if o != nil && !IsNil(o.ExemptAmount) {
+		return true
+	}
+
+	return false
+}
+
+// SetExemptAmount gets a reference to the given float32 and assigns it to the ExemptAmount field.
+func (o *Page) SetExemptAmount(v float32) {
+	o.ExemptAmount = &v
+}
+
+// GetNonBillableAmount returns the NonBillableAmount field value if set, zero value otherwise.
+func (o *Page) GetNonBillableAmount() float32 {
+	if o == nil || IsNil(o.NonBillableAmount) {
+		var ret float32
+		return ret
+	}
+	return *o.NonBillableAmount
+}
+
+// GetNonBillableAmountOk returns a tuple with the NonBillableAmount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Page) GetNonBillableAmountOk() (*float32, bool) {
+	if o == nil || IsNil(o.NonBillableAmount) {
+		return nil, false
+	}
+	return o.NonBillableAmount, true
+}
+
+// HasNonBillableAmount returns a boolean if a field has been set.
+func (o *Page) HasNonBillableAmount() bool {
+	if o != nil && !IsNil(o.NonBillableAmount) {
+		return true
+	}
+
+	return false
+}
+
+// SetNonBillableAmount gets a reference to the given float32 and assigns it to the NonBillableAmount field.
+func (o *Page) SetNonBillableAmount(v float32) {
+	o.NonBillableAmount = &v
+}
+
 func (o Page) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -168,6 +531,39 @@ func (o Page) ToMap() (map[string]interface{}, error) {
 	toSerialize["lineTo"] = o.LineTo
 	if !IsNil(o.Subtotal) {
 		toSerialize["subtotal"] = o.Subtotal
+	}
+	if !IsNil(o.TaxableAmount) {
+		toSerialize["taxableAmount"] = o.TaxableAmount
+	}
+	if !IsNil(o.TaxableAmount1) {
+		toSerialize["taxableAmount1"] = o.TaxableAmount1
+	}
+	if !IsNil(o.TaxableAmount2) {
+		toSerialize["taxableAmount2"] = o.TaxableAmount2
+	}
+	if !IsNil(o.TaxableAmount3) {
+		toSerialize["taxableAmount3"] = o.TaxableAmount3
+	}
+	if !IsNil(o.TotalITBIS) {
+		toSerialize["totalITBIS"] = o.TotalITBIS
+	}
+	if !IsNil(o.Itbis1) {
+		toSerialize["itbis1"] = o.Itbis1
+	}
+	if !IsNil(o.Itbis2) {
+		toSerialize["itbis2"] = o.Itbis2
+	}
+	if !IsNil(o.Itbis3) {
+		toSerialize["itbis3"] = o.Itbis3
+	}
+	if !IsNil(o.AdditionalTaxes) {
+		toSerialize["additionalTaxes"] = o.AdditionalTaxes
+	}
+	if !IsNil(o.ExemptAmount) {
+		toSerialize["exemptAmount"] = o.ExemptAmount
+	}
+	if !IsNil(o.NonBillableAmount) {
+		toSerialize["nonBillableAmount"] = o.NonBillableAmount
 	}
 	return toSerialize, nil
 }

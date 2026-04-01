@@ -6,7 +6,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **modified_invoice_number** | **str** |  | 
+**other_contributor_rnc** | **str** |  | [optional] 
+**modified_invoice_date** | **date** |  | [optional] 
 **modification_code** | **str** |  | 
+**modification_reason** | **str** |  | [optional] 
 
 ## Example
 

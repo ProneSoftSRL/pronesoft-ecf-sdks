@@ -64,6 +64,11 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'expiration_date' => '\DateTime',
         'income_type' => 'string',
         'payment_type' => 'string',
+        'payment_deadline' => '\DateTime',
+        'payment_terms' => 'string',
+        'payment_account_type' => '\PronesoftEcf\Model\AccountType',
+        'payment_account_number' => 'string',
+        'payment_bank' => 'string',
         'credit_note_indicator' => 'string',
         'issuer_rnc' => 'string',
         'issuer_business_name' => 'string',
@@ -96,6 +101,11 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'expiration_date' => 'date-time',
         'income_type' => null,
         'payment_type' => null,
+        'payment_deadline' => 'date-time',
+        'payment_terms' => null,
+        'payment_account_type' => null,
+        'payment_account_number' => null,
+        'payment_bank' => null,
         'credit_note_indicator' => null,
         'issuer_rnc' => null,
         'issuer_business_name' => null,
@@ -126,6 +136,11 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'expiration_date' => false,
         'income_type' => false,
         'payment_type' => false,
+        'payment_deadline' => false,
+        'payment_terms' => false,
+        'payment_account_type' => false,
+        'payment_account_number' => false,
+        'payment_bank' => false,
         'credit_note_indicator' => false,
         'issuer_rnc' => false,
         'issuer_business_name' => false,
@@ -236,6 +251,11 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'expiration_date' => 'expirationDate',
         'income_type' => 'incomeType',
         'payment_type' => 'paymentType',
+        'payment_deadline' => 'paymentDeadline',
+        'payment_terms' => 'paymentTerms',
+        'payment_account_type' => 'paymentAccountType',
+        'payment_account_number' => 'paymentAccountNumber',
+        'payment_bank' => 'paymentBank',
         'credit_note_indicator' => 'creditNoteIndicator',
         'issuer_rnc' => 'issuerRNC',
         'issuer_business_name' => 'issuerBusinessName',
@@ -266,6 +286,11 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'expiration_date' => 'setExpirationDate',
         'income_type' => 'setIncomeType',
         'payment_type' => 'setPaymentType',
+        'payment_deadline' => 'setPaymentDeadline',
+        'payment_terms' => 'setPaymentTerms',
+        'payment_account_type' => 'setPaymentAccountType',
+        'payment_account_number' => 'setPaymentAccountNumber',
+        'payment_bank' => 'setPaymentBank',
         'credit_note_indicator' => 'setCreditNoteIndicator',
         'issuer_rnc' => 'setIssuerRnc',
         'issuer_business_name' => 'setIssuerBusinessName',
@@ -296,6 +321,11 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         'expiration_date' => 'getExpirationDate',
         'income_type' => 'getIncomeType',
         'payment_type' => 'getPaymentType',
+        'payment_deadline' => 'getPaymentDeadline',
+        'payment_terms' => 'getPaymentTerms',
+        'payment_account_type' => 'getPaymentAccountType',
+        'payment_account_number' => 'getPaymentAccountNumber',
+        'payment_bank' => 'getPaymentBank',
         'credit_note_indicator' => 'getCreditNoteIndicator',
         'issuer_rnc' => 'getIssuerRnc',
         'issuer_business_name' => 'getIssuerBusinessName',
@@ -432,6 +462,11 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
         $this->setIfExists('expiration_date', $data ?? [], null);
         $this->setIfExists('income_type', $data ?? [], null);
         $this->setIfExists('payment_type', $data ?? [], null);
+        $this->setIfExists('payment_deadline', $data ?? [], null);
+        $this->setIfExists('payment_terms', $data ?? [], null);
+        $this->setIfExists('payment_account_type', $data ?? [], null);
+        $this->setIfExists('payment_account_number', $data ?? [], null);
+        $this->setIfExists('payment_bank', $data ?? [], null);
         $this->setIfExists('credit_note_indicator', $data ?? [], null);
         $this->setIfExists('issuer_rnc', $data ?? [], null);
         $this->setIfExists('issuer_business_name', $data ?? [], null);
@@ -512,6 +547,18 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
                 $this->container['payment_type'],
                 implode("', '", $allowedValues)
             );
+        }
+
+        if (!is_null($this->container['payment_terms']) && (mb_strlen($this->container['payment_terms']) > 15)) {
+            $invalidProperties[] = "invalid value for 'payment_terms', the character length must be smaller than or equal to 15.";
+        }
+
+        if (!is_null($this->container['payment_account_number']) && (mb_strlen($this->container['payment_account_number']) > 28)) {
+            $invalidProperties[] = "invalid value for 'payment_account_number', the character length must be smaller than or equal to 28.";
+        }
+
+        if (!is_null($this->container['payment_bank']) && (mb_strlen($this->container['payment_bank']) > 75)) {
+            $invalidProperties[] = "invalid value for 'payment_bank', the character length must be smaller than or equal to 75.";
         }
 
         $allowedValues = $this->getCreditNoteIndicatorAllowableValues();
@@ -784,6 +831,153 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     }
 
     /**
+     * Gets payment_deadline
+     *
+     * @return \DateTime|null
+     */
+    public function getPaymentDeadline()
+    {
+        return $this->container['payment_deadline'];
+    }
+
+    /**
+     * Sets payment_deadline
+     *
+     * @param \DateTime|null $payment_deadline payment_deadline
+     *
+     * @return self
+     */
+    public function setPaymentDeadline($payment_deadline)
+    {
+        if (is_null($payment_deadline)) {
+            throw new \InvalidArgumentException('non-nullable payment_deadline cannot be null');
+        }
+        $this->container['payment_deadline'] = $payment_deadline;
+
+        return $this;
+    }
+
+    /**
+     * Gets payment_terms
+     *
+     * @return string|null
+     */
+    public function getPaymentTerms()
+    {
+        return $this->container['payment_terms'];
+    }
+
+    /**
+     * Sets payment_terms
+     *
+     * @param string|null $payment_terms payment_terms
+     *
+     * @return self
+     */
+    public function setPaymentTerms($payment_terms)
+    {
+        if (is_null($payment_terms)) {
+            throw new \InvalidArgumentException('non-nullable payment_terms cannot be null');
+        }
+        if ((mb_strlen($payment_terms) > 15)) {
+            throw new \InvalidArgumentException('invalid length for $payment_terms when calling ElectronicDocument., must be smaller than or equal to 15.');
+        }
+
+        $this->container['payment_terms'] = $payment_terms;
+
+        return $this;
+    }
+
+    /**
+     * Gets payment_account_type
+     *
+     * @return \PronesoftEcf\Model\AccountType|null
+     */
+    public function getPaymentAccountType()
+    {
+        return $this->container['payment_account_type'];
+    }
+
+    /**
+     * Sets payment_account_type
+     *
+     * @param \PronesoftEcf\Model\AccountType|null $payment_account_type payment_account_type
+     *
+     * @return self
+     */
+    public function setPaymentAccountType($payment_account_type)
+    {
+        if (is_null($payment_account_type)) {
+            throw new \InvalidArgumentException('non-nullable payment_account_type cannot be null');
+        }
+        $this->container['payment_account_type'] = $payment_account_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets payment_account_number
+     *
+     * @return string|null
+     */
+    public function getPaymentAccountNumber()
+    {
+        return $this->container['payment_account_number'];
+    }
+
+    /**
+     * Sets payment_account_number
+     *
+     * @param string|null $payment_account_number payment_account_number
+     *
+     * @return self
+     */
+    public function setPaymentAccountNumber($payment_account_number)
+    {
+        if (is_null($payment_account_number)) {
+            throw new \InvalidArgumentException('non-nullable payment_account_number cannot be null');
+        }
+        if ((mb_strlen($payment_account_number) > 28)) {
+            throw new \InvalidArgumentException('invalid length for $payment_account_number when calling ElectronicDocument., must be smaller than or equal to 28.');
+        }
+
+        $this->container['payment_account_number'] = $payment_account_number;
+
+        return $this;
+    }
+
+    /**
+     * Gets payment_bank
+     *
+     * @return string|null
+     */
+    public function getPaymentBank()
+    {
+        return $this->container['payment_bank'];
+    }
+
+    /**
+     * Sets payment_bank
+     *
+     * @param string|null $payment_bank payment_bank
+     *
+     * @return self
+     */
+    public function setPaymentBank($payment_bank)
+    {
+        if (is_null($payment_bank)) {
+            throw new \InvalidArgumentException('non-nullable payment_bank cannot be null');
+        }
+        if ((mb_strlen($payment_bank) > 75)) {
+            throw new \InvalidArgumentException('invalid length for $payment_bank when calling ElectronicDocument., must be smaller than or equal to 75.');
+        }
+
+        $this->container['payment_bank'] = $payment_bank;
+
+        return $this;
+    }
+
+    /**
      * Gets credit_note_indicator
      *
      * @return string|null
@@ -796,7 +990,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets credit_note_indicator
      *
-     * @param string|null $credit_note_indicator 0: ≤30 días, 1: >30 días
+     * @param string|null $credit_note_indicator 0: emision affected ≤ 30 days, 1: > 30 days
      *
      * @return self
      */

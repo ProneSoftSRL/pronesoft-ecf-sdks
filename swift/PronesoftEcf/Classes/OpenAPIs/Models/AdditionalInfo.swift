@@ -14,15 +14,21 @@ public struct AdditionalInfo: Codable, JSONEncodable, Hashable {
 
     public var grossWeight: Double?
     public var packageQuantity: Double?
+    public var containerId: String?
+    public var sealId: String?
 
-    public init(grossWeight: Double? = nil, packageQuantity: Double? = nil) {
+    public init(grossWeight: Double? = nil, packageQuantity: Double? = nil, containerId: String? = nil, sealId: String? = nil) {
         self.grossWeight = grossWeight
         self.packageQuantity = packageQuantity
+        self.containerId = containerId
+        self.sealId = sealId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case grossWeight
         case packageQuantity
+        case containerId
+        case sealId
     }
 
     // Encodable protocol methods
@@ -31,6 +37,8 @@ public struct AdditionalInfo: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(grossWeight, forKey: .grossWeight)
         try container.encodeIfPresent(packageQuantity, forKey: .packageQuantity)
+        try container.encodeIfPresent(containerId, forKey: .containerId)
+        try container.encodeIfPresent(sealId, forKey: .sealId)
     }
 }
 

@@ -6,6 +6,9 @@
 | ------------ | ------------- | ------------- | ------------- |
 | **modifiedInvoiceNumber** | **kotlin.String** |  |  |
 | **modificationCode** | [**inline**](#ModificationCode) |  |  |
+| **otherContributorRNC** | **kotlin.String** |  |  [optional] |
+| **modifiedInvoiceDate** | [**java.time.LocalDate**](java.time.LocalDate.md) |  |  [optional] |
+| **modificationReason** | **kotlin.String** |  |  [optional] |
 
 
 <a id="ModificationCode"></a>

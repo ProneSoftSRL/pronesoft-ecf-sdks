@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
@@ -48,7 +49,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * Transport
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Transport {
   public static final String SERIALIZED_NAME_DRIVER = "driver";
   @SerializedName(SERIALIZED_NAME_DRIVER)
@@ -64,6 +65,21 @@ public class Transport {
   @SerializedName(SERIALIZED_NAME_LICENSE_PLATE)
   @javax.annotation.Nullable
   private String licensePlate;
+
+  public static final String SERIALIZED_NAME_ROUTE = "route";
+  @SerializedName(SERIALIZED_NAME_ROUTE)
+  @javax.annotation.Nullable
+  private String route;
+
+  public static final String SERIALIZED_NAME_DEPARTURE_DATE = "departureDate";
+  @SerializedName(SERIALIZED_NAME_DEPARTURE_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime departureDate;
+
+  public static final String SERIALIZED_NAME_ARRIVAL_DATE = "arrivalDate";
+  @SerializedName(SERIALIZED_NAME_ARRIVAL_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime arrivalDate;
 
   public Transport() {
   }
@@ -125,6 +141,63 @@ public class Transport {
   }
 
 
+  public Transport route(@javax.annotation.Nullable String route) {
+    this.route = route;
+    return this;
+  }
+
+  /**
+   * Get route
+   * @return route
+   */
+  @javax.annotation.Nullable
+  public String getRoute() {
+    return route;
+  }
+
+  public void setRoute(@javax.annotation.Nullable String route) {
+    this.route = route;
+  }
+
+
+  public Transport departureDate(@javax.annotation.Nullable OffsetDateTime departureDate) {
+    this.departureDate = departureDate;
+    return this;
+  }
+
+  /**
+   * Get departureDate
+   * @return departureDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getDepartureDate() {
+    return departureDate;
+  }
+
+  public void setDepartureDate(@javax.annotation.Nullable OffsetDateTime departureDate) {
+    this.departureDate = departureDate;
+  }
+
+
+  public Transport arrivalDate(@javax.annotation.Nullable OffsetDateTime arrivalDate) {
+    this.arrivalDate = arrivalDate;
+    return this;
+  }
+
+  /**
+   * Get arrivalDate
+   * @return arrivalDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getArrivalDate() {
+    return arrivalDate;
+  }
+
+  public void setArrivalDate(@javax.annotation.Nullable OffsetDateTime arrivalDate) {
+    this.arrivalDate = arrivalDate;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -137,12 +210,15 @@ public class Transport {
     Transport transport = (Transport) o;
     return Objects.equals(this.driver, transport.driver) &&
         Objects.equals(this.vehicleId, transport.vehicleId) &&
-        Objects.equals(this.licensePlate, transport.licensePlate);
+        Objects.equals(this.licensePlate, transport.licensePlate) &&
+        Objects.equals(this.route, transport.route) &&
+        Objects.equals(this.departureDate, transport.departureDate) &&
+        Objects.equals(this.arrivalDate, transport.arrivalDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(driver, vehicleId, licensePlate);
+    return Objects.hash(driver, vehicleId, licensePlate, route, departureDate, arrivalDate);
   }
 
   @Override
@@ -152,6 +228,9 @@ public class Transport {
     sb.append("    driver: ").append(toIndentedString(driver)).append("\n");
     sb.append("    vehicleId: ").append(toIndentedString(vehicleId)).append("\n");
     sb.append("    licensePlate: ").append(toIndentedString(licensePlate)).append("\n");
+    sb.append("    route: ").append(toIndentedString(route)).append("\n");
+    sb.append("    departureDate: ").append(toIndentedString(departureDate)).append("\n");
+    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -170,7 +249,7 @@ public class Transport {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("driver", "vehicleId", "licensePlate"));
+    openapiFields = new HashSet<String>(Arrays.asList("driver", "vehicleId", "licensePlate", "route", "departureDate", "arrivalDate"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -205,6 +284,9 @@ public class Transport {
       }
       if ((jsonObj.get("licensePlate") != null && !jsonObj.get("licensePlate").isJsonNull()) && !jsonObj.get("licensePlate").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `licensePlate` to be a primitive type in the JSON string but got `%s`", jsonObj.get("licensePlate").toString()));
+      }
+      if ((jsonObj.get("route") != null && !jsonObj.get("route").isJsonNull()) && !jsonObj.get("route").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `route` to be a primitive type in the JSON string but got `%s`", jsonObj.get("route").toString()));
       }
   }
 

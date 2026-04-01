@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **event_types** | [**List[WebhookEventType]**](WebhookEventType.md) |  | [optional] 
 **is_active** | **bool** |  | [optional] 
 **created_at** | **datetime** |  | [optional] 
+**last_triggered_at** | **datetime** |  | [optional] 
 
 ## Example
 

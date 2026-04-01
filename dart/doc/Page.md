@@ -12,6 +12,17 @@ Name | Type | Description | Notes
 **lineFrom** | **int** |  | 
 **lineTo** | **int** |  | 
 **subtotal** | **num** |  | [optional] 
+**taxableAmount** | **num** |  | [optional] 
+**taxableAmount1** | **num** |  | [optional] 
+**taxableAmount2** | **num** |  | [optional] 
+**taxableAmount3** | **num** |  | [optional] 
+**totalITBIS** | **num** |  | [optional] 
+**itbis1** | **num** |  | [optional] 
+**itbis2** | **num** |  | [optional] 
+**itbis3** | **num** |  | [optional] 
+**additionalTaxes** | **num** |  | [optional] 
+**exemptAmount** | **num** |  | [optional] 
+**nonBillableAmount** | **num** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

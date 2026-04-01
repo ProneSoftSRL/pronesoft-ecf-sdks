@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 # **createTaxSequence**
 ```swift
-    open class func createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func createTaxSequence(xTenantId: UUID, createTaxSequenceRequest: CreateTaxSequenceRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Crear nueva secuencia fiscal
@@ -21,10 +21,11 @@ Crear nueva secuencia fiscal
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
+let xTenantId = 987 // UUID | 
 let createTaxSequenceRequest = CreateTaxSequenceRequest(type: InvoiceType(), from: 123, to: 123) // CreateTaxSequenceRequest | 
 
 // Crear nueva secuencia fiscal
-TaxSequencesAPI.createTaxSequence(createTaxSequenceRequest: createTaxSequenceRequest) { (response, error) in
+TaxSequencesAPI.createTaxSequence(xTenantId: xTenantId, createTaxSequenceRequest: createTaxSequenceRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -40,6 +41,7 @@ TaxSequencesAPI.createTaxSequence(createTaxSequenceRequest: createTaxSequenceReq
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **xTenantId** | **UUID** |  | 
  **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  | 
 
 ### Return type

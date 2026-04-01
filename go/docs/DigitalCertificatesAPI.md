@@ -28,8 +28,8 @@ import (
 
 func main() {
 	rnc := "rnc_example" // string | 
-	file := os.NewFile(1234, "some_file") // *os.File | Archivo .p12 o .pfx
-	password := "password_example" // string | Contraseña del certificado
+	file := os.NewFile(1234, "some_file") // *os.File | 
+	password := "password_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -59,8 +59,8 @@ Other parameters are passed through a pointer to a apiUploadCertificateRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **file** | ***os.File** | Archivo .p12 o .pfx | 
- **password** | **string** | Contraseña del certificado | 
+ **file** | ***os.File** |  | 
+ **password** | **string** |  | 
 
 ### Return type
 

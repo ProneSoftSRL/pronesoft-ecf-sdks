@@ -22,11 +22,19 @@ module PronesoftEcf
     COMMERCIAL_APPROVAL = "commercial.approval".freeze
     CERTIFICATE_EXPIRING = "certificate.expiring".freeze
     PLAN_USAGE_ALERT = "plan.usage_alert".freeze
+    PLAN_PAYMENT_FAILED = "plan.payment_failed".freeze
+    BILLING_INVOICE_READY = "billing.invoice_ready".freeze
     SEQUENCE_DEPLETED = "sequence.depleted".freeze
+    SEQUENCE_VOIDED = "sequence.voided".freeze
+    BRANCH_CREATED = "branch.created".freeze
+    BRANCH_STATUS_CHANGED = "branch.status_changed".freeze
+    MEMBER_INVITED = "member.invited".freeze
+    MEMBER_JOINED = "member.joined".freeze
+    MEMBER_REMOVED = "member.removed".freeze
     CERTIFICATION_COMPLETED = "certification.completed".freeze
 
     def self.all_vars
-      @all_vars ||= [DOCUMENT_RECEIVED, DOCUMENT_STATUS_CHANGED, DOCUMENT_VALIDATION_ERROR, DOCUMENT_CONTINGENCY_ACTIVATED, COMMERCIAL_APPROVAL, CERTIFICATE_EXPIRING, PLAN_USAGE_ALERT, SEQUENCE_DEPLETED, CERTIFICATION_COMPLETED].freeze
+      @all_vars ||= [DOCUMENT_RECEIVED, DOCUMENT_STATUS_CHANGED, DOCUMENT_VALIDATION_ERROR, DOCUMENT_CONTINGENCY_ACTIVATED, COMMERCIAL_APPROVAL, CERTIFICATE_EXPIRING, PLAN_USAGE_ALERT, PLAN_PAYMENT_FAILED, BILLING_INVOICE_READY, SEQUENCE_DEPLETED, SEQUENCE_VOIDED, BRANCH_CREATED, BRANCH_STATUS_CHANGED, MEMBER_INVITED, MEMBER_JOINED, MEMBER_REMOVED, CERTIFICATION_COMPLETED].freeze
     end
 
     # Builds the enum from string

@@ -14,31 +14,79 @@ class ReferenceInfo {
   /// Returns a new [ReferenceInfo] instance.
   ReferenceInfo({
     required this.modifiedInvoiceNumber,
+    this.otherContributorRNC,
+    this.modifiedInvoiceDate,
     required this.modificationCode,
+    this.modificationReason,
   });
 
   String modifiedInvoiceNumber;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? otherContributorRNC;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? modifiedInvoiceDate;
+
   ReferenceInfoModificationCodeEnum modificationCode;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? modificationReason;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReferenceInfo &&
     other.modifiedInvoiceNumber == modifiedInvoiceNumber &&
-    other.modificationCode == modificationCode;
+    other.otherContributorRNC == otherContributorRNC &&
+    other.modifiedInvoiceDate == modifiedInvoiceDate &&
+    other.modificationCode == modificationCode &&
+    other.modificationReason == modificationReason;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (modifiedInvoiceNumber.hashCode) +
-    (modificationCode.hashCode);
+    (otherContributorRNC == null ? 0 : otherContributorRNC!.hashCode) +
+    (modifiedInvoiceDate == null ? 0 : modifiedInvoiceDate!.hashCode) +
+    (modificationCode.hashCode) +
+    (modificationReason == null ? 0 : modificationReason!.hashCode);
 
   @override
-  String toString() => 'ReferenceInfo[modifiedInvoiceNumber=$modifiedInvoiceNumber, modificationCode=$modificationCode]';
+  String toString() => 'ReferenceInfo[modifiedInvoiceNumber=$modifiedInvoiceNumber, otherContributorRNC=$otherContributorRNC, modifiedInvoiceDate=$modifiedInvoiceDate, modificationCode=$modificationCode, modificationReason=$modificationReason]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'modifiedInvoiceNumber'] = this.modifiedInvoiceNumber;
+    if (this.otherContributorRNC != null) {
+      json[r'otherContributorRNC'] = this.otherContributorRNC;
+    } else {
+      json[r'otherContributorRNC'] = null;
+    }
+    if (this.modifiedInvoiceDate != null) {
+      json[r'modifiedInvoiceDate'] = _dateFormatter.format(this.modifiedInvoiceDate!.toUtc());
+    } else {
+      json[r'modifiedInvoiceDate'] = null;
+    }
       json[r'modificationCode'] = this.modificationCode;
+    if (this.modificationReason != null) {
+      json[r'modificationReason'] = this.modificationReason;
+    } else {
+      json[r'modificationReason'] = null;
+    }
     return json;
   }
 
@@ -62,7 +110,10 @@ class ReferenceInfo {
 
       return ReferenceInfo(
         modifiedInvoiceNumber: mapValueOfType<String>(json, r'modifiedInvoiceNumber')!,
+        otherContributorRNC: mapValueOfType<String>(json, r'otherContributorRNC'),
+        modifiedInvoiceDate: mapDateTime(json, r'modifiedInvoiceDate', r''),
         modificationCode: ReferenceInfoModificationCodeEnum.fromJson(json[r'modificationCode'])!,
+        modificationReason: mapValueOfType<String>(json, r'modificationReason'),
       );
     }
     return null;

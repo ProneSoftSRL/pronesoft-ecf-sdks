@@ -58,11 +58,29 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPITypes = [
         'taxable_amount' => 'float',
+        'taxable_amount1' => 'float',
+        'taxable_amount2' => 'float',
+        'taxable_amount3' => 'float',
+        'exempt_amount' => 'float',
+        'itbis_rate1' => 'float',
+        'itbis_rate2' => 'float',
+        'itbis_rate3' => 'float',
         'total_itbis' => 'float',
-        'total_amount' => 'float',
-        'amount_to_pay' => 'float',
+        'itbis1' => 'float',
+        'itbis2' => 'float',
+        'itbis3' => 'float',
         'additional_tax_amount' => 'float',
-        'exempt_amount' => 'float'
+        'additional_taxes' => '\PronesoftEcf\Model\ItemAdditionalTax[]',
+        'total_amount' => 'float',
+        'non_billable_amount' => 'float',
+        'period_amount' => 'float',
+        'previous_balance' => 'float',
+        'advance_payment_amount' => 'float',
+        'amount_to_pay' => 'float',
+        'total_withheld_itbis' => 'float',
+        'total_income_tax_withholding' => 'float',
+        'total_itbis_perception' => 'float',
+        'total_isr_perception' => 'float'
     ];
 
     /**
@@ -74,11 +92,29 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPIFormats = [
         'taxable_amount' => null,
+        'taxable_amount1' => null,
+        'taxable_amount2' => null,
+        'taxable_amount3' => null,
+        'exempt_amount' => null,
+        'itbis_rate1' => null,
+        'itbis_rate2' => null,
+        'itbis_rate3' => null,
         'total_itbis' => null,
-        'total_amount' => null,
-        'amount_to_pay' => null,
+        'itbis1' => null,
+        'itbis2' => null,
+        'itbis3' => null,
         'additional_tax_amount' => null,
-        'exempt_amount' => null
+        'additional_taxes' => null,
+        'total_amount' => null,
+        'non_billable_amount' => null,
+        'period_amount' => null,
+        'previous_balance' => null,
+        'advance_payment_amount' => null,
+        'amount_to_pay' => null,
+        'total_withheld_itbis' => null,
+        'total_income_tax_withholding' => null,
+        'total_itbis_perception' => null,
+        'total_isr_perception' => null
     ];
 
     /**
@@ -88,11 +124,29 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static array $openAPINullables = [
         'taxable_amount' => false,
+        'taxable_amount1' => false,
+        'taxable_amount2' => false,
+        'taxable_amount3' => false,
+        'exempt_amount' => false,
+        'itbis_rate1' => false,
+        'itbis_rate2' => false,
+        'itbis_rate3' => false,
         'total_itbis' => false,
-        'total_amount' => false,
-        'amount_to_pay' => false,
+        'itbis1' => false,
+        'itbis2' => false,
+        'itbis3' => false,
         'additional_tax_amount' => false,
-        'exempt_amount' => false
+        'additional_taxes' => false,
+        'total_amount' => false,
+        'non_billable_amount' => false,
+        'period_amount' => false,
+        'previous_balance' => false,
+        'advance_payment_amount' => false,
+        'amount_to_pay' => false,
+        'total_withheld_itbis' => false,
+        'total_income_tax_withholding' => false,
+        'total_itbis_perception' => false,
+        'total_isr_perception' => false
     ];
 
     /**
@@ -182,11 +236,29 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $attributeMap = [
         'taxable_amount' => 'taxableAmount',
+        'taxable_amount1' => 'taxableAmount1',
+        'taxable_amount2' => 'taxableAmount2',
+        'taxable_amount3' => 'taxableAmount3',
+        'exempt_amount' => 'exemptAmount',
+        'itbis_rate1' => 'itbisRate1',
+        'itbis_rate2' => 'itbisRate2',
+        'itbis_rate3' => 'itbisRate3',
         'total_itbis' => 'totalITBIS',
-        'total_amount' => 'totalAmount',
-        'amount_to_pay' => 'amountToPay',
+        'itbis1' => 'itbis1',
+        'itbis2' => 'itbis2',
+        'itbis3' => 'itbis3',
         'additional_tax_amount' => 'additionalTaxAmount',
-        'exempt_amount' => 'exemptAmount'
+        'additional_taxes' => 'additionalTaxes',
+        'total_amount' => 'totalAmount',
+        'non_billable_amount' => 'nonBillableAmount',
+        'period_amount' => 'periodAmount',
+        'previous_balance' => 'previousBalance',
+        'advance_payment_amount' => 'advancePaymentAmount',
+        'amount_to_pay' => 'amountToPay',
+        'total_withheld_itbis' => 'totalWithheldITBIS',
+        'total_income_tax_withholding' => 'totalIncomeTaxWithholding',
+        'total_itbis_perception' => 'totalITBISPerception',
+        'total_isr_perception' => 'totalISRPerception'
     ];
 
     /**
@@ -196,11 +268,29 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $setters = [
         'taxable_amount' => 'setTaxableAmount',
+        'taxable_amount1' => 'setTaxableAmount1',
+        'taxable_amount2' => 'setTaxableAmount2',
+        'taxable_amount3' => 'setTaxableAmount3',
+        'exempt_amount' => 'setExemptAmount',
+        'itbis_rate1' => 'setItbisRate1',
+        'itbis_rate2' => 'setItbisRate2',
+        'itbis_rate3' => 'setItbisRate3',
         'total_itbis' => 'setTotalItbis',
-        'total_amount' => 'setTotalAmount',
-        'amount_to_pay' => 'setAmountToPay',
+        'itbis1' => 'setItbis1',
+        'itbis2' => 'setItbis2',
+        'itbis3' => 'setItbis3',
         'additional_tax_amount' => 'setAdditionalTaxAmount',
-        'exempt_amount' => 'setExemptAmount'
+        'additional_taxes' => 'setAdditionalTaxes',
+        'total_amount' => 'setTotalAmount',
+        'non_billable_amount' => 'setNonBillableAmount',
+        'period_amount' => 'setPeriodAmount',
+        'previous_balance' => 'setPreviousBalance',
+        'advance_payment_amount' => 'setAdvancePaymentAmount',
+        'amount_to_pay' => 'setAmountToPay',
+        'total_withheld_itbis' => 'setTotalWithheldItbis',
+        'total_income_tax_withholding' => 'setTotalIncomeTaxWithholding',
+        'total_itbis_perception' => 'setTotalItbisPerception',
+        'total_isr_perception' => 'setTotalIsrPerception'
     ];
 
     /**
@@ -210,11 +300,29 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $getters = [
         'taxable_amount' => 'getTaxableAmount',
+        'taxable_amount1' => 'getTaxableAmount1',
+        'taxable_amount2' => 'getTaxableAmount2',
+        'taxable_amount3' => 'getTaxableAmount3',
+        'exempt_amount' => 'getExemptAmount',
+        'itbis_rate1' => 'getItbisRate1',
+        'itbis_rate2' => 'getItbisRate2',
+        'itbis_rate3' => 'getItbisRate3',
         'total_itbis' => 'getTotalItbis',
-        'total_amount' => 'getTotalAmount',
-        'amount_to_pay' => 'getAmountToPay',
+        'itbis1' => 'getItbis1',
+        'itbis2' => 'getItbis2',
+        'itbis3' => 'getItbis3',
         'additional_tax_amount' => 'getAdditionalTaxAmount',
-        'exempt_amount' => 'getExemptAmount'
+        'additional_taxes' => 'getAdditionalTaxes',
+        'total_amount' => 'getTotalAmount',
+        'non_billable_amount' => 'getNonBillableAmount',
+        'period_amount' => 'getPeriodAmount',
+        'previous_balance' => 'getPreviousBalance',
+        'advance_payment_amount' => 'getAdvancePaymentAmount',
+        'amount_to_pay' => 'getAmountToPay',
+        'total_withheld_itbis' => 'getTotalWithheldItbis',
+        'total_income_tax_withholding' => 'getTotalIncomeTaxWithholding',
+        'total_itbis_perception' => 'getTotalItbisPerception',
+        'total_isr_perception' => 'getTotalIsrPerception'
     ];
 
     /**
@@ -275,11 +383,29 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('taxable_amount', $data ?? [], null);
-        $this->setIfExists('total_itbis', $data ?? [], null);
-        $this->setIfExists('total_amount', $data ?? [], null);
-        $this->setIfExists('amount_to_pay', $data ?? [], null);
-        $this->setIfExists('additional_tax_amount', $data ?? [], null);
+        $this->setIfExists('taxable_amount1', $data ?? [], null);
+        $this->setIfExists('taxable_amount2', $data ?? [], null);
+        $this->setIfExists('taxable_amount3', $data ?? [], null);
         $this->setIfExists('exempt_amount', $data ?? [], null);
+        $this->setIfExists('itbis_rate1', $data ?? [], null);
+        $this->setIfExists('itbis_rate2', $data ?? [], null);
+        $this->setIfExists('itbis_rate3', $data ?? [], null);
+        $this->setIfExists('total_itbis', $data ?? [], null);
+        $this->setIfExists('itbis1', $data ?? [], null);
+        $this->setIfExists('itbis2', $data ?? [], null);
+        $this->setIfExists('itbis3', $data ?? [], null);
+        $this->setIfExists('additional_tax_amount', $data ?? [], null);
+        $this->setIfExists('additional_taxes', $data ?? [], null);
+        $this->setIfExists('total_amount', $data ?? [], null);
+        $this->setIfExists('non_billable_amount', $data ?? [], null);
+        $this->setIfExists('period_amount', $data ?? [], null);
+        $this->setIfExists('previous_balance', $data ?? [], null);
+        $this->setIfExists('advance_payment_amount', $data ?? [], null);
+        $this->setIfExists('amount_to_pay', $data ?? [], null);
+        $this->setIfExists('total_withheld_itbis', $data ?? [], null);
+        $this->setIfExists('total_income_tax_withholding', $data ?? [], null);
+        $this->setIfExists('total_itbis_perception', $data ?? [], null);
+        $this->setIfExists('total_isr_perception', $data ?? [], null);
     }
 
     /**
@@ -308,6 +434,10 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+
+        if (!is_null($this->container['additional_taxes']) && (count($this->container['additional_taxes']) > 20)) {
+            $invalidProperties[] = "invalid value for 'additional_taxes', number of items must be less than or equal to 20.";
+        }
 
         if ($this->container['total_amount'] === null) {
             $invalidProperties[] = "'total_amount' can't be null";
@@ -355,6 +485,195 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets taxable_amount1
+     *
+     * @return float|null
+     */
+    public function getTaxableAmount1()
+    {
+        return $this->container['taxable_amount1'];
+    }
+
+    /**
+     * Sets taxable_amount1
+     *
+     * @param float|null $taxable_amount1 taxable_amount1
+     *
+     * @return self
+     */
+    public function setTaxableAmount1($taxable_amount1)
+    {
+        if (is_null($taxable_amount1)) {
+            throw new \InvalidArgumentException('non-nullable taxable_amount1 cannot be null');
+        }
+        $this->container['taxable_amount1'] = $taxable_amount1;
+
+        return $this;
+    }
+
+    /**
+     * Gets taxable_amount2
+     *
+     * @return float|null
+     */
+    public function getTaxableAmount2()
+    {
+        return $this->container['taxable_amount2'];
+    }
+
+    /**
+     * Sets taxable_amount2
+     *
+     * @param float|null $taxable_amount2 taxable_amount2
+     *
+     * @return self
+     */
+    public function setTaxableAmount2($taxable_amount2)
+    {
+        if (is_null($taxable_amount2)) {
+            throw new \InvalidArgumentException('non-nullable taxable_amount2 cannot be null');
+        }
+        $this->container['taxable_amount2'] = $taxable_amount2;
+
+        return $this;
+    }
+
+    /**
+     * Gets taxable_amount3
+     *
+     * @return float|null
+     */
+    public function getTaxableAmount3()
+    {
+        return $this->container['taxable_amount3'];
+    }
+
+    /**
+     * Sets taxable_amount3
+     *
+     * @param float|null $taxable_amount3 taxable_amount3
+     *
+     * @return self
+     */
+    public function setTaxableAmount3($taxable_amount3)
+    {
+        if (is_null($taxable_amount3)) {
+            throw new \InvalidArgumentException('non-nullable taxable_amount3 cannot be null');
+        }
+        $this->container['taxable_amount3'] = $taxable_amount3;
+
+        return $this;
+    }
+
+    /**
+     * Gets exempt_amount
+     *
+     * @return float|null
+     */
+    public function getExemptAmount()
+    {
+        return $this->container['exempt_amount'];
+    }
+
+    /**
+     * Sets exempt_amount
+     *
+     * @param float|null $exempt_amount exempt_amount
+     *
+     * @return self
+     */
+    public function setExemptAmount($exempt_amount)
+    {
+        if (is_null($exempt_amount)) {
+            throw new \InvalidArgumentException('non-nullable exempt_amount cannot be null');
+        }
+        $this->container['exempt_amount'] = $exempt_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets itbis_rate1
+     *
+     * @return float|null
+     */
+    public function getItbisRate1()
+    {
+        return $this->container['itbis_rate1'];
+    }
+
+    /**
+     * Sets itbis_rate1
+     *
+     * @param float|null $itbis_rate1 itbis_rate1
+     *
+     * @return self
+     */
+    public function setItbisRate1($itbis_rate1)
+    {
+        if (is_null($itbis_rate1)) {
+            throw new \InvalidArgumentException('non-nullable itbis_rate1 cannot be null');
+        }
+        $this->container['itbis_rate1'] = $itbis_rate1;
+
+        return $this;
+    }
+
+    /**
+     * Gets itbis_rate2
+     *
+     * @return float|null
+     */
+    public function getItbisRate2()
+    {
+        return $this->container['itbis_rate2'];
+    }
+
+    /**
+     * Sets itbis_rate2
+     *
+     * @param float|null $itbis_rate2 itbis_rate2
+     *
+     * @return self
+     */
+    public function setItbisRate2($itbis_rate2)
+    {
+        if (is_null($itbis_rate2)) {
+            throw new \InvalidArgumentException('non-nullable itbis_rate2 cannot be null');
+        }
+        $this->container['itbis_rate2'] = $itbis_rate2;
+
+        return $this;
+    }
+
+    /**
+     * Gets itbis_rate3
+     *
+     * @return float|null
+     */
+    public function getItbisRate3()
+    {
+        return $this->container['itbis_rate3'];
+    }
+
+    /**
+     * Sets itbis_rate3
+     *
+     * @param float|null $itbis_rate3 itbis_rate3
+     *
+     * @return self
+     */
+    public function setItbisRate3($itbis_rate3)
+    {
+        if (is_null($itbis_rate3)) {
+            throw new \InvalidArgumentException('non-nullable itbis_rate3 cannot be null');
+        }
+        $this->container['itbis_rate3'] = $itbis_rate3;
+
+        return $this;
+    }
+
+    /**
      * Gets total_itbis
      *
      * @return float|null
@@ -382,55 +701,82 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets total_amount
+     * Gets itbis1
      *
-     * @return float
+     * @return float|null
      */
-    public function getTotalAmount()
+    public function getItbis1()
     {
-        return $this->container['total_amount'];
+        return $this->container['itbis1'];
     }
 
     /**
-     * Sets total_amount
+     * Sets itbis1
      *
-     * @param float $total_amount total_amount
+     * @param float|null $itbis1 itbis1
      *
      * @return self
      */
-    public function setTotalAmount($total_amount)
+    public function setItbis1($itbis1)
     {
-        if (is_null($total_amount)) {
-            throw new \InvalidArgumentException('non-nullable total_amount cannot be null');
+        if (is_null($itbis1)) {
+            throw new \InvalidArgumentException('non-nullable itbis1 cannot be null');
         }
-        $this->container['total_amount'] = $total_amount;
+        $this->container['itbis1'] = $itbis1;
 
         return $this;
     }
 
     /**
-     * Gets amount_to_pay
+     * Gets itbis2
      *
      * @return float|null
      */
-    public function getAmountToPay()
+    public function getItbis2()
     {
-        return $this->container['amount_to_pay'];
+        return $this->container['itbis2'];
     }
 
     /**
-     * Sets amount_to_pay
+     * Sets itbis2
      *
-     * @param float|null $amount_to_pay amount_to_pay
+     * @param float|null $itbis2 itbis2
      *
      * @return self
      */
-    public function setAmountToPay($amount_to_pay)
+    public function setItbis2($itbis2)
     {
-        if (is_null($amount_to_pay)) {
-            throw new \InvalidArgumentException('non-nullable amount_to_pay cannot be null');
+        if (is_null($itbis2)) {
+            throw new \InvalidArgumentException('non-nullable itbis2 cannot be null');
         }
-        $this->container['amount_to_pay'] = $amount_to_pay;
+        $this->container['itbis2'] = $itbis2;
+
+        return $this;
+    }
+
+    /**
+     * Gets itbis3
+     *
+     * @return float|null
+     */
+    public function getItbis3()
+    {
+        return $this->container['itbis3'];
+    }
+
+    /**
+     * Sets itbis3
+     *
+     * @param float|null $itbis3 itbis3
+     *
+     * @return self
+     */
+    public function setItbis3($itbis3)
+    {
+        if (is_null($itbis3)) {
+            throw new \InvalidArgumentException('non-nullable itbis3 cannot be null');
+        }
+        $this->container['itbis3'] = $itbis3;
 
         return $this;
     }
@@ -463,28 +809,302 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets exempt_amount
+     * Gets additional_taxes
      *
-     * @return float|null
+     * @return \PronesoftEcf\Model\ItemAdditionalTax[]|null
      */
-    public function getExemptAmount()
+    public function getAdditionalTaxes()
     {
-        return $this->container['exempt_amount'];
+        return $this->container['additional_taxes'];
     }
 
     /**
-     * Sets exempt_amount
+     * Sets additional_taxes
      *
-     * @param float|null $exempt_amount exempt_amount
+     * @param \PronesoftEcf\Model\ItemAdditionalTax[]|null $additional_taxes additional_taxes
      *
      * @return self
      */
-    public function setExemptAmount($exempt_amount)
+    public function setAdditionalTaxes($additional_taxes)
     {
-        if (is_null($exempt_amount)) {
-            throw new \InvalidArgumentException('non-nullable exempt_amount cannot be null');
+        if (is_null($additional_taxes)) {
+            throw new \InvalidArgumentException('non-nullable additional_taxes cannot be null');
         }
-        $this->container['exempt_amount'] = $exempt_amount;
+
+        if ((count($additional_taxes) > 20)) {
+            throw new \InvalidArgumentException('invalid value for $additional_taxes when calling Totals., number of items must be less than or equal to 20.');
+        }
+        $this->container['additional_taxes'] = $additional_taxes;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_amount
+     *
+     * @return float
+     */
+    public function getTotalAmount()
+    {
+        return $this->container['total_amount'];
+    }
+
+    /**
+     * Sets total_amount
+     *
+     * @param float $total_amount total_amount
+     *
+     * @return self
+     */
+    public function setTotalAmount($total_amount)
+    {
+        if (is_null($total_amount)) {
+            throw new \InvalidArgumentException('non-nullable total_amount cannot be null');
+        }
+        $this->container['total_amount'] = $total_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets non_billable_amount
+     *
+     * @return float|null
+     */
+    public function getNonBillableAmount()
+    {
+        return $this->container['non_billable_amount'];
+    }
+
+    /**
+     * Sets non_billable_amount
+     *
+     * @param float|null $non_billable_amount non_billable_amount
+     *
+     * @return self
+     */
+    public function setNonBillableAmount($non_billable_amount)
+    {
+        if (is_null($non_billable_amount)) {
+            throw new \InvalidArgumentException('non-nullable non_billable_amount cannot be null');
+        }
+        $this->container['non_billable_amount'] = $non_billable_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets period_amount
+     *
+     * @return float|null
+     */
+    public function getPeriodAmount()
+    {
+        return $this->container['period_amount'];
+    }
+
+    /**
+     * Sets period_amount
+     *
+     * @param float|null $period_amount period_amount
+     *
+     * @return self
+     */
+    public function setPeriodAmount($period_amount)
+    {
+        if (is_null($period_amount)) {
+            throw new \InvalidArgumentException('non-nullable period_amount cannot be null');
+        }
+        $this->container['period_amount'] = $period_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets previous_balance
+     *
+     * @return float|null
+     */
+    public function getPreviousBalance()
+    {
+        return $this->container['previous_balance'];
+    }
+
+    /**
+     * Sets previous_balance
+     *
+     * @param float|null $previous_balance previous_balance
+     *
+     * @return self
+     */
+    public function setPreviousBalance($previous_balance)
+    {
+        if (is_null($previous_balance)) {
+            throw new \InvalidArgumentException('non-nullable previous_balance cannot be null');
+        }
+        $this->container['previous_balance'] = $previous_balance;
+
+        return $this;
+    }
+
+    /**
+     * Gets advance_payment_amount
+     *
+     * @return float|null
+     */
+    public function getAdvancePaymentAmount()
+    {
+        return $this->container['advance_payment_amount'];
+    }
+
+    /**
+     * Sets advance_payment_amount
+     *
+     * @param float|null $advance_payment_amount advance_payment_amount
+     *
+     * @return self
+     */
+    public function setAdvancePaymentAmount($advance_payment_amount)
+    {
+        if (is_null($advance_payment_amount)) {
+            throw new \InvalidArgumentException('non-nullable advance_payment_amount cannot be null');
+        }
+        $this->container['advance_payment_amount'] = $advance_payment_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets amount_to_pay
+     *
+     * @return float|null
+     */
+    public function getAmountToPay()
+    {
+        return $this->container['amount_to_pay'];
+    }
+
+    /**
+     * Sets amount_to_pay
+     *
+     * @param float|null $amount_to_pay amount_to_pay
+     *
+     * @return self
+     */
+    public function setAmountToPay($amount_to_pay)
+    {
+        if (is_null($amount_to_pay)) {
+            throw new \InvalidArgumentException('non-nullable amount_to_pay cannot be null');
+        }
+        $this->container['amount_to_pay'] = $amount_to_pay;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_withheld_itbis
+     *
+     * @return float|null
+     */
+    public function getTotalWithheldItbis()
+    {
+        return $this->container['total_withheld_itbis'];
+    }
+
+    /**
+     * Sets total_withheld_itbis
+     *
+     * @param float|null $total_withheld_itbis total_withheld_itbis
+     *
+     * @return self
+     */
+    public function setTotalWithheldItbis($total_withheld_itbis)
+    {
+        if (is_null($total_withheld_itbis)) {
+            throw new \InvalidArgumentException('non-nullable total_withheld_itbis cannot be null');
+        }
+        $this->container['total_withheld_itbis'] = $total_withheld_itbis;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_income_tax_withholding
+     *
+     * @return float|null
+     */
+    public function getTotalIncomeTaxWithholding()
+    {
+        return $this->container['total_income_tax_withholding'];
+    }
+
+    /**
+     * Sets total_income_tax_withholding
+     *
+     * @param float|null $total_income_tax_withholding total_income_tax_withholding
+     *
+     * @return self
+     */
+    public function setTotalIncomeTaxWithholding($total_income_tax_withholding)
+    {
+        if (is_null($total_income_tax_withholding)) {
+            throw new \InvalidArgumentException('non-nullable total_income_tax_withholding cannot be null');
+        }
+        $this->container['total_income_tax_withholding'] = $total_income_tax_withholding;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_itbis_perception
+     *
+     * @return float|null
+     */
+    public function getTotalItbisPerception()
+    {
+        return $this->container['total_itbis_perception'];
+    }
+
+    /**
+     * Sets total_itbis_perception
+     *
+     * @param float|null $total_itbis_perception total_itbis_perception
+     *
+     * @return self
+     */
+    public function setTotalItbisPerception($total_itbis_perception)
+    {
+        if (is_null($total_itbis_perception)) {
+            throw new \InvalidArgumentException('non-nullable total_itbis_perception cannot be null');
+        }
+        $this->container['total_itbis_perception'] = $total_itbis_perception;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_isr_perception
+     *
+     * @return float|null
+     */
+    public function getTotalIsrPerception()
+    {
+        return $this->container['total_isr_perception'];
+    }
+
+    /**
+     * Sets total_isr_perception
+     *
+     * @param float|null $total_isr_perception total_isr_perception
+     *
+     * @return self
+     */
+    public function setTotalIsrPerception($total_isr_perception)
+    {
+        if (is_null($total_isr_perception)) {
+            throw new \InvalidArgumentException('non-nullable total_isr_perception cannot be null');
+        }
+        $this->container['total_isr_perception'] = $total_isr_perception;
 
         return $this;
     }

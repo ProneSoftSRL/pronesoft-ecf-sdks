@@ -182,28 +182,30 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
+        case 'AccountType':
+          return AccountTypeTypeTransformer().decode(value);
         case 'AdditionalInfo':
           return AdditionalInfo.fromJson(value);
         case 'AlternativeCurrency':
           return AlternativeCurrency.fromJson(value);
+        case 'AssociatedCompany':
+          return AssociatedCompany.fromJson(value);
+        case 'AssociatedCompanySubscription':
+          return AssociatedCompanySubscription.fromJson(value);
+        case 'AssociatedCompanySubscriptionPlan':
+          return AssociatedCompanySubscriptionPlan.fromJson(value);
         case 'BillingIndicator':
           return BillingIndicatorTypeTransformer().decode(value);
         case 'Buyer':
           return Buyer.fromJson(value);
-        case 'CertificationCompletedPayload':
-          return CertificationCompletedPayload.fromJson(value);
-        case 'CommercialApprovalPayload':
-          return CommercialApprovalPayload.fromJson(value);
+        case 'CreateAssociatedCompany201Response':
+          return CreateAssociatedCompany201Response.fromJson(value);
         case 'CreateTaxSequenceRequest':
           return CreateTaxSequenceRequest.fromJson(value);
         case 'CreateWebhookConfig':
           return CreateWebhookConfig.fromJson(value);
         case 'DiscountOrSurcharge':
           return DiscountOrSurcharge.fromJson(value);
-        case 'DocumentReceivedPayload':
-          return DocumentReceivedPayload.fromJson(value);
-        case 'DocumentStatusChangedPayload':
-          return DocumentStatusChangedPayload.fromJson(value);
         case 'EcfSubmissionResponse':
           return EcfSubmissionResponse.fromJson(value);
         case 'ElectronicDocument':
@@ -232,6 +234,8 @@ class ApiClient {
           return Page.fromJson(value);
         case 'PaymentMethod':
           return PaymentMethodTypeTransformer().decode(value);
+        case 'PrintFormat':
+          return PrintFormatTypeTransformer().decode(value);
         case 'ReferenceInfo':
           return ReferenceInfo.fromJson(value);
         case 'Subquantity':
@@ -252,8 +256,6 @@ class ApiClient {
           return WebhookEventTypeTypeTransformer().decode(value);
         case 'WebhookNotificationPayload':
           return WebhookNotificationPayload.fromJson(value);
-        case 'WebhookNotificationPayloadData':
-          return WebhookNotificationPayloadData.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {

@@ -13,17 +13,18 @@
 """  # noqa: E501
 
 # import models into model package
+from pronesoft_ecf.models.account_type import AccountType
 from pronesoft_ecf.models.additional_info import AdditionalInfo
 from pronesoft_ecf.models.alternative_currency import AlternativeCurrency
+from pronesoft_ecf.models.associated_company import AssociatedCompany
+from pronesoft_ecf.models.associated_company_subscription import AssociatedCompanySubscription
+from pronesoft_ecf.models.associated_company_subscription_plan import AssociatedCompanySubscriptionPlan
 from pronesoft_ecf.models.billing_indicator import BillingIndicator
 from pronesoft_ecf.models.buyer import Buyer
-from pronesoft_ecf.models.certification_completed_payload import CertificationCompletedPayload
-from pronesoft_ecf.models.commercial_approval_payload import CommercialApprovalPayload
+from pronesoft_ecf.models.create_associated_company201_response import CreateAssociatedCompany201Response
 from pronesoft_ecf.models.create_tax_sequence_request import CreateTaxSequenceRequest
 from pronesoft_ecf.models.create_webhook_config import CreateWebhookConfig
 from pronesoft_ecf.models.discount_or_surcharge import DiscountOrSurcharge
-from pronesoft_ecf.models.document_received_payload import DocumentReceivedPayload
-from pronesoft_ecf.models.document_status_changed_payload import DocumentStatusChangedPayload
 from pronesoft_ecf.models.ecf_submission_response import EcfSubmissionResponse
 from pronesoft_ecf.models.electronic_document import ElectronicDocument
 from pronesoft_ecf.models.environment import Environment
@@ -38,6 +39,7 @@ from pronesoft_ecf.models.o_auth_token_request import OAuthTokenRequest
 from pronesoft_ecf.models.o_auth_token_response import OAuthTokenResponse
 from pronesoft_ecf.models.page import Page
 from pronesoft_ecf.models.payment_method import PaymentMethod
+from pronesoft_ecf.models.print_format import PrintFormat
 from pronesoft_ecf.models.reference_info import ReferenceInfo
 from pronesoft_ecf.models.subquantity import Subquantity
 from pronesoft_ecf.models.subtotal import Subtotal
@@ -48,5 +50,4 @@ from pronesoft_ecf.models.upload_certificate201_response import UploadCertificat
 from pronesoft_ecf.models.webhook_config_response import WebhookConfigResponse
 from pronesoft_ecf.models.webhook_event_type import WebhookEventType
 from pronesoft_ecf.models.webhook_notification_payload import WebhookNotificationPayload
-from pronesoft_ecf.models.webhook_notification_payload_data import WebhookNotificationPayloadData
 

@@ -19,6 +19,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing_extensions import Annotated
+from pronesoft_ecf.models.item_additional_tax import ItemAdditionalTax
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -28,12 +30,30 @@ class Totals(BaseModel):
     Totals
     """ # noqa: E501
     taxable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount")
-    total_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalITBIS")
-    total_amount: Union[StrictFloat, StrictInt] = Field(alias="totalAmount")
-    amount_to_pay: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="amountToPay")
-    additional_tax_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="additionalTaxAmount")
+    taxable_amount1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount1")
+    taxable_amount2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount2")
+    taxable_amount3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount3")
     exempt_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="exemptAmount")
-    __properties: ClassVar[List[str]] = ["taxableAmount", "totalITBIS", "totalAmount", "amountToPay", "additionalTaxAmount", "exemptAmount"]
+    itbis_rate1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="itbisRate1")
+    itbis_rate2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="itbisRate2")
+    itbis_rate3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="itbisRate3")
+    total_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalITBIS")
+    itbis1: Optional[Union[StrictFloat, StrictInt]] = None
+    itbis2: Optional[Union[StrictFloat, StrictInt]] = None
+    itbis3: Optional[Union[StrictFloat, StrictInt]] = None
+    additional_tax_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="additionalTaxAmount")
+    additional_taxes: Optional[Annotated[List[ItemAdditionalTax], Field(max_length=20)]] = Field(default=None, alias="additionalTaxes")
+    total_amount: Union[StrictFloat, StrictInt] = Field(alias="totalAmount")
+    non_billable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="nonBillableAmount")
+    period_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="periodAmount")
+    previous_balance: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="previousBalance")
+    advance_payment_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="advancePaymentAmount")
+    amount_to_pay: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="amountToPay")
+    total_withheld_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalWithheldITBIS")
+    total_income_tax_withholding: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalIncomeTaxWithholding")
+    total_itbis_perception: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalITBISPerception")
+    total_isr_perception: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalISRPerception")
+    __properties: ClassVar[List[str]] = ["taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "exemptAmount", "itbisRate1", "itbisRate2", "itbisRate3", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxAmount", "additionalTaxes", "totalAmount", "nonBillableAmount", "periodAmount", "previousBalance", "advancePaymentAmount", "amountToPay", "totalWithheldITBIS", "totalIncomeTaxWithholding", "totalITBISPerception", "totalISRPerception"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -74,6 +94,13 @@ class Totals(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in additional_taxes (list)
+        _items = []
+        if self.additional_taxes:
+            for _item_additional_taxes in self.additional_taxes:
+                if _item_additional_taxes:
+                    _items.append(_item_additional_taxes.to_dict())
+            _dict['additionalTaxes'] = _items
         return _dict
 
     @classmethod
@@ -87,11 +114,29 @@ class Totals(BaseModel):
 
         _obj = cls.model_validate({
             "taxableAmount": obj.get("taxableAmount"),
+            "taxableAmount1": obj.get("taxableAmount1"),
+            "taxableAmount2": obj.get("taxableAmount2"),
+            "taxableAmount3": obj.get("taxableAmount3"),
+            "exemptAmount": obj.get("exemptAmount"),
+            "itbisRate1": obj.get("itbisRate1"),
+            "itbisRate2": obj.get("itbisRate2"),
+            "itbisRate3": obj.get("itbisRate3"),
             "totalITBIS": obj.get("totalITBIS"),
-            "totalAmount": obj.get("totalAmount"),
-            "amountToPay": obj.get("amountToPay"),
+            "itbis1": obj.get("itbis1"),
+            "itbis2": obj.get("itbis2"),
+            "itbis3": obj.get("itbis3"),
             "additionalTaxAmount": obj.get("additionalTaxAmount"),
-            "exemptAmount": obj.get("exemptAmount")
+            "additionalTaxes": [ItemAdditionalTax.from_dict(_item) for _item in obj["additionalTaxes"]] if obj.get("additionalTaxes") is not None else None,
+            "totalAmount": obj.get("totalAmount"),
+            "nonBillableAmount": obj.get("nonBillableAmount"),
+            "periodAmount": obj.get("periodAmount"),
+            "previousBalance": obj.get("previousBalance"),
+            "advancePaymentAmount": obj.get("advancePaymentAmount"),
+            "amountToPay": obj.get("amountToPay"),
+            "totalWithheldITBIS": obj.get("totalWithheldITBIS"),
+            "totalIncomeTaxWithholding": obj.get("totalIncomeTaxWithholding"),
+            "totalITBISPerception": obj.get("totalITBISPerception"),
+            "totalISRPerception": obj.get("totalISRPerception")
         })
         return _obj
 

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **event** | [**WebhookEventType**](WebhookEventType.md) |  | 
 **timestamp** | [**DateTime**](DateTime.md) |  | 
 **businessRnc** | **String** |  | 
-**data** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  | 
+**data** | **Object** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

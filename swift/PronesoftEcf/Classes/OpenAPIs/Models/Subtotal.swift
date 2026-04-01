@@ -15,17 +15,50 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
     public var number: Int
     public var amount: Double
     public var description: String?
+    public var taxableAmount: Double?
+    public var taxableAmount1: Double?
+    public var taxableAmount2: Double?
+    public var taxableAmount3: Double?
+    public var totalITBIS: Double?
+    public var itbis1: Double?
+    public var itbis2: Double?
+    public var itbis3: Double?
+    public var additionalTaxes: Double?
+    public var exemptAmount: Double?
+    public var lines: Int?
 
-    public init(number: Int, amount: Double, description: String? = nil) {
+    public init(number: Int, amount: Double, description: String? = nil, taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxes: Double? = nil, exemptAmount: Double? = nil, lines: Int? = nil) {
         self.number = number
         self.amount = amount
         self.description = description
+        self.taxableAmount = taxableAmount
+        self.taxableAmount1 = taxableAmount1
+        self.taxableAmount2 = taxableAmount2
+        self.taxableAmount3 = taxableAmount3
+        self.totalITBIS = totalITBIS
+        self.itbis1 = itbis1
+        self.itbis2 = itbis2
+        self.itbis3 = itbis3
+        self.additionalTaxes = additionalTaxes
+        self.exemptAmount = exemptAmount
+        self.lines = lines
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case number
         case amount
         case description
+        case taxableAmount
+        case taxableAmount1
+        case taxableAmount2
+        case taxableAmount3
+        case totalITBIS
+        case itbis1
+        case itbis2
+        case itbis3
+        case additionalTaxes
+        case exemptAmount
+        case lines
     }
 
     // Encodable protocol methods
@@ -35,6 +68,17 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
         try container.encode(number, forKey: .number)
         try container.encode(amount, forKey: .amount)
         try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(taxableAmount, forKey: .taxableAmount)
+        try container.encodeIfPresent(taxableAmount1, forKey: .taxableAmount1)
+        try container.encodeIfPresent(taxableAmount2, forKey: .taxableAmount2)
+        try container.encodeIfPresent(taxableAmount3, forKey: .taxableAmount3)
+        try container.encodeIfPresent(totalITBIS, forKey: .totalITBIS)
+        try container.encodeIfPresent(itbis1, forKey: .itbis1)
+        try container.encodeIfPresent(itbis2, forKey: .itbis2)
+        try container.encodeIfPresent(itbis3, forKey: .itbis3)
+        try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
+        try container.encodeIfPresent(exemptAmount, forKey: .exemptAmount)
+        try container.encodeIfPresent(lines, forKey: .lines)
     }
 }
 

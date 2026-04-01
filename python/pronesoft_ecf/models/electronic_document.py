@@ -21,6 +21,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
+from pronesoft_ecf.models.account_type import AccountType
 from pronesoft_ecf.models.additional_info import AdditionalInfo
 from pronesoft_ecf.models.alternative_currency import AlternativeCurrency
 from pronesoft_ecf.models.buyer import Buyer
@@ -47,7 +48,12 @@ class ElectronicDocument(BaseModel):
     expiration_date: Optional[datetime] = Field(default=None, alias="expirationDate")
     income_type: Optional[StrictStr] = Field(default=None, alias="incomeType")
     payment_type: Optional[StrictStr] = Field(default=None, alias="paymentType")
-    credit_note_indicator: Optional[StrictStr] = Field(default=None, description="0: ≤30 días, 1: >30 días", alias="creditNoteIndicator")
+    payment_deadline: Optional[datetime] = Field(default=None, alias="paymentDeadline")
+    payment_terms: Optional[Annotated[str, Field(strict=True, max_length=15)]] = Field(default=None, alias="paymentTerms")
+    payment_account_type: Optional[AccountType] = Field(default=None, alias="paymentAccountType")
+    payment_account_number: Optional[Annotated[str, Field(strict=True, max_length=28)]] = Field(default=None, alias="paymentAccountNumber")
+    payment_bank: Optional[Annotated[str, Field(strict=True, max_length=75)]] = Field(default=None, alias="paymentBank")
+    credit_note_indicator: Optional[StrictStr] = Field(default=None, description="0: emision affected ≤ 30 days, 1: > 30 days", alias="creditNoteIndicator")
     issuer_rnc: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, alias="issuerRNC")
     issuer_business_name: Optional[Annotated[str, Field(strict=True, max_length=150)]] = Field(default=None, alias="issuerBusinessName")
     issuer_email: Optional[StrictStr] = Field(default=None, alias="issuerEmail")
@@ -62,7 +68,7 @@ class ElectronicDocument(BaseModel):
     subtotals: Optional[List[Subtotal]] = None
     discounts_or_surcharges: Optional[List[DiscountOrSurcharge]] = Field(default=None, alias="discountsOrSurcharges")
     pages: Optional[List[Page]] = None
-    __properties: ClassVar[List[str]] = ["version", "invoiceType", "invoiceNumber", "issueDate", "expirationDate", "incomeType", "paymentType", "creditNoteIndicator", "issuerRNC", "issuerBusinessName", "issuerEmail", "issuerPhones", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"]
+    __properties: ClassVar[List[str]] = ["version", "invoiceType", "invoiceNumber", "issueDate", "expirationDate", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "creditNoteIndicator", "issuerRNC", "issuerBusinessName", "issuerEmail", "issuerPhones", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"]
 
     @field_validator('version')
     def version_validate_regular_expression(cls, value):
@@ -222,6 +228,11 @@ class ElectronicDocument(BaseModel):
             "expirationDate": obj.get("expirationDate"),
             "incomeType": obj.get("incomeType"),
             "paymentType": obj.get("paymentType"),
+            "paymentDeadline": obj.get("paymentDeadline"),
+            "paymentTerms": obj.get("paymentTerms"),
+            "paymentAccountType": obj.get("paymentAccountType"),
+            "paymentAccountNumber": obj.get("paymentAccountNumber"),
+            "paymentBank": obj.get("paymentBank"),
             "creditNoteIndicator": obj.get("creditNoteIndicator"),
             "issuerRNC": obj.get("issuerRNC"),
             "issuerBusinessName": obj.get("issuerBusinessName"),

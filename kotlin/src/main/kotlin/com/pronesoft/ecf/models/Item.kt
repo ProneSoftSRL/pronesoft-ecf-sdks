@@ -36,8 +36,8 @@ import com.squareup.moshi.JsonClass
  * @param name 
  * @param type 
  * @param billingIndicator 
- * @param quantity Decimal string
- * @param unitPrice Decimal string
+ * @param quantity 
+ * @param unitPrice 
  * @param amount 
  * @param lineNumber 
  * @param discountAmount 
@@ -58,11 +58,9 @@ data class Item (
     @Json(name = "billingIndicator")
     val billingIndicator: BillingIndicator,
 
-    /* Decimal string */
     @Json(name = "quantity")
     val quantity: kotlin.String,
 
-    /* Decimal string */
     @Json(name = "unitPrice")
     val unitPrice: kotlin.String,
 

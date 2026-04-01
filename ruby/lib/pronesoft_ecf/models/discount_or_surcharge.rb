@@ -23,6 +23,14 @@ module PronesoftEcf
 
     attr_accessor :amount
 
+    attr_accessor :description
+
+    attr_accessor :percentage_value
+
+    attr_accessor :alternative_currency_amount
+
+    attr_accessor :billing_indicator
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -51,7 +59,11 @@ module PronesoftEcf
         :'line_number' => :'lineNumber',
         :'type' => :'type',
         :'value_type' => :'valueType',
-        :'amount' => :'amount'
+        :'amount' => :'amount',
+        :'description' => :'description',
+        :'percentage_value' => :'percentageValue',
+        :'alternative_currency_amount' => :'alternativeCurrencyAmount',
+        :'billing_indicator' => :'billingIndicator'
       }
     end
 
@@ -71,7 +83,11 @@ module PronesoftEcf
         :'line_number' => :'Integer',
         :'type' => :'String',
         :'value_type' => :'String',
-        :'amount' => :'Float'
+        :'amount' => :'Float',
+        :'description' => :'String',
+        :'percentage_value' => :'Float',
+        :'alternative_currency_amount' => :'Float',
+        :'billing_indicator' => :'BillingIndicator'
       }
     end
 
@@ -119,6 +135,22 @@ module PronesoftEcf
         self.amount = attributes[:'amount']
       else
         self.amount = nil
+      end
+
+      if attributes.key?(:'description')
+        self.description = attributes[:'description']
+      end
+
+      if attributes.key?(:'percentage_value')
+        self.percentage_value = attributes[:'percentage_value']
+      end
+
+      if attributes.key?(:'alternative_currency_amount')
+        self.alternative_currency_amount = attributes[:'alternative_currency_amount']
+      end
+
+      if attributes.key?(:'billing_indicator')
+        self.billing_indicator = attributes[:'billing_indicator']
       end
     end
 
@@ -209,7 +241,11 @@ module PronesoftEcf
           line_number == o.line_number &&
           type == o.type &&
           value_type == o.value_type &&
-          amount == o.amount
+          amount == o.amount &&
+          description == o.description &&
+          percentage_value == o.percentage_value &&
+          alternative_currency_amount == o.alternative_currency_amount &&
+          billing_indicator == o.billing_indicator
     end
 
     # @see the `==` method
@@ -221,7 +257,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [line_number, type, value_type, amount].hash
+      [line_number, type, value_type, amount, description, percentage_value, alternative_currency_amount, billing_indicator].hash
     end
 
     # Builds the object from hash

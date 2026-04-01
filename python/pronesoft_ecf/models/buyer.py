@@ -32,8 +32,10 @@ class Buyer(BaseModel):
     name: Annotated[str, Field(strict=True, max_length=150)]
     email: Optional[StrictStr] = None
     address: Optional[Annotated[str, Field(strict=True, max_length=100)]] = None
+    municipality_code: Optional[StrictStr] = Field(default=None, alias="municipalityCode")
+    province_code: Optional[StrictStr] = Field(default=None, alias="provinceCode")
     delivery_address: Optional[StrictStr] = Field(default=None, alias="deliveryAddress")
-    __properties: ClassVar[List[str]] = ["taxId", "name", "email", "address", "deliveryAddress"]
+    __properties: ClassVar[List[str]] = ["taxId", "name", "email", "address", "municipalityCode", "provinceCode", "deliveryAddress"]
 
     @field_validator('tax_id')
     def tax_id_validate_regular_expression(cls, value):
@@ -100,6 +102,8 @@ class Buyer(BaseModel):
             "name": obj.get("name"),
             "email": obj.get("email"),
             "address": obj.get("address"),
+            "municipalityCode": obj.get("municipalityCode"),
+            "provinceCode": obj.get("provinceCode"),
             "deliveryAddress": obj.get("deliveryAddress")
         })
         return _obj

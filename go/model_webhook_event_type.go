@@ -27,7 +27,15 @@ const (
 	COMMERCIAL_APPROVAL WebhookEventType = "commercial.approval"
 	CERTIFICATE_EXPIRING WebhookEventType = "certificate.expiring"
 	PLAN_USAGE_ALERT WebhookEventType = "plan.usage_alert"
+	PLAN_PAYMENT_FAILED WebhookEventType = "plan.payment_failed"
+	BILLING_INVOICE_READY WebhookEventType = "billing.invoice_ready"
 	SEQUENCE_DEPLETED WebhookEventType = "sequence.depleted"
+	SEQUENCE_VOIDED WebhookEventType = "sequence.voided"
+	BRANCH_CREATED WebhookEventType = "branch.created"
+	BRANCH_STATUS_CHANGED WebhookEventType = "branch.status_changed"
+	MEMBER_INVITED WebhookEventType = "member.invited"
+	MEMBER_JOINED WebhookEventType = "member.joined"
+	MEMBER_REMOVED WebhookEventType = "member.removed"
 	CERTIFICATION_COMPLETED WebhookEventType = "certification.completed"
 )
 
@@ -40,7 +48,15 @@ var AllowedWebhookEventTypeEnumValues = []WebhookEventType{
 	"commercial.approval",
 	"certificate.expiring",
 	"plan.usage_alert",
+	"plan.payment_failed",
+	"billing.invoice_ready",
 	"sequence.depleted",
+	"sequence.voided",
+	"branch.created",
+	"branch.status_changed",
+	"member.invited",
+	"member.joined",
+	"member.removed",
 	"certification.completed",
 }
 

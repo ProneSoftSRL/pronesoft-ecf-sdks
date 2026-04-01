@@ -22,7 +22,10 @@ var _ MappedNullable = &ReferenceInfo{}
 // ReferenceInfo struct for ReferenceInfo
 type ReferenceInfo struct {
 	ModifiedInvoiceNumber string `json:"modifiedInvoiceNumber"`
+	OtherContributorRNC *string `json:"otherContributorRNC,omitempty"`
+	ModifiedInvoiceDate *string `json:"modifiedInvoiceDate,omitempty"`
 	ModificationCode string `json:"modificationCode"`
+	ModificationReason *string `json:"modificationReason,omitempty"`
 }
 
 type _ReferenceInfo ReferenceInfo
@@ -70,6 +73,70 @@ func (o *ReferenceInfo) SetModifiedInvoiceNumber(v string) {
 	o.ModifiedInvoiceNumber = v
 }
 
+// GetOtherContributorRNC returns the OtherContributorRNC field value if set, zero value otherwise.
+func (o *ReferenceInfo) GetOtherContributorRNC() string {
+	if o == nil || IsNil(o.OtherContributorRNC) {
+		var ret string
+		return ret
+	}
+	return *o.OtherContributorRNC
+}
+
+// GetOtherContributorRNCOk returns a tuple with the OtherContributorRNC field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReferenceInfo) GetOtherContributorRNCOk() (*string, bool) {
+	if o == nil || IsNil(o.OtherContributorRNC) {
+		return nil, false
+	}
+	return o.OtherContributorRNC, true
+}
+
+// HasOtherContributorRNC returns a boolean if a field has been set.
+func (o *ReferenceInfo) HasOtherContributorRNC() bool {
+	if o != nil && !IsNil(o.OtherContributorRNC) {
+		return true
+	}
+
+	return false
+}
+
+// SetOtherContributorRNC gets a reference to the given string and assigns it to the OtherContributorRNC field.
+func (o *ReferenceInfo) SetOtherContributorRNC(v string) {
+	o.OtherContributorRNC = &v
+}
+
+// GetModifiedInvoiceDate returns the ModifiedInvoiceDate field value if set, zero value otherwise.
+func (o *ReferenceInfo) GetModifiedInvoiceDate() string {
+	if o == nil || IsNil(o.ModifiedInvoiceDate) {
+		var ret string
+		return ret
+	}
+	return *o.ModifiedInvoiceDate
+}
+
+// GetModifiedInvoiceDateOk returns a tuple with the ModifiedInvoiceDate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReferenceInfo) GetModifiedInvoiceDateOk() (*string, bool) {
+	if o == nil || IsNil(o.ModifiedInvoiceDate) {
+		return nil, false
+	}
+	return o.ModifiedInvoiceDate, true
+}
+
+// HasModifiedInvoiceDate returns a boolean if a field has been set.
+func (o *ReferenceInfo) HasModifiedInvoiceDate() bool {
+	if o != nil && !IsNil(o.ModifiedInvoiceDate) {
+		return true
+	}
+
+	return false
+}
+
+// SetModifiedInvoiceDate gets a reference to the given string and assigns it to the ModifiedInvoiceDate field.
+func (o *ReferenceInfo) SetModifiedInvoiceDate(v string) {
+	o.ModifiedInvoiceDate = &v
+}
+
 // GetModificationCode returns the ModificationCode field value
 func (o *ReferenceInfo) GetModificationCode() string {
 	if o == nil {
@@ -94,6 +161,38 @@ func (o *ReferenceInfo) SetModificationCode(v string) {
 	o.ModificationCode = v
 }
 
+// GetModificationReason returns the ModificationReason field value if set, zero value otherwise.
+func (o *ReferenceInfo) GetModificationReason() string {
+	if o == nil || IsNil(o.ModificationReason) {
+		var ret string
+		return ret
+	}
+	return *o.ModificationReason
+}
+
+// GetModificationReasonOk returns a tuple with the ModificationReason field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReferenceInfo) GetModificationReasonOk() (*string, bool) {
+	if o == nil || IsNil(o.ModificationReason) {
+		return nil, false
+	}
+	return o.ModificationReason, true
+}
+
+// HasModificationReason returns a boolean if a field has been set.
+func (o *ReferenceInfo) HasModificationReason() bool {
+	if o != nil && !IsNil(o.ModificationReason) {
+		return true
+	}
+
+	return false
+}
+
+// SetModificationReason gets a reference to the given string and assigns it to the ModificationReason field.
+func (o *ReferenceInfo) SetModificationReason(v string) {
+	o.ModificationReason = &v
+}
+
 func (o ReferenceInfo) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -105,7 +204,16 @@ func (o ReferenceInfo) MarshalJSON() ([]byte, error) {
 func (o ReferenceInfo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["modifiedInvoiceNumber"] = o.ModifiedInvoiceNumber
+	if !IsNil(o.OtherContributorRNC) {
+		toSerialize["otherContributorRNC"] = o.OtherContributorRNC
+	}
+	if !IsNil(o.ModifiedInvoiceDate) {
+		toSerialize["modifiedInvoiceDate"] = o.ModifiedInvoiceDate
+	}
 	toSerialize["modificationCode"] = o.ModificationCode
+	if !IsNil(o.ModificationReason) {
+		toSerialize["modificationReason"] = o.ModificationReason
+	}
 	return toSerialize, nil
 }
 

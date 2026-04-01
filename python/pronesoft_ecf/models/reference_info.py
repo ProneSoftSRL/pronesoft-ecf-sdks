@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import date
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -28,8 +29,11 @@ class ReferenceInfo(BaseModel):
     ReferenceInfo
     """ # noqa: E501
     modified_invoice_number: StrictStr = Field(alias="modifiedInvoiceNumber")
+    other_contributor_rnc: Optional[StrictStr] = Field(default=None, alias="otherContributorRNC")
+    modified_invoice_date: Optional[date] = Field(default=None, alias="modifiedInvoiceDate")
     modification_code: StrictStr = Field(alias="modificationCode")
-    __properties: ClassVar[List[str]] = ["modifiedInvoiceNumber", "modificationCode"]
+    modification_reason: Optional[StrictStr] = Field(default=None, alias="modificationReason")
+    __properties: ClassVar[List[str]] = ["modifiedInvoiceNumber", "otherContributorRNC", "modifiedInvoiceDate", "modificationCode", "modificationReason"]
 
     @field_validator('modification_code')
     def modification_code_validate_enum(cls, value):
@@ -90,7 +94,10 @@ class ReferenceInfo(BaseModel):
 
         _obj = cls.model_validate({
             "modifiedInvoiceNumber": obj.get("modifiedInvoiceNumber"),
-            "modificationCode": obj.get("modificationCode")
+            "otherContributorRNC": obj.get("otherContributorRNC"),
+            "modifiedInvoiceDate": obj.get("modifiedInvoiceDate"),
+            "modificationCode": obj.get("modificationCode"),
+            "modificationReason": obj.get("modificationReason")
         })
         return _obj
 

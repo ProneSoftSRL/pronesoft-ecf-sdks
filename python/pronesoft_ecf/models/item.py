@@ -35,8 +35,8 @@ class Item(BaseModel):
     name: Annotated[str, Field(strict=True, max_length=80)]
     type: StrictStr
     billing_indicator: BillingIndicator = Field(alias="billingIndicator")
-    quantity: StrictStr = Field(description="Decimal string")
-    unit_price: StrictStr = Field(description="Decimal string", alias="unitPrice")
+    quantity: StrictStr
+    unit_price: StrictStr = Field(alias="unitPrice")
     amount: Union[StrictFloat, StrictInt]
     discount_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="discountAmount")
     additional_taxes: Optional[List[ItemAdditionalTax]] = Field(default=None, alias="additionalTaxes")

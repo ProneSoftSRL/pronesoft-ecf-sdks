@@ -19,13 +19,17 @@ public struct Buyer: Codable, JSONEncodable, Hashable {
     public var name: String
     public var email: String?
     public var address: String?
+    public var municipalityCode: String?
+    public var provinceCode: String?
     public var deliveryAddress: String?
 
-    public init(taxId: String? = nil, name: String, email: String? = nil, address: String? = nil, deliveryAddress: String? = nil) {
+    public init(taxId: String? = nil, name: String, email: String? = nil, address: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, deliveryAddress: String? = nil) {
         self.taxId = taxId
         self.name = name
         self.email = email
         self.address = address
+        self.municipalityCode = municipalityCode
+        self.provinceCode = provinceCode
         self.deliveryAddress = deliveryAddress
     }
 
@@ -34,6 +38,8 @@ public struct Buyer: Codable, JSONEncodable, Hashable {
         case name
         case email
         case address
+        case municipalityCode
+        case provinceCode
         case deliveryAddress
     }
 
@@ -45,6 +51,8 @@ public struct Buyer: Codable, JSONEncodable, Hashable {
         try container.encode(name, forKey: .name)
         try container.encodeIfPresent(email, forKey: .email)
         try container.encodeIfPresent(address, forKey: .address)
+        try container.encodeIfPresent(municipalityCode, forKey: .municipalityCode)
+        try container.encodeIfPresent(provinceCode, forKey: .provinceCode)
         try container.encodeIfPresent(deliveryAddress, forKey: .deliveryAddress)
     }
 }

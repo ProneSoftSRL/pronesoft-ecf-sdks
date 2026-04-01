@@ -60,7 +60,11 @@ class DiscountOrSurcharge implements ModelInterface, ArrayAccess, \JsonSerializa
         'line_number' => 'int',
         'type' => 'string',
         'value_type' => 'string',
-        'amount' => 'float'
+        'amount' => 'float',
+        'description' => 'string',
+        'percentage_value' => 'float',
+        'alternative_currency_amount' => 'float',
+        'billing_indicator' => '\PronesoftEcf\Model\BillingIndicator'
     ];
 
     /**
@@ -74,7 +78,11 @@ class DiscountOrSurcharge implements ModelInterface, ArrayAccess, \JsonSerializa
         'line_number' => null,
         'type' => null,
         'value_type' => null,
-        'amount' => null
+        'amount' => null,
+        'description' => null,
+        'percentage_value' => null,
+        'alternative_currency_amount' => null,
+        'billing_indicator' => null
     ];
 
     /**
@@ -86,7 +94,11 @@ class DiscountOrSurcharge implements ModelInterface, ArrayAccess, \JsonSerializa
         'line_number' => false,
         'type' => false,
         'value_type' => false,
-        'amount' => false
+        'amount' => false,
+        'description' => false,
+        'percentage_value' => false,
+        'alternative_currency_amount' => false,
+        'billing_indicator' => false
     ];
 
     /**
@@ -178,7 +190,11 @@ class DiscountOrSurcharge implements ModelInterface, ArrayAccess, \JsonSerializa
         'line_number' => 'lineNumber',
         'type' => 'type',
         'value_type' => 'valueType',
-        'amount' => 'amount'
+        'amount' => 'amount',
+        'description' => 'description',
+        'percentage_value' => 'percentageValue',
+        'alternative_currency_amount' => 'alternativeCurrencyAmount',
+        'billing_indicator' => 'billingIndicator'
     ];
 
     /**
@@ -190,7 +206,11 @@ class DiscountOrSurcharge implements ModelInterface, ArrayAccess, \JsonSerializa
         'line_number' => 'setLineNumber',
         'type' => 'setType',
         'value_type' => 'setValueType',
-        'amount' => 'setAmount'
+        'amount' => 'setAmount',
+        'description' => 'setDescription',
+        'percentage_value' => 'setPercentageValue',
+        'alternative_currency_amount' => 'setAlternativeCurrencyAmount',
+        'billing_indicator' => 'setBillingIndicator'
     ];
 
     /**
@@ -202,7 +222,11 @@ class DiscountOrSurcharge implements ModelInterface, ArrayAccess, \JsonSerializa
         'line_number' => 'getLineNumber',
         'type' => 'getType',
         'value_type' => 'getValueType',
-        'amount' => 'getAmount'
+        'amount' => 'getAmount',
+        'description' => 'getDescription',
+        'percentage_value' => 'getPercentageValue',
+        'alternative_currency_amount' => 'getAlternativeCurrencyAmount',
+        'billing_indicator' => 'getBillingIndicator'
     ];
 
     /**
@@ -296,6 +320,10 @@ class DiscountOrSurcharge implements ModelInterface, ArrayAccess, \JsonSerializa
         $this->setIfExists('type', $data ?? [], null);
         $this->setIfExists('value_type', $data ?? [], null);
         $this->setIfExists('amount', $data ?? [], null);
+        $this->setIfExists('description', $data ?? [], null);
+        $this->setIfExists('percentage_value', $data ?? [], null);
+        $this->setIfExists('alternative_currency_amount', $data ?? [], null);
+        $this->setIfExists('billing_indicator', $data ?? [], null);
     }
 
     /**
@@ -494,6 +522,114 @@ class DiscountOrSurcharge implements ModelInterface, ArrayAccess, \JsonSerializa
             throw new \InvalidArgumentException('non-nullable amount cannot be null');
         }
         $this->container['amount'] = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets description
+     *
+     * @return string|null
+     */
+    public function getDescription()
+    {
+        return $this->container['description'];
+    }
+
+    /**
+     * Sets description
+     *
+     * @param string|null $description description
+     *
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        if (is_null($description)) {
+            throw new \InvalidArgumentException('non-nullable description cannot be null');
+        }
+        $this->container['description'] = $description;
+
+        return $this;
+    }
+
+    /**
+     * Gets percentage_value
+     *
+     * @return float|null
+     */
+    public function getPercentageValue()
+    {
+        return $this->container['percentage_value'];
+    }
+
+    /**
+     * Sets percentage_value
+     *
+     * @param float|null $percentage_value percentage_value
+     *
+     * @return self
+     */
+    public function setPercentageValue($percentage_value)
+    {
+        if (is_null($percentage_value)) {
+            throw new \InvalidArgumentException('non-nullable percentage_value cannot be null');
+        }
+        $this->container['percentage_value'] = $percentage_value;
+
+        return $this;
+    }
+
+    /**
+     * Gets alternative_currency_amount
+     *
+     * @return float|null
+     */
+    public function getAlternativeCurrencyAmount()
+    {
+        return $this->container['alternative_currency_amount'];
+    }
+
+    /**
+     * Sets alternative_currency_amount
+     *
+     * @param float|null $alternative_currency_amount alternative_currency_amount
+     *
+     * @return self
+     */
+    public function setAlternativeCurrencyAmount($alternative_currency_amount)
+    {
+        if (is_null($alternative_currency_amount)) {
+            throw new \InvalidArgumentException('non-nullable alternative_currency_amount cannot be null');
+        }
+        $this->container['alternative_currency_amount'] = $alternative_currency_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets billing_indicator
+     *
+     * @return \PronesoftEcf\Model\BillingIndicator|null
+     */
+    public function getBillingIndicator()
+    {
+        return $this->container['billing_indicator'];
+    }
+
+    /**
+     * Sets billing_indicator
+     *
+     * @param \PronesoftEcf\Model\BillingIndicator|null $billing_indicator billing_indicator
+     *
+     * @return self
+     */
+    public function setBillingIndicator($billing_indicator)
+    {
+        if (is_null($billing_indicator)) {
+            throw new \InvalidArgumentException('non-nullable billing_indicator cannot be null');
+        }
+        $this->container['billing_indicator'] = $billing_indicator;
 
         return $this;
     }

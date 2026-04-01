@@ -20,11 +20,13 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.WebhookEventType;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,7 +54,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * WebhookConfigResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class WebhookConfigResponse {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -62,7 +64,7 @@ public class WebhookConfigResponse {
   public static final String SERIALIZED_NAME_URL = "url";
   @SerializedName(SERIALIZED_NAME_URL)
   @javax.annotation.Nullable
-  private String url;
+  private URI url;
 
   public static final String SERIALIZED_NAME_EVENT_TYPES = "eventTypes";
   @SerializedName(SERIALIZED_NAME_EVENT_TYPES)
@@ -78,6 +80,11 @@ public class WebhookConfigResponse {
   @SerializedName(SERIALIZED_NAME_CREATED_AT)
   @javax.annotation.Nullable
   private OffsetDateTime createdAt;
+
+  public static final String SERIALIZED_NAME_LAST_TRIGGERED_AT = "lastTriggeredAt";
+  @SerializedName(SERIALIZED_NAME_LAST_TRIGGERED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime lastTriggeredAt;
 
   public WebhookConfigResponse() {
   }
@@ -101,7 +108,7 @@ public class WebhookConfigResponse {
   }
 
 
-  public WebhookConfigResponse url(@javax.annotation.Nullable String url) {
+  public WebhookConfigResponse url(@javax.annotation.Nullable URI url) {
     this.url = url;
     return this;
   }
@@ -111,11 +118,11 @@ public class WebhookConfigResponse {
    * @return url
    */
   @javax.annotation.Nullable
-  public String getUrl() {
+  public URI getUrl() {
     return url;
   }
 
-  public void setUrl(@javax.annotation.Nullable String url) {
+  public void setUrl(@javax.annotation.Nullable URI url) {
     this.url = url;
   }
 
@@ -185,6 +192,25 @@ public class WebhookConfigResponse {
   }
 
 
+  public WebhookConfigResponse lastTriggeredAt(@javax.annotation.Nullable OffsetDateTime lastTriggeredAt) {
+    this.lastTriggeredAt = lastTriggeredAt;
+    return this;
+  }
+
+  /**
+   * Get lastTriggeredAt
+   * @return lastTriggeredAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getLastTriggeredAt() {
+    return lastTriggeredAt;
+  }
+
+  public void setLastTriggeredAt(@javax.annotation.Nullable OffsetDateTime lastTriggeredAt) {
+    this.lastTriggeredAt = lastTriggeredAt;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -199,12 +225,24 @@ public class WebhookConfigResponse {
         Objects.equals(this.url, webhookConfigResponse.url) &&
         Objects.equals(this.eventTypes, webhookConfigResponse.eventTypes) &&
         Objects.equals(this.isActive, webhookConfigResponse.isActive) &&
-        Objects.equals(this.createdAt, webhookConfigResponse.createdAt);
+        Objects.equals(this.createdAt, webhookConfigResponse.createdAt) &&
+        Objects.equals(this.lastTriggeredAt, webhookConfigResponse.lastTriggeredAt);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, url, eventTypes, isActive, createdAt);
+    return Objects.hash(id, url, eventTypes, isActive, createdAt, lastTriggeredAt);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -216,6 +254,7 @@ public class WebhookConfigResponse {
     sb.append("    eventTypes: ").append(toIndentedString(eventTypes)).append("\n");
     sb.append("    isActive: ").append(toIndentedString(isActive)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    lastTriggeredAt: ").append(toIndentedString(lastTriggeredAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -234,7 +273,7 @@ public class WebhookConfigResponse {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "url", "eventTypes", "isActive", "createdAt"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "url", "eventTypes", "isActive", "createdAt", "lastTriggeredAt"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);

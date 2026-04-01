@@ -21,9 +21,7 @@ public struct Item: Codable, JSONEncodable, Hashable {
     public var name: String
     public var type: ModelType
     public var billingIndicator: BillingIndicator
-    /** Decimal string */
     public var quantity: String
-    /** Decimal string */
     public var unitPrice: String
     public var amount: Double
     public var discountAmount: Double?

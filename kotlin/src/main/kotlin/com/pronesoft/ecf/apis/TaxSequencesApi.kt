@@ -61,6 +61,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * POST /tax-sequences
      * Crear nueva secuencia fiscal
      * 
+     * @param xTenantId 
      * @param createTaxSequenceRequest 
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
@@ -70,8 +71,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest) : Unit {
-        val localVarResponse = createTaxSequenceWithHttpInfo(createTaxSequenceRequest = createTaxSequenceRequest)
+    fun createTaxSequence(xTenantId: java.util.UUID, createTaxSequenceRequest: CreateTaxSequenceRequest) : Unit {
+        val localVarResponse = createTaxSequenceWithHttpInfo(xTenantId = xTenantId, createTaxSequenceRequest = createTaxSequenceRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -92,14 +93,15 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * POST /tax-sequences
      * Crear nueva secuencia fiscal
      * 
+     * @param xTenantId 
      * @param createTaxSequenceRequest 
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun createTaxSequenceWithHttpInfo(createTaxSequenceRequest: CreateTaxSequenceRequest) : ApiResponse<Unit?> {
-        val localVariableConfig = createTaxSequenceRequestConfig(createTaxSequenceRequest = createTaxSequenceRequest)
+    fun createTaxSequenceWithHttpInfo(xTenantId: java.util.UUID, createTaxSequenceRequest: CreateTaxSequenceRequest) : ApiResponse<Unit?> {
+        val localVariableConfig = createTaxSequenceRequestConfig(xTenantId = xTenantId, createTaxSequenceRequest = createTaxSequenceRequest)
 
         return request<CreateTaxSequenceRequest, Unit>(
             localVariableConfig
@@ -109,13 +111,15 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation createTaxSequence
      *
+     * @param xTenantId 
      * @param createTaxSequenceRequest 
      * @return RequestConfig
      */
-    fun createTaxSequenceRequestConfig(createTaxSequenceRequest: CreateTaxSequenceRequest) : RequestConfig<CreateTaxSequenceRequest> {
+    fun createTaxSequenceRequestConfig(xTenantId: java.util.UUID, createTaxSequenceRequest: CreateTaxSequenceRequest) : RequestConfig<CreateTaxSequenceRequest> {
         val localVariableBody = createTaxSequenceRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Content-Type"] = "application/json"
         
         return RequestConfig(

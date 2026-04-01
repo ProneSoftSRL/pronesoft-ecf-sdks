@@ -8,8 +8,8 @@
 | **name** | **String** |  |  |
 | **type** | **String** |  |  |
 | **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  |  |
-| **quantity** | **String** | Decimal string |  |
-| **unit_price** | **String** | Decimal string |  |
+| **quantity** | **String** |  |  |
+| **unit_price** | **String** |  |  |
 | **amount** | **Float** |  |  |
 | **discount_amount** | **Float** |  | [optional] |
 | **additional_taxes** | [**Array&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) |  | [optional] |

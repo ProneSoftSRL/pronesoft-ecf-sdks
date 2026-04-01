@@ -51,6 +51,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Class | Method | HTTP request | Description |
 | ------------ | ------------- | ------------- | ------------- |
+| *AssociatedCompaniesApi* | [**createAssociatedCompany**](docs/AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Crear nueva empresa asociada |
+| *AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | Listar sucursales (Asociadas) |
 | *AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0) |
 | *DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12) |
 | *ECFSubmissionApi* | [**submitEcf**](docs/ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit) |
@@ -65,17 +67,18 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
+ - [com.pronesoft.ecf.models.AccountType](docs/AccountType.md)
  - [com.pronesoft.ecf.models.AdditionalInfo](docs/AdditionalInfo.md)
  - [com.pronesoft.ecf.models.AlternativeCurrency](docs/AlternativeCurrency.md)
+ - [com.pronesoft.ecf.models.AssociatedCompany](docs/AssociatedCompany.md)
+ - [com.pronesoft.ecf.models.AssociatedCompanySubscription](docs/AssociatedCompanySubscription.md)
+ - [com.pronesoft.ecf.models.AssociatedCompanySubscriptionPlan](docs/AssociatedCompanySubscriptionPlan.md)
  - [com.pronesoft.ecf.models.BillingIndicator](docs/BillingIndicator.md)
  - [com.pronesoft.ecf.models.Buyer](docs/Buyer.md)
- - [com.pronesoft.ecf.models.CertificationCompletedPayload](docs/CertificationCompletedPayload.md)
- - [com.pronesoft.ecf.models.CommercialApprovalPayload](docs/CommercialApprovalPayload.md)
+ - [com.pronesoft.ecf.models.CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
  - [com.pronesoft.ecf.models.CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
  - [com.pronesoft.ecf.models.CreateWebhookConfig](docs/CreateWebhookConfig.md)
  - [com.pronesoft.ecf.models.DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
- - [com.pronesoft.ecf.models.DocumentReceivedPayload](docs/DocumentReceivedPayload.md)
- - [com.pronesoft.ecf.models.DocumentStatusChangedPayload](docs/DocumentStatusChangedPayload.md)
  - [com.pronesoft.ecf.models.EcfSubmissionResponse](docs/EcfSubmissionResponse.md)
  - [com.pronesoft.ecf.models.ElectronicDocument](docs/ElectronicDocument.md)
  - [com.pronesoft.ecf.models.Environment](docs/Environment.md)
@@ -90,6 +93,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
  - [com.pronesoft.ecf.models.OAuthTokenResponse](docs/OAuthTokenResponse.md)
  - [com.pronesoft.ecf.models.Page](docs/Page.md)
  - [com.pronesoft.ecf.models.PaymentMethod](docs/PaymentMethod.md)
+ - [com.pronesoft.ecf.models.PrintFormat](docs/PrintFormat.md)
  - [com.pronesoft.ecf.models.ReferenceInfo](docs/ReferenceInfo.md)
  - [com.pronesoft.ecf.models.Subquantity](docs/Subquantity.md)
  - [com.pronesoft.ecf.models.Subtotal](docs/Subtotal.md)
@@ -100,7 +104,6 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
  - [com.pronesoft.ecf.models.WebhookConfigResponse](docs/WebhookConfigResponse.md)
  - [com.pronesoft.ecf.models.WebhookEventType](docs/WebhookEventType.md)
  - [com.pronesoft.ecf.models.WebhookNotificationPayload](docs/WebhookNotificationPayload.md)
- - [com.pronesoft.ecf.models.WebhookNotificationPayloadData](docs/WebhookNotificationPayloadData.md)
 
 
 <a id="documentation-for-authorization"></a>

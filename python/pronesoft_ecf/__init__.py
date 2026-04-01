@@ -14,10 +14,11 @@
 """  # noqa: E501
 
 
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
 # Define package exports
 __all__ = [
+    "AssociatedCompaniesApi",
     "AuthenticationApi",
     "DigitalCertificatesApi",
     "TaxSequencesApi",
@@ -32,17 +33,18 @@ __all__ = [
     "ApiKeyError",
     "ApiAttributeError",
     "ApiException",
+    "AccountType",
     "AdditionalInfo",
     "AlternativeCurrency",
+    "AssociatedCompany",
+    "AssociatedCompanySubscription",
+    "AssociatedCompanySubscriptionPlan",
     "BillingIndicator",
     "Buyer",
-    "CertificationCompletedPayload",
-    "CommercialApprovalPayload",
+    "CreateAssociatedCompany201Response",
     "CreateTaxSequenceRequest",
     "CreateWebhookConfig",
     "DiscountOrSurcharge",
-    "DocumentReceivedPayload",
-    "DocumentStatusChangedPayload",
     "EcfSubmissionResponse",
     "ElectronicDocument",
     "Environment",
@@ -57,6 +59,7 @@ __all__ = [
     "OAuthTokenResponse",
     "Page",
     "PaymentMethod",
+    "PrintFormat",
     "ReferenceInfo",
     "Subquantity",
     "Subtotal",
@@ -67,10 +70,10 @@ __all__ = [
     "WebhookConfigResponse",
     "WebhookEventType",
     "WebhookNotificationPayload",
-    "WebhookNotificationPayloadData",
 ]
 
 # import apis into sdk package
+from pronesoft_ecf.api.associated_companies_api import AssociatedCompaniesApi as AssociatedCompaniesApi
 from pronesoft_ecf.api.authentication_api import AuthenticationApi as AuthenticationApi
 from pronesoft_ecf.api.digital_certificates_api import DigitalCertificatesApi as DigitalCertificatesApi
 from pronesoft_ecf.api.tax_sequences_api import TaxSequencesApi as TaxSequencesApi
@@ -89,17 +92,18 @@ from pronesoft_ecf.exceptions import ApiAttributeError as ApiAttributeError
 from pronesoft_ecf.exceptions import ApiException as ApiException
 
 # import models into sdk package
+from pronesoft_ecf.models.account_type import AccountType as AccountType
 from pronesoft_ecf.models.additional_info import AdditionalInfo as AdditionalInfo
 from pronesoft_ecf.models.alternative_currency import AlternativeCurrency as AlternativeCurrency
+from pronesoft_ecf.models.associated_company import AssociatedCompany as AssociatedCompany
+from pronesoft_ecf.models.associated_company_subscription import AssociatedCompanySubscription as AssociatedCompanySubscription
+from pronesoft_ecf.models.associated_company_subscription_plan import AssociatedCompanySubscriptionPlan as AssociatedCompanySubscriptionPlan
 from pronesoft_ecf.models.billing_indicator import BillingIndicator as BillingIndicator
 from pronesoft_ecf.models.buyer import Buyer as Buyer
-from pronesoft_ecf.models.certification_completed_payload import CertificationCompletedPayload as CertificationCompletedPayload
-from pronesoft_ecf.models.commercial_approval_payload import CommercialApprovalPayload as CommercialApprovalPayload
+from pronesoft_ecf.models.create_associated_company201_response import CreateAssociatedCompany201Response as CreateAssociatedCompany201Response
 from pronesoft_ecf.models.create_tax_sequence_request import CreateTaxSequenceRequest as CreateTaxSequenceRequest
 from pronesoft_ecf.models.create_webhook_config import CreateWebhookConfig as CreateWebhookConfig
 from pronesoft_ecf.models.discount_or_surcharge import DiscountOrSurcharge as DiscountOrSurcharge
-from pronesoft_ecf.models.document_received_payload import DocumentReceivedPayload as DocumentReceivedPayload
-from pronesoft_ecf.models.document_status_changed_payload import DocumentStatusChangedPayload as DocumentStatusChangedPayload
 from pronesoft_ecf.models.ecf_submission_response import EcfSubmissionResponse as EcfSubmissionResponse
 from pronesoft_ecf.models.electronic_document import ElectronicDocument as ElectronicDocument
 from pronesoft_ecf.models.environment import Environment as Environment
@@ -114,6 +118,7 @@ from pronesoft_ecf.models.o_auth_token_request import OAuthTokenRequest as OAuth
 from pronesoft_ecf.models.o_auth_token_response import OAuthTokenResponse as OAuthTokenResponse
 from pronesoft_ecf.models.page import Page as Page
 from pronesoft_ecf.models.payment_method import PaymentMethod as PaymentMethod
+from pronesoft_ecf.models.print_format import PrintFormat as PrintFormat
 from pronesoft_ecf.models.reference_info import ReferenceInfo as ReferenceInfo
 from pronesoft_ecf.models.subquantity import Subquantity as Subquantity
 from pronesoft_ecf.models.subtotal import Subtotal as Subtotal
@@ -124,5 +129,4 @@ from pronesoft_ecf.models.upload_certificate201_response import UploadCertificat
 from pronesoft_ecf.models.webhook_config_response import WebhookConfigResponse as WebhookConfigResponse
 from pronesoft_ecf.models.webhook_event_type import WebhookEventType as WebhookEventType
 from pronesoft_ecf.models.webhook_notification_payload import WebhookNotificationPayload as WebhookNotificationPayload
-from pronesoft_ecf.models.webhook_notification_payload_data import WebhookNotificationPayloadData as WebhookNotificationPayloadData
 

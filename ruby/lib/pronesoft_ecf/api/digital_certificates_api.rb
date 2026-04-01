@@ -21,8 +21,8 @@ module PronesoftEcf
     end
     # Cargar Certificado Digital (P12)
     # @param rnc [String] 
-    # @param file [File] Archivo .p12 o .pfx
-    # @param password [String] Contraseña del certificado
+    # @param file [File] 
+    # @param password [String] 
     # @param [Hash] opts the optional parameters
     # @return [UploadCertificate201Response]
     def upload_certificate(rnc, file, password, opts = {})
@@ -32,8 +32,8 @@ module PronesoftEcf
 
     # Cargar Certificado Digital (P12)
     # @param rnc [String] 
-    # @param file [File] Archivo .p12 o .pfx
-    # @param password [String] Contraseña del certificado
+    # @param file [File] 
+    # @param password [String] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(UploadCertificate201Response, Integer, Hash)>] UploadCertificate201Response data, response status code and response headers
     def upload_certificate_with_http_info(rnc, file, password, opts = {})

@@ -24,9 +24,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new TaxSequencesApi(configuration);
 
+let xTenantId: string; // (default to undefined)
 let createTaxSequenceRequest: CreateTaxSequenceRequest; //
 
 const { status, data } = await apiInstance.createTaxSequence(
+    xTenantId,
     createTaxSequenceRequest
 );
 ```
@@ -36,6 +38,7 @@ const { status, data } = await apiInstance.createTaxSequence(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **createTaxSequenceRequest** | **CreateTaxSequenceRequest**|  | |
+| **xTenantId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type

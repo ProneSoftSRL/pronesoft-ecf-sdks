@@ -33,7 +33,15 @@ class WebhookEventType(str, Enum):
     COMMERCIAL_DOT_APPROVAL = 'commercial.approval'
     CERTIFICATE_DOT_EXPIRING = 'certificate.expiring'
     PLAN_DOT_USAGE_ALERT = 'plan.usage_alert'
+    PLAN_DOT_PAYMENT_FAILED = 'plan.payment_failed'
+    BILLING_DOT_INVOICE_READY = 'billing.invoice_ready'
     SEQUENCE_DOT_DEPLETED = 'sequence.depleted'
+    SEQUENCE_DOT_VOIDED = 'sequence.voided'
+    BRANCH_DOT_CREATED = 'branch.created'
+    BRANCH_DOT_STATUS_CHANGED = 'branch.status_changed'
+    MEMBER_DOT_INVITED = 'member.invited'
+    MEMBER_DOT_JOINED = 'member.joined'
+    MEMBER_DOT_REMOVED = 'member.removed'
     CERTIFICATION_DOT_COMPLETED = 'certification.completed'
 
     @classmethod

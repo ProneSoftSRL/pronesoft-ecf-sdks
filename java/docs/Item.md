@@ -11,8 +11,8 @@
 |**name** | **String** |  |  |
 |**type** | [**TypeEnum**](#TypeEnum) |  |  |
 |**billingIndicator** | **BillingIndicator** |  |  |
-|**quantity** | **String** | Decimal string |  |
-|**unitPrice** | **String** | Decimal string |  |
+|**quantity** | **String** |  |  |
+|**unitPrice** | **String** |  |  |
 |**amount** | **BigDecimal** |  |  |
 |**discountAmount** | **BigDecimal** |  |  [optional] |
 |**additionalTaxes** | [**List&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) |  |  [optional] |

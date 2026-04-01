@@ -9,8 +9,8 @@ Name | Type | Description | Notes
 **name** | **str** |  | 
 **type** | **str** |  | 
 **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
-**quantity** | **str** | Decimal string | 
-**unit_price** | **str** | Decimal string | 
+**quantity** | **str** |  | 
+**unit_price** | **str** |  | 
 **amount** | **float** |  | 
 **discount_amount** | **float** |  | [optional] 
 **additional_taxes** | [**List[ItemAdditionalTax]**](ItemAdditionalTax.md) |  | [optional] 

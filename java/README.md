@@ -2,7 +2,7 @@
 
 eCF-Pronesoft Master Integration API
 - API version: 1.1.0
-  - Build date: 2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]
+  - Build date: 2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 Especificación de producción **200% detallada** de la API de eCF-Pronesoft.
@@ -47,7 +47,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.pronesoft</groupId>
   <artifactId>ecf-sdk</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -63,7 +63,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.pronesoft:ecf-sdk:1.0.1"
+     implementation "com.pronesoft:ecf-sdk:1.1.0"
   }
 ```
 
@@ -77,7 +77,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/ecf-sdk-1.0.1.jar`
+* `target/ecf-sdk-1.1.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -90,21 +90,42 @@ Please follow the [installation](#installation) instruction and execute the foll
 import Pronesoft.Ecf.ApiClient;
 import Pronesoft.Ecf.ApiException;
 import Pronesoft.Ecf.Configuration;
+import Pronesoft.Ecf.auth.*;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.AuthenticationApi;
+import org.openapitools.client.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
+    
+    // Configure OAuth2 access token for authorization: oauth2
+    OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
+    oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
-    AuthenticationApi apiInstance = new AuthenticationApi(defaultClient);
-    OAuthTokenRequest oauthTokenRequest = new OAuthTokenRequest(); // OAuthTokenRequest | 
+    AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
+    UUID xTenantId = UUID.randomUUID(); // UUID | 
+    String email = "email_example"; // String | 
+    String password = "password_example"; // String | 
+    String name = "name_example"; // String | 
+    String rnc = "rnc_example"; // String | 
+    String phone = "phone_example"; // String | 
+    String address = "address_example"; // String | 
+    String city = "city_example"; // String | 
+    String country = "country_example"; // String | 
+    String firstName = "firstName_example"; // String | 
+    String lastName = "lastName_example"; // String | 
+    String jobTitle = "jobTitle_example"; // String | 
+    URI website = new URI(); // URI | 
+    String category = "category_example"; // String | 
+    String monthlySalesRange = "monthlySalesRange_example"; // String | 
+    PrintFormat printerType = PrintFormat.fromValue("A4"); // PrintFormat | 
+    File logo = new File("/path/to/file"); // File | 
     try {
-      OAuthTokenResponse result = apiInstance.getAccessToken(oauthTokenRequest);
+      CreateAssociatedCompany201Response result = apiInstance.createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling AuthenticationApi#getAccessToken");
+      System.err.println("Exception when calling AssociatedCompaniesApi#createAssociatedCompany");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -121,6 +142,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AssociatedCompaniesApi* | [**createAssociatedCompany**](docs/AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Crear nueva empresa asociada
+*AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar sucursales (Asociadas)
 *AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
 *DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)
 *ECfSubmissionApi* | [**submitEcf**](docs/ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
@@ -134,17 +157,18 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [AccountType](docs/AccountType.md)
  - [AdditionalInfo](docs/AdditionalInfo.md)
  - [AlternativeCurrency](docs/AlternativeCurrency.md)
+ - [AssociatedCompany](docs/AssociatedCompany.md)
+ - [AssociatedCompanySubscription](docs/AssociatedCompanySubscription.md)
+ - [AssociatedCompanySubscriptionPlan](docs/AssociatedCompanySubscriptionPlan.md)
  - [BillingIndicator](docs/BillingIndicator.md)
  - [Buyer](docs/Buyer.md)
- - [CertificationCompletedPayload](docs/CertificationCompletedPayload.md)
- - [CommercialApprovalPayload](docs/CommercialApprovalPayload.md)
+ - [CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
  - [CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
  - [CreateWebhookConfig](docs/CreateWebhookConfig.md)
  - [DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
- - [DocumentReceivedPayload](docs/DocumentReceivedPayload.md)
- - [DocumentStatusChangedPayload](docs/DocumentStatusChangedPayload.md)
  - [EcfSubmissionResponse](docs/EcfSubmissionResponse.md)
  - [ElectronicDocument](docs/ElectronicDocument.md)
  - [Environment](docs/Environment.md)
@@ -159,6 +183,7 @@ Class | Method | HTTP request | Description
  - [OAuthTokenResponse](docs/OAuthTokenResponse.md)
  - [Page](docs/Page.md)
  - [PaymentMethod](docs/PaymentMethod.md)
+ - [PrintFormat](docs/PrintFormat.md)
  - [ReferenceInfo](docs/ReferenceInfo.md)
  - [Subquantity](docs/Subquantity.md)
  - [Subtotal](docs/Subtotal.md)
@@ -169,7 +194,6 @@ Class | Method | HTTP request | Description
  - [WebhookConfigResponse](docs/WebhookConfigResponse.md)
  - [WebhookEventType](docs/WebhookEventType.md)
  - [WebhookNotificationPayload](docs/WebhookNotificationPayload.md)
- - [WebhookNotificationPayloadData](docs/WebhookNotificationPayloadData.md)
 
 
 <a id="documentation-for-authorization"></a>

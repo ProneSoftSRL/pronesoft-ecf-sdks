@@ -17,6 +17,8 @@ class Buyer {
     required this.name,
     this.email,
     this.address,
+    this.municipalityCode,
+    this.provinceCode,
     this.deliveryAddress,
   });
 
@@ -52,6 +54,22 @@ class Buyer {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  String? municipalityCode;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? provinceCode;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? deliveryAddress;
 
   @override
@@ -60,6 +78,8 @@ class Buyer {
     other.name == name &&
     other.email == email &&
     other.address == address &&
+    other.municipalityCode == municipalityCode &&
+    other.provinceCode == provinceCode &&
     other.deliveryAddress == deliveryAddress;
 
   @override
@@ -69,10 +89,12 @@ class Buyer {
     (name.hashCode) +
     (email == null ? 0 : email!.hashCode) +
     (address == null ? 0 : address!.hashCode) +
+    (municipalityCode == null ? 0 : municipalityCode!.hashCode) +
+    (provinceCode == null ? 0 : provinceCode!.hashCode) +
     (deliveryAddress == null ? 0 : deliveryAddress!.hashCode);
 
   @override
-  String toString() => 'Buyer[taxId=$taxId, name=$name, email=$email, address=$address, deliveryAddress=$deliveryAddress]';
+  String toString() => 'Buyer[taxId=$taxId, name=$name, email=$email, address=$address, municipalityCode=$municipalityCode, provinceCode=$provinceCode, deliveryAddress=$deliveryAddress]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -91,6 +113,16 @@ class Buyer {
       json[r'address'] = this.address;
     } else {
       json[r'address'] = null;
+    }
+    if (this.municipalityCode != null) {
+      json[r'municipalityCode'] = this.municipalityCode;
+    } else {
+      json[r'municipalityCode'] = null;
+    }
+    if (this.provinceCode != null) {
+      json[r'provinceCode'] = this.provinceCode;
+    } else {
+      json[r'provinceCode'] = null;
     }
     if (this.deliveryAddress != null) {
       json[r'deliveryAddress'] = this.deliveryAddress;
@@ -121,6 +153,8 @@ class Buyer {
         name: mapValueOfType<String>(json, r'name')!,
         email: mapValueOfType<String>(json, r'email'),
         address: mapValueOfType<String>(json, r'address'),
+        municipalityCode: mapValueOfType<String>(json, r'municipalityCode'),
+        provinceCode: mapValueOfType<String>(json, r'provinceCode'),
         deliveryAddress: mapValueOfType<String>(json, r'deliveryAddress'),
       );
     }

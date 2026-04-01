@@ -49,7 +49,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * AdditionalInfo
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class AdditionalInfo {
   public static final String SERIALIZED_NAME_GROSS_WEIGHT = "grossWeight";
   @SerializedName(SERIALIZED_NAME_GROSS_WEIGHT)
@@ -60,6 +60,16 @@ public class AdditionalInfo {
   @SerializedName(SERIALIZED_NAME_PACKAGE_QUANTITY)
   @javax.annotation.Nullable
   private BigDecimal packageQuantity;
+
+  public static final String SERIALIZED_NAME_CONTAINER_ID = "containerId";
+  @SerializedName(SERIALIZED_NAME_CONTAINER_ID)
+  @javax.annotation.Nullable
+  private String containerId;
+
+  public static final String SERIALIZED_NAME_SEAL_ID = "sealId";
+  @SerializedName(SERIALIZED_NAME_SEAL_ID)
+  @javax.annotation.Nullable
+  private String sealId;
 
   public AdditionalInfo() {
   }
@@ -102,6 +112,44 @@ public class AdditionalInfo {
   }
 
 
+  public AdditionalInfo containerId(@javax.annotation.Nullable String containerId) {
+    this.containerId = containerId;
+    return this;
+  }
+
+  /**
+   * Get containerId
+   * @return containerId
+   */
+  @javax.annotation.Nullable
+  public String getContainerId() {
+    return containerId;
+  }
+
+  public void setContainerId(@javax.annotation.Nullable String containerId) {
+    this.containerId = containerId;
+  }
+
+
+  public AdditionalInfo sealId(@javax.annotation.Nullable String sealId) {
+    this.sealId = sealId;
+    return this;
+  }
+
+  /**
+   * Get sealId
+   * @return sealId
+   */
+  @javax.annotation.Nullable
+  public String getSealId() {
+    return sealId;
+  }
+
+  public void setSealId(@javax.annotation.Nullable String sealId) {
+    this.sealId = sealId;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -113,12 +161,14 @@ public class AdditionalInfo {
     }
     AdditionalInfo additionalInfo = (AdditionalInfo) o;
     return Objects.equals(this.grossWeight, additionalInfo.grossWeight) &&
-        Objects.equals(this.packageQuantity, additionalInfo.packageQuantity);
+        Objects.equals(this.packageQuantity, additionalInfo.packageQuantity) &&
+        Objects.equals(this.containerId, additionalInfo.containerId) &&
+        Objects.equals(this.sealId, additionalInfo.sealId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(grossWeight, packageQuantity);
+    return Objects.hash(grossWeight, packageQuantity, containerId, sealId);
   }
 
   @Override
@@ -127,6 +177,8 @@ public class AdditionalInfo {
     sb.append("class AdditionalInfo {\n");
     sb.append("    grossWeight: ").append(toIndentedString(grossWeight)).append("\n");
     sb.append("    packageQuantity: ").append(toIndentedString(packageQuantity)).append("\n");
+    sb.append("    containerId: ").append(toIndentedString(containerId)).append("\n");
+    sb.append("    sealId: ").append(toIndentedString(sealId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -145,7 +197,7 @@ public class AdditionalInfo {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("grossWeight", "packageQuantity"));
+    openapiFields = new HashSet<String>(Arrays.asList("grossWeight", "packageQuantity", "containerId", "sealId"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -172,6 +224,12 @@ public class AdditionalInfo {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("containerId") != null && !jsonObj.get("containerId").isJsonNull()) && !jsonObj.get("containerId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `containerId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("containerId").toString()));
+      }
+      if ((jsonObj.get("sealId") != null && !jsonObj.get("sealId").isJsonNull()) && !jsonObj.get("sealId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `sealId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sealId").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

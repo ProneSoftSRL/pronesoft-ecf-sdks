@@ -20,6 +20,11 @@ class ElectronicDocument {
     this.expirationDate,
     this.incomeType,
     this.paymentType,
+    this.paymentDeadline,
+    this.paymentTerms,
+    this.paymentAccountType,
+    this.paymentAccountNumber,
+    this.paymentBank,
     this.creditNoteIndicator,
     this.issuerRNC,
     this.issuerBusinessName,
@@ -57,7 +62,47 @@ class ElectronicDocument {
 
   ElectronicDocumentPaymentTypeEnum? paymentType;
 
-  /// 0: ≤30 días, 1: >30 días
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? paymentDeadline;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? paymentTerms;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  AccountType? paymentAccountType;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? paymentAccountNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? paymentBank;
+
+  /// 0: emision affected ≤ 30 days, 1: > 30 days
   ElectronicDocumentCreditNoteIndicatorEnum? creditNoteIndicator;
 
   ///
@@ -145,6 +190,11 @@ class ElectronicDocument {
     other.expirationDate == expirationDate &&
     other.incomeType == incomeType &&
     other.paymentType == paymentType &&
+    other.paymentDeadline == paymentDeadline &&
+    other.paymentTerms == paymentTerms &&
+    other.paymentAccountType == paymentAccountType &&
+    other.paymentAccountNumber == paymentAccountNumber &&
+    other.paymentBank == paymentBank &&
     other.creditNoteIndicator == creditNoteIndicator &&
     other.issuerRNC == issuerRNC &&
     other.issuerBusinessName == issuerBusinessName &&
@@ -171,6 +221,11 @@ class ElectronicDocument {
     (expirationDate == null ? 0 : expirationDate!.hashCode) +
     (incomeType == null ? 0 : incomeType!.hashCode) +
     (paymentType == null ? 0 : paymentType!.hashCode) +
+    (paymentDeadline == null ? 0 : paymentDeadline!.hashCode) +
+    (paymentTerms == null ? 0 : paymentTerms!.hashCode) +
+    (paymentAccountType == null ? 0 : paymentAccountType!.hashCode) +
+    (paymentAccountNumber == null ? 0 : paymentAccountNumber!.hashCode) +
+    (paymentBank == null ? 0 : paymentBank!.hashCode) +
     (creditNoteIndicator == null ? 0 : creditNoteIndicator!.hashCode) +
     (issuerRNC == null ? 0 : issuerRNC!.hashCode) +
     (issuerBusinessName == null ? 0 : issuerBusinessName!.hashCode) +
@@ -188,7 +243,7 @@ class ElectronicDocument {
     (pages.hashCode);
 
   @override
-  String toString() => 'ElectronicDocument[version=$version, invoiceType=$invoiceType, invoiceNumber=$invoiceNumber, issueDate=$issueDate, expirationDate=$expirationDate, incomeType=$incomeType, paymentType=$paymentType, creditNoteIndicator=$creditNoteIndicator, issuerRNC=$issuerRNC, issuerBusinessName=$issuerBusinessName, issuerEmail=$issuerEmail, issuerPhones=$issuerPhones, buyer=$buyer, items=$items, totals=$totals, transport=$transport, additionalInfo=$additionalInfo, alternativeCurrency=$alternativeCurrency, referenceInfo=$referenceInfo, subtotals=$subtotals, discountsOrSurcharges=$discountsOrSurcharges, pages=$pages]';
+  String toString() => 'ElectronicDocument[version=$version, invoiceType=$invoiceType, invoiceNumber=$invoiceNumber, issueDate=$issueDate, expirationDate=$expirationDate, incomeType=$incomeType, paymentType=$paymentType, paymentDeadline=$paymentDeadline, paymentTerms=$paymentTerms, paymentAccountType=$paymentAccountType, paymentAccountNumber=$paymentAccountNumber, paymentBank=$paymentBank, creditNoteIndicator=$creditNoteIndicator, issuerRNC=$issuerRNC, issuerBusinessName=$issuerBusinessName, issuerEmail=$issuerEmail, issuerPhones=$issuerPhones, buyer=$buyer, items=$items, totals=$totals, transport=$transport, additionalInfo=$additionalInfo, alternativeCurrency=$alternativeCurrency, referenceInfo=$referenceInfo, subtotals=$subtotals, discountsOrSurcharges=$discountsOrSurcharges, pages=$pages]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -210,6 +265,31 @@ class ElectronicDocument {
       json[r'paymentType'] = this.paymentType;
     } else {
       json[r'paymentType'] = null;
+    }
+    if (this.paymentDeadline != null) {
+      json[r'paymentDeadline'] = this.paymentDeadline!.toUtc().toIso8601String();
+    } else {
+      json[r'paymentDeadline'] = null;
+    }
+    if (this.paymentTerms != null) {
+      json[r'paymentTerms'] = this.paymentTerms;
+    } else {
+      json[r'paymentTerms'] = null;
+    }
+    if (this.paymentAccountType != null) {
+      json[r'paymentAccountType'] = this.paymentAccountType;
+    } else {
+      json[r'paymentAccountType'] = null;
+    }
+    if (this.paymentAccountNumber != null) {
+      json[r'paymentAccountNumber'] = this.paymentAccountNumber;
+    } else {
+      json[r'paymentAccountNumber'] = null;
+    }
+    if (this.paymentBank != null) {
+      json[r'paymentBank'] = this.paymentBank;
+    } else {
+      json[r'paymentBank'] = null;
     }
     if (this.creditNoteIndicator != null) {
       json[r'creditNoteIndicator'] = this.creditNoteIndicator;
@@ -299,6 +379,11 @@ class ElectronicDocument {
         expirationDate: mapDateTime(json, r'expirationDate', r''),
         incomeType: ElectronicDocumentIncomeTypeEnum.fromJson(json[r'incomeType']),
         paymentType: ElectronicDocumentPaymentTypeEnum.fromJson(json[r'paymentType']),
+        paymentDeadline: mapDateTime(json, r'paymentDeadline', r''),
+        paymentTerms: mapValueOfType<String>(json, r'paymentTerms'),
+        paymentAccountType: AccountType.fromJson(json[r'paymentAccountType']),
+        paymentAccountNumber: mapValueOfType<String>(json, r'paymentAccountNumber'),
+        paymentBank: mapValueOfType<String>(json, r'paymentBank'),
         creditNoteIndicator: ElectronicDocumentCreditNoteIndicatorEnum.fromJson(json[r'creditNoteIndicator']),
         issuerRNC: mapValueOfType<String>(json, r'issuerRNC'),
         issuerBusinessName: mapValueOfType<String>(json, r'issuerBusinessName'),
@@ -535,7 +620,7 @@ class ElectronicDocumentPaymentTypeEnumTypeTransformer {
 }
 
 
-/// 0: ≤30 días, 1: >30 días
+/// 0: emision affected ≤ 30 days, 1: > 30 days
 class ElectronicDocumentCreditNoteIndicatorEnum {
   /// Instantiate a new enum with the provided [value].
   const ElectronicDocumentCreditNoteIndicatorEnum._(this.value);

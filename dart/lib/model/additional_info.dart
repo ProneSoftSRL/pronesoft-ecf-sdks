@@ -15,6 +15,8 @@ class AdditionalInfo {
   AdditionalInfo({
     this.grossWeight,
     this.packageQuantity,
+    this.containerId,
+    this.sealId,
   });
 
   ///
@@ -33,19 +35,39 @@ class AdditionalInfo {
   ///
   num? packageQuantity;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? containerId;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? sealId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalInfo &&
     other.grossWeight == grossWeight &&
-    other.packageQuantity == packageQuantity;
+    other.packageQuantity == packageQuantity &&
+    other.containerId == containerId &&
+    other.sealId == sealId;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (grossWeight == null ? 0 : grossWeight!.hashCode) +
-    (packageQuantity == null ? 0 : packageQuantity!.hashCode);
+    (packageQuantity == null ? 0 : packageQuantity!.hashCode) +
+    (containerId == null ? 0 : containerId!.hashCode) +
+    (sealId == null ? 0 : sealId!.hashCode);
 
   @override
-  String toString() => 'AdditionalInfo[grossWeight=$grossWeight, packageQuantity=$packageQuantity]';
+  String toString() => 'AdditionalInfo[grossWeight=$grossWeight, packageQuantity=$packageQuantity, containerId=$containerId, sealId=$sealId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -58,6 +80,16 @@ class AdditionalInfo {
       json[r'packageQuantity'] = this.packageQuantity;
     } else {
       json[r'packageQuantity'] = null;
+    }
+    if (this.containerId != null) {
+      json[r'containerId'] = this.containerId;
+    } else {
+      json[r'containerId'] = null;
+    }
+    if (this.sealId != null) {
+      json[r'sealId'] = this.sealId;
+    } else {
+      json[r'sealId'] = null;
     }
     return json;
   }
@@ -79,6 +111,8 @@ class AdditionalInfo {
       return AdditionalInfo(
         grossWeight: num.parse('${json[r'grossWeight']}'),
         packageQuantity: num.parse('${json[r'packageQuantity']}'),
+        containerId: mapValueOfType<String>(json, r'containerId'),
+        sealId: mapValueOfType<String>(json, r'sealId'),
       );
     }
     return null;

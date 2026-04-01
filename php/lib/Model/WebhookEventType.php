@@ -56,7 +56,23 @@ class WebhookEventType
 
     public const PLAN_USAGE_ALERT = 'plan.usage_alert';
 
+    public const PLAN_PAYMENT_FAILED = 'plan.payment_failed';
+
+    public const BILLING_INVOICE_READY = 'billing.invoice_ready';
+
     public const SEQUENCE_DEPLETED = 'sequence.depleted';
+
+    public const SEQUENCE_VOIDED = 'sequence.voided';
+
+    public const BRANCH_CREATED = 'branch.created';
+
+    public const BRANCH_STATUS_CHANGED = 'branch.status_changed';
+
+    public const MEMBER_INVITED = 'member.invited';
+
+    public const MEMBER_JOINED = 'member.joined';
+
+    public const MEMBER_REMOVED = 'member.removed';
 
     public const CERTIFICATION_COMPLETED = 'certification.completed';
 
@@ -74,7 +90,15 @@ class WebhookEventType
             self::COMMERCIAL_APPROVAL,
             self::CERTIFICATE_EXPIRING,
             self::PLAN_USAGE_ALERT,
+            self::PLAN_PAYMENT_FAILED,
+            self::BILLING_INVOICE_READY,
             self::SEQUENCE_DEPLETED,
+            self::SEQUENCE_VOIDED,
+            self::BRANCH_CREATED,
+            self::BRANCH_STATUS_CHANGED,
+            self::MEMBER_INVITED,
+            self::MEMBER_JOINED,
+            self::MEMBER_REMOVED,
             self::CERTIFICATION_COMPLETED
         ];
     }

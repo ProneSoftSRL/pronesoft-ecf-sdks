@@ -75,7 +75,7 @@ module PronesoftEcf
         :'event' => :'WebhookEventType',
         :'timestamp' => :'Time',
         :'business_rnc' => :'String',
-        :'data' => :'WebhookNotificationPayloadData'
+        :'data' => :'Object'
       }
     end
 

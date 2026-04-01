@@ -36,6 +36,7 @@ import com.squareup.moshi.JsonClass
  * @param eventTypes 
  * @param isActive 
  * @param createdAt 
+ * @param lastTriggeredAt 
  */
 
 
@@ -45,7 +46,7 @@ data class WebhookConfigResponse (
     val id: kotlin.String? = null,
 
     @Json(name = "url")
-    val url: kotlin.String? = null,
+    val url: java.net.URI? = null,
 
     @Json(name = "eventTypes")
     val eventTypes: kotlin.collections.List<WebhookEventType>? = null,
@@ -54,7 +55,10 @@ data class WebhookConfigResponse (
     val isActive: kotlin.Boolean? = null,
 
     @Json(name = "createdAt")
-    val createdAt: java.time.OffsetDateTime? = null
+    val createdAt: java.time.OffsetDateTime? = null,
+
+    @Json(name = "lastTriggeredAt")
+    val lastTriggeredAt: java.time.OffsetDateTime? = null
 
 ) {
 

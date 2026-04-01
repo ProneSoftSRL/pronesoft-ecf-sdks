@@ -258,12 +258,18 @@ module PronesoftEcf
     def server_settings
       [
         {
-          url: "https://api.ecf.sandbox.pronesoft.com/api/v1",
-          description: "Sandbox (Pruebas)",
-        },
-        {
-          url: "https://api.ecf.pronesoft.com/api/v1",
-          description: "Producción",
+          url: "https://{host}/api/v1",
+          description: "Servidor de Pronesoft eCF",
+          variables: {
+            host: {
+                description: "Sandbox (api.ecf.sandbox.pronesoft.com) o Producción (api.ecf.pronesoft.com)",
+                default_value: "api.ecf.sandbox.pronesoft.com",
+                enum_values: [
+                  "api.ecf.sandbox.pronesoft.com",
+                  "api.ecf.pronesoft.com"
+                ]
+              }
+            }
         }
       ]
     end

@@ -93,12 +93,18 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://api.ecf.sandbox.pronesoft.com/api/v1",
-				Description: "Sandbox (Pruebas)",
-			},
-			{
-				URL: "https://api.ecf.pronesoft.com/api/v1",
-				Description: "Producción",
+				URL: "https://{host}/api/v1",
+				Description: "Servidor de Pronesoft eCF",
+				Variables: map[string]ServerVariable{
+					"host": ServerVariable{
+						Description: "Sandbox (api.ecf.sandbox.pronesoft.com) o Producción (api.ecf.pronesoft.com)",
+						DefaultValue: "api.ecf.sandbox.pronesoft.com",
+						EnumValues: []string{
+							"api.ecf.sandbox.pronesoft.com",
+							"api.ecf.pronesoft.com",
+						},
+					},
+				},
 			},
 		},
 		OperationServers: map[string]ServerConfigurations{

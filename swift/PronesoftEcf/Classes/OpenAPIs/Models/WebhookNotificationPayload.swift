@@ -16,9 +16,9 @@ public struct WebhookNotificationPayload: Codable, JSONEncodable, Hashable {
     public var event: WebhookEventType
     public var timestamp: Date
     public var businessRnc: String
-    public var data: WebhookNotificationPayloadData
+    public var data: AnyCodable
 
-    public init(id: UUID, event: WebhookEventType, timestamp: Date, businessRnc: String, data: WebhookNotificationPayloadData) {
+    public init(id: UUID, event: WebhookEventType, timestamp: Date, businessRnc: String, data: AnyCodable) {
         self.id = id
         self.event = event
         self.timestamp = timestamp

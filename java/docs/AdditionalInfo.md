@@ -9,6 +9,8 @@
 |------------ | ------------- | ------------- | -------------|
 |**grossWeight** | **BigDecimal** |  |  [optional] |
 |**packageQuantity** | **BigDecimal** |  |  [optional] |
+|**containerId** | **String** |  |  [optional] |
+|**sealId** | **String** |  |  [optional] |
 
 
 

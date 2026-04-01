@@ -46,15 +46,33 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ```dart
 import 'package:pronesoft_ecf/api.dart';
 
+// TODO Configure OAuth2 access token for authorization: oauth2
+//defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
 
-final api_instance = AuthenticationApi();
-final oAuthTokenRequest = OAuthTokenRequest(); // OAuthTokenRequest | 
+final api_instance = AssociatedCompaniesApi();
+final xTenantId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final email = email_example; // String | 
+final password = password_example; // String | 
+final name = name_example; // String | 
+final rnc = rnc_example; // String | 
+final phone = phone_example; // String | 
+final address = address_example; // String | 
+final city = city_example; // String | 
+final country = country_example; // String | 
+final firstName = firstName_example; // String | 
+final lastName = lastName_example; // String | 
+final jobTitle = jobTitle_example; // String | 
+final website = website_example; // String | 
+final category = category_example; // String | 
+final monthlySalesRange = monthlySalesRange_example; // String | 
+final printerType = ; // PrintFormat | 
+final logo = BINARY_DATA_HERE; // MultipartFile | 
 
 try {
-    final result = api_instance.getAccessToken(oAuthTokenRequest);
+    final result = api_instance.createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo);
     print(result);
 } catch (e) {
-    print('Exception when calling AuthenticationApi->getAccessToken: $e\n');
+    print('Exception when calling AssociatedCompaniesApi->createAssociatedCompany: $e\n');
 }
 
 ```
@@ -65,6 +83,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AssociatedCompaniesApi* | [**createAssociatedCompany**](doc//AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Crear nueva empresa asociada
+*AssociatedCompaniesApi* | [**listAssociatedCompanies**](doc//AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | Listar sucursales (Asociadas)
 *AuthenticationApi* | [**getAccessToken**](doc//AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
 *DigitalCertificatesApi* | [**uploadCertificate**](doc//DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)
 *ECFSubmissionApi* | [**submitEcf**](doc//ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
@@ -78,17 +98,18 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AccountType](doc//AccountType.md)
  - [AdditionalInfo](doc//AdditionalInfo.md)
  - [AlternativeCurrency](doc//AlternativeCurrency.md)
+ - [AssociatedCompany](doc//AssociatedCompany.md)
+ - [AssociatedCompanySubscription](doc//AssociatedCompanySubscription.md)
+ - [AssociatedCompanySubscriptionPlan](doc//AssociatedCompanySubscriptionPlan.md)
  - [BillingIndicator](doc//BillingIndicator.md)
  - [Buyer](doc//Buyer.md)
- - [CertificationCompletedPayload](doc//CertificationCompletedPayload.md)
- - [CommercialApprovalPayload](doc//CommercialApprovalPayload.md)
+ - [CreateAssociatedCompany201Response](doc//CreateAssociatedCompany201Response.md)
  - [CreateTaxSequenceRequest](doc//CreateTaxSequenceRequest.md)
  - [CreateWebhookConfig](doc//CreateWebhookConfig.md)
  - [DiscountOrSurcharge](doc//DiscountOrSurcharge.md)
- - [DocumentReceivedPayload](doc//DocumentReceivedPayload.md)
- - [DocumentStatusChangedPayload](doc//DocumentStatusChangedPayload.md)
  - [EcfSubmissionResponse](doc//EcfSubmissionResponse.md)
  - [ElectronicDocument](doc//ElectronicDocument.md)
  - [Environment](doc//Environment.md)
@@ -103,6 +124,7 @@ Class | Method | HTTP request | Description
  - [OAuthTokenResponse](doc//OAuthTokenResponse.md)
  - [Page](doc//Page.md)
  - [PaymentMethod](doc//PaymentMethod.md)
+ - [PrintFormat](doc//PrintFormat.md)
  - [ReferenceInfo](doc//ReferenceInfo.md)
  - [Subquantity](doc//Subquantity.md)
  - [Subtotal](doc//Subtotal.md)
@@ -113,7 +135,6 @@ Class | Method | HTTP request | Description
  - [WebhookConfigResponse](doc//WebhookConfigResponse.md)
  - [WebhookEventType](doc//WebhookEventType.md)
  - [WebhookNotificationPayload](doc//WebhookNotificationPayload.md)
- - [WebhookNotificationPayloadData](doc//WebhookNotificationPayloadData.md)
 
 
 ## Documentation For Authorization

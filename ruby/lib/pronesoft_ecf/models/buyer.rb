@@ -23,6 +23,10 @@ module PronesoftEcf
 
     attr_accessor :address
 
+    attr_accessor :municipality_code
+
+    attr_accessor :province_code
+
     attr_accessor :delivery_address
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -32,6 +36,8 @@ module PronesoftEcf
         :'name' => :'name',
         :'email' => :'email',
         :'address' => :'address',
+        :'municipality_code' => :'municipalityCode',
+        :'province_code' => :'provinceCode',
         :'delivery_address' => :'deliveryAddress'
       }
     end
@@ -53,6 +59,8 @@ module PronesoftEcf
         :'name' => :'String',
         :'email' => :'String',
         :'address' => :'String',
+        :'municipality_code' => :'String',
+        :'province_code' => :'String',
         :'delivery_address' => :'String'
       }
     end
@@ -95,6 +103,14 @@ module PronesoftEcf
 
       if attributes.key?(:'address')
         self.address = attributes[:'address']
+      end
+
+      if attributes.key?(:'municipality_code')
+        self.municipality_code = attributes[:'municipality_code']
+      end
+
+      if attributes.key?(:'province_code')
+        self.province_code = attributes[:'province_code']
       end
 
       if attributes.key?(:'delivery_address')
@@ -190,6 +206,8 @@ module PronesoftEcf
           name == o.name &&
           email == o.email &&
           address == o.address &&
+          municipality_code == o.municipality_code &&
+          province_code == o.province_code &&
           delivery_address == o.delivery_address
     end
 
@@ -202,7 +220,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [tax_id, name, email, address, delivery_address].hash
+      [tax_id, name, email, address, municipality_code, province_code, delivery_address].hash
     end
 
     # Builds the object from hash

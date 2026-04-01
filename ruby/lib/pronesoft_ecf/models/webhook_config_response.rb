@@ -25,6 +25,8 @@ module PronesoftEcf
 
     attr_accessor :created_at
 
+    attr_accessor :last_triggered_at
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -32,7 +34,8 @@ module PronesoftEcf
         :'url' => :'url',
         :'event_types' => :'eventTypes',
         :'is_active' => :'isActive',
-        :'created_at' => :'createdAt'
+        :'created_at' => :'createdAt',
+        :'last_triggered_at' => :'lastTriggeredAt'
       }
     end
 
@@ -53,13 +56,15 @@ module PronesoftEcf
         :'url' => :'String',
         :'event_types' => :'Array<WebhookEventType>',
         :'is_active' => :'Boolean',
-        :'created_at' => :'Time'
+        :'created_at' => :'Time',
+        :'last_triggered_at' => :'Time'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'last_triggered_at'
       ])
     end
 
@@ -100,6 +105,10 @@ module PronesoftEcf
       if attributes.key?(:'created_at')
         self.created_at = attributes[:'created_at']
       end
+
+      if attributes.key?(:'last_triggered_at')
+        self.last_triggered_at = attributes[:'last_triggered_at']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -126,7 +135,8 @@ module PronesoftEcf
           url == o.url &&
           event_types == o.event_types &&
           is_active == o.is_active &&
-          created_at == o.created_at
+          created_at == o.created_at &&
+          last_triggered_at == o.last_triggered_at
     end
 
     # @see the `==` method
@@ -138,7 +148,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, url, event_types, is_active, created_at].hash
+      [id, url, event_types, is_active, created_at, last_triggered_at].hash
     end
 
     # Builds the object from hash

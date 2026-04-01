@@ -58,7 +58,10 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPITypes = [
         'modified_invoice_number' => 'string',
-        'modification_code' => 'string'
+        'other_contributor_rnc' => 'string',
+        'modified_invoice_date' => '\DateTime',
+        'modification_code' => 'string',
+        'modification_reason' => 'string'
     ];
 
     /**
@@ -70,7 +73,10 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPIFormats = [
         'modified_invoice_number' => null,
-        'modification_code' => null
+        'other_contributor_rnc' => null,
+        'modified_invoice_date' => 'date',
+        'modification_code' => null,
+        'modification_reason' => null
     ];
 
     /**
@@ -80,7 +86,10 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static array $openAPINullables = [
         'modified_invoice_number' => false,
-        'modification_code' => false
+        'other_contributor_rnc' => false,
+        'modified_invoice_date' => false,
+        'modification_code' => false,
+        'modification_reason' => false
     ];
 
     /**
@@ -170,7 +179,10 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $attributeMap = [
         'modified_invoice_number' => 'modifiedInvoiceNumber',
-        'modification_code' => 'modificationCode'
+        'other_contributor_rnc' => 'otherContributorRNC',
+        'modified_invoice_date' => 'modifiedInvoiceDate',
+        'modification_code' => 'modificationCode',
+        'modification_reason' => 'modificationReason'
     ];
 
     /**
@@ -180,7 +192,10 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $setters = [
         'modified_invoice_number' => 'setModifiedInvoiceNumber',
-        'modification_code' => 'setModificationCode'
+        'other_contributor_rnc' => 'setOtherContributorRnc',
+        'modified_invoice_date' => 'setModifiedInvoiceDate',
+        'modification_code' => 'setModificationCode',
+        'modification_reason' => 'setModificationReason'
     ];
 
     /**
@@ -190,7 +205,10 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $getters = [
         'modified_invoice_number' => 'getModifiedInvoiceNumber',
-        'modification_code' => 'getModificationCode'
+        'other_contributor_rnc' => 'getOtherContributorRnc',
+        'modified_invoice_date' => 'getModifiedInvoiceDate',
+        'modification_code' => 'getModificationCode',
+        'modification_reason' => 'getModificationReason'
     ];
 
     /**
@@ -272,7 +290,10 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('modified_invoice_number', $data ?? [], null);
+        $this->setIfExists('other_contributor_rnc', $data ?? [], null);
+        $this->setIfExists('modified_invoice_date', $data ?? [], null);
         $this->setIfExists('modification_code', $data ?? [], null);
+        $this->setIfExists('modification_reason', $data ?? [], null);
     }
 
     /**
@@ -360,6 +381,60 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets other_contributor_rnc
+     *
+     * @return string|null
+     */
+    public function getOtherContributorRnc()
+    {
+        return $this->container['other_contributor_rnc'];
+    }
+
+    /**
+     * Sets other_contributor_rnc
+     *
+     * @param string|null $other_contributor_rnc other_contributor_rnc
+     *
+     * @return self
+     */
+    public function setOtherContributorRnc($other_contributor_rnc)
+    {
+        if (is_null($other_contributor_rnc)) {
+            throw new \InvalidArgumentException('non-nullable other_contributor_rnc cannot be null');
+        }
+        $this->container['other_contributor_rnc'] = $other_contributor_rnc;
+
+        return $this;
+    }
+
+    /**
+     * Gets modified_invoice_date
+     *
+     * @return \DateTime|null
+     */
+    public function getModifiedInvoiceDate()
+    {
+        return $this->container['modified_invoice_date'];
+    }
+
+    /**
+     * Sets modified_invoice_date
+     *
+     * @param \DateTime|null $modified_invoice_date modified_invoice_date
+     *
+     * @return self
+     */
+    public function setModifiedInvoiceDate($modified_invoice_date)
+    {
+        if (is_null($modified_invoice_date)) {
+            throw new \InvalidArgumentException('non-nullable modified_invoice_date cannot be null');
+        }
+        $this->container['modified_invoice_date'] = $modified_invoice_date;
+
+        return $this;
+    }
+
+    /**
      * Gets modification_code
      *
      * @return string
@@ -392,6 +467,33 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
             );
         }
         $this->container['modification_code'] = $modification_code;
+
+        return $this;
+    }
+
+    /**
+     * Gets modification_reason
+     *
+     * @return string|null
+     */
+    public function getModificationReason()
+    {
+        return $this->container['modification_reason'];
+    }
+
+    /**
+     * Sets modification_reason
+     *
+     * @param string|null $modification_reason modification_reason
+     *
+     * @return self
+     */
+    public function setModificationReason($modification_reason)
+    {
+        if (is_null($modification_reason)) {
+            throw new \InvalidArgumentException('non-nullable modification_reason cannot be null');
+        }
+        $this->container['modification_reason'] = $modification_reason;
 
         return $this;
     }

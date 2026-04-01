@@ -23,10 +23,8 @@ module PronesoftEcf
 
     attr_accessor :billing_indicator
 
-    # Decimal string
     attr_accessor :quantity
 
-    # Decimal string
     attr_accessor :unit_price
 
     attr_accessor :amount

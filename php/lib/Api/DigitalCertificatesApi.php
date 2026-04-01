@@ -131,8 +131,8 @@ class DigitalCertificatesApi
      * Cargar Certificado Digital (P12)
      *
      * @param  string $rnc rnc (required)
-     * @param  \SplFileObject $file Archivo .p12 o .pfx (required)
-     * @param  string $password Contraseña del certificado (required)
+     * @param  \SplFileObject $file file (required)
+     * @param  string $password password (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadCertificate'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -151,8 +151,8 @@ class DigitalCertificatesApi
      * Cargar Certificado Digital (P12)
      *
      * @param  string $rnc (required)
-     * @param  \SplFileObject $file Archivo .p12 o .pfx (required)
-     * @param  string $password Contraseña del certificado (required)
+     * @param  \SplFileObject $file (required)
+     * @param  string $password (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadCertificate'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -238,8 +238,8 @@ class DigitalCertificatesApi
      * Cargar Certificado Digital (P12)
      *
      * @param  string $rnc (required)
-     * @param  \SplFileObject $file Archivo .p12 o .pfx (required)
-     * @param  string $password Contraseña del certificado (required)
+     * @param  \SplFileObject $file (required)
+     * @param  string $password (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadCertificate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -261,8 +261,8 @@ class DigitalCertificatesApi
      * Cargar Certificado Digital (P12)
      *
      * @param  string $rnc (required)
-     * @param  \SplFileObject $file Archivo .p12 o .pfx (required)
-     * @param  string $password Contraseña del certificado (required)
+     * @param  \SplFileObject $file (required)
+     * @param  string $password (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadCertificate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -313,8 +313,8 @@ class DigitalCertificatesApi
      * Create request for operation 'uploadCertificate'
      *
      * @param  string $rnc (required)
-     * @param  \SplFileObject $file Archivo .p12 o .pfx (required)
-     * @param  string $password Contraseña del certificado (required)
+     * @param  \SplFileObject $file (required)
+     * @param  string $password (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['uploadCertificate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException

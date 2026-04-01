@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateTaxSequence
 
-> CreateTaxSequence(ctx).CreateTaxSequenceRequest(createTaxSequenceRequest).Execute()
+> CreateTaxSequence(ctx).XTenantId(xTenantId).CreateTaxSequenceRequest(createTaxSequenceRequest).Execute()
 
 Crear nueva secuencia fiscal
 
@@ -29,11 +29,12 @@ import (
 )
 
 func main() {
+	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceType("31"), int32(123), int32(123)) // CreateTaxSequenceRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.TaxSequencesAPI.CreateTaxSequence(context.Background()).CreateTaxSequenceRequest(createTaxSequenceRequest).Execute()
+	r, err := apiClient.TaxSequencesAPI.CreateTaxSequence(context.Background()).XTenantId(xTenantId).CreateTaxSequenceRequest(createTaxSequenceRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TaxSequencesAPI.CreateTaxSequence``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -52,6 +53,7 @@ Other parameters are passed through a pointer to a apiCreateTaxSequenceRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **xTenantId** | **string** |  | 
  **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  | 
 
 ### Return type

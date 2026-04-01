@@ -55,6 +55,9 @@ String parameterToString(dynamic value) {
   if (value is DateTime) {
     return value.toUtc().toIso8601String();
   }
+  if (value is AccountType) {
+    return AccountTypeTypeTransformer().encode(value).toString();
+  }
   if (value is BillingIndicator) {
     return BillingIndicatorTypeTransformer().encode(value).toString();
   }
@@ -66,6 +69,9 @@ String parameterToString(dynamic value) {
   }
   if (value is PaymentMethod) {
     return PaymentMethodTypeTransformer().encode(value).toString();
+  }
+  if (value is PrintFormat) {
+    return PrintFormatTypeTransformer().encode(value).toString();
   }
   if (value is WebhookEventType) {
     return WebhookEventTypeTypeTransformer().encode(value).toString();

@@ -8,6 +8,8 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Email** | Pointer to **string** |  | [optional] 
 **Address** | Pointer to **string** |  | [optional] 
+**MunicipalityCode** | Pointer to **string** |  | [optional] 
+**ProvinceCode** | Pointer to **string** |  | [optional] 
 **DeliveryAddress** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -123,6 +125,56 @@ SetAddress sets Address field to given value.
 `func (o *Buyer) HasAddress() bool`
 
 HasAddress returns a boolean if a field has been set.
+
+### GetMunicipalityCode
+
+`func (o *Buyer) GetMunicipalityCode() string`
+
+GetMunicipalityCode returns the MunicipalityCode field if non-nil, zero value otherwise.
+
+### GetMunicipalityCodeOk
+
+`func (o *Buyer) GetMunicipalityCodeOk() (*string, bool)`
+
+GetMunicipalityCodeOk returns a tuple with the MunicipalityCode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMunicipalityCode
+
+`func (o *Buyer) SetMunicipalityCode(v string)`
+
+SetMunicipalityCode sets MunicipalityCode field to given value.
+
+### HasMunicipalityCode
+
+`func (o *Buyer) HasMunicipalityCode() bool`
+
+HasMunicipalityCode returns a boolean if a field has been set.
+
+### GetProvinceCode
+
+`func (o *Buyer) GetProvinceCode() string`
+
+GetProvinceCode returns the ProvinceCode field if non-nil, zero value otherwise.
+
+### GetProvinceCodeOk
+
+`func (o *Buyer) GetProvinceCodeOk() (*string, bool)`
+
+GetProvinceCodeOk returns a tuple with the ProvinceCode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProvinceCode
+
+`func (o *Buyer) SetProvinceCode(v string)`
+
+SetProvinceCode sets ProvinceCode field to given value.
+
+### HasProvinceCode
+
+`func (o *Buyer) HasProvinceCode() bool`
+
+HasProvinceCode returns a boolean if a field has been set.
 
 ### GetDeliveryAddress
 

@@ -14,7 +14,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 ## `createTaxSequence()`
 
 ```php
-createTaxSequence($create_tax_sequence_request)
+createTaxSequence($x_tenant_id, $create_tax_sequence_request)
 ```
 
 Crear nueva secuencia fiscal
@@ -36,10 +36,11 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     new GuzzleHttp\Client(),
     $config
 );
+$x_tenant_id = 'x_tenant_id_example'; // string
 $create_tax_sequence_request = new \PronesoftEcf\Model\CreateTaxSequenceRequest(); // \PronesoftEcf\Model\CreateTaxSequenceRequest
 
 try {
-    $apiInstance->createTaxSequence($create_tax_sequence_request);
+    $apiInstance->createTaxSequence($x_tenant_id, $create_tax_sequence_request);
 } catch (Exception $e) {
     echo 'Exception when calling TaxSequencesApi->createTaxSequence: ', $e->getMessage(), PHP_EOL;
 }
@@ -49,6 +50,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **x_tenant_id** | **string**|  | |
 | **create_tax_sequence_request** | [**\PronesoftEcf\Model\CreateTaxSequenceRequest**](../Model/CreateTaxSequenceRequest.md)|  | |
 
 ### Return type

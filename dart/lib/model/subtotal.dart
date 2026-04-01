@@ -16,6 +16,17 @@ class Subtotal {
     required this.number,
     required this.amount,
     this.description,
+    this.taxableAmount,
+    this.taxableAmount1,
+    this.taxableAmount2,
+    this.taxableAmount3,
+    this.totalITBIS,
+    this.itbis1,
+    this.itbis2,
+    this.itbis3,
+    this.additionalTaxes,
+    this.exemptAmount,
+    this.lines,
   });
 
   int number;
@@ -30,21 +41,131 @@ class Subtotal {
   ///
   String? description;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? taxableAmount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? taxableAmount1;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? taxableAmount2;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? taxableAmount3;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? totalITBIS;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? itbis1;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? itbis2;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? itbis3;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? additionalTaxes;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? exemptAmount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? lines;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Subtotal &&
     other.number == number &&
     other.amount == amount &&
-    other.description == description;
+    other.description == description &&
+    other.taxableAmount == taxableAmount &&
+    other.taxableAmount1 == taxableAmount1 &&
+    other.taxableAmount2 == taxableAmount2 &&
+    other.taxableAmount3 == taxableAmount3 &&
+    other.totalITBIS == totalITBIS &&
+    other.itbis1 == itbis1 &&
+    other.itbis2 == itbis2 &&
+    other.itbis3 == itbis3 &&
+    other.additionalTaxes == additionalTaxes &&
+    other.exemptAmount == exemptAmount &&
+    other.lines == lines;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (number.hashCode) +
     (amount.hashCode) +
-    (description == null ? 0 : description!.hashCode);
+    (description == null ? 0 : description!.hashCode) +
+    (taxableAmount == null ? 0 : taxableAmount!.hashCode) +
+    (taxableAmount1 == null ? 0 : taxableAmount1!.hashCode) +
+    (taxableAmount2 == null ? 0 : taxableAmount2!.hashCode) +
+    (taxableAmount3 == null ? 0 : taxableAmount3!.hashCode) +
+    (totalITBIS == null ? 0 : totalITBIS!.hashCode) +
+    (itbis1 == null ? 0 : itbis1!.hashCode) +
+    (itbis2 == null ? 0 : itbis2!.hashCode) +
+    (itbis3 == null ? 0 : itbis3!.hashCode) +
+    (additionalTaxes == null ? 0 : additionalTaxes!.hashCode) +
+    (exemptAmount == null ? 0 : exemptAmount!.hashCode) +
+    (lines == null ? 0 : lines!.hashCode);
 
   @override
-  String toString() => 'Subtotal[number=$number, amount=$amount, description=$description]';
+  String toString() => 'Subtotal[number=$number, amount=$amount, description=$description, taxableAmount=$taxableAmount, taxableAmount1=$taxableAmount1, taxableAmount2=$taxableAmount2, taxableAmount3=$taxableAmount3, totalITBIS=$totalITBIS, itbis1=$itbis1, itbis2=$itbis2, itbis3=$itbis3, additionalTaxes=$additionalTaxes, exemptAmount=$exemptAmount, lines=$lines]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -54,6 +175,61 @@ class Subtotal {
       json[r'description'] = this.description;
     } else {
       json[r'description'] = null;
+    }
+    if (this.taxableAmount != null) {
+      json[r'taxableAmount'] = this.taxableAmount;
+    } else {
+      json[r'taxableAmount'] = null;
+    }
+    if (this.taxableAmount1 != null) {
+      json[r'taxableAmount1'] = this.taxableAmount1;
+    } else {
+      json[r'taxableAmount1'] = null;
+    }
+    if (this.taxableAmount2 != null) {
+      json[r'taxableAmount2'] = this.taxableAmount2;
+    } else {
+      json[r'taxableAmount2'] = null;
+    }
+    if (this.taxableAmount3 != null) {
+      json[r'taxableAmount3'] = this.taxableAmount3;
+    } else {
+      json[r'taxableAmount3'] = null;
+    }
+    if (this.totalITBIS != null) {
+      json[r'totalITBIS'] = this.totalITBIS;
+    } else {
+      json[r'totalITBIS'] = null;
+    }
+    if (this.itbis1 != null) {
+      json[r'itbis1'] = this.itbis1;
+    } else {
+      json[r'itbis1'] = null;
+    }
+    if (this.itbis2 != null) {
+      json[r'itbis2'] = this.itbis2;
+    } else {
+      json[r'itbis2'] = null;
+    }
+    if (this.itbis3 != null) {
+      json[r'itbis3'] = this.itbis3;
+    } else {
+      json[r'itbis3'] = null;
+    }
+    if (this.additionalTaxes != null) {
+      json[r'additionalTaxes'] = this.additionalTaxes;
+    } else {
+      json[r'additionalTaxes'] = null;
+    }
+    if (this.exemptAmount != null) {
+      json[r'exemptAmount'] = this.exemptAmount;
+    } else {
+      json[r'exemptAmount'] = null;
+    }
+    if (this.lines != null) {
+      json[r'lines'] = this.lines;
+    } else {
+      json[r'lines'] = null;
     }
     return json;
   }
@@ -80,6 +256,17 @@ class Subtotal {
         number: mapValueOfType<int>(json, r'number')!,
         amount: num.parse('${json[r'amount']}'),
         description: mapValueOfType<String>(json, r'description'),
+        taxableAmount: num.parse('${json[r'taxableAmount']}'),
+        taxableAmount1: num.parse('${json[r'taxableAmount1']}'),
+        taxableAmount2: num.parse('${json[r'taxableAmount2']}'),
+        taxableAmount3: num.parse('${json[r'taxableAmount3']}'),
+        totalITBIS: num.parse('${json[r'totalITBIS']}'),
+        itbis1: num.parse('${json[r'itbis1']}'),
+        itbis2: num.parse('${json[r'itbis2']}'),
+        itbis3: num.parse('${json[r'itbis3']}'),
+        additionalTaxes: num.parse('${json[r'additionalTaxes']}'),
+        exemptAmount: num.parse('${json[r'exemptAmount']}'),
+        lines: mapValueOfType<int>(json, r'lines'),
       );
     }
     return null;

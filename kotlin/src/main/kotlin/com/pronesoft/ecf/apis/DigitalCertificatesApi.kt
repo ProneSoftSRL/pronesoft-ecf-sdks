@@ -58,8 +58,8 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
      * Cargar Certificado Digital (P12)
      * 
      * @param rnc 
-     * @param file Archivo .p12 o .pfx
-     * @param password Contraseña del certificado
+     * @param file 
+     * @param password 
      * @return UploadCertificate201Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -92,8 +92,8 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
      * Cargar Certificado Digital (P12)
      * 
      * @param rnc 
-     * @param file Archivo .p12 o .pfx
-     * @param password Contraseña del certificado
+     * @param file 
+     * @param password 
      * @return ApiResponse<UploadCertificate201Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -112,8 +112,8 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
      * To obtain the request config of the operation uploadCertificate
      *
      * @param rnc 
-     * @param file Archivo .p12 o .pfx
-     * @param password Contraseña del certificado
+     * @param file 
+     * @param password 
      * @return RequestConfig
      */
     fun uploadCertificateRequestConfig(rnc: kotlin.String, file: java.io.File, password: kotlin.String) : RequestConfig<Map<String, PartConfig<*>>> {

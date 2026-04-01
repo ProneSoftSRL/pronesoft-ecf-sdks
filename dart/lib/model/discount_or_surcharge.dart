@@ -17,6 +17,10 @@ class DiscountOrSurcharge {
     required this.type,
     required this.valueType,
     required this.amount,
+    this.description,
+    this.percentageValue,
+    this.alternativeCurrencyAmount,
+    this.billingIndicator,
   });
 
   int lineNumber;
@@ -27,12 +31,48 @@ class DiscountOrSurcharge {
 
   num amount;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? description;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? percentageValue;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? alternativeCurrencyAmount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  BillingIndicator? billingIndicator;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is DiscountOrSurcharge &&
     other.lineNumber == lineNumber &&
     other.type == type &&
     other.valueType == valueType &&
-    other.amount == amount;
+    other.amount == amount &&
+    other.description == description &&
+    other.percentageValue == percentageValue &&
+    other.alternativeCurrencyAmount == alternativeCurrencyAmount &&
+    other.billingIndicator == billingIndicator;
 
   @override
   int get hashCode =>
@@ -40,10 +80,14 @@ class DiscountOrSurcharge {
     (lineNumber.hashCode) +
     (type.hashCode) +
     (valueType.hashCode) +
-    (amount.hashCode);
+    (amount.hashCode) +
+    (description == null ? 0 : description!.hashCode) +
+    (percentageValue == null ? 0 : percentageValue!.hashCode) +
+    (alternativeCurrencyAmount == null ? 0 : alternativeCurrencyAmount!.hashCode) +
+    (billingIndicator == null ? 0 : billingIndicator!.hashCode);
 
   @override
-  String toString() => 'DiscountOrSurcharge[lineNumber=$lineNumber, type=$type, valueType=$valueType, amount=$amount]';
+  String toString() => 'DiscountOrSurcharge[lineNumber=$lineNumber, type=$type, valueType=$valueType, amount=$amount, description=$description, percentageValue=$percentageValue, alternativeCurrencyAmount=$alternativeCurrencyAmount, billingIndicator=$billingIndicator]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -51,6 +95,26 @@ class DiscountOrSurcharge {
       json[r'type'] = this.type;
       json[r'valueType'] = this.valueType;
       json[r'amount'] = this.amount;
+    if (this.description != null) {
+      json[r'description'] = this.description;
+    } else {
+      json[r'description'] = null;
+    }
+    if (this.percentageValue != null) {
+      json[r'percentageValue'] = this.percentageValue;
+    } else {
+      json[r'percentageValue'] = null;
+    }
+    if (this.alternativeCurrencyAmount != null) {
+      json[r'alternativeCurrencyAmount'] = this.alternativeCurrencyAmount;
+    } else {
+      json[r'alternativeCurrencyAmount'] = null;
+    }
+    if (this.billingIndicator != null) {
+      json[r'billingIndicator'] = this.billingIndicator;
+    } else {
+      json[r'billingIndicator'] = null;
+    }
     return json;
   }
 
@@ -81,6 +145,10 @@ class DiscountOrSurcharge {
         type: DiscountOrSurchargeTypeEnum.fromJson(json[r'type'])!,
         valueType: DiscountOrSurchargeValueTypeEnum.fromJson(json[r'valueType'])!,
         amount: num.parse('${json[r'amount']}'),
+        description: mapValueOfType<String>(json, r'description'),
+        percentageValue: num.parse('${json[r'percentageValue']}'),
+        alternativeCurrencyAmount: num.parse('${json[r'alternativeCurrencyAmount']}'),
+        billingIndicator: BillingIndicator.fromJson(json[r'billingIndicator']),
       );
     }
     return null;

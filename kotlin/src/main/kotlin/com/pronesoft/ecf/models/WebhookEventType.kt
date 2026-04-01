@@ -30,7 +30,7 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * Values: documentPeriodReceived,documentPeriodStatus_changed,documentPeriodValidation_error,documentPeriodContingency_activated,commercialPeriodApproval,certificatePeriodExpiring,planPeriodUsage_alert,sequencePeriodDepleted,certificationPeriodCompleted
+ * Values: documentPeriodReceived,documentPeriodStatus_changed,documentPeriodValidation_error,documentPeriodContingency_activated,commercialPeriodApproval,certificatePeriodExpiring,planPeriodUsage_alert,planPeriodPayment_failed,billingPeriodInvoice_ready,sequencePeriodDepleted,sequencePeriodVoided,branchPeriodCreated,branchPeriodStatus_changed,memberPeriodInvited,memberPeriodJoined,memberPeriodRemoved,certificationPeriodCompleted
  */
 
 @JsonClass(generateAdapter = false)
@@ -57,8 +57,32 @@ enum class WebhookEventType(val value: kotlin.String) {
     @Json(name = "plan.usage_alert")
     planPeriodUsage_alert("plan.usage_alert"),
 
+    @Json(name = "plan.payment_failed")
+    planPeriodPayment_failed("plan.payment_failed"),
+
+    @Json(name = "billing.invoice_ready")
+    billingPeriodInvoice_ready("billing.invoice_ready"),
+
     @Json(name = "sequence.depleted")
     sequencePeriodDepleted("sequence.depleted"),
+
+    @Json(name = "sequence.voided")
+    sequencePeriodVoided("sequence.voided"),
+
+    @Json(name = "branch.created")
+    branchPeriodCreated("branch.created"),
+
+    @Json(name = "branch.status_changed")
+    branchPeriodStatus_changed("branch.status_changed"),
+
+    @Json(name = "member.invited")
+    memberPeriodInvited("member.invited"),
+
+    @Json(name = "member.joined")
+    memberPeriodJoined("member.joined"),
+
+    @Json(name = "member.removed")
+    memberPeriodRemoved("member.removed"),
 
     @Json(name = "certification.completed")
     certificationPeriodCompleted("certification.completed");

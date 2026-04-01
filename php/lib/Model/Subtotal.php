@@ -59,7 +59,18 @@ class Subtotal implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'number' => 'int',
         'amount' => 'float',
-        'description' => 'string'
+        'description' => 'string',
+        'taxable_amount' => 'float',
+        'taxable_amount1' => 'float',
+        'taxable_amount2' => 'float',
+        'taxable_amount3' => 'float',
+        'total_itbis' => 'float',
+        'itbis1' => 'float',
+        'itbis2' => 'float',
+        'itbis3' => 'float',
+        'additional_taxes' => 'float',
+        'exempt_amount' => 'float',
+        'lines' => 'int'
     ];
 
     /**
@@ -72,7 +83,18 @@ class Subtotal implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'number' => null,
         'amount' => null,
-        'description' => null
+        'description' => null,
+        'taxable_amount' => null,
+        'taxable_amount1' => null,
+        'taxable_amount2' => null,
+        'taxable_amount3' => null,
+        'total_itbis' => null,
+        'itbis1' => null,
+        'itbis2' => null,
+        'itbis3' => null,
+        'additional_taxes' => null,
+        'exempt_amount' => null,
+        'lines' => null
     ];
 
     /**
@@ -83,7 +105,18 @@ class Subtotal implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'number' => false,
         'amount' => false,
-        'description' => false
+        'description' => false,
+        'taxable_amount' => false,
+        'taxable_amount1' => false,
+        'taxable_amount2' => false,
+        'taxable_amount3' => false,
+        'total_itbis' => false,
+        'itbis1' => false,
+        'itbis2' => false,
+        'itbis3' => false,
+        'additional_taxes' => false,
+        'exempt_amount' => false,
+        'lines' => false
     ];
 
     /**
@@ -174,7 +207,18 @@ class Subtotal implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'number' => 'number',
         'amount' => 'amount',
-        'description' => 'description'
+        'description' => 'description',
+        'taxable_amount' => 'taxableAmount',
+        'taxable_amount1' => 'taxableAmount1',
+        'taxable_amount2' => 'taxableAmount2',
+        'taxable_amount3' => 'taxableAmount3',
+        'total_itbis' => 'totalITBIS',
+        'itbis1' => 'itbis1',
+        'itbis2' => 'itbis2',
+        'itbis3' => 'itbis3',
+        'additional_taxes' => 'additionalTaxes',
+        'exempt_amount' => 'exemptAmount',
+        'lines' => 'lines'
     ];
 
     /**
@@ -185,7 +229,18 @@ class Subtotal implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'number' => 'setNumber',
         'amount' => 'setAmount',
-        'description' => 'setDescription'
+        'description' => 'setDescription',
+        'taxable_amount' => 'setTaxableAmount',
+        'taxable_amount1' => 'setTaxableAmount1',
+        'taxable_amount2' => 'setTaxableAmount2',
+        'taxable_amount3' => 'setTaxableAmount3',
+        'total_itbis' => 'setTotalItbis',
+        'itbis1' => 'setItbis1',
+        'itbis2' => 'setItbis2',
+        'itbis3' => 'setItbis3',
+        'additional_taxes' => 'setAdditionalTaxes',
+        'exempt_amount' => 'setExemptAmount',
+        'lines' => 'setLines'
     ];
 
     /**
@@ -196,7 +251,18 @@ class Subtotal implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'number' => 'getNumber',
         'amount' => 'getAmount',
-        'description' => 'getDescription'
+        'description' => 'getDescription',
+        'taxable_amount' => 'getTaxableAmount',
+        'taxable_amount1' => 'getTaxableAmount1',
+        'taxable_amount2' => 'getTaxableAmount2',
+        'taxable_amount3' => 'getTaxableAmount3',
+        'total_itbis' => 'getTotalItbis',
+        'itbis1' => 'getItbis1',
+        'itbis2' => 'getItbis2',
+        'itbis3' => 'getItbis3',
+        'additional_taxes' => 'getAdditionalTaxes',
+        'exempt_amount' => 'getExemptAmount',
+        'lines' => 'getLines'
     ];
 
     /**
@@ -259,6 +325,17 @@ class Subtotal implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('number', $data ?? [], null);
         $this->setIfExists('amount', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
+        $this->setIfExists('taxable_amount', $data ?? [], null);
+        $this->setIfExists('taxable_amount1', $data ?? [], null);
+        $this->setIfExists('taxable_amount2', $data ?? [], null);
+        $this->setIfExists('taxable_amount3', $data ?? [], null);
+        $this->setIfExists('total_itbis', $data ?? [], null);
+        $this->setIfExists('itbis1', $data ?? [], null);
+        $this->setIfExists('itbis2', $data ?? [], null);
+        $this->setIfExists('itbis3', $data ?? [], null);
+        $this->setIfExists('additional_taxes', $data ?? [], null);
+        $this->setIfExists('exempt_amount', $data ?? [], null);
+        $this->setIfExists('lines', $data ?? [], null);
     }
 
     /**
@@ -386,6 +463,303 @@ class Subtotal implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable description cannot be null');
         }
         $this->container['description'] = $description;
+
+        return $this;
+    }
+
+    /**
+     * Gets taxable_amount
+     *
+     * @return float|null
+     */
+    public function getTaxableAmount()
+    {
+        return $this->container['taxable_amount'];
+    }
+
+    /**
+     * Sets taxable_amount
+     *
+     * @param float|null $taxable_amount taxable_amount
+     *
+     * @return self
+     */
+    public function setTaxableAmount($taxable_amount)
+    {
+        if (is_null($taxable_amount)) {
+            throw new \InvalidArgumentException('non-nullable taxable_amount cannot be null');
+        }
+        $this->container['taxable_amount'] = $taxable_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets taxable_amount1
+     *
+     * @return float|null
+     */
+    public function getTaxableAmount1()
+    {
+        return $this->container['taxable_amount1'];
+    }
+
+    /**
+     * Sets taxable_amount1
+     *
+     * @param float|null $taxable_amount1 taxable_amount1
+     *
+     * @return self
+     */
+    public function setTaxableAmount1($taxable_amount1)
+    {
+        if (is_null($taxable_amount1)) {
+            throw new \InvalidArgumentException('non-nullable taxable_amount1 cannot be null');
+        }
+        $this->container['taxable_amount1'] = $taxable_amount1;
+
+        return $this;
+    }
+
+    /**
+     * Gets taxable_amount2
+     *
+     * @return float|null
+     */
+    public function getTaxableAmount2()
+    {
+        return $this->container['taxable_amount2'];
+    }
+
+    /**
+     * Sets taxable_amount2
+     *
+     * @param float|null $taxable_amount2 taxable_amount2
+     *
+     * @return self
+     */
+    public function setTaxableAmount2($taxable_amount2)
+    {
+        if (is_null($taxable_amount2)) {
+            throw new \InvalidArgumentException('non-nullable taxable_amount2 cannot be null');
+        }
+        $this->container['taxable_amount2'] = $taxable_amount2;
+
+        return $this;
+    }
+
+    /**
+     * Gets taxable_amount3
+     *
+     * @return float|null
+     */
+    public function getTaxableAmount3()
+    {
+        return $this->container['taxable_amount3'];
+    }
+
+    /**
+     * Sets taxable_amount3
+     *
+     * @param float|null $taxable_amount3 taxable_amount3
+     *
+     * @return self
+     */
+    public function setTaxableAmount3($taxable_amount3)
+    {
+        if (is_null($taxable_amount3)) {
+            throw new \InvalidArgumentException('non-nullable taxable_amount3 cannot be null');
+        }
+        $this->container['taxable_amount3'] = $taxable_amount3;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_itbis
+     *
+     * @return float|null
+     */
+    public function getTotalItbis()
+    {
+        return $this->container['total_itbis'];
+    }
+
+    /**
+     * Sets total_itbis
+     *
+     * @param float|null $total_itbis total_itbis
+     *
+     * @return self
+     */
+    public function setTotalItbis($total_itbis)
+    {
+        if (is_null($total_itbis)) {
+            throw new \InvalidArgumentException('non-nullable total_itbis cannot be null');
+        }
+        $this->container['total_itbis'] = $total_itbis;
+
+        return $this;
+    }
+
+    /**
+     * Gets itbis1
+     *
+     * @return float|null
+     */
+    public function getItbis1()
+    {
+        return $this->container['itbis1'];
+    }
+
+    /**
+     * Sets itbis1
+     *
+     * @param float|null $itbis1 itbis1
+     *
+     * @return self
+     */
+    public function setItbis1($itbis1)
+    {
+        if (is_null($itbis1)) {
+            throw new \InvalidArgumentException('non-nullable itbis1 cannot be null');
+        }
+        $this->container['itbis1'] = $itbis1;
+
+        return $this;
+    }
+
+    /**
+     * Gets itbis2
+     *
+     * @return float|null
+     */
+    public function getItbis2()
+    {
+        return $this->container['itbis2'];
+    }
+
+    /**
+     * Sets itbis2
+     *
+     * @param float|null $itbis2 itbis2
+     *
+     * @return self
+     */
+    public function setItbis2($itbis2)
+    {
+        if (is_null($itbis2)) {
+            throw new \InvalidArgumentException('non-nullable itbis2 cannot be null');
+        }
+        $this->container['itbis2'] = $itbis2;
+
+        return $this;
+    }
+
+    /**
+     * Gets itbis3
+     *
+     * @return float|null
+     */
+    public function getItbis3()
+    {
+        return $this->container['itbis3'];
+    }
+
+    /**
+     * Sets itbis3
+     *
+     * @param float|null $itbis3 itbis3
+     *
+     * @return self
+     */
+    public function setItbis3($itbis3)
+    {
+        if (is_null($itbis3)) {
+            throw new \InvalidArgumentException('non-nullable itbis3 cannot be null');
+        }
+        $this->container['itbis3'] = $itbis3;
+
+        return $this;
+    }
+
+    /**
+     * Gets additional_taxes
+     *
+     * @return float|null
+     */
+    public function getAdditionalTaxes()
+    {
+        return $this->container['additional_taxes'];
+    }
+
+    /**
+     * Sets additional_taxes
+     *
+     * @param float|null $additional_taxes additional_taxes
+     *
+     * @return self
+     */
+    public function setAdditionalTaxes($additional_taxes)
+    {
+        if (is_null($additional_taxes)) {
+            throw new \InvalidArgumentException('non-nullable additional_taxes cannot be null');
+        }
+        $this->container['additional_taxes'] = $additional_taxes;
+
+        return $this;
+    }
+
+    /**
+     * Gets exempt_amount
+     *
+     * @return float|null
+     */
+    public function getExemptAmount()
+    {
+        return $this->container['exempt_amount'];
+    }
+
+    /**
+     * Sets exempt_amount
+     *
+     * @param float|null $exempt_amount exempt_amount
+     *
+     * @return self
+     */
+    public function setExemptAmount($exempt_amount)
+    {
+        if (is_null($exempt_amount)) {
+            throw new \InvalidArgumentException('non-nullable exempt_amount cannot be null');
+        }
+        $this->container['exempt_amount'] = $exempt_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets lines
+     *
+     * @return int|null
+     */
+    public function getLines()
+    {
+        return $this->container['lines'];
+    }
+
+    /**
+     * Sets lines
+     *
+     * @param int|null $lines lines
+     *
+     * @return self
+     */
+    public function setLines($lines)
+    {
+        if (is_null($lines)) {
+            throw new \InvalidArgumentException('non-nullable lines cannot be null');
+        }
+        $this->container['lines'] = $lines;
 
         return $this;
     }

@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **event** | [**WebhookEventType**](WebhookEventType.md) |  | [default to undefined]
 **timestamp** | **string** |  | [default to undefined]
 **businessRnc** | **string** |  | [default to undefined]
-**data** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  | [default to undefined]
+**data** | **object** |  | [default to undefined]
 
 ## Example
 

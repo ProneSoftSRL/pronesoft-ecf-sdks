@@ -11,7 +11,7 @@
 |**event** | **WebhookEventType** |  |  |
 |**timestamp** | **OffsetDateTime** |  |  |
 |**businessRnc** | **String** |  |  |
-|**data** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  |  |
+|**data** | **Object** |  |  |
 
 
 

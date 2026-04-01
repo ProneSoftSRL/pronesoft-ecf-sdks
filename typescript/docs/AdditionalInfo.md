@@ -7,6 +7,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **grossWeight** | **number** |  | [optional] [default to undefined]
 **packageQuantity** | **number** |  | [optional] [default to undefined]
+**containerId** | **string** |  | [optional] [default to undefined]
+**sealId** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,6 +18,8 @@ import { AdditionalInfo } from '@pronesoft/ecf-sdk';
 const instance: AdditionalInfo = {
     grossWeight,
     packageQuantity,
+    containerId,
+    sealId,
 };
 ```
 

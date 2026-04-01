@@ -16,6 +16,9 @@ class Transport {
     this.driver,
     this.vehicleId,
     this.licensePlate,
+    this.route,
+    this.departureDate,
+    this.arrivalDate,
   });
 
   ///
@@ -42,21 +45,51 @@ class Transport {
   ///
   String? licensePlate;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? route;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? departureDate;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? arrivalDate;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Transport &&
     other.driver == driver &&
     other.vehicleId == vehicleId &&
-    other.licensePlate == licensePlate;
+    other.licensePlate == licensePlate &&
+    other.route == route &&
+    other.departureDate == departureDate &&
+    other.arrivalDate == arrivalDate;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (driver == null ? 0 : driver!.hashCode) +
     (vehicleId == null ? 0 : vehicleId!.hashCode) +
-    (licensePlate == null ? 0 : licensePlate!.hashCode);
+    (licensePlate == null ? 0 : licensePlate!.hashCode) +
+    (route == null ? 0 : route!.hashCode) +
+    (departureDate == null ? 0 : departureDate!.hashCode) +
+    (arrivalDate == null ? 0 : arrivalDate!.hashCode);
 
   @override
-  String toString() => 'Transport[driver=$driver, vehicleId=$vehicleId, licensePlate=$licensePlate]';
+  String toString() => 'Transport[driver=$driver, vehicleId=$vehicleId, licensePlate=$licensePlate, route=$route, departureDate=$departureDate, arrivalDate=$arrivalDate]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -74,6 +107,21 @@ class Transport {
       json[r'licensePlate'] = this.licensePlate;
     } else {
       json[r'licensePlate'] = null;
+    }
+    if (this.route != null) {
+      json[r'route'] = this.route;
+    } else {
+      json[r'route'] = null;
+    }
+    if (this.departureDate != null) {
+      json[r'departureDate'] = this.departureDate!.toUtc().toIso8601String();
+    } else {
+      json[r'departureDate'] = null;
+    }
+    if (this.arrivalDate != null) {
+      json[r'arrivalDate'] = this.arrivalDate!.toUtc().toIso8601String();
+    } else {
+      json[r'arrivalDate'] = null;
     }
     return json;
   }
@@ -96,6 +144,9 @@ class Transport {
         driver: mapValueOfType<String>(json, r'driver'),
         vehicleId: mapValueOfType<String>(json, r'vehicleId'),
         licensePlate: mapValueOfType<String>(json, r'licensePlate'),
+        route: mapValueOfType<String>(json, r'route'),
+        departureDate: mapDateTime(json, r'departureDate', r''),
+        arrivalDate: mapDateTime(json, r'arrivalDate', r''),
       );
     }
     return null;

@@ -40,10 +40,8 @@ class Item {
 
   BillingIndicator billingIndicator;
 
-  /// Decimal string
   String quantity;
 
-  /// Decimal string
   String unitPrice;
 
   num amount;

@@ -11,7 +11,12 @@
 | **expiration_date** | **Time** |  | [optional] |
 | **income_type** | **String** |  | [optional] |
 | **payment_type** | **String** |  | [optional] |
-| **credit_note_indicator** | **String** | 0: ≤30 días, 1: &gt;30 días | [optional] |
+| **payment_deadline** | **Time** |  | [optional] |
+| **payment_terms** | **String** |  | [optional] |
+| **payment_account_type** | [**AccountType**](AccountType.md) |  | [optional] |
+| **payment_account_number** | **String** |  | [optional] |
+| **payment_bank** | **String** |  | [optional] |
+| **credit_note_indicator** | **String** | 0: emision affected ≤ 30 days, 1: &gt; 30 days | [optional] |
 | **issuer_rnc** | **String** |  | [optional] |
 | **issuer_business_name** | **String** |  | [optional] |
 | **issuer_email** | **String** |  | [optional] |
@@ -40,6 +45,11 @@ instance = PronesoftEcf::ElectronicDocument.new(
   expiration_date: null,
   income_type: null,
   payment_type: null,
+  payment_deadline: null,
+  payment_terms: null,
+  payment_account_type: null,
+  payment_account_number: null,
+  payment_bank: null,
   credit_note_indicator: null,
   issuer_rnc: null,
   issuer_business_name: null,

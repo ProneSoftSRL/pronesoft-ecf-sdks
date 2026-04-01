@@ -24,12 +24,20 @@ public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
     public var type: ModelType
     public var valueType: ValueType
     public var amount: Double
+    public var description: String?
+    public var percentageValue: Double?
+    public var alternativeCurrencyAmount: Double?
+    public var billingIndicator: BillingIndicator?
 
-    public init(lineNumber: Int, type: ModelType, valueType: ValueType, amount: Double) {
+    public init(lineNumber: Int, type: ModelType, valueType: ValueType, amount: Double, description: String? = nil, percentageValue: Double? = nil, alternativeCurrencyAmount: Double? = nil, billingIndicator: BillingIndicator? = nil) {
         self.lineNumber = lineNumber
         self.type = type
         self.valueType = valueType
         self.amount = amount
+        self.description = description
+        self.percentageValue = percentageValue
+        self.alternativeCurrencyAmount = alternativeCurrencyAmount
+        self.billingIndicator = billingIndicator
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -37,6 +45,10 @@ public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
         case type
         case valueType
         case amount
+        case description
+        case percentageValue
+        case alternativeCurrencyAmount
+        case billingIndicator
     }
 
     // Encodable protocol methods
@@ -47,6 +59,10 @@ public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
         try container.encode(type, forKey: .type)
         try container.encode(valueType, forKey: .valueType)
         try container.encode(amount, forKey: .amount)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(percentageValue, forKey: .percentageValue)
+        try container.encodeIfPresent(alternativeCurrencyAmount, forKey: .alternativeCurrencyAmount)
+        try container.encodeIfPresent(billingIndicator, forKey: .billingIndicator)
     }
 }
 

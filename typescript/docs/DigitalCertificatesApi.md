@@ -22,8 +22,8 @@ const configuration = new Configuration();
 const apiInstance = new DigitalCertificatesApi(configuration);
 
 let rnc: string; // (default to undefined)
-let file: File; //Archivo .p12 o .pfx (default to undefined)
-let password: string; //Contraseña del certificado (default to undefined)
+let file: File; // (default to undefined)
+let password: string; // (default to undefined)
 
 const { status, data } = await apiInstance.uploadCertificate(
     rnc,
@@ -37,8 +37,8 @@ const { status, data } = await apiInstance.uploadCertificate(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **rnc** | [**string**] |  | defaults to undefined|
-| **file** | [**File**] | Archivo .p12 o .pfx | defaults to undefined|
-| **password** | [**string**] | Contraseña del certificado | defaults to undefined|
+| **file** | [**File**] |  | defaults to undefined|
+| **password** | [**string**] |  | defaults to undefined|
 
 
 ### Return type

@@ -44,6 +44,7 @@ class TaxSequencesApi:
     @validate_call
     def create_tax_sequence(
         self,
+        x_tenant_id: UUID,
         create_tax_sequence_request: CreateTaxSequenceRequest,
         _request_timeout: Union[
             None,
@@ -61,6 +62,8 @@ class TaxSequencesApi:
         """Crear nueva secuencia fiscal
 
 
+        :param x_tenant_id: (required)
+        :type x_tenant_id: UUID
         :param create_tax_sequence_request: (required)
         :type create_tax_sequence_request: CreateTaxSequenceRequest
         :param _request_timeout: timeout setting for this request. If one
@@ -86,6 +89,7 @@ class TaxSequencesApi:
         """ # noqa: E501
 
         _param = self._create_tax_sequence_serialize(
+            x_tenant_id=x_tenant_id,
             create_tax_sequence_request=create_tax_sequence_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,6 +114,7 @@ class TaxSequencesApi:
     @validate_call
     def create_tax_sequence_with_http_info(
         self,
+        x_tenant_id: UUID,
         create_tax_sequence_request: CreateTaxSequenceRequest,
         _request_timeout: Union[
             None,
@@ -127,6 +132,8 @@ class TaxSequencesApi:
         """Crear nueva secuencia fiscal
 
 
+        :param x_tenant_id: (required)
+        :type x_tenant_id: UUID
         :param create_tax_sequence_request: (required)
         :type create_tax_sequence_request: CreateTaxSequenceRequest
         :param _request_timeout: timeout setting for this request. If one
@@ -152,6 +159,7 @@ class TaxSequencesApi:
         """ # noqa: E501
 
         _param = self._create_tax_sequence_serialize(
+            x_tenant_id=x_tenant_id,
             create_tax_sequence_request=create_tax_sequence_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -176,6 +184,7 @@ class TaxSequencesApi:
     @validate_call
     def create_tax_sequence_without_preload_content(
         self,
+        x_tenant_id: UUID,
         create_tax_sequence_request: CreateTaxSequenceRequest,
         _request_timeout: Union[
             None,
@@ -193,6 +202,8 @@ class TaxSequencesApi:
         """Crear nueva secuencia fiscal
 
 
+        :param x_tenant_id: (required)
+        :type x_tenant_id: UUID
         :param create_tax_sequence_request: (required)
         :type create_tax_sequence_request: CreateTaxSequenceRequest
         :param _request_timeout: timeout setting for this request. If one
@@ -218,6 +229,7 @@ class TaxSequencesApi:
         """ # noqa: E501
 
         _param = self._create_tax_sequence_serialize(
+            x_tenant_id=x_tenant_id,
             create_tax_sequence_request=create_tax_sequence_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -237,6 +249,7 @@ class TaxSequencesApi:
 
     def _create_tax_sequence_serialize(
         self,
+        x_tenant_id,
         create_tax_sequence_request,
         _request_auth,
         _content_type,
@@ -261,6 +274,8 @@ class TaxSequencesApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_tenant_id is not None:
+            _header_params['x-tenant-id'] = x_tenant_id
         # process the form parameters
         # process the body parameter
         if create_tax_sequence_request is not None:

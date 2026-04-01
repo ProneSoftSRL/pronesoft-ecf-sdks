@@ -8,6 +8,17 @@ Name | Type | Description | Notes
 **number** | **int** |  | 
 **amount** | **float** |  | 
 **description** | **str** |  | [optional] 
+**taxable_amount** | **float** |  | [optional] 
+**taxable_amount1** | **float** |  | [optional] 
+**taxable_amount2** | **float** |  | [optional] 
+**taxable_amount3** | **float** |  | [optional] 
+**total_itbis** | **float** |  | [optional] 
+**itbis1** | **float** |  | [optional] 
+**itbis2** | **float** |  | [optional] 
+**itbis3** | **float** |  | [optional] 
+**additional_taxes** | **float** |  | [optional] 
+**exempt_amount** | **float** |  | [optional] 
+**lines** | **int** |  | [optional] 
 
 ## Example
 

@@ -12,7 +12,12 @@ Name | Type | Description | Notes
 **expirationDate** | **string** |  | [optional] [default to undefined]
 **incomeType** | **string** |  | [optional] [default to undefined]
 **paymentType** | **string** |  | [optional] [default to undefined]
-**creditNoteIndicator** | **string** | 0: ≤30 días, 1: &gt;30 días | [optional] [default to undefined]
+**paymentDeadline** | **string** |  | [optional] [default to undefined]
+**paymentTerms** | **string** |  | [optional] [default to undefined]
+**paymentAccountType** | [**AccountType**](AccountType.md) |  | [optional] [default to undefined]
+**paymentAccountNumber** | **string** |  | [optional] [default to undefined]
+**paymentBank** | **string** |  | [optional] [default to undefined]
+**creditNoteIndicator** | **string** | 0: emision affected ≤ 30 days, 1: &gt; 30 days | [optional] [default to undefined]
 **issuerRNC** | **string** |  | [optional] [default to undefined]
 **issuerBusinessName** | **string** |  | [optional] [default to undefined]
 **issuerEmail** | **string** |  | [optional] [default to undefined]
@@ -41,6 +46,11 @@ const instance: ElectronicDocument = {
     expirationDate,
     incomeType,
     paymentType,
+    paymentDeadline,
+    paymentTerms,
+    paymentAccountType,
+    paymentAccountNumber,
+    paymentBank,
     creditNoteIndicator,
     issuerRNC,
     issuerBusinessName,

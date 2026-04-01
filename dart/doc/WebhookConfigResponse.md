@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **eventTypes** | [**List<WebhookEventType>**](WebhookEventType.md) |  | [optional] [default to const []]
 **isActive** | **bool** |  | [optional] 
 **createdAt** | [**DateTime**](DateTime.md) |  | [optional] 
+**lastTriggeredAt** | [**DateTime**](DateTime.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

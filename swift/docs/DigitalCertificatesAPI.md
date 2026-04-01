@@ -20,8 +20,8 @@ Cargar Certificado Digital (P12)
 import PronesoftEcf
 
 let rnc = "rnc_example" // String | 
-let file = URL(string: "https://example.com")! // URL | Archivo .p12 o .pfx
-let password = "password_example" // String | Contraseña del certificado
+let file = URL(string: "https://example.com")! // URL | 
+let password = "password_example" // String | 
 
 // Cargar Certificado Digital (P12)
 DigitalCertificatesAPI.uploadCertificate(rnc: rnc, file: file, password: password) { (response, error) in
@@ -41,8 +41,8 @@ DigitalCertificatesAPI.uploadCertificate(rnc: rnc, file: file, password: passwor
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **rnc** | **String** |  | 
- **file** | **URL** | Archivo .p12 o .pfx | 
- **password** | **String** | Contraseña del certificado | 
+ **file** | **URL** |  | 
+ **password** | **String** |  | 
 
 ### Return type
 

@@ -8,6 +8,8 @@
 | **taxId** | **kotlin.String** |  |  [optional] |
 | **email** | **kotlin.String** |  |  [optional] |
 | **address** | **kotlin.String** |  |  [optional] |
+| **municipalityCode** | **kotlin.String** |  |  [optional] |
+| **provinceCode** | **kotlin.String** |  |  [optional] |
 | **deliveryAddress** | **kotlin.String** |  |  [optional] |
 
 

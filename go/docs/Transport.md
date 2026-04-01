@@ -7,6 +7,9 @@ Name | Type | Description | Notes
 **Driver** | Pointer to **string** |  | [optional] 
 **VehicleId** | Pointer to **string** |  | [optional] 
 **LicensePlate** | Pointer to **string** |  | [optional] 
+**Route** | Pointer to **string** |  | [optional] 
+**DepartureDate** | Pointer to **time.Time** |  | [optional] 
+**ArrivalDate** | Pointer to **time.Time** |  | [optional] 
 
 ## Methods
 
@@ -101,6 +104,81 @@ SetLicensePlate sets LicensePlate field to given value.
 `func (o *Transport) HasLicensePlate() bool`
 
 HasLicensePlate returns a boolean if a field has been set.
+
+### GetRoute
+
+`func (o *Transport) GetRoute() string`
+
+GetRoute returns the Route field if non-nil, zero value otherwise.
+
+### GetRouteOk
+
+`func (o *Transport) GetRouteOk() (*string, bool)`
+
+GetRouteOk returns a tuple with the Route field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRoute
+
+`func (o *Transport) SetRoute(v string)`
+
+SetRoute sets Route field to given value.
+
+### HasRoute
+
+`func (o *Transport) HasRoute() bool`
+
+HasRoute returns a boolean if a field has been set.
+
+### GetDepartureDate
+
+`func (o *Transport) GetDepartureDate() time.Time`
+
+GetDepartureDate returns the DepartureDate field if non-nil, zero value otherwise.
+
+### GetDepartureDateOk
+
+`func (o *Transport) GetDepartureDateOk() (*time.Time, bool)`
+
+GetDepartureDateOk returns a tuple with the DepartureDate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDepartureDate
+
+`func (o *Transport) SetDepartureDate(v time.Time)`
+
+SetDepartureDate sets DepartureDate field to given value.
+
+### HasDepartureDate
+
+`func (o *Transport) HasDepartureDate() bool`
+
+HasDepartureDate returns a boolean if a field has been set.
+
+### GetArrivalDate
+
+`func (o *Transport) GetArrivalDate() time.Time`
+
+GetArrivalDate returns the ArrivalDate field if non-nil, zero value otherwise.
+
+### GetArrivalDateOk
+
+`func (o *Transport) GetArrivalDateOk() (*time.Time, bool)`
+
+GetArrivalDateOk returns a tuple with the ArrivalDate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetArrivalDate
+
+`func (o *Transport) SetArrivalDate(v time.Time)`
+
+SetArrivalDate sets ArrivalDate field to given value.
+
+### HasArrivalDate
+
+`func (o *Transport) HasArrivalDate() bool`
+
+HasArrivalDate returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

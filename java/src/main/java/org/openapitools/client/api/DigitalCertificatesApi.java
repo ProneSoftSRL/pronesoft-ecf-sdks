@@ -76,8 +76,8 @@ public class DigitalCertificatesApi {
     /**
      * Build call for uploadCertificate
      * @param rnc  (required)
-     * @param _file Archivo .p12 o .pfx (required)
-     * @param password Contraseña del certificado (required)
+     * @param _file  (required)
+     * @param password  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -167,8 +167,8 @@ public class DigitalCertificatesApi {
      * Cargar Certificado Digital (P12)
      * 
      * @param rnc  (required)
-     * @param _file Archivo .p12 o .pfx (required)
-     * @param password Contraseña del certificado (required)
+     * @param _file  (required)
+     * @param password  (required)
      * @return UploadCertificate201Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -187,8 +187,8 @@ public class DigitalCertificatesApi {
      * Cargar Certificado Digital (P12)
      * 
      * @param rnc  (required)
-     * @param _file Archivo .p12 o .pfx (required)
-     * @param password Contraseña del certificado (required)
+     * @param _file  (required)
+     * @param password  (required)
      * @return ApiResponse&lt;UploadCertificate201Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -208,8 +208,8 @@ public class DigitalCertificatesApi {
      * Cargar Certificado Digital (P12) (asynchronously)
      * 
      * @param rnc  (required)
-     * @param _file Archivo .p12 o .pfx (required)
-     * @param password Contraseña del certificado (required)
+     * @param _file  (required)
+     * @param password  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object

@@ -8,6 +8,10 @@
 | **type** | [**inline**](#Type) |  |  |
 | **valueType** | [**inline**](#ValueType) |  |  |
 | **amount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  |
+| **description** | **kotlin.String** |  |  [optional] |
+| **percentageValue** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **alternativeCurrencyAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  |  [optional] |
 
 
 <a id="Type"></a>

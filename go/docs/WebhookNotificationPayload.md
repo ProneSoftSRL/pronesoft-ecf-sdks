@@ -8,13 +8,13 @@ Name | Type | Description | Notes
 **Event** | [**WebhookEventType**](WebhookEventType.md) |  | 
 **Timestamp** | **time.Time** |  | 
 **BusinessRnc** | **string** |  | 
-**Data** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  | 
+**Data** | **map[string]interface{}** |  | 
 
 ## Methods
 
 ### NewWebhookNotificationPayload
 
-`func NewWebhookNotificationPayload(id string, event WebhookEventType, timestamp time.Time, businessRnc string, data WebhookNotificationPayloadData, ) *WebhookNotificationPayload`
+`func NewWebhookNotificationPayload(id string, event WebhookEventType, timestamp time.Time, businessRnc string, data map[string]interface{}, ) *WebhookNotificationPayload`
 
 NewWebhookNotificationPayload instantiates a new WebhookNotificationPayload object
 This constructor will assign default values to properties that have it defined,
@@ -111,20 +111,20 @@ SetBusinessRnc sets BusinessRnc field to given value.
 
 ### GetData
 
-`func (o *WebhookNotificationPayload) GetData() WebhookNotificationPayloadData`
+`func (o *WebhookNotificationPayload) GetData() map[string]interface{}`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *WebhookNotificationPayload) GetDataOk() (*WebhookNotificationPayloadData, bool)`
+`func (o *WebhookNotificationPayload) GetDataOk() (*map[string]interface{}, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *WebhookNotificationPayload) SetData(v WebhookNotificationPayloadData)`
+`func (o *WebhookNotificationPayload) SetData(v map[string]interface{})`
 
 SetData sets Data field to given value.
 

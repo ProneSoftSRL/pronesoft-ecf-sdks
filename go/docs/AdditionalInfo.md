@@ -6,6 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **GrossWeight** | Pointer to **float32** |  | [optional] 
 **PackageQuantity** | Pointer to **float32** |  | [optional] 
+**ContainerId** | Pointer to **string** |  | [optional] 
+**SealId** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -75,6 +77,56 @@ SetPackageQuantity sets PackageQuantity field to given value.
 `func (o *AdditionalInfo) HasPackageQuantity() bool`
 
 HasPackageQuantity returns a boolean if a field has been set.
+
+### GetContainerId
+
+`func (o *AdditionalInfo) GetContainerId() string`
+
+GetContainerId returns the ContainerId field if non-nil, zero value otherwise.
+
+### GetContainerIdOk
+
+`func (o *AdditionalInfo) GetContainerIdOk() (*string, bool)`
+
+GetContainerIdOk returns a tuple with the ContainerId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContainerId
+
+`func (o *AdditionalInfo) SetContainerId(v string)`
+
+SetContainerId sets ContainerId field to given value.
+
+### HasContainerId
+
+`func (o *AdditionalInfo) HasContainerId() bool`
+
+HasContainerId returns a boolean if a field has been set.
+
+### GetSealId
+
+`func (o *AdditionalInfo) GetSealId() string`
+
+GetSealId returns the SealId field if non-nil, zero value otherwise.
+
+### GetSealIdOk
+
+`func (o *AdditionalInfo) GetSealIdOk() (*string, bool)`
+
+GetSealIdOk returns a tuple with the SealId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSealId
+
+`func (o *AdditionalInfo) SetSealId(v string)`
+
+SetSealId sets SealId field to given value.
+
+### HasSealId
+
+`func (o *AdditionalInfo) HasSealId() bool`
+
+HasSealId returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

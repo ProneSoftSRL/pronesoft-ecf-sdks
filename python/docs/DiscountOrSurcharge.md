@@ -9,6 +9,10 @@ Name | Type | Description | Notes
 **type** | **str** |  | 
 **value_type** | **str** |  | 
 **amount** | **float** |  | 
+**description** | **str** |  | [optional] 
+**percentage_value** | **float** |  | [optional] 
+**alternative_currency_amount** | **float** |  | [optional] 
+**billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  | [optional] 
 
 ## Example
 

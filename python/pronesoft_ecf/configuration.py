@@ -533,7 +533,7 @@ class Configuration:
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
                "Version of the API: 1.1.0\n"\
-               "SDK Package Version: 1.0.1".\
+               "SDK Package Version: 1.1.0".\
                format(env=sys.platform, pyversion=sys.version)
 
     def get_host_settings(self) -> List[HostSetting]:
@@ -543,12 +543,18 @@ class Configuration:
         """
         return [
             {
-                'url': "https://api.ecf.sandbox.pronesoft.com/api/v1",
-                'description': "Sandbox (Pruebas)",
-            },
-            {
-                'url': "https://api.ecf.pronesoft.com/api/v1",
-                'description': "Producción",
+                'url': "https://{host}/api/v1",
+                'description': "Servidor de Pronesoft eCF",
+                'variables': {
+                    'host': {
+                        'description': "Sandbox (api.ecf.sandbox.pronesoft.com) o Producción (api.ecf.pronesoft.com)",
+                        'default_value': "api.ecf.sandbox.pronesoft.com",
+                        'enum_values': [
+                            "api.ecf.sandbox.pronesoft.com",
+                            "api.ecf.pronesoft.com"
+                        ]
+                        }
+                    }
             }
         ]
 

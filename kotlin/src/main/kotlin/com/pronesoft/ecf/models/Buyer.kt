@@ -34,6 +34,8 @@ import com.squareup.moshi.JsonClass
  * @param taxId 
  * @param email 
  * @param address 
+ * @param municipalityCode 
+ * @param provinceCode 
  * @param deliveryAddress 
  */
 
@@ -51,6 +53,12 @@ data class Buyer (
 
     @Json(name = "address")
     val address: kotlin.String? = null,
+
+    @Json(name = "municipalityCode")
+    val municipalityCode: kotlin.String? = null,
+
+    @Json(name = "provinceCode")
+    val provinceCode: kotlin.String? = null,
 
     @Json(name = "deliveryAddress")
     val deliveryAddress: kotlin.String? = null

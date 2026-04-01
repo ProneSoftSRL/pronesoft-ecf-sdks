@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **eventTypes** | [**Array&lt;WebhookEventType&gt;**](WebhookEventType.md) |  | [optional] [default to undefined]
 **isActive** | **boolean** |  | [optional] [default to undefined]
 **createdAt** | **string** |  | [optional] [default to undefined]
+**lastTriggeredAt** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -22,6 +23,7 @@ const instance: WebhookConfigResponse = {
     eventTypes,
     isActive,
     createdAt,
+    lastTriggeredAt,
 };
 ```
 

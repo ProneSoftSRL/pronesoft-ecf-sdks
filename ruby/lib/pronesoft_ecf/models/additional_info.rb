@@ -19,11 +19,17 @@ module PronesoftEcf
 
     attr_accessor :package_quantity
 
+    attr_accessor :container_id
+
+    attr_accessor :seal_id
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'gross_weight' => :'grossWeight',
-        :'package_quantity' => :'packageQuantity'
+        :'package_quantity' => :'packageQuantity',
+        :'container_id' => :'containerId',
+        :'seal_id' => :'sealId'
       }
     end
 
@@ -41,7 +47,9 @@ module PronesoftEcf
     def self.openapi_types
       {
         :'gross_weight' => :'Float',
-        :'package_quantity' => :'Float'
+        :'package_quantity' => :'Float',
+        :'container_id' => :'String',
+        :'seal_id' => :'String'
       }
     end
 
@@ -74,6 +82,14 @@ module PronesoftEcf
       if attributes.key?(:'package_quantity')
         self.package_quantity = attributes[:'package_quantity']
       end
+
+      if attributes.key?(:'container_id')
+        self.container_id = attributes[:'container_id']
+      end
+
+      if attributes.key?(:'seal_id')
+        self.seal_id = attributes[:'seal_id']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -97,7 +113,9 @@ module PronesoftEcf
       return true if self.equal?(o)
       self.class == o.class &&
           gross_weight == o.gross_weight &&
-          package_quantity == o.package_quantity
+          package_quantity == o.package_quantity &&
+          container_id == o.container_id &&
+          seal_id == o.seal_id
     end
 
     # @see the `==` method
@@ -109,7 +127,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [gross_weight, package_quantity].hash
+      [gross_weight, package_quantity, container_id, seal_id].hash
     end
 
     # Builds the object from hash

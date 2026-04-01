@@ -11,7 +11,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 ## create_tax_sequence
 
-> create_tax_sequence(create_tax_sequence_request)
+> create_tax_sequence(x_tenant_id, create_tax_sequence_request)
 
 Crear nueva secuencia fiscal
 
@@ -27,11 +27,12 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
+x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceType::N31, from: 37, to: 37}) # CreateTaxSequenceRequest | 
 
 begin
   # Crear nueva secuencia fiscal
-  api_instance.create_tax_sequence(create_tax_sequence_request)
+  api_instance.create_tax_sequence(x_tenant_id, create_tax_sequence_request)
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->create_tax_sequence: #{e}"
 end
@@ -41,12 +42,12 @@ end
 
 This returns an Array which contains the response data (`nil` in this case), status code and headers.
 
-> <Array(nil, Integer, Hash)> create_tax_sequence_with_http_info(create_tax_sequence_request)
+> <Array(nil, Integer, Hash)> create_tax_sequence_with_http_info(x_tenant_id, create_tax_sequence_request)
 
 ```ruby
 begin
   # Crear nueva secuencia fiscal
-  data, status_code, headers = api_instance.create_tax_sequence_with_http_info(create_tax_sequence_request)
+  data, status_code, headers = api_instance.create_tax_sequence_with_http_info(x_tenant_id, create_tax_sequence_request)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => nil
@@ -59,6 +60,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
+| **x_tenant_id** | **String** |  |  |
 | **create_tax_sequence_request** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  |  |
 
 ### Return type

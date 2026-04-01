@@ -22,7 +22,6 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from uuid import UUID
 from pronesoft_ecf.models.webhook_event_type import WebhookEventType
-from pronesoft_ecf.models.webhook_notification_payload_data import WebhookNotificationPayloadData
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -35,7 +34,7 @@ class WebhookNotificationPayload(BaseModel):
     event: WebhookEventType
     timestamp: datetime
     business_rnc: StrictStr = Field(alias="businessRnc")
-    data: WebhookNotificationPayloadData
+    data: Dict[str, Any]
     __properties: ClassVar[List[str]] = ["id", "event", "timestamp", "businessRnc", "data"]
 
     model_config = ConfigDict(
@@ -77,9 +76,6 @@ class WebhookNotificationPayload(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of data
-        if self.data:
-            _dict['data'] = self.data.to_dict()
         return _dict
 
     @classmethod
@@ -96,7 +92,7 @@ class WebhookNotificationPayload(BaseModel):
             "event": obj.get("event"),
             "timestamp": obj.get("timestamp"),
             "businessRnc": obj.get("businessRnc"),
-            "data": WebhookNotificationPayloadData.from_dict(obj["data"]) if obj.get("data") is not None else None
+            "data": obj.get("data")
         })
         return _obj
 

@@ -8,7 +8,7 @@
 | **event** | [**WebhookEventType**](WebhookEventType.md) |  |  |
 | **timestamp** | **Time** |  |  |
 | **business_rnc** | **String** |  |  |
-| **data** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  |  |
+| **data** | **Object** |  |  |
 
 ## Example
 

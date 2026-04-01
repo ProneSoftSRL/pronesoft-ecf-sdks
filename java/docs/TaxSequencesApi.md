@@ -11,7 +11,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="createTaxSequence"></a>
 # **createTaxSequence**
-> createTaxSequence(createTaxSequenceRequest)
+> createTaxSequence(xTenantId, createTaxSequenceRequest)
 
 Crear nueva secuencia fiscal
 
@@ -35,9 +35,10 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     TaxSequencesApi apiInstance = new TaxSequencesApi(defaultClient);
+    UUID xTenantId = UUID.randomUUID(); // UUID | 
     CreateTaxSequenceRequest createTaxSequenceRequest = new CreateTaxSequenceRequest(); // CreateTaxSequenceRequest | 
     try {
-      apiInstance.createTaxSequence(createTaxSequenceRequest);
+      apiInstance.createTaxSequence(xTenantId, createTaxSequenceRequest);
     } catch (ApiException e) {
       System.err.println("Exception when calling TaxSequencesApi#createTaxSequence");
       System.err.println("Status code: " + e.getCode());
@@ -53,6 +54,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **xTenantId** | **UUID**|  | |
 | **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | |
 
 ### Return type

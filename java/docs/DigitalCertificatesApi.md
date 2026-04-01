@@ -34,8 +34,8 @@ public class Example {
 
     DigitalCertificatesApi apiInstance = new DigitalCertificatesApi(defaultClient);
     String rnc = "rnc_example"; // String | 
-    File _file = new File("/path/to/file"); // File | Archivo .p12 o .pfx
-    String password = "password_example"; // String | Contraseña del certificado
+    File _file = new File("/path/to/file"); // File | 
+    String password = "password_example"; // String | 
     try {
       UploadCertificate201Response result = apiInstance.uploadCertificate(rnc, _file, password);
       System.out.println(result);
@@ -55,8 +55,8 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **rnc** | **String**|  | |
-| **_file** | **File**| Archivo .p12 o .pfx | |
-| **password** | **String**| Contraseña del certificado | |
+| **_file** | **File**|  | |
+| **password** | **String**|  | |
 
 ### Return type
 

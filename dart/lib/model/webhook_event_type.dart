@@ -30,7 +30,15 @@ class WebhookEventType {
   static const commercialPeriodApproval = WebhookEventType._(r'commercial.approval');
   static const certificatePeriodExpiring = WebhookEventType._(r'certificate.expiring');
   static const planPeriodUsageAlert = WebhookEventType._(r'plan.usage_alert');
+  static const planPeriodPaymentFailed = WebhookEventType._(r'plan.payment_failed');
+  static const billingPeriodInvoiceReady = WebhookEventType._(r'billing.invoice_ready');
   static const sequencePeriodDepleted = WebhookEventType._(r'sequence.depleted');
+  static const sequencePeriodVoided = WebhookEventType._(r'sequence.voided');
+  static const branchPeriodCreated = WebhookEventType._(r'branch.created');
+  static const branchPeriodStatusChanged = WebhookEventType._(r'branch.status_changed');
+  static const memberPeriodInvited = WebhookEventType._(r'member.invited');
+  static const memberPeriodJoined = WebhookEventType._(r'member.joined');
+  static const memberPeriodRemoved = WebhookEventType._(r'member.removed');
   static const certificationPeriodCompleted = WebhookEventType._(r'certification.completed');
 
   /// List of all possible values in this [enum][WebhookEventType].
@@ -42,7 +50,15 @@ class WebhookEventType {
     commercialPeriodApproval,
     certificatePeriodExpiring,
     planPeriodUsageAlert,
+    planPeriodPaymentFailed,
+    billingPeriodInvoiceReady,
     sequencePeriodDepleted,
+    sequencePeriodVoided,
+    branchPeriodCreated,
+    branchPeriodStatusChanged,
+    memberPeriodInvited,
+    memberPeriodJoined,
+    memberPeriodRemoved,
     certificationPeriodCompleted,
   ];
 
@@ -89,7 +105,15 @@ class WebhookEventTypeTypeTransformer {
         case r'commercial.approval': return WebhookEventType.commercialPeriodApproval;
         case r'certificate.expiring': return WebhookEventType.certificatePeriodExpiring;
         case r'plan.usage_alert': return WebhookEventType.planPeriodUsageAlert;
+        case r'plan.payment_failed': return WebhookEventType.planPeriodPaymentFailed;
+        case r'billing.invoice_ready': return WebhookEventType.billingPeriodInvoiceReady;
         case r'sequence.depleted': return WebhookEventType.sequencePeriodDepleted;
+        case r'sequence.voided': return WebhookEventType.sequencePeriodVoided;
+        case r'branch.created': return WebhookEventType.branchPeriodCreated;
+        case r'branch.status_changed': return WebhookEventType.branchPeriodStatusChanged;
+        case r'member.invited': return WebhookEventType.memberPeriodInvited;
+        case r'member.joined': return WebhookEventType.memberPeriodJoined;
+        case r'member.removed': return WebhookEventType.memberPeriodRemoved;
         case r'certification.completed': return WebhookEventType.certificationPeriodCompleted;
         default:
           if (!allowNull) {

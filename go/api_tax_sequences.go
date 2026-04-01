@@ -25,7 +25,13 @@ type TaxSequencesAPIService service
 type ApiCreateTaxSequenceRequest struct {
 	ctx context.Context
 	ApiService *TaxSequencesAPIService
+	xTenantId *string
 	createTaxSequenceRequest *CreateTaxSequenceRequest
+}
+
+func (r ApiCreateTaxSequenceRequest) XTenantId(xTenantId string) ApiCreateTaxSequenceRequest {
+	r.xTenantId = &xTenantId
+	return r
 }
 
 func (r ApiCreateTaxSequenceRequest) CreateTaxSequenceRequest(createTaxSequenceRequest CreateTaxSequenceRequest) ApiCreateTaxSequenceRequest {
@@ -68,6 +74,9 @@ func (a *TaxSequencesAPIService) CreateTaxSequenceExecute(r ApiCreateTaxSequence
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.xTenantId == nil {
+		return nil, reportError("xTenantId is required and must be specified")
+	}
 	if r.createTaxSequenceRequest == nil {
 		return nil, reportError("createTaxSequenceRequest is required and must be specified")
 	}
@@ -89,6 +98,7 @@ func (a *TaxSequencesAPIService) CreateTaxSequenceExecute(r ApiCreateTaxSequence
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "x-tenant-id", r.xTenantId, "simple", "")
 	// body params
 	localVarPostBody = r.createTaxSequenceRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)

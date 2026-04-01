@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.AccountType
 import com.pronesoft.ecf.models.AdditionalInfo
 import com.pronesoft.ecf.models.AlternativeCurrency
 import com.pronesoft.ecf.models.Buyer
@@ -50,7 +51,12 @@ import com.squareup.moshi.JsonClass
  * @param expirationDate 
  * @param incomeType 
  * @param paymentType 
- * @param creditNoteIndicator 0: ≤30 días, 1: >30 días
+ * @param paymentDeadline 
+ * @param paymentTerms 
+ * @param paymentAccountType 
+ * @param paymentAccountNumber 
+ * @param paymentBank 
+ * @param creditNoteIndicator 0: emision affected ≤ 30 days, 1: > 30 days
  * @param issuerRNC 
  * @param issuerBusinessName 
  * @param issuerEmail 
@@ -95,7 +101,22 @@ data class ElectronicDocument (
     @Json(name = "paymentType")
     val paymentType: ElectronicDocument.PaymentType? = null,
 
-    /* 0: ≤30 días, 1: >30 días */
+    @Json(name = "paymentDeadline")
+    val paymentDeadline: java.time.OffsetDateTime? = null,
+
+    @Json(name = "paymentTerms")
+    val paymentTerms: kotlin.String? = null,
+
+    @Json(name = "paymentAccountType")
+    val paymentAccountType: AccountType? = null,
+
+    @Json(name = "paymentAccountNumber")
+    val paymentAccountNumber: kotlin.String? = null,
+
+    @Json(name = "paymentBank")
+    val paymentBank: kotlin.String? = null,
+
+    /* 0: emision affected ≤ 30 days, 1: > 30 days */
     @Json(name = "creditNoteIndicator")
     val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
 
@@ -163,7 +184,7 @@ data class ElectronicDocument (
         @Json(name = "3") _3("3");
     }
     /**
-     * 0: ≤30 días, 1: >30 días
+     * 0: emision affected ≤ 30 days, 1: > 30 days
      *
      * Values: _0,_1
      */

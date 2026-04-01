@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **name** | **string** |  | [default to undefined]
 **email** | **string** |  | [optional] [default to undefined]
 **address** | **string** |  | [optional] [default to undefined]
+**municipalityCode** | **string** |  | [optional] [default to undefined]
+**provinceCode** | **string** |  | [optional] [default to undefined]
 **deliveryAddress** | **string** |  | [optional] [default to undefined]
 
 ## Example
@@ -21,6 +23,8 @@ const instance: Buyer = {
     name,
     email,
     address,
+    municipalityCode,
+    provinceCode,
     deliveryAddress,
 };
 ```

@@ -6,6 +6,8 @@
 | ---- | ---- | ----------- | ----- |
 | **gross_weight** | **Float** |  | [optional] |
 | **package_quantity** | **Float** |  | [optional] |
+| **container_id** | **String** |  | [optional] |
+| **seal_id** | **String** |  | [optional] |
 
 ## Example
 
@@ -14,7 +16,9 @@ require 'pronesoft_ecf'
 
 instance = PronesoftEcf::AdditionalInfo.new(
   gross_weight: null,
-  package_quantity: null
+  package_quantity: null,
+  container_id: null,
+  seal_id: null
 )
 ```
 

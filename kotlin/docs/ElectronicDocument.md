@@ -13,7 +13,12 @@
 | **expirationDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **incomeType** | [**inline**](#IncomeType) |  |  [optional] |
 | **paymentType** | [**inline**](#PaymentType) |  |  [optional] |
-| **creditNoteIndicator** | [**inline**](#CreditNoteIndicator) | 0: ≤30 días, 1: &gt;30 días |  [optional] |
+| **paymentDeadline** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
+| **paymentTerms** | **kotlin.String** |  |  [optional] |
+| **paymentAccountType** | [**AccountType**](AccountType.md) |  |  [optional] |
+| **paymentAccountNumber** | **kotlin.String** |  |  [optional] |
+| **paymentBank** | **kotlin.String** |  |  [optional] |
+| **creditNoteIndicator** | [**inline**](#CreditNoteIndicator) | 0: emision affected ≤ 30 days, 1: &gt; 30 days |  [optional] |
 | **issuerRNC** | **kotlin.String** |  |  [optional] |
 | **issuerBusinessName** | **kotlin.String** |  |  [optional] |
 | **issuerEmail** | **kotlin.String** |  |  [optional] |

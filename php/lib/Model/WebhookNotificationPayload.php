@@ -61,7 +61,7 @@ class WebhookNotificationPayload implements ModelInterface, ArrayAccess, \JsonSe
         'event' => '\PronesoftEcf\Model\WebhookEventType',
         'timestamp' => '\DateTime',
         'business_rnc' => 'string',
-        'data' => '\PronesoftEcf\Model\WebhookNotificationPayloadData'
+        'data' => 'object'
     ];
 
     /**
@@ -443,7 +443,7 @@ class WebhookNotificationPayload implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Gets data
      *
-     * @return \PronesoftEcf\Model\WebhookNotificationPayloadData
+     * @return object
      */
     public function getData()
     {
@@ -453,7 +453,7 @@ class WebhookNotificationPayload implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Sets data
      *
-     * @param \PronesoftEcf\Model\WebhookNotificationPayloadData $data data
+     * @param object $data data
      *
      * @return self
      */

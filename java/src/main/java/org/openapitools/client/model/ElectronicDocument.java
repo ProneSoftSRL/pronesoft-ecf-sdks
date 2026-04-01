@@ -24,6 +24,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.openapitools.client.model.AccountType;
 import org.openapitools.client.model.AdditionalInfo;
 import org.openapitools.client.model.AlternativeCurrency;
 import org.openapitools.client.model.Buyer;
@@ -62,7 +63,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * ElectronicDocument
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ElectronicDocument {
   public static final String SERIALIZED_NAME_VERSION = "version";
   @SerializedName(SERIALIZED_NAME_VERSION)
@@ -213,8 +214,33 @@ public class ElectronicDocument {
   @javax.annotation.Nullable
   private PaymentTypeEnum paymentType;
 
+  public static final String SERIALIZED_NAME_PAYMENT_DEADLINE = "paymentDeadline";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_DEADLINE)
+  @javax.annotation.Nullable
+  private OffsetDateTime paymentDeadline;
+
+  public static final String SERIALIZED_NAME_PAYMENT_TERMS = "paymentTerms";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_TERMS)
+  @javax.annotation.Nullable
+  private String paymentTerms;
+
+  public static final String SERIALIZED_NAME_PAYMENT_ACCOUNT_TYPE = "paymentAccountType";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_ACCOUNT_TYPE)
+  @javax.annotation.Nullable
+  private AccountType paymentAccountType;
+
+  public static final String SERIALIZED_NAME_PAYMENT_ACCOUNT_NUMBER = "paymentAccountNumber";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_ACCOUNT_NUMBER)
+  @javax.annotation.Nullable
+  private String paymentAccountNumber;
+
+  public static final String SERIALIZED_NAME_PAYMENT_BANK = "paymentBank";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_BANK)
+  @javax.annotation.Nullable
+  private String paymentBank;
+
   /**
-   * 0: ≤30 días, 1: &gt;30 días
+   * 0: emision affected ≤ 30 days, 1: &gt; 30 days
    */
   @JsonAdapter(CreditNoteIndicatorEnum.Adapter.class)
   public enum CreditNoteIndicatorEnum {
@@ -476,13 +502,108 @@ public class ElectronicDocument {
   }
 
 
+  public ElectronicDocument paymentDeadline(@javax.annotation.Nullable OffsetDateTime paymentDeadline) {
+    this.paymentDeadline = paymentDeadline;
+    return this;
+  }
+
+  /**
+   * Get paymentDeadline
+   * @return paymentDeadline
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getPaymentDeadline() {
+    return paymentDeadline;
+  }
+
+  public void setPaymentDeadline(@javax.annotation.Nullable OffsetDateTime paymentDeadline) {
+    this.paymentDeadline = paymentDeadline;
+  }
+
+
+  public ElectronicDocument paymentTerms(@javax.annotation.Nullable String paymentTerms) {
+    this.paymentTerms = paymentTerms;
+    return this;
+  }
+
+  /**
+   * Get paymentTerms
+   * @return paymentTerms
+   */
+  @javax.annotation.Nullable
+  public String getPaymentTerms() {
+    return paymentTerms;
+  }
+
+  public void setPaymentTerms(@javax.annotation.Nullable String paymentTerms) {
+    this.paymentTerms = paymentTerms;
+  }
+
+
+  public ElectronicDocument paymentAccountType(@javax.annotation.Nullable AccountType paymentAccountType) {
+    this.paymentAccountType = paymentAccountType;
+    return this;
+  }
+
+  /**
+   * Get paymentAccountType
+   * @return paymentAccountType
+   */
+  @javax.annotation.Nullable
+  public AccountType getPaymentAccountType() {
+    return paymentAccountType;
+  }
+
+  public void setPaymentAccountType(@javax.annotation.Nullable AccountType paymentAccountType) {
+    this.paymentAccountType = paymentAccountType;
+  }
+
+
+  public ElectronicDocument paymentAccountNumber(@javax.annotation.Nullable String paymentAccountNumber) {
+    this.paymentAccountNumber = paymentAccountNumber;
+    return this;
+  }
+
+  /**
+   * Get paymentAccountNumber
+   * @return paymentAccountNumber
+   */
+  @javax.annotation.Nullable
+  public String getPaymentAccountNumber() {
+    return paymentAccountNumber;
+  }
+
+  public void setPaymentAccountNumber(@javax.annotation.Nullable String paymentAccountNumber) {
+    this.paymentAccountNumber = paymentAccountNumber;
+  }
+
+
+  public ElectronicDocument paymentBank(@javax.annotation.Nullable String paymentBank) {
+    this.paymentBank = paymentBank;
+    return this;
+  }
+
+  /**
+   * Get paymentBank
+   * @return paymentBank
+   */
+  @javax.annotation.Nullable
+  public String getPaymentBank() {
+    return paymentBank;
+  }
+
+  public void setPaymentBank(@javax.annotation.Nullable String paymentBank) {
+    this.paymentBank = paymentBank;
+  }
+
+
   public ElectronicDocument creditNoteIndicator(@javax.annotation.Nullable CreditNoteIndicatorEnum creditNoteIndicator) {
     this.creditNoteIndicator = creditNoteIndicator;
     return this;
   }
 
   /**
-   * 0: ≤30 días, 1: &gt;30 días
+   * 0: emision affected ≤ 30 days, 1: &gt; 30 days
    * @return creditNoteIndicator
    */
   @javax.annotation.Nullable
@@ -818,6 +939,11 @@ public class ElectronicDocument {
         Objects.equals(this.expirationDate, electronicDocument.expirationDate) &&
         Objects.equals(this.incomeType, electronicDocument.incomeType) &&
         Objects.equals(this.paymentType, electronicDocument.paymentType) &&
+        Objects.equals(this.paymentDeadline, electronicDocument.paymentDeadline) &&
+        Objects.equals(this.paymentTerms, electronicDocument.paymentTerms) &&
+        Objects.equals(this.paymentAccountType, electronicDocument.paymentAccountType) &&
+        Objects.equals(this.paymentAccountNumber, electronicDocument.paymentAccountNumber) &&
+        Objects.equals(this.paymentBank, electronicDocument.paymentBank) &&
         Objects.equals(this.creditNoteIndicator, electronicDocument.creditNoteIndicator) &&
         Objects.equals(this.issuerRNC, electronicDocument.issuerRNC) &&
         Objects.equals(this.issuerBusinessName, electronicDocument.issuerBusinessName) &&
@@ -837,7 +963,7 @@ public class ElectronicDocument {
 
   @Override
   public int hashCode() {
-    return Objects.hash(version, invoiceType, invoiceNumber, issueDate, expirationDate, incomeType, paymentType, creditNoteIndicator, issuerRNC, issuerBusinessName, issuerEmail, issuerPhones, buyer, items, totals, transport, additionalInfo, alternativeCurrency, referenceInfo, subtotals, discountsOrSurcharges, pages);
+    return Objects.hash(version, invoiceType, invoiceNumber, issueDate, expirationDate, incomeType, paymentType, paymentDeadline, paymentTerms, paymentAccountType, paymentAccountNumber, paymentBank, creditNoteIndicator, issuerRNC, issuerBusinessName, issuerEmail, issuerPhones, buyer, items, totals, transport, additionalInfo, alternativeCurrency, referenceInfo, subtotals, discountsOrSurcharges, pages);
   }
 
   @Override
@@ -851,6 +977,11 @@ public class ElectronicDocument {
     sb.append("    expirationDate: ").append(toIndentedString(expirationDate)).append("\n");
     sb.append("    incomeType: ").append(toIndentedString(incomeType)).append("\n");
     sb.append("    paymentType: ").append(toIndentedString(paymentType)).append("\n");
+    sb.append("    paymentDeadline: ").append(toIndentedString(paymentDeadline)).append("\n");
+    sb.append("    paymentTerms: ").append(toIndentedString(paymentTerms)).append("\n");
+    sb.append("    paymentAccountType: ").append(toIndentedString(paymentAccountType)).append("\n");
+    sb.append("    paymentAccountNumber: ").append(toIndentedString(paymentAccountNumber)).append("\n");
+    sb.append("    paymentBank: ").append(toIndentedString(paymentBank)).append("\n");
     sb.append("    creditNoteIndicator: ").append(toIndentedString(creditNoteIndicator)).append("\n");
     sb.append("    issuerRNC: ").append(toIndentedString(issuerRNC)).append("\n");
     sb.append("    issuerBusinessName: ").append(toIndentedString(issuerBusinessName)).append("\n");
@@ -884,7 +1015,7 @@ public class ElectronicDocument {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "issueDate", "expirationDate", "incomeType", "paymentType", "creditNoteIndicator", "issuerRNC", "issuerBusinessName", "issuerEmail", "issuerPhones", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"));
+    openapiFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "issueDate", "expirationDate", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "creditNoteIndicator", "issuerRNC", "issuerBusinessName", "issuerEmail", "issuerPhones", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "issueDate", "items", "totals"));
@@ -939,6 +1070,19 @@ public class ElectronicDocument {
       // validate the optional field `paymentType`
       if (jsonObj.get("paymentType") != null && !jsonObj.get("paymentType").isJsonNull()) {
         PaymentTypeEnum.validateJsonElement(jsonObj.get("paymentType"));
+      }
+      if ((jsonObj.get("paymentTerms") != null && !jsonObj.get("paymentTerms").isJsonNull()) && !jsonObj.get("paymentTerms").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentTerms` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentTerms").toString()));
+      }
+      // validate the optional field `paymentAccountType`
+      if (jsonObj.get("paymentAccountType") != null && !jsonObj.get("paymentAccountType").isJsonNull()) {
+        AccountType.validateJsonElement(jsonObj.get("paymentAccountType"));
+      }
+      if ((jsonObj.get("paymentAccountNumber") != null && !jsonObj.get("paymentAccountNumber").isJsonNull()) && !jsonObj.get("paymentAccountNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentAccountNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentAccountNumber").toString()));
+      }
+      if ((jsonObj.get("paymentBank") != null && !jsonObj.get("paymentBank").isJsonNull()) && !jsonObj.get("paymentBank").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentBank` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentBank").toString()));
       }
       if ((jsonObj.get("creditNoteIndicator") != null && !jsonObj.get("creditNoteIndicator").isJsonNull()) && !jsonObj.get("creditNoteIndicator").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `creditNoteIndicator` to be a primitive type in the JSON string but got `%s`", jsonObj.get("creditNoteIndicator").toString()));

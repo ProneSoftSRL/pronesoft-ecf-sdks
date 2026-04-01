@@ -29,7 +29,17 @@ module PronesoftEcf
 
     attr_accessor :payment_type
 
-    # 0: ≤30 días, 1: >30 días
+    attr_accessor :payment_deadline
+
+    attr_accessor :payment_terms
+
+    attr_accessor :payment_account_type
+
+    attr_accessor :payment_account_number
+
+    attr_accessor :payment_bank
+
+    # 0: emision affected ≤ 30 days, 1: > 30 days
     attr_accessor :credit_note_indicator
 
     attr_accessor :issuer_rnc
@@ -92,6 +102,11 @@ module PronesoftEcf
         :'expiration_date' => :'expirationDate',
         :'income_type' => :'incomeType',
         :'payment_type' => :'paymentType',
+        :'payment_deadline' => :'paymentDeadline',
+        :'payment_terms' => :'paymentTerms',
+        :'payment_account_type' => :'paymentAccountType',
+        :'payment_account_number' => :'paymentAccountNumber',
+        :'payment_bank' => :'paymentBank',
         :'credit_note_indicator' => :'creditNoteIndicator',
         :'issuer_rnc' => :'issuerRNC',
         :'issuer_business_name' => :'issuerBusinessName',
@@ -130,6 +145,11 @@ module PronesoftEcf
         :'expiration_date' => :'Time',
         :'income_type' => :'String',
         :'payment_type' => :'String',
+        :'payment_deadline' => :'Time',
+        :'payment_terms' => :'String',
+        :'payment_account_type' => :'AccountType',
+        :'payment_account_number' => :'String',
+        :'payment_bank' => :'String',
         :'credit_note_indicator' => :'String',
         :'issuer_rnc' => :'String',
         :'issuer_business_name' => :'String',
@@ -204,6 +224,26 @@ module PronesoftEcf
 
       if attributes.key?(:'payment_type')
         self.payment_type = attributes[:'payment_type']
+      end
+
+      if attributes.key?(:'payment_deadline')
+        self.payment_deadline = attributes[:'payment_deadline']
+      end
+
+      if attributes.key?(:'payment_terms')
+        self.payment_terms = attributes[:'payment_terms']
+      end
+
+      if attributes.key?(:'payment_account_type')
+        self.payment_account_type = attributes[:'payment_account_type']
+      end
+
+      if attributes.key?(:'payment_account_number')
+        self.payment_account_number = attributes[:'payment_account_number']
+      end
+
+      if attributes.key?(:'payment_bank')
+        self.payment_bank = attributes[:'payment_bank']
       end
 
       if attributes.key?(:'credit_note_indicator')
@@ -312,6 +352,18 @@ module PronesoftEcf
         invalid_properties.push('invalid value for "issue_date", issue_date cannot be nil.')
       end
 
+      if !@payment_terms.nil? && @payment_terms.to_s.length > 15
+        invalid_properties.push('invalid value for "payment_terms", the character length must be smaller than or equal to 15.')
+      end
+
+      if !@payment_account_number.nil? && @payment_account_number.to_s.length > 28
+        invalid_properties.push('invalid value for "payment_account_number", the character length must be smaller than or equal to 28.')
+      end
+
+      if !@payment_bank.nil? && @payment_bank.to_s.length > 75
+        invalid_properties.push('invalid value for "payment_bank", the character length must be smaller than or equal to 75.')
+      end
+
       pattern = Regexp.new(/^[0-9]{9}|[0-9]{11}$/)
       if !@issuer_rnc.nil? && @issuer_rnc !~ pattern
         invalid_properties.push("invalid value for \"issuer_rnc\", must conform to the pattern #{pattern}.")
@@ -358,6 +410,9 @@ module PronesoftEcf
       return false unless income_type_validator.valid?(@income_type)
       payment_type_validator = EnumAttributeValidator.new('String', ["1", "2", "3"])
       return false unless payment_type_validator.valid?(@payment_type)
+      return false if !@payment_terms.nil? && @payment_terms.to_s.length > 15
+      return false if !@payment_account_number.nil? && @payment_account_number.to_s.length > 28
+      return false if !@payment_bank.nil? && @payment_bank.to_s.length > 75
       credit_note_indicator_validator = EnumAttributeValidator.new('String', ["0", "1"])
       return false unless credit_note_indicator_validator.valid?(@credit_note_indicator)
       return false if !@issuer_rnc.nil? && @issuer_rnc !~ Regexp.new(/^[0-9]{9}|[0-9]{11}$/)
@@ -438,6 +493,48 @@ module PronesoftEcf
         fail ArgumentError, "invalid value for \"payment_type\", must be one of #{validator.allowable_values}."
       end
       @payment_type = payment_type
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] payment_terms Value to be assigned
+    def payment_terms=(payment_terms)
+      if payment_terms.nil?
+        fail ArgumentError, 'payment_terms cannot be nil'
+      end
+
+      if payment_terms.to_s.length > 15
+        fail ArgumentError, 'invalid value for "payment_terms", the character length must be smaller than or equal to 15.'
+      end
+
+      @payment_terms = payment_terms
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] payment_account_number Value to be assigned
+    def payment_account_number=(payment_account_number)
+      if payment_account_number.nil?
+        fail ArgumentError, 'payment_account_number cannot be nil'
+      end
+
+      if payment_account_number.to_s.length > 28
+        fail ArgumentError, 'invalid value for "payment_account_number", the character length must be smaller than or equal to 28.'
+      end
+
+      @payment_account_number = payment_account_number
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] payment_bank Value to be assigned
+    def payment_bank=(payment_bank)
+      if payment_bank.nil?
+        fail ArgumentError, 'payment_bank cannot be nil'
+      end
+
+      if payment_bank.to_s.length > 75
+        fail ArgumentError, 'invalid value for "payment_bank", the character length must be smaller than or equal to 75.'
+      end
+
+      @payment_bank = payment_bank
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -533,6 +630,11 @@ module PronesoftEcf
           expiration_date == o.expiration_date &&
           income_type == o.income_type &&
           payment_type == o.payment_type &&
+          payment_deadline == o.payment_deadline &&
+          payment_terms == o.payment_terms &&
+          payment_account_type == o.payment_account_type &&
+          payment_account_number == o.payment_account_number &&
+          payment_bank == o.payment_bank &&
           credit_note_indicator == o.credit_note_indicator &&
           issuer_rnc == o.issuer_rnc &&
           issuer_business_name == o.issuer_business_name &&
@@ -559,7 +661,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [version, invoice_type, invoice_number, issue_date, expiration_date, income_type, payment_type, credit_note_indicator, issuer_rnc, issuer_business_name, issuer_email, issuer_phones, buyer, items, totals, transport, additional_info, alternative_currency, reference_info, subtotals, discounts_or_surcharges, pages].hash
+      [version, invoice_type, invoice_number, issue_date, expiration_date, income_type, payment_type, payment_deadline, payment_terms, payment_account_type, payment_account_number, payment_bank, credit_note_indicator, issuer_rnc, issuer_business_name, issuer_email, issuer_phones, buyer, items, totals, transport, additional_info, alternative_currency, reference_info, subtotals, discounts_or_surcharges, pages].hash
     end
 
     # Builds the object from hash

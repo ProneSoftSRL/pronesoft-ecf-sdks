@@ -31,7 +31,18 @@ class Page(BaseModel):
     line_from: StrictInt = Field(alias="lineFrom")
     line_to: StrictInt = Field(alias="lineTo")
     subtotal: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties: ClassVar[List[str]] = ["pageNumber", "lineFrom", "lineTo", "subtotal"]
+    taxable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount")
+    taxable_amount1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount1")
+    taxable_amount2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount2")
+    taxable_amount3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount3")
+    total_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalITBIS")
+    itbis1: Optional[Union[StrictFloat, StrictInt]] = None
+    itbis2: Optional[Union[StrictFloat, StrictInt]] = None
+    itbis3: Optional[Union[StrictFloat, StrictInt]] = None
+    additional_taxes: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="additionalTaxes")
+    exempt_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="exemptAmount")
+    non_billable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="nonBillableAmount")
+    __properties: ClassVar[List[str]] = ["pageNumber", "lineFrom", "lineTo", "subtotal", "taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxes", "exemptAmount", "nonBillableAmount"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -87,7 +98,18 @@ class Page(BaseModel):
             "pageNumber": obj.get("pageNumber"),
             "lineFrom": obj.get("lineFrom"),
             "lineTo": obj.get("lineTo"),
-            "subtotal": obj.get("subtotal")
+            "subtotal": obj.get("subtotal"),
+            "taxableAmount": obj.get("taxableAmount"),
+            "taxableAmount1": obj.get("taxableAmount1"),
+            "taxableAmount2": obj.get("taxableAmount2"),
+            "taxableAmount3": obj.get("taxableAmount3"),
+            "totalITBIS": obj.get("totalITBIS"),
+            "itbis1": obj.get("itbis1"),
+            "itbis2": obj.get("itbis2"),
+            "itbis3": obj.get("itbis3"),
+            "additionalTaxes": obj.get("additionalTaxes"),
+            "exemptAmount": obj.get("exemptAmount"),
+            "nonBillableAmount": obj.get("nonBillableAmount")
         })
         return _obj
 

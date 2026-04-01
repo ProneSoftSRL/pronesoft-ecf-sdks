@@ -32,6 +32,9 @@ import com.squareup.moshi.JsonClass
  *
  * @param modifiedInvoiceNumber 
  * @param modificationCode 
+ * @param otherContributorRNC 
+ * @param modifiedInvoiceDate 
+ * @param modificationReason 
  */
 
 
@@ -41,7 +44,16 @@ data class ReferenceInfo (
     val modifiedInvoiceNumber: kotlin.String,
 
     @Json(name = "modificationCode")
-    val modificationCode: ReferenceInfo.ModificationCode
+    val modificationCode: ReferenceInfo.ModificationCode,
+
+    @Json(name = "otherContributorRNC")
+    val otherContributorRNC: kotlin.String? = null,
+
+    @Json(name = "modifiedInvoiceDate")
+    val modifiedInvoiceDate: java.time.LocalDate? = null,
+
+    @Json(name = "modificationReason")
+    val modificationReason: kotlin.String? = null
 
 ) {
 

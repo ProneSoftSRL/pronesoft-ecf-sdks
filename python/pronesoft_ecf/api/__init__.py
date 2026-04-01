@@ -1,6 +1,7 @@
 # flake8: noqa
 
 # import apis into api package
+from pronesoft_ecf.api.associated_companies_api import AssociatedCompaniesApi
 from pronesoft_ecf.api.authentication_api import AuthenticationApi
 from pronesoft_ecf.api.digital_certificates_api import DigitalCertificatesApi
 from pronesoft_ecf.api.tax_sequences_api import TaxSequencesApi

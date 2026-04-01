@@ -1,4 +1,4 @@
-## @pronesoft/ecf-sdk@1.0.1
+## @pronesoft/ecf-sdk@1.1.0
 
 This generator creates TypeScript/JavaScript client that utilizes [axios](https://github.com/axios/axios). The generated Node module can be used in the following environments:
 
@@ -36,7 +36,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install @pronesoft/ecf-sdk@1.0.1 --save
+npm install @pronesoft/ecf-sdk@1.1.0 --save
 ```
 
 _unPublished (not recommended):_
@@ -51,6 +51,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AssociatedCompaniesApi* | [**createAssociatedCompany**](docs/AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Crear nueva empresa asociada
+*AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | Listar sucursales (Asociadas)
 *AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
 *DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)
 *ECFSubmissionApi* | [**submitEcf**](docs/ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
@@ -64,17 +66,18 @@ Class | Method | HTTP request | Description
 
 ### Documentation For Models
 
+ - [AccountType](docs/AccountType.md)
  - [AdditionalInfo](docs/AdditionalInfo.md)
  - [AlternativeCurrency](docs/AlternativeCurrency.md)
+ - [AssociatedCompany](docs/AssociatedCompany.md)
+ - [AssociatedCompanySubscription](docs/AssociatedCompanySubscription.md)
+ - [AssociatedCompanySubscriptionPlan](docs/AssociatedCompanySubscriptionPlan.md)
  - [BillingIndicator](docs/BillingIndicator.md)
  - [Buyer](docs/Buyer.md)
- - [CertificationCompletedPayload](docs/CertificationCompletedPayload.md)
- - [CommercialApprovalPayload](docs/CommercialApprovalPayload.md)
+ - [CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
  - [CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
  - [CreateWebhookConfig](docs/CreateWebhookConfig.md)
  - [DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
- - [DocumentReceivedPayload](docs/DocumentReceivedPayload.md)
- - [DocumentStatusChangedPayload](docs/DocumentStatusChangedPayload.md)
  - [EcfSubmissionResponse](docs/EcfSubmissionResponse.md)
  - [ElectronicDocument](docs/ElectronicDocument.md)
  - [Environment](docs/Environment.md)
@@ -89,6 +92,7 @@ Class | Method | HTTP request | Description
  - [OAuthTokenResponse](docs/OAuthTokenResponse.md)
  - [Page](docs/Page.md)
  - [PaymentMethod](docs/PaymentMethod.md)
+ - [PrintFormat](docs/PrintFormat.md)
  - [ReferenceInfo](docs/ReferenceInfo.md)
  - [Subquantity](docs/Subquantity.md)
  - [Subtotal](docs/Subtotal.md)
@@ -99,7 +103,6 @@ Class | Method | HTTP request | Description
  - [WebhookConfigResponse](docs/WebhookConfigResponse.md)
  - [WebhookEventType](docs/WebhookEventType.md)
  - [WebhookNotificationPayload](docs/WebhookNotificationPayload.md)
- - [WebhookNotificationPayloadData](docs/WebhookNotificationPayloadData.md)
 
 
 <a id="documentation-for-authorization"></a>

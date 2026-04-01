@@ -26,8 +26,8 @@ end
 
 api_instance = PronesoftEcf::DigitalCertificatesApi.new
 rnc = 'rnc_example' # String | 
-file = File.new('/path/to/some/file') # File | Archivo .p12 o .pfx
-password = 'password_example' # String | Contraseña del certificado
+file = File.new('/path/to/some/file') # File | 
+password = 'password_example' # String | 
 
 begin
   # Cargar Certificado Digital (P12)
@@ -61,8 +61,8 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **rnc** | **String** |  |  |
-| **file** | **File** | Archivo .p12 o .pfx |  |
-| **password** | **String** | Contraseña del certificado |  |
+| **file** | **File** |  |  |
+| **password** | **String** |  |  |
 
 ### Return type
 

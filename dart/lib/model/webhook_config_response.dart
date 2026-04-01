@@ -18,6 +18,7 @@ class WebhookConfigResponse {
     this.eventTypes = const [],
     this.isActive,
     this.createdAt,
+    this.lastTriggeredAt,
   });
 
   ///
@@ -54,13 +55,16 @@ class WebhookConfigResponse {
   ///
   DateTime? createdAt;
 
+  DateTime? lastTriggeredAt;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is WebhookConfigResponse &&
     other.id == id &&
     other.url == url &&
     _deepEquality.equals(other.eventTypes, eventTypes) &&
     other.isActive == isActive &&
-    other.createdAt == createdAt;
+    other.createdAt == createdAt &&
+    other.lastTriggeredAt == lastTriggeredAt;
 
   @override
   int get hashCode =>
@@ -69,10 +73,11 @@ class WebhookConfigResponse {
     (url == null ? 0 : url!.hashCode) +
     (eventTypes.hashCode) +
     (isActive == null ? 0 : isActive!.hashCode) +
-    (createdAt == null ? 0 : createdAt!.hashCode);
+    (createdAt == null ? 0 : createdAt!.hashCode) +
+    (lastTriggeredAt == null ? 0 : lastTriggeredAt!.hashCode);
 
   @override
-  String toString() => 'WebhookConfigResponse[id=$id, url=$url, eventTypes=$eventTypes, isActive=$isActive, createdAt=$createdAt]';
+  String toString() => 'WebhookConfigResponse[id=$id, url=$url, eventTypes=$eventTypes, isActive=$isActive, createdAt=$createdAt, lastTriggeredAt=$lastTriggeredAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -97,6 +102,11 @@ class WebhookConfigResponse {
     } else {
       json[r'createdAt'] = null;
     }
+    if (this.lastTriggeredAt != null) {
+      json[r'lastTriggeredAt'] = this.lastTriggeredAt!.toUtc().toIso8601String();
+    } else {
+      json[r'lastTriggeredAt'] = null;
+    }
     return json;
   }
 
@@ -120,6 +130,7 @@ class WebhookConfigResponse {
         eventTypes: WebhookEventType.listFromJson(json[r'eventTypes']),
         isActive: mapValueOfType<bool>(json, r'isActive'),
         createdAt: mapDateTime(json, r'createdAt', r''),
+        lastTriggeredAt: mapDateTime(json, r'lastTriggeredAt', r''),
       );
     }
     return null;

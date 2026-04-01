@@ -20,21 +20,27 @@ module PronesoftEcf
       @api_client = api_client
     end
     # Crear nueva secuencia fiscal
+    # @param x_tenant_id [String] 
     # @param create_tax_sequence_request [CreateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def create_tax_sequence(create_tax_sequence_request, opts = {})
-      create_tax_sequence_with_http_info(create_tax_sequence_request, opts)
+    def create_tax_sequence(x_tenant_id, create_tax_sequence_request, opts = {})
+      create_tax_sequence_with_http_info(x_tenant_id, create_tax_sequence_request, opts)
       nil
     end
 
     # Crear nueva secuencia fiscal
+    # @param x_tenant_id [String] 
     # @param create_tax_sequence_request [CreateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def create_tax_sequence_with_http_info(create_tax_sequence_request, opts = {})
+    def create_tax_sequence_with_http_info(x_tenant_id, create_tax_sequence_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: TaxSequencesApi.create_tax_sequence ...'
+      end
+      # verify the required parameter 'x_tenant_id' is set
+      if @api_client.config.client_side_validation && x_tenant_id.nil?
+        fail ArgumentError, "Missing the required parameter 'x_tenant_id' when calling TaxSequencesApi.create_tax_sequence"
       end
       # verify the required parameter 'create_tax_sequence_request' is set
       if @api_client.config.client_side_validation && create_tax_sequence_request.nil?
@@ -53,6 +59,7 @@ module PronesoftEcf
       if !content_type.nil?
           header_params['Content-Type'] = content_type
       end
+      header_params[:'x-tenant-id'] = x_tenant_id
 
       # form parameters
       form_params = opts[:form_params] || {}

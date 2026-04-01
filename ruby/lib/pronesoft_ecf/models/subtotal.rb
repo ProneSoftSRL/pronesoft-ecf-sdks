@@ -21,12 +21,45 @@ module PronesoftEcf
 
     attr_accessor :description
 
+    attr_accessor :taxable_amount
+
+    attr_accessor :taxable_amount1
+
+    attr_accessor :taxable_amount2
+
+    attr_accessor :taxable_amount3
+
+    attr_accessor :total_itbis
+
+    attr_accessor :itbis1
+
+    attr_accessor :itbis2
+
+    attr_accessor :itbis3
+
+    attr_accessor :additional_taxes
+
+    attr_accessor :exempt_amount
+
+    attr_accessor :lines
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'number' => :'number',
         :'amount' => :'amount',
-        :'description' => :'description'
+        :'description' => :'description',
+        :'taxable_amount' => :'taxableAmount',
+        :'taxable_amount1' => :'taxableAmount1',
+        :'taxable_amount2' => :'taxableAmount2',
+        :'taxable_amount3' => :'taxableAmount3',
+        :'total_itbis' => :'totalITBIS',
+        :'itbis1' => :'itbis1',
+        :'itbis2' => :'itbis2',
+        :'itbis3' => :'itbis3',
+        :'additional_taxes' => :'additionalTaxes',
+        :'exempt_amount' => :'exemptAmount',
+        :'lines' => :'lines'
       }
     end
 
@@ -45,7 +78,18 @@ module PronesoftEcf
       {
         :'number' => :'Integer',
         :'amount' => :'Float',
-        :'description' => :'String'
+        :'description' => :'String',
+        :'taxable_amount' => :'Float',
+        :'taxable_amount1' => :'Float',
+        :'taxable_amount2' => :'Float',
+        :'taxable_amount3' => :'Float',
+        :'total_itbis' => :'Float',
+        :'itbis1' => :'Float',
+        :'itbis2' => :'Float',
+        :'itbis3' => :'Float',
+        :'additional_taxes' => :'Float',
+        :'exempt_amount' => :'Float',
+        :'lines' => :'Integer'
       }
     end
 
@@ -85,6 +129,50 @@ module PronesoftEcf
 
       if attributes.key?(:'description')
         self.description = attributes[:'description']
+      end
+
+      if attributes.key?(:'taxable_amount')
+        self.taxable_amount = attributes[:'taxable_amount']
+      end
+
+      if attributes.key?(:'taxable_amount1')
+        self.taxable_amount1 = attributes[:'taxable_amount1']
+      end
+
+      if attributes.key?(:'taxable_amount2')
+        self.taxable_amount2 = attributes[:'taxable_amount2']
+      end
+
+      if attributes.key?(:'taxable_amount3')
+        self.taxable_amount3 = attributes[:'taxable_amount3']
+      end
+
+      if attributes.key?(:'total_itbis')
+        self.total_itbis = attributes[:'total_itbis']
+      end
+
+      if attributes.key?(:'itbis1')
+        self.itbis1 = attributes[:'itbis1']
+      end
+
+      if attributes.key?(:'itbis2')
+        self.itbis2 = attributes[:'itbis2']
+      end
+
+      if attributes.key?(:'itbis3')
+        self.itbis3 = attributes[:'itbis3']
+      end
+
+      if attributes.key?(:'additional_taxes')
+        self.additional_taxes = attributes[:'additional_taxes']
+      end
+
+      if attributes.key?(:'exempt_amount')
+        self.exempt_amount = attributes[:'exempt_amount']
+      end
+
+      if attributes.key?(:'lines')
+        self.lines = attributes[:'lines']
       end
     end
 
@@ -140,7 +228,18 @@ module PronesoftEcf
       self.class == o.class &&
           number == o.number &&
           amount == o.amount &&
-          description == o.description
+          description == o.description &&
+          taxable_amount == o.taxable_amount &&
+          taxable_amount1 == o.taxable_amount1 &&
+          taxable_amount2 == o.taxable_amount2 &&
+          taxable_amount3 == o.taxable_amount3 &&
+          total_itbis == o.total_itbis &&
+          itbis1 == o.itbis1 &&
+          itbis2 == o.itbis2 &&
+          itbis3 == o.itbis3 &&
+          additional_taxes == o.additional_taxes &&
+          exempt_amount == o.exempt_amount &&
+          lines == o.lines
     end
 
     # @see the `==` method
@@ -152,7 +251,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [number, amount, description].hash
+      [number, amount, description, taxable_amount, taxable_amount1, taxable_amount2, taxable_amount3, total_itbis, itbis1, itbis2, itbis3, additional_taxes, exempt_amount, lines].hash
     end
 
     # Builds the object from hash

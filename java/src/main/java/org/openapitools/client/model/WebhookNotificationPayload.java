@@ -24,7 +24,6 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import org.openapitools.client.model.WebhookEventType;
-import org.openapitools.client.model.WebhookNotificationPayloadData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,7 +51,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * WebhookNotificationPayload
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class WebhookNotificationPayload {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -77,7 +76,7 @@ public class WebhookNotificationPayload {
   public static final String SERIALIZED_NAME_DATA = "data";
   @SerializedName(SERIALIZED_NAME_DATA)
   @javax.annotation.Nonnull
-  private WebhookNotificationPayloadData data;
+  private Object data;
 
   public WebhookNotificationPayload() {
   }
@@ -158,7 +157,7 @@ public class WebhookNotificationPayload {
   }
 
 
-  public WebhookNotificationPayload data(@javax.annotation.Nonnull WebhookNotificationPayloadData data) {
+  public WebhookNotificationPayload data(@javax.annotation.Nonnull Object data) {
     this.data = data;
     return this;
   }
@@ -168,11 +167,11 @@ public class WebhookNotificationPayload {
    * @return data
    */
   @javax.annotation.Nonnull
-  public WebhookNotificationPayloadData getData() {
+  public Object getData() {
     return data;
   }
 
-  public void setData(@javax.annotation.Nonnull WebhookNotificationPayloadData data) {
+  public void setData(@javax.annotation.Nonnull Object data) {
     this.data = data;
   }
 
@@ -268,8 +267,6 @@ public class WebhookNotificationPayload {
       if (!jsonObj.get("businessRnc").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `businessRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("businessRnc").toString()));
       }
-      // validate the required field `data`
-      WebhookNotificationPayloadData.validateJsonElement(jsonObj.get("data"));
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

@@ -17,7 +17,23 @@
 
 * `PlanUsageAlert` (value: `'plan.usage_alert'`)
 
+* `PlanPaymentFailed` (value: `'plan.payment_failed'`)
+
+* `BillingInvoiceReady` (value: `'billing.invoice_ready'`)
+
 * `SequenceDepleted` (value: `'sequence.depleted'`)
+
+* `SequenceVoided` (value: `'sequence.voided'`)
+
+* `BranchCreated` (value: `'branch.created'`)
+
+* `BranchStatusChanged` (value: `'branch.status_changed'`)
+
+* `MemberInvited` (value: `'member.invited'`)
+
+* `MemberJoined` (value: `'member.joined'`)
+
+* `MemberRemoved` (value: `'member.removed'`)
 
 * `CertificationCompleted` (value: `'certification.completed'`)
 

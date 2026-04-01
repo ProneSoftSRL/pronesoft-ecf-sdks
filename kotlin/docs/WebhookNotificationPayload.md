@@ -8,7 +8,7 @@
 | **event** | [**WebhookEventType**](WebhookEventType.md) |  |  |
 | **timestamp** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
 | **businessRnc** | **kotlin.String** |  |  |
-| **&#x60;data&#x60;** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  |  |
+| **&#x60;data&#x60;** | [**kotlin.Any**](.md) |  |  |
 
 
 

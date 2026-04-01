@@ -15,17 +15,26 @@ public struct Transport: Codable, JSONEncodable, Hashable {
     public var driver: String?
     public var vehicleId: String?
     public var licensePlate: String?
+    public var route: String?
+    public var departureDate: Date?
+    public var arrivalDate: Date?
 
-    public init(driver: String? = nil, vehicleId: String? = nil, licensePlate: String? = nil) {
+    public init(driver: String? = nil, vehicleId: String? = nil, licensePlate: String? = nil, route: String? = nil, departureDate: Date? = nil, arrivalDate: Date? = nil) {
         self.driver = driver
         self.vehicleId = vehicleId
         self.licensePlate = licensePlate
+        self.route = route
+        self.departureDate = departureDate
+        self.arrivalDate = arrivalDate
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case driver
         case vehicleId
         case licensePlate
+        case route
+        case departureDate
+        case arrivalDate
     }
 
     // Encodable protocol methods
@@ -35,6 +44,9 @@ public struct Transport: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(driver, forKey: .driver)
         try container.encodeIfPresent(vehicleId, forKey: .vehicleId)
         try container.encodeIfPresent(licensePlate, forKey: .licensePlate)
+        try container.encodeIfPresent(route, forKey: .route)
+        try container.encodeIfPresent(departureDate, forKey: .departureDate)
+        try container.encodeIfPresent(arrivalDate, forKey: .arrivalDate)
     }
 }
 

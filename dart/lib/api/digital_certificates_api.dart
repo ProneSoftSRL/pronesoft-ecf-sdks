@@ -25,10 +25,8 @@ class DigitalCertificatesApi {
   /// * [String] rnc (required):
   ///
   /// * [MultipartFile] file (required):
-  ///   Archivo .p12 o .pfx
   ///
   /// * [String] password (required):
-  ///   Contraseña del certificado
   Future<Response> uploadCertificateWithHttpInfo(String rnc, MultipartFile file, String password,) async {
     // ignore: prefer_const_declarations
     final path = r'/{rnc}/certificates'
@@ -76,10 +74,8 @@ class DigitalCertificatesApi {
   /// * [String] rnc (required):
   ///
   /// * [MultipartFile] file (required):
-  ///   Archivo .p12 o .pfx
   ///
   /// * [String] password (required):
-  ///   Contraseña del certificado
   Future<UploadCertificate201Response?> uploadCertificate(String rnc, MultipartFile file, String password,) async {
     final response = await uploadCertificateWithHttpInfo(rnc, file, password,);
     if (response.statusCode >= HttpStatus.badRequest) {

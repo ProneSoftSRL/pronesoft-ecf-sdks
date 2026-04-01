@@ -25,8 +25,8 @@ import 'package:pronesoft_ecf/api.dart';
 
 final api_instance = DigitalCertificatesApi();
 final rnc = rnc_example; // String | 
-final file = BINARY_DATA_HERE; // MultipartFile | Archivo .p12 o .pfx
-final password = password_example; // String | Contraseña del certificado
+final file = BINARY_DATA_HERE; // MultipartFile | 
+final password = password_example; // String | 
 
 try {
     final result = api_instance.uploadCertificate(rnc, file, password);
@@ -41,8 +41,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **rnc** | **String**|  | 
- **file** | **MultipartFile**| Archivo .p12 o .pfx | 
- **password** | **String**| Contraseña del certificado | 
+ **file** | **MultipartFile**|  | 
+ **password** | **String**|  | 
 
 ### Return type
 

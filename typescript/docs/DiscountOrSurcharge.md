@@ -9,6 +9,10 @@ Name | Type | Description | Notes
 **type** | **string** |  | [default to undefined]
 **valueType** | **string** |  | [default to undefined]
 **amount** | **number** |  | [default to undefined]
+**description** | **string** |  | [optional] [default to undefined]
+**percentageValue** | **number** |  | [optional] [default to undefined]
+**alternativeCurrencyAmount** | **number** |  | [optional] [default to undefined]
+**billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,6 +24,10 @@ const instance: DiscountOrSurcharge = {
     type,
     valueType,
     amount,
+    description,
+    percentageValue,
+    alternativeCurrencyAmount,
+    billingIndicator,
 };
 ```
 

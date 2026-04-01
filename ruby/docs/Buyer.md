@@ -8,6 +8,8 @@
 | **name** | **String** |  |  |
 | **email** | **String** |  | [optional] |
 | **address** | **String** |  | [optional] |
+| **municipality_code** | **String** |  | [optional] |
+| **province_code** | **String** |  | [optional] |
 | **delivery_address** | **String** |  | [optional] |
 
 ## Example
@@ -20,6 +22,8 @@ instance = PronesoftEcf::Buyer.new(
   name: null,
   email: null,
   address: null,
+  municipality_code: null,
+  province_code: null,
   delivery_address: null
 )
 ```

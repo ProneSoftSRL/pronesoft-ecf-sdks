@@ -79,6 +79,7 @@ public class TaxSequencesApi {
 
     /**
      * Build call for createTaxSequence
+     * @param xTenantId  (required)
      * @param createTaxSequenceRequest  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -90,7 +91,7 @@ public class TaxSequencesApi {
         <tr><td> 201 </td><td> Secuencia creada </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createTaxSequenceCall(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createTaxSequenceCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -130,24 +131,35 @@ public class TaxSequencesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (xTenantId != null) {
+            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
+        }
+
+
         String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'xTenantId' is set
+        if (xTenantId == null) {
+            throw new ApiException("Missing the required parameter 'xTenantId' when calling createTaxSequence(Async)");
+        }
+
         // verify the required parameter 'createTaxSequenceRequest' is set
         if (createTaxSequenceRequest == null) {
             throw new ApiException("Missing the required parameter 'createTaxSequenceRequest' when calling createTaxSequence(Async)");
         }
 
-        return createTaxSequenceCall(createTaxSequenceRequest, _callback);
+        return createTaxSequenceCall(xTenantId, createTaxSequenceRequest, _callback);
 
     }
 
     /**
      * Crear nueva secuencia fiscal
      * 
+     * @param xTenantId  (required)
      * @param createTaxSequenceRequest  (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -157,13 +169,14 @@ public class TaxSequencesApi {
         <tr><td> 201 </td><td> Secuencia creada </td><td>  -  </td></tr>
      </table>
      */
-    public void createTaxSequence(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest) throws ApiException {
-        createTaxSequenceWithHttpInfo(createTaxSequenceRequest);
+    public void createTaxSequence(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest) throws ApiException {
+        createTaxSequenceWithHttpInfo(xTenantId, createTaxSequenceRequest);
     }
 
     /**
      * Crear nueva secuencia fiscal
      * 
+     * @param xTenantId  (required)
      * @param createTaxSequenceRequest  (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -174,14 +187,15 @@ public class TaxSequencesApi {
         <tr><td> 201 </td><td> Secuencia creada </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createTaxSequenceWithHttpInfo(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest) throws ApiException {
-        okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(createTaxSequenceRequest, null);
+    public ApiResponse<Void> createTaxSequenceWithHttpInfo(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest) throws ApiException {
+        okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(xTenantId, createTaxSequenceRequest, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Crear nueva secuencia fiscal (asynchronously)
      * 
+     * @param xTenantId  (required)
      * @param createTaxSequenceRequest  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -193,9 +207,9 @@ public class TaxSequencesApi {
         <tr><td> 201 </td><td> Secuencia creada </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createTaxSequenceAsync(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createTaxSequenceAsync(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(createTaxSequenceRequest, _callback);
+        okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(xTenantId, createTaxSequenceRequest, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }

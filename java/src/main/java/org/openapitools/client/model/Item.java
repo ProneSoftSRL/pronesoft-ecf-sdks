@@ -54,7 +54,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * Item
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Item {
   public static final String SERIALIZED_NAME_LINE_NUMBER = "lineNumber";
   @SerializedName(SERIALIZED_NAME_LINE_NUMBER)
@@ -248,7 +248,7 @@ public class Item {
   }
 
   /**
-   * Decimal string
+   * Get quantity
    * @return quantity
    */
   @javax.annotation.Nonnull
@@ -267,7 +267,7 @@ public class Item {
   }
 
   /**
-   * Decimal string
+   * Get unitPrice
    * @return unitPrice
    */
   @javax.annotation.Nonnull

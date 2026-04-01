@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 
 # **create_tax_sequence**
-> create_tax_sequence(create_tax_sequence_request)
+> create_tax_sequence(x_tenant_id, create_tax_sequence_request)
 
 Crear nueva secuencia fiscal
 
@@ -41,11 +41,12 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
+    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
     create_tax_sequence_request = pronesoft_ecf.CreateTaxSequenceRequest() # CreateTaxSequenceRequest | 
 
     try:
         # Crear nueva secuencia fiscal
-        api_instance.create_tax_sequence(create_tax_sequence_request)
+        api_instance.create_tax_sequence(x_tenant_id, create_tax_sequence_request)
     except Exception as e:
         print("Exception when calling TaxSequencesApi->create_tax_sequence: %s\n" % e)
 ```
@@ -57,6 +58,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **x_tenant_id** | **UUID**|  | 
  **create_tax_sequence_request** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | 
 
 ### Return type

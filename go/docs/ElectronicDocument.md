@@ -11,7 +11,12 @@ Name | Type | Description | Notes
 **ExpirationDate** | Pointer to **time.Time** |  | [optional] 
 **IncomeType** | Pointer to **string** |  | [optional] 
 **PaymentType** | Pointer to **string** |  | [optional] 
-**CreditNoteIndicator** | Pointer to **string** | 0: ≤30 días, 1: &gt;30 días | [optional] 
+**PaymentDeadline** | Pointer to **time.Time** |  | [optional] 
+**PaymentTerms** | Pointer to **string** |  | [optional] 
+**PaymentAccountType** | Pointer to [**AccountType**](AccountType.md) |  | [optional] 
+**PaymentAccountNumber** | Pointer to **string** |  | [optional] 
+**PaymentBank** | Pointer to **string** |  | [optional] 
+**CreditNoteIndicator** | Pointer to **string** | 0: emision affected ≤ 30 days, 1: &gt; 30 days | [optional] 
 **IssuerRNC** | Pointer to **string** |  | [optional] 
 **IssuerBusinessName** | Pointer to **string** |  | [optional] 
 **IssuerEmail** | Pointer to **string** |  | [optional] 
@@ -200,6 +205,131 @@ SetPaymentType sets PaymentType field to given value.
 `func (o *ElectronicDocument) HasPaymentType() bool`
 
 HasPaymentType returns a boolean if a field has been set.
+
+### GetPaymentDeadline
+
+`func (o *ElectronicDocument) GetPaymentDeadline() time.Time`
+
+GetPaymentDeadline returns the PaymentDeadline field if non-nil, zero value otherwise.
+
+### GetPaymentDeadlineOk
+
+`func (o *ElectronicDocument) GetPaymentDeadlineOk() (*time.Time, bool)`
+
+GetPaymentDeadlineOk returns a tuple with the PaymentDeadline field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPaymentDeadline
+
+`func (o *ElectronicDocument) SetPaymentDeadline(v time.Time)`
+
+SetPaymentDeadline sets PaymentDeadline field to given value.
+
+### HasPaymentDeadline
+
+`func (o *ElectronicDocument) HasPaymentDeadline() bool`
+
+HasPaymentDeadline returns a boolean if a field has been set.
+
+### GetPaymentTerms
+
+`func (o *ElectronicDocument) GetPaymentTerms() string`
+
+GetPaymentTerms returns the PaymentTerms field if non-nil, zero value otherwise.
+
+### GetPaymentTermsOk
+
+`func (o *ElectronicDocument) GetPaymentTermsOk() (*string, bool)`
+
+GetPaymentTermsOk returns a tuple with the PaymentTerms field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPaymentTerms
+
+`func (o *ElectronicDocument) SetPaymentTerms(v string)`
+
+SetPaymentTerms sets PaymentTerms field to given value.
+
+### HasPaymentTerms
+
+`func (o *ElectronicDocument) HasPaymentTerms() bool`
+
+HasPaymentTerms returns a boolean if a field has been set.
+
+### GetPaymentAccountType
+
+`func (o *ElectronicDocument) GetPaymentAccountType() AccountType`
+
+GetPaymentAccountType returns the PaymentAccountType field if non-nil, zero value otherwise.
+
+### GetPaymentAccountTypeOk
+
+`func (o *ElectronicDocument) GetPaymentAccountTypeOk() (*AccountType, bool)`
+
+GetPaymentAccountTypeOk returns a tuple with the PaymentAccountType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPaymentAccountType
+
+`func (o *ElectronicDocument) SetPaymentAccountType(v AccountType)`
+
+SetPaymentAccountType sets PaymentAccountType field to given value.
+
+### HasPaymentAccountType
+
+`func (o *ElectronicDocument) HasPaymentAccountType() bool`
+
+HasPaymentAccountType returns a boolean if a field has been set.
+
+### GetPaymentAccountNumber
+
+`func (o *ElectronicDocument) GetPaymentAccountNumber() string`
+
+GetPaymentAccountNumber returns the PaymentAccountNumber field if non-nil, zero value otherwise.
+
+### GetPaymentAccountNumberOk
+
+`func (o *ElectronicDocument) GetPaymentAccountNumberOk() (*string, bool)`
+
+GetPaymentAccountNumberOk returns a tuple with the PaymentAccountNumber field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPaymentAccountNumber
+
+`func (o *ElectronicDocument) SetPaymentAccountNumber(v string)`
+
+SetPaymentAccountNumber sets PaymentAccountNumber field to given value.
+
+### HasPaymentAccountNumber
+
+`func (o *ElectronicDocument) HasPaymentAccountNumber() bool`
+
+HasPaymentAccountNumber returns a boolean if a field has been set.
+
+### GetPaymentBank
+
+`func (o *ElectronicDocument) GetPaymentBank() string`
+
+GetPaymentBank returns the PaymentBank field if non-nil, zero value otherwise.
+
+### GetPaymentBankOk
+
+`func (o *ElectronicDocument) GetPaymentBankOk() (*string, bool)`
+
+GetPaymentBankOk returns a tuple with the PaymentBank field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPaymentBank
+
+`func (o *ElectronicDocument) SetPaymentBank(v string)`
+
+SetPaymentBank sets PaymentBank field to given value.
+
+### HasPaymentBank
+
+`func (o *ElectronicDocument) HasPaymentBank() bool`
+
+HasPaymentBank returns a boolean if a field has been set.
 
 ### GetCreditNoteIndicator
 

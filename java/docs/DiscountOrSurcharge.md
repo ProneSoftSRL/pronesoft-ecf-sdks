@@ -11,6 +11,10 @@
 |**type** | [**TypeEnum**](#TypeEnum) |  |  |
 |**valueType** | [**ValueTypeEnum**](#ValueTypeEnum) |  |  |
 |**amount** | **BigDecimal** |  |  |
+|**description** | **String** |  |  [optional] |
+|**percentageValue** | **BigDecimal** |  |  [optional] |
+|**alternativeCurrencyAmount** | **BigDecimal** |  |  [optional] |
+|**billingIndicator** | **BillingIndicator** |  |  [optional] |
 
 
 

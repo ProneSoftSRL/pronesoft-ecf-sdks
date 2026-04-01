@@ -8,6 +8,9 @@ Name | Type | Description | Notes
 **driver** | **str** |  | [optional] 
 **vehicle_id** | **str** |  | [optional] 
 **license_plate** | **str** |  | [optional] 
+**route** | **str** |  | [optional] 
+**departure_date** | **datetime** |  | [optional] 
+**arrival_date** | **datetime** |  | [optional] 
 
 ## Example
 

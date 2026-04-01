@@ -12,20 +12,61 @@ import AnyCodable
 
 public struct AssociatedCompany: Codable, JSONEncodable, Hashable {
 
+    public enum ModelType: String, Codable, CaseIterable {
+        case main = "MAIN"
+        case associated = "ASSOCIATED"
+    }
+    public static let rncRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[0-9]{9}|[0-9]{11}$/")
     public var id: UUID?
     public var name: String?
     public var rnc: String?
+    public var phone: String?
+    public var address: String?
+    public var city: String?
+    public var country: String?
+    public var website: String?
+    public var logoPath: String?
+    public var type: ModelType?
+    public var createdAt: Date?
+    public var docsIssuedThisMonth: Int?
+    public var purchasedDocsConsumedThisMonth: Int?
+    public var ownerEmail: String?
+    public var subscription: AssociatedCompanySubscription?
 
-    public init(id: UUID? = nil, name: String? = nil, rnc: String? = nil) {
+    public init(id: UUID? = nil, name: String? = nil, rnc: String? = nil, phone: String? = nil, address: String? = nil, city: String? = nil, country: String? = nil, website: String? = nil, logoPath: String? = nil, type: ModelType? = nil, createdAt: Date? = nil, docsIssuedThisMonth: Int? = nil, purchasedDocsConsumedThisMonth: Int? = nil, ownerEmail: String? = nil, subscription: AssociatedCompanySubscription? = nil) {
         self.id = id
         self.name = name
         self.rnc = rnc
+        self.phone = phone
+        self.address = address
+        self.city = city
+        self.country = country
+        self.website = website
+        self.logoPath = logoPath
+        self.type = type
+        self.createdAt = createdAt
+        self.docsIssuedThisMonth = docsIssuedThisMonth
+        self.purchasedDocsConsumedThisMonth = purchasedDocsConsumedThisMonth
+        self.ownerEmail = ownerEmail
+        self.subscription = subscription
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name
         case rnc
+        case phone
+        case address
+        case city
+        case country
+        case website
+        case logoPath
+        case type
+        case createdAt
+        case docsIssuedThisMonth
+        case purchasedDocsConsumedThisMonth
+        case ownerEmail
+        case subscription
     }
 
     // Encodable protocol methods
@@ -35,6 +76,18 @@ public struct AssociatedCompany: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(rnc, forKey: .rnc)
+        try container.encodeIfPresent(phone, forKey: .phone)
+        try container.encodeIfPresent(address, forKey: .address)
+        try container.encodeIfPresent(city, forKey: .city)
+        try container.encodeIfPresent(country, forKey: .country)
+        try container.encodeIfPresent(website, forKey: .website)
+        try container.encodeIfPresent(logoPath, forKey: .logoPath)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(docsIssuedThisMonth, forKey: .docsIssuedThisMonth)
+        try container.encodeIfPresent(purchasedDocsConsumedThisMonth, forKey: .purchasedDocsConsumedThisMonth)
+        try container.encodeIfPresent(ownerEmail, forKey: .ownerEmail)
+        try container.encodeIfPresent(subscription, forKey: .subscription)
     }
 }
 

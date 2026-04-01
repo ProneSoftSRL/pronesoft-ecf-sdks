@@ -25,6 +25,10 @@ type DiscountOrSurcharge struct {
 	Type string `json:"type"`
 	ValueType string `json:"valueType"`
 	Amount float32 `json:"amount"`
+	Description *string `json:"description,omitempty"`
+	PercentageValue *float32 `json:"percentageValue,omitempty"`
+	AlternativeCurrencyAmount *float32 `json:"alternativeCurrencyAmount,omitempty"`
+	BillingIndicator *BillingIndicator `json:"billingIndicator,omitempty"`
 }
 
 type _DiscountOrSurcharge DiscountOrSurcharge
@@ -146,6 +150,134 @@ func (o *DiscountOrSurcharge) SetAmount(v float32) {
 	o.Amount = v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *DiscountOrSurcharge) GetDescription() string {
+	if o == nil || IsNil(o.Description) {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DiscountOrSurcharge) GetDescriptionOk() (*string, bool) {
+	if o == nil || IsNil(o.Description) {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *DiscountOrSurcharge) HasDescription() bool {
+	if o != nil && !IsNil(o.Description) {
+		return true
+	}
+
+	return false
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *DiscountOrSurcharge) SetDescription(v string) {
+	o.Description = &v
+}
+
+// GetPercentageValue returns the PercentageValue field value if set, zero value otherwise.
+func (o *DiscountOrSurcharge) GetPercentageValue() float32 {
+	if o == nil || IsNil(o.PercentageValue) {
+		var ret float32
+		return ret
+	}
+	return *o.PercentageValue
+}
+
+// GetPercentageValueOk returns a tuple with the PercentageValue field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DiscountOrSurcharge) GetPercentageValueOk() (*float32, bool) {
+	if o == nil || IsNil(o.PercentageValue) {
+		return nil, false
+	}
+	return o.PercentageValue, true
+}
+
+// HasPercentageValue returns a boolean if a field has been set.
+func (o *DiscountOrSurcharge) HasPercentageValue() bool {
+	if o != nil && !IsNil(o.PercentageValue) {
+		return true
+	}
+
+	return false
+}
+
+// SetPercentageValue gets a reference to the given float32 and assigns it to the PercentageValue field.
+func (o *DiscountOrSurcharge) SetPercentageValue(v float32) {
+	o.PercentageValue = &v
+}
+
+// GetAlternativeCurrencyAmount returns the AlternativeCurrencyAmount field value if set, zero value otherwise.
+func (o *DiscountOrSurcharge) GetAlternativeCurrencyAmount() float32 {
+	if o == nil || IsNil(o.AlternativeCurrencyAmount) {
+		var ret float32
+		return ret
+	}
+	return *o.AlternativeCurrencyAmount
+}
+
+// GetAlternativeCurrencyAmountOk returns a tuple with the AlternativeCurrencyAmount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DiscountOrSurcharge) GetAlternativeCurrencyAmountOk() (*float32, bool) {
+	if o == nil || IsNil(o.AlternativeCurrencyAmount) {
+		return nil, false
+	}
+	return o.AlternativeCurrencyAmount, true
+}
+
+// HasAlternativeCurrencyAmount returns a boolean if a field has been set.
+func (o *DiscountOrSurcharge) HasAlternativeCurrencyAmount() bool {
+	if o != nil && !IsNil(o.AlternativeCurrencyAmount) {
+		return true
+	}
+
+	return false
+}
+
+// SetAlternativeCurrencyAmount gets a reference to the given float32 and assigns it to the AlternativeCurrencyAmount field.
+func (o *DiscountOrSurcharge) SetAlternativeCurrencyAmount(v float32) {
+	o.AlternativeCurrencyAmount = &v
+}
+
+// GetBillingIndicator returns the BillingIndicator field value if set, zero value otherwise.
+func (o *DiscountOrSurcharge) GetBillingIndicator() BillingIndicator {
+	if o == nil || IsNil(o.BillingIndicator) {
+		var ret BillingIndicator
+		return ret
+	}
+	return *o.BillingIndicator
+}
+
+// GetBillingIndicatorOk returns a tuple with the BillingIndicator field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DiscountOrSurcharge) GetBillingIndicatorOk() (*BillingIndicator, bool) {
+	if o == nil || IsNil(o.BillingIndicator) {
+		return nil, false
+	}
+	return o.BillingIndicator, true
+}
+
+// HasBillingIndicator returns a boolean if a field has been set.
+func (o *DiscountOrSurcharge) HasBillingIndicator() bool {
+	if o != nil && !IsNil(o.BillingIndicator) {
+		return true
+	}
+
+	return false
+}
+
+// SetBillingIndicator gets a reference to the given BillingIndicator and assigns it to the BillingIndicator field.
+func (o *DiscountOrSurcharge) SetBillingIndicator(v BillingIndicator) {
+	o.BillingIndicator = &v
+}
+
 func (o DiscountOrSurcharge) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -160,6 +292,18 @@ func (o DiscountOrSurcharge) ToMap() (map[string]interface{}, error) {
 	toSerialize["type"] = o.Type
 	toSerialize["valueType"] = o.ValueType
 	toSerialize["amount"] = o.Amount
+	if !IsNil(o.Description) {
+		toSerialize["description"] = o.Description
+	}
+	if !IsNil(o.PercentageValue) {
+		toSerialize["percentageValue"] = o.PercentageValue
+	}
+	if !IsNil(o.AlternativeCurrencyAmount) {
+		toSerialize["alternativeCurrencyAmount"] = o.AlternativeCurrencyAmount
+	}
+	if !IsNil(o.BillingIndicator) {
+		toSerialize["billingIndicator"] = o.BillingIndicator
+	}
 	return toSerialize, nil
 }
 

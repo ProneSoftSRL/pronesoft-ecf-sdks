@@ -33,6 +33,17 @@ import com.squareup.moshi.JsonClass
  * @param number 
  * @param amount 
  * @param description 
+ * @param taxableAmount 
+ * @param taxableAmount1 
+ * @param taxableAmount2 
+ * @param taxableAmount3 
+ * @param totalITBIS 
+ * @param itbis1 
+ * @param itbis2 
+ * @param itbis3 
+ * @param additionalTaxes 
+ * @param exemptAmount 
+ * @param lines 
  */
 
 
@@ -45,7 +56,40 @@ data class Subtotal (
     val amount: java.math.BigDecimal,
 
     @Json(name = "description")
-    val description: kotlin.String? = null
+    val description: kotlin.String? = null,
+
+    @Json(name = "taxableAmount")
+    val taxableAmount: java.math.BigDecimal? = null,
+
+    @Json(name = "taxableAmount1")
+    val taxableAmount1: java.math.BigDecimal? = null,
+
+    @Json(name = "taxableAmount2")
+    val taxableAmount2: java.math.BigDecimal? = null,
+
+    @Json(name = "taxableAmount3")
+    val taxableAmount3: java.math.BigDecimal? = null,
+
+    @Json(name = "totalITBIS")
+    val totalITBIS: java.math.BigDecimal? = null,
+
+    @Json(name = "itbis1")
+    val itbis1: java.math.BigDecimal? = null,
+
+    @Json(name = "itbis2")
+    val itbis2: java.math.BigDecimal? = null,
+
+    @Json(name = "itbis3")
+    val itbis3: java.math.BigDecimal? = null,
+
+    @Json(name = "additionalTaxes")
+    val additionalTaxes: java.math.BigDecimal? = null,
+
+    @Json(name = "exemptAmount")
+    val exemptAmount: java.math.BigDecimal? = null,
+
+    @Json(name = "lines")
+    val lines: kotlin.Int? = null
 
 ) {
 

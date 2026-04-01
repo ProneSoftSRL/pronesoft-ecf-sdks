@@ -61,6 +61,8 @@ class Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => 'string',
         'email' => 'string',
         'address' => 'string',
+        'municipality_code' => 'string',
+        'province_code' => 'string',
         'delivery_address' => 'string'
     ];
 
@@ -76,6 +78,8 @@ class Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => null,
         'email' => 'email',
         'address' => null,
+        'municipality_code' => null,
+        'province_code' => null,
         'delivery_address' => null
     ];
 
@@ -89,6 +93,8 @@ class Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => false,
         'email' => false,
         'address' => false,
+        'municipality_code' => false,
+        'province_code' => false,
         'delivery_address' => false
     ];
 
@@ -182,6 +188,8 @@ class Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => 'name',
         'email' => 'email',
         'address' => 'address',
+        'municipality_code' => 'municipalityCode',
+        'province_code' => 'provinceCode',
         'delivery_address' => 'deliveryAddress'
     ];
 
@@ -195,6 +203,8 @@ class Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => 'setName',
         'email' => 'setEmail',
         'address' => 'setAddress',
+        'municipality_code' => 'setMunicipalityCode',
+        'province_code' => 'setProvinceCode',
         'delivery_address' => 'setDeliveryAddress'
     ];
 
@@ -208,6 +218,8 @@ class Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
         'name' => 'getName',
         'email' => 'getEmail',
         'address' => 'getAddress',
+        'municipality_code' => 'getMunicipalityCode',
+        'province_code' => 'getProvinceCode',
         'delivery_address' => 'getDeliveryAddress'
     ];
 
@@ -272,6 +284,8 @@ class Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('name', $data ?? [], null);
         $this->setIfExists('email', $data ?? [], null);
         $this->setIfExists('address', $data ?? [], null);
+        $this->setIfExists('municipality_code', $data ?? [], null);
+        $this->setIfExists('province_code', $data ?? [], null);
         $this->setIfExists('delivery_address', $data ?? [], null);
     }
 
@@ -449,6 +463,60 @@ class Buyer implements ModelInterface, ArrayAccess, \JsonSerializable
         }
 
         $this->container['address'] = $address;
+
+        return $this;
+    }
+
+    /**
+     * Gets municipality_code
+     *
+     * @return string|null
+     */
+    public function getMunicipalityCode()
+    {
+        return $this->container['municipality_code'];
+    }
+
+    /**
+     * Sets municipality_code
+     *
+     * @param string|null $municipality_code municipality_code
+     *
+     * @return self
+     */
+    public function setMunicipalityCode($municipality_code)
+    {
+        if (is_null($municipality_code)) {
+            throw new \InvalidArgumentException('non-nullable municipality_code cannot be null');
+        }
+        $this->container['municipality_code'] = $municipality_code;
+
+        return $this;
+    }
+
+    /**
+     * Gets province_code
+     *
+     * @return string|null
+     */
+    public function getProvinceCode()
+    {
+        return $this->container['province_code'];
+    }
+
+    /**
+     * Sets province_code
+     *
+     * @param string|null $province_code province_code
+     *
+     * @return self
+     */
+    public function setProvinceCode($province_code)
+    {
+        if (is_null($province_code)) {
+            throw new \InvalidArgumentException('non-nullable province_code cannot be null');
+        }
+        $this->container['province_code'] = $province_code;
 
         return $this;
     }

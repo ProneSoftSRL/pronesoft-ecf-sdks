@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 **name** | **String** |  | 
 **type** | **String** |  | 
 **billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
-**quantity** | **String** | Decimal string | 
-**unitPrice** | **String** | Decimal string | 
+**quantity** | **String** |  | 
+**unitPrice** | **String** |  | 
 **amount** | **num** |  | 
 **discountAmount** | **num** |  | [optional] 
 **additionalTaxes** | [**List<ItemAdditionalTax>**](ItemAdditionalTax.md) |  | [optional] [default to const []]

@@ -11,7 +11,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="createTaxSequence"></a>
 # **createTaxSequence**
-> createTaxSequence(createTaxSequenceRequest)
+> createTaxSequence(xTenantId, createTaxSequenceRequest)
 
 Crear nueva secuencia fiscal
 
@@ -22,9 +22,10 @@ Crear nueva secuencia fiscal
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = TaxSequencesApi()
+val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
 val createTaxSequenceRequest : CreateTaxSequenceRequest =  // CreateTaxSequenceRequest | 
 try {
-    apiInstance.createTaxSequence(createTaxSequenceRequest)
+    apiInstance.createTaxSequence(xTenantId, createTaxSequenceRequest)
 } catch (e: ClientException) {
     println("4xx response calling TaxSequencesApi#createTaxSequence")
     e.printStackTrace()
@@ -35,6 +36,7 @@ try {
 ```
 
 ### Parameters
+| **xTenantId** | **java.util.UUID**|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | |

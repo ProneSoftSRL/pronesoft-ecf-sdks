@@ -540,7 +540,7 @@ class Item implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets quantity
      *
-     * @param string $quantity Decimal string
+     * @param string $quantity quantity
      *
      * @return self
      */
@@ -567,7 +567,7 @@ class Item implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets unit_price
      *
-     * @param string $unit_price Decimal string
+     * @param string $unit_price unit_price
      *
      * @return self
      */

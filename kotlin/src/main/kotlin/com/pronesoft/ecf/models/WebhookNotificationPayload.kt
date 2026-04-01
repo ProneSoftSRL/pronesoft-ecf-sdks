@@ -24,7 +24,6 @@
 package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.WebhookEventType
-import com.pronesoft.ecf.models.WebhookNotificationPayloadData
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -55,7 +54,7 @@ data class WebhookNotificationPayload (
     val businessRnc: kotlin.String,
 
     @Json(name = "data")
-    val `data`: WebhookNotificationPayloadData
+    val `data`: kotlin.Any
 
 ) {
 

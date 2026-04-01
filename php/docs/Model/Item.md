@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **name** | **string** |  |
 **type** | **string** |  |
 **billing_indicator** | [**\PronesoftEcf\Model\BillingIndicator**](BillingIndicator.md) |  |
-**quantity** | **string** | Decimal string |
-**unit_price** | **string** | Decimal string |
+**quantity** | **string** |  |
+**unit_price** | **string** |  |
 **amount** | **float** |  |
 **discount_amount** | **float** |  | [optional]
 **additional_taxes** | [**\PronesoftEcf\Model\ItemAdditionalTax[]**](ItemAdditionalTax.md) |  | [optional]

@@ -58,7 +58,9 @@ class AdditionalInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPITypes = [
         'gross_weight' => 'float',
-        'package_quantity' => 'float'
+        'package_quantity' => 'float',
+        'container_id' => 'string',
+        'seal_id' => 'string'
     ];
 
     /**
@@ -70,7 +72,9 @@ class AdditionalInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPIFormats = [
         'gross_weight' => null,
-        'package_quantity' => null
+        'package_quantity' => null,
+        'container_id' => null,
+        'seal_id' => null
     ];
 
     /**
@@ -80,7 +84,9 @@ class AdditionalInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static array $openAPINullables = [
         'gross_weight' => false,
-        'package_quantity' => false
+        'package_quantity' => false,
+        'container_id' => false,
+        'seal_id' => false
     ];
 
     /**
@@ -170,7 +176,9 @@ class AdditionalInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $attributeMap = [
         'gross_weight' => 'grossWeight',
-        'package_quantity' => 'packageQuantity'
+        'package_quantity' => 'packageQuantity',
+        'container_id' => 'containerId',
+        'seal_id' => 'sealId'
     ];
 
     /**
@@ -180,7 +188,9 @@ class AdditionalInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $setters = [
         'gross_weight' => 'setGrossWeight',
-        'package_quantity' => 'setPackageQuantity'
+        'package_quantity' => 'setPackageQuantity',
+        'container_id' => 'setContainerId',
+        'seal_id' => 'setSealId'
     ];
 
     /**
@@ -190,7 +200,9 @@ class AdditionalInfo implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $getters = [
         'gross_weight' => 'getGrossWeight',
-        'package_quantity' => 'getPackageQuantity'
+        'package_quantity' => 'getPackageQuantity',
+        'container_id' => 'getContainerId',
+        'seal_id' => 'getSealId'
     ];
 
     /**
@@ -252,6 +264,8 @@ class AdditionalInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $this->setIfExists('gross_weight', $data ?? [], null);
         $this->setIfExists('package_quantity', $data ?? [], null);
+        $this->setIfExists('container_id', $data ?? [], null);
+        $this->setIfExists('seal_id', $data ?? [], null);
     }
 
     /**
@@ -346,6 +360,60 @@ class AdditionalInfo implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable package_quantity cannot be null');
         }
         $this->container['package_quantity'] = $package_quantity;
+
+        return $this;
+    }
+
+    /**
+     * Gets container_id
+     *
+     * @return string|null
+     */
+    public function getContainerId()
+    {
+        return $this->container['container_id'];
+    }
+
+    /**
+     * Sets container_id
+     *
+     * @param string|null $container_id container_id
+     *
+     * @return self
+     */
+    public function setContainerId($container_id)
+    {
+        if (is_null($container_id)) {
+            throw new \InvalidArgumentException('non-nullable container_id cannot be null');
+        }
+        $this->container['container_id'] = $container_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets seal_id
+     *
+     * @return string|null
+     */
+    public function getSealId()
+    {
+        return $this->container['seal_id'];
+    }
+
+    /**
+     * Sets seal_id
+     *
+     * @param string|null $seal_id seal_id
+     *
+     * @return self
+     */
+    public function setSealId($seal_id)
+    {
+        if (is_null($seal_id)) {
+            throw new \InvalidArgumentException('non-nullable seal_id cannot be null');
+        }
+        $this->container['seal_id'] = $seal_id;
 
         return $this;
     }

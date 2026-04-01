@@ -31,6 +31,9 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     }
     public static let versionRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^1\\.0$/")
     public static let invoiceNumberRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9]{13}$/")
+    public static let paymentTermsRule = StringRule(minLength: nil, maxLength: 15, pattern: nil)
+    public static let paymentAccountNumberRule = StringRule(minLength: nil, maxLength: 28, pattern: nil)
+    public static let paymentBankRule = StringRule(minLength: nil, maxLength: 75, pattern: nil)
     public static let issuerRNCRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[0-9]{9}|[0-9]{11}$/")
     public static let issuerBusinessNameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
     public static let issuerPhonesRule = ArrayRule(minItems: nil, maxItems: 3, uniqueItems: false)
@@ -42,7 +45,12 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public var expirationDate: Date?
     public var incomeType: IncomeType?
     public var paymentType: PaymentType?
-    /** 0: ≤30 días, 1: >30 días */
+    public var paymentDeadline: Date?
+    public var paymentTerms: String?
+    public var paymentAccountType: AccountType?
+    public var paymentAccountNumber: String?
+    public var paymentBank: String?
+    /** 0: emision affected ≤ 30 days, 1: > 30 days */
     public var creditNoteIndicator: CreditNoteIndicator?
     public var issuerRNC: String?
     public var issuerBusinessName: String?
@@ -59,7 +67,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public var discountsOrSurcharges: [DiscountOrSurcharge]?
     public var pages: [Page]?
 
-    public init(version: String = "1.0", invoiceType: InvoiceType, invoiceNumber: String, issueDate: Date, expirationDate: Date? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerEmail: String? = nil, issuerPhones: [String]? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: [Subtotal]? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: [Page]? = nil) {
+    public init(version: String = "1.0", invoiceType: InvoiceType, invoiceNumber: String, issueDate: Date, expirationDate: Date? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerEmail: String? = nil, issuerPhones: [String]? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: [Subtotal]? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: [Page]? = nil) {
         self.version = version
         self.invoiceType = invoiceType
         self.invoiceNumber = invoiceNumber
@@ -67,6 +75,11 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         self.expirationDate = expirationDate
         self.incomeType = incomeType
         self.paymentType = paymentType
+        self.paymentDeadline = paymentDeadline
+        self.paymentTerms = paymentTerms
+        self.paymentAccountType = paymentAccountType
+        self.paymentAccountNumber = paymentAccountNumber
+        self.paymentBank = paymentBank
         self.creditNoteIndicator = creditNoteIndicator
         self.issuerRNC = issuerRNC
         self.issuerBusinessName = issuerBusinessName
@@ -92,6 +105,11 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         case expirationDate
         case incomeType
         case paymentType
+        case paymentDeadline
+        case paymentTerms
+        case paymentAccountType
+        case paymentAccountNumber
+        case paymentBank
         case creditNoteIndicator
         case issuerRNC
         case issuerBusinessName
@@ -120,6 +138,11 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(expirationDate, forKey: .expirationDate)
         try container.encodeIfPresent(incomeType, forKey: .incomeType)
         try container.encodeIfPresent(paymentType, forKey: .paymentType)
+        try container.encodeIfPresent(paymentDeadline, forKey: .paymentDeadline)
+        try container.encodeIfPresent(paymentTerms, forKey: .paymentTerms)
+        try container.encodeIfPresent(paymentAccountType, forKey: .paymentAccountType)
+        try container.encodeIfPresent(paymentAccountNumber, forKey: .paymentAccountNumber)
+        try container.encodeIfPresent(paymentBank, forKey: .paymentBank)
         try container.encodeIfPresent(creditNoteIndicator, forKey: .creditNoteIndicator)
         try container.encodeIfPresent(issuerRNC, forKey: .issuerRNC)
         try container.encodeIfPresent(issuerBusinessName, forKey: .issuerBusinessName)

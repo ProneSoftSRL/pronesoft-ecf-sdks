@@ -12,6 +12,7 @@ package ecf
 
 import (
 	"encoding/json"
+	"time"
 )
 
 // checks if the Transport type satisfies the MappedNullable interface at compile time
@@ -22,6 +23,9 @@ type Transport struct {
 	Driver *string `json:"driver,omitempty"`
 	VehicleId *string `json:"vehicleId,omitempty"`
 	LicensePlate *string `json:"licensePlate,omitempty"`
+	Route *string `json:"route,omitempty"`
+	DepartureDate *time.Time `json:"departureDate,omitempty"`
+	ArrivalDate *time.Time `json:"arrivalDate,omitempty"`
 }
 
 // NewTransport instantiates a new Transport object
@@ -137,6 +141,102 @@ func (o *Transport) SetLicensePlate(v string) {
 	o.LicensePlate = &v
 }
 
+// GetRoute returns the Route field value if set, zero value otherwise.
+func (o *Transport) GetRoute() string {
+	if o == nil || IsNil(o.Route) {
+		var ret string
+		return ret
+	}
+	return *o.Route
+}
+
+// GetRouteOk returns a tuple with the Route field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Transport) GetRouteOk() (*string, bool) {
+	if o == nil || IsNil(o.Route) {
+		return nil, false
+	}
+	return o.Route, true
+}
+
+// HasRoute returns a boolean if a field has been set.
+func (o *Transport) HasRoute() bool {
+	if o != nil && !IsNil(o.Route) {
+		return true
+	}
+
+	return false
+}
+
+// SetRoute gets a reference to the given string and assigns it to the Route field.
+func (o *Transport) SetRoute(v string) {
+	o.Route = &v
+}
+
+// GetDepartureDate returns the DepartureDate field value if set, zero value otherwise.
+func (o *Transport) GetDepartureDate() time.Time {
+	if o == nil || IsNil(o.DepartureDate) {
+		var ret time.Time
+		return ret
+	}
+	return *o.DepartureDate
+}
+
+// GetDepartureDateOk returns a tuple with the DepartureDate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Transport) GetDepartureDateOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.DepartureDate) {
+		return nil, false
+	}
+	return o.DepartureDate, true
+}
+
+// HasDepartureDate returns a boolean if a field has been set.
+func (o *Transport) HasDepartureDate() bool {
+	if o != nil && !IsNil(o.DepartureDate) {
+		return true
+	}
+
+	return false
+}
+
+// SetDepartureDate gets a reference to the given time.Time and assigns it to the DepartureDate field.
+func (o *Transport) SetDepartureDate(v time.Time) {
+	o.DepartureDate = &v
+}
+
+// GetArrivalDate returns the ArrivalDate field value if set, zero value otherwise.
+func (o *Transport) GetArrivalDate() time.Time {
+	if o == nil || IsNil(o.ArrivalDate) {
+		var ret time.Time
+		return ret
+	}
+	return *o.ArrivalDate
+}
+
+// GetArrivalDateOk returns a tuple with the ArrivalDate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Transport) GetArrivalDateOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.ArrivalDate) {
+		return nil, false
+	}
+	return o.ArrivalDate, true
+}
+
+// HasArrivalDate returns a boolean if a field has been set.
+func (o *Transport) HasArrivalDate() bool {
+	if o != nil && !IsNil(o.ArrivalDate) {
+		return true
+	}
+
+	return false
+}
+
+// SetArrivalDate gets a reference to the given time.Time and assigns it to the ArrivalDate field.
+func (o *Transport) SetArrivalDate(v time.Time) {
+	o.ArrivalDate = &v
+}
+
 func (o Transport) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -155,6 +255,15 @@ func (o Transport) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.LicensePlate) {
 		toSerialize["licensePlate"] = o.LicensePlate
+	}
+	if !IsNil(o.Route) {
+		toSerialize["route"] = o.Route
+	}
+	if !IsNil(o.DepartureDate) {
+		toSerialize["departureDate"] = o.DepartureDate
+	}
+	if !IsNil(o.ArrivalDate) {
+		toSerialize["arrivalDate"] = o.ArrivalDate
 	}
 	return toSerialize, nil
 }

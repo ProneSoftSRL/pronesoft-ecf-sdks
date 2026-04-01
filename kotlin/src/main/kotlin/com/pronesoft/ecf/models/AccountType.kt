@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 
+ * CT: Corriente, AH: Ahorros, OT: Otros
  *
  * Values: CT,AH,OT
  */

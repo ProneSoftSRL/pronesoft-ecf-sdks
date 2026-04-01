@@ -8,6 +8,18 @@ Name | Type | Description | Notes
 **id** | **UUID** |  | [optional] 
 **name** | **str** |  | [optional] 
 **rnc** | **str** |  | [optional] 
+**phone** | **str** |  | [optional] 
+**address** | **str** |  | [optional] 
+**city** | **str** |  | [optional] 
+**country** | **str** |  | [optional] 
+**website** | **str** |  | [optional] 
+**logo_path** | **str** |  | [optional] 
+**type** | **str** |  | [optional] 
+**created_at** | **datetime** |  | [optional] 
+**docs_issued_this_month** | **int** |  | [optional] 
+**purchased_docs_consumed_this_month** | **int** |  | [optional] 
+**owner_email** | **str** |  | [optional] 
+**subscription** | [**AssociatedCompanySubscription**](AssociatedCompanySubscription.md) |  | [optional] 
 
 ## Example
 

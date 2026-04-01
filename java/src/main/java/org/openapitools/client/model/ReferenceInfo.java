@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
@@ -48,12 +49,22 @@ import Pronesoft.Ecf.JSON;
 /**
  * ReferenceInfo
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ReferenceInfo {
   public static final String SERIALIZED_NAME_MODIFIED_INVOICE_NUMBER = "modifiedInvoiceNumber";
   @SerializedName(SERIALIZED_NAME_MODIFIED_INVOICE_NUMBER)
   @javax.annotation.Nonnull
   private String modifiedInvoiceNumber;
+
+  public static final String SERIALIZED_NAME_OTHER_CONTRIBUTOR_R_N_C = "otherContributorRNC";
+  @SerializedName(SERIALIZED_NAME_OTHER_CONTRIBUTOR_R_N_C)
+  @javax.annotation.Nullable
+  private String otherContributorRNC;
+
+  public static final String SERIALIZED_NAME_MODIFIED_INVOICE_DATE = "modifiedInvoiceDate";
+  @SerializedName(SERIALIZED_NAME_MODIFIED_INVOICE_DATE)
+  @javax.annotation.Nullable
+  private LocalDate modifiedInvoiceDate;
 
   /**
    * Gets or Sets modificationCode
@@ -118,6 +129,11 @@ public class ReferenceInfo {
   @javax.annotation.Nonnull
   private ModificationCodeEnum modificationCode;
 
+  public static final String SERIALIZED_NAME_MODIFICATION_REASON = "modificationReason";
+  @SerializedName(SERIALIZED_NAME_MODIFICATION_REASON)
+  @javax.annotation.Nullable
+  private String modificationReason;
+
   public ReferenceInfo() {
   }
 
@@ -140,6 +156,44 @@ public class ReferenceInfo {
   }
 
 
+  public ReferenceInfo otherContributorRNC(@javax.annotation.Nullable String otherContributorRNC) {
+    this.otherContributorRNC = otherContributorRNC;
+    return this;
+  }
+
+  /**
+   * Get otherContributorRNC
+   * @return otherContributorRNC
+   */
+  @javax.annotation.Nullable
+  public String getOtherContributorRNC() {
+    return otherContributorRNC;
+  }
+
+  public void setOtherContributorRNC(@javax.annotation.Nullable String otherContributorRNC) {
+    this.otherContributorRNC = otherContributorRNC;
+  }
+
+
+  public ReferenceInfo modifiedInvoiceDate(@javax.annotation.Nullable LocalDate modifiedInvoiceDate) {
+    this.modifiedInvoiceDate = modifiedInvoiceDate;
+    return this;
+  }
+
+  /**
+   * Get modifiedInvoiceDate
+   * @return modifiedInvoiceDate
+   */
+  @javax.annotation.Nullable
+  public LocalDate getModifiedInvoiceDate() {
+    return modifiedInvoiceDate;
+  }
+
+  public void setModifiedInvoiceDate(@javax.annotation.Nullable LocalDate modifiedInvoiceDate) {
+    this.modifiedInvoiceDate = modifiedInvoiceDate;
+  }
+
+
   public ReferenceInfo modificationCode(@javax.annotation.Nonnull ModificationCodeEnum modificationCode) {
     this.modificationCode = modificationCode;
     return this;
@@ -159,6 +213,25 @@ public class ReferenceInfo {
   }
 
 
+  public ReferenceInfo modificationReason(@javax.annotation.Nullable String modificationReason) {
+    this.modificationReason = modificationReason;
+    return this;
+  }
+
+  /**
+   * Get modificationReason
+   * @return modificationReason
+   */
+  @javax.annotation.Nullable
+  public String getModificationReason() {
+    return modificationReason;
+  }
+
+  public void setModificationReason(@javax.annotation.Nullable String modificationReason) {
+    this.modificationReason = modificationReason;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -170,12 +243,15 @@ public class ReferenceInfo {
     }
     ReferenceInfo referenceInfo = (ReferenceInfo) o;
     return Objects.equals(this.modifiedInvoiceNumber, referenceInfo.modifiedInvoiceNumber) &&
-        Objects.equals(this.modificationCode, referenceInfo.modificationCode);
+        Objects.equals(this.otherContributorRNC, referenceInfo.otherContributorRNC) &&
+        Objects.equals(this.modifiedInvoiceDate, referenceInfo.modifiedInvoiceDate) &&
+        Objects.equals(this.modificationCode, referenceInfo.modificationCode) &&
+        Objects.equals(this.modificationReason, referenceInfo.modificationReason);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(modifiedInvoiceNumber, modificationCode);
+    return Objects.hash(modifiedInvoiceNumber, otherContributorRNC, modifiedInvoiceDate, modificationCode, modificationReason);
   }
 
   @Override
@@ -183,7 +259,10 @@ public class ReferenceInfo {
     StringBuilder sb = new StringBuilder();
     sb.append("class ReferenceInfo {\n");
     sb.append("    modifiedInvoiceNumber: ").append(toIndentedString(modifiedInvoiceNumber)).append("\n");
+    sb.append("    otherContributorRNC: ").append(toIndentedString(otherContributorRNC)).append("\n");
+    sb.append("    modifiedInvoiceDate: ").append(toIndentedString(modifiedInvoiceDate)).append("\n");
     sb.append("    modificationCode: ").append(toIndentedString(modificationCode)).append("\n");
+    sb.append("    modificationReason: ").append(toIndentedString(modificationReason)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -202,7 +281,7 @@ public class ReferenceInfo {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("modifiedInvoiceNumber", "modificationCode"));
+    openapiFields = new HashSet<String>(Arrays.asList("modifiedInvoiceNumber", "otherContributorRNC", "modifiedInvoiceDate", "modificationCode", "modificationReason"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("modifiedInvoiceNumber", "modificationCode"));
@@ -239,11 +318,17 @@ public class ReferenceInfo {
       if (!jsonObj.get("modifiedInvoiceNumber").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `modifiedInvoiceNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("modifiedInvoiceNumber").toString()));
       }
+      if ((jsonObj.get("otherContributorRNC") != null && !jsonObj.get("otherContributorRNC").isJsonNull()) && !jsonObj.get("otherContributorRNC").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `otherContributorRNC` to be a primitive type in the JSON string but got `%s`", jsonObj.get("otherContributorRNC").toString()));
+      }
       if (!jsonObj.get("modificationCode").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `modificationCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("modificationCode").toString()));
       }
       // validate the required field `modificationCode`
       ModificationCodeEnum.validateJsonElement(jsonObj.get("modificationCode"));
+      if ((jsonObj.get("modificationReason") != null && !jsonObj.get("modificationReason").isJsonNull()) && !jsonObj.get("modificationReason").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `modificationReason` to be a primitive type in the JSON string but got `%s`", jsonObj.get("modificationReason").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

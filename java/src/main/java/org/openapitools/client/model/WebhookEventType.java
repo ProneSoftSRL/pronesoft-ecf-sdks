@@ -43,7 +43,23 @@ public enum WebhookEventType {
   
   PLAN_USAGE_ALERT("plan.usage_alert"),
   
+  PLAN_PAYMENT_FAILED("plan.payment_failed"),
+  
+  BILLING_INVOICE_READY("billing.invoice_ready"),
+  
   SEQUENCE_DEPLETED("sequence.depleted"),
+  
+  SEQUENCE_VOIDED("sequence.voided"),
+  
+  BRANCH_CREATED("branch.created"),
+  
+  BRANCH_STATUS_CHANGED("branch.status_changed"),
+  
+  MEMBER_INVITED("member.invited"),
+  
+  MEMBER_JOINED("member.joined"),
+  
+  MEMBER_REMOVED("member.removed"),
   
   CERTIFICATION_COMPLETED("certification.completed");
 

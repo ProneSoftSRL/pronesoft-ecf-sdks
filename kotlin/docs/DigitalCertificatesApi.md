@@ -21,8 +21,8 @@ Cargar Certificado Digital (P12)
 
 val apiInstance = DigitalCertificatesApi()
 val rnc : kotlin.String = rnc_example // kotlin.String | 
-val file : java.io.File = BINARY_DATA_HERE // java.io.File | Archivo .p12 o .pfx
-val password : kotlin.String = password_example // kotlin.String | Contraseña del certificado
+val file : java.io.File = BINARY_DATA_HERE // java.io.File | 
+val password : kotlin.String = password_example // kotlin.String | 
 try {
     val result : UploadCertificate201Response = apiInstance.uploadCertificate(rnc, file, password)
     println(result)
@@ -37,10 +37,10 @@ try {
 
 ### Parameters
 | **rnc** | **kotlin.String**|  | |
-| **file** | **java.io.File**| Archivo .p12 o .pfx | |
+| **file** | **java.io.File**|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **password** | **kotlin.String**| Contraseña del certificado | |
+| **password** | **kotlin.String**|  | |
 
 ### Return type
 

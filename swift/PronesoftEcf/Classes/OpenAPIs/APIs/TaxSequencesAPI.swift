@@ -15,13 +15,14 @@ open class TaxSequencesAPI {
     /**
      Crear nueva secuencia fiscal
      
+     - parameter xTenantId: (header)  
      - parameter createTaxSequenceRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return createTaxSequenceWithRequestBuilder(createTaxSequenceRequest: createTaxSequenceRequest).execute(apiResponseQueue) { result in
+    open class func createTaxSequence(xTenantId: UUID, createTaxSequenceRequest: CreateTaxSequenceRequest, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+        return createTaxSequenceWithRequestBuilder(xTenantId: xTenantId, createTaxSequenceRequest: createTaxSequenceRequest).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -37,10 +38,11 @@ open class TaxSequencesAPI {
      - OAuth:
        - type: oauth2
        - name: oauth2
+     - parameter xTenantId: (header)  
      - parameter createTaxSequenceRequest: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func createTaxSequenceWithRequestBuilder(createTaxSequenceRequest: CreateTaxSequenceRequest) -> RequestBuilder<Void> {
+    open class func createTaxSequenceWithRequestBuilder(xTenantId: UUID, createTaxSequenceRequest: CreateTaxSequenceRequest) -> RequestBuilder<Void> {
         let localVariablePath = "/tax-sequences"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createTaxSequenceRequest)
@@ -49,6 +51,7 @@ open class TaxSequencesAPI {
 
         let localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "application/json",
+            "x-tenant-id": xTenantId.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

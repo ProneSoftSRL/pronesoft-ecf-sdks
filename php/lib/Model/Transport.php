@@ -59,7 +59,10 @@ class Transport implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'driver' => 'string',
         'vehicle_id' => 'string',
-        'license_plate' => 'string'
+        'license_plate' => 'string',
+        'route' => 'string',
+        'departure_date' => '\DateTime',
+        'arrival_date' => '\DateTime'
     ];
 
     /**
@@ -72,7 +75,10 @@ class Transport implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'driver' => null,
         'vehicle_id' => null,
-        'license_plate' => null
+        'license_plate' => null,
+        'route' => null,
+        'departure_date' => 'date-time',
+        'arrival_date' => 'date-time'
     ];
 
     /**
@@ -83,7 +89,10 @@ class Transport implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'driver' => false,
         'vehicle_id' => false,
-        'license_plate' => false
+        'license_plate' => false,
+        'route' => false,
+        'departure_date' => false,
+        'arrival_date' => false
     ];
 
     /**
@@ -174,7 +183,10 @@ class Transport implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'driver' => 'driver',
         'vehicle_id' => 'vehicleId',
-        'license_plate' => 'licensePlate'
+        'license_plate' => 'licensePlate',
+        'route' => 'route',
+        'departure_date' => 'departureDate',
+        'arrival_date' => 'arrivalDate'
     ];
 
     /**
@@ -185,7 +197,10 @@ class Transport implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'driver' => 'setDriver',
         'vehicle_id' => 'setVehicleId',
-        'license_plate' => 'setLicensePlate'
+        'license_plate' => 'setLicensePlate',
+        'route' => 'setRoute',
+        'departure_date' => 'setDepartureDate',
+        'arrival_date' => 'setArrivalDate'
     ];
 
     /**
@@ -196,7 +211,10 @@ class Transport implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'driver' => 'getDriver',
         'vehicle_id' => 'getVehicleId',
-        'license_plate' => 'getLicensePlate'
+        'license_plate' => 'getLicensePlate',
+        'route' => 'getRoute',
+        'departure_date' => 'getDepartureDate',
+        'arrival_date' => 'getArrivalDate'
     ];
 
     /**
@@ -259,6 +277,9 @@ class Transport implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('driver', $data ?? [], null);
         $this->setIfExists('vehicle_id', $data ?? [], null);
         $this->setIfExists('license_plate', $data ?? [], null);
+        $this->setIfExists('route', $data ?? [], null);
+        $this->setIfExists('departure_date', $data ?? [], null);
+        $this->setIfExists('arrival_date', $data ?? [], null);
     }
 
     /**
@@ -380,6 +401,87 @@ class Transport implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable license_plate cannot be null');
         }
         $this->container['license_plate'] = $license_plate;
+
+        return $this;
+    }
+
+    /**
+     * Gets route
+     *
+     * @return string|null
+     */
+    public function getRoute()
+    {
+        return $this->container['route'];
+    }
+
+    /**
+     * Sets route
+     *
+     * @param string|null $route route
+     *
+     * @return self
+     */
+    public function setRoute($route)
+    {
+        if (is_null($route)) {
+            throw new \InvalidArgumentException('non-nullable route cannot be null');
+        }
+        $this->container['route'] = $route;
+
+        return $this;
+    }
+
+    /**
+     * Gets departure_date
+     *
+     * @return \DateTime|null
+     */
+    public function getDepartureDate()
+    {
+        return $this->container['departure_date'];
+    }
+
+    /**
+     * Sets departure_date
+     *
+     * @param \DateTime|null $departure_date departure_date
+     *
+     * @return self
+     */
+    public function setDepartureDate($departure_date)
+    {
+        if (is_null($departure_date)) {
+            throw new \InvalidArgumentException('non-nullable departure_date cannot be null');
+        }
+        $this->container['departure_date'] = $departure_date;
+
+        return $this;
+    }
+
+    /**
+     * Gets arrival_date
+     *
+     * @return \DateTime|null
+     */
+    public function getArrivalDate()
+    {
+        return $this->container['arrival_date'];
+    }
+
+    /**
+     * Sets arrival_date
+     *
+     * @param \DateTime|null $arrival_date arrival_date
+     *
+     * @return self
+     */
+    public function setArrivalDate($arrival_date)
+    {
+        if (is_null($arrival_date)) {
+            throw new \InvalidArgumentException('non-nullable arrival_date cannot be null');
+        }
+        $this->container['arrival_date'] = $arrival_date;
 
         return $this;
     }
