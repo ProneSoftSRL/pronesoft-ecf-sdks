@@ -32,8 +32,6 @@ import com.squareup.moshi.JsonClass
  *
  * @param code 
  * @param exchangeRate 
- * @param taxableAmount 
- * @param totalITBIS 
  * @param totalAmount 
  */
 
@@ -45,12 +43,6 @@ data class AlternativeCurrency (
 
     @Json(name = "exchangeRate")
     val exchangeRate: java.math.BigDecimal,
-
-    @Json(name = "taxableAmount")
-    val taxableAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "totalITBIS")
-    val totalITBIS: java.math.BigDecimal? = null,
 
     @Json(name = "totalAmount")
     val totalAmount: java.math.BigDecimal? = null

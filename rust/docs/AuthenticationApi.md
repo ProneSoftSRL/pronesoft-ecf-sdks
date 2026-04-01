@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Obtener token de acceso
+[**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
 
 
 
 ## get_access_token
 
 > models::OAuthTokenResponse get_access_token(o_auth_token_request)
-Obtener token de acceso
+Obtener token de acceso (OAuth 2.0)
 
 ### Parameters
 

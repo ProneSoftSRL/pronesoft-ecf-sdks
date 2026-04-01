@@ -32,7 +32,6 @@ import com.squareup.moshi.JsonClass
  *
  * @param statusCode 
  * @param message 
- * @param error 
  * @param timestamp 
  */
 
@@ -44,9 +43,6 @@ data class ErrorResponse (
 
     @Json(name = "message")
     val message: kotlin.String? = null,
-
-    @Json(name = "error")
-    val error: kotlin.String? = null,
 
     @Json(name = "timestamp")
     val timestamp: java.time.OffsetDateTime? = null

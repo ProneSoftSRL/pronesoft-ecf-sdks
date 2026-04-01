@@ -9,13 +9,13 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getAccessToken**](AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso
+[**getAccessToken**](AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
 
 
 # **getAccessToken**
 > OAuthTokenResponse getAccessToken(oAuthTokenRequest)
 
-Obtener token de acceso
+Obtener token de acceso (OAuth 2.0)
 
 ### Example
 ```dart

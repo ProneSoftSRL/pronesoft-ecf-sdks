@@ -5,9 +5,7 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **code** | **String** |  |  |
-| **rate** | **Float** |  | [optional] |
-| **amount** | **Float** |  | [optional] |
-| **alternative_currency_amount** | **Float** |  | [optional] |
+| **amount** | **Float** |  |  |
 
 ## Example
 
@@ -16,9 +14,7 @@ require 'pronesoft_ecf'
 
 instance = PronesoftEcf::ItemAdditionalTax.new(
   code: null,
-  rate: null,
-  amount: null,
-  alternative_currency_amount: null
+  amount: null
 )
 ```
 

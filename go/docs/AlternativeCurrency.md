@@ -6,8 +6,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Code** | **string** |  | 
 **ExchangeRate** | **float32** |  | 
-**TaxableAmount** | Pointer to **float32** |  | [optional] 
-**TotalITBIS** | Pointer to **float32** |  | [optional] 
 **TotalAmount** | Pointer to **float32** |  | [optional] 
 
 ## Methods
@@ -68,56 +66,6 @@ and a boolean to check if the value has been set.
 
 SetExchangeRate sets ExchangeRate field to given value.
 
-
-### GetTaxableAmount
-
-`func (o *AlternativeCurrency) GetTaxableAmount() float32`
-
-GetTaxableAmount returns the TaxableAmount field if non-nil, zero value otherwise.
-
-### GetTaxableAmountOk
-
-`func (o *AlternativeCurrency) GetTaxableAmountOk() (*float32, bool)`
-
-GetTaxableAmountOk returns a tuple with the TaxableAmount field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTaxableAmount
-
-`func (o *AlternativeCurrency) SetTaxableAmount(v float32)`
-
-SetTaxableAmount sets TaxableAmount field to given value.
-
-### HasTaxableAmount
-
-`func (o *AlternativeCurrency) HasTaxableAmount() bool`
-
-HasTaxableAmount returns a boolean if a field has been set.
-
-### GetTotalITBIS
-
-`func (o *AlternativeCurrency) GetTotalITBIS() float32`
-
-GetTotalITBIS returns the TotalITBIS field if non-nil, zero value otherwise.
-
-### GetTotalITBISOk
-
-`func (o *AlternativeCurrency) GetTotalITBISOk() (*float32, bool)`
-
-GetTotalITBISOk returns a tuple with the TotalITBIS field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTotalITBIS
-
-`func (o *AlternativeCurrency) SetTotalITBIS(v float32)`
-
-SetTotalITBIS sets TotalITBIS field to given value.
-
-### HasTotalITBIS
-
-`func (o *AlternativeCurrency) HasTotalITBIS() bool`
-
-HasTotalITBIS returns a boolean if a field has been set.
 
 ### GetTotalAmount
 

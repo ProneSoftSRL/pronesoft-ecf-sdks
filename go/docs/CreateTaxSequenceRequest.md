@@ -7,13 +7,12 @@ Name | Type | Description | Notes
 **Type** | [**InvoiceType**](InvoiceType.md) |  | 
 **From** | **int32** |  | 
 **To** | **int32** |  | 
-**Environment** | [**Environment**](Environment.md) |  | 
 
 ## Methods
 
 ### NewCreateTaxSequenceRequest
 
-`func NewCreateTaxSequenceRequest(type_ InvoiceType, from int32, to int32, environment Environment, ) *CreateTaxSequenceRequest`
+`func NewCreateTaxSequenceRequest(type_ InvoiceType, from int32, to int32, ) *CreateTaxSequenceRequest`
 
 NewCreateTaxSequenceRequest instantiates a new CreateTaxSequenceRequest object
 This constructor will assign default values to properties that have it defined,
@@ -86,26 +85,6 @@ and a boolean to check if the value has been set.
 `func (o *CreateTaxSequenceRequest) SetTo(v int32)`
 
 SetTo sets To field to given value.
-
-
-### GetEnvironment
-
-`func (o *CreateTaxSequenceRequest) GetEnvironment() Environment`
-
-GetEnvironment returns the Environment field if non-nil, zero value otherwise.
-
-### GetEnvironmentOk
-
-`func (o *CreateTaxSequenceRequest) GetEnvironmentOk() (*Environment, bool)`
-
-GetEnvironmentOk returns a tuple with the Environment field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEnvironment
-
-`func (o *CreateTaxSequenceRequest) SetEnvironment(v Environment)`
-
-SetEnvironment sets Environment field to given value.
 
 
 

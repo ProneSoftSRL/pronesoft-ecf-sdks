@@ -32,10 +32,7 @@ import com.squareup.moshi.JsonClass
  *
  * @param id 
  * @param type 
- * @param startNumber 
- * @param endNumber 
- * @param currentNumber 
- * @param availableNumbers 
+ * @param nextNumber 
  */
 
 
@@ -47,17 +44,8 @@ data class TaxSequence (
     @Json(name = "type")
     val type: kotlin.String? = null,
 
-    @Json(name = "startNumber")
-    val startNumber: kotlin.String? = null,
-
-    @Json(name = "endNumber")
-    val endNumber: kotlin.String? = null,
-
-    @Json(name = "currentNumber")
-    val currentNumber: kotlin.String? = null,
-
-    @Json(name = "availableNumbers")
-    val availableNumbers: kotlin.Int? = null
+    @Json(name = "nextNumber")
+    val nextNumber: kotlin.String? = null
 
 ) {
 

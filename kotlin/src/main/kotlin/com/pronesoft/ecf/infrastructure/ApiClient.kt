@@ -358,16 +358,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
         if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken"
-            }
-        }
-        if (requestConfig.headers["x-tenant-id"].isNullOrEmpty()) {
-            if (apiKey["x-tenant-id"] != null) {
-                if (apiKeyPrefix["x-tenant-id"] != null) {
-                    requestConfig.headers["x-tenant-id"] = apiKeyPrefix["x-tenant-id"]!! + " " + apiKey["x-tenant-id"]!!
-                } else {
-                    requestConfig.headers["x-tenant-id"] = apiKey["x-tenant-id"]!!
-                }
+                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken "
             }
         }
     }

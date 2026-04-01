@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceType("31"), int32(123), int32(123), openapiclient.Environment("TesteCF")) // CreateTaxSequenceRequest | 
+	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceType("31"), int32(123), int32(123)) // CreateTaxSequenceRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -74,7 +74,7 @@ No authorization required
 
 ## GetNextNumber
 
-> GetNextNumber200Response GetNextNumber(ctx).Type_(type_).Environment(environment).Execute()
+> GetNextNumber200Response GetNextNumber(ctx).XTenantId(xTenantId).Type_(type_).Environment(environment).Execute()
 
 Obtener próximo número disponible
 
@@ -91,12 +91,13 @@ import (
 )
 
 func main() {
+	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	type_ := openapiclient.InvoiceType("31") // InvoiceType | 
 	environment := openapiclient.Environment("TesteCF") // Environment | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TaxSequencesAPI.GetNextNumber(context.Background()).Type_(type_).Environment(environment).Execute()
+	resp, r, err := apiClient.TaxSequencesAPI.GetNextNumber(context.Background()).XTenantId(xTenantId).Type_(type_).Environment(environment).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TaxSequencesAPI.GetNextNumber``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -117,6 +118,7 @@ Other parameters are passed through a pointer to a apiGetNextNumberRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **xTenantId** | **string** |  | 
  **type_** | [**InvoiceType**](InvoiceType.md) |  | 
  **environment** | [**Environment**](Environment.md) |  | 
 
@@ -126,7 +128,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -140,7 +142,7 @@ No authorization required
 
 ## ListTaxSequences
 
-> ListTaxSequences200Response ListTaxSequences(ctx).Type_(type_).Execute()
+> ListTaxSequences200Response ListTaxSequences(ctx).XTenantId(xTenantId).Type_(type_).Execute()
 
 Listar secuencias fiscales
 
@@ -157,11 +159,12 @@ import (
 )
 
 func main() {
+	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
 	type_ := openapiclient.InvoiceType("31") // InvoiceType |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TaxSequencesAPI.ListTaxSequences(context.Background()).Type_(type_).Execute()
+	resp, r, err := apiClient.TaxSequencesAPI.ListTaxSequences(context.Background()).XTenantId(xTenantId).Type_(type_).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TaxSequencesAPI.ListTaxSequences``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -182,6 +185,7 @@ Other parameters are passed through a pointer to a apiListTaxSequencesRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **xTenantId** | **string** |  | 
  **type_** | [**InvoiceType**](InvoiceType.md) |  | 
 
 ### Return type
@@ -190,7 +194,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

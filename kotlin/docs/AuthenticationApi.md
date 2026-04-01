@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**getAccessToken**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso |
+| [**getAccessToken**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0) |
 
 
 <a id="getAccessToken"></a>
 # **getAccessToken**
 > OAuthTokenResponse getAccessToken(oauthTokenRequest)
 
-Obtener token de acceso
+Obtener token de acceso (OAuth 2.0)
 
 ### Example
 ```kotlin

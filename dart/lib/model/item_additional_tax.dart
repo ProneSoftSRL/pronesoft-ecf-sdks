@@ -14,73 +14,31 @@ class ItemAdditionalTax {
   /// Returns a new [ItemAdditionalTax] instance.
   ItemAdditionalTax({
     required this.code,
-    this.rate,
-    this.amount,
-    this.alternativeCurrencyAmount,
+    required this.amount,
   });
 
   String code;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? rate;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? amount;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? alternativeCurrencyAmount;
+  num amount;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ItemAdditionalTax &&
     other.code == code &&
-    other.rate == rate &&
-    other.amount == amount &&
-    other.alternativeCurrencyAmount == alternativeCurrencyAmount;
+    other.amount == amount;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (code.hashCode) +
-    (rate == null ? 0 : rate!.hashCode) +
-    (amount == null ? 0 : amount!.hashCode) +
-    (alternativeCurrencyAmount == null ? 0 : alternativeCurrencyAmount!.hashCode);
+    (amount.hashCode);
 
   @override
-  String toString() => 'ItemAdditionalTax[code=$code, rate=$rate, amount=$amount, alternativeCurrencyAmount=$alternativeCurrencyAmount]';
+  String toString() => 'ItemAdditionalTax[code=$code, amount=$amount]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'code'] = this.code;
-    if (this.rate != null) {
-      json[r'rate'] = this.rate;
-    } else {
-      json[r'rate'] = null;
-    }
-    if (this.amount != null) {
       json[r'amount'] = this.amount;
-    } else {
-      json[r'amount'] = null;
-    }
-    if (this.alternativeCurrencyAmount != null) {
-      json[r'alternativeCurrencyAmount'] = this.alternativeCurrencyAmount;
-    } else {
-      json[r'alternativeCurrencyAmount'] = null;
-    }
     return json;
   }
 
@@ -97,14 +55,14 @@ class ItemAdditionalTax {
       assert(() {
         assert(json.containsKey(r'code'), 'Required key "ItemAdditionalTax[code]" is missing from JSON.');
         assert(json[r'code'] != null, 'Required key "ItemAdditionalTax[code]" has a null value in JSON.');
+        assert(json.containsKey(r'amount'), 'Required key "ItemAdditionalTax[amount]" is missing from JSON.');
+        assert(json[r'amount'] != null, 'Required key "ItemAdditionalTax[amount]" has a null value in JSON.');
         return true;
       }());
 
       return ItemAdditionalTax(
         code: mapValueOfType<String>(json, r'code')!,
-        rate: num.parse('${json[r'rate']}'),
         amount: num.parse('${json[r'amount']}'),
-        alternativeCurrencyAmount: num.parse('${json[r'alternativeCurrencyAmount']}'),
       );
     }
     return null;
@@ -153,6 +111,7 @@ class ItemAdditionalTax {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'code',
+    'amount',
   };
 }
 

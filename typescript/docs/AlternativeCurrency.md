@@ -7,8 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **string** |  | [default to undefined]
 **exchangeRate** | **number** |  | [default to undefined]
-**taxableAmount** | **number** |  | [optional] [default to undefined]
-**totalITBIS** | **number** |  | [optional] [default to undefined]
 **totalAmount** | **number** |  | [optional] [default to undefined]
 
 ## Example
@@ -19,8 +17,6 @@ import { AlternativeCurrency } from '@pronesoft/ecf-sdk';
 const instance: AlternativeCurrency = {
     code,
     exchangeRate,
-    taxableAmount,
-    totalITBIS,
     totalAmount,
 };
 ```

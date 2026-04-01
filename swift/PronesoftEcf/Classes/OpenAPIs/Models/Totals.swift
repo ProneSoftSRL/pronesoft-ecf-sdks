@@ -12,55 +12,29 @@ import AnyCodable
 
 public struct Totals: Codable, JSONEncodable, Hashable {
 
-    public static let additionalTaxesRule = ArrayRule(minItems: nil, maxItems: 20, uniqueItems: false)
     public var taxableAmount: Double?
-    public var taxableAmount1: Double?
-    public var taxableAmount2: Double?
-    public var taxableAmount3: Double?
-    public var itbisRate1: Double?
-    public var itbisRate2: Double?
-    public var itbisRate3: Double?
     public var totalITBIS: Double?
-    public var additionalTaxAmount: Double?
-    public var additionalTaxes: [AdditionalTax]?
-    public var exemptAmount: Double?
-    /** Obligatorio por lógica de negocio */
-    public var totalAmount: Double?
-    public var nonBillableAmount: Double?
+    public var totalAmount: Double
     public var amountToPay: Double?
+    public var additionalTaxAmount: Double?
+    public var exemptAmount: Double?
 
-    public init(taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, itbisRate1: Double? = nil, itbisRate2: Double? = nil, itbisRate3: Double? = nil, totalITBIS: Double? = nil, additionalTaxAmount: Double? = nil, additionalTaxes: [AdditionalTax]? = nil, exemptAmount: Double? = nil, totalAmount: Double? = nil, nonBillableAmount: Double? = nil, amountToPay: Double? = nil) {
+    public init(taxableAmount: Double? = nil, totalITBIS: Double? = nil, totalAmount: Double, amountToPay: Double? = nil, additionalTaxAmount: Double? = nil, exemptAmount: Double? = nil) {
         self.taxableAmount = taxableAmount
-        self.taxableAmount1 = taxableAmount1
-        self.taxableAmount2 = taxableAmount2
-        self.taxableAmount3 = taxableAmount3
-        self.itbisRate1 = itbisRate1
-        self.itbisRate2 = itbisRate2
-        self.itbisRate3 = itbisRate3
         self.totalITBIS = totalITBIS
-        self.additionalTaxAmount = additionalTaxAmount
-        self.additionalTaxes = additionalTaxes
-        self.exemptAmount = exemptAmount
         self.totalAmount = totalAmount
-        self.nonBillableAmount = nonBillableAmount
         self.amountToPay = amountToPay
+        self.additionalTaxAmount = additionalTaxAmount
+        self.exemptAmount = exemptAmount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taxableAmount
-        case taxableAmount1
-        case taxableAmount2
-        case taxableAmount3
-        case itbisRate1
-        case itbisRate2
-        case itbisRate3
         case totalITBIS
-        case additionalTaxAmount
-        case additionalTaxes
-        case exemptAmount
         case totalAmount
-        case nonBillableAmount
         case amountToPay
+        case additionalTaxAmount
+        case exemptAmount
     }
 
     // Encodable protocol methods
@@ -68,19 +42,11 @@ public struct Totals: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(taxableAmount, forKey: .taxableAmount)
-        try container.encodeIfPresent(taxableAmount1, forKey: .taxableAmount1)
-        try container.encodeIfPresent(taxableAmount2, forKey: .taxableAmount2)
-        try container.encodeIfPresent(taxableAmount3, forKey: .taxableAmount3)
-        try container.encodeIfPresent(itbisRate1, forKey: .itbisRate1)
-        try container.encodeIfPresent(itbisRate2, forKey: .itbisRate2)
-        try container.encodeIfPresent(itbisRate3, forKey: .itbisRate3)
         try container.encodeIfPresent(totalITBIS, forKey: .totalITBIS)
-        try container.encodeIfPresent(additionalTaxAmount, forKey: .additionalTaxAmount)
-        try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
-        try container.encodeIfPresent(exemptAmount, forKey: .exemptAmount)
-        try container.encodeIfPresent(totalAmount, forKey: .totalAmount)
-        try container.encodeIfPresent(nonBillableAmount, forKey: .nonBillableAmount)
+        try container.encode(totalAmount, forKey: .totalAmount)
         try container.encodeIfPresent(amountToPay, forKey: .amountToPay)
+        try container.encodeIfPresent(additionalTaxAmount, forKey: .additionalTaxAmount)
+        try container.encodeIfPresent(exemptAmount, forKey: .exemptAmount)
     }
 }
 

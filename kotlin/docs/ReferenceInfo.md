@@ -5,10 +5,14 @@
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
 | **modifiedInvoiceNumber** | **kotlin.String** |  |  |
-| **modificationCode** | [**ModificationCode**](ModificationCode.md) |  |  |
-| **otherContributorRNC** | **kotlin.String** |  |  [optional] |
-| **modifiedInvoiceDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **modificationReason** | **kotlin.String** |  |  [optional] |
+| **modificationCode** | [**inline**](#ModificationCode) |  |  |
+
+
+<a id="ModificationCode"></a>
+## Enum: modificationCode
+| Name | Value |
+| ---- | ----- |
+| modificationCode | 1, 2, 3, 4, 5 |
 
 
 

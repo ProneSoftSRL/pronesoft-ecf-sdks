@@ -6,9 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **string** |  | [default to undefined]
-**rate** | **number** |  | [optional] [default to undefined]
-**amount** | **number** |  | [optional] [default to undefined]
-**alternativeCurrencyAmount** | **number** |  | [optional] [default to undefined]
+**amount** | **number** |  | [default to undefined]
 
 ## Example
 
@@ -17,9 +15,7 @@ import { ItemAdditionalTax } from '@pronesoft/ecf-sdk';
 
 const instance: ItemAdditionalTax = {
     code,
-    rate,
     amount,
-    alternativeCurrencyAmount,
 };
 ```
 

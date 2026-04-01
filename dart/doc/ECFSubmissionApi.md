@@ -9,68 +9,27 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getEcfStatus**](ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{trackId} | Consultar estatus trackId
-[**submitEcf**](ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma
+[**submitEcf**](ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
 
-
-# **getEcfStatus**
-> TrackStatusResponse getEcfStatus(environment, trackId)
-
-Consultar estatus trackId
-
-### Example
-```dart
-import 'package:pronesoft_ecf/api.dart';
-
-final api_instance = ECFSubmissionApi();
-final environment = ; // Environment | 
-final trackId = trackId_example; // String | 
-
-try {
-    final result = api_instance.getEcfStatus(environment, trackId);
-    print(result);
-} catch (e) {
-    print('Exception when calling ECFSubmissionApi->getEcfStatus: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **environment** | [**Environment**](.md)|  | 
- **trackId** | **String**|  | 
-
-### Return type
-
-[**TrackStatusResponse**](TrackStatusResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **submitEcf**
-> EcfSubmissionResponse submitEcf(environment, electronicDocument)
+> EcfSubmissionResponse submitEcf(xTenantId, environment, electronicDocument)
 
-Enviar e-CF a plataforma
+Enviar e-CF a plataforma (Submit)
 
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
+// TODO Configure OAuth2 access token for authorization: oauth2
+//defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api_instance = ECFSubmissionApi();
+final xTenantId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 final environment = ; // Environment | 
 final electronicDocument = ElectronicDocument(); // ElectronicDocument | 
 
 try {
-    final result = api_instance.submitEcf(environment, electronicDocument);
+    final result = api_instance.submitEcf(xTenantId, environment, electronicDocument);
     print(result);
 } catch (e) {
     print('Exception when calling ECFSubmissionApi->submitEcf: $e\n');
@@ -81,6 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **xTenantId** | **String**|  | 
  **environment** | [**Environment**](.md)|  | 
  **electronicDocument** | [**ElectronicDocument**](ElectronicDocument.md)|  | 
 
@@ -90,7 +50,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

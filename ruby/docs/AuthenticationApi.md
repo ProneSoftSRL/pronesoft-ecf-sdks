@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Obtener token de acceso |
+| [**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0) |
 
 
 ## get_access_token
 
 > <OAuthTokenResponse> get_access_token(o_auth_token_request)
 
-Obtener token de acceso
+Obtener token de acceso (OAuth 2.0)
 
 ### Examples
 
@@ -20,10 +20,10 @@ require 'time'
 require 'pronesoft_ecf'
 
 api_instance = PronesoftEcf::AuthenticationApi.new
-o_auth_token_request = PronesoftEcf::OAuthTokenRequest.new({client_id: 'app_12345', client_secret: 'sk_live_123'}) # OAuthTokenRequest | 
+o_auth_token_request = PronesoftEcf::OAuthTokenRequest.new({client_id: 'client_id_example', client_secret: 'client_secret_example'}) # OAuthTokenRequest | 
 
 begin
-  # Obtener token de acceso
+  # Obtener token de acceso (OAuth 2.0)
   result = api_instance.get_access_token(o_auth_token_request)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -39,7 +39,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Obtener token de acceso
+  # Obtener token de acceso (OAuth 2.0)
   data, status_code, headers = api_instance.get_access_token_with_http_info(o_auth_token_request)
   p status_code # => 2xx
   p headers # => { ... }

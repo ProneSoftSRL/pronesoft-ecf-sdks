@@ -23,17 +23,13 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.AccountType
 import com.pronesoft.ecf.models.AdditionalInfo
 import com.pronesoft.ecf.models.AlternativeCurrency
 import com.pronesoft.ecf.models.Buyer
 import com.pronesoft.ecf.models.DiscountOrSurcharge
-import com.pronesoft.ecf.models.IncomeType
 import com.pronesoft.ecf.models.InvoiceType
 import com.pronesoft.ecf.models.Item
 import com.pronesoft.ecf.models.Page
-import com.pronesoft.ecf.models.PaymentForm
-import com.pronesoft.ecf.models.PaymentType
 import com.pronesoft.ecf.models.ReferenceInfo
 import com.pronesoft.ecf.models.Subtotal
 import com.pronesoft.ecf.models.Totals
@@ -49,49 +45,24 @@ import com.squareup.moshi.JsonClass
  * @param invoiceType 
  * @param invoiceNumber 
  * @param issueDate 
- * @param totals 
  * @param items 
- * @param groupId 
+ * @param totals 
  * @param expirationDate 
- * @param creditNoteIndicator 
- * @param deferredSendingIndicator 
- * @param taxedAmountIndicator 
  * @param incomeType 
  * @param paymentType 
- * @param paymentDeadline 
- * @param paymentTerms 
- * @param paymentForms 
- * @param paymentAccountType 
- * @param paymentAccountNumber 
- * @param paymentBank 
- * @param serviceStartDate 
- * @param serviceEndDate 
- * @param totalPages 
+ * @param creditNoteIndicator 0: ≤30 días, 1: >30 días
  * @param issuerRNC 
  * @param issuerBusinessName 
- * @param issuerCommercialName 
- * @param branchName 
- * @param issuerAddress 
- * @param municipalityCode 
- * @param provinceCode 
- * @param issuerPhones 
  * @param issuerEmail 
- * @param issuerWebsite 
- * @param issuerEconomicActivity 
- * @param sellerCode 
- * @param internalInvoiceNumber 
- * @param internalOrderNumber 
- * @param salesZone 
- * @param salesRoute 
- * @param additionalIssuerInfo 
+ * @param issuerPhones 
  * @param buyer 
- * @param additionalInfo 
  * @param transport 
+ * @param additionalInfo 
  * @param alternativeCurrency 
+ * @param referenceInfo 
  * @param subtotals 
  * @param discountsOrSurcharges 
  * @param pages 
- * @param referenceInfo 
  */
 
 
@@ -109,59 +80,24 @@ data class ElectronicDocument (
     @Json(name = "issueDate")
     val issueDate: java.time.OffsetDateTime,
 
-    @Json(name = "totals")
-    val totals: Totals,
-
     @Json(name = "items")
     val items: kotlin.collections.List<Item>,
 
-    @Json(name = "groupId")
-    val groupId: kotlin.String? = null,
+    @Json(name = "totals")
+    val totals: Totals,
 
     @Json(name = "expirationDate")
     val expirationDate: java.time.OffsetDateTime? = null,
 
-    @Json(name = "creditNoteIndicator")
-    val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
-
-    @Json(name = "deferredSendingIndicator")
-    val deferredSendingIndicator: ElectronicDocument.DeferredSendingIndicator? = null,
-
-    @Json(name = "taxedAmountIndicator")
-    val taxedAmountIndicator: ElectronicDocument.TaxedAmountIndicator? = null,
-
     @Json(name = "incomeType")
-    val incomeType: IncomeType? = null,
+    val incomeType: ElectronicDocument.IncomeType? = null,
 
     @Json(name = "paymentType")
-    val paymentType: PaymentType? = null,
+    val paymentType: ElectronicDocument.PaymentType? = null,
 
-    @Json(name = "paymentDeadline")
-    val paymentDeadline: java.time.OffsetDateTime? = null,
-
-    @Json(name = "paymentTerms")
-    val paymentTerms: kotlin.String? = null,
-
-    @Json(name = "paymentForms")
-    val paymentForms: kotlin.collections.List<PaymentForm>? = null,
-
-    @Json(name = "paymentAccountType")
-    val paymentAccountType: AccountType? = null,
-
-    @Json(name = "paymentAccountNumber")
-    val paymentAccountNumber: kotlin.String? = null,
-
-    @Json(name = "paymentBank")
-    val paymentBank: kotlin.String? = null,
-
-    @Json(name = "serviceStartDate")
-    val serviceStartDate: java.time.OffsetDateTime? = null,
-
-    @Json(name = "serviceEndDate")
-    val serviceEndDate: java.time.OffsetDateTime? = null,
-
-    @Json(name = "totalPages")
-    val totalPages: kotlin.Int? = null,
+    /* 0: ≤30 días, 1: >30 días */
+    @Json(name = "creditNoteIndicator")
+    val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
 
     @Json(name = "issuerRNC")
     val issuerRNC: kotlin.String? = null,
@@ -169,62 +105,26 @@ data class ElectronicDocument (
     @Json(name = "issuerBusinessName")
     val issuerBusinessName: kotlin.String? = null,
 
-    @Json(name = "issuerCommercialName")
-    val issuerCommercialName: kotlin.String? = null,
-
-    @Json(name = "branchName")
-    val branchName: kotlin.String? = null,
-
-    @Json(name = "issuerAddress")
-    val issuerAddress: kotlin.String? = null,
-
-    @Json(name = "municipalityCode")
-    val municipalityCode: kotlin.String? = null,
-
-    @Json(name = "provinceCode")
-    val provinceCode: kotlin.String? = null,
+    @Json(name = "issuerEmail")
+    val issuerEmail: kotlin.String? = null,
 
     @Json(name = "issuerPhones")
     val issuerPhones: kotlin.collections.List<kotlin.String>? = null,
 
-    @Json(name = "issuerEmail")
-    val issuerEmail: kotlin.String? = null,
-
-    @Json(name = "issuerWebsite")
-    val issuerWebsite: kotlin.String? = null,
-
-    @Json(name = "issuerEconomicActivity")
-    val issuerEconomicActivity: kotlin.String? = null,
-
-    @Json(name = "sellerCode")
-    val sellerCode: kotlin.String? = null,
-
-    @Json(name = "internalInvoiceNumber")
-    val internalInvoiceNumber: kotlin.String? = null,
-
-    @Json(name = "internalOrderNumber")
-    val internalOrderNumber: java.math.BigDecimal? = null,
-
-    @Json(name = "salesZone")
-    val salesZone: kotlin.String? = null,
-
-    @Json(name = "salesRoute")
-    val salesRoute: kotlin.String? = null,
-
-    @Json(name = "additionalIssuerInfo")
-    val additionalIssuerInfo: kotlin.String? = null,
-
     @Json(name = "buyer")
     val buyer: Buyer? = null,
-
-    @Json(name = "additionalInfo")
-    val additionalInfo: AdditionalInfo? = null,
 
     @Json(name = "transport")
     val transport: Transport? = null,
 
+    @Json(name = "additionalInfo")
+    val additionalInfo: AdditionalInfo? = null,
+
     @Json(name = "alternativeCurrency")
     val alternativeCurrency: AlternativeCurrency? = null,
+
+    @Json(name = "referenceInfo")
+    val referenceInfo: ReferenceInfo? = null,
 
     @Json(name = "subtotals")
     val subtotals: kotlin.collections.List<Subtotal>? = null,
@@ -233,39 +133,42 @@ data class ElectronicDocument (
     val discountsOrSurcharges: kotlin.collections.List<DiscountOrSurcharge>? = null,
 
     @Json(name = "pages")
-    val pages: kotlin.collections.List<Page>? = null,
-
-    @Json(name = "referenceInfo")
-    val referenceInfo: ReferenceInfo? = null
+    val pages: kotlin.collections.List<Page>? = null
 
 ) {
 
     /**
      * 
      *
+     * Values: _01,_02,_03,_04,_05,_06
+     */
+    @JsonClass(generateAdapter = false)
+    enum class IncomeType(val value: kotlin.String) {
+        @Json(name = "01") _01("01"),
+        @Json(name = "02") _02("02"),
+        @Json(name = "03") _03("03"),
+        @Json(name = "04") _04("04"),
+        @Json(name = "05") _05("05"),
+        @Json(name = "06") _06("06");
+    }
+    /**
+     * 
+     *
+     * Values: _1,_2,_3
+     */
+    @JsonClass(generateAdapter = false)
+    enum class PaymentType(val value: kotlin.String) {
+        @Json(name = "1") _1("1"),
+        @Json(name = "2") _2("2"),
+        @Json(name = "3") _3("3");
+    }
+    /**
+     * 0: ≤30 días, 1: >30 días
+     *
      * Values: _0,_1
      */
     @JsonClass(generateAdapter = false)
     enum class CreditNoteIndicator(val value: kotlin.String) {
-        @Json(name = "0") _0("0"),
-        @Json(name = "1") _1("1");
-    }
-    /**
-     * 
-     *
-     * Values: _1
-     */
-    @JsonClass(generateAdapter = false)
-    enum class DeferredSendingIndicator(val value: kotlin.String) {
-        @Json(name = "1") _1("1");
-    }
-    /**
-     * 
-     *
-     * Values: _0,_1
-     */
-    @JsonClass(generateAdapter = false)
-    enum class TaxedAmountIndicator(val value: kotlin.String) {
         @Json(name = "0") _0("0"),
         @Json(name = "1") _1("1");
     }

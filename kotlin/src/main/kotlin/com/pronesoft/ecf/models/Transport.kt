@@ -31,13 +31,8 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param driver 
- * @param document 
  * @param vehicleId 
  * @param licensePlate 
- * @param route 
- * @param zone 
- * @param deliveryNoteNumber 
- * @param destinationCountry 
  */
 
 
@@ -46,26 +41,11 @@ data class Transport (
     @Json(name = "driver")
     val driver: kotlin.String? = null,
 
-    @Json(name = "document")
-    val document: kotlin.String? = null,
-
     @Json(name = "vehicleId")
     val vehicleId: kotlin.String? = null,
 
     @Json(name = "licensePlate")
-    val licensePlate: kotlin.String? = null,
-
-    @Json(name = "route")
-    val route: kotlin.String? = null,
-
-    @Json(name = "zone")
-    val zone: kotlin.String? = null,
-
-    @Json(name = "deliveryNoteNumber")
-    val deliveryNoteNumber: kotlin.String? = null,
-
-    @Json(name = "destinationCountry")
-    val destinationCountry: kotlin.String? = null
+    val licensePlate: kotlin.String? = null
 
 ) {
 

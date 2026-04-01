@@ -15,8 +15,6 @@ class AlternativeCurrency {
   AlternativeCurrency({
     required this.code,
     required this.exchangeRate,
-    this.taxableAmount,
-    this.totalITBIS,
     this.totalAmount,
   });
 
@@ -30,30 +28,12 @@ class AlternativeCurrency {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? taxableAmount;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? totalITBIS;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   num? totalAmount;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AlternativeCurrency &&
     other.code == code &&
     other.exchangeRate == exchangeRate &&
-    other.taxableAmount == taxableAmount &&
-    other.totalITBIS == totalITBIS &&
     other.totalAmount == totalAmount;
 
   @override
@@ -61,27 +41,15 @@ class AlternativeCurrency {
     // ignore: unnecessary_parenthesis
     (code.hashCode) +
     (exchangeRate.hashCode) +
-    (taxableAmount == null ? 0 : taxableAmount!.hashCode) +
-    (totalITBIS == null ? 0 : totalITBIS!.hashCode) +
     (totalAmount == null ? 0 : totalAmount!.hashCode);
 
   @override
-  String toString() => 'AlternativeCurrency[code=$code, exchangeRate=$exchangeRate, taxableAmount=$taxableAmount, totalITBIS=$totalITBIS, totalAmount=$totalAmount]';
+  String toString() => 'AlternativeCurrency[code=$code, exchangeRate=$exchangeRate, totalAmount=$totalAmount]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'code'] = this.code;
       json[r'exchangeRate'] = this.exchangeRate;
-    if (this.taxableAmount != null) {
-      json[r'taxableAmount'] = this.taxableAmount;
-    } else {
-      json[r'taxableAmount'] = null;
-    }
-    if (this.totalITBIS != null) {
-      json[r'totalITBIS'] = this.totalITBIS;
-    } else {
-      json[r'totalITBIS'] = null;
-    }
     if (this.totalAmount != null) {
       json[r'totalAmount'] = this.totalAmount;
     } else {
@@ -111,8 +79,6 @@ class AlternativeCurrency {
       return AlternativeCurrency(
         code: mapValueOfType<String>(json, r'code')!,
         exchangeRate: num.parse('${json[r'exchangeRate']}'),
-        taxableAmount: num.parse('${json[r'taxableAmount']}'),
-        totalITBIS: num.parse('${json[r'totalITBIS']}'),
         totalAmount: num.parse('${json[r'totalAmount']}'),
       );
     }

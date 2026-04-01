@@ -12,48 +12,31 @@ import AnyCodable
 
 public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
 
-    public enum Norm1007Indicator: String, Codable, CaseIterable {
-        case _0 = "0"
-        case _1 = "1"
+    public enum ModelType: String, Codable, CaseIterable {
+        case d = "D"
+        case r = "R"
     }
     public enum ValueType: String, Codable, CaseIterable {
         case dollar = "$"
         case percent = "%"
     }
-    public static let lineNumberRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 20, exclusiveMaximum: false, multipleOf: nil)
-    public static let descriptionRule = StringRule(minLength: nil, maxLength: 45, pattern: nil)
     public var lineNumber: Int
-    public var type: AdjustmentType
-    public var norm1007Indicator: Norm1007Indicator?
-    public var description: String?
+    public var type: ModelType
     public var valueType: ValueType
-    public var percentageValue: Double?
     public var amount: Double
-    public var alternativeCurrencyAmount: Double?
-    public var billingIndicator: BillingIndicator?
 
-    public init(lineNumber: Int, type: AdjustmentType, norm1007Indicator: Norm1007Indicator? = nil, description: String? = nil, valueType: ValueType, percentageValue: Double? = nil, amount: Double, alternativeCurrencyAmount: Double? = nil, billingIndicator: BillingIndicator? = nil) {
+    public init(lineNumber: Int, type: ModelType, valueType: ValueType, amount: Double) {
         self.lineNumber = lineNumber
         self.type = type
-        self.norm1007Indicator = norm1007Indicator
-        self.description = description
         self.valueType = valueType
-        self.percentageValue = percentageValue
         self.amount = amount
-        self.alternativeCurrencyAmount = alternativeCurrencyAmount
-        self.billingIndicator = billingIndicator
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case lineNumber
         case type
-        case norm1007Indicator
-        case description
         case valueType
-        case percentageValue
         case amount
-        case alternativeCurrencyAmount
-        case billingIndicator
     }
 
     // Encodable protocol methods
@@ -62,13 +45,8 @@ public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(lineNumber, forKey: .lineNumber)
         try container.encode(type, forKey: .type)
-        try container.encodeIfPresent(norm1007Indicator, forKey: .norm1007Indicator)
-        try container.encodeIfPresent(description, forKey: .description)
         try container.encode(valueType, forKey: .valueType)
-        try container.encodeIfPresent(percentageValue, forKey: .percentageValue)
         try container.encode(amount, forKey: .amount)
-        try container.encodeIfPresent(alternativeCurrencyAmount, forKey: .alternativeCurrencyAmount)
-        try container.encodeIfPresent(billingIndicator, forKey: .billingIndicator)
     }
 }
 

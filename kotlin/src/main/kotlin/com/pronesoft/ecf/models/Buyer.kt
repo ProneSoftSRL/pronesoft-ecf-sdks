@@ -30,41 +30,21 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * @param name Obligatorio
- * @param taxId Opcional en DTO, pero necesario para validez fiscal DGII
- * @param foreignId 
- * @param contact 
+ * @param name 
+ * @param taxId 
  * @param email 
  * @param address 
- * @param municipalityCode 
- * @param provinceCode 
- * @param deliveryDate 
- * @param deliveryContact 
  * @param deliveryAddress 
- * @param additionalPhone 
- * @param purchaseOrderDate 
- * @param purchaseOrderNumber 
- * @param internalCode 
- * @param paymentResponsible 
- * @param additionalInfo 
  */
 
 
 data class Buyer (
 
-    /* Obligatorio */
     @Json(name = "name")
     val name: kotlin.String,
 
-    /* Opcional en DTO, pero necesario para validez fiscal DGII */
     @Json(name = "taxId")
     val taxId: kotlin.String? = null,
-
-    @Json(name = "foreignId")
-    val foreignId: kotlin.String? = null,
-
-    @Json(name = "contact")
-    val contact: kotlin.String? = null,
 
     @Json(name = "email")
     val email: kotlin.String? = null,
@@ -72,38 +52,8 @@ data class Buyer (
     @Json(name = "address")
     val address: kotlin.String? = null,
 
-    @Json(name = "municipalityCode")
-    val municipalityCode: kotlin.String? = null,
-
-    @Json(name = "provinceCode")
-    val provinceCode: kotlin.String? = null,
-
-    @Json(name = "deliveryDate")
-    val deliveryDate: java.time.OffsetDateTime? = null,
-
-    @Json(name = "deliveryContact")
-    val deliveryContact: kotlin.String? = null,
-
     @Json(name = "deliveryAddress")
-    val deliveryAddress: kotlin.String? = null,
-
-    @Json(name = "additionalPhone")
-    val additionalPhone: kotlin.String? = null,
-
-    @Json(name = "purchaseOrderDate")
-    val purchaseOrderDate: java.time.OffsetDateTime? = null,
-
-    @Json(name = "purchaseOrderNumber")
-    val purchaseOrderNumber: kotlin.String? = null,
-
-    @Json(name = "internalCode")
-    val internalCode: kotlin.String? = null,
-
-    @Json(name = "paymentResponsible")
-    val paymentResponsible: kotlin.String? = null,
-
-    @Json(name = "additionalInfo")
-    val additionalInfo: kotlin.String? = null
+    val deliveryAddress: kotlin.String? = null
 
 ) {
 

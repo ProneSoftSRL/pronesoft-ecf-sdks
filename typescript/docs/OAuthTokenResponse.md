@@ -5,10 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**accessToken** | **string** |  | [default to undefined]
-**tokenType** | **string** |  | [default to undefined]
-**expiresIn** | **number** |  | [default to undefined]
-**scope** | **Array&lt;string&gt;** |  | [default to undefined]
+**accessToken** | **string** |  | [optional] [default to undefined]
+**tokenType** | **string** |  | [optional] [default to undefined]
+**expiresIn** | **number** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -19,7 +18,6 @@ const instance: OAuthTokenResponse = {
     accessToken,
     tokenType,
     expiresIn,
-    scope,
 };
 ```
 

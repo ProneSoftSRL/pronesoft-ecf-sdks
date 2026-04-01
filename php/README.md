@@ -1,10 +1,11 @@
 # pronesoft-ecf-sdk
 
-Especificación de producción 100% exacta de la API de eCF-Pronesoft.
-**Diseñada para la generación automática de SDKs.**
+Especificación de producción **200% detallada** de la API de eCF-Pronesoft.
+**Optimizada para la generación de SDKs de alta fidelidad.**
 
-Esta especificación ha sido auditada contra el código fuente real (DTOs, Controllers y Guards), 
-reflejando con total precisión la obligatoriedad de los campos y las estructuras de respuesta.
+Esta especificación es el resultado de una auditoría exhaustiva del código fuente (NestJS),
+cubriendo el 100% de los DTOs, validaciones con regex, esquemas de Webhooks y 
+flujos de seguridad OAuth 2.0.
 
 
 
@@ -54,17 +55,18 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 
-$apiInstance = new PronesoftEcf\Api\AssociatedCompaniesApi(
+$apiInstance = new PronesoftEcf\Api\AuthenticationApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
+$o_auth_token_request = new \PronesoftEcf\Model\OAuthTokenRequest(); // \PronesoftEcf\Model\OAuthTokenRequest
 
 try {
-    $result = $apiInstance->listAssociatedCompanies();
+    $result = $apiInstance->getAccessToken($o_auth_token_request);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AssociatedCompaniesApi->listAssociatedCompanies: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling AuthenticationApi->getAccessToken: ', $e->getMessage(), PHP_EOL;
 }
 
 ```
@@ -75,91 +77,68 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/Api/AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | Listar sucursales
-*AuthenticationApi* | [**getAccessToken**](docs/Api/AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso
-*AutomatedCertificationApi* | [**listNiches**](docs/Api/AutomatedCertificationApi.md#listniches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos
-*AutomatedCertificationApi* | [**startCertification**](docs/Api/AutomatedCertificationApi.md#startcertification) | **POST** /dgii-ecf/automated-certification/start | Iniciar certificación
-*CommercialApprovalsApi* | [**listApprovals**](docs/Api/CommercialApprovalsApi.md#listapprovals) | **GET** /documents/approvals/all | Listar aprobaciones
+*AuthenticationApi* | [**getAccessToken**](docs/Api/AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
 *DigitalCertificatesApi* | [**uploadCertificate**](docs/Api/DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)
-*DocumentsReceivedApi* | [**listReceivedDocuments**](docs/Api/DocumentsReceivedApi.md#listreceiveddocuments) | **GET** /documents/received/all | Listar documentos recibidos
-*DocumentsSentApi* | [**listSentDocuments**](docs/Api/DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | Listar documentos enviados
-*ECFSubmissionApi* | [**getEcfStatus**](docs/Api/ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{trackId} | Consultar estatus trackId
-*ECFSubmissionApi* | [**submitEcf**](docs/Api/ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma
-*ReportsApi* | [**export606**](docs/Api/ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606
-*ReportsApi* | [**exportSent**](docs/Api/ReportsApi.md#exportsent) | **GET** /dgii/sent/export | Exportar documentos enviados
+*ECFSubmissionApi* | [**submitEcf**](docs/Api/ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
 *TaxSequencesApi* | [**createTaxSequence**](docs/Api/TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal
 *TaxSequencesApi* | [**getNextNumber**](docs/Api/TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener próximo número disponible
 *TaxSequencesApi* | [**listTaxSequences**](docs/Api/TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias fiscales
-*WebhooksApi* | [**listWebhooks**](docs/Api/WebhooksApi.md#listwebhooks) | **GET** /{rnc}/webhooks | Listar webhooks
+*WebhookConfigurationApi* | [**createWebhook**](docs/Api/WebhookConfigurationApi.md#createwebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook
+*WebhookConfigurationApi* | [**deleteWebhook**](docs/Api/WebhookConfigurationApi.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook
+*WebhookConfigurationApi* | [**listWebhooks**](docs/Api/WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks
 
 ## Models
 
-- [AccountType](docs/Model/AccountType.md)
 - [AdditionalInfo](docs/Model/AdditionalInfo.md)
-- [AdditionalTax](docs/Model/AdditionalTax.md)
-- [AdjustmentType](docs/Model/AdjustmentType.md)
 - [AlternativeCurrency](docs/Model/AlternativeCurrency.md)
-- [AssociatedCompany](docs/Model/AssociatedCompany.md)
 - [BillingIndicator](docs/Model/BillingIndicator.md)
 - [Buyer](docs/Model/Buyer.md)
-- [CommercialApproval](docs/Model/CommercialApproval.md)
+- [CertificationCompletedPayload](docs/Model/CertificationCompletedPayload.md)
+- [CommercialApprovalPayload](docs/Model/CommercialApprovalPayload.md)
 - [CreateTaxSequenceRequest](docs/Model/CreateTaxSequenceRequest.md)
-- [DgiiMensaje](docs/Model/DgiiMensaje.md)
-- [DgiiResponseData](docs/Model/DgiiResponseData.md)
-- [DiscountDetail](docs/Model/DiscountDetail.md)
+- [CreateWebhookConfig](docs/Model/CreateWebhookConfig.md)
 - [DiscountOrSurcharge](docs/Model/DiscountOrSurcharge.md)
+- [DocumentReceivedPayload](docs/Model/DocumentReceivedPayload.md)
+- [DocumentStatusChangedPayload](docs/Model/DocumentStatusChangedPayload.md)
 - [EcfSubmissionResponse](docs/Model/EcfSubmissionResponse.md)
 - [ElectronicDocument](docs/Model/ElectronicDocument.md)
 - [Environment](docs/Model/Environment.md)
 - [ErrorResponse](docs/Model/ErrorResponse.md)
 - [GetNextNumber200Response](docs/Model/GetNextNumber200Response.md)
 - [GetNextNumber200ResponseData](docs/Model/GetNextNumber200ResponseData.md)
-- [IncomeType](docs/Model/IncomeType.md)
 - [InvoiceType](docs/Model/InvoiceType.md)
 - [Item](docs/Model/Item.md)
 - [ItemAdditionalTax](docs/Model/ItemAdditionalTax.md)
-- [ItemAlternativeCurrency](docs/Model/ItemAlternativeCurrency.md)
-- [ItemCode](docs/Model/ItemCode.md)
-- [ItemType](docs/Model/ItemType.md)
-- [ListApprovals200Response](docs/Model/ListApprovals200Response.md)
 - [ListTaxSequences200Response](docs/Model/ListTaxSequences200Response.md)
-- [MiningInfo](docs/Model/MiningInfo.md)
-- [ModificationCode](docs/Model/ModificationCode.md)
-- [Niche](docs/Model/Niche.md)
 - [OAuthTokenRequest](docs/Model/OAuthTokenRequest.md)
 - [OAuthTokenResponse](docs/Model/OAuthTokenResponse.md)
 - [Page](docs/Model/Page.md)
-- [PaginatedResponse](docs/Model/PaginatedResponse.md)
-- [PaginationMeta](docs/Model/PaginationMeta.md)
-- [PaymentForm](docs/Model/PaymentForm.md)
 - [PaymentMethod](docs/Model/PaymentMethod.md)
-- [PaymentType](docs/Model/PaymentType.md)
 - [ReferenceInfo](docs/Model/ReferenceInfo.md)
-- [StartCertification200Response](docs/Model/StartCertification200Response.md)
-- [StartCertificationRequest](docs/Model/StartCertificationRequest.md)
 - [Subquantity](docs/Model/Subquantity.md)
 - [Subtotal](docs/Model/Subtotal.md)
-- [SurchargeDetail](docs/Model/SurchargeDetail.md)
 - [TaxSequence](docs/Model/TaxSequence.md)
 - [Totals](docs/Model/Totals.md)
-- [TrackStatusResponse](docs/Model/TrackStatusResponse.md)
 - [Transport](docs/Model/Transport.md)
 - [UploadCertificate201Response](docs/Model/UploadCertificate201Response.md)
-- [WebhookConfig](docs/Model/WebhookConfig.md)
+- [WebhookConfigResponse](docs/Model/WebhookConfigResponse.md)
+- [WebhookEventType](docs/Model/WebhookEventType.md)
+- [WebhookNotificationPayload](docs/Model/WebhookNotificationPayload.md)
+- [WebhookNotificationPayloadData](docs/Model/WebhookNotificationPayloadData.md)
 
 ## Authorization
 
 Authentication schemes defined for the API:
-### bearerAuth
+### oauth2
 
-- **Type**: Bearer authentication (JWT)
-
-### tenantIdHeader
-
-- **Type**: API key
-- **API key parameter name**: x-tenant-id
-- **Location**: HTTP header
-
+- **Type**: `OAuth`
+- **Flow**: `application`
+- **Authorization URL**: ``
+- **Scopes**: 
+    - **documents:read**: Acceso de lectura a documentos enviados/recibidos.
+    - **documents:write**: Permisos para enviar y modificar documentos.
+    - **ecf:submit**: Permiso especializado para el envío de facturas e-CF.
+    - **admin**: Acceso administrativo completo a la plataforma.
 
 ## Tests
 
@@ -178,6 +157,6 @@ vendor/bin/phpunit
 
 This PHP package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
-- API version: `1.0.0`
+- API version: `1.1.0`
     - Generator version: `7.21.0`
 - Build package: `org.openapitools.codegen.languages.PhpClientCodegen`

@@ -6,13 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **driver** | **str** |  | [optional] 
-**document** | **str** |  | [optional] 
 **vehicle_id** | **str** |  | [optional] 
 **license_plate** | **str** |  | [optional] 
-**route** | **str** |  | [optional] 
-**zone** | **str** |  | [optional] 
-**delivery_note_number** | **str** |  | [optional] 
-**destination_country** | **str** |  | [optional] 
 
 ## Example
 

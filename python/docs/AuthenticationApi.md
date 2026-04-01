@@ -4,13 +4,13 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Obtener token de acceso
+[**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
 
 
 # **get_access_token**
 > OAuthTokenResponse get_access_token(o_auth_token_request)
 
-Obtener token de acceso
+Obtener token de acceso (OAuth 2.0)
 
 ### Example
 
@@ -36,7 +36,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     o_auth_token_request = pronesoft_ecf.OAuthTokenRequest() # OAuthTokenRequest | 
 
     try:
-        # Obtener token de acceso
+        # Obtener token de acceso (OAuth 2.0)
         api_response = api_instance.get_access_token(o_auth_token_request)
         print("The response of AuthenticationApi->get_access_token:\n")
         pprint(api_response)
@@ -71,7 +71,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Token generado exitosamente |  -  |
-**401** | Token inválido o expirado |  -  |
+**401** | Error de autorización (Token expirado o inválido) |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -55,35 +55,20 @@ String parameterToString(dynamic value) {
   if (value is DateTime) {
     return value.toUtc().toIso8601String();
   }
-  if (value is AccountType) {
-    return AccountTypeTypeTransformer().encode(value).toString();
-  }
-  if (value is AdjustmentType) {
-    return AdjustmentTypeTypeTransformer().encode(value).toString();
-  }
   if (value is BillingIndicator) {
     return BillingIndicatorTypeTransformer().encode(value).toString();
   }
   if (value is Environment) {
     return EnvironmentTypeTransformer().encode(value).toString();
   }
-  if (value is IncomeType) {
-    return IncomeTypeTypeTransformer().encode(value).toString();
-  }
   if (value is InvoiceType) {
     return InvoiceTypeTypeTransformer().encode(value).toString();
-  }
-  if (value is ItemType) {
-    return ItemTypeTypeTransformer().encode(value).toString();
-  }
-  if (value is ModificationCode) {
-    return ModificationCodeTypeTransformer().encode(value).toString();
   }
   if (value is PaymentMethod) {
     return PaymentMethodTypeTransformer().encode(value).toString();
   }
-  if (value is PaymentType) {
-    return PaymentTypeTypeTransformer().encode(value).toString();
+  if (value is WebhookEventType) {
+    return WebhookEventTypeTypeTransformer().encode(value).toString();
   }
   return value.toString();
 }

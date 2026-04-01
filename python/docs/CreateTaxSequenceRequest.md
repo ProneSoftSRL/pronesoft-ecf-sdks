@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **type** | [**InvoiceType**](InvoiceType.md) |  | 
 **var_from** | **int** |  | 
 **to** | **int** |  | 
-**environment** | [**Environment**](Environment.md) |  | 
 
 ## Example
 

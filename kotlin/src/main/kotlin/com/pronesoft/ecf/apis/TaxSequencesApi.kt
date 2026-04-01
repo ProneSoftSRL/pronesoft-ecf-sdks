@@ -123,7 +123,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
             path = "/tax-sequences",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -132,6 +132,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * GET /tax-sequences/next
      * Obtener próximo número disponible
      * 
+     * @param xTenantId 
      * @param type 
      * @param environment 
      * @return GetNextNumber200Response
@@ -143,8 +144,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getNextNumber(type: InvoiceType, environment: Environment) : GetNextNumber200Response {
-        val localVarResponse = getNextNumberWithHttpInfo(type = type, environment = environment)
+    fun getNextNumber(xTenantId: java.util.UUID, type: InvoiceType, environment: Environment) : GetNextNumber200Response {
+        val localVarResponse = getNextNumberWithHttpInfo(xTenantId = xTenantId, type = type, environment = environment)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GetNextNumber200Response
@@ -165,6 +166,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * GET /tax-sequences/next
      * Obtener próximo número disponible
      * 
+     * @param xTenantId 
      * @param type 
      * @param environment 
      * @return ApiResponse<GetNextNumber200Response?>
@@ -173,8 +175,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getNextNumberWithHttpInfo(type: InvoiceType, environment: Environment) : ApiResponse<GetNextNumber200Response?> {
-        val localVariableConfig = getNextNumberRequestConfig(type = type, environment = environment)
+    fun getNextNumberWithHttpInfo(xTenantId: java.util.UUID, type: InvoiceType, environment: Environment) : ApiResponse<GetNextNumber200Response?> {
+        val localVariableConfig = getNextNumberRequestConfig(xTenantId = xTenantId, type = type, environment = environment)
 
         return request<Unit, GetNextNumber200Response>(
             localVariableConfig
@@ -184,11 +186,12 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation getNextNumber
      *
+     * @param xTenantId 
      * @param type 
      * @param environment 
      * @return RequestConfig
      */
-    fun getNextNumberRequestConfig(type: InvoiceType, environment: Environment) : RequestConfig<Unit> {
+    fun getNextNumberRequestConfig(xTenantId: java.util.UUID, type: InvoiceType, environment: Environment) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -196,6 +199,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
                 put("environment", listOf(environment.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
@@ -203,7 +207,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
             path = "/tax-sequences/next",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }
@@ -212,6 +216,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * GET /tax-sequences
      * Listar secuencias fiscales
      * 
+     * @param xTenantId 
      * @param type  (optional)
      * @return ListTaxSequences200Response
      * @throws IllegalStateException If the request is not correctly configured
@@ -222,8 +227,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listTaxSequences(type: InvoiceType? = null) : ListTaxSequences200Response {
-        val localVarResponse = listTaxSequencesWithHttpInfo(type = type)
+    fun listTaxSequences(xTenantId: java.util.UUID, type: InvoiceType? = null) : ListTaxSequences200Response {
+        val localVarResponse = listTaxSequencesWithHttpInfo(xTenantId = xTenantId, type = type)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ListTaxSequences200Response
@@ -244,6 +249,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * GET /tax-sequences
      * Listar secuencias fiscales
      * 
+     * @param xTenantId 
      * @param type  (optional)
      * @return ApiResponse<ListTaxSequences200Response?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -251,8 +257,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listTaxSequencesWithHttpInfo(type: InvoiceType?) : ApiResponse<ListTaxSequences200Response?> {
-        val localVariableConfig = listTaxSequencesRequestConfig(type = type)
+    fun listTaxSequencesWithHttpInfo(xTenantId: java.util.UUID, type: InvoiceType?) : ApiResponse<ListTaxSequences200Response?> {
+        val localVariableConfig = listTaxSequencesRequestConfig(xTenantId = xTenantId, type = type)
 
         return request<Unit, ListTaxSequences200Response>(
             localVariableConfig
@@ -262,10 +268,11 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation listTaxSequences
      *
+     * @param xTenantId 
      * @param type  (optional)
      * @return RequestConfig
      */
-    fun listTaxSequencesRequestConfig(type: InvoiceType?) : RequestConfig<Unit> {
+    fun listTaxSequencesRequestConfig(xTenantId: java.util.UUID, type: InvoiceType?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -274,6 +281,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
@@ -281,7 +289,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
             path = "/tax-sequences",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }

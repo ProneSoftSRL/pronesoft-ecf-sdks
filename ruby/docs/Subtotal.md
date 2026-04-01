@@ -5,10 +5,8 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **number** | **Integer** |  |  |
-| **description** | **String** |  | [optional] |
-| **order** | **Integer** |  | [optional] |
-| **taxable_amount** | **Float** |  | [optional] |
 | **amount** | **Float** |  |  |
+| **description** | **String** |  | [optional] |
 
 ## Example
 
@@ -17,10 +15,8 @@ require 'pronesoft_ecf'
 
 instance = PronesoftEcf::Subtotal.new(
   number: null,
-  description: null,
-  order: null,
-  taxable_amount: null,
-  amount: null
+  amount: null,
+  description: null
 )
 ```
 

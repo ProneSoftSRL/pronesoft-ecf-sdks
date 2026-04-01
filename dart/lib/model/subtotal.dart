@@ -14,15 +14,13 @@ class Subtotal {
   /// Returns a new [Subtotal] instance.
   Subtotal({
     required this.number,
-    this.description,
-    this.order,
-    this.taxableAmount,
     required this.amount,
+    this.description,
   });
 
-  /// Minimum value: 1
-  /// Maximum value: 99
   int number;
+
+  num amount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -32,65 +30,31 @@ class Subtotal {
   ///
   String? description;
 
-  /// Minimum value: 1
-  /// Maximum value: 99
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  int? order;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? taxableAmount;
-
-  num amount;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Subtotal &&
     other.number == number &&
-    other.description == description &&
-    other.order == order &&
-    other.taxableAmount == taxableAmount &&
-    other.amount == amount;
+    other.amount == amount &&
+    other.description == description;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (number.hashCode) +
-    (description == null ? 0 : description!.hashCode) +
-    (order == null ? 0 : order!.hashCode) +
-    (taxableAmount == null ? 0 : taxableAmount!.hashCode) +
-    (amount.hashCode);
+    (amount.hashCode) +
+    (description == null ? 0 : description!.hashCode);
 
   @override
-  String toString() => 'Subtotal[number=$number, description=$description, order=$order, taxableAmount=$taxableAmount, amount=$amount]';
+  String toString() => 'Subtotal[number=$number, amount=$amount, description=$description]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'number'] = this.number;
+      json[r'amount'] = this.amount;
     if (this.description != null) {
       json[r'description'] = this.description;
     } else {
       json[r'description'] = null;
     }
-    if (this.order != null) {
-      json[r'order'] = this.order;
-    } else {
-      json[r'order'] = null;
-    }
-    if (this.taxableAmount != null) {
-      json[r'taxableAmount'] = this.taxableAmount;
-    } else {
-      json[r'taxableAmount'] = null;
-    }
-      json[r'amount'] = this.amount;
     return json;
   }
 
@@ -114,10 +78,8 @@ class Subtotal {
 
       return Subtotal(
         number: mapValueOfType<int>(json, r'number')!,
-        description: mapValueOfType<String>(json, r'description'),
-        order: mapValueOfType<int>(json, r'order'),
-        taxableAmount: num.parse('${json[r'taxableAmount']}'),
         amount: num.parse('${json[r'amount']}'),
+        description: mapValueOfType<String>(json, r'description'),
       );
     }
     return null;

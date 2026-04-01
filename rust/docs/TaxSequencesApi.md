@@ -28,7 +28,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -40,7 +40,7 @@ No authorization required
 
 ## get_next_number
 
-> models::GetNextNumber200Response get_next_number(r#type, environment)
+> models::GetNextNumber200Response get_next_number(x_tenant_id, r#type, environment)
 Obtener próximo número disponible
 
 ### Parameters
@@ -48,6 +48,7 @@ Obtener próximo número disponible
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
+**x_tenant_id** | **uuid::Uuid** |  | [required] |
 **r#type** | [**InvoiceType**](InvoiceType.md) |  | [required] |
 **environment** | [**Environment**](Environment.md) |  | [required] |
 
@@ -57,7 +58,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -69,7 +70,7 @@ No authorization required
 
 ## list_tax_sequences
 
-> models::ListTaxSequences200Response list_tax_sequences(r#type)
+> models::ListTaxSequences200Response list_tax_sequences(x_tenant_id, r#type)
 Listar secuencias fiscales
 
 ### Parameters
@@ -77,6 +78,7 @@ Listar secuencias fiscales
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
+**x_tenant_id** | **uuid::Uuid** |  | [required] |
 **r#type** | Option<[**InvoiceType**](InvoiceType.md)> |  |  |
 
 ### Return type
@@ -85,7 +87,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

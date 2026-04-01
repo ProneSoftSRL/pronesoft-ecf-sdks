@@ -24,11 +24,15 @@ Cargar Certificado Digital (P12)
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new PronesoftEcf\Api\DigitalCertificatesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
+    new GuzzleHttp\Client(),
+    $config
 );
 $rnc = 'rnc_example'; // string
 $file = '/path/to/file.txt'; // \SplFileObject | Archivo .p12 o .pfx
@@ -56,7 +60,7 @@ try {
 
 ### Authorization
 
-No authorization required
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 

@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getAccessToken**](#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso|
+|[**getAccessToken**](#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)|
 
 # **getAccessToken**
 > OAuthTokenResponse getAccessToken(oAuthTokenRequest)
@@ -54,7 +54,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | Token generado exitosamente |  -  |
-|**401** | Token inválido o expirado |  -  |
+|**401** | Error de autorización (Token expirado o inválido) |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

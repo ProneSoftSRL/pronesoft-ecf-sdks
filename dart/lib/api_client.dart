@@ -182,34 +182,28 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
-        case 'AccountType':
-          return AccountTypeTypeTransformer().decode(value);
         case 'AdditionalInfo':
           return AdditionalInfo.fromJson(value);
-        case 'AdditionalTax':
-          return AdditionalTax.fromJson(value);
-        case 'AdjustmentType':
-          return AdjustmentTypeTypeTransformer().decode(value);
         case 'AlternativeCurrency':
           return AlternativeCurrency.fromJson(value);
-        case 'AssociatedCompany':
-          return AssociatedCompany.fromJson(value);
         case 'BillingIndicator':
           return BillingIndicatorTypeTransformer().decode(value);
         case 'Buyer':
           return Buyer.fromJson(value);
-        case 'CommercialApproval':
-          return CommercialApproval.fromJson(value);
+        case 'CertificationCompletedPayload':
+          return CertificationCompletedPayload.fromJson(value);
+        case 'CommercialApprovalPayload':
+          return CommercialApprovalPayload.fromJson(value);
         case 'CreateTaxSequenceRequest':
           return CreateTaxSequenceRequest.fromJson(value);
-        case 'DgiiMensaje':
-          return DgiiMensaje.fromJson(value);
-        case 'DgiiResponseData':
-          return DgiiResponseData.fromJson(value);
-        case 'DiscountDetail':
-          return DiscountDetail.fromJson(value);
+        case 'CreateWebhookConfig':
+          return CreateWebhookConfig.fromJson(value);
         case 'DiscountOrSurcharge':
           return DiscountOrSurcharge.fromJson(value);
+        case 'DocumentReceivedPayload':
+          return DocumentReceivedPayload.fromJson(value);
+        case 'DocumentStatusChangedPayload':
+          return DocumentStatusChangedPayload.fromJson(value);
         case 'EcfSubmissionResponse':
           return EcfSubmissionResponse.fromJson(value);
         case 'ElectronicDocument':
@@ -222,70 +216,44 @@ class ApiClient {
           return GetNextNumber200Response.fromJson(value);
         case 'GetNextNumber200ResponseData':
           return GetNextNumber200ResponseData.fromJson(value);
-        case 'IncomeType':
-          return IncomeTypeTypeTransformer().decode(value);
         case 'InvoiceType':
           return InvoiceTypeTypeTransformer().decode(value);
         case 'Item':
           return Item.fromJson(value);
         case 'ItemAdditionalTax':
           return ItemAdditionalTax.fromJson(value);
-        case 'ItemAlternativeCurrency':
-          return ItemAlternativeCurrency.fromJson(value);
-        case 'ItemCode':
-          return ItemCode.fromJson(value);
-        case 'ItemType':
-          return ItemTypeTypeTransformer().decode(value);
-        case 'ListApprovals200Response':
-          return ListApprovals200Response.fromJson(value);
         case 'ListTaxSequences200Response':
           return ListTaxSequences200Response.fromJson(value);
-        case 'MiningInfo':
-          return MiningInfo.fromJson(value);
-        case 'ModificationCode':
-          return ModificationCodeTypeTransformer().decode(value);
-        case 'Niche':
-          return Niche.fromJson(value);
         case 'OAuthTokenRequest':
           return OAuthTokenRequest.fromJson(value);
         case 'OAuthTokenResponse':
           return OAuthTokenResponse.fromJson(value);
         case 'Page':
           return Page.fromJson(value);
-        case 'PaginatedResponse':
-          return PaginatedResponse.fromJson(value);
-        case 'PaginationMeta':
-          return PaginationMeta.fromJson(value);
-        case 'PaymentForm':
-          return PaymentForm.fromJson(value);
         case 'PaymentMethod':
           return PaymentMethodTypeTransformer().decode(value);
-        case 'PaymentType':
-          return PaymentTypeTypeTransformer().decode(value);
         case 'ReferenceInfo':
           return ReferenceInfo.fromJson(value);
-        case 'StartCertification200Response':
-          return StartCertification200Response.fromJson(value);
-        case 'StartCertificationRequest':
-          return StartCertificationRequest.fromJson(value);
         case 'Subquantity':
           return Subquantity.fromJson(value);
         case 'Subtotal':
           return Subtotal.fromJson(value);
-        case 'SurchargeDetail':
-          return SurchargeDetail.fromJson(value);
         case 'TaxSequence':
           return TaxSequence.fromJson(value);
         case 'Totals':
           return Totals.fromJson(value);
-        case 'TrackStatusResponse':
-          return TrackStatusResponse.fromJson(value);
         case 'Transport':
           return Transport.fromJson(value);
         case 'UploadCertificate201Response':
           return UploadCertificate201Response.fromJson(value);
-        case 'WebhookConfig':
-          return WebhookConfig.fromJson(value);
+        case 'WebhookConfigResponse':
+          return WebhookConfigResponse.fromJson(value);
+        case 'WebhookEventType':
+          return WebhookEventTypeTypeTransformer().decode(value);
+        case 'WebhookNotificationPayload':
+          return WebhookNotificationPayload.fromJson(value);
+        case 'WebhookNotificationPayloadData':
+          return WebhookNotificationPayloadData.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {

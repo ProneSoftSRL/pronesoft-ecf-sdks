@@ -6,19 +6,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **taxable_amount** | **float** |  | [optional] 
-**taxable_amount1** | **float** |  | [optional] 
-**taxable_amount2** | **float** |  | [optional] 
-**taxable_amount3** | **float** |  | [optional] 
-**itbis_rate1** | **float** |  | [optional] 
-**itbis_rate2** | **float** |  | [optional] 
-**itbis_rate3** | **float** |  | [optional] 
 **total_itbis** | **float** |  | [optional] 
-**additional_tax_amount** | **float** |  | [optional] 
-**additional_taxes** | [**List[AdditionalTax]**](AdditionalTax.md) |  | [optional] 
-**exempt_amount** | **float** |  | [optional] 
-**total_amount** | **float** | Obligatorio por lógica de negocio | [optional] 
-**non_billable_amount** | **float** |  | [optional] 
+**total_amount** | **float** |  | 
 **amount_to_pay** | **float** |  | [optional] 
+**additional_tax_amount** | **float** |  | [optional] 
+**exempt_amount** | **float** |  | [optional] 
 
 ## Example
 

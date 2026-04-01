@@ -20,6 +20,8 @@ Cargar Certificado Digital (P12)
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
+// TODO Configure OAuth2 access token for authorization: oauth2
+//defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api_instance = DigitalCertificatesApi();
 final rnc = rnc_example; // String | 
@@ -48,7 +50,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

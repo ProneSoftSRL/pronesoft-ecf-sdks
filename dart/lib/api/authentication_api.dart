@@ -16,7 +16,7 @@ class AuthenticationApi {
 
   final ApiClient apiClient;
 
-  /// Obtener token de acceso
+  /// Obtener token de acceso (OAuth 2.0)
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -48,7 +48,7 @@ class AuthenticationApi {
     );
   }
 
-  /// Obtener token de acceso
+  /// Obtener token de acceso (OAuth 2.0)
   ///
   /// Parameters:
   ///

@@ -5,10 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**access_token** | **str** |  | 
-**token_type** | **str** |  | 
-**expires_in** | **int** |  | 
-**scope** | **List[str]** |  | 
+**access_token** | **str** |  | [optional] 
+**token_type** | **str** |  | [optional] 
+**expires_in** | **int** |  | [optional] 
 
 ## Example
 

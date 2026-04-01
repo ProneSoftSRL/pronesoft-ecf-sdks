@@ -7,56 +7,31 @@ Name | Type | Description | Notes
 **Version** | **string** |  | [default to "1.0"]
 **InvoiceType** | [**InvoiceType**](InvoiceType.md) |  | 
 **InvoiceNumber** | **string** |  | 
-**GroupId** | Pointer to **string** |  | [optional] 
+**IssueDate** | **time.Time** |  | 
 **ExpirationDate** | Pointer to **time.Time** |  | [optional] 
-**CreditNoteIndicator** | Pointer to **string** |  | [optional] 
-**DeferredSendingIndicator** | Pointer to **string** |  | [optional] 
-**TaxedAmountIndicator** | Pointer to **string** |  | [optional] 
-**IncomeType** | Pointer to [**IncomeType**](IncomeType.md) |  | [optional] 
-**PaymentType** | Pointer to [**PaymentType**](PaymentType.md) |  | [optional] 
-**PaymentDeadline** | Pointer to **time.Time** |  | [optional] 
-**PaymentTerms** | Pointer to **string** |  | [optional] 
-**PaymentForms** | Pointer to [**[]PaymentForm**](PaymentForm.md) |  | [optional] 
-**PaymentAccountType** | Pointer to [**AccountType**](AccountType.md) |  | [optional] 
-**PaymentAccountNumber** | Pointer to **string** |  | [optional] 
-**PaymentBank** | Pointer to **string** |  | [optional] 
-**ServiceStartDate** | Pointer to **time.Time** |  | [optional] 
-**ServiceEndDate** | Pointer to **time.Time** |  | [optional] 
-**TotalPages** | Pointer to **int32** |  | [optional] 
+**IncomeType** | Pointer to **string** |  | [optional] 
+**PaymentType** | Pointer to **string** |  | [optional] 
+**CreditNoteIndicator** | Pointer to **string** | 0: ≤30 días, 1: &gt;30 días | [optional] 
 **IssuerRNC** | Pointer to **string** |  | [optional] 
 **IssuerBusinessName** | Pointer to **string** |  | [optional] 
-**IssuerCommercialName** | Pointer to **string** |  | [optional] 
-**BranchName** | Pointer to **string** |  | [optional] 
-**IssuerAddress** | Pointer to **string** |  | [optional] 
-**MunicipalityCode** | Pointer to **string** |  | [optional] 
-**ProvinceCode** | Pointer to **string** |  | [optional] 
-**IssuerPhones** | Pointer to **[]string** |  | [optional] 
 **IssuerEmail** | Pointer to **string** |  | [optional] 
-**IssuerWebsite** | Pointer to **string** |  | [optional] 
-**IssuerEconomicActivity** | Pointer to **string** |  | [optional] 
-**SellerCode** | Pointer to **string** |  | [optional] 
-**InternalInvoiceNumber** | Pointer to **string** |  | [optional] 
-**InternalOrderNumber** | Pointer to **float32** |  | [optional] 
-**SalesZone** | Pointer to **string** |  | [optional] 
-**SalesRoute** | Pointer to **string** |  | [optional] 
-**AdditionalIssuerInfo** | Pointer to **string** |  | [optional] 
-**IssueDate** | **time.Time** |  | 
+**IssuerPhones** | Pointer to **[]string** |  | [optional] 
 **Buyer** | Pointer to [**Buyer**](Buyer.md) |  | [optional] 
-**AdditionalInfo** | Pointer to [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
-**Transport** | Pointer to [**Transport**](Transport.md) |  | [optional] 
-**Totals** | [**Totals**](Totals.md) |  | 
-**AlternativeCurrency** | Pointer to [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 
 **Items** | [**[]Item**](Item.md) |  | 
+**Totals** | [**Totals**](Totals.md) |  | 
+**Transport** | Pointer to [**Transport**](Transport.md) |  | [optional] 
+**AdditionalInfo** | Pointer to [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
+**AlternativeCurrency** | Pointer to [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 
+**ReferenceInfo** | Pointer to [**ReferenceInfo**](ReferenceInfo.md) |  | [optional] 
 **Subtotals** | Pointer to [**[]Subtotal**](Subtotal.md) |  | [optional] 
 **DiscountsOrSurcharges** | Pointer to [**[]DiscountOrSurcharge**](DiscountOrSurcharge.md) |  | [optional] 
 **Pages** | Pointer to [**[]Page**](Page.md) |  | [optional] 
-**ReferenceInfo** | Pointer to [**ReferenceInfo**](ReferenceInfo.md) |  | [optional] 
 
 ## Methods
 
 ### NewElectronicDocument
 
-`func NewElectronicDocument(version string, invoiceType InvoiceType, invoiceNumber string, issueDate time.Time, totals Totals, items []Item, ) *ElectronicDocument`
+`func NewElectronicDocument(version string, invoiceType InvoiceType, invoiceNumber string, issueDate time.Time, items []Item, totals Totals, ) *ElectronicDocument`
 
 NewElectronicDocument instantiates a new ElectronicDocument object
 This constructor will assign default values to properties that have it defined,
@@ -131,30 +106,25 @@ and a boolean to check if the value has been set.
 SetInvoiceNumber sets InvoiceNumber field to given value.
 
 
-### GetGroupId
+### GetIssueDate
 
-`func (o *ElectronicDocument) GetGroupId() string`
+`func (o *ElectronicDocument) GetIssueDate() time.Time`
 
-GetGroupId returns the GroupId field if non-nil, zero value otherwise.
+GetIssueDate returns the IssueDate field if non-nil, zero value otherwise.
 
-### GetGroupIdOk
+### GetIssueDateOk
 
-`func (o *ElectronicDocument) GetGroupIdOk() (*string, bool)`
+`func (o *ElectronicDocument) GetIssueDateOk() (*time.Time, bool)`
 
-GetGroupIdOk returns a tuple with the GroupId field if it's non-nil, zero value otherwise
+GetIssueDateOk returns a tuple with the IssueDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetGroupId
+### SetIssueDate
 
-`func (o *ElectronicDocument) SetGroupId(v string)`
+`func (o *ElectronicDocument) SetIssueDate(v time.Time)`
 
-SetGroupId sets GroupId field to given value.
+SetIssueDate sets IssueDate field to given value.
 
-### HasGroupId
-
-`func (o *ElectronicDocument) HasGroupId() bool`
-
-HasGroupId returns a boolean if a field has been set.
 
 ### GetExpirationDate
 
@@ -181,6 +151,56 @@ SetExpirationDate sets ExpirationDate field to given value.
 
 HasExpirationDate returns a boolean if a field has been set.
 
+### GetIncomeType
+
+`func (o *ElectronicDocument) GetIncomeType() string`
+
+GetIncomeType returns the IncomeType field if non-nil, zero value otherwise.
+
+### GetIncomeTypeOk
+
+`func (o *ElectronicDocument) GetIncomeTypeOk() (*string, bool)`
+
+GetIncomeTypeOk returns a tuple with the IncomeType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIncomeType
+
+`func (o *ElectronicDocument) SetIncomeType(v string)`
+
+SetIncomeType sets IncomeType field to given value.
+
+### HasIncomeType
+
+`func (o *ElectronicDocument) HasIncomeType() bool`
+
+HasIncomeType returns a boolean if a field has been set.
+
+### GetPaymentType
+
+`func (o *ElectronicDocument) GetPaymentType() string`
+
+GetPaymentType returns the PaymentType field if non-nil, zero value otherwise.
+
+### GetPaymentTypeOk
+
+`func (o *ElectronicDocument) GetPaymentTypeOk() (*string, bool)`
+
+GetPaymentTypeOk returns a tuple with the PaymentType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPaymentType
+
+`func (o *ElectronicDocument) SetPaymentType(v string)`
+
+SetPaymentType sets PaymentType field to given value.
+
+### HasPaymentType
+
+`func (o *ElectronicDocument) HasPaymentType() bool`
+
+HasPaymentType returns a boolean if a field has been set.
+
 ### GetCreditNoteIndicator
 
 `func (o *ElectronicDocument) GetCreditNoteIndicator() string`
@@ -205,331 +225,6 @@ SetCreditNoteIndicator sets CreditNoteIndicator field to given value.
 `func (o *ElectronicDocument) HasCreditNoteIndicator() bool`
 
 HasCreditNoteIndicator returns a boolean if a field has been set.
-
-### GetDeferredSendingIndicator
-
-`func (o *ElectronicDocument) GetDeferredSendingIndicator() string`
-
-GetDeferredSendingIndicator returns the DeferredSendingIndicator field if non-nil, zero value otherwise.
-
-### GetDeferredSendingIndicatorOk
-
-`func (o *ElectronicDocument) GetDeferredSendingIndicatorOk() (*string, bool)`
-
-GetDeferredSendingIndicatorOk returns a tuple with the DeferredSendingIndicator field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDeferredSendingIndicator
-
-`func (o *ElectronicDocument) SetDeferredSendingIndicator(v string)`
-
-SetDeferredSendingIndicator sets DeferredSendingIndicator field to given value.
-
-### HasDeferredSendingIndicator
-
-`func (o *ElectronicDocument) HasDeferredSendingIndicator() bool`
-
-HasDeferredSendingIndicator returns a boolean if a field has been set.
-
-### GetTaxedAmountIndicator
-
-`func (o *ElectronicDocument) GetTaxedAmountIndicator() string`
-
-GetTaxedAmountIndicator returns the TaxedAmountIndicator field if non-nil, zero value otherwise.
-
-### GetTaxedAmountIndicatorOk
-
-`func (o *ElectronicDocument) GetTaxedAmountIndicatorOk() (*string, bool)`
-
-GetTaxedAmountIndicatorOk returns a tuple with the TaxedAmountIndicator field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTaxedAmountIndicator
-
-`func (o *ElectronicDocument) SetTaxedAmountIndicator(v string)`
-
-SetTaxedAmountIndicator sets TaxedAmountIndicator field to given value.
-
-### HasTaxedAmountIndicator
-
-`func (o *ElectronicDocument) HasTaxedAmountIndicator() bool`
-
-HasTaxedAmountIndicator returns a boolean if a field has been set.
-
-### GetIncomeType
-
-`func (o *ElectronicDocument) GetIncomeType() IncomeType`
-
-GetIncomeType returns the IncomeType field if non-nil, zero value otherwise.
-
-### GetIncomeTypeOk
-
-`func (o *ElectronicDocument) GetIncomeTypeOk() (*IncomeType, bool)`
-
-GetIncomeTypeOk returns a tuple with the IncomeType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIncomeType
-
-`func (o *ElectronicDocument) SetIncomeType(v IncomeType)`
-
-SetIncomeType sets IncomeType field to given value.
-
-### HasIncomeType
-
-`func (o *ElectronicDocument) HasIncomeType() bool`
-
-HasIncomeType returns a boolean if a field has been set.
-
-### GetPaymentType
-
-`func (o *ElectronicDocument) GetPaymentType() PaymentType`
-
-GetPaymentType returns the PaymentType field if non-nil, zero value otherwise.
-
-### GetPaymentTypeOk
-
-`func (o *ElectronicDocument) GetPaymentTypeOk() (*PaymentType, bool)`
-
-GetPaymentTypeOk returns a tuple with the PaymentType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPaymentType
-
-`func (o *ElectronicDocument) SetPaymentType(v PaymentType)`
-
-SetPaymentType sets PaymentType field to given value.
-
-### HasPaymentType
-
-`func (o *ElectronicDocument) HasPaymentType() bool`
-
-HasPaymentType returns a boolean if a field has been set.
-
-### GetPaymentDeadline
-
-`func (o *ElectronicDocument) GetPaymentDeadline() time.Time`
-
-GetPaymentDeadline returns the PaymentDeadline field if non-nil, zero value otherwise.
-
-### GetPaymentDeadlineOk
-
-`func (o *ElectronicDocument) GetPaymentDeadlineOk() (*time.Time, bool)`
-
-GetPaymentDeadlineOk returns a tuple with the PaymentDeadline field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPaymentDeadline
-
-`func (o *ElectronicDocument) SetPaymentDeadline(v time.Time)`
-
-SetPaymentDeadline sets PaymentDeadline field to given value.
-
-### HasPaymentDeadline
-
-`func (o *ElectronicDocument) HasPaymentDeadline() bool`
-
-HasPaymentDeadline returns a boolean if a field has been set.
-
-### GetPaymentTerms
-
-`func (o *ElectronicDocument) GetPaymentTerms() string`
-
-GetPaymentTerms returns the PaymentTerms field if non-nil, zero value otherwise.
-
-### GetPaymentTermsOk
-
-`func (o *ElectronicDocument) GetPaymentTermsOk() (*string, bool)`
-
-GetPaymentTermsOk returns a tuple with the PaymentTerms field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPaymentTerms
-
-`func (o *ElectronicDocument) SetPaymentTerms(v string)`
-
-SetPaymentTerms sets PaymentTerms field to given value.
-
-### HasPaymentTerms
-
-`func (o *ElectronicDocument) HasPaymentTerms() bool`
-
-HasPaymentTerms returns a boolean if a field has been set.
-
-### GetPaymentForms
-
-`func (o *ElectronicDocument) GetPaymentForms() []PaymentForm`
-
-GetPaymentForms returns the PaymentForms field if non-nil, zero value otherwise.
-
-### GetPaymentFormsOk
-
-`func (o *ElectronicDocument) GetPaymentFormsOk() (*[]PaymentForm, bool)`
-
-GetPaymentFormsOk returns a tuple with the PaymentForms field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPaymentForms
-
-`func (o *ElectronicDocument) SetPaymentForms(v []PaymentForm)`
-
-SetPaymentForms sets PaymentForms field to given value.
-
-### HasPaymentForms
-
-`func (o *ElectronicDocument) HasPaymentForms() bool`
-
-HasPaymentForms returns a boolean if a field has been set.
-
-### GetPaymentAccountType
-
-`func (o *ElectronicDocument) GetPaymentAccountType() AccountType`
-
-GetPaymentAccountType returns the PaymentAccountType field if non-nil, zero value otherwise.
-
-### GetPaymentAccountTypeOk
-
-`func (o *ElectronicDocument) GetPaymentAccountTypeOk() (*AccountType, bool)`
-
-GetPaymentAccountTypeOk returns a tuple with the PaymentAccountType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPaymentAccountType
-
-`func (o *ElectronicDocument) SetPaymentAccountType(v AccountType)`
-
-SetPaymentAccountType sets PaymentAccountType field to given value.
-
-### HasPaymentAccountType
-
-`func (o *ElectronicDocument) HasPaymentAccountType() bool`
-
-HasPaymentAccountType returns a boolean if a field has been set.
-
-### GetPaymentAccountNumber
-
-`func (o *ElectronicDocument) GetPaymentAccountNumber() string`
-
-GetPaymentAccountNumber returns the PaymentAccountNumber field if non-nil, zero value otherwise.
-
-### GetPaymentAccountNumberOk
-
-`func (o *ElectronicDocument) GetPaymentAccountNumberOk() (*string, bool)`
-
-GetPaymentAccountNumberOk returns a tuple with the PaymentAccountNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPaymentAccountNumber
-
-`func (o *ElectronicDocument) SetPaymentAccountNumber(v string)`
-
-SetPaymentAccountNumber sets PaymentAccountNumber field to given value.
-
-### HasPaymentAccountNumber
-
-`func (o *ElectronicDocument) HasPaymentAccountNumber() bool`
-
-HasPaymentAccountNumber returns a boolean if a field has been set.
-
-### GetPaymentBank
-
-`func (o *ElectronicDocument) GetPaymentBank() string`
-
-GetPaymentBank returns the PaymentBank field if non-nil, zero value otherwise.
-
-### GetPaymentBankOk
-
-`func (o *ElectronicDocument) GetPaymentBankOk() (*string, bool)`
-
-GetPaymentBankOk returns a tuple with the PaymentBank field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPaymentBank
-
-`func (o *ElectronicDocument) SetPaymentBank(v string)`
-
-SetPaymentBank sets PaymentBank field to given value.
-
-### HasPaymentBank
-
-`func (o *ElectronicDocument) HasPaymentBank() bool`
-
-HasPaymentBank returns a boolean if a field has been set.
-
-### GetServiceStartDate
-
-`func (o *ElectronicDocument) GetServiceStartDate() time.Time`
-
-GetServiceStartDate returns the ServiceStartDate field if non-nil, zero value otherwise.
-
-### GetServiceStartDateOk
-
-`func (o *ElectronicDocument) GetServiceStartDateOk() (*time.Time, bool)`
-
-GetServiceStartDateOk returns a tuple with the ServiceStartDate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetServiceStartDate
-
-`func (o *ElectronicDocument) SetServiceStartDate(v time.Time)`
-
-SetServiceStartDate sets ServiceStartDate field to given value.
-
-### HasServiceStartDate
-
-`func (o *ElectronicDocument) HasServiceStartDate() bool`
-
-HasServiceStartDate returns a boolean if a field has been set.
-
-### GetServiceEndDate
-
-`func (o *ElectronicDocument) GetServiceEndDate() time.Time`
-
-GetServiceEndDate returns the ServiceEndDate field if non-nil, zero value otherwise.
-
-### GetServiceEndDateOk
-
-`func (o *ElectronicDocument) GetServiceEndDateOk() (*time.Time, bool)`
-
-GetServiceEndDateOk returns a tuple with the ServiceEndDate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetServiceEndDate
-
-`func (o *ElectronicDocument) SetServiceEndDate(v time.Time)`
-
-SetServiceEndDate sets ServiceEndDate field to given value.
-
-### HasServiceEndDate
-
-`func (o *ElectronicDocument) HasServiceEndDate() bool`
-
-HasServiceEndDate returns a boolean if a field has been set.
-
-### GetTotalPages
-
-`func (o *ElectronicDocument) GetTotalPages() int32`
-
-GetTotalPages returns the TotalPages field if non-nil, zero value otherwise.
-
-### GetTotalPagesOk
-
-`func (o *ElectronicDocument) GetTotalPagesOk() (*int32, bool)`
-
-GetTotalPagesOk returns a tuple with the TotalPages field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTotalPages
-
-`func (o *ElectronicDocument) SetTotalPages(v int32)`
-
-SetTotalPages sets TotalPages field to given value.
-
-### HasTotalPages
-
-`func (o *ElectronicDocument) HasTotalPages() bool`
-
-HasTotalPages returns a boolean if a field has been set.
 
 ### GetIssuerRNC
 
@@ -581,130 +276,30 @@ SetIssuerBusinessName sets IssuerBusinessName field to given value.
 
 HasIssuerBusinessName returns a boolean if a field has been set.
 
-### GetIssuerCommercialName
+### GetIssuerEmail
 
-`func (o *ElectronicDocument) GetIssuerCommercialName() string`
+`func (o *ElectronicDocument) GetIssuerEmail() string`
 
-GetIssuerCommercialName returns the IssuerCommercialName field if non-nil, zero value otherwise.
+GetIssuerEmail returns the IssuerEmail field if non-nil, zero value otherwise.
 
-### GetIssuerCommercialNameOk
+### GetIssuerEmailOk
 
-`func (o *ElectronicDocument) GetIssuerCommercialNameOk() (*string, bool)`
+`func (o *ElectronicDocument) GetIssuerEmailOk() (*string, bool)`
 
-GetIssuerCommercialNameOk returns a tuple with the IssuerCommercialName field if it's non-nil, zero value otherwise
+GetIssuerEmailOk returns a tuple with the IssuerEmail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIssuerCommercialName
+### SetIssuerEmail
 
-`func (o *ElectronicDocument) SetIssuerCommercialName(v string)`
+`func (o *ElectronicDocument) SetIssuerEmail(v string)`
 
-SetIssuerCommercialName sets IssuerCommercialName field to given value.
+SetIssuerEmail sets IssuerEmail field to given value.
 
-### HasIssuerCommercialName
+### HasIssuerEmail
 
-`func (o *ElectronicDocument) HasIssuerCommercialName() bool`
+`func (o *ElectronicDocument) HasIssuerEmail() bool`
 
-HasIssuerCommercialName returns a boolean if a field has been set.
-
-### GetBranchName
-
-`func (o *ElectronicDocument) GetBranchName() string`
-
-GetBranchName returns the BranchName field if non-nil, zero value otherwise.
-
-### GetBranchNameOk
-
-`func (o *ElectronicDocument) GetBranchNameOk() (*string, bool)`
-
-GetBranchNameOk returns a tuple with the BranchName field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetBranchName
-
-`func (o *ElectronicDocument) SetBranchName(v string)`
-
-SetBranchName sets BranchName field to given value.
-
-### HasBranchName
-
-`func (o *ElectronicDocument) HasBranchName() bool`
-
-HasBranchName returns a boolean if a field has been set.
-
-### GetIssuerAddress
-
-`func (o *ElectronicDocument) GetIssuerAddress() string`
-
-GetIssuerAddress returns the IssuerAddress field if non-nil, zero value otherwise.
-
-### GetIssuerAddressOk
-
-`func (o *ElectronicDocument) GetIssuerAddressOk() (*string, bool)`
-
-GetIssuerAddressOk returns a tuple with the IssuerAddress field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIssuerAddress
-
-`func (o *ElectronicDocument) SetIssuerAddress(v string)`
-
-SetIssuerAddress sets IssuerAddress field to given value.
-
-### HasIssuerAddress
-
-`func (o *ElectronicDocument) HasIssuerAddress() bool`
-
-HasIssuerAddress returns a boolean if a field has been set.
-
-### GetMunicipalityCode
-
-`func (o *ElectronicDocument) GetMunicipalityCode() string`
-
-GetMunicipalityCode returns the MunicipalityCode field if non-nil, zero value otherwise.
-
-### GetMunicipalityCodeOk
-
-`func (o *ElectronicDocument) GetMunicipalityCodeOk() (*string, bool)`
-
-GetMunicipalityCodeOk returns a tuple with the MunicipalityCode field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMunicipalityCode
-
-`func (o *ElectronicDocument) SetMunicipalityCode(v string)`
-
-SetMunicipalityCode sets MunicipalityCode field to given value.
-
-### HasMunicipalityCode
-
-`func (o *ElectronicDocument) HasMunicipalityCode() bool`
-
-HasMunicipalityCode returns a boolean if a field has been set.
-
-### GetProvinceCode
-
-`func (o *ElectronicDocument) GetProvinceCode() string`
-
-GetProvinceCode returns the ProvinceCode field if non-nil, zero value otherwise.
-
-### GetProvinceCodeOk
-
-`func (o *ElectronicDocument) GetProvinceCodeOk() (*string, bool)`
-
-GetProvinceCodeOk returns a tuple with the ProvinceCode field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetProvinceCode
-
-`func (o *ElectronicDocument) SetProvinceCode(v string)`
-
-SetProvinceCode sets ProvinceCode field to given value.
-
-### HasProvinceCode
-
-`func (o *ElectronicDocument) HasProvinceCode() bool`
-
-HasProvinceCode returns a boolean if a field has been set.
+HasIssuerEmail returns a boolean if a field has been set.
 
 ### GetIssuerPhones
 
@@ -731,251 +326,6 @@ SetIssuerPhones sets IssuerPhones field to given value.
 
 HasIssuerPhones returns a boolean if a field has been set.
 
-### GetIssuerEmail
-
-`func (o *ElectronicDocument) GetIssuerEmail() string`
-
-GetIssuerEmail returns the IssuerEmail field if non-nil, zero value otherwise.
-
-### GetIssuerEmailOk
-
-`func (o *ElectronicDocument) GetIssuerEmailOk() (*string, bool)`
-
-GetIssuerEmailOk returns a tuple with the IssuerEmail field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIssuerEmail
-
-`func (o *ElectronicDocument) SetIssuerEmail(v string)`
-
-SetIssuerEmail sets IssuerEmail field to given value.
-
-### HasIssuerEmail
-
-`func (o *ElectronicDocument) HasIssuerEmail() bool`
-
-HasIssuerEmail returns a boolean if a field has been set.
-
-### GetIssuerWebsite
-
-`func (o *ElectronicDocument) GetIssuerWebsite() string`
-
-GetIssuerWebsite returns the IssuerWebsite field if non-nil, zero value otherwise.
-
-### GetIssuerWebsiteOk
-
-`func (o *ElectronicDocument) GetIssuerWebsiteOk() (*string, bool)`
-
-GetIssuerWebsiteOk returns a tuple with the IssuerWebsite field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIssuerWebsite
-
-`func (o *ElectronicDocument) SetIssuerWebsite(v string)`
-
-SetIssuerWebsite sets IssuerWebsite field to given value.
-
-### HasIssuerWebsite
-
-`func (o *ElectronicDocument) HasIssuerWebsite() bool`
-
-HasIssuerWebsite returns a boolean if a field has been set.
-
-### GetIssuerEconomicActivity
-
-`func (o *ElectronicDocument) GetIssuerEconomicActivity() string`
-
-GetIssuerEconomicActivity returns the IssuerEconomicActivity field if non-nil, zero value otherwise.
-
-### GetIssuerEconomicActivityOk
-
-`func (o *ElectronicDocument) GetIssuerEconomicActivityOk() (*string, bool)`
-
-GetIssuerEconomicActivityOk returns a tuple with the IssuerEconomicActivity field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIssuerEconomicActivity
-
-`func (o *ElectronicDocument) SetIssuerEconomicActivity(v string)`
-
-SetIssuerEconomicActivity sets IssuerEconomicActivity field to given value.
-
-### HasIssuerEconomicActivity
-
-`func (o *ElectronicDocument) HasIssuerEconomicActivity() bool`
-
-HasIssuerEconomicActivity returns a boolean if a field has been set.
-
-### GetSellerCode
-
-`func (o *ElectronicDocument) GetSellerCode() string`
-
-GetSellerCode returns the SellerCode field if non-nil, zero value otherwise.
-
-### GetSellerCodeOk
-
-`func (o *ElectronicDocument) GetSellerCodeOk() (*string, bool)`
-
-GetSellerCodeOk returns a tuple with the SellerCode field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSellerCode
-
-`func (o *ElectronicDocument) SetSellerCode(v string)`
-
-SetSellerCode sets SellerCode field to given value.
-
-### HasSellerCode
-
-`func (o *ElectronicDocument) HasSellerCode() bool`
-
-HasSellerCode returns a boolean if a field has been set.
-
-### GetInternalInvoiceNumber
-
-`func (o *ElectronicDocument) GetInternalInvoiceNumber() string`
-
-GetInternalInvoiceNumber returns the InternalInvoiceNumber field if non-nil, zero value otherwise.
-
-### GetInternalInvoiceNumberOk
-
-`func (o *ElectronicDocument) GetInternalInvoiceNumberOk() (*string, bool)`
-
-GetInternalInvoiceNumberOk returns a tuple with the InternalInvoiceNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetInternalInvoiceNumber
-
-`func (o *ElectronicDocument) SetInternalInvoiceNumber(v string)`
-
-SetInternalInvoiceNumber sets InternalInvoiceNumber field to given value.
-
-### HasInternalInvoiceNumber
-
-`func (o *ElectronicDocument) HasInternalInvoiceNumber() bool`
-
-HasInternalInvoiceNumber returns a boolean if a field has been set.
-
-### GetInternalOrderNumber
-
-`func (o *ElectronicDocument) GetInternalOrderNumber() float32`
-
-GetInternalOrderNumber returns the InternalOrderNumber field if non-nil, zero value otherwise.
-
-### GetInternalOrderNumberOk
-
-`func (o *ElectronicDocument) GetInternalOrderNumberOk() (*float32, bool)`
-
-GetInternalOrderNumberOk returns a tuple with the InternalOrderNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetInternalOrderNumber
-
-`func (o *ElectronicDocument) SetInternalOrderNumber(v float32)`
-
-SetInternalOrderNumber sets InternalOrderNumber field to given value.
-
-### HasInternalOrderNumber
-
-`func (o *ElectronicDocument) HasInternalOrderNumber() bool`
-
-HasInternalOrderNumber returns a boolean if a field has been set.
-
-### GetSalesZone
-
-`func (o *ElectronicDocument) GetSalesZone() string`
-
-GetSalesZone returns the SalesZone field if non-nil, zero value otherwise.
-
-### GetSalesZoneOk
-
-`func (o *ElectronicDocument) GetSalesZoneOk() (*string, bool)`
-
-GetSalesZoneOk returns a tuple with the SalesZone field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSalesZone
-
-`func (o *ElectronicDocument) SetSalesZone(v string)`
-
-SetSalesZone sets SalesZone field to given value.
-
-### HasSalesZone
-
-`func (o *ElectronicDocument) HasSalesZone() bool`
-
-HasSalesZone returns a boolean if a field has been set.
-
-### GetSalesRoute
-
-`func (o *ElectronicDocument) GetSalesRoute() string`
-
-GetSalesRoute returns the SalesRoute field if non-nil, zero value otherwise.
-
-### GetSalesRouteOk
-
-`func (o *ElectronicDocument) GetSalesRouteOk() (*string, bool)`
-
-GetSalesRouteOk returns a tuple with the SalesRoute field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSalesRoute
-
-`func (o *ElectronicDocument) SetSalesRoute(v string)`
-
-SetSalesRoute sets SalesRoute field to given value.
-
-### HasSalesRoute
-
-`func (o *ElectronicDocument) HasSalesRoute() bool`
-
-HasSalesRoute returns a boolean if a field has been set.
-
-### GetAdditionalIssuerInfo
-
-`func (o *ElectronicDocument) GetAdditionalIssuerInfo() string`
-
-GetAdditionalIssuerInfo returns the AdditionalIssuerInfo field if non-nil, zero value otherwise.
-
-### GetAdditionalIssuerInfoOk
-
-`func (o *ElectronicDocument) GetAdditionalIssuerInfoOk() (*string, bool)`
-
-GetAdditionalIssuerInfoOk returns a tuple with the AdditionalIssuerInfo field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAdditionalIssuerInfo
-
-`func (o *ElectronicDocument) SetAdditionalIssuerInfo(v string)`
-
-SetAdditionalIssuerInfo sets AdditionalIssuerInfo field to given value.
-
-### HasAdditionalIssuerInfo
-
-`func (o *ElectronicDocument) HasAdditionalIssuerInfo() bool`
-
-HasAdditionalIssuerInfo returns a boolean if a field has been set.
-
-### GetIssueDate
-
-`func (o *ElectronicDocument) GetIssueDate() time.Time`
-
-GetIssueDate returns the IssueDate field if non-nil, zero value otherwise.
-
-### GetIssueDateOk
-
-`func (o *ElectronicDocument) GetIssueDateOk() (*time.Time, bool)`
-
-GetIssueDateOk returns a tuple with the IssueDate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIssueDate
-
-`func (o *ElectronicDocument) SetIssueDate(v time.Time)`
-
-SetIssueDate sets IssueDate field to given value.
-
-
 ### GetBuyer
 
 `func (o *ElectronicDocument) GetBuyer() Buyer`
@@ -1001,30 +351,45 @@ SetBuyer sets Buyer field to given value.
 
 HasBuyer returns a boolean if a field has been set.
 
-### GetAdditionalInfo
+### GetItems
 
-`func (o *ElectronicDocument) GetAdditionalInfo() AdditionalInfo`
+`func (o *ElectronicDocument) GetItems() []Item`
 
-GetAdditionalInfo returns the AdditionalInfo field if non-nil, zero value otherwise.
+GetItems returns the Items field if non-nil, zero value otherwise.
 
-### GetAdditionalInfoOk
+### GetItemsOk
 
-`func (o *ElectronicDocument) GetAdditionalInfoOk() (*AdditionalInfo, bool)`
+`func (o *ElectronicDocument) GetItemsOk() (*[]Item, bool)`
 
-GetAdditionalInfoOk returns a tuple with the AdditionalInfo field if it's non-nil, zero value otherwise
+GetItemsOk returns a tuple with the Items field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAdditionalInfo
+### SetItems
 
-`func (o *ElectronicDocument) SetAdditionalInfo(v AdditionalInfo)`
+`func (o *ElectronicDocument) SetItems(v []Item)`
 
-SetAdditionalInfo sets AdditionalInfo field to given value.
+SetItems sets Items field to given value.
 
-### HasAdditionalInfo
 
-`func (o *ElectronicDocument) HasAdditionalInfo() bool`
+### GetTotals
 
-HasAdditionalInfo returns a boolean if a field has been set.
+`func (o *ElectronicDocument) GetTotals() Totals`
+
+GetTotals returns the Totals field if non-nil, zero value otherwise.
+
+### GetTotalsOk
+
+`func (o *ElectronicDocument) GetTotalsOk() (*Totals, bool)`
+
+GetTotalsOk returns a tuple with the Totals field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTotals
+
+`func (o *ElectronicDocument) SetTotals(v Totals)`
+
+SetTotals sets Totals field to given value.
+
 
 ### GetTransport
 
@@ -1051,25 +416,30 @@ SetTransport sets Transport field to given value.
 
 HasTransport returns a boolean if a field has been set.
 
-### GetTotals
+### GetAdditionalInfo
 
-`func (o *ElectronicDocument) GetTotals() Totals`
+`func (o *ElectronicDocument) GetAdditionalInfo() AdditionalInfo`
 
-GetTotals returns the Totals field if non-nil, zero value otherwise.
+GetAdditionalInfo returns the AdditionalInfo field if non-nil, zero value otherwise.
 
-### GetTotalsOk
+### GetAdditionalInfoOk
 
-`func (o *ElectronicDocument) GetTotalsOk() (*Totals, bool)`
+`func (o *ElectronicDocument) GetAdditionalInfoOk() (*AdditionalInfo, bool)`
 
-GetTotalsOk returns a tuple with the Totals field if it's non-nil, zero value otherwise
+GetAdditionalInfoOk returns a tuple with the AdditionalInfo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTotals
+### SetAdditionalInfo
 
-`func (o *ElectronicDocument) SetTotals(v Totals)`
+`func (o *ElectronicDocument) SetAdditionalInfo(v AdditionalInfo)`
 
-SetTotals sets Totals field to given value.
+SetAdditionalInfo sets AdditionalInfo field to given value.
 
+### HasAdditionalInfo
+
+`func (o *ElectronicDocument) HasAdditionalInfo() bool`
+
+HasAdditionalInfo returns a boolean if a field has been set.
 
 ### GetAlternativeCurrency
 
@@ -1096,25 +466,30 @@ SetAlternativeCurrency sets AlternativeCurrency field to given value.
 
 HasAlternativeCurrency returns a boolean if a field has been set.
 
-### GetItems
+### GetReferenceInfo
 
-`func (o *ElectronicDocument) GetItems() []Item`
+`func (o *ElectronicDocument) GetReferenceInfo() ReferenceInfo`
 
-GetItems returns the Items field if non-nil, zero value otherwise.
+GetReferenceInfo returns the ReferenceInfo field if non-nil, zero value otherwise.
 
-### GetItemsOk
+### GetReferenceInfoOk
 
-`func (o *ElectronicDocument) GetItemsOk() (*[]Item, bool)`
+`func (o *ElectronicDocument) GetReferenceInfoOk() (*ReferenceInfo, bool)`
 
-GetItemsOk returns a tuple with the Items field if it's non-nil, zero value otherwise
+GetReferenceInfoOk returns a tuple with the ReferenceInfo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetItems
+### SetReferenceInfo
 
-`func (o *ElectronicDocument) SetItems(v []Item)`
+`func (o *ElectronicDocument) SetReferenceInfo(v ReferenceInfo)`
 
-SetItems sets Items field to given value.
+SetReferenceInfo sets ReferenceInfo field to given value.
 
+### HasReferenceInfo
+
+`func (o *ElectronicDocument) HasReferenceInfo() bool`
+
+HasReferenceInfo returns a boolean if a field has been set.
 
 ### GetSubtotals
 
@@ -1190,31 +565,6 @@ SetPages sets Pages field to given value.
 `func (o *ElectronicDocument) HasPages() bool`
 
 HasPages returns a boolean if a field has been set.
-
-### GetReferenceInfo
-
-`func (o *ElectronicDocument) GetReferenceInfo() ReferenceInfo`
-
-GetReferenceInfo returns the ReferenceInfo field if non-nil, zero value otherwise.
-
-### GetReferenceInfoOk
-
-`func (o *ElectronicDocument) GetReferenceInfoOk() (*ReferenceInfo, bool)`
-
-GetReferenceInfoOk returns a tuple with the ReferenceInfo field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetReferenceInfo
-
-`func (o *ElectronicDocument) SetReferenceInfo(v ReferenceInfo)`
-
-SetReferenceInfo sets ReferenceInfo field to given value.
-
-### HasReferenceInfo
-
-`func (o *ElectronicDocument) HasReferenceInfo() bool`
-
-HasReferenceInfo returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

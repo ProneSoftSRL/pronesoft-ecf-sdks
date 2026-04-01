@@ -15,23 +15,17 @@ public struct AlternativeCurrency: Codable, JSONEncodable, Hashable {
     public static let codeRule = StringRule(minLength: nil, maxLength: 3, pattern: nil)
     public var code: String
     public var exchangeRate: Double
-    public var taxableAmount: Double?
-    public var totalITBIS: Double?
     public var totalAmount: Double?
 
-    public init(code: String, exchangeRate: Double, taxableAmount: Double? = nil, totalITBIS: Double? = nil, totalAmount: Double? = nil) {
+    public init(code: String, exchangeRate: Double, totalAmount: Double? = nil) {
         self.code = code
         self.exchangeRate = exchangeRate
-        self.taxableAmount = taxableAmount
-        self.totalITBIS = totalITBIS
         self.totalAmount = totalAmount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case exchangeRate
-        case taxableAmount
-        case totalITBIS
         case totalAmount
     }
 
@@ -41,8 +35,6 @@ public struct AlternativeCurrency: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
         try container.encode(exchangeRate, forKey: .exchangeRate)
-        try container.encodeIfPresent(taxableAmount, forKey: .taxableAmount)
-        try container.encodeIfPresent(totalITBIS, forKey: .totalITBIS)
         try container.encodeIfPresent(totalAmount, forKey: .totalAmount)
     }
 }

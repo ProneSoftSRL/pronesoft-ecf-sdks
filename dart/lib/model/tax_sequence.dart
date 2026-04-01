@@ -15,10 +15,7 @@ class TaxSequence {
   TaxSequence({
     this.id,
     this.type,
-    this.startNumber,
-    this.endNumber,
-    this.currentNumber,
-    this.availableNumbers,
+    this.nextNumber,
   });
 
   ///
@@ -43,53 +40,23 @@ class TaxSequence {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? startNumber;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? endNumber;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? currentNumber;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  int? availableNumbers;
+  String? nextNumber;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is TaxSequence &&
     other.id == id &&
     other.type == type &&
-    other.startNumber == startNumber &&
-    other.endNumber == endNumber &&
-    other.currentNumber == currentNumber &&
-    other.availableNumbers == availableNumbers;
+    other.nextNumber == nextNumber;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
-    (startNumber == null ? 0 : startNumber!.hashCode) +
-    (endNumber == null ? 0 : endNumber!.hashCode) +
-    (currentNumber == null ? 0 : currentNumber!.hashCode) +
-    (availableNumbers == null ? 0 : availableNumbers!.hashCode);
+    (nextNumber == null ? 0 : nextNumber!.hashCode);
 
   @override
-  String toString() => 'TaxSequence[id=$id, type=$type, startNumber=$startNumber, endNumber=$endNumber, currentNumber=$currentNumber, availableNumbers=$availableNumbers]';
+  String toString() => 'TaxSequence[id=$id, type=$type, nextNumber=$nextNumber]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -103,25 +70,10 @@ class TaxSequence {
     } else {
       json[r'type'] = null;
     }
-    if (this.startNumber != null) {
-      json[r'startNumber'] = this.startNumber;
+    if (this.nextNumber != null) {
+      json[r'nextNumber'] = this.nextNumber;
     } else {
-      json[r'startNumber'] = null;
-    }
-    if (this.endNumber != null) {
-      json[r'endNumber'] = this.endNumber;
-    } else {
-      json[r'endNumber'] = null;
-    }
-    if (this.currentNumber != null) {
-      json[r'currentNumber'] = this.currentNumber;
-    } else {
-      json[r'currentNumber'] = null;
-    }
-    if (this.availableNumbers != null) {
-      json[r'availableNumbers'] = this.availableNumbers;
-    } else {
-      json[r'availableNumbers'] = null;
+      json[r'nextNumber'] = null;
     }
     return json;
   }
@@ -143,10 +95,7 @@ class TaxSequence {
       return TaxSequence(
         id: mapValueOfType<String>(json, r'id'),
         type: mapValueOfType<String>(json, r'type'),
-        startNumber: mapValueOfType<String>(json, r'startNumber'),
-        endNumber: mapValueOfType<String>(json, r'endNumber'),
-        currentNumber: mapValueOfType<String>(json, r'currentNumber'),
-        availableNumbers: mapValueOfType<int>(json, r'availableNumbers'),
+        nextNumber: mapValueOfType<String>(json, r'nextNumber'),
       );
     }
     return null;

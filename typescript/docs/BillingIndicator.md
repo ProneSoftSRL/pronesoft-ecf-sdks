@@ -1,5 +1,6 @@
 # BillingIndicator
 
+0: No Facturable, 1: Tasa 18%, 2: Tasa 16%, 3: Tasa 0%, 4: Exento
 
 ## Enum
 

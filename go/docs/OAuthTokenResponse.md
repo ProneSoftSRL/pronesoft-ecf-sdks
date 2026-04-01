@@ -4,16 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AccessToken** | **string** |  | 
-**TokenType** | **string** |  | 
-**ExpiresIn** | **int32** |  | 
-**Scope** | **[]string** |  | 
+**AccessToken** | Pointer to **string** |  | [optional] 
+**TokenType** | Pointer to **string** |  | [optional] 
+**ExpiresIn** | Pointer to **int32** |  | [optional] 
 
 ## Methods
 
 ### NewOAuthTokenResponse
 
-`func NewOAuthTokenResponse(accessToken string, tokenType string, expiresIn int32, scope []string, ) *OAuthTokenResponse`
+`func NewOAuthTokenResponse() *OAuthTokenResponse`
 
 NewOAuthTokenResponse instantiates a new OAuthTokenResponse object
 This constructor will assign default values to properties that have it defined,
@@ -47,6 +46,11 @@ and a boolean to check if the value has been set.
 
 SetAccessToken sets AccessToken field to given value.
 
+### HasAccessToken
+
+`func (o *OAuthTokenResponse) HasAccessToken() bool`
+
+HasAccessToken returns a boolean if a field has been set.
 
 ### GetTokenType
 
@@ -67,6 +71,11 @@ and a boolean to check if the value has been set.
 
 SetTokenType sets TokenType field to given value.
 
+### HasTokenType
+
+`func (o *OAuthTokenResponse) HasTokenType() bool`
+
+HasTokenType returns a boolean if a field has been set.
 
 ### GetExpiresIn
 
@@ -87,26 +96,11 @@ and a boolean to check if the value has been set.
 
 SetExpiresIn sets ExpiresIn field to given value.
 
+### HasExpiresIn
 
-### GetScope
+`func (o *OAuthTokenResponse) HasExpiresIn() bool`
 
-`func (o *OAuthTokenResponse) GetScope() []string`
-
-GetScope returns the Scope field if non-nil, zero value otherwise.
-
-### GetScopeOk
-
-`func (o *OAuthTokenResponse) GetScopeOk() (*[]string, bool)`
-
-GetScopeOk returns a tuple with the Scope field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetScope
-
-`func (o *OAuthTokenResponse) SetScope(v []string)`
-
-SetScope sets Scope field to given value.
-
+HasExpiresIn returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

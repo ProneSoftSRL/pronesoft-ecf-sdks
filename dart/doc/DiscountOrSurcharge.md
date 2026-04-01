@@ -9,14 +9,9 @@ import 'package:pronesoft_ecf/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **lineNumber** | **int** |  | 
-**type** | [**AdjustmentType**](AdjustmentType.md) |  | 
-**norm1007Indicator** | **String** |  | [optional] 
-**description** | **String** |  | [optional] 
+**type** | **String** |  | 
 **valueType** | **String** |  | 
-**percentageValue** | **num** |  | [optional] 
 **amount** | **num** |  | 
-**alternativeCurrencyAmount** | **num** |  | [optional] 
-**billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -6,7 +6,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **StatusCode** | Pointer to **int32** |  | [optional] 
 **Message** | Pointer to **string** |  | [optional] 
-**Error** | Pointer to **string** |  | [optional] 
 **Timestamp** | Pointer to **time.Time** |  | [optional] 
 
 ## Methods
@@ -77,31 +76,6 @@ SetMessage sets Message field to given value.
 `func (o *ErrorResponse) HasMessage() bool`
 
 HasMessage returns a boolean if a field has been set.
-
-### GetError
-
-`func (o *ErrorResponse) GetError() string`
-
-GetError returns the Error field if non-nil, zero value otherwise.
-
-### GetErrorOk
-
-`func (o *ErrorResponse) GetErrorOk() (*string, bool)`
-
-GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetError
-
-`func (o *ErrorResponse) SetError(v string)`
-
-SetError sets Error field to given value.
-
-### HasError
-
-`func (o *ErrorResponse) HasError() bool`
-
-HasError returns a boolean if a field has been set.
 
 ### GetTimestamp
 

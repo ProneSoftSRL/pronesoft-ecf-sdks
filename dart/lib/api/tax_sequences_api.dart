@@ -66,10 +66,12 @@ class TaxSequencesApi {
   ///
   /// Parameters:
   ///
+  /// * [String] xTenantId (required):
+  ///
   /// * [InvoiceType] type (required):
   ///
   /// * [Environment] environment (required):
-  Future<Response> getNextNumberWithHttpInfo(InvoiceType type, Environment environment,) async {
+  Future<Response> getNextNumberWithHttpInfo(String xTenantId, InvoiceType type, Environment environment,) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/next';
 
@@ -82,6 +84,8 @@ class TaxSequencesApi {
 
       queryParams.addAll(_queryParams('', 'type', type));
       queryParams.addAll(_queryParams('', 'environment', environment));
+
+    headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
 
     const contentTypes = <String>[];
 
@@ -101,11 +105,13 @@ class TaxSequencesApi {
   ///
   /// Parameters:
   ///
+  /// * [String] xTenantId (required):
+  ///
   /// * [InvoiceType] type (required):
   ///
   /// * [Environment] environment (required):
-  Future<GetNextNumber200Response?> getNextNumber(InvoiceType type, Environment environment,) async {
-    final response = await getNextNumberWithHttpInfo(type, environment,);
+  Future<GetNextNumber200Response?> getNextNumber(String xTenantId, InvoiceType type, Environment environment,) async {
+    final response = await getNextNumberWithHttpInfo(xTenantId, type, environment,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -125,8 +131,10 @@ class TaxSequencesApi {
   ///
   /// Parameters:
   ///
+  /// * [String] xTenantId (required):
+  ///
   /// * [InvoiceType] type:
-  Future<Response> listTaxSequencesWithHttpInfo({ InvoiceType? type, }) async {
+  Future<Response> listTaxSequencesWithHttpInfo(String xTenantId, { InvoiceType? type, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences';
 
@@ -140,6 +148,8 @@ class TaxSequencesApi {
     if (type != null) {
       queryParams.addAll(_queryParams('', 'type', type));
     }
+
+    headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
 
     const contentTypes = <String>[];
 
@@ -159,9 +169,11 @@ class TaxSequencesApi {
   ///
   /// Parameters:
   ///
+  /// * [String] xTenantId (required):
+  ///
   /// * [InvoiceType] type:
-  Future<ListTaxSequences200Response?> listTaxSequences({ InvoiceType? type, }) async {
-    final response = await listTaxSequencesWithHttpInfo( type: type, );
+  Future<ListTaxSequences200Response?> listTaxSequences(String xTenantId, { InvoiceType? type, }) async {
+    final response = await listTaxSequencesWithHttpInfo(xTenantId,  type: type, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

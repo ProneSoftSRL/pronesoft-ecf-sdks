@@ -5,18 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**shipment_date** | **str** |  | [optional] 
-**shipment_number** | **str** |  | [optional] 
-**container_number** | **str** |  | [optional] 
-**reference_number** | **str** |  | [optional] 
 **gross_weight** | **float** |  | [optional] 
-**net_weight** | **float** |  | [optional] 
-**gross_weight_unit** | **float** |  | [optional] 
-**net_weight_unit** | **float** |  | [optional] 
 **package_quantity** | **float** |  | [optional] 
-**package_unit** | **float** |  | [optional] 
-**package_volume** | **float** |  | [optional] 
-**volume_unit** | **float** |  | [optional] 
 
 ## Example
 

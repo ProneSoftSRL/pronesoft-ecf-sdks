@@ -13,44 +13,68 @@ part of openapi.api;
 class OAuthTokenResponse {
   /// Returns a new [OAuthTokenResponse] instance.
   OAuthTokenResponse({
-    required this.accessToken,
-    required this.tokenType,
-    required this.expiresIn,
-    this.scope = const [],
+    this.accessToken,
+    this.tokenType,
+    this.expiresIn,
   });
 
-  String accessToken;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? accessToken;
 
-  String tokenType;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? tokenType;
 
-  int expiresIn;
-
-  List<String> scope;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? expiresIn;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is OAuthTokenResponse &&
     other.accessToken == accessToken &&
     other.tokenType == tokenType &&
-    other.expiresIn == expiresIn &&
-    _deepEquality.equals(other.scope, scope);
+    other.expiresIn == expiresIn;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (accessToken.hashCode) +
-    (tokenType.hashCode) +
-    (expiresIn.hashCode) +
-    (scope.hashCode);
+    (accessToken == null ? 0 : accessToken!.hashCode) +
+    (tokenType == null ? 0 : tokenType!.hashCode) +
+    (expiresIn == null ? 0 : expiresIn!.hashCode);
 
   @override
-  String toString() => 'OAuthTokenResponse[accessToken=$accessToken, tokenType=$tokenType, expiresIn=$expiresIn, scope=$scope]';
+  String toString() => 'OAuthTokenResponse[accessToken=$accessToken, tokenType=$tokenType, expiresIn=$expiresIn]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.accessToken != null) {
       json[r'accessToken'] = this.accessToken;
+    } else {
+      json[r'accessToken'] = null;
+    }
+    if (this.tokenType != null) {
       json[r'tokenType'] = this.tokenType;
+    } else {
+      json[r'tokenType'] = null;
+    }
+    if (this.expiresIn != null) {
       json[r'expiresIn'] = this.expiresIn;
-      json[r'scope'] = this.scope;
+    } else {
+      json[r'expiresIn'] = null;
+    }
     return json;
   }
 
@@ -65,24 +89,13 @@ class OAuthTokenResponse {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        assert(json.containsKey(r'accessToken'), 'Required key "OAuthTokenResponse[accessToken]" is missing from JSON.');
-        assert(json[r'accessToken'] != null, 'Required key "OAuthTokenResponse[accessToken]" has a null value in JSON.');
-        assert(json.containsKey(r'tokenType'), 'Required key "OAuthTokenResponse[tokenType]" is missing from JSON.');
-        assert(json[r'tokenType'] != null, 'Required key "OAuthTokenResponse[tokenType]" has a null value in JSON.');
-        assert(json.containsKey(r'expiresIn'), 'Required key "OAuthTokenResponse[expiresIn]" is missing from JSON.');
-        assert(json[r'expiresIn'] != null, 'Required key "OAuthTokenResponse[expiresIn]" has a null value in JSON.');
-        assert(json.containsKey(r'scope'), 'Required key "OAuthTokenResponse[scope]" is missing from JSON.');
-        assert(json[r'scope'] != null, 'Required key "OAuthTokenResponse[scope]" has a null value in JSON.');
         return true;
       }());
 
       return OAuthTokenResponse(
-        accessToken: mapValueOfType<String>(json, r'accessToken')!,
-        tokenType: mapValueOfType<String>(json, r'tokenType')!,
-        expiresIn: mapValueOfType<int>(json, r'expiresIn')!,
-        scope: json[r'scope'] is Iterable
-            ? (json[r'scope'] as Iterable).cast<String>().toList(growable: false)
-            : const [],
+        accessToken: mapValueOfType<String>(json, r'accessToken'),
+        tokenType: mapValueOfType<String>(json, r'tokenType'),
+        expiresIn: mapValueOfType<int>(json, r'expiresIn'),
       );
     }
     return null;
@@ -130,10 +143,6 @@ class OAuthTokenResponse {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'accessToken',
-    'tokenType',
-    'expiresIn',
-    'scope',
   };
 }
 

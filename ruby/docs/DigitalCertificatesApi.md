@@ -18,6 +18,11 @@ Cargar Certificado Digital (P12)
 ```ruby
 require 'time'
 require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
 
 api_instance = PronesoftEcf::DigitalCertificatesApi.new
 rnc = 'rnc_example' # String | 
@@ -65,7 +70,7 @@ end
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

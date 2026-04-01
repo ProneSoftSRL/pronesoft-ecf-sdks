@@ -13,8 +13,8 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::OAuthTokenRequest.new(
-  client_id: app_12345,
-  client_secret: sk_live_123
+  client_id: null,
+  client_secret: null
 )
 ```
 

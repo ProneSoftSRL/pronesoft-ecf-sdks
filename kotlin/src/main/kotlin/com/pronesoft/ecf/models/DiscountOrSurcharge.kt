@@ -23,8 +23,6 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.AdjustmentType
-import com.pronesoft.ecf.models.BillingIndicator
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -36,11 +34,6 @@ import com.squareup.moshi.JsonClass
  * @param type 
  * @param valueType 
  * @param amount 
- * @param norm1007Indicator 
- * @param description 
- * @param percentageValue 
- * @param alternativeCurrencyAmount 
- * @param billingIndicator 
  */
 
 
@@ -50,31 +43,26 @@ data class DiscountOrSurcharge (
     val lineNumber: kotlin.Int,
 
     @Json(name = "type")
-    val type: AdjustmentType,
+    val type: DiscountOrSurcharge.Type,
 
     @Json(name = "valueType")
     val valueType: DiscountOrSurcharge.ValueType,
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal,
-
-    @Json(name = "norm1007Indicator")
-    val norm1007Indicator: DiscountOrSurcharge.Norm1007Indicator? = null,
-
-    @Json(name = "description")
-    val description: kotlin.String? = null,
-
-    @Json(name = "percentageValue")
-    val percentageValue: java.math.BigDecimal? = null,
-
-    @Json(name = "alternativeCurrencyAmount")
-    val alternativeCurrencyAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "billingIndicator")
-    val billingIndicator: BillingIndicator? = null
+    val amount: java.math.BigDecimal
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: D,R
+     */
+    @JsonClass(generateAdapter = false)
+    enum class Type(val value: kotlin.String) {
+        @Json(name = "D") D("D"),
+        @Json(name = "R") R("R");
+    }
     /**
      * 
      *
@@ -84,16 +72,6 @@ data class DiscountOrSurcharge (
     enum class ValueType(val value: kotlin.String) {
         @Json(name = "$") Dollar("$"),
         @Json(name = "%") Percent("%");
-    }
-    /**
-     * 
-     *
-     * Values: _0,_1
-     */
-    @JsonClass(generateAdapter = false)
-    enum class Norm1007Indicator(val value: kotlin.String) {
-        @Json(name = "0") _0("0"),
-        @Json(name = "1") _1("1");
     }
 
 }

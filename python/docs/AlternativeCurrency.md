@@ -7,8 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **str** |  | 
 **exchange_rate** | **float** |  | 
-**taxable_amount** | **float** |  | [optional] 
-**total_itbis** | **float** |  | [optional] 
 **total_amount** | **float** |  | [optional] 
 
 ## Example

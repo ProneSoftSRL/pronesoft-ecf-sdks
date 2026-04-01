@@ -13,7 +13,7 @@ import AnyCodable
 open class AuthenticationAPI {
 
     /**
-     Obtener token de acceso
+     Obtener token de acceso (OAuth 2.0)
      
      - parameter oAuthTokenRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -32,7 +32,7 @@ open class AuthenticationAPI {
     }
 
     /**
-     Obtener token de acceso
+     Obtener token de acceso (OAuth 2.0)
      - POST /oauth/token
      - parameter oAuthTokenRequest: (body)  
      - returns: RequestBuilder<OAuthTokenResponse> 

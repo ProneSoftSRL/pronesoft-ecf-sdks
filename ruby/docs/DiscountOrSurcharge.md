@@ -5,14 +5,9 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **line_number** | **Integer** |  |  |
-| **type** | [**AdjustmentType**](AdjustmentType.md) |  |  |
-| **norm1007_indicator** | **String** |  | [optional] |
-| **description** | **String** |  | [optional] |
+| **type** | **String** |  |  |
 | **value_type** | **String** |  |  |
-| **percentage_value** | **Float** |  | [optional] |
 | **amount** | **Float** |  |  |
-| **alternative_currency_amount** | **Float** |  | [optional] |
-| **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  | [optional] |
 
 ## Example
 
@@ -22,13 +17,8 @@ require 'pronesoft_ecf'
 instance = PronesoftEcf::DiscountOrSurcharge.new(
   line_number: null,
   type: null,
-  norm1007_indicator: null,
-  description: null,
   value_type: null,
-  percentage_value: null,
-  amount: null,
-  alternative_currency_amount: null,
-  billing_indicator: null
+  amount: null
 )
 ```
 

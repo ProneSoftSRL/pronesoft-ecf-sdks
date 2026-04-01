@@ -13,67 +13,17 @@ import AnyCodable
 open class ECFSubmissionAPI {
 
     /**
-     Consultar estatus trackId
+     Enviar e-CF a plataforma (Submit)
      
-     - parameter environment: (path)  
-     - parameter trackId: (path)  
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getEcfStatus(environment: Environment, trackId: String, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: TrackStatusResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return getEcfStatusWithRequestBuilder(environment: environment, trackId: trackId).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Consultar estatus trackId
-     - GET /{environment}/ecf/status/{trackId}
-     - parameter environment: (path)  
-     - parameter trackId: (path)  
-     - returns: RequestBuilder<TrackStatusResponse> 
-     */
-    open class func getEcfStatusWithRequestBuilder(environment: Environment, trackId: String) -> RequestBuilder<TrackStatusResponse> {
-        var localVariablePath = "/{environment}/ecf/status/{trackId}"
-        let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
-        let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{environment}", with: environmentPostEscape, options: .literal, range: nil)
-        let trackIdPreEscape = "\(APIHelper.mapValueToPathItem(trackId))"
-        let trackIdPostEscape = trackIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{trackId}", with: trackIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<TrackStatusResponse>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Enviar e-CF a plataforma
-     
+     - parameter xTenantId: (header)  
      - parameter environment: (path)  
      - parameter electronicDocument: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func submitEcf(environment: Environment, electronicDocument: ElectronicDocument, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfSubmissionResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return submitEcfWithRequestBuilder(environment: environment, electronicDocument: electronicDocument).execute(apiResponseQueue) { result in
+    open class func submitEcf(xTenantId: UUID, environment: Environment, electronicDocument: ElectronicDocument, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfSubmissionResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return submitEcfWithRequestBuilder(xTenantId: xTenantId, environment: environment, electronicDocument: electronicDocument).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -84,13 +34,17 @@ open class ECFSubmissionAPI {
     }
 
     /**
-     Enviar e-CF a plataforma
+     Enviar e-CF a plataforma (Submit)
      - POST /{environment}/ecf/submit
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter xTenantId: (header)  
      - parameter environment: (path)  
      - parameter electronicDocument: (body)  
      - returns: RequestBuilder<EcfSubmissionResponse> 
      */
-    open class func submitEcfWithRequestBuilder(environment: Environment, electronicDocument: ElectronicDocument) -> RequestBuilder<EcfSubmissionResponse> {
+    open class func submitEcfWithRequestBuilder(xTenantId: UUID, environment: Environment, electronicDocument: ElectronicDocument) -> RequestBuilder<EcfSubmissionResponse> {
         var localVariablePath = "/{environment}/ecf/submit"
         let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
         let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -102,12 +56,13 @@ open class ECFSubmissionAPI {
 
         let localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "application/json",
+            "x-tenant-id": xTenantId.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<EcfSubmissionResponse>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 }

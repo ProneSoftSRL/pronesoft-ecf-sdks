@@ -7,10 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | [optional] 
 **type** | **str** |  | [optional] 
-**start_number** | **str** |  | [optional] 
-**end_number** | **str** |  | [optional] 
-**current_number** | **str** |  | [optional] 
-**available_numbers** | **int** |  | [optional] 
+**next_number** | **str** |  | [optional] 
 
 ## Example
 

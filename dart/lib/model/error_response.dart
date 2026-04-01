@@ -15,7 +15,6 @@ class ErrorResponse {
   ErrorResponse({
     this.statusCode,
     this.message,
-    this.error,
     this.timestamp,
   });
 
@@ -41,21 +40,12 @@ class ErrorResponse {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? error;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   DateTime? timestamp;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ErrorResponse &&
     other.statusCode == statusCode &&
     other.message == message &&
-    other.error == error &&
     other.timestamp == timestamp;
 
   @override
@@ -63,11 +53,10 @@ class ErrorResponse {
     // ignore: unnecessary_parenthesis
     (statusCode == null ? 0 : statusCode!.hashCode) +
     (message == null ? 0 : message!.hashCode) +
-    (error == null ? 0 : error!.hashCode) +
     (timestamp == null ? 0 : timestamp!.hashCode);
 
   @override
-  String toString() => 'ErrorResponse[statusCode=$statusCode, message=$message, error=$error, timestamp=$timestamp]';
+  String toString() => 'ErrorResponse[statusCode=$statusCode, message=$message, timestamp=$timestamp]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -80,11 +69,6 @@ class ErrorResponse {
       json[r'message'] = this.message;
     } else {
       json[r'message'] = null;
-    }
-    if (this.error != null) {
-      json[r'error'] = this.error;
-    } else {
-      json[r'error'] = null;
     }
     if (this.timestamp != null) {
       json[r'timestamp'] = this.timestamp!.toUtc().toIso8601String();
@@ -111,7 +95,6 @@ class ErrorResponse {
       return ErrorResponse(
         statusCode: mapValueOfType<int>(json, r'statusCode'),
         message: mapValueOfType<String>(json, r'message'),
-        error: mapValueOfType<String>(json, r'error'),
         timestamp: mapDateTime(json, r'timestamp', r''),
       );
     }

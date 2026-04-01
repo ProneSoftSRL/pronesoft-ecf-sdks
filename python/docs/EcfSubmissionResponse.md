@@ -7,19 +7,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **success** | **bool** |  | 
 **document_id** | **UUID** |  | 
-**contingency_mode** | **bool** |  | [optional] 
-**is_summary** | **bool** |  | [optional] 
-**message** | **str** |  | [optional] 
-**estimated_process_time** | **str** |  | [optional] 
 **encf** | **str** |  | [optional] 
-**qr_url** | **str** |  | [optional] 
-**signature_time** | **datetime** |  | [optional] 
-**security_code** | **str** |  | [optional] 
-**document_type** | **str** |  | [optional] 
-**print_url** | **str** |  | [optional] 
-**dgii_response** | [**DgiiResponseData**](DgiiResponseData.md) |  | [optional] 
-**auth_type** | **str** |  | 
-**timestamp** | **datetime** |  | 
+**track_id** | **str** |  | [optional] 
+**message** | **str** |  | [optional] 
 
 ## Example
 

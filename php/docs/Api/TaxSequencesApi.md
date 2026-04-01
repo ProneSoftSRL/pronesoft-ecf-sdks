@@ -26,11 +26,15 @@ Crear nueva secuencia fiscal
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
+    new GuzzleHttp\Client(),
+    $config
 );
 $create_tax_sequence_request = new \PronesoftEcf\Model\CreateTaxSequenceRequest(); // \PronesoftEcf\Model\CreateTaxSequenceRequest
 
@@ -53,7 +57,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -67,7 +71,7 @@ No authorization required
 ## `getNextNumber()`
 
 ```php
-getNextNumber($type, $environment): \PronesoftEcf\Model\GetNextNumber200Response
+getNextNumber($x_tenant_id, $type, $environment): \PronesoftEcf\Model\GetNextNumber200Response
 ```
 
 Obtener próximo número disponible
@@ -79,17 +83,22 @@ Obtener próximo número disponible
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
+    new GuzzleHttp\Client(),
+    $config
 );
+$x_tenant_id = 'x_tenant_id_example'; // string
 $type = new \PronesoftEcf\Model\\PronesoftEcf\Model\InvoiceType(); // \PronesoftEcf\Model\InvoiceType
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 
 try {
-    $result = $apiInstance->getNextNumber($type, $environment);
+    $result = $apiInstance->getNextNumber($x_tenant_id, $type, $environment);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TaxSequencesApi->getNextNumber: ', $e->getMessage(), PHP_EOL;
@@ -100,6 +109,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **x_tenant_id** | **string**|  | |
 | **type** | [**\PronesoftEcf\Model\InvoiceType**](../Model/.md)|  | |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
 
@@ -109,7 +119,7 @@ try {
 
 ### Authorization
 
-No authorization required
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -123,7 +133,7 @@ No authorization required
 ## `listTaxSequences()`
 
 ```php
-listTaxSequences($type): \PronesoftEcf\Model\ListTaxSequences200Response
+listTaxSequences($x_tenant_id, $type): \PronesoftEcf\Model\ListTaxSequences200Response
 ```
 
 Listar secuencias fiscales
@@ -135,16 +145,21 @@ Listar secuencias fiscales
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
+    new GuzzleHttp\Client(),
+    $config
 );
+$x_tenant_id = 'x_tenant_id_example'; // string
 $type = new \PronesoftEcf\Model\\PronesoftEcf\Model\InvoiceType(); // \PronesoftEcf\Model\InvoiceType
 
 try {
-    $result = $apiInstance->listTaxSequences($type);
+    $result = $apiInstance->listTaxSequences($x_tenant_id, $type);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TaxSequencesApi->listTaxSequences: ', $e->getMessage(), PHP_EOL;
@@ -155,6 +170,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
+| **x_tenant_id** | **string**|  | |
 | **type** | [**\PronesoftEcf\Model\InvoiceType**](../Model/.md)|  | [optional] |
 
 ### Return type
@@ -163,7 +179,7 @@ try {
 
 ### Authorization
 
-No authorization required
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 

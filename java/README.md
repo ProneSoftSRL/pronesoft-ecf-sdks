@@ -1,15 +1,16 @@
 # ecf-sdk
 
 eCF-Pronesoft Master Integration API
-- API version: 1.0.0
-  - Build date: 2026-03-31T21:14:00.754321785-04:00[America/Santo_Domingo]
+- API version: 1.1.0
+  - Build date: 2026-03-31T21:52:21.903973188-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
-Especificación de producción 100% exacta de la API de eCF-Pronesoft.
-**Diseñada para la generación automática de SDKs.**
+Especificación de producción **200% detallada** de la API de eCF-Pronesoft.
+**Optimizada para la generación de SDKs de alta fidelidad.**
 
-Esta especificación ha sido auditada contra el código fuente real (DTOs, Controllers y Guards), 
-reflejando con total precisión la obligatoriedad de los campos y las estructuras de respuesta.
+Esta especificación es el resultado de una auditoría exhaustiva del código fuente (NestJS),
+cubriendo el 100% de los DTOs, validaciones con regex, esquemas de Webhooks y 
+flujos de seguridad OAuth 2.0.
 
 
 
@@ -46,7 +47,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.pronesoft</groupId>
   <artifactId>ecf-sdk</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -62,7 +63,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.pronesoft:ecf-sdk:1.0.0"
+     implementation "com.pronesoft:ecf-sdk:1.0.1"
   }
 ```
 
@@ -76,7 +77,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/ecf-sdk-1.0.0.jar`
+* `target/ecf-sdk-1.0.1.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -90,19 +91,20 @@ import Pronesoft.Ecf.ApiClient;
 import Pronesoft.Ecf.ApiException;
 import Pronesoft.Ecf.Configuration;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import org.openapitools.client.api.AuthenticationApi;
 
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
 
-    AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
+    AuthenticationApi apiInstance = new AuthenticationApi(defaultClient);
+    OAuthTokenRequest oauthTokenRequest = new OAuthTokenRequest(); // OAuthTokenRequest | 
     try {
-      List<AssociatedCompany> result = apiInstance.listAssociatedCompanies();
+      OAuthTokenResponse result = apiInstance.getAccessToken(oauthTokenRequest);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling AssociatedCompaniesApi#listAssociatedCompanies");
+      System.err.println("Exception when calling AuthenticationApi#getAccessToken");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -119,78 +121,55 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar sucursales
-*AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso
-*AutomatedCertificationApi* | [**listNiches**](docs/AutomatedCertificationApi.md#listNiches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos
-*AutomatedCertificationApi* | [**startCertification**](docs/AutomatedCertificationApi.md#startCertification) | **POST** /dgii-ecf/automated-certification/start | Iniciar certificación
-*CommercialApprovalsApi* | [**listApprovals**](docs/CommercialApprovalsApi.md#listApprovals) | **GET** /documents/approvals/all | Listar aprobaciones
+*AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
 *DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)
-*DocumentsReceivedApi* | [**listReceivedDocuments**](docs/DocumentsReceivedApi.md#listReceivedDocuments) | **GET** /documents/received/all | Listar documentos recibidos
-*DocumentsSentApi* | [**listSentDocuments**](docs/DocumentsSentApi.md#listSentDocuments) | **GET** /documents/sent | Listar documentos enviados
-*ECfSubmissionApi* | [**getEcfStatus**](docs/ECfSubmissionApi.md#getEcfStatus) | **GET** /{environment}/ecf/status/{trackId} | Consultar estatus trackId
-*ECfSubmissionApi* | [**submitEcf**](docs/ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma
-*ReportsApi* | [**export606**](docs/ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606
-*ReportsApi* | [**exportSent**](docs/ReportsApi.md#exportSent) | **GET** /dgii/sent/export | Exportar documentos enviados
+*ECfSubmissionApi* | [**submitEcf**](docs/ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
 *TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal
 *TaxSequencesApi* | [**getNextNumber**](docs/TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Obtener próximo número disponible
 *TaxSequencesApi* | [**listTaxSequences**](docs/TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | Listar secuencias fiscales
-*WebhooksApi* | [**listWebhooks**](docs/WebhooksApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar webhooks
+*WebhookConfigurationApi* | [**createWebhook**](docs/WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook
+*WebhookConfigurationApi* | [**deleteWebhook**](docs/WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook
+*WebhookConfigurationApi* | [**listWebhooks**](docs/WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks
 
 
 ## Documentation for Models
 
- - [AccountType](docs/AccountType.md)
  - [AdditionalInfo](docs/AdditionalInfo.md)
- - [AdditionalTax](docs/AdditionalTax.md)
- - [AdjustmentType](docs/AdjustmentType.md)
  - [AlternativeCurrency](docs/AlternativeCurrency.md)
- - [AssociatedCompany](docs/AssociatedCompany.md)
  - [BillingIndicator](docs/BillingIndicator.md)
  - [Buyer](docs/Buyer.md)
- - [CommercialApproval](docs/CommercialApproval.md)
+ - [CertificationCompletedPayload](docs/CertificationCompletedPayload.md)
+ - [CommercialApprovalPayload](docs/CommercialApprovalPayload.md)
  - [CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
- - [DgiiMensaje](docs/DgiiMensaje.md)
- - [DgiiResponseData](docs/DgiiResponseData.md)
- - [DiscountDetail](docs/DiscountDetail.md)
+ - [CreateWebhookConfig](docs/CreateWebhookConfig.md)
  - [DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
+ - [DocumentReceivedPayload](docs/DocumentReceivedPayload.md)
+ - [DocumentStatusChangedPayload](docs/DocumentStatusChangedPayload.md)
  - [EcfSubmissionResponse](docs/EcfSubmissionResponse.md)
  - [ElectronicDocument](docs/ElectronicDocument.md)
  - [Environment](docs/Environment.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [GetNextNumber200Response](docs/GetNextNumber200Response.md)
  - [GetNextNumber200ResponseData](docs/GetNextNumber200ResponseData.md)
- - [IncomeType](docs/IncomeType.md)
  - [InvoiceType](docs/InvoiceType.md)
  - [Item](docs/Item.md)
  - [ItemAdditionalTax](docs/ItemAdditionalTax.md)
- - [ItemAlternativeCurrency](docs/ItemAlternativeCurrency.md)
- - [ItemCode](docs/ItemCode.md)
- - [ItemType](docs/ItemType.md)
- - [ListApprovals200Response](docs/ListApprovals200Response.md)
  - [ListTaxSequences200Response](docs/ListTaxSequences200Response.md)
- - [MiningInfo](docs/MiningInfo.md)
- - [ModificationCode](docs/ModificationCode.md)
- - [Niche](docs/Niche.md)
  - [OAuthTokenRequest](docs/OAuthTokenRequest.md)
  - [OAuthTokenResponse](docs/OAuthTokenResponse.md)
  - [Page](docs/Page.md)
- - [PaginatedResponse](docs/PaginatedResponse.md)
- - [PaginationMeta](docs/PaginationMeta.md)
- - [PaymentForm](docs/PaymentForm.md)
  - [PaymentMethod](docs/PaymentMethod.md)
- - [PaymentType](docs/PaymentType.md)
  - [ReferenceInfo](docs/ReferenceInfo.md)
- - [StartCertification200Response](docs/StartCertification200Response.md)
- - [StartCertificationRequest](docs/StartCertificationRequest.md)
  - [Subquantity](docs/Subquantity.md)
  - [Subtotal](docs/Subtotal.md)
- - [SurchargeDetail](docs/SurchargeDetail.md)
  - [TaxSequence](docs/TaxSequence.md)
  - [Totals](docs/Totals.md)
- - [TrackStatusResponse](docs/TrackStatusResponse.md)
  - [Transport](docs/Transport.md)
  - [UploadCertificate201Response](docs/UploadCertificate201Response.md)
- - [WebhookConfig](docs/WebhookConfig.md)
+ - [WebhookConfigResponse](docs/WebhookConfigResponse.md)
+ - [WebhookEventType](docs/WebhookEventType.md)
+ - [WebhookNotificationPayload](docs/WebhookNotificationPayload.md)
+ - [WebhookNotificationPayloadData](docs/WebhookNotificationPayloadData.md)
 
 
 <a id="documentation-for-authorization"></a>
@@ -198,17 +177,17 @@ Class | Method | HTTP request | Description
 
 
 Authentication schemes defined for the API:
-<a id="bearerAuth"></a>
-### bearerAuth
+<a id="oauth2"></a>
+### oauth2
 
-- **Type**: HTTP Bearer Token authentication (JWT)
-
-<a id="tenantIdHeader"></a>
-### tenantIdHeader
-
-- **Type**: API key
-- **API key parameter name**: x-tenant-id
-- **Location**: HTTP header
+- **Type**: OAuth
+- **Flow**: application
+- **Authorization URL**: 
+- **Scopes**: 
+  - documents:read: Acceso de lectura a documentos enviados/recibidos.
+  - documents:write: Permisos para enviar y modificar documentos.
+  - ecf:submit: Permiso especializado para el envío de facturas e-CF.
+  - admin: Acceso administrativo completo a la plataforma.
 
 
 ## Recommendation

@@ -14,79 +14,31 @@ class ReferenceInfo {
   /// Returns a new [ReferenceInfo] instance.
   ReferenceInfo({
     required this.modifiedInvoiceNumber,
-    this.otherContributorRNC,
-    this.modifiedInvoiceDate,
     required this.modificationCode,
-    this.modificationReason,
   });
 
   String modifiedInvoiceNumber;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? otherContributorRNC;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DateTime? modifiedInvoiceDate;
-
-  ModificationCode modificationCode;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? modificationReason;
+  ReferenceInfoModificationCodeEnum modificationCode;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReferenceInfo &&
     other.modifiedInvoiceNumber == modifiedInvoiceNumber &&
-    other.otherContributorRNC == otherContributorRNC &&
-    other.modifiedInvoiceDate == modifiedInvoiceDate &&
-    other.modificationCode == modificationCode &&
-    other.modificationReason == modificationReason;
+    other.modificationCode == modificationCode;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (modifiedInvoiceNumber.hashCode) +
-    (otherContributorRNC == null ? 0 : otherContributorRNC!.hashCode) +
-    (modifiedInvoiceDate == null ? 0 : modifiedInvoiceDate!.hashCode) +
-    (modificationCode.hashCode) +
-    (modificationReason == null ? 0 : modificationReason!.hashCode);
+    (modificationCode.hashCode);
 
   @override
-  String toString() => 'ReferenceInfo[modifiedInvoiceNumber=$modifiedInvoiceNumber, otherContributorRNC=$otherContributorRNC, modifiedInvoiceDate=$modifiedInvoiceDate, modificationCode=$modificationCode, modificationReason=$modificationReason]';
+  String toString() => 'ReferenceInfo[modifiedInvoiceNumber=$modifiedInvoiceNumber, modificationCode=$modificationCode]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'modifiedInvoiceNumber'] = this.modifiedInvoiceNumber;
-    if (this.otherContributorRNC != null) {
-      json[r'otherContributorRNC'] = this.otherContributorRNC;
-    } else {
-      json[r'otherContributorRNC'] = null;
-    }
-    if (this.modifiedInvoiceDate != null) {
-      json[r'modifiedInvoiceDate'] = this.modifiedInvoiceDate!.toUtc().toIso8601String();
-    } else {
-      json[r'modifiedInvoiceDate'] = null;
-    }
       json[r'modificationCode'] = this.modificationCode;
-    if (this.modificationReason != null) {
-      json[r'modificationReason'] = this.modificationReason;
-    } else {
-      json[r'modificationReason'] = null;
-    }
     return json;
   }
 
@@ -110,10 +62,7 @@ class ReferenceInfo {
 
       return ReferenceInfo(
         modifiedInvoiceNumber: mapValueOfType<String>(json, r'modifiedInvoiceNumber')!,
-        otherContributorRNC: mapValueOfType<String>(json, r'otherContributorRNC'),
-        modifiedInvoiceDate: mapDateTime(json, r'modifiedInvoiceDate', r''),
-        modificationCode: ModificationCode.fromJson(json[r'modificationCode'])!,
-        modificationReason: mapValueOfType<String>(json, r'modificationReason'),
+        modificationCode: ReferenceInfoModificationCodeEnum.fromJson(json[r'modificationCode'])!,
       );
     }
     return null;
@@ -165,4 +114,87 @@ class ReferenceInfo {
     'modificationCode',
   };
 }
+
+
+class ReferenceInfoModificationCodeEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ReferenceInfoModificationCodeEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n1 = ReferenceInfoModificationCodeEnum._(r'1');
+  static const n2 = ReferenceInfoModificationCodeEnum._(r'2');
+  static const n3 = ReferenceInfoModificationCodeEnum._(r'3');
+  static const n4 = ReferenceInfoModificationCodeEnum._(r'4');
+  static const n5 = ReferenceInfoModificationCodeEnum._(r'5');
+
+  /// List of all possible values in this [enum][ReferenceInfoModificationCodeEnum].
+  static const values = <ReferenceInfoModificationCodeEnum>[
+    n1,
+    n2,
+    n3,
+    n4,
+    n5,
+  ];
+
+  static ReferenceInfoModificationCodeEnum? fromJson(dynamic value) => ReferenceInfoModificationCodeEnumTypeTransformer().decode(value);
+
+  static List<ReferenceInfoModificationCodeEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ReferenceInfoModificationCodeEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ReferenceInfoModificationCodeEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ReferenceInfoModificationCodeEnum] to String,
+/// and [decode] dynamic data back to [ReferenceInfoModificationCodeEnum].
+class ReferenceInfoModificationCodeEnumTypeTransformer {
+  factory ReferenceInfoModificationCodeEnumTypeTransformer() => _instance ??= const ReferenceInfoModificationCodeEnumTypeTransformer._();
+
+  const ReferenceInfoModificationCodeEnumTypeTransformer._();
+
+  String encode(ReferenceInfoModificationCodeEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ReferenceInfoModificationCodeEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ReferenceInfoModificationCodeEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'1': return ReferenceInfoModificationCodeEnum.n1;
+        case r'2': return ReferenceInfoModificationCodeEnum.n2;
+        case r'3': return ReferenceInfoModificationCodeEnum.n3;
+        case r'4': return ReferenceInfoModificationCodeEnum.n4;
+        case r'5': return ReferenceInfoModificationCodeEnum.n5;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ReferenceInfoModificationCodeEnumTypeTransformer] instance.
+  static ReferenceInfoModificationCodeEnumTypeTransformer? _instance;
+}
+
 

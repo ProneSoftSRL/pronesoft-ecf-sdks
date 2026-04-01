@@ -4,61 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**getEcfStatus**](ECFSubmissionApi.md#getEcfStatus) | **GET** /{environment}/ecf/status/{trackId} | Consultar estatus trackId |
-| [**submitEcf**](ECFSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma |
+| [**submitEcf**](ECFSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit) |
 
-
-<a id="getEcfStatus"></a>
-# **getEcfStatus**
-> TrackStatusResponse getEcfStatus(environment, trackId)
-
-Consultar estatus trackId
-
-### Example
-```kotlin
-// Import classes:
-//import com.pronesoft.ecf.infrastructure.*
-//import com.pronesoft.ecf.models.*
-
-val apiInstance = ECFSubmissionApi()
-val environment : Environment =  // Environment | 
-val trackId : kotlin.String = trackId_example // kotlin.String | 
-try {
-    val result : TrackStatusResponse = apiInstance.getEcfStatus(environment, trackId)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling ECFSubmissionApi#getEcfStatus")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling ECFSubmissionApi#getEcfStatus")
-    e.printStackTrace()
-}
-```
-
-### Parameters
-| **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
-| Name | Type | Description  | Notes |
-| ------------- | ------------- | ------------- | ------------- |
-| **trackId** | **kotlin.String**|  | |
-
-### Return type
-
-[**TrackStatusResponse**](TrackStatusResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
 
 <a id="submitEcf"></a>
 # **submitEcf**
-> EcfSubmissionResponse submitEcf(environment, electronicDocument)
+> EcfSubmissionResponse submitEcf(xTenantId, environment, electronicDocument)
 
-Enviar e-CF a plataforma
+Enviar e-CF a plataforma (Submit)
 
 ### Example
 ```kotlin
@@ -67,10 +20,11 @@ Enviar e-CF a plataforma
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = ECFSubmissionApi()
+val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
 val environment : Environment =  // Environment | 
 val electronicDocument : ElectronicDocument =  // ElectronicDocument | 
 try {
-    val result : EcfSubmissionResponse = apiInstance.submitEcf(environment, electronicDocument)
+    val result : EcfSubmissionResponse = apiInstance.submitEcf(xTenantId, environment, electronicDocument)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ECFSubmissionApi#submitEcf")
@@ -82,6 +36,7 @@ try {
 ```
 
 ### Parameters
+| **xTenantId** | **java.util.UUID**|  | |
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
@@ -93,7 +48,9 @@ try {
 
 ### Authorization
 
-No authorization required
+
+Configure oauth2:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 

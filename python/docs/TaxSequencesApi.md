@@ -16,6 +16,7 @@ Crear nueva secuencia fiscal
 
 ### Example
 
+* OAuth Authentication (oauth2):
 
 ```python
 import pronesoft_ecf
@@ -29,6 +30,12 @@ configuration = pronesoft_ecf.Configuration(
     host = "https://api.ecf.sandbox.pronesoft.com/api/v1"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
@@ -58,7 +65,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -74,12 +81,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_next_number**
-> GetNextNumber200Response get_next_number(type, environment)
+> GetNextNumber200Response get_next_number(x_tenant_id, type, environment)
 
 Obtener próximo número disponible
 
 ### Example
 
+* OAuth Authentication (oauth2):
 
 ```python
 import pronesoft_ecf
@@ -95,17 +103,24 @@ configuration = pronesoft_ecf.Configuration(
     host = "https://api.ecf.sandbox.pronesoft.com/api/v1"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
+    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
     type = pronesoft_ecf.InvoiceType() # InvoiceType | 
     environment = pronesoft_ecf.Environment() # Environment | 
 
     try:
         # Obtener próximo número disponible
-        api_response = api_instance.get_next_number(type, environment)
+        api_response = api_instance.get_next_number(x_tenant_id, type, environment)
         print("The response of TaxSequencesApi->get_next_number:\n")
         pprint(api_response)
     except Exception as e:
@@ -119,6 +134,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **x_tenant_id** | **UUID**|  | 
  **type** | [**InvoiceType**](.md)|  | 
  **environment** | [**Environment**](.md)|  | 
 
@@ -128,7 +144,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -139,17 +155,18 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Próximo número |  -  |
+**200** | Próximo número e-NCF |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_tax_sequences**
-> ListTaxSequences200Response list_tax_sequences(type=type)
+> ListTaxSequences200Response list_tax_sequences(x_tenant_id, type=type)
 
 Listar secuencias fiscales
 
 ### Example
 
+* OAuth Authentication (oauth2):
 
 ```python
 import pronesoft_ecf
@@ -164,16 +181,23 @@ configuration = pronesoft_ecf.Configuration(
     host = "https://api.ecf.sandbox.pronesoft.com/api/v1"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
+    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
     type = pronesoft_ecf.InvoiceType() # InvoiceType |  (optional)
 
     try:
         # Listar secuencias fiscales
-        api_response = api_instance.list_tax_sequences(type=type)
+        api_response = api_instance.list_tax_sequences(x_tenant_id, type=type)
         print("The response of TaxSequencesApi->list_tax_sequences:\n")
         pprint(api_response)
     except Exception as e:
@@ -187,6 +211,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **x_tenant_id** | **UUID**|  | 
  **type** | [**InvoiceType**](.md)|  | [optional] 
 
 ### Return type
@@ -195,7 +220,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

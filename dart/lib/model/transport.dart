@@ -14,13 +14,8 @@ class Transport {
   /// Returns a new [Transport] instance.
   Transport({
     this.driver,
-    this.document,
     this.vehicleId,
     this.licensePlate,
-    this.route,
-    this.zone,
-    this.deliveryNoteNumber,
-    this.destinationCountry,
   });
 
   ///
@@ -30,14 +25,6 @@ class Transport {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? driver;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? document;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -55,63 +42,21 @@ class Transport {
   ///
   String? licensePlate;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? route;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? zone;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? deliveryNoteNumber;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? destinationCountry;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is Transport &&
     other.driver == driver &&
-    other.document == document &&
     other.vehicleId == vehicleId &&
-    other.licensePlate == licensePlate &&
-    other.route == route &&
-    other.zone == zone &&
-    other.deliveryNoteNumber == deliveryNoteNumber &&
-    other.destinationCountry == destinationCountry;
+    other.licensePlate == licensePlate;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (driver == null ? 0 : driver!.hashCode) +
-    (document == null ? 0 : document!.hashCode) +
     (vehicleId == null ? 0 : vehicleId!.hashCode) +
-    (licensePlate == null ? 0 : licensePlate!.hashCode) +
-    (route == null ? 0 : route!.hashCode) +
-    (zone == null ? 0 : zone!.hashCode) +
-    (deliveryNoteNumber == null ? 0 : deliveryNoteNumber!.hashCode) +
-    (destinationCountry == null ? 0 : destinationCountry!.hashCode);
+    (licensePlate == null ? 0 : licensePlate!.hashCode);
 
   @override
-  String toString() => 'Transport[driver=$driver, document=$document, vehicleId=$vehicleId, licensePlate=$licensePlate, route=$route, zone=$zone, deliveryNoteNumber=$deliveryNoteNumber, destinationCountry=$destinationCountry]';
+  String toString() => 'Transport[driver=$driver, vehicleId=$vehicleId, licensePlate=$licensePlate]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -119,11 +64,6 @@ class Transport {
       json[r'driver'] = this.driver;
     } else {
       json[r'driver'] = null;
-    }
-    if (this.document != null) {
-      json[r'document'] = this.document;
-    } else {
-      json[r'document'] = null;
     }
     if (this.vehicleId != null) {
       json[r'vehicleId'] = this.vehicleId;
@@ -134,26 +74,6 @@ class Transport {
       json[r'licensePlate'] = this.licensePlate;
     } else {
       json[r'licensePlate'] = null;
-    }
-    if (this.route != null) {
-      json[r'route'] = this.route;
-    } else {
-      json[r'route'] = null;
-    }
-    if (this.zone != null) {
-      json[r'zone'] = this.zone;
-    } else {
-      json[r'zone'] = null;
-    }
-    if (this.deliveryNoteNumber != null) {
-      json[r'deliveryNoteNumber'] = this.deliveryNoteNumber;
-    } else {
-      json[r'deliveryNoteNumber'] = null;
-    }
-    if (this.destinationCountry != null) {
-      json[r'destinationCountry'] = this.destinationCountry;
-    } else {
-      json[r'destinationCountry'] = null;
     }
     return json;
   }
@@ -174,13 +94,8 @@ class Transport {
 
       return Transport(
         driver: mapValueOfType<String>(json, r'driver'),
-        document: mapValueOfType<String>(json, r'document'),
         vehicleId: mapValueOfType<String>(json, r'vehicleId'),
         licensePlate: mapValueOfType<String>(json, r'licensePlate'),
-        route: mapValueOfType<String>(json, r'route'),
-        zone: mapValueOfType<String>(json, r'zone'),
-        deliveryNoteNumber: mapValueOfType<String>(json, r'deliveryNoteNumber'),
-        destinationCountry: mapValueOfType<String>(json, r'destinationCountry'),
       );
     }
     return null;

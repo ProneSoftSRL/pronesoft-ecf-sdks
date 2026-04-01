@@ -10,7 +10,7 @@
 
 part of openapi.api;
 
-
+/// 0: No Facturable, 1: Tasa 18%, 2: Tasa 16%, 3: Tasa 0%, 4: Exento
 class BillingIndicator {
   /// Instantiate a new enum with the provided [value].
   const BillingIndicator._(this.value);

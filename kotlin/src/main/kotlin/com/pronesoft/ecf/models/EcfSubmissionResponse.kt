@@ -23,7 +23,6 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.DgiiResponseData
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -33,19 +32,9 @@ import com.squareup.moshi.JsonClass
  *
  * @param success 
  * @param documentId 
- * @param authType 
- * @param timestamp 
- * @param contingencyMode 
- * @param isSummary 
- * @param message 
- * @param estimatedProcessTime 
  * @param encf 
- * @param qrUrl 
- * @param signatureTime 
- * @param securityCode 
- * @param documentType 
- * @param printUrl 
- * @param dgiiResponse 
+ * @param trackId 
+ * @param message 
  */
 
 
@@ -57,57 +46,17 @@ data class EcfSubmissionResponse (
     @Json(name = "documentId")
     val documentId: java.util.UUID,
 
-    @Json(name = "authType")
-    val authType: EcfSubmissionResponse.AuthType,
-
-    @Json(name = "timestamp")
-    val timestamp: java.time.OffsetDateTime,
-
-    @Json(name = "contingencyMode")
-    val contingencyMode: kotlin.Boolean? = null,
-
-    @Json(name = "isSummary")
-    val isSummary: kotlin.Boolean? = null,
-
-    @Json(name = "message")
-    val message: kotlin.String? = null,
-
-    @Json(name = "estimatedProcessTime")
-    val estimatedProcessTime: kotlin.String? = null,
-
     @Json(name = "encf")
     val encf: kotlin.String? = null,
 
-    @Json(name = "qrUrl")
-    val qrUrl: java.net.URI? = null,
+    @Json(name = "trackId")
+    val trackId: kotlin.String? = null,
 
-    @Json(name = "signatureTime")
-    val signatureTime: java.time.OffsetDateTime? = null,
-
-    @Json(name = "securityCode")
-    val securityCode: kotlin.String? = null,
-
-    @Json(name = "documentType")
-    val documentType: kotlin.String? = null,
-
-    @Json(name = "printUrl")
-    val printUrl: java.net.URI? = null,
-
-    @Json(name = "dgiiResponse")
-    val dgiiResponse: DgiiResponseData? = null
+    @Json(name = "message")
+    val message: kotlin.String? = null
 
 ) {
 
-    /**
-     * 
-     *
-     * Values: JWT,API_KEY
-     */
-    @JsonClass(generateAdapter = false)
-    enum class AuthType(val value: kotlin.String) {
-        @Json(name = "JWT") JWT("JWT"),
-        @Json(name = "API_KEY") API_KEY("API_KEY");
-    }
 
 }
 

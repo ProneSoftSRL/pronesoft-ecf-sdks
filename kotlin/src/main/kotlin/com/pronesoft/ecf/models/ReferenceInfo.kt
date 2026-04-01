@@ -23,7 +23,6 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.ModificationCode
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -33,9 +32,6 @@ import com.squareup.moshi.JsonClass
  *
  * @param modifiedInvoiceNumber 
  * @param modificationCode 
- * @param otherContributorRNC 
- * @param modifiedInvoiceDate 
- * @param modificationReason 
  */
 
 
@@ -45,19 +41,23 @@ data class ReferenceInfo (
     val modifiedInvoiceNumber: kotlin.String,
 
     @Json(name = "modificationCode")
-    val modificationCode: ModificationCode,
-
-    @Json(name = "otherContributorRNC")
-    val otherContributorRNC: kotlin.String? = null,
-
-    @Json(name = "modifiedInvoiceDate")
-    val modifiedInvoiceDate: java.time.OffsetDateTime? = null,
-
-    @Json(name = "modificationReason")
-    val modificationReason: kotlin.String? = null
+    val modificationCode: ReferenceInfo.ModificationCode
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: _1,_2,_3,_4,_5
+     */
+    @JsonClass(generateAdapter = false)
+    enum class ModificationCode(val value: kotlin.String) {
+        @Json(name = "1") _1("1"),
+        @Json(name = "2") _2("2"),
+        @Json(name = "3") _3("3"),
+        @Json(name = "4") _4("4"),
+        @Json(name = "5") _5("5");
+    }
 
 }
 

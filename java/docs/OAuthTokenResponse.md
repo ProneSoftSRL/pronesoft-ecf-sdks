@@ -7,10 +7,9 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**accessToken** | **String** |  |  |
-|**tokenType** | **String** |  |  |
-|**expiresIn** | **Integer** |  |  |
-|**scope** | **List&lt;String&gt;** |  |  |
+|**accessToken** | **String** |  |  [optional] |
+|**tokenType** | **String** |  |  [optional] |
+|**expiresIn** | **Integer** |  |  [optional] |
 
 
 

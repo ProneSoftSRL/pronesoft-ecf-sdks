@@ -23,7 +23,6 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.InvoiceType
 
 import com.squareup.moshi.Json
@@ -35,7 +34,6 @@ import com.squareup.moshi.JsonClass
  * @param type 
  * @param from 
  * @param to 
- * @param environment 
  */
 
 
@@ -48,10 +46,7 @@ data class CreateTaxSequenceRequest (
     val from: kotlin.Int,
 
     @Json(name = "to")
-    val to: kotlin.Int,
-
-    @Json(name = "environment")
-    val environment: Environment
+    val to: kotlin.Int
 
 ) {
 

@@ -30,58 +30,18 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * @param shipmentDate 
- * @param shipmentNumber 
- * @param containerNumber 
- * @param referenceNumber 
  * @param grossWeight 
- * @param netWeight 
- * @param grossWeightUnit 
- * @param netWeightUnit 
  * @param packageQuantity 
- * @param packageUnit 
- * @param packageVolume 
- * @param volumeUnit 
  */
 
 
 data class AdditionalInfo (
 
-    @Json(name = "shipmentDate")
-    val shipmentDate: kotlin.String? = null,
-
-    @Json(name = "shipmentNumber")
-    val shipmentNumber: kotlin.String? = null,
-
-    @Json(name = "containerNumber")
-    val containerNumber: kotlin.String? = null,
-
-    @Json(name = "referenceNumber")
-    val referenceNumber: kotlin.String? = null,
-
     @Json(name = "grossWeight")
     val grossWeight: java.math.BigDecimal? = null,
 
-    @Json(name = "netWeight")
-    val netWeight: java.math.BigDecimal? = null,
-
-    @Json(name = "grossWeightUnit")
-    val grossWeightUnit: java.math.BigDecimal? = null,
-
-    @Json(name = "netWeightUnit")
-    val netWeightUnit: java.math.BigDecimal? = null,
-
     @Json(name = "packageQuantity")
-    val packageQuantity: java.math.BigDecimal? = null,
-
-    @Json(name = "packageUnit")
-    val packageUnit: java.math.BigDecimal? = null,
-
-    @Json(name = "packageVolume")
-    val packageVolume: java.math.BigDecimal? = null,
-
-    @Json(name = "volumeUnit")
-    val volumeUnit: java.math.BigDecimal? = null
+    val packageQuantity: java.math.BigDecimal? = null
 
 ) {
 

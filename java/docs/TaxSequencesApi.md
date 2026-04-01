@@ -21,6 +21,7 @@ Crear nueva secuencia fiscal
 import Pronesoft.Ecf.ApiClient;
 import Pronesoft.Ecf.ApiException;
 import Pronesoft.Ecf.Configuration;
+import Pronesoft.Ecf.auth.*;
 import Pronesoft.Ecf.models.*;
 import org.openapitools.client.api.TaxSequencesApi;
 
@@ -28,6 +29,10 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
+    
+    // Configure OAuth2 access token for authorization: oauth2
+    OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
+    oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     TaxSequencesApi apiInstance = new TaxSequencesApi(defaultClient);
     CreateTaxSequenceRequest createTaxSequenceRequest = new CreateTaxSequenceRequest(); // CreateTaxSequenceRequest | 
@@ -56,7 +61,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -70,7 +75,7 @@ No authorization required
 
 <a id="getNextNumber"></a>
 # **getNextNumber**
-> GetNextNumber200Response getNextNumber(type, environment)
+> GetNextNumber200Response getNextNumber(xTenantId, type, environment)
 
 Obtener próximo número disponible
 
@@ -80,6 +85,7 @@ Obtener próximo número disponible
 import Pronesoft.Ecf.ApiClient;
 import Pronesoft.Ecf.ApiException;
 import Pronesoft.Ecf.Configuration;
+import Pronesoft.Ecf.auth.*;
 import Pronesoft.Ecf.models.*;
 import org.openapitools.client.api.TaxSequencesApi;
 
@@ -87,12 +93,17 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
+    
+    // Configure OAuth2 access token for authorization: oauth2
+    OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
+    oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     TaxSequencesApi apiInstance = new TaxSequencesApi(defaultClient);
+    UUID xTenantId = UUID.randomUUID(); // UUID | 
     InvoiceType type = InvoiceType.fromValue("31"); // InvoiceType | 
     Environment environment = Environment.fromValue("TesteCF"); // Environment | 
     try {
-      GetNextNumber200Response result = apiInstance.getNextNumber(type, environment);
+      GetNextNumber200Response result = apiInstance.getNextNumber(xTenantId, type, environment);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling TaxSequencesApi#getNextNumber");
@@ -109,6 +120,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **xTenantId** | **UUID**|  | |
 | **type** | [**InvoiceType**](.md)|  | [enum: 31, 32, 33, 34, 41, 43, 44, 45, 46, 47] |
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
 
@@ -118,7 +130,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -128,11 +140,11 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Próximo número |  -  |
+| **200** | Próximo número e-NCF |  -  |
 
 <a id="listTaxSequences"></a>
 # **listTaxSequences**
-> ListTaxSequences200Response listTaxSequences(type)
+> ListTaxSequences200Response listTaxSequences(xTenantId, type)
 
 Listar secuencias fiscales
 
@@ -142,6 +154,7 @@ Listar secuencias fiscales
 import Pronesoft.Ecf.ApiClient;
 import Pronesoft.Ecf.ApiException;
 import Pronesoft.Ecf.Configuration;
+import Pronesoft.Ecf.auth.*;
 import Pronesoft.Ecf.models.*;
 import org.openapitools.client.api.TaxSequencesApi;
 
@@ -149,11 +162,16 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
+    
+    // Configure OAuth2 access token for authorization: oauth2
+    OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
+    oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     TaxSequencesApi apiInstance = new TaxSequencesApi(defaultClient);
+    UUID xTenantId = UUID.randomUUID(); // UUID | 
     InvoiceType type = InvoiceType.fromValue("31"); // InvoiceType | 
     try {
-      ListTaxSequences200Response result = apiInstance.listTaxSequences(type);
+      ListTaxSequences200Response result = apiInstance.listTaxSequences(xTenantId, type);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling TaxSequencesApi#listTaxSequences");
@@ -170,6 +188,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **xTenantId** | **UUID**|  | |
 | **type** | [**InvoiceType**](.md)|  | [optional] [enum: 31, 32, 33, 34, 41, 43, 44, 45, 46, 47] |
 
 ### Return type
@@ -178,7 +197,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

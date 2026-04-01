@@ -6,14 +6,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **line_number** | **int** |  | 
-**type** | [**AdjustmentType**](AdjustmentType.md) |  | 
-**norm1007_indicator** | **str** |  | [optional] 
-**description** | **str** |  | [optional] 
+**type** | **str** |  | 
 **value_type** | **str** |  | 
-**percentage_value** | **float** |  | [optional] 
 **amount** | **float** |  | 
-**alternative_currency_amount** | **float** |  | [optional] 
-**billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  | [optional] 
 
 ## Example
 

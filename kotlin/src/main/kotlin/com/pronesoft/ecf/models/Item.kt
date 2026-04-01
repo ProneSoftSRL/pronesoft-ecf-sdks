@@ -24,14 +24,8 @@
 package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.BillingIndicator
-import com.pronesoft.ecf.models.DiscountDetail
 import com.pronesoft.ecf.models.ItemAdditionalTax
-import com.pronesoft.ecf.models.ItemAlternativeCurrency
-import com.pronesoft.ecf.models.ItemCode
-import com.pronesoft.ecf.models.ItemType
-import com.pronesoft.ecf.models.MiningInfo
 import com.pronesoft.ecf.models.Subquantity
-import com.pronesoft.ecf.models.SurchargeDetail
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -39,130 +33,69 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
- * @param billingIndicator 
  * @param name 
  * @param type 
- * @param quantity Decimal como string para mayor precisión
- * @param unitPrice Decimal como string
- * @param amount Monto total del item
+ * @param billingIndicator 
+ * @param quantity Decimal string
+ * @param unitPrice Decimal string
+ * @param amount 
  * @param lineNumber 
- * @param codes 
- * @param withholdingAgentIndicator 1: Retención, 2: Percepción
- * @param withheldITBISAmount 
- * @param withheldISRAmount 
- * @param description 
- * @param unitOfMeasure 
- * @param referenceQuantity Obligatorio si hay impuesto al alcohol (códigos 6-22)
- * @param referenceUnit Obligatorio si existe referenceQuantity
- * @param subquantities Obligatorio si hay impuesto al alcohol o tabaco
- * @param alcoholDegree Obligatorio si hay impuesto al alcohol
- * @param referenceUnitPrice PVP. Obligatorio para impuestos adValorem
- * @param manufacturingDate 
- * @param expirationDate 
- * @param miningInfo 
  * @param discountAmount 
- * @param discount 
- * @param surchargeAmount 
- * @param surcharge 
  * @param additionalTaxes 
- * @param alternativeCurrency 
+ * @param subquantities 
+ * @param alcoholDegree 
  */
 
 
 data class Item (
 
-    @Json(name = "billingIndicator")
-    val billingIndicator: BillingIndicator,
-
     @Json(name = "name")
     val name: kotlin.String,
 
     @Json(name = "type")
-    val type: ItemType,
+    val type: Item.Type,
 
-    /* Decimal como string para mayor precisión */
+    @Json(name = "billingIndicator")
+    val billingIndicator: BillingIndicator,
+
+    /* Decimal string */
     @Json(name = "quantity")
     val quantity: kotlin.String,
 
-    /* Decimal como string */
+    /* Decimal string */
     @Json(name = "unitPrice")
     val unitPrice: kotlin.String,
 
-    /* Monto total del item */
     @Json(name = "amount")
     val amount: java.math.BigDecimal,
 
     @Json(name = "lineNumber")
     val lineNumber: kotlin.Int? = null,
 
-    @Json(name = "codes")
-    val codes: kotlin.collections.List<ItemCode>? = null,
-
-    /* 1: Retención, 2: Percepción */
-    @Json(name = "withholdingAgentIndicator")
-    val withholdingAgentIndicator: java.math.BigDecimal? = null,
-
-    @Json(name = "withheldITBISAmount")
-    val withheldITBISAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "withheldISRAmount")
-    val withheldISRAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "description")
-    val description: kotlin.String? = null,
-
-    @Json(name = "unitOfMeasure")
-    val unitOfMeasure: java.math.BigDecimal? = null,
-
-    /* Obligatorio si hay impuesto al alcohol (códigos 6-22) */
-    @Json(name = "referenceQuantity")
-    val referenceQuantity: java.math.BigDecimal? = null,
-
-    /* Obligatorio si existe referenceQuantity */
-    @Json(name = "referenceUnit")
-    val referenceUnit: java.math.BigDecimal? = null,
-
-    /* Obligatorio si hay impuesto al alcohol o tabaco */
-    @Json(name = "subquantities")
-    val subquantities: kotlin.collections.List<Subquantity>? = null,
-
-    /* Obligatorio si hay impuesto al alcohol */
-    @Json(name = "alcoholDegree")
-    val alcoholDegree: java.math.BigDecimal? = null,
-
-    /* PVP. Obligatorio para impuestos adValorem */
-    @Json(name = "referenceUnitPrice")
-    val referenceUnitPrice: java.math.BigDecimal? = null,
-
-    @Json(name = "manufacturingDate")
-    val manufacturingDate: java.time.OffsetDateTime? = null,
-
-    @Json(name = "expirationDate")
-    val expirationDate: java.time.OffsetDateTime? = null,
-
-    @Json(name = "miningInfo")
-    val miningInfo: MiningInfo? = null,
-
     @Json(name = "discountAmount")
     val discountAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "discount")
-    val discount: kotlin.collections.List<DiscountDetail>? = null,
-
-    @Json(name = "surchargeAmount")
-    val surchargeAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "surcharge")
-    val surcharge: kotlin.collections.List<SurchargeDetail>? = null,
 
     @Json(name = "additionalTaxes")
     val additionalTaxes: kotlin.collections.List<ItemAdditionalTax>? = null,
 
-    @Json(name = "alternativeCurrency")
-    val alternativeCurrency: ItemAlternativeCurrency? = null
+    @Json(name = "subquantities")
+    val subquantities: kotlin.collections.List<Subquantity>? = null,
+
+    @Json(name = "alcoholDegree")
+    val alcoholDegree: java.math.BigDecimal? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: _1,_2
+     */
+    @JsonClass(generateAdapter = false)
+    enum class Type(val value: kotlin.String) {
+        @Json(name = "1") _1("1"),
+        @Json(name = "2") _2("2");
+    }
 
 }
 

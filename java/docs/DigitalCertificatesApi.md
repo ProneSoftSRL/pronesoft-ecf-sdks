@@ -19,6 +19,7 @@ Cargar Certificado Digital (P12)
 import Pronesoft.Ecf.ApiClient;
 import Pronesoft.Ecf.ApiException;
 import Pronesoft.Ecf.Configuration;
+import Pronesoft.Ecf.auth.*;
 import Pronesoft.Ecf.models.*;
 import org.openapitools.client.api.DigitalCertificatesApi;
 
@@ -26,6 +27,10 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
+    
+    // Configure OAuth2 access token for authorization: oauth2
+    OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
+    oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     DigitalCertificatesApi apiInstance = new DigitalCertificatesApi(defaultClient);
     String rnc = "rnc_example"; // String | 
@@ -59,7 +64,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -69,5 +74,5 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Certificado cargado |  -  |
+| **201** | Certificado cargado exitosamente |  -  |
 

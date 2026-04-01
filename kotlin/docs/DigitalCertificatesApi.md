@@ -48,7 +48,9 @@ try {
 
 ### Authorization
 
-No authorization required
+
+Configure oauth2:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 

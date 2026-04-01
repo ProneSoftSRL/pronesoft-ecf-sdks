@@ -14,6 +14,7 @@ Cargar Certificado Digital (P12)
 
 ### Example
 
+* OAuth Authentication (oauth2):
 
 ```python
 import pronesoft_ecf
@@ -27,6 +28,12 @@ configuration = pronesoft_ecf.Configuration(
     host = "https://api.ecf.sandbox.pronesoft.com/api/v1"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
@@ -62,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -73,7 +80,7 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Certificado cargado |  -  |
+**201** | Certificado cargado exitosamente |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -14,32 +14,16 @@ class Item {
   /// Returns a new [Item] instance.
   Item({
     this.lineNumber,
-    this.codes = const [],
-    required this.billingIndicator,
-    this.withholdingAgentIndicator,
-    this.withheldITBISAmount,
-    this.withheldISRAmount,
     required this.name,
     required this.type,
-    this.description,
+    required this.billingIndicator,
     required this.quantity,
-    this.unitOfMeasure,
-    this.referenceQuantity,
-    this.referenceUnit,
+    required this.unitPrice,
+    required this.amount,
+    this.discountAmount,
+    this.additionalTaxes = const [],
     this.subquantities = const [],
     this.alcoholDegree,
-    this.referenceUnitPrice,
-    this.manufacturingDate,
-    this.expirationDate,
-    this.miningInfo,
-    required this.unitPrice,
-    this.discountAmount,
-    this.discount = const [],
-    this.surchargeAmount,
-    this.surcharge = const [],
-    this.additionalTaxes = const [],
-    this.alternativeCurrency,
-    required this.amount,
   });
 
   ///
@@ -50,125 +34,19 @@ class Item {
   ///
   int? lineNumber;
 
-  List<ItemCode> codes;
+  String name;
+
+  ItemTypeEnum type;
 
   BillingIndicator billingIndicator;
 
-  /// 1: Retención, 2: Percepción
-  ///
-  /// Minimum value: 1
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? withholdingAgentIndicator;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? withheldITBISAmount;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? withheldISRAmount;
-
-  String name;
-
-  ItemType type;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? description;
-
-  /// Decimal como string para mayor precisión
+  /// Decimal string
   String quantity;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? unitOfMeasure;
-
-  /// Obligatorio si hay impuesto al alcohol (códigos 6-22)
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? referenceQuantity;
-
-  /// Obligatorio si existe referenceQuantity
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? referenceUnit;
-
-  /// Obligatorio si hay impuesto al alcohol o tabaco
-  List<Subquantity> subquantities;
-
-  /// Obligatorio si hay impuesto al alcohol
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? alcoholDegree;
-
-  /// PVP. Obligatorio para impuestos adValorem
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? referenceUnitPrice;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DateTime? manufacturingDate;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DateTime? expirationDate;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  MiningInfo? miningInfo;
-
-  /// Decimal como string
+  /// Decimal string
   String unitPrice;
+
+  num amount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -178,94 +56,49 @@ class Item {
   ///
   num? discountAmount;
 
-  List<DiscountDetail> discount;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? surchargeAmount;
-
-  List<SurchargeDetail> surcharge;
-
   List<ItemAdditionalTax> additionalTaxes;
 
+  List<Subquantity> subquantities;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ItemAlternativeCurrency? alternativeCurrency;
-
-  /// Monto total del item
-  num amount;
+  num? alcoholDegree;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Item &&
     other.lineNumber == lineNumber &&
-    _deepEquality.equals(other.codes, codes) &&
-    other.billingIndicator == billingIndicator &&
-    other.withholdingAgentIndicator == withholdingAgentIndicator &&
-    other.withheldITBISAmount == withheldITBISAmount &&
-    other.withheldISRAmount == withheldISRAmount &&
     other.name == name &&
     other.type == type &&
-    other.description == description &&
+    other.billingIndicator == billingIndicator &&
     other.quantity == quantity &&
-    other.unitOfMeasure == unitOfMeasure &&
-    other.referenceQuantity == referenceQuantity &&
-    other.referenceUnit == referenceUnit &&
-    _deepEquality.equals(other.subquantities, subquantities) &&
-    other.alcoholDegree == alcoholDegree &&
-    other.referenceUnitPrice == referenceUnitPrice &&
-    other.manufacturingDate == manufacturingDate &&
-    other.expirationDate == expirationDate &&
-    other.miningInfo == miningInfo &&
     other.unitPrice == unitPrice &&
+    other.amount == amount &&
     other.discountAmount == discountAmount &&
-    _deepEquality.equals(other.discount, discount) &&
-    other.surchargeAmount == surchargeAmount &&
-    _deepEquality.equals(other.surcharge, surcharge) &&
     _deepEquality.equals(other.additionalTaxes, additionalTaxes) &&
-    other.alternativeCurrency == alternativeCurrency &&
-    other.amount == amount;
+    _deepEquality.equals(other.subquantities, subquantities) &&
+    other.alcoholDegree == alcoholDegree;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (lineNumber == null ? 0 : lineNumber!.hashCode) +
-    (codes.hashCode) +
-    (billingIndicator.hashCode) +
-    (withholdingAgentIndicator == null ? 0 : withholdingAgentIndicator!.hashCode) +
-    (withheldITBISAmount == null ? 0 : withheldITBISAmount!.hashCode) +
-    (withheldISRAmount == null ? 0 : withheldISRAmount!.hashCode) +
     (name.hashCode) +
     (type.hashCode) +
-    (description == null ? 0 : description!.hashCode) +
+    (billingIndicator.hashCode) +
     (quantity.hashCode) +
-    (unitOfMeasure == null ? 0 : unitOfMeasure!.hashCode) +
-    (referenceQuantity == null ? 0 : referenceQuantity!.hashCode) +
-    (referenceUnit == null ? 0 : referenceUnit!.hashCode) +
-    (subquantities.hashCode) +
-    (alcoholDegree == null ? 0 : alcoholDegree!.hashCode) +
-    (referenceUnitPrice == null ? 0 : referenceUnitPrice!.hashCode) +
-    (manufacturingDate == null ? 0 : manufacturingDate!.hashCode) +
-    (expirationDate == null ? 0 : expirationDate!.hashCode) +
-    (miningInfo == null ? 0 : miningInfo!.hashCode) +
     (unitPrice.hashCode) +
+    (amount.hashCode) +
     (discountAmount == null ? 0 : discountAmount!.hashCode) +
-    (discount.hashCode) +
-    (surchargeAmount == null ? 0 : surchargeAmount!.hashCode) +
-    (surcharge.hashCode) +
     (additionalTaxes.hashCode) +
-    (alternativeCurrency == null ? 0 : alternativeCurrency!.hashCode) +
-    (amount.hashCode);
+    (subquantities.hashCode) +
+    (alcoholDegree == null ? 0 : alcoholDegree!.hashCode);
 
   @override
-  String toString() => 'Item[lineNumber=$lineNumber, codes=$codes, billingIndicator=$billingIndicator, withholdingAgentIndicator=$withholdingAgentIndicator, withheldITBISAmount=$withheldITBISAmount, withheldISRAmount=$withheldISRAmount, name=$name, type=$type, description=$description, quantity=$quantity, unitOfMeasure=$unitOfMeasure, referenceQuantity=$referenceQuantity, referenceUnit=$referenceUnit, subquantities=$subquantities, alcoholDegree=$alcoholDegree, referenceUnitPrice=$referenceUnitPrice, manufacturingDate=$manufacturingDate, expirationDate=$expirationDate, miningInfo=$miningInfo, unitPrice=$unitPrice, discountAmount=$discountAmount, discount=$discount, surchargeAmount=$surchargeAmount, surcharge=$surcharge, additionalTaxes=$additionalTaxes, alternativeCurrency=$alternativeCurrency, amount=$amount]';
+  String toString() => 'Item[lineNumber=$lineNumber, name=$name, type=$type, billingIndicator=$billingIndicator, quantity=$quantity, unitPrice=$unitPrice, amount=$amount, discountAmount=$discountAmount, additionalTaxes=$additionalTaxes, subquantities=$subquantities, alcoholDegree=$alcoholDegree]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -274,92 +107,24 @@ class Item {
     } else {
       json[r'lineNumber'] = null;
     }
-      json[r'codes'] = this.codes;
-      json[r'billingIndicator'] = this.billingIndicator;
-    if (this.withholdingAgentIndicator != null) {
-      json[r'withholdingAgentIndicator'] = this.withholdingAgentIndicator;
-    } else {
-      json[r'withholdingAgentIndicator'] = null;
-    }
-    if (this.withheldITBISAmount != null) {
-      json[r'withheldITBISAmount'] = this.withheldITBISAmount;
-    } else {
-      json[r'withheldITBISAmount'] = null;
-    }
-    if (this.withheldISRAmount != null) {
-      json[r'withheldISRAmount'] = this.withheldISRAmount;
-    } else {
-      json[r'withheldISRAmount'] = null;
-    }
       json[r'name'] = this.name;
       json[r'type'] = this.type;
-    if (this.description != null) {
-      json[r'description'] = this.description;
-    } else {
-      json[r'description'] = null;
-    }
+      json[r'billingIndicator'] = this.billingIndicator;
       json[r'quantity'] = this.quantity;
-    if (this.unitOfMeasure != null) {
-      json[r'unitOfMeasure'] = this.unitOfMeasure;
+      json[r'unitPrice'] = this.unitPrice;
+      json[r'amount'] = this.amount;
+    if (this.discountAmount != null) {
+      json[r'discountAmount'] = this.discountAmount;
     } else {
-      json[r'unitOfMeasure'] = null;
+      json[r'discountAmount'] = null;
     }
-    if (this.referenceQuantity != null) {
-      json[r'referenceQuantity'] = this.referenceQuantity;
-    } else {
-      json[r'referenceQuantity'] = null;
-    }
-    if (this.referenceUnit != null) {
-      json[r'referenceUnit'] = this.referenceUnit;
-    } else {
-      json[r'referenceUnit'] = null;
-    }
+      json[r'additionalTaxes'] = this.additionalTaxes;
       json[r'subquantities'] = this.subquantities;
     if (this.alcoholDegree != null) {
       json[r'alcoholDegree'] = this.alcoholDegree;
     } else {
       json[r'alcoholDegree'] = null;
     }
-    if (this.referenceUnitPrice != null) {
-      json[r'referenceUnitPrice'] = this.referenceUnitPrice;
-    } else {
-      json[r'referenceUnitPrice'] = null;
-    }
-    if (this.manufacturingDate != null) {
-      json[r'manufacturingDate'] = this.manufacturingDate!.toUtc().toIso8601String();
-    } else {
-      json[r'manufacturingDate'] = null;
-    }
-    if (this.expirationDate != null) {
-      json[r'expirationDate'] = this.expirationDate!.toUtc().toIso8601String();
-    } else {
-      json[r'expirationDate'] = null;
-    }
-    if (this.miningInfo != null) {
-      json[r'miningInfo'] = this.miningInfo;
-    } else {
-      json[r'miningInfo'] = null;
-    }
-      json[r'unitPrice'] = this.unitPrice;
-    if (this.discountAmount != null) {
-      json[r'discountAmount'] = this.discountAmount;
-    } else {
-      json[r'discountAmount'] = null;
-    }
-      json[r'discount'] = this.discount;
-    if (this.surchargeAmount != null) {
-      json[r'surchargeAmount'] = this.surchargeAmount;
-    } else {
-      json[r'surchargeAmount'] = null;
-    }
-      json[r'surcharge'] = this.surcharge;
-      json[r'additionalTaxes'] = this.additionalTaxes;
-    if (this.alternativeCurrency != null) {
-      json[r'alternativeCurrency'] = this.alternativeCurrency;
-    } else {
-      json[r'alternativeCurrency'] = null;
-    }
-      json[r'amount'] = this.amount;
     return json;
   }
 
@@ -374,12 +139,12 @@ class Item {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        assert(json.containsKey(r'billingIndicator'), 'Required key "Item[billingIndicator]" is missing from JSON.');
-        assert(json[r'billingIndicator'] != null, 'Required key "Item[billingIndicator]" has a null value in JSON.');
         assert(json.containsKey(r'name'), 'Required key "Item[name]" is missing from JSON.');
         assert(json[r'name'] != null, 'Required key "Item[name]" has a null value in JSON.');
         assert(json.containsKey(r'type'), 'Required key "Item[type]" is missing from JSON.');
         assert(json[r'type'] != null, 'Required key "Item[type]" has a null value in JSON.');
+        assert(json.containsKey(r'billingIndicator'), 'Required key "Item[billingIndicator]" is missing from JSON.');
+        assert(json[r'billingIndicator'] != null, 'Required key "Item[billingIndicator]" has a null value in JSON.');
         assert(json.containsKey(r'quantity'), 'Required key "Item[quantity]" is missing from JSON.');
         assert(json[r'quantity'] != null, 'Required key "Item[quantity]" has a null value in JSON.');
         assert(json.containsKey(r'unitPrice'), 'Required key "Item[unitPrice]" is missing from JSON.');
@@ -391,32 +156,16 @@ class Item {
 
       return Item(
         lineNumber: mapValueOfType<int>(json, r'lineNumber'),
-        codes: ItemCode.listFromJson(json[r'codes']),
-        billingIndicator: BillingIndicator.fromJson(json[r'billingIndicator'])!,
-        withholdingAgentIndicator: num.parse('${json[r'withholdingAgentIndicator']}'),
-        withheldITBISAmount: num.parse('${json[r'withheldITBISAmount']}'),
-        withheldISRAmount: num.parse('${json[r'withheldISRAmount']}'),
         name: mapValueOfType<String>(json, r'name')!,
-        type: ItemType.fromJson(json[r'type'])!,
-        description: mapValueOfType<String>(json, r'description'),
+        type: ItemTypeEnum.fromJson(json[r'type'])!,
+        billingIndicator: BillingIndicator.fromJson(json[r'billingIndicator'])!,
         quantity: mapValueOfType<String>(json, r'quantity')!,
-        unitOfMeasure: num.parse('${json[r'unitOfMeasure']}'),
-        referenceQuantity: num.parse('${json[r'referenceQuantity']}'),
-        referenceUnit: num.parse('${json[r'referenceUnit']}'),
+        unitPrice: mapValueOfType<String>(json, r'unitPrice')!,
+        amount: num.parse('${json[r'amount']}'),
+        discountAmount: num.parse('${json[r'discountAmount']}'),
+        additionalTaxes: ItemAdditionalTax.listFromJson(json[r'additionalTaxes']),
         subquantities: Subquantity.listFromJson(json[r'subquantities']),
         alcoholDegree: num.parse('${json[r'alcoholDegree']}'),
-        referenceUnitPrice: num.parse('${json[r'referenceUnitPrice']}'),
-        manufacturingDate: mapDateTime(json, r'manufacturingDate', r''),
-        expirationDate: mapDateTime(json, r'expirationDate', r''),
-        miningInfo: MiningInfo.fromJson(json[r'miningInfo']),
-        unitPrice: mapValueOfType<String>(json, r'unitPrice')!,
-        discountAmount: num.parse('${json[r'discountAmount']}'),
-        discount: DiscountDetail.listFromJson(json[r'discount']),
-        surchargeAmount: num.parse('${json[r'surchargeAmount']}'),
-        surcharge: SurchargeDetail.listFromJson(json[r'surcharge']),
-        additionalTaxes: ItemAdditionalTax.listFromJson(json[r'additionalTaxes']),
-        alternativeCurrency: ItemAlternativeCurrency.fromJson(json[r'alternativeCurrency']),
-        amount: num.parse('${json[r'amount']}'),
       );
     }
     return null;
@@ -464,12 +213,86 @@ class Item {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'billingIndicator',
     'name',
     'type',
+    'billingIndicator',
     'quantity',
     'unitPrice',
     'amount',
   };
 }
+
+
+class ItemTypeEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ItemTypeEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n1 = ItemTypeEnum._(r'1');
+  static const n2 = ItemTypeEnum._(r'2');
+
+  /// List of all possible values in this [enum][ItemTypeEnum].
+  static const values = <ItemTypeEnum>[
+    n1,
+    n2,
+  ];
+
+  static ItemTypeEnum? fromJson(dynamic value) => ItemTypeEnumTypeTransformer().decode(value);
+
+  static List<ItemTypeEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ItemTypeEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ItemTypeEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ItemTypeEnum] to String,
+/// and [decode] dynamic data back to [ItemTypeEnum].
+class ItemTypeEnumTypeTransformer {
+  factory ItemTypeEnumTypeTransformer() => _instance ??= const ItemTypeEnumTypeTransformer._();
+
+  const ItemTypeEnumTypeTransformer._();
+
+  String encode(ItemTypeEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ItemTypeEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ItemTypeEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'1': return ItemTypeEnum.n1;
+        case r'2': return ItemTypeEnum.n2;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ItemTypeEnumTypeTransformer] instance.
+  static ItemTypeEnumTypeTransformer? _instance;
+}
+
 

@@ -6,10 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **number** | **int** |  | 
-**description** | **str** |  | [optional] 
-**order** | **int** |  | [optional] 
-**taxable_amount** | **float** |  | [optional] 
 **amount** | **float** |  | 
+**description** | **str** |  | [optional] 
 
 ## Example
 

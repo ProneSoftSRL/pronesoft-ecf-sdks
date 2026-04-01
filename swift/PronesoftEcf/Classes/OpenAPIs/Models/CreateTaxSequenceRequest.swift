@@ -15,20 +15,17 @@ public struct CreateTaxSequenceRequest: Codable, JSONEncodable, Hashable {
     public var type: InvoiceType
     public var from: Int
     public var to: Int
-    public var environment: Environment
 
-    public init(type: InvoiceType, from: Int, to: Int, environment: Environment) {
+    public init(type: InvoiceType, from: Int, to: Int) {
         self.type = type
         self.from = from
         self.to = to
-        self.environment = environment
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case from
         case to
-        case environment
     }
 
     // Encodable protocol methods
@@ -38,7 +35,6 @@ public struct CreateTaxSequenceRequest: Codable, JSONEncodable, Hashable {
         try container.encode(type, forKey: .type)
         try container.encode(from, forKey: .from)
         try container.encode(to, forKey: .to)
-        try container.encode(environment, forKey: .environment)
     }
 }
 

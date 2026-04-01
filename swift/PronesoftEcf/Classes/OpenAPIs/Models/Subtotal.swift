@@ -12,29 +12,20 @@ import AnyCodable
 
 public struct Subtotal: Codable, JSONEncodable, Hashable {
 
-    public static let numberRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 99, exclusiveMaximum: false, multipleOf: nil)
-    public static let descriptionRule = StringRule(minLength: nil, maxLength: 40, pattern: nil)
-    public static let orderRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 99, exclusiveMaximum: false, multipleOf: nil)
     public var number: Int
-    public var description: String?
-    public var order: Int?
-    public var taxableAmount: Double?
     public var amount: Double
+    public var description: String?
 
-    public init(number: Int, description: String? = nil, order: Int? = nil, taxableAmount: Double? = nil, amount: Double) {
+    public init(number: Int, amount: Double, description: String? = nil) {
         self.number = number
-        self.description = description
-        self.order = order
-        self.taxableAmount = taxableAmount
         self.amount = amount
+        self.description = description
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case number
-        case description
-        case order
-        case taxableAmount
         case amount
+        case description
     }
 
     // Encodable protocol methods
@@ -42,10 +33,8 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(number, forKey: .number)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(order, forKey: .order)
-        try container.encodeIfPresent(taxableAmount, forKey: .taxableAmount)
         try container.encode(amount, forKey: .amount)
+        try container.encodeIfPresent(description, forKey: .description)
     }
 }
 

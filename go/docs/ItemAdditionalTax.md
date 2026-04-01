@@ -5,15 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Code** | **string** |  | 
-**Rate** | Pointer to **float32** |  | [optional] 
-**Amount** | Pointer to **float32** |  | [optional] 
-**AlternativeCurrencyAmount** | Pointer to **float32** |  | [optional] 
+**Amount** | **float32** |  | 
 
 ## Methods
 
 ### NewItemAdditionalTax
 
-`func NewItemAdditionalTax(code string, ) *ItemAdditionalTax`
+`func NewItemAdditionalTax(code string, amount float32, ) *ItemAdditionalTax`
 
 NewItemAdditionalTax instantiates a new ItemAdditionalTax object
 This constructor will assign default values to properties that have it defined,
@@ -48,31 +46,6 @@ and a boolean to check if the value has been set.
 SetCode sets Code field to given value.
 
 
-### GetRate
-
-`func (o *ItemAdditionalTax) GetRate() float32`
-
-GetRate returns the Rate field if non-nil, zero value otherwise.
-
-### GetRateOk
-
-`func (o *ItemAdditionalTax) GetRateOk() (*float32, bool)`
-
-GetRateOk returns a tuple with the Rate field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRate
-
-`func (o *ItemAdditionalTax) SetRate(v float32)`
-
-SetRate sets Rate field to given value.
-
-### HasRate
-
-`func (o *ItemAdditionalTax) HasRate() bool`
-
-HasRate returns a boolean if a field has been set.
-
 ### GetAmount
 
 `func (o *ItemAdditionalTax) GetAmount() float32`
@@ -92,36 +65,6 @@ and a boolean to check if the value has been set.
 
 SetAmount sets Amount field to given value.
 
-### HasAmount
-
-`func (o *ItemAdditionalTax) HasAmount() bool`
-
-HasAmount returns a boolean if a field has been set.
-
-### GetAlternativeCurrencyAmount
-
-`func (o *ItemAdditionalTax) GetAlternativeCurrencyAmount() float32`
-
-GetAlternativeCurrencyAmount returns the AlternativeCurrencyAmount field if non-nil, zero value otherwise.
-
-### GetAlternativeCurrencyAmountOk
-
-`func (o *ItemAdditionalTax) GetAlternativeCurrencyAmountOk() (*float32, bool)`
-
-GetAlternativeCurrencyAmountOk returns a tuple with the AlternativeCurrencyAmount field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAlternativeCurrencyAmount
-
-`func (o *ItemAdditionalTax) SetAlternativeCurrencyAmount(v float32)`
-
-SetAlternativeCurrencyAmount sets AlternativeCurrencyAmount field to given value.
-
-### HasAlternativeCurrencyAmount
-
-`func (o *ItemAdditionalTax) HasAlternativeCurrencyAmount() bool`
-
-HasAlternativeCurrencyAmount returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

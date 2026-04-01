@@ -4,61 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getEcfStatus**](#getecfstatus) | **GET** /{environment}/ecf/status/{trackId} | Consultar estatus trackId|
-|[**submitEcf**](#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma|
-
-# **getEcfStatus**
-> TrackStatusResponse getEcfStatus()
-
-
-### Example
-
-```typescript
-import {
-    ECFSubmissionApi,
-    Configuration
-} from '@pronesoft/ecf-sdk';
-
-const configuration = new Configuration();
-const apiInstance = new ECFSubmissionApi(configuration);
-
-let environment: Environment; // (default to undefined)
-let trackId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.getEcfStatus(
-    environment,
-    trackId
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **environment** | **Environment** |  | defaults to undefined|
-| **trackId** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-**TrackStatusResponse**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | Respuesta de estatus |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+|[**submitEcf**](#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)|
 
 # **submitEcf**
 > EcfSubmissionResponse submitEcf(electronicDocument)
@@ -76,10 +22,12 @@ import {
 const configuration = new Configuration();
 const apiInstance = new ECFSubmissionApi(configuration);
 
+let xTenantId: string; // (default to undefined)
 let environment: Environment; // (default to undefined)
 let electronicDocument: ElectronicDocument; //
 
 const { status, data } = await apiInstance.submitEcf(
+    xTenantId,
     environment,
     electronicDocument
 );
@@ -90,6 +38,7 @@ const { status, data } = await apiInstance.submitEcf(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **electronicDocument** | **ElectronicDocument**|  | |
+| **xTenantId** | [**string**] |  | defaults to undefined|
 | **environment** | **Environment** |  | defaults to undefined|
 
 
@@ -99,7 +48,7 @@ const { status, data } = await apiInstance.submitEcf(
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -110,9 +59,8 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | Documento enviado y procesado |  -  |
-|**400** | Error de validación en los datos enviados |  -  |
-|**401** | Token inválido o expirado |  -  |
+|**200** | Documento enviado y procesado por plataforma |  -  |
+|**400** | Error en la estructura de los datos (400 Bad Request) |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

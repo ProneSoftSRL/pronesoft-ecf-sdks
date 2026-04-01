@@ -33,8 +33,6 @@ import com.squareup.moshi.JsonClass
  * @param number 
  * @param amount 
  * @param description 
- * @param order 
- * @param taxableAmount 
  */
 
 
@@ -47,13 +45,7 @@ data class Subtotal (
     val amount: java.math.BigDecimal,
 
     @Json(name = "description")
-    val description: kotlin.String? = null,
-
-    @Json(name = "order")
-    val order: kotlin.Int? = null,
-
-    @Json(name = "taxableAmount")
-    val taxableAmount: java.math.BigDecimal? = null
+    val description: kotlin.String? = null
 
 ) {
 

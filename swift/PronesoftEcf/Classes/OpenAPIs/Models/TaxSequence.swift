@@ -14,27 +14,18 @@ public struct TaxSequence: Codable, JSONEncodable, Hashable {
 
     public var id: String?
     public var type: String?
-    public var startNumber: String?
-    public var endNumber: String?
-    public var currentNumber: String?
-    public var availableNumbers: Int?
+    public var nextNumber: String?
 
-    public init(id: String? = nil, type: String? = nil, startNumber: String? = nil, endNumber: String? = nil, currentNumber: String? = nil, availableNumbers: Int? = nil) {
+    public init(id: String? = nil, type: String? = nil, nextNumber: String? = nil) {
         self.id = id
         self.type = type
-        self.startNumber = startNumber
-        self.endNumber = endNumber
-        self.currentNumber = currentNumber
-        self.availableNumbers = availableNumbers
+        self.nextNumber = nextNumber
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case type
-        case startNumber
-        case endNumber
-        case currentNumber
-        case availableNumbers
+        case nextNumber
     }
 
     // Encodable protocol methods
@@ -43,10 +34,7 @@ public struct TaxSequence: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(type, forKey: .type)
-        try container.encodeIfPresent(startNumber, forKey: .startNumber)
-        try container.encodeIfPresent(endNumber, forKey: .endNumber)
-        try container.encodeIfPresent(currentNumber, forKey: .currentNumber)
-        try container.encodeIfPresent(availableNumbers, forKey: .availableNumbers)
+        try container.encodeIfPresent(nextNumber, forKey: .nextNumber)
     }
 }
 

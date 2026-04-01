@@ -33,23 +33,19 @@ import com.squareup.moshi.JsonClass
  * @param accessToken 
  * @param tokenType 
  * @param expiresIn 
- * @param scope 
  */
 
 
 data class OAuthTokenResponse (
 
     @Json(name = "accessToken")
-    val accessToken: kotlin.String,
+    val accessToken: kotlin.String? = null,
 
     @Json(name = "tokenType")
-    val tokenType: kotlin.String,
+    val tokenType: kotlin.String? = null,
 
     @Json(name = "expiresIn")
-    val expiresIn: kotlin.Int,
-
-    @Json(name = "scope")
-    val scope: kotlin.collections.List<kotlin.String>
+    val expiresIn: kotlin.Int? = null
 
 ) {
 

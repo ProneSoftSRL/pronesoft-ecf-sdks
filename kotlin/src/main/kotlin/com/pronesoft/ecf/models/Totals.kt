@@ -23,7 +23,6 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.AdditionalTax
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -31,67 +30,34 @@ import com.squareup.moshi.JsonClass
 /**
  * 
  *
+ * @param totalAmount 
  * @param taxableAmount 
- * @param taxableAmount1 
- * @param taxableAmount2 
- * @param taxableAmount3 
- * @param itbisRate1 
- * @param itbisRate2 
- * @param itbisRate3 
  * @param totalITBIS 
- * @param additionalTaxAmount 
- * @param additionalTaxes 
- * @param exemptAmount 
- * @param totalAmount Obligatorio por lógica de negocio
- * @param nonBillableAmount 
  * @param amountToPay 
+ * @param additionalTaxAmount 
+ * @param exemptAmount 
  */
 
 
 data class Totals (
 
+    @Json(name = "totalAmount")
+    val totalAmount: java.math.BigDecimal,
+
     @Json(name = "taxableAmount")
     val taxableAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "taxableAmount1")
-    val taxableAmount1: java.math.BigDecimal? = null,
-
-    @Json(name = "taxableAmount2")
-    val taxableAmount2: java.math.BigDecimal? = null,
-
-    @Json(name = "taxableAmount3")
-    val taxableAmount3: java.math.BigDecimal? = null,
-
-    @Json(name = "itbisRate1")
-    val itbisRate1: java.math.BigDecimal? = null,
-
-    @Json(name = "itbisRate2")
-    val itbisRate2: java.math.BigDecimal? = null,
-
-    @Json(name = "itbisRate3")
-    val itbisRate3: java.math.BigDecimal? = null,
 
     @Json(name = "totalITBIS")
     val totalITBIS: java.math.BigDecimal? = null,
 
+    @Json(name = "amountToPay")
+    val amountToPay: java.math.BigDecimal? = null,
+
     @Json(name = "additionalTaxAmount")
     val additionalTaxAmount: java.math.BigDecimal? = null,
 
-    @Json(name = "additionalTaxes")
-    val additionalTaxes: kotlin.collections.List<AdditionalTax>? = null,
-
     @Json(name = "exemptAmount")
-    val exemptAmount: java.math.BigDecimal? = null,
-
-    /* Obligatorio por lógica de negocio */
-    @Json(name = "totalAmount")
-    val totalAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "nonBillableAmount")
-    val nonBillableAmount: java.math.BigDecimal? = null,
-
-    @Json(name = "amountToPay")
-    val amountToPay: java.math.BigDecimal? = null
+    val exemptAmount: java.math.BigDecimal? = null
 
 ) {
 

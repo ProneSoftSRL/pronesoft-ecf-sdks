@@ -129,7 +129,7 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
             path = "/{rnc}/certificates".replace("{"+"rnc"+"}", encodeURIComponent(rnc.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }

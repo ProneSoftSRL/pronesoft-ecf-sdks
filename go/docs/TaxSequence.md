@@ -6,10 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **string** |  | [optional] 
 **Type** | Pointer to **string** |  | [optional] 
-**StartNumber** | Pointer to **string** |  | [optional] 
-**EndNumber** | Pointer to **string** |  | [optional] 
-**CurrentNumber** | Pointer to **string** |  | [optional] 
-**AvailableNumbers** | Pointer to **int32** |  | [optional] 
+**NextNumber** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -80,105 +77,30 @@ SetType sets Type field to given value.
 
 HasType returns a boolean if a field has been set.
 
-### GetStartNumber
+### GetNextNumber
 
-`func (o *TaxSequence) GetStartNumber() string`
+`func (o *TaxSequence) GetNextNumber() string`
 
-GetStartNumber returns the StartNumber field if non-nil, zero value otherwise.
+GetNextNumber returns the NextNumber field if non-nil, zero value otherwise.
 
-### GetStartNumberOk
+### GetNextNumberOk
 
-`func (o *TaxSequence) GetStartNumberOk() (*string, bool)`
+`func (o *TaxSequence) GetNextNumberOk() (*string, bool)`
 
-GetStartNumberOk returns a tuple with the StartNumber field if it's non-nil, zero value otherwise
+GetNextNumberOk returns a tuple with the NextNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetStartNumber
+### SetNextNumber
 
-`func (o *TaxSequence) SetStartNumber(v string)`
+`func (o *TaxSequence) SetNextNumber(v string)`
 
-SetStartNumber sets StartNumber field to given value.
+SetNextNumber sets NextNumber field to given value.
 
-### HasStartNumber
+### HasNextNumber
 
-`func (o *TaxSequence) HasStartNumber() bool`
+`func (o *TaxSequence) HasNextNumber() bool`
 
-HasStartNumber returns a boolean if a field has been set.
-
-### GetEndNumber
-
-`func (o *TaxSequence) GetEndNumber() string`
-
-GetEndNumber returns the EndNumber field if non-nil, zero value otherwise.
-
-### GetEndNumberOk
-
-`func (o *TaxSequence) GetEndNumberOk() (*string, bool)`
-
-GetEndNumberOk returns a tuple with the EndNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEndNumber
-
-`func (o *TaxSequence) SetEndNumber(v string)`
-
-SetEndNumber sets EndNumber field to given value.
-
-### HasEndNumber
-
-`func (o *TaxSequence) HasEndNumber() bool`
-
-HasEndNumber returns a boolean if a field has been set.
-
-### GetCurrentNumber
-
-`func (o *TaxSequence) GetCurrentNumber() string`
-
-GetCurrentNumber returns the CurrentNumber field if non-nil, zero value otherwise.
-
-### GetCurrentNumberOk
-
-`func (o *TaxSequence) GetCurrentNumberOk() (*string, bool)`
-
-GetCurrentNumberOk returns a tuple with the CurrentNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCurrentNumber
-
-`func (o *TaxSequence) SetCurrentNumber(v string)`
-
-SetCurrentNumber sets CurrentNumber field to given value.
-
-### HasCurrentNumber
-
-`func (o *TaxSequence) HasCurrentNumber() bool`
-
-HasCurrentNumber returns a boolean if a field has been set.
-
-### GetAvailableNumbers
-
-`func (o *TaxSequence) GetAvailableNumbers() int32`
-
-GetAvailableNumbers returns the AvailableNumbers field if non-nil, zero value otherwise.
-
-### GetAvailableNumbersOk
-
-`func (o *TaxSequence) GetAvailableNumbersOk() (*int32, bool)`
-
-GetAvailableNumbersOk returns a tuple with the AvailableNumbers field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAvailableNumbers
-
-`func (o *TaxSequence) SetAvailableNumbers(v int32)`
-
-SetAvailableNumbers sets AvailableNumbers field to given value.
-
-### HasAvailableNumbers
-
-`func (o *TaxSequence) HasAvailableNumbers() bool`
-
-HasAvailableNumbers returns a boolean if a field has been set.
+HasNextNumber returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

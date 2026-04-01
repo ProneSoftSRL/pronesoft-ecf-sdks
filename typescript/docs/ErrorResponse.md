@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **statusCode** | **number** |  | [optional] [default to undefined]
 **message** | **string** |  | [optional] [default to undefined]
-**error** | **string** |  | [optional] [default to undefined]
 **timestamp** | **string** |  | [optional] [default to undefined]
 
 ## Example
@@ -18,7 +17,6 @@ import { ErrorResponse } from '@pronesoft/ecf-sdk';
 const instance: ErrorResponse = {
     statusCode,
     message,
-    error,
     timestamp,
 };
 ```

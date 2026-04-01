@@ -12,108 +12,51 @@ import AnyCodable
 
 public struct Item: Codable, JSONEncodable, Hashable {
 
-    public static let codesRule = ArrayRule(minItems: nil, maxItems: 5, uniqueItems: false)
-    public static let withholdingAgentIndicatorRule = NumericRule<Double>(minimum: 1, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: nil)
+    public enum ModelType: String, Codable, CaseIterable {
+        case _1 = "1"
+        case _2 = "2"
+    }
     public static let nameRule = StringRule(minLength: nil, maxLength: 80, pattern: nil)
-    public static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
-    public static let discountRule = ArrayRule(minItems: nil, maxItems: 12, uniqueItems: false)
-    public static let surchargeRule = ArrayRule(minItems: nil, maxItems: 12, uniqueItems: false)
-    public static let additionalTaxesRule = ArrayRule(minItems: nil, maxItems: 10, uniqueItems: false)
     public var lineNumber: Int?
-    public var codes: [ItemCode]?
-    public var billingIndicator: BillingIndicator
-    /** 1: Retención, 2: Percepción */
-    public var withholdingAgentIndicator: Double?
-    public var withheldITBISAmount: Double?
-    public var withheldISRAmount: Double?
     public var name: String
-    public var type: ItemType
-    public var description: String?
-    /** Decimal como string para mayor precisión */
+    public var type: ModelType
+    public var billingIndicator: BillingIndicator
+    /** Decimal string */
     public var quantity: String
-    public var unitOfMeasure: Double?
-    /** Obligatorio si hay impuesto al alcohol (códigos 6-22) */
-    public var referenceQuantity: Double?
-    /** Obligatorio si existe referenceQuantity */
-    public var referenceUnit: Double?
-    /** Obligatorio si hay impuesto al alcohol o tabaco */
-    public var subquantities: [Subquantity]?
-    /** Obligatorio si hay impuesto al alcohol */
-    public var alcoholDegree: Double?
-    /** PVP. Obligatorio para impuestos adValorem */
-    public var referenceUnitPrice: Double?
-    public var manufacturingDate: Date?
-    public var expirationDate: Date?
-    public var miningInfo: MiningInfo?
-    /** Decimal como string */
+    /** Decimal string */
     public var unitPrice: String
-    public var discountAmount: Double?
-    public var discount: [DiscountDetail]?
-    public var surchargeAmount: Double?
-    public var surcharge: [SurchargeDetail]?
-    public var additionalTaxes: [ItemAdditionalTax]?
-    public var alternativeCurrency: ItemAlternativeCurrency?
-    /** Monto total del item */
     public var amount: Double
+    public var discountAmount: Double?
+    public var additionalTaxes: [ItemAdditionalTax]?
+    public var subquantities: [Subquantity]?
+    public var alcoholDegree: Double?
 
-    public init(lineNumber: Int? = nil, codes: [ItemCode]? = nil, billingIndicator: BillingIndicator, withholdingAgentIndicator: Double? = nil, withheldITBISAmount: Double? = nil, withheldISRAmount: Double? = nil, name: String, type: ItemType, description: String? = nil, quantity: String, unitOfMeasure: Double? = nil, referenceQuantity: Double? = nil, referenceUnit: Double? = nil, subquantities: [Subquantity]? = nil, alcoholDegree: Double? = nil, referenceUnitPrice: Double? = nil, manufacturingDate: Date? = nil, expirationDate: Date? = nil, miningInfo: MiningInfo? = nil, unitPrice: String, discountAmount: Double? = nil, discount: [DiscountDetail]? = nil, surchargeAmount: Double? = nil, surcharge: [SurchargeDetail]? = nil, additionalTaxes: [ItemAdditionalTax]? = nil, alternativeCurrency: ItemAlternativeCurrency? = nil, amount: Double) {
+    public init(lineNumber: Int? = nil, name: String, type: ModelType, billingIndicator: BillingIndicator, quantity: String, unitPrice: String, amount: Double, discountAmount: Double? = nil, additionalTaxes: [ItemAdditionalTax]? = nil, subquantities: [Subquantity]? = nil, alcoholDegree: Double? = nil) {
         self.lineNumber = lineNumber
-        self.codes = codes
-        self.billingIndicator = billingIndicator
-        self.withholdingAgentIndicator = withholdingAgentIndicator
-        self.withheldITBISAmount = withheldITBISAmount
-        self.withheldISRAmount = withheldISRAmount
         self.name = name
         self.type = type
-        self.description = description
+        self.billingIndicator = billingIndicator
         self.quantity = quantity
-        self.unitOfMeasure = unitOfMeasure
-        self.referenceQuantity = referenceQuantity
-        self.referenceUnit = referenceUnit
+        self.unitPrice = unitPrice
+        self.amount = amount
+        self.discountAmount = discountAmount
+        self.additionalTaxes = additionalTaxes
         self.subquantities = subquantities
         self.alcoholDegree = alcoholDegree
-        self.referenceUnitPrice = referenceUnitPrice
-        self.manufacturingDate = manufacturingDate
-        self.expirationDate = expirationDate
-        self.miningInfo = miningInfo
-        self.unitPrice = unitPrice
-        self.discountAmount = discountAmount
-        self.discount = discount
-        self.surchargeAmount = surchargeAmount
-        self.surcharge = surcharge
-        self.additionalTaxes = additionalTaxes
-        self.alternativeCurrency = alternativeCurrency
-        self.amount = amount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case lineNumber
-        case codes
-        case billingIndicator
-        case withholdingAgentIndicator
-        case withheldITBISAmount
-        case withheldISRAmount
         case name
         case type
-        case description
+        case billingIndicator
         case quantity
-        case unitOfMeasure
-        case referenceQuantity
-        case referenceUnit
+        case unitPrice
+        case amount
+        case discountAmount
+        case additionalTaxes
         case subquantities
         case alcoholDegree
-        case referenceUnitPrice
-        case manufacturingDate
-        case expirationDate
-        case miningInfo
-        case unitPrice
-        case discountAmount
-        case discount
-        case surchargeAmount
-        case surcharge
-        case additionalTaxes
-        case alternativeCurrency
-        case amount
     }
 
     // Encodable protocol methods
@@ -121,32 +64,16 @@ public struct Item: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(lineNumber, forKey: .lineNumber)
-        try container.encodeIfPresent(codes, forKey: .codes)
-        try container.encode(billingIndicator, forKey: .billingIndicator)
-        try container.encodeIfPresent(withholdingAgentIndicator, forKey: .withholdingAgentIndicator)
-        try container.encodeIfPresent(withheldITBISAmount, forKey: .withheldITBISAmount)
-        try container.encodeIfPresent(withheldISRAmount, forKey: .withheldISRAmount)
         try container.encode(name, forKey: .name)
         try container.encode(type, forKey: .type)
-        try container.encodeIfPresent(description, forKey: .description)
+        try container.encode(billingIndicator, forKey: .billingIndicator)
         try container.encode(quantity, forKey: .quantity)
-        try container.encodeIfPresent(unitOfMeasure, forKey: .unitOfMeasure)
-        try container.encodeIfPresent(referenceQuantity, forKey: .referenceQuantity)
-        try container.encodeIfPresent(referenceUnit, forKey: .referenceUnit)
+        try container.encode(unitPrice, forKey: .unitPrice)
+        try container.encode(amount, forKey: .amount)
+        try container.encodeIfPresent(discountAmount, forKey: .discountAmount)
+        try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
         try container.encodeIfPresent(subquantities, forKey: .subquantities)
         try container.encodeIfPresent(alcoholDegree, forKey: .alcoholDegree)
-        try container.encodeIfPresent(referenceUnitPrice, forKey: .referenceUnitPrice)
-        try container.encodeIfPresent(manufacturingDate, forKey: .manufacturingDate)
-        try container.encodeIfPresent(expirationDate, forKey: .expirationDate)
-        try container.encodeIfPresent(miningInfo, forKey: .miningInfo)
-        try container.encode(unitPrice, forKey: .unitPrice)
-        try container.encodeIfPresent(discountAmount, forKey: .discountAmount)
-        try container.encodeIfPresent(discount, forKey: .discount)
-        try container.encodeIfPresent(surchargeAmount, forKey: .surchargeAmount)
-        try container.encodeIfPresent(surcharge, forKey: .surcharge)
-        try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
-        try container.encodeIfPresent(alternativeCurrency, forKey: .alternativeCurrency)
-        try container.encode(amount, forKey: .amount)
     }
 }
 

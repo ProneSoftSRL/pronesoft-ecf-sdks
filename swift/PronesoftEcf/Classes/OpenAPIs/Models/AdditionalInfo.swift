@@ -12,68 +12,25 @@ import AnyCodable
 
 public struct AdditionalInfo: Codable, JSONEncodable, Hashable {
 
-    public static let shipmentNumberRule = StringRule(minLength: nil, maxLength: 25, pattern: nil)
-    public static let containerNumberRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
-    public static let referenceNumberRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
-    public var shipmentDate: String?
-    public var shipmentNumber: String?
-    public var containerNumber: String?
-    public var referenceNumber: String?
     public var grossWeight: Double?
-    public var netWeight: Double?
-    public var grossWeightUnit: Double?
-    public var netWeightUnit: Double?
     public var packageQuantity: Double?
-    public var packageUnit: Double?
-    public var packageVolume: Double?
-    public var volumeUnit: Double?
 
-    public init(shipmentDate: String? = nil, shipmentNumber: String? = nil, containerNumber: String? = nil, referenceNumber: String? = nil, grossWeight: Double? = nil, netWeight: Double? = nil, grossWeightUnit: Double? = nil, netWeightUnit: Double? = nil, packageQuantity: Double? = nil, packageUnit: Double? = nil, packageVolume: Double? = nil, volumeUnit: Double? = nil) {
-        self.shipmentDate = shipmentDate
-        self.shipmentNumber = shipmentNumber
-        self.containerNumber = containerNumber
-        self.referenceNumber = referenceNumber
+    public init(grossWeight: Double? = nil, packageQuantity: Double? = nil) {
         self.grossWeight = grossWeight
-        self.netWeight = netWeight
-        self.grossWeightUnit = grossWeightUnit
-        self.netWeightUnit = netWeightUnit
         self.packageQuantity = packageQuantity
-        self.packageUnit = packageUnit
-        self.packageVolume = packageVolume
-        self.volumeUnit = volumeUnit
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case shipmentDate
-        case shipmentNumber
-        case containerNumber
-        case referenceNumber
         case grossWeight
-        case netWeight
-        case grossWeightUnit
-        case netWeightUnit
         case packageQuantity
-        case packageUnit
-        case packageVolume
-        case volumeUnit
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(shipmentDate, forKey: .shipmentDate)
-        try container.encodeIfPresent(shipmentNumber, forKey: .shipmentNumber)
-        try container.encodeIfPresent(containerNumber, forKey: .containerNumber)
-        try container.encodeIfPresent(referenceNumber, forKey: .referenceNumber)
         try container.encodeIfPresent(grossWeight, forKey: .grossWeight)
-        try container.encodeIfPresent(netWeight, forKey: .netWeight)
-        try container.encodeIfPresent(grossWeightUnit, forKey: .grossWeightUnit)
-        try container.encodeIfPresent(netWeightUnit, forKey: .netWeightUnit)
         try container.encodeIfPresent(packageQuantity, forKey: .packageQuantity)
-        try container.encodeIfPresent(packageUnit, forKey: .packageUnit)
-        try container.encodeIfPresent(packageVolume, forKey: .packageVolume)
-        try container.encodeIfPresent(volumeUnit, forKey: .volumeUnit)
     }
 }
 

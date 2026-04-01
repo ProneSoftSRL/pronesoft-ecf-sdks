@@ -44,7 +44,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -74,10 +74,12 @@ import {
 const configuration = new Configuration();
 const apiInstance = new TaxSequencesApi(configuration);
 
+let xTenantId: string; // (default to undefined)
 let type: InvoiceType; // (default to undefined)
 let environment: Environment; // (default to undefined)
 
 const { status, data } = await apiInstance.getNextNumber(
+    xTenantId,
     type,
     environment
 );
@@ -87,6 +89,7 @@ const { status, data } = await apiInstance.getNextNumber(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
+| **xTenantId** | [**string**] |  | defaults to undefined|
 | **type** | **InvoiceType** |  | defaults to undefined|
 | **environment** | **Environment** |  | defaults to undefined|
 
@@ -97,7 +100,7 @@ const { status, data } = await apiInstance.getNextNumber(
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -108,7 +111,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | Próximo número |  -  |
+|**200** | Próximo número e-NCF |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -127,9 +130,11 @@ import {
 const configuration = new Configuration();
 const apiInstance = new TaxSequencesApi(configuration);
 
+let xTenantId: string; // (default to undefined)
 let type: InvoiceType; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.listTaxSequences(
+    xTenantId,
     type
 );
 ```
@@ -138,6 +143,7 @@ const { status, data } = await apiInstance.listTaxSequences(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
+| **xTenantId** | [**string**] |  | defaults to undefined|
 | **type** | **InvoiceType** |  | (optional) defaults to undefined|
 
 
@@ -147,7 +153,7 @@ const { status, data } = await apiInstance.listTaxSequences(
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

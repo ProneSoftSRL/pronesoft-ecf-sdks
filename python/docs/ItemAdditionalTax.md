@@ -6,9 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **str** |  | 
-**rate** | **float** |  | [optional] 
-**amount** | **float** |  | [optional] 
-**alternative_currency_amount** | **float** |  | [optional] 
+**amount** | **float** |  | 
 
 ## Example
 

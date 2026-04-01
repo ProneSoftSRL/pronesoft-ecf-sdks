@@ -16,74 +16,18 @@ class ECFSubmissionApi {
 
   final ApiClient apiClient;
 
-  /// Consultar estatus trackId
+  /// Enviar e-CF a plataforma (Submit)
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
-  /// * [Environment] environment (required):
-  ///
-  /// * [String] trackId (required):
-  Future<Response> getEcfStatusWithHttpInfo(Environment environment, String trackId,) async {
-    // ignore: prefer_const_declarations
-    final path = r'/{environment}/ecf/status/{trackId}'
-      .replaceAll('{environment}', environment.toString())
-      .replaceAll('{trackId}', trackId);
-
-    // ignore: prefer_final_locals
-    Object? postBody;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>[];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// Consultar estatus trackId
-  ///
-  /// Parameters:
-  ///
-  /// * [Environment] environment (required):
-  ///
-  /// * [String] trackId (required):
-  Future<TrackStatusResponse?> getEcfStatus(Environment environment, String trackId,) async {
-    final response = await getEcfStatusWithHttpInfo(environment, trackId,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'TrackStatusResponse',) as TrackStatusResponse;
-    
-    }
-    return null;
-  }
-
-  /// Enviar e-CF a plataforma
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
+  /// * [String] xTenantId (required):
   ///
   /// * [Environment] environment (required):
   ///
   /// * [ElectronicDocument] electronicDocument (required):
-  Future<Response> submitEcfWithHttpInfo(Environment environment, ElectronicDocument electronicDocument,) async {
+  Future<Response> submitEcfWithHttpInfo(String xTenantId, Environment environment, ElectronicDocument electronicDocument,) async {
     // ignore: prefer_const_declarations
     final path = r'/{environment}/ecf/submit'
       .replaceAll('{environment}', environment.toString());
@@ -94,6 +38,8 @@ class ECFSubmissionApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+    headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
 
     const contentTypes = <String>['application/json'];
 
@@ -109,15 +55,17 @@ class ECFSubmissionApi {
     );
   }
 
-  /// Enviar e-CF a plataforma
+  /// Enviar e-CF a plataforma (Submit)
   ///
   /// Parameters:
+  ///
+  /// * [String] xTenantId (required):
   ///
   /// * [Environment] environment (required):
   ///
   /// * [ElectronicDocument] electronicDocument (required):
-  Future<EcfSubmissionResponse?> submitEcf(Environment environment, ElectronicDocument electronicDocument,) async {
-    final response = await submitEcfWithHttpInfo(environment, electronicDocument,);
+  Future<EcfSubmissionResponse?> submitEcf(String xTenantId, Environment environment, ElectronicDocument electronicDocument,) async {
+    final response = await submitEcfWithHttpInfo(xTenantId, environment, electronicDocument,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

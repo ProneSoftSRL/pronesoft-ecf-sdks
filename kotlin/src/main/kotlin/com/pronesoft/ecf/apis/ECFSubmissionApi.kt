@@ -31,7 +31,6 @@ import com.pronesoft.ecf.models.EcfSubmissionResponse
 import com.pronesoft.ecf.models.ElectronicDocument
 import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.ErrorResponse
-import com.pronesoft.ecf.models.TrackStatusResponse
 
 import com.squareup.moshi.Json
 
@@ -58,85 +57,10 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
     }
 
     /**
-     * GET /{environment}/ecf/status/{trackId}
-     * Consultar estatus trackId
-     * 
-     * @param environment 
-     * @param trackId 
-     * @return TrackStatusResponse
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     * @throws UnsupportedOperationException If the API returns an informational or redirection response
-     * @throws ClientException If the API returns a client error response
-     * @throws ServerException If the API returns a server error response
-     */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getEcfStatus(environment: Environment, trackId: kotlin.String) : TrackStatusResponse {
-        val localVarResponse = getEcfStatusWithHttpInfo(environment = environment, trackId = trackId)
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as TrackStatusResponse
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-     * GET /{environment}/ecf/status/{trackId}
-     * Consultar estatus trackId
-     * 
-     * @param environment 
-     * @param trackId 
-     * @return ApiResponse<TrackStatusResponse?>
-     * @throws IllegalStateException If the request is not correctly configured
-     * @throws IOException Rethrows the OkHttp execute method exception
-     */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(IllegalStateException::class, IOException::class)
-    fun getEcfStatusWithHttpInfo(environment: Environment, trackId: kotlin.String) : ApiResponse<TrackStatusResponse?> {
-        val localVariableConfig = getEcfStatusRequestConfig(environment = environment, trackId = trackId)
-
-        return request<Unit, TrackStatusResponse>(
-            localVariableConfig
-        )
-    }
-
-    /**
-     * To obtain the request config of the operation getEcfStatus
-     *
-     * @param environment 
-     * @param trackId 
-     * @return RequestConfig
-     */
-    fun getEcfStatusRequestConfig(environment: Environment, trackId: kotlin.String) : RequestConfig<Unit> {
-        val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
-
-        return RequestConfig(
-            method = RequestMethod.GET,
-            path = "/{environment}/ecf/status/{trackId}".replace("{"+"environment"+"}", encodeURIComponent(environment.toString())).replace("{"+"trackId"+"}", encodeURIComponent(trackId.toString())),
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = false,
-            body = localVariableBody
-        )
-    }
-
-    /**
      * POST /{environment}/ecf/submit
-     * Enviar e-CF a plataforma
+     * Enviar e-CF a plataforma (Submit)
      * 
+     * @param xTenantId 
      * @param environment 
      * @param electronicDocument 
      * @return EcfSubmissionResponse
@@ -148,8 +72,8 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun submitEcf(environment: Environment, electronicDocument: ElectronicDocument) : EcfSubmissionResponse {
-        val localVarResponse = submitEcfWithHttpInfo(environment = environment, electronicDocument = electronicDocument)
+    fun submitEcf(xTenantId: java.util.UUID, environment: Environment, electronicDocument: ElectronicDocument) : EcfSubmissionResponse {
+        val localVarResponse = submitEcfWithHttpInfo(xTenantId = xTenantId, environment = environment, electronicDocument = electronicDocument)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as EcfSubmissionResponse
@@ -168,8 +92,9 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * POST /{environment}/ecf/submit
-     * Enviar e-CF a plataforma
+     * Enviar e-CF a plataforma (Submit)
      * 
+     * @param xTenantId 
      * @param environment 
      * @param electronicDocument 
      * @return ApiResponse<EcfSubmissionResponse?>
@@ -178,8 +103,8 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun submitEcfWithHttpInfo(environment: Environment, electronicDocument: ElectronicDocument) : ApiResponse<EcfSubmissionResponse?> {
-        val localVariableConfig = submitEcfRequestConfig(environment = environment, electronicDocument = electronicDocument)
+    fun submitEcfWithHttpInfo(xTenantId: java.util.UUID, environment: Environment, electronicDocument: ElectronicDocument) : ApiResponse<EcfSubmissionResponse?> {
+        val localVariableConfig = submitEcfRequestConfig(xTenantId = xTenantId, environment = environment, electronicDocument = electronicDocument)
 
         return request<ElectronicDocument, EcfSubmissionResponse>(
             localVariableConfig
@@ -189,14 +114,16 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * To obtain the request config of the operation submitEcf
      *
+     * @param xTenantId 
      * @param environment 
      * @param electronicDocument 
      * @return RequestConfig
      */
-    fun submitEcfRequestConfig(environment: Environment, electronicDocument: ElectronicDocument) : RequestConfig<ElectronicDocument> {
+    fun submitEcfRequestConfig(xTenantId: java.util.UUID, environment: Environment, electronicDocument: ElectronicDocument) : RequestConfig<ElectronicDocument> {
         val localVariableBody = electronicDocument
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 
@@ -205,7 +132,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
             path = "/{environment}/ecf/submit".replace("{"+"environment"+"}", encodeURIComponent(environment.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             body = localVariableBody
         )
     }

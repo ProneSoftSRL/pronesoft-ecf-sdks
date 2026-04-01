@@ -21,7 +21,7 @@ Crear nueva secuencia fiscal
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let createTaxSequenceRequest = CreateTaxSequenceRequest(type: InvoiceType(), from: 123, to: 123, environment: Environment()) // CreateTaxSequenceRequest | 
+let createTaxSequenceRequest = CreateTaxSequenceRequest(type: InvoiceType(), from: 123, to: 123) // CreateTaxSequenceRequest | 
 
 // Crear nueva secuencia fiscal
 TaxSequencesAPI.createTaxSequence(createTaxSequenceRequest: createTaxSequenceRequest) { (response, error) in
@@ -48,7 +48,7 @@ Void (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -59,7 +59,7 @@ No authorization required
 
 # **getNextNumber**
 ```swift
-    open class func getNextNumber(type: InvoiceType, environment: Environment, completion: @escaping (_ data: GetNextNumber200Response?, _ error: Error?) -> Void)
+    open class func getNextNumber(xTenantId: UUID, type: InvoiceType, environment: Environment, completion: @escaping (_ data: GetNextNumber200Response?, _ error: Error?) -> Void)
 ```
 
 Obtener próximo número disponible
@@ -69,11 +69,12 @@ Obtener próximo número disponible
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
+let xTenantId = 987 // UUID | 
 let type = InvoiceType() // InvoiceType | 
 let environment = Environment() // Environment | 
 
 // Obtener próximo número disponible
-TaxSequencesAPI.getNextNumber(type: type, environment: environment) { (response, error) in
+TaxSequencesAPI.getNextNumber(xTenantId: xTenantId, type: type, environment: environment) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -89,6 +90,7 @@ TaxSequencesAPI.getNextNumber(type: type, environment: environment) { (response,
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **xTenantId** | **UUID** |  | 
  **type** | [**InvoiceType**](.md) |  | 
  **environment** | [**Environment**](.md) |  | 
 
@@ -98,7 +100,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -109,7 +111,7 @@ No authorization required
 
 # **listTaxSequences**
 ```swift
-    open class func listTaxSequences(type: InvoiceType? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
+    open class func listTaxSequences(xTenantId: UUID, type: InvoiceType? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
 ```
 
 Listar secuencias fiscales
@@ -119,10 +121,11 @@ Listar secuencias fiscales
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
+let xTenantId = 987 // UUID | 
 let type = InvoiceType() // InvoiceType |  (optional)
 
 // Listar secuencias fiscales
-TaxSequencesAPI.listTaxSequences(type: type) { (response, error) in
+TaxSequencesAPI.listTaxSequences(xTenantId: xTenantId, type: type) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -138,6 +141,7 @@ TaxSequencesAPI.listTaxSequences(type: type) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **xTenantId** | **UUID** |  | 
  **type** | [**InvoiceType**](.md) |  | [optional] 
 
 ### Return type
@@ -146,7 +150,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

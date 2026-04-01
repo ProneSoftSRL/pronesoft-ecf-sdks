@@ -31,9 +31,7 @@ import com.squareup.moshi.JsonClass
  * 
  *
  * @param code 
- * @param rate 
  * @param amount 
- * @param alternativeCurrencyAmount 
  */
 
 
@@ -42,14 +40,8 @@ data class ItemAdditionalTax (
     @Json(name = "code")
     val code: kotlin.String,
 
-    @Json(name = "rate")
-    val rate: java.math.BigDecimal? = null,
-
     @Json(name = "amount")
-    val amount: java.math.BigDecimal? = null,
-
-    @Json(name = "alternativeCurrencyAmount")
-    val alternativeCurrencyAmount: java.math.BigDecimal? = null
+    val amount: java.math.BigDecimal
 
 ) {
 

@@ -13,78 +13,28 @@ import AnyCodable
 public struct Buyer: Codable, JSONEncodable, Hashable {
 
     public static let taxIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[0-9]{9}|[0-9]{11}$/")
-    public static let foreignIdRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
     public static let nameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
-    public static let contactRule = StringRule(minLength: nil, maxLength: 80, pattern: nil)
-    public static let emailRule = StringRule(minLength: nil, maxLength: 80, pattern: nil)
     public static let addressRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
-    public static let municipalityCodeRule = StringRule(minLength: nil, maxLength: 6, pattern: nil)
-    public static let provinceCodeRule = StringRule(minLength: nil, maxLength: 6, pattern: nil)
-    public static let deliveryContactRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
-    public static let deliveryAddressRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
-    public static let additionalPhoneRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^\\d{3}-\\d{3}-\\d{4}$/")
-    public static let purchaseOrderNumberRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
-    public static let internalCodeRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
-    public static let paymentResponsibleRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
-    public static let additionalInfoRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
-    /** Opcional en DTO, pero necesario para validez fiscal DGII */
     public var taxId: String?
-    public var foreignId: String?
-    /** Obligatorio */
     public var name: String
-    public var contact: String?
     public var email: String?
     public var address: String?
-    public var municipalityCode: String?
-    public var provinceCode: String?
-    public var deliveryDate: Date?
-    public var deliveryContact: String?
     public var deliveryAddress: String?
-    public var additionalPhone: String?
-    public var purchaseOrderDate: Date?
-    public var purchaseOrderNumber: String?
-    public var internalCode: String?
-    public var paymentResponsible: String?
-    public var additionalInfo: String?
 
-    public init(taxId: String? = nil, foreignId: String? = nil, name: String, contact: String? = nil, email: String? = nil, address: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, deliveryDate: Date? = nil, deliveryContact: String? = nil, deliveryAddress: String? = nil, additionalPhone: String? = nil, purchaseOrderDate: Date? = nil, purchaseOrderNumber: String? = nil, internalCode: String? = nil, paymentResponsible: String? = nil, additionalInfo: String? = nil) {
+    public init(taxId: String? = nil, name: String, email: String? = nil, address: String? = nil, deliveryAddress: String? = nil) {
         self.taxId = taxId
-        self.foreignId = foreignId
         self.name = name
-        self.contact = contact
         self.email = email
         self.address = address
-        self.municipalityCode = municipalityCode
-        self.provinceCode = provinceCode
-        self.deliveryDate = deliveryDate
-        self.deliveryContact = deliveryContact
         self.deliveryAddress = deliveryAddress
-        self.additionalPhone = additionalPhone
-        self.purchaseOrderDate = purchaseOrderDate
-        self.purchaseOrderNumber = purchaseOrderNumber
-        self.internalCode = internalCode
-        self.paymentResponsible = paymentResponsible
-        self.additionalInfo = additionalInfo
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taxId
-        case foreignId
         case name
-        case contact
         case email
         case address
-        case municipalityCode
-        case provinceCode
-        case deliveryDate
-        case deliveryContact
         case deliveryAddress
-        case additionalPhone
-        case purchaseOrderDate
-        case purchaseOrderNumber
-        case internalCode
-        case paymentResponsible
-        case additionalInfo
     }
 
     // Encodable protocol methods
@@ -92,22 +42,10 @@ public struct Buyer: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(taxId, forKey: .taxId)
-        try container.encodeIfPresent(foreignId, forKey: .foreignId)
         try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(contact, forKey: .contact)
         try container.encodeIfPresent(email, forKey: .email)
         try container.encodeIfPresent(address, forKey: .address)
-        try container.encodeIfPresent(municipalityCode, forKey: .municipalityCode)
-        try container.encodeIfPresent(provinceCode, forKey: .provinceCode)
-        try container.encodeIfPresent(deliveryDate, forKey: .deliveryDate)
-        try container.encodeIfPresent(deliveryContact, forKey: .deliveryContact)
         try container.encodeIfPresent(deliveryAddress, forKey: .deliveryAddress)
-        try container.encodeIfPresent(additionalPhone, forKey: .additionalPhone)
-        try container.encodeIfPresent(purchaseOrderDate, forKey: .purchaseOrderDate)
-        try container.encodeIfPresent(purchaseOrderNumber, forKey: .purchaseOrderNumber)
-        try container.encodeIfPresent(internalCode, forKey: .internalCode)
-        try container.encodeIfPresent(paymentResponsible, forKey: .paymentResponsible)
-        try container.encodeIfPresent(additionalInfo, forKey: .additionalInfo)
     }
 }
 

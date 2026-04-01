@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **status_code** | **int** |  | [optional] 
 **message** | **str** |  | [optional] 
-**error** | **str** |  | [optional] 
 **timestamp** | **datetime** |  | [optional] 
 
 ## Example

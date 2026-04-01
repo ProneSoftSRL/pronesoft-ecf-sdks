@@ -5,23 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**tax_id** | **str** | Opcional en DTO, pero necesario para validez fiscal DGII | [optional] 
-**foreign_id** | **str** |  | [optional] 
-**name** | **str** | Obligatorio | 
-**contact** | **str** |  | [optional] 
+**tax_id** | **str** |  | [optional] 
+**name** | **str** |  | 
 **email** | **str** |  | [optional] 
 **address** | **str** |  | [optional] 
-**municipality_code** | **str** |  | [optional] 
-**province_code** | **str** |  | [optional] 
-**delivery_date** | **datetime** |  | [optional] 
-**delivery_contact** | **str** |  | [optional] 
 **delivery_address** | **str** |  | [optional] 
-**additional_phone** | **str** |  | [optional] 
-**purchase_order_date** | **datetime** |  | [optional] 
-**purchase_order_number** | **str** |  | [optional] 
-**internal_code** | **str** |  | [optional] 
-**payment_responsible** | **str** |  | [optional] 
-**additional_info** | **str** |  | [optional] 
 
 ## Example
 

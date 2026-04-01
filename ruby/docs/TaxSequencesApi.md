@@ -20,9 +20,14 @@ Crear nueva secuencia fiscal
 ```ruby
 require 'time'
 require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceType::N31, from: 37, to: 37, environment: PronesoftEcf::Environment::TESTE_CF}) # CreateTaxSequenceRequest | 
+create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceType::N31, from: 37, to: 37}) # CreateTaxSequenceRequest | 
 
 begin
   # Crear nueva secuencia fiscal
@@ -62,7 +67,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -72,7 +77,7 @@ No authorization required
 
 ## get_next_number
 
-> <GetNextNumber200Response> get_next_number(type, environment)
+> <GetNextNumber200Response> get_next_number(x_tenant_id, type, environment)
 
 Obtener próximo número disponible
 
@@ -81,14 +86,20 @@ Obtener próximo número disponible
 ```ruby
 require 'time'
 require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
+x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 type = PronesoftEcf::InvoiceType::N31 # InvoiceType | 
 environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
 
 begin
   # Obtener próximo número disponible
-  result = api_instance.get_next_number(type, environment)
+  result = api_instance.get_next_number(x_tenant_id, type, environment)
   p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->get_next_number: #{e}"
@@ -99,12 +110,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<GetNextNumber200Response>, Integer, Hash)> get_next_number_with_http_info(type, environment)
+> <Array(<GetNextNumber200Response>, Integer, Hash)> get_next_number_with_http_info(x_tenant_id, type, environment)
 
 ```ruby
 begin
   # Obtener próximo número disponible
-  data, status_code, headers = api_instance.get_next_number_with_http_info(type, environment)
+  data, status_code, headers = api_instance.get_next_number_with_http_info(x_tenant_id, type, environment)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <GetNextNumber200Response>
@@ -117,6 +128,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
+| **x_tenant_id** | **String** |  |  |
 | **type** | [**InvoiceType**](.md) |  |  |
 | **environment** | [**Environment**](.md) |  |  |
 
@@ -126,7 +138,7 @@ end
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -136,7 +148,7 @@ No authorization required
 
 ## list_tax_sequences
 
-> <ListTaxSequences200Response> list_tax_sequences(opts)
+> <ListTaxSequences200Response> list_tax_sequences(x_tenant_id, opts)
 
 Listar secuencias fiscales
 
@@ -145,15 +157,21 @@ Listar secuencias fiscales
 ```ruby
 require 'time'
 require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
+x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 opts = {
   type: PronesoftEcf::InvoiceType::N31 # InvoiceType | 
 }
 
 begin
   # Listar secuencias fiscales
-  result = api_instance.list_tax_sequences(opts)
+  result = api_instance.list_tax_sequences(x_tenant_id, opts)
   p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->list_tax_sequences: #{e}"
@@ -164,12 +182,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<ListTaxSequences200Response>, Integer, Hash)> list_tax_sequences_with_http_info(opts)
+> <Array(<ListTaxSequences200Response>, Integer, Hash)> list_tax_sequences_with_http_info(x_tenant_id, opts)
 
 ```ruby
 begin
   # Listar secuencias fiscales
-  data, status_code, headers = api_instance.list_tax_sequences_with_http_info(opts)
+  data, status_code, headers = api_instance.list_tax_sequences_with_http_info(x_tenant_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <ListTaxSequences200Response>
@@ -182,6 +200,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
+| **x_tenant_id** | **String** |  |  |
 | **type** | [**InvoiceType**](.md) |  | [optional] |
 
 ### Return type
@@ -190,7 +209,7 @@ end
 
 ### Authorization
 
-No authorization required
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

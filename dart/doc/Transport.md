@@ -9,13 +9,8 @@ import 'package:pronesoft_ecf/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **driver** | **String** |  | [optional] 
-**document** | **String** |  | [optional] 
 **vehicleId** | **String** |  | [optional] 
 **licensePlate** | **String** |  | [optional] 
-**route** | **String** |  | [optional] 
-**zone** | **String** |  | [optional] 
-**deliveryNoteNumber** | **String** |  | [optional] 
-**destinationCountry** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

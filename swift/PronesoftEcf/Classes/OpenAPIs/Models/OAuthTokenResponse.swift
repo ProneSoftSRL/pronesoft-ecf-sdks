@@ -12,33 +12,29 @@ import AnyCodable
 
 public struct OAuthTokenResponse: Codable, JSONEncodable, Hashable {
 
-    public var accessToken: String
-    public var tokenType: String
-    public var expiresIn: Int
-    public var scope: [String]
+    public var accessToken: String?
+    public var tokenType: String?
+    public var expiresIn: Int?
 
-    public init(accessToken: String, tokenType: String, expiresIn: Int, scope: [String]) {
+    public init(accessToken: String? = nil, tokenType: String? = nil, expiresIn: Int? = nil) {
         self.accessToken = accessToken
         self.tokenType = tokenType
         self.expiresIn = expiresIn
-        self.scope = scope
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case accessToken
         case tokenType
         case expiresIn
-        case scope
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(accessToken, forKey: .accessToken)
-        try container.encode(tokenType, forKey: .tokenType)
-        try container.encode(expiresIn, forKey: .expiresIn)
-        try container.encode(scope, forKey: .scope)
+        try container.encodeIfPresent(accessToken, forKey: .accessToken)
+        try container.encodeIfPresent(tokenType, forKey: .tokenType)
+        try container.encodeIfPresent(expiresIn, forKey: .expiresIn)
     }
 }
 

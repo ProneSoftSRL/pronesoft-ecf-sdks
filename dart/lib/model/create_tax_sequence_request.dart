@@ -16,7 +16,6 @@ class CreateTaxSequenceRequest {
     required this.type,
     required this.from,
     required this.to,
-    required this.environment,
   });
 
   InvoiceType type;
@@ -25,32 +24,27 @@ class CreateTaxSequenceRequest {
 
   int to;
 
-  Environment environment;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is CreateTaxSequenceRequest &&
     other.type == type &&
     other.from == from &&
-    other.to == to &&
-    other.environment == environment;
+    other.to == to;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (type.hashCode) +
     (from.hashCode) +
-    (to.hashCode) +
-    (environment.hashCode);
+    (to.hashCode);
 
   @override
-  String toString() => 'CreateTaxSequenceRequest[type=$type, from=$from, to=$to, environment=$environment]';
+  String toString() => 'CreateTaxSequenceRequest[type=$type, from=$from, to=$to]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'type'] = this.type;
       json[r'from'] = this.from;
       json[r'to'] = this.to;
-      json[r'environment'] = this.environment;
     return json;
   }
 
@@ -71,8 +65,6 @@ class CreateTaxSequenceRequest {
         assert(json[r'from'] != null, 'Required key "CreateTaxSequenceRequest[from]" has a null value in JSON.');
         assert(json.containsKey(r'to'), 'Required key "CreateTaxSequenceRequest[to]" is missing from JSON.');
         assert(json[r'to'] != null, 'Required key "CreateTaxSequenceRequest[to]" has a null value in JSON.');
-        assert(json.containsKey(r'environment'), 'Required key "CreateTaxSequenceRequest[environment]" is missing from JSON.');
-        assert(json[r'environment'] != null, 'Required key "CreateTaxSequenceRequest[environment]" has a null value in JSON.');
         return true;
       }());
 
@@ -80,7 +72,6 @@ class CreateTaxSequenceRequest {
         type: InvoiceType.fromJson(json[r'type'])!,
         from: mapValueOfType<int>(json, r'from')!,
         to: mapValueOfType<int>(json, r'to')!,
-        environment: Environment.fromJson(json[r'environment'])!,
       );
     }
     return null;
@@ -131,7 +122,6 @@ class CreateTaxSequenceRequest {
     'type',
     'from',
     'to',
-    'environment',
   };
 }
 

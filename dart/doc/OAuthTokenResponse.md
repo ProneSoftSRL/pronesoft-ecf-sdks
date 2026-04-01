@@ -8,10 +8,9 @@ import 'package:pronesoft_ecf/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**accessToken** | **String** |  | 
-**tokenType** | **String** |  | 
-**expiresIn** | **int** |  | 
-**scope** | **List<String>** |  | [default to const []]
+**accessToken** | **String** |  | [optional] 
+**tokenType** | **String** |  | [optional] 
+**expiresIn** | **int** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

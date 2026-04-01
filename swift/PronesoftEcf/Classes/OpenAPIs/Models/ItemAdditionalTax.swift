@@ -12,24 +12,17 @@ import AnyCodable
 
 public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
 
-    public static let codeRule = StringRule(minLength: nil, maxLength: 3, pattern: nil)
     public var code: String
-    public var rate: Double?
-    public var amount: Double?
-    public var alternativeCurrencyAmount: Double?
+    public var amount: Double
 
-    public init(code: String, rate: Double? = nil, amount: Double? = nil, alternativeCurrencyAmount: Double? = nil) {
+    public init(code: String, amount: Double) {
         self.code = code
-        self.rate = rate
         self.amount = amount
-        self.alternativeCurrencyAmount = alternativeCurrencyAmount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
-        case rate
         case amount
-        case alternativeCurrencyAmount
     }
 
     // Encodable protocol methods
@@ -37,9 +30,7 @@ public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
-        try container.encodeIfPresent(rate, forKey: .rate)
-        try container.encodeIfPresent(amount, forKey: .amount)
-        try container.encodeIfPresent(alternativeCurrencyAmount, forKey: .alternativeCurrencyAmount)
+        try container.encode(amount, forKey: .amount)
     }
 }
 

@@ -10,7 +10,6 @@
 |**type** | **InvoiceType** |  |  |
 |**from** | **Integer** |  |  |
 |**to** | **Integer** |  |  |
-|**environment** | **Environment** |  |  |
 
 
 

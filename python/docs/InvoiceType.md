@@ -1,5 +1,6 @@
 # InvoiceType
 
+31: Crédito Fiscal, 32: Consumidor, 33: Nota de Débito, 34: Nota de Crédito, 41: Compras, 43: Gastos Menores, 44: Regímenes Especiales, 45: Gubernamental, 46: Exportaciones, 47: Pagos al Exterior. 
 
 ## Enum
 

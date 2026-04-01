@@ -12,29 +12,24 @@ import AnyCodable
 
 public struct ReferenceInfo: Codable, JSONEncodable, Hashable {
 
-    public static let modifiedInvoiceNumberRule = StringRule(minLength: nil, maxLength: 19, pattern: nil)
-    public static let otherContributorRNCRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[0-9]{9}|[0-9]{11}$/")
-    public static let modificationReasonRule = StringRule(minLength: nil, maxLength: 90, pattern: nil)
+    public enum ModificationCode: String, Codable, CaseIterable {
+        case _1 = "1"
+        case _2 = "2"
+        case _3 = "3"
+        case _4 = "4"
+        case _5 = "5"
+    }
     public var modifiedInvoiceNumber: String
-    public var otherContributorRNC: String?
-    public var modifiedInvoiceDate: Date?
     public var modificationCode: ModificationCode
-    public var modificationReason: String?
 
-    public init(modifiedInvoiceNumber: String, otherContributorRNC: String? = nil, modifiedInvoiceDate: Date? = nil, modificationCode: ModificationCode, modificationReason: String? = nil) {
+    public init(modifiedInvoiceNumber: String, modificationCode: ModificationCode) {
         self.modifiedInvoiceNumber = modifiedInvoiceNumber
-        self.otherContributorRNC = otherContributorRNC
-        self.modifiedInvoiceDate = modifiedInvoiceDate
         self.modificationCode = modificationCode
-        self.modificationReason = modificationReason
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case modifiedInvoiceNumber
-        case otherContributorRNC
-        case modifiedInvoiceDate
         case modificationCode
-        case modificationReason
     }
 
     // Encodable protocol methods
@@ -42,10 +37,7 @@ public struct ReferenceInfo: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(modifiedInvoiceNumber, forKey: .modifiedInvoiceNumber)
-        try container.encodeIfPresent(otherContributorRNC, forKey: .otherContributorRNC)
-        try container.encodeIfPresent(modifiedInvoiceDate, forKey: .modifiedInvoiceDate)
         try container.encode(modificationCode, forKey: .modificationCode)
-        try container.encodeIfPresent(modificationReason, forKey: .modificationReason)
     }
 }
 

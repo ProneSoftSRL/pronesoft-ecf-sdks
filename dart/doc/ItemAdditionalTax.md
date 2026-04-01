@@ -9,9 +9,7 @@ import 'package:pronesoft_ecf/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **String** |  | 
-**rate** | **num** |  | [optional] 
-**amount** | **num** |  | [optional] 
-**alternativeCurrencyAmount** | **num** |  | [optional] 
+**amount** | **num** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

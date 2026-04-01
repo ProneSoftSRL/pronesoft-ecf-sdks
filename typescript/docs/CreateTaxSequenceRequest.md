@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **type** | [**InvoiceType**](InvoiceType.md) |  | [default to undefined]
 **from** | **number** |  | [default to undefined]
 **to** | **number** |  | [default to undefined]
-**environment** | [**Environment**](Environment.md) |  | [default to undefined]
 
 ## Example
 
@@ -19,7 +18,6 @@ const instance: CreateTaxSequenceRequest = {
     type,
     from,
     to,
-    environment,
 };
 ```
 

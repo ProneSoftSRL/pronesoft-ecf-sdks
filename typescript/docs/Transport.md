@@ -6,13 +6,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **driver** | **string** |  | [optional] [default to undefined]
-**document** | **string** |  | [optional] [default to undefined]
 **vehicleId** | **string** |  | [optional] [default to undefined]
 **licensePlate** | **string** |  | [optional] [default to undefined]
-**route** | **string** |  | [optional] [default to undefined]
-**zone** | **string** |  | [optional] [default to undefined]
-**deliveryNoteNumber** | **string** |  | [optional] [default to undefined]
-**destinationCountry** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -21,13 +16,8 @@ import { Transport } from '@pronesoft/ecf-sdk';
 
 const instance: Transport = {
     driver,
-    document,
     vehicleId,
     licensePlate,
-    route,
-    zone,
-    deliveryNoteNumber,
-    destinationCountry,
 };
 ```
 

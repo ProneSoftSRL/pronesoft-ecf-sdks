@@ -36,6 +36,9 @@ open class DigitalCertificatesAPI {
     /**
      Cargar Certificado Digital (P12)
      - POST /{rnc}/certificates
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
      - parameter rnc: (path)  
      - parameter file: (form) Archivo .p12 o .pfx 
      - parameter password: (form) Contraseña del certificado 
@@ -65,6 +68,6 @@ open class DigitalCertificatesAPI {
 
         let localVariableRequestBuilder: RequestBuilder<UploadCertificate201Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 }
