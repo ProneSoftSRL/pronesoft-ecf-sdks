@@ -1,0 +1,23 @@
+[package]
+name = "pronesoft_ecf"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "Especificación de producción 100% exacta de la API de eCF-Pronesoft. **Diseñada para la generación automática de SDKs.**  Esta especificación ha sido auditada contra el código fuente real (DTOs, Controllers y Guards),  reflejando con total precisión la obligatoriedad de los campos y las estructuras de respuesta. "
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
+edition = "2021"
+
+[dependencies]
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+uuid = { version = "^1.8", features = ["serde", "v4"] }
+tokio = { version = "^1.46.0", features = ["fs"] }
+tokio-util = { version = "^0.7", features = ["codec"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls = ["reqwest/rustls"]

@@ -1,0 +1,2561 @@
+openapi: 3.0.0
+info:
+  description: "Especificación de producción 100% exacta de la API de eCF-Pronesoft.\n\
+    **Diseñada para la generación automática de SDKs.**\n\nEsta especificación ha\
+    \ sido auditada contra el código fuente real (DTOs, Controllers y Guards), \n\
+    reflejando con total precisión la obligatoriedad de los campos y las estructuras\
+    \ de respuesta.\n"
+  title: eCF-Pronesoft Master Integration API
+  version: 1.0.0
+servers:
+- description: Sandbox (Pruebas)
+  url: https://api.ecf.sandbox.pronesoft.com/api/v1
+- description: Producción
+  url: https://api.ecf.pronesoft.com/api/v1
+tags:
+- name: Authentication
+- name: Digital Certificates
+- name: Tax Sequences
+- name: eCF Submission
+- name: Documents Sent
+- name: Documents Received
+- name: Commercial Approvals
+- name: Associated Companies
+- name: Reports
+- name: Automated Certification
+- name: Webhooks
+paths:
+  /oauth/token:
+    post:
+      operationId: getAccessToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthTokenRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OAuthTokenResponse"
+          description: Token generado exitosamente
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Token inválido o expirado
+      security: []
+      summary: Obtener token de acceso
+      tags:
+      - Authentication
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /{rnc}/certificates:
+    post:
+      operationId: uploadCertificate
+      parameters:
+      - explode: false
+        in: path
+        name: rnc
+        required: true
+        schema:
+          pattern: "^[0-9]{9}|[0-9]{11}$"
+          type: string
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/uploadCertificate_request"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/uploadCertificate_201_response"
+          description: Certificado cargado
+      summary: Cargar Certificado Digital (P12)
+      tags:
+      - Digital Certificates
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+  /tax-sequences:
+    get:
+      operationId: listTaxSequences
+      parameters:
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          $ref: "#/components/schemas/InvoiceType"
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listTaxSequences_200_response"
+          description: Lista de secuencias
+      summary: Listar secuencias fiscales
+      tags:
+      - Tax Sequences
+      x-accepts:
+      - application/json
+    post:
+      operationId: createTaxSequence
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTaxSequenceRequest"
+        required: true
+      responses:
+        "201":
+          description: Secuencia creada
+      summary: Crear nueva secuencia fiscal
+      tags:
+      - Tax Sequences
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /tax-sequences/next:
+    get:
+      operationId: getNextNumber
+      parameters:
+      - explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          $ref: "#/components/schemas/InvoiceType"
+        style: form
+      - explode: true
+        in: query
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getNextNumber_200_response"
+          description: Próximo número
+      summary: Obtener próximo número disponible
+      tags:
+      - Tax Sequences
+      x-accepts:
+      - application/json
+  /{environment}/ecf/submit:
+    post:
+      operationId: submitEcf
+      parameters:
+      - explode: false
+        in: path
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ElectronicDocument"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EcfSubmissionResponse"
+          description: Documento enviado y procesado
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Error de validación en los datos enviados
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Token inválido o expirado
+      summary: Enviar e-CF a plataforma
+      tags:
+      - eCF Submission
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /{environment}/ecf/status/{trackId}:
+    get:
+      operationId: getEcfStatus
+      parameters:
+      - explode: false
+        in: path
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: simple
+      - explode: false
+        in: path
+        name: trackId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackStatusResponse"
+          description: Respuesta de estatus
+      summary: Consultar estatus trackId
+      tags:
+      - eCF Submission
+      x-accepts:
+      - application/json
+  /documents/sent:
+    get:
+      operationId: listSentDocuments
+      parameters:
+      - explode: true
+        in: query
+        name: ecf
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedResponse"
+          description: Lista paginada de documentos enviados
+      summary: Listar documentos enviados
+      tags:
+      - Documents Sent
+      x-accepts:
+      - application/json
+  /documents/received/all:
+    get:
+      operationId: listReceivedDocuments
+      parameters:
+      - explode: true
+        in: query
+        name: businessId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaginatedResponse"
+          description: Lista paginada de documentos recibidos
+      summary: Listar documentos recibidos
+      tags:
+      - Documents Received
+      x-accepts:
+      - application/json
+  /documents/approvals/all:
+    get:
+      operationId: listApprovals
+      parameters:
+      - explode: true
+        in: query
+        name: businessId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listApprovals_200_response"
+          description: Lista de aprobaciones
+      summary: Listar aprobaciones
+      tags:
+      - Commercial Approvals
+      x-accepts:
+      - application/json
+  /associated-companies:
+    get:
+      operationId: listAssociatedCompanies
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AssociatedCompany"
+                type: array
+          description: Lista de empresas
+      summary: Listar sucursales
+      tags:
+      - Associated Companies
+      x-accepts:
+      - application/json
+  /dgii/sent/export:
+    get:
+      operationId: exportSent
+      responses:
+        "200":
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                format: binary
+                type: string
+          description: Archivo Excel
+      summary: Exportar documentos enviados
+      tags:
+      - Reports
+      x-accepts:
+      - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+  /dgii/606/export:
+    get:
+      operationId: export606
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                format: binary
+                type: string
+          description: Archivo TXT/Excel
+      summary: Exportar Formato 606
+      tags:
+      - Reports
+      x-accepts:
+      - text/plain
+  /dgii-ecf/automated-certification/niches:
+    get:
+      operationId: listNiches
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Niche"
+                type: array
+          description: Lista de nichos
+      summary: Listar nichos
+      tags:
+      - Automated Certification
+      x-accepts:
+      - application/json
+  /dgii-ecf/automated-certification/start:
+    post:
+      operationId: startCertification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StartCertificationRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/startCertification_200_response"
+          description: Proceso iniciado
+      summary: Iniciar certificación
+      tags:
+      - Automated Certification
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /{rnc}/webhooks:
+    get:
+      operationId: listWebhooks
+      parameters:
+      - explode: false
+        in: path
+        name: rnc
+        required: true
+        schema:
+          pattern: "^[0-9]{9}|[0-9]{11}$"
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/WebhookConfig"
+                type: array
+          description: Lista de webhooks
+      summary: Listar webhooks
+      tags:
+      - Webhooks
+      x-accepts:
+      - application/json
+components:
+  responses:
+    UnauthorizedError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Token inválido o expirado
+    ValidationError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Error de validación en los datos enviados
+  schemas:
+    Environment:
+      enum:
+      - TesteCF
+      - CerteCF
+      - eCF
+      type: string
+    InvoiceType:
+      enum:
+      - "31"
+      - "32"
+      - "33"
+      - "34"
+      - "41"
+      - "43"
+      - "44"
+      - "45"
+      - "46"
+      - "47"
+      type: string
+    IncomeType:
+      enum:
+      - "01"
+      - "02"
+      - "03"
+      - "04"
+      - "05"
+      - "06"
+      type: string
+    PaymentType:
+      enum:
+      - "1"
+      - "2"
+      - "3"
+      type: string
+    PaymentMethod:
+      enum:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+      - "6"
+      - "7"
+      - "8"
+      type: string
+    AccountType:
+      enum:
+      - CT
+      - AH
+      - OT
+      type: string
+    BillingIndicator:
+      enum:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      type: string
+    ItemType:
+      enum:
+      - "1"
+      - "2"
+      type: string
+    AdjustmentType:
+      enum:
+      - D
+      - R
+      type: string
+    ModificationCode:
+      enum:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+      type: string
+    OAuthTokenRequest:
+      example:
+        clientId: app_12345
+        clientSecret: sk_live_123
+      properties:
+        clientId:
+          example: app_12345
+          type: string
+        clientSecret:
+          example: sk_live_123
+          type: string
+      required:
+      - clientId
+      - clientSecret
+      type: object
+    OAuthTokenResponse:
+      example:
+        expiresIn: 86400
+        scope:
+        - scope
+        - scope
+        accessToken: accessToken
+        tokenType: Bearer
+      properties:
+        accessToken:
+          type: string
+        tokenType:
+          example: Bearer
+          type: string
+        expiresIn:
+          example: 86400
+          type: integer
+        scope:
+          items:
+            type: string
+          type: array
+      required:
+      - accessToken
+      - expiresIn
+      - scope
+      - tokenType
+      type: object
+    ElectronicDocument:
+      example:
+        paymentAccountType: CT
+        paymentBank: paymentBank
+        groupId: groupId
+        issuerCommercialName: issuerCommercialName
+        alternativeCurrency:
+          taxableAmount: 3.5571952270680973
+          totalAmount: 1.284659006116532
+          totalITBIS: 6.965117697638846
+          code: code
+          exchangeRate: 6.438423552598547
+        paymentType: "1"
+        sellerCode: sellerCode
+        salesZone: salesZone
+        pages:
+        - pageNumber: 8
+          subtotal: 0.43431398824148815
+          lineTo: 3
+          lineFrom: 4
+        - pageNumber: 8
+          subtotal: 0.43431398824148815
+          lineTo: 3
+          lineFrom: 4
+        - pageNumber: 8
+          subtotal: 0.43431398824148815
+          lineTo: 3
+          lineFrom: 4
+        - pageNumber: 8
+          subtotal: 0.43431398824148815
+          lineTo: 3
+          lineFrom: 4
+        - pageNumber: 8
+          subtotal: 0.43431398824148815
+          lineTo: 3
+          lineFrom: 4
+        taxedAmountIndicator: "0"
+        issuerAddress: issuerAddress
+        invoiceNumber: invoiceNumber
+        additionalInfo:
+          netWeightUnit: 7.061401241503109
+          grossWeight: 5.962133916683182
+          netWeight: 5.637376656633329
+          packageVolume: 2.027123023002322
+          containerNumber: containerNumber
+          referenceNumber: referenceNumber
+          packageUnit: 3.616076749251911
+          volumeUnit: 4.145608029883936
+          grossWeightUnit: 2.3021358869347655
+          shipmentDate: shipmentDate
+          packageQuantity: 9.301444243932576
+          shipmentNumber: shipmentNumber
+        invoiceType: "31"
+        issueDate: 2000-01-23T04:56:07.000+00:00
+        paymentTerms: paymentTerms
+        serviceEndDate: 2000-01-23T04:56:07.000+00:00
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+        paymentAccountNumber: paymentAccountNumber
+        subtotals:
+        - number: 90
+          taxableAmount: 9.702963800023566
+          amount: 0.5199002018724985
+          description: description
+          order: 9
+        - number: 90
+          taxableAmount: 9.702963800023566
+          amount: 0.5199002018724985
+          description: description
+          order: 9
+        - number: 90
+          taxableAmount: 9.702963800023566
+          amount: 0.5199002018724985
+          description: description
+          order: 9
+        - number: 90
+          taxableAmount: 9.702963800023566
+          amount: 0.5199002018724985
+          description: description
+          order: 9
+        - number: 90
+          taxableAmount: 9.702963800023566
+          amount: 0.5199002018724985
+          description: description
+          order: 9
+        creditNoteIndicator: "0"
+        internalInvoiceNumber: internalInvoiceNumber
+        incomeType: "01"
+        provinceCode: provinceCode
+        issuerEconomicActivity: issuerEconomicActivity
+        salesRoute: salesRoute
+        branchName: branchName
+        transport:
+          licensePlate: licensePlate
+          route: route
+          driver: driver
+          zone: zone
+          document: document
+          vehicleId: vehicleId
+          destinationCountry: destinationCountry
+          deliveryNoteNumber: deliveryNoteNumber
+        totals:
+          itbisRate2: 7.457744773683766
+          amountToPay: 9.018348186070783
+          taxableAmount: 7.386281948385884
+          itbisRate1: 6.84685269835264
+          itbisRate3: 1.1730742509559433
+          additionalTaxes:
+          - amount: 9.965781217890562
+            code: code
+          - amount: 9.965781217890562
+            code: code
+          - amount: 9.965781217890562
+            code: code
+          - amount: 9.965781217890562
+            code: code
+          - amount: 9.965781217890562
+            code: code
+          additionalTaxAmount: 5.025004791520295
+          exemptAmount: 9.369310271410669
+          nonBillableAmount: 8.762042012749001
+          totalAmount: 6.683562403749608
+          totalITBIS: 4.965218492984954
+          taxableAmount2: 1.0246457001441578
+          taxableAmount1: 1.2315135367772556
+          taxableAmount3: 1.4894159098541704
+        municipalityCode: municipalityCode
+        issuerEmail: issuerEmail
+        version: "1.0"
+        buyer:
+          address: address
+          provinceCode: provinceCode
+          municipalityCode: municipalityCode
+          foreignId: foreignId
+          purchaseOrderDate: 2000-01-23T04:56:07.000+00:00
+          deliveryAddress: deliveryAddress
+          paymentResponsible: paymentResponsible
+          taxId: taxId
+          contact: contact
+          purchaseOrderNumber: purchaseOrderNumber
+          name: name
+          additionalPhone: additionalPhone
+          additionalInfo: additionalInfo
+          deliveryContact: deliveryContact
+          deliveryDate: 2000-01-23T04:56:07.000+00:00
+          email: email
+          internalCode: internalCode
+        issuerPhones:
+        - issuerPhones
+        - issuerPhones
+        - issuerPhones
+        issuerWebsite: issuerWebsite
+        serviceStartDate: 2000-01-23T04:56:07.000+00:00
+        paymentForms:
+        - amount: 0.8008281904610115
+          method: "1"
+        - amount: 0.8008281904610115
+          method: "1"
+        - amount: 0.8008281904610115
+          method: "1"
+        - amount: 0.8008281904610115
+          method: "1"
+        - amount: 0.8008281904610115
+          method: "1"
+        internalOrderNumber: 1.4658129805029452
+        totalPages: 602
+        discountsOrSurcharges:
+        - amount: 4.86315908102884
+          norm1007Indicator: "0"
+          alternativeCurrencyAmount: 6.073898085781152
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 5.507386964179881
+          lineNumber: 16
+          type: D
+        - amount: 4.86315908102884
+          norm1007Indicator: "0"
+          alternativeCurrencyAmount: 6.073898085781152
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 5.507386964179881
+          lineNumber: 16
+          type: D
+        - amount: 4.86315908102884
+          norm1007Indicator: "0"
+          alternativeCurrencyAmount: 6.073898085781152
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 5.507386964179881
+          lineNumber: 16
+          type: D
+        - amount: 4.86315908102884
+          norm1007Indicator: "0"
+          alternativeCurrencyAmount: 6.073898085781152
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 5.507386964179881
+          lineNumber: 16
+          type: D
+        - amount: 4.86315908102884
+          norm1007Indicator: "0"
+          alternativeCurrencyAmount: 6.073898085781152
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 5.507386964179881
+          lineNumber: 16
+          type: D
+        paymentDeadline: 2000-01-23T04:56:07.000+00:00
+        additionalIssuerInfo: additionalIssuerInfo
+        deferredSendingIndicator: "1"
+        items:
+        - alcoholDegree: 7.058770351582356
+          surcharge:
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 3.0576100241049344
+          referenceUnit: 3.0937452626664474
+          billingIndicator: "0"
+          description: description
+          discountAmount: 8.969578798196912
+          discount:
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          type: "1"
+          referenceQuantity: 3.353193347011243
+          referenceUnitPrice: 6.519180951018382
+          alternativeCurrency:
+            unitPrice: 6.628464275087742
+            surcharge: 1.041444916118296
+            amount: 4.678947989005849
+            discount: 4.258773108174356
+          subquantities:
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          miningInfo:
+            netWeightMining: 4.652396432933246
+            netWeightKg: 0.10263654006109402
+            affiliationType: "1"
+            settlement: "1"
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: unitPrice
+          amount: 7.260521264802104
+          quantity: quantity
+          unitOfMeasure: 6.704019297950036
+          additionalTaxes:
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          withheldISRAmount: 5.944895607614016
+          withholdingAgentIndicator: 1.6778324963048012
+          name: name
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 2
+          withheldITBISAmount: 6.878052220127876
+        - alcoholDegree: 7.058770351582356
+          surcharge:
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 3.0576100241049344
+          referenceUnit: 3.0937452626664474
+          billingIndicator: "0"
+          description: description
+          discountAmount: 8.969578798196912
+          discount:
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          type: "1"
+          referenceQuantity: 3.353193347011243
+          referenceUnitPrice: 6.519180951018382
+          alternativeCurrency:
+            unitPrice: 6.628464275087742
+            surcharge: 1.041444916118296
+            amount: 4.678947989005849
+            discount: 4.258773108174356
+          subquantities:
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          miningInfo:
+            netWeightMining: 4.652396432933246
+            netWeightKg: 0.10263654006109402
+            affiliationType: "1"
+            settlement: "1"
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: unitPrice
+          amount: 7.260521264802104
+          quantity: quantity
+          unitOfMeasure: 6.704019297950036
+          additionalTaxes:
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          withheldISRAmount: 5.944895607614016
+          withholdingAgentIndicator: 1.6778324963048012
+          name: name
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 2
+          withheldITBISAmount: 6.878052220127876
+        - alcoholDegree: 7.058770351582356
+          surcharge:
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 3.0576100241049344
+          referenceUnit: 3.0937452626664474
+          billingIndicator: "0"
+          description: description
+          discountAmount: 8.969578798196912
+          discount:
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          type: "1"
+          referenceQuantity: 3.353193347011243
+          referenceUnitPrice: 6.519180951018382
+          alternativeCurrency:
+            unitPrice: 6.628464275087742
+            surcharge: 1.041444916118296
+            amount: 4.678947989005849
+            discount: 4.258773108174356
+          subquantities:
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          miningInfo:
+            netWeightMining: 4.652396432933246
+            netWeightKg: 0.10263654006109402
+            affiliationType: "1"
+            settlement: "1"
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: unitPrice
+          amount: 7.260521264802104
+          quantity: quantity
+          unitOfMeasure: 6.704019297950036
+          additionalTaxes:
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          withheldISRAmount: 5.944895607614016
+          withholdingAgentIndicator: 1.6778324963048012
+          name: name
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 2
+          withheldITBISAmount: 6.878052220127876
+        - alcoholDegree: 7.058770351582356
+          surcharge:
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 3.0576100241049344
+          referenceUnit: 3.0937452626664474
+          billingIndicator: "0"
+          description: description
+          discountAmount: 8.969578798196912
+          discount:
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          type: "1"
+          referenceQuantity: 3.353193347011243
+          referenceUnitPrice: 6.519180951018382
+          alternativeCurrency:
+            unitPrice: 6.628464275087742
+            surcharge: 1.041444916118296
+            amount: 4.678947989005849
+            discount: 4.258773108174356
+          subquantities:
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          miningInfo:
+            netWeightMining: 4.652396432933246
+            netWeightKg: 0.10263654006109402
+            affiliationType: "1"
+            settlement: "1"
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: unitPrice
+          amount: 7.260521264802104
+          quantity: quantity
+          unitOfMeasure: 6.704019297950036
+          additionalTaxes:
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          withheldISRAmount: 5.944895607614016
+          withholdingAgentIndicator: 1.6778324963048012
+          name: name
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 2
+          withheldITBISAmount: 6.878052220127876
+        - alcoholDegree: 7.058770351582356
+          surcharge:
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          - amount: 5.533258397034986
+            type: $
+            value: 7.04836565559697
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 3.0576100241049344
+          referenceUnit: 3.0937452626664474
+          billingIndicator: "0"
+          description: description
+          discountAmount: 8.969578798196912
+          discount:
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          - amount: 3.0205796992916243
+            type: $
+            value: 7.740351818741173
+          type: "1"
+          referenceQuantity: 3.353193347011243
+          referenceUnitPrice: 6.519180951018382
+          alternativeCurrency:
+            unitPrice: 6.628464275087742
+            surcharge: 1.041444916118296
+            amount: 4.678947989005849
+            discount: 4.258773108174356
+          subquantities:
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          - quantity: 7.143538047012306
+            unitCode: 0.8851374739011653
+          miningInfo:
+            netWeightMining: 4.652396432933246
+            netWeightKg: 0.10263654006109402
+            affiliationType: "1"
+            settlement: "1"
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: unitPrice
+          amount: 7.260521264802104
+          quantity: quantity
+          unitOfMeasure: 6.704019297950036
+          additionalTaxes:
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          - amount: 4.078845849666752
+            code: code
+            rate: 3.2588565619047607
+            alternativeCurrencyAmount: 0.2025324113236393
+          withheldISRAmount: 5.944895607614016
+          withholdingAgentIndicator: 1.6778324963048012
+          name: name
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 2
+          withheldITBISAmount: 6.878052220127876
+        issuerRNC: issuerRNC
+        referenceInfo:
+          modifiedInvoiceDate: 2000-01-23T04:56:07.000+00:00
+          modificationReason: modificationReason
+          otherContributorRNC: otherContributorRNC
+          modifiedInvoiceNumber: modifiedInvoiceNumber
+          modificationCode: "1"
+        issuerBusinessName: issuerBusinessName
+      properties:
+        version:
+          default: "1.0"
+          pattern: ^1\.0$
+          type: string
+        invoiceType:
+          $ref: "#/components/schemas/InvoiceType"
+        invoiceNumber:
+          pattern: "^[a-zA-Z0-9]{13}$"
+          type: string
+        groupId:
+          type: string
+        expirationDate:
+          format: date-time
+          type: string
+        creditNoteIndicator:
+          enum:
+          - "0"
+          - "1"
+          type: string
+        deferredSendingIndicator:
+          enum:
+          - "1"
+          type: string
+        taxedAmountIndicator:
+          enum:
+          - "0"
+          - "1"
+          type: string
+        incomeType:
+          $ref: "#/components/schemas/IncomeType"
+        paymentType:
+          $ref: "#/components/schemas/PaymentType"
+        paymentDeadline:
+          format: date-time
+          type: string
+        paymentTerms:
+          maxLength: 15
+          type: string
+        paymentForms:
+          items:
+            $ref: "#/components/schemas/PaymentForm"
+          maxItems: 7
+          type: array
+        paymentAccountType:
+          $ref: "#/components/schemas/AccountType"
+        paymentAccountNumber:
+          maxLength: 28
+          type: string
+        paymentBank:
+          maxLength: 75
+          type: string
+        serviceStartDate:
+          format: date-time
+          type: string
+        serviceEndDate:
+          format: date-time
+          type: string
+        totalPages:
+          maximum: 999
+          minimum: 1
+          type: integer
+        issuerRNC:
+          pattern: "^[0-9]{9}|[0-9]{11}$"
+          type: string
+        issuerBusinessName:
+          maxLength: 150
+          type: string
+        issuerCommercialName:
+          maxLength: 150
+          type: string
+        branchName:
+          maxLength: 20
+          type: string
+        issuerAddress:
+          maxLength: 100
+          type: string
+        municipalityCode:
+          maxLength: 6
+          type: string
+        provinceCode:
+          maxLength: 6
+          type: string
+        issuerPhones:
+          items:
+            pattern: "^\\d{3}-\\d{3}-\\d{4}$"
+            type: string
+          maxItems: 3
+          type: array
+        issuerEmail:
+          format: email
+          maxLength: 80
+          type: string
+        issuerWebsite:
+          maxLength: 50
+          type: string
+        issuerEconomicActivity:
+          maxLength: 100
+          type: string
+        sellerCode:
+          maxLength: 60
+          type: string
+        internalInvoiceNumber:
+          type: string
+        internalOrderNumber:
+          type: number
+        salesZone:
+          maxLength: 20
+          type: string
+        salesRoute:
+          maxLength: 20
+          type: string
+        additionalIssuerInfo:
+          maxLength: 250
+          type: string
+        issueDate:
+          format: date-time
+          type: string
+        buyer:
+          $ref: "#/components/schemas/Buyer"
+        additionalInfo:
+          $ref: "#/components/schemas/AdditionalInfo"
+        transport:
+          $ref: "#/components/schemas/Transport"
+        totals:
+          $ref: "#/components/schemas/Totals"
+        alternativeCurrency:
+          $ref: "#/components/schemas/AlternativeCurrency"
+        items:
+          items:
+            $ref: "#/components/schemas/Item"
+          maxItems: 1000
+          minItems: 1
+          type: array
+        subtotals:
+          items:
+            $ref: "#/components/schemas/Subtotal"
+          maxItems: 99
+          type: array
+        discountsOrSurcharges:
+          items:
+            $ref: "#/components/schemas/DiscountOrSurcharge"
+          maxItems: 20
+          type: array
+        pages:
+          items:
+            $ref: "#/components/schemas/Page"
+          maxItems: 1000
+          type: array
+        referenceInfo:
+          $ref: "#/components/schemas/ReferenceInfo"
+      required:
+      - invoiceNumber
+      - invoiceType
+      - issueDate
+      - items
+      - totals
+      - version
+      type: object
+    Buyer:
+      example:
+        address: address
+        provinceCode: provinceCode
+        municipalityCode: municipalityCode
+        foreignId: foreignId
+        purchaseOrderDate: 2000-01-23T04:56:07.000+00:00
+        deliveryAddress: deliveryAddress
+        paymentResponsible: paymentResponsible
+        taxId: taxId
+        contact: contact
+        purchaseOrderNumber: purchaseOrderNumber
+        name: name
+        additionalPhone: additionalPhone
+        additionalInfo: additionalInfo
+        deliveryContact: deliveryContact
+        deliveryDate: 2000-01-23T04:56:07.000+00:00
+        email: email
+        internalCode: internalCode
+      properties:
+        taxId:
+          description: "Opcional en DTO, pero necesario para validez fiscal DGII"
+          pattern: "^[0-9]{9}|[0-9]{11}$"
+          type: string
+        foreignId:
+          maxLength: 20
+          type: string
+        name:
+          description: Obligatorio
+          maxLength: 150
+          type: string
+        contact:
+          maxLength: 80
+          type: string
+        email:
+          format: email
+          maxLength: 80
+          type: string
+        address:
+          maxLength: 100
+          type: string
+        municipalityCode:
+          maxLength: 6
+          type: string
+        provinceCode:
+          maxLength: 6
+          type: string
+        deliveryDate:
+          format: date-time
+          type: string
+        deliveryContact:
+          maxLength: 100
+          type: string
+        deliveryAddress:
+          maxLength: 100
+          type: string
+        additionalPhone:
+          pattern: "^\\d{3}-\\d{3}-\\d{4}$"
+          type: string
+        purchaseOrderDate:
+          format: date-time
+          type: string
+        purchaseOrderNumber:
+          maxLength: 20
+          type: string
+        internalCode:
+          maxLength: 20
+          type: string
+        paymentResponsible:
+          maxLength: 20
+          type: string
+        additionalInfo:
+          maxLength: 150
+          type: string
+      required:
+      - name
+      type: object
+    Item:
+      example:
+        alcoholDegree: 7.058770351582356
+        surcharge:
+        - amount: 5.533258397034986
+          type: $
+          value: 7.04836565559697
+        - amount: 5.533258397034986
+          type: $
+          value: 7.04836565559697
+        - amount: 5.533258397034986
+          type: $
+          value: 7.04836565559697
+        - amount: 5.533258397034986
+          type: $
+          value: 7.04836565559697
+        - amount: 5.533258397034986
+          type: $
+          value: 7.04836565559697
+        codes:
+        - code: code
+          codeType: codeType
+        - code: code
+          codeType: codeType
+        - code: code
+          codeType: codeType
+        - code: code
+          codeType: codeType
+        - code: code
+          codeType: codeType
+        surchargeAmount: 3.0576100241049344
+        referenceUnit: 3.0937452626664474
+        billingIndicator: "0"
+        description: description
+        discountAmount: 8.969578798196912
+        discount:
+        - amount: 3.0205796992916243
+          type: $
+          value: 7.740351818741173
+        - amount: 3.0205796992916243
+          type: $
+          value: 7.740351818741173
+        - amount: 3.0205796992916243
+          type: $
+          value: 7.740351818741173
+        - amount: 3.0205796992916243
+          type: $
+          value: 7.740351818741173
+        - amount: 3.0205796992916243
+          type: $
+          value: 7.740351818741173
+        type: "1"
+        referenceQuantity: 3.353193347011243
+        referenceUnitPrice: 6.519180951018382
+        alternativeCurrency:
+          unitPrice: 6.628464275087742
+          surcharge: 1.041444916118296
+          amount: 4.678947989005849
+          discount: 4.258773108174356
+        subquantities:
+        - quantity: 7.143538047012306
+          unitCode: 0.8851374739011653
+        - quantity: 7.143538047012306
+          unitCode: 0.8851374739011653
+        miningInfo:
+          netWeightMining: 4.652396432933246
+          netWeightKg: 0.10263654006109402
+          affiliationType: "1"
+          settlement: "1"
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+        unitPrice: unitPrice
+        amount: 7.260521264802104
+        quantity: quantity
+        unitOfMeasure: 6.704019297950036
+        additionalTaxes:
+        - amount: 4.078845849666752
+          code: code
+          rate: 3.2588565619047607
+          alternativeCurrencyAmount: 0.2025324113236393
+        - amount: 4.078845849666752
+          code: code
+          rate: 3.2588565619047607
+          alternativeCurrencyAmount: 0.2025324113236393
+        - amount: 4.078845849666752
+          code: code
+          rate: 3.2588565619047607
+          alternativeCurrencyAmount: 0.2025324113236393
+        - amount: 4.078845849666752
+          code: code
+          rate: 3.2588565619047607
+          alternativeCurrencyAmount: 0.2025324113236393
+        - amount: 4.078845849666752
+          code: code
+          rate: 3.2588565619047607
+          alternativeCurrencyAmount: 0.2025324113236393
+        withheldISRAmount: 5.944895607614016
+        withholdingAgentIndicator: 1.6778324963048012
+        name: name
+        manufacturingDate: 2000-01-23T04:56:07.000+00:00
+        lineNumber: 2
+        withheldITBISAmount: 6.878052220127876
+      properties:
+        lineNumber:
+          type: integer
+        codes:
+          items:
+            $ref: "#/components/schemas/ItemCode"
+          maxItems: 5
+          type: array
+        billingIndicator:
+          $ref: "#/components/schemas/BillingIndicator"
+        withholdingAgentIndicator:
+          description: "1: Retención, 2: Percepción"
+          minimum: 1
+          type: number
+        withheldITBISAmount:
+          type: number
+        withheldISRAmount:
+          type: number
+        name:
+          maxLength: 80
+          type: string
+        type:
+          $ref: "#/components/schemas/ItemType"
+        description:
+          maxLength: 1000
+          type: string
+        quantity:
+          description: Decimal como string para mayor precisión
+          type: string
+        unitOfMeasure:
+          type: number
+        referenceQuantity:
+          description: Obligatorio si hay impuesto al alcohol (códigos 6-22)
+          type: number
+        referenceUnit:
+          description: Obligatorio si existe referenceQuantity
+          type: number
+        subquantities:
+          description: Obligatorio si hay impuesto al alcohol o tabaco
+          items:
+            $ref: "#/components/schemas/Subquantity"
+          type: array
+        alcoholDegree:
+          description: Obligatorio si hay impuesto al alcohol
+          type: number
+        referenceUnitPrice:
+          description: PVP. Obligatorio para impuestos adValorem
+          type: number
+        manufacturingDate:
+          format: date-time
+          type: string
+        expirationDate:
+          format: date-time
+          type: string
+        miningInfo:
+          $ref: "#/components/schemas/MiningInfo"
+        unitPrice:
+          description: Decimal como string
+          type: string
+        discountAmount:
+          type: number
+        discount:
+          items:
+            $ref: "#/components/schemas/DiscountDetail"
+          maxItems: 12
+          type: array
+        surchargeAmount:
+          type: number
+        surcharge:
+          items:
+            $ref: "#/components/schemas/SurchargeDetail"
+          maxItems: 12
+          type: array
+        additionalTaxes:
+          items:
+            $ref: "#/components/schemas/ItemAdditionalTax"
+          maxItems: 10
+          type: array
+        alternativeCurrency:
+          $ref: "#/components/schemas/ItemAlternativeCurrency"
+        amount:
+          description: Monto total del item
+          type: number
+      required:
+      - amount
+      - billingIndicator
+      - name
+      - quantity
+      - type
+      - unitPrice
+      type: object
+    Totals:
+      example:
+        itbisRate2: 7.457744773683766
+        amountToPay: 9.018348186070783
+        taxableAmount: 7.386281948385884
+        itbisRate1: 6.84685269835264
+        itbisRate3: 1.1730742509559433
+        additionalTaxes:
+        - amount: 9.965781217890562
+          code: code
+        - amount: 9.965781217890562
+          code: code
+        - amount: 9.965781217890562
+          code: code
+        - amount: 9.965781217890562
+          code: code
+        - amount: 9.965781217890562
+          code: code
+        additionalTaxAmount: 5.025004791520295
+        exemptAmount: 9.369310271410669
+        nonBillableAmount: 8.762042012749001
+        totalAmount: 6.683562403749608
+        totalITBIS: 4.965218492984954
+        taxableAmount2: 1.0246457001441578
+        taxableAmount1: 1.2315135367772556
+        taxableAmount3: 1.4894159098541704
+      properties:
+        taxableAmount:
+          type: number
+        taxableAmount1:
+          type: number
+        taxableAmount2:
+          type: number
+        taxableAmount3:
+          type: number
+        itbisRate1:
+          type: number
+        itbisRate2:
+          type: number
+        itbisRate3:
+          type: number
+        totalITBIS:
+          type: number
+        additionalTaxAmount:
+          type: number
+        additionalTaxes:
+          items:
+            $ref: "#/components/schemas/AdditionalTax"
+          maxItems: 20
+          type: array
+        exemptAmount:
+          type: number
+        totalAmount:
+          description: Obligatorio por lógica de negocio
+          type: number
+        nonBillableAmount:
+          type: number
+        amountToPay:
+          type: number
+      type: object
+    EcfSubmissionResponse:
+      example:
+        encf: encf
+        qrUrl: https://openapi-generator.tech
+        contingencyMode: true
+        documentType: E31
+        securityCode: securityCode
+        isSummary: true
+        message: message
+        dgiiResponse:
+          estado: estado
+          encf: encf
+          trackId: trackId
+          rnc: rnc
+          mensajes:
+          - codigo: 0
+            valor: valor
+          - codigo: 0
+            valor: valor
+          fechaRecepcion: fechaRecepcion
+        success: true
+        printUrl: https://openapi-generator.tech
+        documentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        estimatedProcessTime: estimatedProcessTime
+        authType: JWT
+        signatureTime: 2000-01-23T04:56:07.000+00:00
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        success:
+          type: boolean
+        documentId:
+          format: uuid
+          type: string
+        contingencyMode:
+          type: boolean
+        isSummary:
+          type: boolean
+        message:
+          type: string
+        estimatedProcessTime:
+          type: string
+        encf:
+          type: string
+        qrUrl:
+          format: uri
+          type: string
+        signatureTime:
+          format: date-time
+          type: string
+        securityCode:
+          type: string
+        documentType:
+          example: E31
+          type: string
+        printUrl:
+          format: uri
+          type: string
+        dgiiResponse:
+          $ref: "#/components/schemas/DgiiResponseData"
+        authType:
+          enum:
+          - JWT
+          - API_KEY
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+      required:
+      - authType
+      - documentId
+      - success
+      - timestamp
+      type: object
+    DgiiResponseData:
+      example:
+        estado: estado
+        encf: encf
+        trackId: trackId
+        rnc: rnc
+        mensajes:
+        - codigo: 0
+          valor: valor
+        - codigo: 0
+          valor: valor
+        fechaRecepcion: fechaRecepcion
+      properties:
+        trackId:
+          type: string
+        estado:
+          type: string
+        rnc:
+          type: string
+        encf:
+          type: string
+        fechaRecepcion:
+          type: string
+        mensajes:
+          items:
+            $ref: "#/components/schemas/DgiiMensaje"
+          type: array
+      type: object
+    DgiiMensaje:
+      example:
+        codigo: 0
+        valor: valor
+      properties:
+        valor:
+          type: string
+        codigo:
+          type: integer
+      type: object
+    PaginatedResponse:
+      example:
+        data:
+        - "{}"
+        - "{}"
+        meta:
+          total: 0
+          limit: 1
+          totalPages: 5
+          page: 6
+      properties:
+        data:
+          items:
+            type: object
+          type: array
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+      type: object
+    PaginationMeta:
+      example:
+        total: 0
+        limit: 1
+        totalPages: 5
+        page: 6
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+        error: error
+        statusCode: 0
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        error:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+      type: object
+    TaxSequence:
+      example:
+        startNumber: startNumber
+        availableNumbers: 0
+        endNumber: endNumber
+        id: id
+        currentNumber: currentNumber
+        type: type
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        startNumber:
+          type: string
+        endNumber:
+          type: string
+        currentNumber:
+          type: string
+        availableNumbers:
+          type: integer
+      type: object
+    CreateTaxSequenceRequest:
+      example:
+        environment: TesteCF
+        from: 0
+        to: 6
+        type: "31"
+      properties:
+        type:
+          $ref: "#/components/schemas/InvoiceType"
+        from:
+          type: integer
+        to:
+          type: integer
+        environment:
+          $ref: "#/components/schemas/Environment"
+      required:
+      - environment
+      - from
+      - to
+      - type
+      type: object
+    TrackStatusResponse:
+      example:
+        businessRnc: businessRnc
+        environment: environment
+        encf: encf
+        source: local_database
+        receivedAt: 2000-01-23T04:56:07.000+00:00
+        logs:
+        - "{}"
+        - "{}"
+        trackingId: trackingId
+        status: status
+      properties:
+        trackingId:
+          type: string
+        status:
+          type: string
+        encf:
+          type: string
+        businessRnc:
+          type: string
+        environment:
+          type: string
+        receivedAt:
+          format: date-time
+          type: string
+        logs:
+          items:
+            type: object
+          type: array
+        source:
+          enum:
+          - local_database
+          - dgii_direct
+          type: string
+      type: object
+    CommercialApproval:
+      example:
+        encf: encf
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        status: status
+      properties:
+        id:
+          format: uuid
+          type: string
+        encf:
+          type: string
+        status:
+          type: string
+      type: object
+    AssociatedCompany:
+      example:
+        rnc: rnc
+        name: name
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          format: uuid
+          type: string
+        name:
+          type: string
+        rnc:
+          type: string
+      type: object
+    Niche:
+      example:
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      type: object
+    StartCertificationRequest:
+      example:
+        rnc: rnc
+        nicheId: nicheId
+      properties:
+        rnc:
+          type: string
+        nicheId:
+          type: string
+      required:
+      - nicheId
+      - rnc
+      type: object
+    WebhookConfig:
+      example:
+        id: id
+        isActive: true
+        url: url
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        isActive:
+          type: boolean
+      type: object
+    PaymentForm:
+      example:
+        amount: 0.8008281904610115
+        method: "1"
+      properties:
+        method:
+          $ref: "#/components/schemas/PaymentMethod"
+        amount:
+          type: number
+      required:
+      - amount
+      - method
+      type: object
+    ItemCode:
+      example:
+        code: code
+        codeType: codeType
+      properties:
+        codeType:
+          maxLength: 14
+          type: string
+        code:
+          maxLength: 35
+          type: string
+      required:
+      - code
+      - codeType
+      type: object
+    Subquantity:
+      example:
+        quantity: 7.143538047012306
+        unitCode: 0.8851374739011653
+      properties:
+        quantity:
+          type: number
+        unitCode:
+          type: number
+      required:
+      - quantity
+      - unitCode
+      type: object
+    DiscountDetail:
+      example:
+        amount: 3.0205796992916243
+        type: $
+        value: 7.740351818741173
+      properties:
+        type:
+          enum:
+          - $
+          - '%'
+          type: string
+        value:
+          type: number
+        amount:
+          type: number
+      required:
+      - amount
+      - type
+      type: object
+    SurchargeDetail:
+      example:
+        amount: 5.533258397034986
+        type: $
+        value: 7.04836565559697
+      properties:
+        type:
+          enum:
+          - $
+          - '%'
+          type: string
+        value:
+          type: number
+        amount:
+          type: number
+      required:
+      - amount
+      - type
+      type: object
+    ItemAdditionalTax:
+      example:
+        amount: 4.078845849666752
+        code: code
+        rate: 3.2588565619047607
+        alternativeCurrencyAmount: 0.2025324113236393
+      properties:
+        code:
+          maxLength: 3
+          type: string
+        rate:
+          type: number
+        amount:
+          type: number
+        alternativeCurrencyAmount:
+          type: number
+      required:
+      - code
+      type: object
+    ItemAlternativeCurrency:
+      example:
+        unitPrice: 6.628464275087742
+        surcharge: 1.041444916118296
+        amount: 4.678947989005849
+        discount: 4.258773108174356
+      properties:
+        unitPrice:
+          type: number
+        discount:
+          type: number
+        surcharge:
+          type: number
+        amount:
+          type: number
+      required:
+      - amount
+      - unitPrice
+      type: object
+    AdditionalTax:
+      example:
+        amount: 9.965781217890562
+        code: code
+      properties:
+        code:
+          maxLength: 3
+          type: string
+        amount:
+          type: number
+      required:
+      - amount
+      - code
+      type: object
+    MiningInfo:
+      example:
+        netWeightMining: 4.652396432933246
+        netWeightKg: 0.10263654006109402
+        affiliationType: "1"
+        settlement: "1"
+      properties:
+        netWeightKg:
+          type: number
+        netWeightMining:
+          type: number
+        affiliationType:
+          enum:
+          - "1"
+          - "2"
+          type: string
+        settlement:
+          enum:
+          - "1"
+          - "2"
+          type: string
+      type: object
+    Transport:
+      example:
+        licensePlate: licensePlate
+        route: route
+        driver: driver
+        zone: zone
+        document: document
+        vehicleId: vehicleId
+        destinationCountry: destinationCountry
+        deliveryNoteNumber: deliveryNoteNumber
+      properties:
+        driver:
+          maxLength: 20
+          type: string
+        document:
+          maxLength: 20
+          type: string
+        vehicleId:
+          maxLength: 10
+          type: string
+        licensePlate:
+          maxLength: 7
+          type: string
+        route:
+          maxLength: 20
+          type: string
+        zone:
+          maxLength: 20
+          type: string
+        deliveryNoteNumber:
+          maxLength: 20
+          type: string
+        destinationCountry:
+          maxLength: 60
+          type: string
+      type: object
+    AdditionalInfo:
+      example:
+        netWeightUnit: 7.061401241503109
+        grossWeight: 5.962133916683182
+        netWeight: 5.637376656633329
+        packageVolume: 2.027123023002322
+        containerNumber: containerNumber
+        referenceNumber: referenceNumber
+        packageUnit: 3.616076749251911
+        volumeUnit: 4.145608029883936
+        grossWeightUnit: 2.3021358869347655
+        shipmentDate: shipmentDate
+        packageQuantity: 9.301444243932576
+        shipmentNumber: shipmentNumber
+      properties:
+        shipmentDate:
+          type: string
+        shipmentNumber:
+          maxLength: 25
+          type: string
+        containerNumber:
+          maxLength: 100
+          type: string
+        referenceNumber:
+          maxLength: 20
+          type: string
+        grossWeight:
+          type: number
+        netWeight:
+          type: number
+        grossWeightUnit:
+          type: number
+        netWeightUnit:
+          type: number
+        packageQuantity:
+          type: number
+        packageUnit:
+          type: number
+        packageVolume:
+          type: number
+        volumeUnit:
+          type: number
+      type: object
+    AlternativeCurrency:
+      example:
+        taxableAmount: 3.5571952270680973
+        totalAmount: 1.284659006116532
+        totalITBIS: 6.965117697638846
+        code: code
+        exchangeRate: 6.438423552598547
+      properties:
+        code:
+          maxLength: 3
+          type: string
+        exchangeRate:
+          type: number
+        taxableAmount:
+          type: number
+        totalITBIS:
+          type: number
+        totalAmount:
+          type: number
+      required:
+      - code
+      - exchangeRate
+      type: object
+    Subtotal:
+      example:
+        number: 90
+        taxableAmount: 9.702963800023566
+        amount: 0.5199002018724985
+        description: description
+        order: 9
+      properties:
+        number:
+          maximum: 99
+          minimum: 1
+          type: integer
+        description:
+          maxLength: 40
+          type: string
+        order:
+          maximum: 99
+          minimum: 1
+          type: integer
+        taxableAmount:
+          type: number
+        amount:
+          type: number
+      required:
+      - amount
+      - number
+      type: object
+    DiscountOrSurcharge:
+      example:
+        amount: 4.86315908102884
+        norm1007Indicator: "0"
+        alternativeCurrencyAmount: 6.073898085781152
+        valueType: $
+        description: description
+        billingIndicator: null
+        percentageValue: 5.507386964179881
+        lineNumber: 16
+        type: D
+      properties:
+        lineNumber:
+          maximum: 20
+          minimum: 1
+          type: integer
+        type:
+          $ref: "#/components/schemas/AdjustmentType"
+        norm1007Indicator:
+          enum:
+          - "0"
+          - "1"
+          type: string
+        description:
+          maxLength: 45
+          type: string
+        valueType:
+          enum:
+          - $
+          - '%'
+          type: string
+        percentageValue:
+          type: number
+        amount:
+          type: number
+        alternativeCurrencyAmount:
+          type: number
+        billingIndicator:
+          $ref: "#/components/schemas/BillingIndicator"
+      required:
+      - amount
+      - lineNumber
+      - type
+      - valueType
+      type: object
+    Page:
+      example:
+        pageNumber: 8
+        subtotal: 0.43431398824148815
+        lineTo: 3
+        lineFrom: 4
+      properties:
+        pageNumber:
+          type: integer
+        lineFrom:
+          type: integer
+        lineTo:
+          type: integer
+        subtotal:
+          type: number
+      required:
+      - lineFrom
+      - lineTo
+      - pageNumber
+      type: object
+    ReferenceInfo:
+      example:
+        modifiedInvoiceDate: 2000-01-23T04:56:07.000+00:00
+        modificationReason: modificationReason
+        otherContributorRNC: otherContributorRNC
+        modifiedInvoiceNumber: modifiedInvoiceNumber
+        modificationCode: "1"
+      properties:
+        modifiedInvoiceNumber:
+          maxLength: 19
+          type: string
+        otherContributorRNC:
+          pattern: "^[0-9]{9}|[0-9]{11}$"
+          type: string
+        modifiedInvoiceDate:
+          format: date-time
+          type: string
+        modificationCode:
+          $ref: "#/components/schemas/ModificationCode"
+        modificationReason:
+          maxLength: 90
+          type: string
+      required:
+      - modificationCode
+      - modifiedInvoiceNumber
+      type: object
+    uploadCertificate_request:
+      properties:
+        file:
+          description: Archivo .p12 o .pfx
+          format: binary
+          type: string
+        password:
+          description: Contraseña del certificado
+          format: password
+          type: string
+      required:
+      - file
+      - password
+      type: object
+    uploadCertificate_201_response:
+      example:
+        message: message
+        representative: representative
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+      properties:
+        message:
+          type: string
+        representative:
+          type: string
+        expirationDate:
+          format: date-time
+          type: string
+      type: object
+    listTaxSequences_200_response:
+      example:
+        data:
+        - startNumber: startNumber
+          availableNumbers: 0
+          endNumber: endNumber
+          id: id
+          currentNumber: currentNumber
+          type: type
+        - startNumber: startNumber
+          availableNumbers: 0
+          endNumber: endNumber
+          id: id
+          currentNumber: currentNumber
+          type: type
+        success: true
+      properties:
+        success:
+          type: boolean
+        data:
+          items:
+            $ref: "#/components/schemas/TaxSequence"
+          type: array
+      type: object
+    getNextNumber_200_response_data:
+      example:
+        nextNumber: nextNumber
+        remainingNumbers: 0
+      properties:
+        nextNumber:
+          type: string
+        remainingNumbers:
+          type: integer
+      type: object
+    getNextNumber_200_response:
+      example:
+        data:
+          nextNumber: nextNumber
+          remainingNumbers: 0
+        success: true
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/getNextNumber_200_response_data"
+      type: object
+    listApprovals_200_response:
+      example:
+        data:
+        - encf: encf
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          status: status
+        - encf: encf
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          status: status
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/CommercialApproval"
+          type: array
+      type: object
+    startCertification_200_response:
+      example:
+        processId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        processId:
+          format: uuid
+          type: string
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+    tenantIdHeader:
+      in: header
+      name: x-tenant-id
+      type: apiKey
+

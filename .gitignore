@@ -1,0 +1,26 @@
+# Node
+node_modules/
+dist/
+
+# PHP
+vendor/
+composer.lock
+
+# Go
+bin/
+
+# Dart
+.dart_tool/
+build/
+.packages
+pubspec.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*.class
+venv/
+.env
+
+# SO
+.DS_Store
