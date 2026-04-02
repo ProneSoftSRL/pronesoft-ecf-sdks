@@ -21,11 +21,6 @@ void main() {
       // TODO
     });
 
-    // String document
-    test('to test the property `document`', () async {
-      // TODO
-    });
-
     // String vehicleId
     test('to test the property `vehicleId`', () async {
       // TODO
@@ -41,18 +36,13 @@ void main() {
       // TODO
     });
 
-    // String zone
-    test('to test the property `zone`', () async {
+    // DateTime departureDate
+    test('to test the property `departureDate`', () async {
       // TODO
     });
 
-    // String deliveryNoteNumber
-    test('to test the property `deliveryNoteNumber`', () async {
-      // TODO
-    });
-
-    // String destinationCountry
-    test('to test the property `destinationCountry`', () async {
+    // DateTime arrivalDate
+    test('to test the property `arrivalDate`', () async {
       // TODO
     });
 

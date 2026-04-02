@@ -26,23 +26,8 @@ void main() {
       // TODO
     });
 
-    // String startNumber
-    test('to test the property `startNumber`', () async {
-      // TODO
-    });
-
-    // String endNumber
-    test('to test the property `endNumber`', () async {
-      // TODO
-    });
-
-    // String currentNumber
-    test('to test the property `currentNumber`', () async {
-      // TODO
-    });
-
-    // int availableNumbers
-    test('to test the property `availableNumbers`', () async {
+    // String nextNumber
+    test('to test the property `nextNumber`', () async {
       // TODO
     });
 

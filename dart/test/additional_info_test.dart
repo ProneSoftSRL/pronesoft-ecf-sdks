@@ -16,43 +16,8 @@ void main() {
   // final instance = AdditionalInfo();
 
   group('test AdditionalInfo', () {
-    // String shipmentDate
-    test('to test the property `shipmentDate`', () async {
-      // TODO
-    });
-
-    // String shipmentNumber
-    test('to test the property `shipmentNumber`', () async {
-      // TODO
-    });
-
-    // String containerNumber
-    test('to test the property `containerNumber`', () async {
-      // TODO
-    });
-
-    // String referenceNumber
-    test('to test the property `referenceNumber`', () async {
-      // TODO
-    });
-
     // num grossWeight
     test('to test the property `grossWeight`', () async {
-      // TODO
-    });
-
-    // num netWeight
-    test('to test the property `netWeight`', () async {
-      // TODO
-    });
-
-    // num grossWeightUnit
-    test('to test the property `grossWeightUnit`', () async {
-      // TODO
-    });
-
-    // num netWeightUnit
-    test('to test the property `netWeightUnit`', () async {
       // TODO
     });
 
@@ -61,18 +26,13 @@ void main() {
       // TODO
     });
 
-    // num packageUnit
-    test('to test the property `packageUnit`', () async {
+    // String containerId
+    test('to test the property `containerId`', () async {
       // TODO
     });
 
-    // num packageVolume
-    test('to test the property `packageVolume`', () async {
-      // TODO
-    });
-
-    // num volumeUnit
-    test('to test the property `volumeUnit`', () async {
+    // String sealId
+    test('to test the property `sealId`', () async {
       // TODO
     });
 

@@ -31,7 +31,7 @@ void main() {
       // TODO
     });
 
-    // ModificationCode modificationCode
+    // String modificationCode
     test('to test the property `modificationCode`', () async {
       // TODO
     });

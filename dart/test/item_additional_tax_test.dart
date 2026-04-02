@@ -21,18 +21,8 @@ void main() {
       // TODO
     });
 
-    // num rate
-    test('to test the property `rate`', () async {
-      // TODO
-    });
-
     // num amount
     test('to test the property `amount`', () async {
-      // TODO
-    });
-
-    // num alternativeCurrencyAmount
-    test('to test the property `alternativeCurrencyAmount`', () async {
       // TODO
     });
 

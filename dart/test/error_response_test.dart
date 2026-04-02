@@ -26,11 +26,6 @@ void main() {
       // TODO
     });
 
-    // String error
-    test('to test the property `error`', () async {
-      // TODO
-    });
-
     // DateTime timestamp
     test('to test the property `timestamp`', () async {
       // TODO

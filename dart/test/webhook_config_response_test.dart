@@ -41,6 +41,11 @@ void main() {
       // TODO
     });
 
+    // DateTime lastTriggeredAt
+    test('to test the property `lastTriggeredAt`', () async {
+      // TODO
+    });
+
 
   });
 

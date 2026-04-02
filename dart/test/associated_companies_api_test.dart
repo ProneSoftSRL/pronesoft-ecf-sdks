@@ -17,9 +17,16 @@ void main() {
   // final instance = AssociatedCompaniesApi();
 
   group('tests for AssociatedCompaniesApi', () {
-    // Listar sucursales
+    // Create new associated company
     //
-    //Future<List<AssociatedCompany>> listAssociatedCompanies() async
+    //Future<CreateAssociatedCompany201Response> createAssociatedCompany(String xTenantId, String email, String password, String name, String rnc, String phone, String address, String city, String country, { String firstName, String lastName, String jobTitle, String website, String category, String monthlySalesRange, PrintFormat printerType, MultipartFile logo }) async
+    test('test createAssociatedCompany', () async {
+      // TODO
+    });
+
+    // List associated branches/companies
+    //
+    //Future<List<AssociatedCompany>> listAssociatedCompanies(String xTenantId) async
     test('test listAssociatedCompanies', () async {
       // TODO
     });

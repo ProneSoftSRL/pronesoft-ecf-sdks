@@ -17,21 +17,21 @@ void main() {
   // final instance = WebhookConfigurationApi();
 
   group('tests for WebhookConfigurationApi', () {
-    // Registrar nuevo webhook
+    // Register new webhook
     //
     //Future<WebhookConfigResponse> createWebhook(String rnc, CreateWebhookConfig createWebhookConfig) async
     test('test createWebhook', () async {
       // TODO
     });
 
-    // Eliminar configuración de webhook
+    // Delete webhook configuration
     //
     //Future deleteWebhook(String rnc, String webhookId) async
     test('test deleteWebhook', () async {
       // TODO
     });
 
-    // Listar todas las configuraciones de webhooks
+    // List all webhook configurations
     //
     //Future<List<WebhookConfigResponse>> listWebhooks(String rnc) async
     test('test listWebhooks', () async {

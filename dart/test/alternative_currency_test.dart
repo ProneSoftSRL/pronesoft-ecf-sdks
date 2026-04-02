@@ -26,16 +26,6 @@ void main() {
       // TODO
     });
 
-    // num taxableAmount
-    test('to test the property `taxableAmount`', () async {
-      // TODO
-    });
-
-    // num totalITBIS
-    test('to test the property `totalITBIS`', () async {
-      // TODO
-    });
-
     // num totalAmount
     test('to test the property `totalAmount`', () async {
       // TODO

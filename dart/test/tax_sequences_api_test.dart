@@ -17,23 +17,23 @@ void main() {
   // final instance = TaxSequencesApi();
 
   group('tests for TaxSequencesApi', () {
-    // Crear nueva secuencia fiscal
+    // Create new tax sequence
     //
-    //Future createTaxSequence(CreateTaxSequenceRequest createTaxSequenceRequest) async
+    //Future createTaxSequence(String xTenantId, CreateTaxSequenceRequest createTaxSequenceRequest) async
     test('test createTaxSequence', () async {
       // TODO
     });
 
-    // Obtener próximo número disponible
+    // Get next available number
     //
-    //Future<GetNextNumber200Response> getNextNumber(InvoiceType type, Environment environment) async
+    //Future<GetNextNumber200Response> getNextNumber(String xTenantId, InvoiceType type, Environment environment) async
     test('test getNextNumber', () async {
       // TODO
     });
 
-    // Listar secuencias fiscales
+    // List tax sequences
     //
-    //Future<ListTaxSequences200Response> listTaxSequences({ InvoiceType type }) async
+    //Future<ListTaxSequences200Response> listTaxSequences(String xTenantId, { InvoiceType type }) async
     test('test listTaxSequences', () async {
       // TODO
     });

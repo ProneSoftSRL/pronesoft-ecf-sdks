@@ -36,6 +36,61 @@ void main() {
       // TODO
     });
 
+    // num taxableAmount
+    test('to test the property `taxableAmount`', () async {
+      // TODO
+    });
+
+    // num taxableAmount1
+    test('to test the property `taxableAmount1`', () async {
+      // TODO
+    });
+
+    // num taxableAmount2
+    test('to test the property `taxableAmount2`', () async {
+      // TODO
+    });
+
+    // num taxableAmount3
+    test('to test the property `taxableAmount3`', () async {
+      // TODO
+    });
+
+    // num totalITBIS
+    test('to test the property `totalITBIS`', () async {
+      // TODO
+    });
+
+    // num itbis1
+    test('to test the property `itbis1`', () async {
+      // TODO
+    });
+
+    // num itbis2
+    test('to test the property `itbis2`', () async {
+      // TODO
+    });
+
+    // num itbis3
+    test('to test the property `itbis3`', () async {
+      // TODO
+    });
+
+    // num additionalTaxes
+    test('to test the property `additionalTaxes`', () async {
+      // TODO
+    });
+
+    // num exemptAmount
+    test('to test the property `exemptAmount`', () async {
+      // TODO
+    });
+
+    // num nonBillableAmount
+    test('to test the property `nonBillableAmount`', () async {
+      // TODO
+    });
+
 
   });
 

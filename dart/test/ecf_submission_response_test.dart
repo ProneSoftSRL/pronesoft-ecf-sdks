@@ -26,68 +26,18 @@ void main() {
       // TODO
     });
 
-    // bool contingencyMode
-    test('to test the property `contingencyMode`', () async {
-      // TODO
-    });
-
-    // bool isSummary
-    test('to test the property `isSummary`', () async {
-      // TODO
-    });
-
-    // String message
-    test('to test the property `message`', () async {
-      // TODO
-    });
-
-    // String estimatedProcessTime
-    test('to test the property `estimatedProcessTime`', () async {
-      // TODO
-    });
-
     // String encf
     test('to test the property `encf`', () async {
       // TODO
     });
 
-    // String qrUrl
-    test('to test the property `qrUrl`', () async {
+    // String trackId
+    test('to test the property `trackId`', () async {
       // TODO
     });
 
-    // DateTime signatureTime
-    test('to test the property `signatureTime`', () async {
-      // TODO
-    });
-
-    // String securityCode
-    test('to test the property `securityCode`', () async {
-      // TODO
-    });
-
-    // String documentType
-    test('to test the property `documentType`', () async {
-      // TODO
-    });
-
-    // String printUrl
-    test('to test the property `printUrl`', () async {
-      // TODO
-    });
-
-    // DgiiResponseData dgiiResponse
-    test('to test the property `dgiiResponse`', () async {
-      // TODO
-    });
-
-    // String authType
-    test('to test the property `authType`', () async {
-      // TODO
-    });
-
-    // DateTime timestamp
-    test('to test the property `timestamp`', () async {
+    // String message
+    test('to test the property `message`', () async {
       // TODO
     });
 

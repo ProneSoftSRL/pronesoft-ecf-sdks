@@ -31,11 +31,6 @@ void main() {
       // TODO
     });
 
-    // List<String> scope (default value: const [])
-    test('to test the property `scope`', () async {
-      // TODO
-    });
-
 
   });
 

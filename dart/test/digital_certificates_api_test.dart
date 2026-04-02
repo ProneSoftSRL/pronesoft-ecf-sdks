@@ -17,7 +17,7 @@ void main() {
   // final instance = DigitalCertificatesApi();
 
   group('tests for DigitalCertificatesApi', () {
-    // Cargar Certificado Digital (P12)
+    // Upload Digital Certificate (P12)
     //
     //Future<UploadCertificate201Response> uploadCertificate(String rnc, MultipartFile file, String password) async
     test('test uploadCertificate', () async {

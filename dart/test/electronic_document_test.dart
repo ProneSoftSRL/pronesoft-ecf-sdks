@@ -31,8 +31,8 @@ void main() {
       // TODO
     });
 
-    // String groupId
-    test('to test the property `groupId`', () async {
+    // DateTime issueDate
+    test('to test the property `issueDate`', () async {
       // TODO
     });
 
@@ -41,27 +41,12 @@ void main() {
       // TODO
     });
 
-    // String creditNoteIndicator
-    test('to test the property `creditNoteIndicator`', () async {
-      // TODO
-    });
-
-    // String deferredSendingIndicator
-    test('to test the property `deferredSendingIndicator`', () async {
-      // TODO
-    });
-
-    // String taxedAmountIndicator
-    test('to test the property `taxedAmountIndicator`', () async {
-      // TODO
-    });
-
-    // IncomeType incomeType
+    // String incomeType
     test('to test the property `incomeType`', () async {
       // TODO
     });
 
-    // PaymentType paymentType
+    // String paymentType
     test('to test the property `paymentType`', () async {
       // TODO
     });
@@ -73,11 +58,6 @@ void main() {
 
     // String paymentTerms
     test('to test the property `paymentTerms`', () async {
-      // TODO
-    });
-
-    // List<PaymentForm> paymentForms (default value: const [])
-    test('to test the property `paymentForms`', () async {
       // TODO
     });
 
@@ -96,18 +76,9 @@ void main() {
       // TODO
     });
 
-    // DateTime serviceStartDate
-    test('to test the property `serviceStartDate`', () async {
-      // TODO
-    });
-
-    // DateTime serviceEndDate
-    test('to test the property `serviceEndDate`', () async {
-      // TODO
-    });
-
-    // int totalPages
-    test('to test the property `totalPages`', () async {
+    // 0: issuance affected ≤ 30 days, 1: > 30 days
+    // String creditNoteIndicator
+    test('to test the property `creditNoteIndicator`', () async {
       // TODO
     });
 
@@ -121,28 +92,8 @@ void main() {
       // TODO
     });
 
-    // String issuerCommercialName
-    test('to test the property `issuerCommercialName`', () async {
-      // TODO
-    });
-
-    // String branchName
-    test('to test the property `branchName`', () async {
-      // TODO
-    });
-
-    // String issuerAddress
-    test('to test the property `issuerAddress`', () async {
-      // TODO
-    });
-
-    // String municipalityCode
-    test('to test the property `municipalityCode`', () async {
-      // TODO
-    });
-
-    // String provinceCode
-    test('to test the property `provinceCode`', () async {
+    // String issuerEmail
+    test('to test the property `issuerEmail`', () async {
       // TODO
     });
 
@@ -151,68 +102,13 @@ void main() {
       // TODO
     });
 
-    // String issuerEmail
-    test('to test the property `issuerEmail`', () async {
-      // TODO
-    });
-
-    // String issuerWebsite
-    test('to test the property `issuerWebsite`', () async {
-      // TODO
-    });
-
-    // String issuerEconomicActivity
-    test('to test the property `issuerEconomicActivity`', () async {
-      // TODO
-    });
-
-    // String sellerCode
-    test('to test the property `sellerCode`', () async {
-      // TODO
-    });
-
-    // String internalInvoiceNumber
-    test('to test the property `internalInvoiceNumber`', () async {
-      // TODO
-    });
-
-    // num internalOrderNumber
-    test('to test the property `internalOrderNumber`', () async {
-      // TODO
-    });
-
-    // String salesZone
-    test('to test the property `salesZone`', () async {
-      // TODO
-    });
-
-    // String salesRoute
-    test('to test the property `salesRoute`', () async {
-      // TODO
-    });
-
-    // String additionalIssuerInfo
-    test('to test the property `additionalIssuerInfo`', () async {
-      // TODO
-    });
-
-    // DateTime issueDate
-    test('to test the property `issueDate`', () async {
-      // TODO
-    });
-
     // Buyer buyer
     test('to test the property `buyer`', () async {
       // TODO
     });
 
-    // AdditionalInfo additionalInfo
-    test('to test the property `additionalInfo`', () async {
-      // TODO
-    });
-
-    // Transport transport
-    test('to test the property `transport`', () async {
+    // List<Item> items (default value: const [])
+    test('to test the property `items`', () async {
       // TODO
     });
 
@@ -221,13 +117,23 @@ void main() {
       // TODO
     });
 
+    // Transport transport
+    test('to test the property `transport`', () async {
+      // TODO
+    });
+
+    // AdditionalInfo additionalInfo
+    test('to test the property `additionalInfo`', () async {
+      // TODO
+    });
+
     // AlternativeCurrency alternativeCurrency
     test('to test the property `alternativeCurrency`', () async {
       // TODO
     });
 
-    // List<Item> items (default value: const [])
-    test('to test the property `items`', () async {
+    // ReferenceInfo referenceInfo
+    test('to test the property `referenceInfo`', () async {
       // TODO
     });
 
@@ -243,11 +149,6 @@ void main() {
 
     // List<Page> pages (default value: const [])
     test('to test the property `pages`', () async {
-      // TODO
-    });
-
-    // ReferenceInfo referenceInfo
-    test('to test the property `referenceInfo`', () async {
       // TODO
     });
 

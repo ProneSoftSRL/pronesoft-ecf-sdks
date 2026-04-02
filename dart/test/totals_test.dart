@@ -36,6 +36,11 @@ void main() {
       // TODO
     });
 
+    // num exemptAmount
+    test('to test the property `exemptAmount`', () async {
+      // TODO
+    });
+
     // num itbisRate1
     test('to test the property `itbisRate1`', () async {
       // TODO
@@ -56,22 +61,31 @@ void main() {
       // TODO
     });
 
+    // num itbis1
+    test('to test the property `itbis1`', () async {
+      // TODO
+    });
+
+    // num itbis2
+    test('to test the property `itbis2`', () async {
+      // TODO
+    });
+
+    // num itbis3
+    test('to test the property `itbis3`', () async {
+      // TODO
+    });
+
     // num additionalTaxAmount
     test('to test the property `additionalTaxAmount`', () async {
       // TODO
     });
 
-    // List<AdditionalTax> additionalTaxes (default value: const [])
+    // List<ItemAdditionalTax> additionalTaxes (default value: const [])
     test('to test the property `additionalTaxes`', () async {
       // TODO
     });
 
-    // num exemptAmount
-    test('to test the property `exemptAmount`', () async {
-      // TODO
-    });
-
-    // Obligatorio por lógica de negocio
     // num totalAmount
     test('to test the property `totalAmount`', () async {
       // TODO
@@ -82,8 +96,43 @@ void main() {
       // TODO
     });
 
+    // num periodAmount
+    test('to test the property `periodAmount`', () async {
+      // TODO
+    });
+
+    // num previousBalance
+    test('to test the property `previousBalance`', () async {
+      // TODO
+    });
+
+    // num advancePaymentAmount
+    test('to test the property `advancePaymentAmount`', () async {
+      // TODO
+    });
+
     // num amountToPay
     test('to test the property `amountToPay`', () async {
+      // TODO
+    });
+
+    // num totalWithheldITBIS
+    test('to test the property `totalWithheldITBIS`', () async {
+      // TODO
+    });
+
+    // num totalIncomeTaxWithholding
+    test('to test the property `totalIncomeTaxWithholding`', () async {
+      // TODO
+    });
+
+    // num totalITBISPerception
+    test('to test the property `totalITBISPerception`', () async {
+      // TODO
+    });
+
+    // num totalISRPerception
+    test('to test the property `totalISRPerception`', () async {
       // TODO
     });
 

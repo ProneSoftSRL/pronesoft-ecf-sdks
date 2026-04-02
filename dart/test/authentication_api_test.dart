@@ -17,7 +17,7 @@ void main() {
   // final instance = AuthenticationApi();
 
   group('tests for AuthenticationApi', () {
-    // Obtener token de acceso
+    // Get access token (OAuth 2.0)
     //
     //Future<OAuthTokenResponse> getAccessToken(OAuthTokenRequest oAuthTokenRequest) async
     test('test getAccessToken', () async {

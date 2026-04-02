@@ -17,16 +17,9 @@ void main() {
   // final instance = ECFSubmissionApi();
 
   group('tests for ECFSubmissionApi', () {
-    // Consultar estatus trackId
+    // Submit e-CF to platform
     //
-    //Future<TrackStatusResponse> getEcfStatus(Environment environment, String trackId) async
-    test('test getEcfStatus', () async {
-      // TODO
-    });
-
-    // Enviar e-CF a plataforma
-    //
-    //Future<EcfSubmissionResponse> submitEcf(Environment environment, ElectronicDocument electronicDocument) async
+    //Future<EcfSubmissionResponse> submitEcf(String xTenantId, Environment environment, ElectronicDocument electronicDocument) async
     test('test submitEcf', () async {
       // TODO
     });

@@ -21,18 +21,8 @@ void main() {
       // TODO
     });
 
-    // AdjustmentType type
+    // String type
     test('to test the property `type`', () async {
-      // TODO
-    });
-
-    // String norm1007Indicator
-    test('to test the property `norm1007Indicator`', () async {
-      // TODO
-    });
-
-    // String description
-    test('to test the property `description`', () async {
       // TODO
     });
 
@@ -41,13 +31,18 @@ void main() {
       // TODO
     });
 
-    // num percentageValue
-    test('to test the property `percentageValue`', () async {
+    // num amount
+    test('to test the property `amount`', () async {
       // TODO
     });
 
-    // num amount
-    test('to test the property `amount`', () async {
+    // String description
+    test('to test the property `description`', () async {
+      // TODO
+    });
+
+    // num percentageValue
+    test('to test the property `percentageValue`', () async {
       // TODO
     });
 

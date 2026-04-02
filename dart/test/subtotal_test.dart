@@ -21,13 +21,13 @@ void main() {
       // TODO
     });
 
-    // String description
-    test('to test the property `description`', () async {
+    // num amount
+    test('to test the property `amount`', () async {
       // TODO
     });
 
-    // int order
-    test('to test the property `order`', () async {
+    // String description
+    test('to test the property `description`', () async {
       // TODO
     });
 
@@ -36,8 +36,53 @@ void main() {
       // TODO
     });
 
-    // num amount
-    test('to test the property `amount`', () async {
+    // num taxableAmount1
+    test('to test the property `taxableAmount1`', () async {
+      // TODO
+    });
+
+    // num taxableAmount2
+    test('to test the property `taxableAmount2`', () async {
+      // TODO
+    });
+
+    // num taxableAmount3
+    test('to test the property `taxableAmount3`', () async {
+      // TODO
+    });
+
+    // num totalITBIS
+    test('to test the property `totalITBIS`', () async {
+      // TODO
+    });
+
+    // num itbis1
+    test('to test the property `itbis1`', () async {
+      // TODO
+    });
+
+    // num itbis2
+    test('to test the property `itbis2`', () async {
+      // TODO
+    });
+
+    // num itbis3
+    test('to test the property `itbis3`', () async {
+      // TODO
+    });
+
+    // num additionalTaxes
+    test('to test the property `additionalTaxes`', () async {
+      // TODO
+    });
+
+    // num exemptAmount
+    test('to test the property `exemptAmount`', () async {
+      // TODO
+    });
+
+    // int lines
+    test('to test the property `lines`', () async {
       // TODO
     });
 

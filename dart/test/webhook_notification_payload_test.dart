@@ -36,7 +36,7 @@ void main() {
       // TODO
     });
 
-    // WebhookNotificationPayloadData data
+    // Object data
     test('to test the property `data`', () async {
       // TODO
     });
