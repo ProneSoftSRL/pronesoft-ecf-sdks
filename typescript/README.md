@@ -180,6 +180,7 @@ The generated npm module supports the following:
   * CommonJS
   * ES6 module system
 
+For more information, please visit [https://pronesoft.com](https://pronesoft.com)
 
 ## Development
 
@@ -203,4 +204,4 @@ npm publish
 
 ## License
 
-[]()
+[Proprietary](https://pronesoft.com/terms)

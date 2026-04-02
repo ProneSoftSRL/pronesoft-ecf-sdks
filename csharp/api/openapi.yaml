@@ -1,11 +1,21 @@
 openapi: 3.0.0
 info:
+  contact:
+    email: contacto@pronesoft.com
+    name: Pronesoft SRL Support
+    url: https://pronesoft.com
   description: "**Highly detailed** production-grade API specification for eCF-Pronesoft.\n\
     **Optimized for high-fidelity SDK generation.**\n\nThis specification is the result\
     \ of an exhaustive audit of the source code (NestJS),\ncovering 100% of the DTOs,\
     \ regex validations, Webhook schemas, and \nOAuth 2.0 security flows.\n"
+  license:
+    name: Proprietary
+    url: https://pronesoft.com/terms
   title: eCF-Pronesoft Master Integration API
   version: 0.0.1
+externalDocs:
+  description: Pronesoft eCF SDKs Repository
+  url: https://github.com/ProneSoftSRL/pronesoft-ecf-sdks
 servers:
 - description: Pronesoft eCF Server
   url: "https://{host}/api/v1"

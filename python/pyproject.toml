@@ -3,8 +3,9 @@ name = "pronesoft_ecf"
 version = "0.0.1"
 description = "eCF-Pronesoft Master Integration API"
 authors = [
-  {name = "OpenAPI Generator Community",email = "team@openapitools.org"},
+  {name = "Pronesoft SRL Support",email = "contacto@pronesoft.com"},
 ]
+license = { text = "Proprietary" }
 readme = "README.md"
 keywords = ["OpenAPI", "OpenAPI-Generator", "eCF-Pronesoft Master Integration API"]
 requires-python = ">=3.9"

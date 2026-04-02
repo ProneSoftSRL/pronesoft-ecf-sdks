@@ -8,6 +8,7 @@ covering 100% of the DTOs, regex validations, Webhook schemas, and
 OAuth 2.0 security flows.
 
 
+For more information, please visit [https://pronesoft.com](https://pronesoft.com).
 
 ## Installation & Usage
 
@@ -174,7 +175,7 @@ vendor/bin/phpunit
 
 ## Author
 
-
+contacto@pronesoft.com
 
 ## About this package
 
