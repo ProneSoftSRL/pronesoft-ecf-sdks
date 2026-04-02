@@ -52,7 +52,7 @@ import Pronesoft.Ecf.JSON;
 /**
  * CreateWebhookConfig
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T00:05:38.800375126-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T00:09:12.516551142-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class CreateWebhookConfig {
   public static final String SERIALIZED_NAME_URL = "url";
   @SerializedName(SERIALIZED_NAME_URL)

@@ -2,7 +2,7 @@
 
 eCF-Pronesoft Master Integration API
 - API version: 0.0.1
-  - Build date: 2026-04-02T00:05:38.800375126-04:00[America/Santo_Domingo]
+  - Build date: 2026-04-02T00:09:12.516551142-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 **Highly detailed** production-grade API specification for eCF-Pronesoft.
