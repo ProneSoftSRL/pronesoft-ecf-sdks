@@ -1,12 +1,32 @@
+
 # PrintFormat
 
 
-## Enum
+## Properties
 
-* `A4` (value: `'A4'`)
+Name | Type
+------------ | -------------
 
-* `Thermal80` (value: `'thermal_80'`)
+## Example
 
-* `Thermal58` (value: `'thermal_58'`)
+```typescript
+import type { PrintFormat } from '@pronesoft/ecf-sdk'
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+// TODO: Update the object below with actual values
+const example = {
+} satisfies PrintFormat
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as PrintFormat
+console.log(exampleParsed)
+```
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

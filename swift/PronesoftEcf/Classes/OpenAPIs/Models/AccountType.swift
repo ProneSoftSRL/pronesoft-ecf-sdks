@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-/** CT: Corriente, AH: Ahorros, OT: Otros */
+/** CT: Current, AH: Savings, OT: Others */
 public enum AccountType: String, Codable, CaseIterable {
     case ct = "CT"
     case ah = "AH"

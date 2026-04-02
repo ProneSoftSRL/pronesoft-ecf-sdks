@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**uploadCertificate**](DigitalCertificatesAPI.md#uploadcertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)
+[**uploadCertificate**](DigitalCertificatesAPI.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12)
 
 
 # **uploadCertificate**
@@ -12,7 +12,7 @@ Method | HTTP request | Description
     open class func uploadCertificate(rnc: String, file: URL, password: String, completion: @escaping (_ data: UploadCertificate201Response?, _ error: Error?) -> Void)
 ```
 
-Cargar Certificado Digital (P12)
+Upload Digital Certificate (P12)
 
 ### Example
 ```swift
@@ -23,7 +23,7 @@ let rnc = "rnc_example" // String |
 let file = URL(string: "https://example.com")! // URL | 
 let password = "password_example" // String | 
 
-// Cargar Certificado Digital (P12)
+// Upload Digital Certificate (P12)
 DigitalCertificatesAPI.uploadCertificate(rnc: rnc, file: file, password: password) { (response, error) in
     guard error == nil else {
         print(error)

@@ -108,7 +108,3 @@ src/main/kotlin/com/pronesoft/ecf/models/UploadCertificate201Response.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookConfigResponse.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookEventType.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookNotificationPayload.kt
-src/test/kotlin/com/pronesoft/ecf/models/AssociatedCompanySubscriptionPlanTest.kt
-src/test/kotlin/com/pronesoft/ecf/models/AssociatedCompanySubscriptionTest.kt
-src/test/kotlin/com/pronesoft/ecf/models/CreateAssociatedCompany201ResponseTest.kt
-src/test/kotlin/com/pronesoft/ecf/models/PrintFormatTest.kt

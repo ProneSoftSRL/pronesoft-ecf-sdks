@@ -102,7 +102,7 @@ class ElectronicDocument {
   ///
   String? paymentBank;
 
-  /// 0: emision affected ≤ 30 days, 1: > 30 days
+  /// 0: issuance affected ≤ 30 days, 1: > 30 days
   ElectronicDocumentCreditNoteIndicatorEnum? creditNoteIndicator;
 
   ///
@@ -620,7 +620,7 @@ class ElectronicDocumentPaymentTypeEnumTypeTransformer {
 }
 
 
-/// 0: emision affected ≤ 30 days, 1: > 30 days
+/// 0: issuance affected ≤ 30 days, 1: > 30 days
 class ElectronicDocumentCreditNoteIndicatorEnum {
   /// Instantiate a new enum with the provided [value].
   const ElectronicDocumentCreditNoteIndicatorEnum._(this.value);

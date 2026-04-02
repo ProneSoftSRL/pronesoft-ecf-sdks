@@ -1,27 +1,33 @@
+
 # InvoiceType
 
-31: Crédito Fiscal, 32: Consumidor, 33: Nota de Débito, 34: Nota de Crédito, 41: Compras, 43: Gastos Menores, 44: Regímenes Especiales, 45: Gubernamental, 46: Exportaciones, 47: Pagos al Exterior. 
+31: Tax Credit, 32: Consumer, 33: Debit Note, 34: Credit Note, 41: Purchases, 43: Minor Expenses, 44: Special Regimes, 45: Governmental, 46: Exports, 47: Overseas Payments. 
 
-## Enum
+## Properties
 
-* `_31` (value: `'31'`)
+Name | Type
+------------ | -------------
 
-* `_32` (value: `'32'`)
+## Example
 
-* `_33` (value: `'33'`)
+```typescript
+import type { InvoiceType } from '@pronesoft/ecf-sdk'
 
-* `_34` (value: `'34'`)
+// TODO: Update the object below with actual values
+const example = {
+} satisfies InvoiceType
 
-* `_41` (value: `'41'`)
+console.log(example)
 
-* `_43` (value: `'43'`)
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
 
-* `_44` (value: `'44'`)
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as InvoiceType
+console.log(exampleParsed)
+```
 
-* `_45` (value: `'45'`)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-* `_46` (value: `'46'`)
 
-* `_47` (value: `'47'`)
-
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

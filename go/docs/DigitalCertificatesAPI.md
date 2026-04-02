@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**UploadCertificate**](DigitalCertificatesAPI.md#UploadCertificate) | **Post** /{rnc}/certificates | Cargar Certificado Digital (P12)
+[**UploadCertificate**](DigitalCertificatesAPI.md#UploadCertificate) | **Post** /{rnc}/certificates | Upload Digital Certificate (P12)
 
 
 
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 > UploadCertificate201Response UploadCertificate(ctx, rnc).File(file).Password(password).Execute()
 
-Cargar Certificado Digital (P12)
+Upload Digital Certificate (P12)
 
 ### Example
 

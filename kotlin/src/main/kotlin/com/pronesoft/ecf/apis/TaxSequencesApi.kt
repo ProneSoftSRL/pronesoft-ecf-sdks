@@ -59,7 +59,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * POST /tax-sequences
-     * Crear nueva secuencia fiscal
+     * Create new tax sequence
      * 
      * @param xTenantId 
      * @param createTaxSequenceRequest 
@@ -91,7 +91,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * POST /tax-sequences
-     * Crear nueva secuencia fiscal
+     * Create new tax sequence
      * 
      * @param xTenantId 
      * @param createTaxSequenceRequest 
@@ -134,7 +134,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences/next
-     * Obtener próximo número disponible
+     * Get next available number
      * 
      * @param xTenantId 
      * @param type 
@@ -168,7 +168,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences/next
-     * Obtener próximo número disponible
+     * Get next available number
      * 
      * @param xTenantId 
      * @param type 
@@ -218,7 +218,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences
-     * Listar secuencias fiscales
+     * List tax sequences
      * 
      * @param xTenantId 
      * @param type  (optional)
@@ -251,7 +251,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences
-     * Listar secuencias fiscales
+     * List tax sequences
      * 
      * @param xTenantId 
      * @param type  (optional)

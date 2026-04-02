@@ -57,7 +57,7 @@ open class AuthenticationApi(basePath: kotlin.String = defaultBasePath, client: 
 
     /**
      * POST /oauth/token
-     * Obtener token de acceso (OAuth 2.0)
+     * Get access token (OAuth 2.0)
      * 
      * @param oauthTokenRequest 
      * @return OAuthTokenResponse
@@ -89,7 +89,7 @@ open class AuthenticationApi(basePath: kotlin.String = defaultBasePath, client: 
 
     /**
      * POST /oauth/token
-     * Obtener token de acceso (OAuth 2.0)
+     * Get access token (OAuth 2.0)
      * 
      * @param oauthTokenRequest 
      * @return ApiResponse<OAuthTokenResponse?>

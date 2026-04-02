@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-/** 0: No Facturable, 1: Tasa 18%, 2: Tasa 16%, 3: Tasa 0%, 4: Exento */
+/** 0: Non-Billable, 1: 18% Tax Rate, 2: 16% Tax Rate, 3: 0% Tax Rate, 4: Exempt */
 public enum BillingIndicator: String, Codable, CaseIterable {
     case _0 = "0"
     case _1 = "1"

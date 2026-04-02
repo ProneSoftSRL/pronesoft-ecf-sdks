@@ -16,7 +16,7 @@ class AssociatedCompaniesApi {
 
   final ApiClient apiClient;
 
-  /// Crear nueva empresa asociada
+  /// Create new associated company
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -152,7 +152,7 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// Crear nueva empresa asociada
+  /// Create new associated company
   ///
   /// Parameters:
   ///
@@ -204,7 +204,7 @@ class AssociatedCompaniesApi {
     return null;
   }
 
-  /// Listar sucursales (Asociadas)
+  /// List associated branches/companies
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -238,7 +238,7 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// Listar sucursales (Asociadas)
+  /// List associated branches/companies
   ///
   /// Parameters:
   ///

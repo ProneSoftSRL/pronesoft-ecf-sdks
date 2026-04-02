@@ -1,48 +1,62 @@
+
 # Page
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**pageNumber** | **number** |  | [default to undefined]
-**lineFrom** | **number** |  | [default to undefined]
-**lineTo** | **number** |  | [default to undefined]
-**subtotal** | **number** |  | [optional] [default to undefined]
-**taxableAmount** | **number** |  | [optional] [default to undefined]
-**taxableAmount1** | **number** |  | [optional] [default to undefined]
-**taxableAmount2** | **number** |  | [optional] [default to undefined]
-**taxableAmount3** | **number** |  | [optional] [default to undefined]
-**totalITBIS** | **number** |  | [optional] [default to undefined]
-**itbis1** | **number** |  | [optional] [default to undefined]
-**itbis2** | **number** |  | [optional] [default to undefined]
-**itbis3** | **number** |  | [optional] [default to undefined]
-**additionalTaxes** | **number** |  | [optional] [default to undefined]
-**exemptAmount** | **number** |  | [optional] [default to undefined]
-**nonBillableAmount** | **number** |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`pageNumber` | number
+`lineFrom` | number
+`lineTo` | number
+`subtotal` | number
+`taxableAmount` | number
+`taxableAmount1` | number
+`taxableAmount2` | number
+`taxableAmount3` | number
+`totalITBIS` | number
+`itbis1` | number
+`itbis2` | number
+`itbis3` | number
+`additionalTaxes` | number
+`exemptAmount` | number
+`nonBillableAmount` | number
 
 ## Example
 
 ```typescript
-import { Page } from '@pronesoft/ecf-sdk';
+import type { Page } from '@pronesoft/ecf-sdk'
 
-const instance: Page = {
-    pageNumber,
-    lineFrom,
-    lineTo,
-    subtotal,
-    taxableAmount,
-    taxableAmount1,
-    taxableAmount2,
-    taxableAmount3,
-    totalITBIS,
-    itbis1,
-    itbis2,
-    itbis3,
-    additionalTaxes,
-    exemptAmount,
-    nonBillableAmount,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "pageNumber": null,
+  "lineFrom": null,
+  "lineTo": null,
+  "subtotal": null,
+  "taxableAmount": null,
+  "taxableAmount1": null,
+  "taxableAmount2": null,
+  "taxableAmount3": null,
+  "totalITBIS": null,
+  "itbis1": null,
+  "itbis2": null,
+  "itbis3": null,
+  "additionalTaxes": null,
+  "exemptAmount": null,
+  "nonBillableAmount": null,
+} satisfies Page
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as Page
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

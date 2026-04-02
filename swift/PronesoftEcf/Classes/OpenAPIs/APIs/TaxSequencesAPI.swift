@@ -13,7 +13,7 @@ import AnyCodable
 open class TaxSequencesAPI {
 
     /**
-     Crear nueva secuencia fiscal
+     Create new tax sequence
      
      - parameter xTenantId: (header)  
      - parameter createTaxSequenceRequest: (body)  
@@ -33,7 +33,7 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Crear nueva secuencia fiscal
+     Create new tax sequence
      - POST /tax-sequences
      - OAuth:
        - type: oauth2
@@ -62,7 +62,7 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Obtener próximo número disponible
+     Get next available number
      
      - parameter xTenantId: (header)  
      - parameter type: (query)  
@@ -83,7 +83,7 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Obtener próximo número disponible
+     Get next available number
      - GET /tax-sequences/next
      - OAuth:
        - type: oauth2
@@ -116,7 +116,7 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Listar secuencias fiscales
+     List tax sequences
      
      - parameter xTenantId: (header)  
      - parameter type: (query)  (optional)
@@ -136,7 +136,7 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Listar secuencias fiscales
+     List tax sequences
      - GET /tax-sequences
      - OAuth:
        - type: oauth2

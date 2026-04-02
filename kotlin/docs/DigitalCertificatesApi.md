@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12) |
+| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12) |
 
 
 <a id="uploadCertificate"></a>
 # **uploadCertificate**
 > UploadCertificate201Response uploadCertificate(rnc, file, password)
 
-Cargar Certificado Digital (P12)
+Upload Digital Certificate (P12)
 
 ### Example
 ```kotlin

@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**submitEcf**](ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit) |
+| [**submitEcf**](ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Submit e-CF to platform |
 
 
 <a id="submitEcf"></a>
 # **submitEcf**
 > EcfSubmissionResponse submitEcf(xTenantId, environment, electronicDocument)
 
-Enviar e-CF a plataforma (Submit)
+Submit e-CF to platform
 
 ### Example
 ```java
@@ -74,6 +74,6 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Documento enviado y procesado por plataforma |  -  |
-| **400** | Error en la estructura de los datos (400 Bad Request) |  -  |
+| **200** | Document submitted and processed by platform |  -  |
+| **400** | Data structure error (400 Bad Request) |  -  |
 

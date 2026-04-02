@@ -10,7 +10,7 @@
 
 part of openapi.api;
 
-/// CT: Corriente, AH: Ahorros, OT: Otros
+/// CT: Current, AH: Savings, OT: Others
 class AccountType {
   /// Instantiate a new enum with the provided [value].
   const AccountType._(this.value);

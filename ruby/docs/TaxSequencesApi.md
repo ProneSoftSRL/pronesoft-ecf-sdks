@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal |
-| [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Obtener próximo número disponible |
-| [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | Listar secuencias fiscales |
+| [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence |
+| [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available number |
+| [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences |
 
 
 ## create_tax_sequence
 
 > create_tax_sequence(x_tenant_id, create_tax_sequence_request)
 
-Crear nueva secuencia fiscal
+Create new tax sequence
 
 ### Examples
 
@@ -31,7 +31,7 @@ x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String |
 create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceType::N31, from: 37, to: 37}) # CreateTaxSequenceRequest | 
 
 begin
-  # Crear nueva secuencia fiscal
+  # Create new tax sequence
   api_instance.create_tax_sequence(x_tenant_id, create_tax_sequence_request)
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->create_tax_sequence: #{e}"
@@ -46,7 +46,7 @@ This returns an Array which contains the response data (`nil` in this case), sta
 
 ```ruby
 begin
-  # Crear nueva secuencia fiscal
+  # Create new tax sequence
   data, status_code, headers = api_instance.create_tax_sequence_with_http_info(x_tenant_id, create_tax_sequence_request)
   p status_code # => 2xx
   p headers # => { ... }
@@ -81,7 +81,7 @@ nil (empty response body)
 
 > <GetNextNumber200Response> get_next_number(x_tenant_id, type, environment)
 
-Obtener próximo número disponible
+Get next available number
 
 ### Examples
 
@@ -100,7 +100,7 @@ type = PronesoftEcf::InvoiceType::N31 # InvoiceType |
 environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
 
 begin
-  # Obtener próximo número disponible
+  # Get next available number
   result = api_instance.get_next_number(x_tenant_id, type, environment)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -116,7 +116,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Obtener próximo número disponible
+  # Get next available number
   data, status_code, headers = api_instance.get_next_number_with_http_info(x_tenant_id, type, environment)
   p status_code # => 2xx
   p headers # => { ... }
@@ -152,7 +152,7 @@ end
 
 > <ListTaxSequences200Response> list_tax_sequences(x_tenant_id, opts)
 
-Listar secuencias fiscales
+List tax sequences
 
 ### Examples
 
@@ -172,7 +172,7 @@ opts = {
 }
 
 begin
-  # Listar secuencias fiscales
+  # List tax sequences
   result = api_instance.list_tax_sequences(x_tenant_id, opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -188,7 +188,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Listar secuencias fiscales
+  # List tax sequences
   data, status_code, headers = api_instance.list_tax_sequences_with_http_info(x_tenant_id, opts)
   p status_code # => 2xx
   p headers # => { ... }

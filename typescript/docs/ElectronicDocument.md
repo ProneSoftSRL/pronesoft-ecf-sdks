@@ -1,72 +1,86 @@
+
 # ElectronicDocument
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**version** | **string** |  | [default to '1.0']
-**invoiceType** | [**InvoiceType**](InvoiceType.md) |  | [default to undefined]
-**invoiceNumber** | **string** |  | [default to undefined]
-**issueDate** | **string** |  | [default to undefined]
-**expirationDate** | **string** |  | [optional] [default to undefined]
-**incomeType** | **string** |  | [optional] [default to undefined]
-**paymentType** | **string** |  | [optional] [default to undefined]
-**paymentDeadline** | **string** |  | [optional] [default to undefined]
-**paymentTerms** | **string** |  | [optional] [default to undefined]
-**paymentAccountType** | [**AccountType**](AccountType.md) |  | [optional] [default to undefined]
-**paymentAccountNumber** | **string** |  | [optional] [default to undefined]
-**paymentBank** | **string** |  | [optional] [default to undefined]
-**creditNoteIndicator** | **string** | 0: emision affected ≤ 30 days, 1: &gt; 30 days | [optional] [default to undefined]
-**issuerRNC** | **string** |  | [optional] [default to undefined]
-**issuerBusinessName** | **string** |  | [optional] [default to undefined]
-**issuerEmail** | **string** |  | [optional] [default to undefined]
-**issuerPhones** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
-**buyer** | [**Buyer**](Buyer.md) |  | [optional] [default to undefined]
-**items** | [**Array&lt;Item&gt;**](Item.md) |  | [default to undefined]
-**totals** | [**Totals**](Totals.md) |  | [default to undefined]
-**transport** | [**Transport**](Transport.md) |  | [optional] [default to undefined]
-**additionalInfo** | [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] [default to undefined]
-**alternativeCurrency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] [default to undefined]
-**referenceInfo** | [**ReferenceInfo**](ReferenceInfo.md) |  | [optional] [default to undefined]
-**subtotals** | [**Array&lt;Subtotal&gt;**](Subtotal.md) |  | [optional] [default to undefined]
-**discountsOrSurcharges** | [**Array&lt;DiscountOrSurcharge&gt;**](DiscountOrSurcharge.md) |  | [optional] [default to undefined]
-**pages** | [**Array&lt;Page&gt;**](Page.md) |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`version` | string
+`invoiceType` | [InvoiceType](InvoiceType.md)
+`invoiceNumber` | string
+`issueDate` | Date
+`expirationDate` | Date
+`incomeType` | string
+`paymentType` | string
+`paymentDeadline` | Date
+`paymentTerms` | string
+`paymentAccountType` | [AccountType](AccountType.md)
+`paymentAccountNumber` | string
+`paymentBank` | string
+`creditNoteIndicator` | string
+`issuerRNC` | string
+`issuerBusinessName` | string
+`issuerEmail` | string
+`issuerPhones` | Array&lt;string&gt;
+`buyer` | [Buyer](Buyer.md)
+`items` | [Array&lt;Item&gt;](Item.md)
+`totals` | [Totals](Totals.md)
+`transport` | [Transport](Transport.md)
+`additionalInfo` | [AdditionalInfo](AdditionalInfo.md)
+`alternativeCurrency` | [AlternativeCurrency](AlternativeCurrency.md)
+`referenceInfo` | [ReferenceInfo](ReferenceInfo.md)
+`subtotals` | [Array&lt;Subtotal&gt;](Subtotal.md)
+`discountsOrSurcharges` | [Array&lt;DiscountOrSurcharge&gt;](DiscountOrSurcharge.md)
+`pages` | [Array&lt;Page&gt;](Page.md)
 
 ## Example
 
 ```typescript
-import { ElectronicDocument } from '@pronesoft/ecf-sdk';
+import type { ElectronicDocument } from '@pronesoft/ecf-sdk'
 
-const instance: ElectronicDocument = {
-    version,
-    invoiceType,
-    invoiceNumber,
-    issueDate,
-    expirationDate,
-    incomeType,
-    paymentType,
-    paymentDeadline,
-    paymentTerms,
-    paymentAccountType,
-    paymentAccountNumber,
-    paymentBank,
-    creditNoteIndicator,
-    issuerRNC,
-    issuerBusinessName,
-    issuerEmail,
-    issuerPhones,
-    buyer,
-    items,
-    totals,
-    transport,
-    additionalInfo,
-    alternativeCurrency,
-    referenceInfo,
-    subtotals,
-    discountsOrSurcharges,
-    pages,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "version": null,
+  "invoiceType": null,
+  "invoiceNumber": null,
+  "issueDate": null,
+  "expirationDate": null,
+  "incomeType": null,
+  "paymentType": null,
+  "paymentDeadline": null,
+  "paymentTerms": null,
+  "paymentAccountType": null,
+  "paymentAccountNumber": null,
+  "paymentBank": null,
+  "creditNoteIndicator": null,
+  "issuerRNC": null,
+  "issuerBusinessName": null,
+  "issuerEmail": null,
+  "issuerPhones": null,
+  "buyer": null,
+  "items": null,
+  "totals": null,
+  "transport": null,
+  "additionalInfo": null,
+  "alternativeCurrency": null,
+  "referenceInfo": null,
+  "subtotals": null,
+  "discountsOrSurcharges": null,
+  "pages": null,
+} satisfies ElectronicDocument
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as ElectronicDocument
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

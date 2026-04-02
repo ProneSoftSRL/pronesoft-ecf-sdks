@@ -4,9 +4,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createTaxSequence**](TaxSequencesAPI.md#createtaxsequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal
-[**getNextNumber**](TaxSequencesAPI.md#getnextnumber) | **GET** /tax-sequences/next | Obtener próximo número disponible
-[**listTaxSequences**](TaxSequencesAPI.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias fiscales
+[**createTaxSequence**](TaxSequencesAPI.md#createtaxsequence) | **POST** /tax-sequences | Create new tax sequence
+[**getNextNumber**](TaxSequencesAPI.md#getnextnumber) | **GET** /tax-sequences/next | Get next available number
+[**listTaxSequences**](TaxSequencesAPI.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences
 
 
 # **createTaxSequence**
@@ -14,7 +14,7 @@ Method | HTTP request | Description
     open class func createTaxSequence(xTenantId: UUID, createTaxSequenceRequest: CreateTaxSequenceRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
-Crear nueva secuencia fiscal
+Create new tax sequence
 
 ### Example
 ```swift
@@ -24,7 +24,7 @@ import PronesoftEcf
 let xTenantId = 987 // UUID | 
 let createTaxSequenceRequest = CreateTaxSequenceRequest(type: InvoiceType(), from: 123, to: 123) // CreateTaxSequenceRequest | 
 
-// Crear nueva secuencia fiscal
+// Create new tax sequence
 TaxSequencesAPI.createTaxSequence(xTenantId: xTenantId, createTaxSequenceRequest: createTaxSequenceRequest) { (response, error) in
     guard error == nil else {
         print(error)
@@ -64,7 +64,7 @@ Void (empty response body)
     open class func getNextNumber(xTenantId: UUID, type: InvoiceType, environment: Environment, completion: @escaping (_ data: GetNextNumber200Response?, _ error: Error?) -> Void)
 ```
 
-Obtener próximo número disponible
+Get next available number
 
 ### Example
 ```swift
@@ -75,7 +75,7 @@ let xTenantId = 987 // UUID |
 let type = InvoiceType() // InvoiceType | 
 let environment = Environment() // Environment | 
 
-// Obtener próximo número disponible
+// Get next available number
 TaxSequencesAPI.getNextNumber(xTenantId: xTenantId, type: type, environment: environment) { (response, error) in
     guard error == nil else {
         print(error)
@@ -116,7 +116,7 @@ Name | Type | Description  | Notes
     open class func listTaxSequences(xTenantId: UUID, type: InvoiceType? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
 ```
 
-Listar secuencias fiscales
+List tax sequences
 
 ### Example
 ```swift
@@ -126,7 +126,7 @@ import PronesoftEcf
 let xTenantId = 987 // UUID | 
 let type = InvoiceType() // InvoiceType |  (optional)
 
-// Listar secuencias fiscales
+// List tax sequences
 TaxSequencesAPI.listTaxSequences(xTenantId: xTenantId, type: type) { (response, error) in
     guard error == nil else {
         print(error)

@@ -1,24 +1,38 @@
+
 # OAuthTokenResponse
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**accessToken** | **string** |  | [optional] [default to undefined]
-**tokenType** | **string** |  | [optional] [default to undefined]
-**expiresIn** | **number** |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`accessToken` | string
+`tokenType` | string
+`expiresIn` | number
 
 ## Example
 
 ```typescript
-import { OAuthTokenResponse } from '@pronesoft/ecf-sdk';
+import type { OAuthTokenResponse } from '@pronesoft/ecf-sdk'
 
-const instance: OAuthTokenResponse = {
-    accessToken,
-    tokenType,
-    expiresIn,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "accessToken": null,
+  "tokenType": null,
+  "expiresIn": null,
+} satisfies OAuthTokenResponse
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as OAuthTokenResponse
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

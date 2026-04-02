@@ -4,9 +4,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateWebhook**](WebhookConfigurationAPI.md#CreateWebhook) | **Post** /{rnc}/webhooks | Registrar nuevo webhook
-[**DeleteWebhook**](WebhookConfigurationAPI.md#DeleteWebhook) | **Delete** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook
-[**ListWebhooks**](WebhookConfigurationAPI.md#ListWebhooks) | **Get** /{rnc}/webhooks | Listar todas las configuraciones de webhooks
+[**CreateWebhook**](WebhookConfigurationAPI.md#CreateWebhook) | **Post** /{rnc}/webhooks | Register new webhook
+[**DeleteWebhook**](WebhookConfigurationAPI.md#DeleteWebhook) | **Delete** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+[**ListWebhooks**](WebhookConfigurationAPI.md#ListWebhooks) | **Get** /{rnc}/webhooks | List all webhook configurations
 
 
 
@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 > WebhookConfigResponse CreateWebhook(ctx, rnc).CreateWebhookConfig(createWebhookConfig).Execute()
 
-Registrar nuevo webhook
+Register new webhook
 
 ### Example
 
@@ -84,7 +84,7 @@ Name | Type | Description  | Notes
 
 > DeleteWebhook(ctx, rnc, webhookId).Execute()
 
-Eliminar configuración de webhook
+Delete webhook configuration
 
 ### Example
 
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
 
 > []WebhookConfigResponse ListWebhooks(ctx, rnc).Execute()
 
-Listar todas las configuraciones de webhooks
+List all webhook configurations
 
 ### Example
 

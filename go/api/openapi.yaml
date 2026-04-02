@@ -1,19 +1,18 @@
 openapi: 3.0.0
 info:
-  description: "Especificación de producción **200% detallada** de la API de eCF-Pronesoft.\n\
-    **Optimizada para la generación de SDKs de alta fidelidad.**\n\nEsta especificació\
-    n es el resultado de una auditoría exhaustiva del código fuente (NestJS),\ncubriendo\
-    \ el 100% de los DTOs, validaciones con regex, esquemas de Webhooks y \nflujos\
-    \ de seguridad OAuth 2.0.\n"
+  description: "**Highly detailed** production-grade API specification for eCF-Pronesoft.\n\
+    **Optimized for high-fidelity SDK generation.**\n\nThis specification is the result\
+    \ of an exhaustive audit of the source code (NestJS),\ncovering 100% of the DTOs,\
+    \ regex validations, Webhook schemas, and \nOAuth 2.0 security flows.\n"
   title: eCF-Pronesoft Master Integration API
-  version: 1.1.0
+  version: 0.0.1
 servers:
-- description: Servidor de Pronesoft eCF
+- description: Pronesoft eCF Server
   url: "https://{host}/api/v1"
   variables:
     host:
       default: api.ecf.sandbox.pronesoft.com
-      description: Sandbox (api.ecf.sandbox.pronesoft.com) o Producción (api.ecf.pronesoft.com)
+      description: Sandbox (api.ecf.sandbox.pronesoft.com) or Production (api.ecf.pronesoft.com)
       enum:
       - api.ecf.sandbox.pronesoft.com
       - api.ecf.pronesoft.com
@@ -47,15 +46,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OAuthTokenResponse"
-          description: Token generado exitosamente
+          description: Token generated successfully
         "401":
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-          description: Error de autorización (Token expirado o inválido)
+          description: Authorization error (Expired or invalid token)
       security: []
-      summary: Obtener token de acceso (OAuth 2.0)
+      summary: Get access token (OAuth 2.0)
       tags:
       - Authentication
   /{rnc}/certificates:
@@ -81,8 +80,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/uploadCertificate_201_response"
-          description: Certificado cargado exitosamente
-      summary: Cargar Certificado Digital (P12)
+          description: Certificate uploaded successfully
+      summary: Upload Digital Certificate (P12)
       tags:
       - Digital Certificates
   /tax-sequences:
@@ -94,7 +93,7 @@ paths:
         name: x-tenant-id
         required: true
         schema:
-          description: Identificador único de la empresa/sucursal (Tenant).
+          description: Unique identifier for the company/branch (Tenant).
           format: uuid
           type: string
         style: simple
@@ -111,8 +110,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/listTaxSequences_200_response"
-          description: Lista de secuencias
-      summary: Listar secuencias fiscales
+          description: List of sequences
+      summary: List tax sequences
       tags:
       - Tax Sequences
     post:
@@ -123,7 +122,7 @@ paths:
         name: x-tenant-id
         required: true
         schema:
-          description: Identificador único de la empresa/sucursal (Tenant).
+          description: Unique identifier for the company/branch (Tenant).
           format: uuid
           type: string
         style: simple
@@ -135,8 +134,8 @@ paths:
         required: true
       responses:
         "201":
-          description: Secuencia creada
-      summary: Crear nueva secuencia fiscal
+          description: Sequence created
+      summary: Create new tax sequence
       tags:
       - Tax Sequences
   /tax-sequences/next:
@@ -148,7 +147,7 @@ paths:
         name: x-tenant-id
         required: true
         schema:
-          description: Identificador único de la empresa/sucursal (Tenant).
+          description: Unique identifier for the company/branch (Tenant).
           format: uuid
           type: string
         style: simple
@@ -172,8 +171,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/getNextNumber_200_response"
-          description: Próximo número e-NCF
-      summary: Obtener próximo número disponible
+          description: Next e-NCF number
+      summary: Get next available number
       tags:
       - Tax Sequences
   /{environment}/ecf/submit:
@@ -182,8 +181,8 @@ paths:
         onEcfProcessed:
           '{$request.body#/callbackUrl}':
             post:
-              description: El servidor enviará este evento cuando la DGII procese
-                el documento.
+              description: The server will send this event when the DGII finishes
+                processing the document.
               operationId: OnEcfProcessedPost
               requestBody:
                 content:
@@ -192,8 +191,8 @@ paths:
                       $ref: "#/components/schemas/WebhookNotificationPayload"
               responses:
                 "200":
-                  description: Callback recibido correctamente
-              summary: Callback de procesamiento de e-CF
+                  description: Callback received successfully
+              summary: e-CF Processing Callback
               x-callback-request: true
       operationId: submitEcf
       parameters:
@@ -202,7 +201,7 @@ paths:
         name: x-tenant-id
         required: true
         schema:
-          description: Identificador único de la empresa/sucursal (Tenant).
+          description: Unique identifier for the company/branch (Tenant).
           format: uuid
           type: string
         style: simple
@@ -225,14 +224,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EcfSubmissionResponse"
-          description: Documento enviado y procesado por plataforma
+          description: Document submitted and processed by platform
         "400":
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-          description: Error en la estructura de los datos (400 Bad Request)
-      summary: Enviar e-CF a plataforma (Submit)
+          description: Data structure error (400 Bad Request)
+      summary: Submit e-CF to platform
       tags:
       - eCF Submission
   /associated-companies:
@@ -244,7 +243,7 @@ paths:
         name: x-tenant-id
         required: true
         schema:
-          description: Identificador único de la empresa/sucursal (Tenant).
+          description: Unique identifier for the company/branch (Tenant).
           format: uuid
           type: string
         style: simple
@@ -256,8 +255,8 @@ paths:
                 items:
                   $ref: "#/components/schemas/AssociatedCompany"
                 type: array
-          description: Lista de empresas asociadas
-      summary: Listar sucursales (Asociadas)
+          description: List of associated companies
+      summary: List associated branches/companies
       tags:
       - Associated Companies
     post:
@@ -268,7 +267,7 @@ paths:
         name: x-tenant-id
         required: true
         schema:
-          description: Identificador único de la empresa/sucursal (Tenant).
+          description: Unique identifier for the company/branch (Tenant).
           format: uuid
           type: string
         style: simple
@@ -284,8 +283,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/createAssociatedCompany_201_response"
-          description: Empresa creada
-      summary: Crear nueva empresa asociada
+          description: Company created
+      summary: Create new associated company
       tags:
       - Associated Companies
   /{rnc}/webhooks:
@@ -308,8 +307,8 @@ paths:
                 items:
                   $ref: "#/components/schemas/WebhookConfigResponse"
                 type: array
-          description: Lista de webhooks
-      summary: Listar todas las configuraciones de webhooks
+          description: List of webhooks
+      summary: List all webhook configurations
       tags:
       - Webhook Configuration
     post:
@@ -335,8 +334,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/WebhookConfigResponse"
-          description: Webhook registrado
-      summary: Registrar nuevo webhook
+          description: Webhook registered
+      summary: Register new webhook
       tags:
       - Webhook Configuration
   /{rnc}/webhooks/{webhookId}:
@@ -359,8 +358,8 @@ paths:
         style: simple
       responses:
         "200":
-          description: Webhook eliminado
-      summary: Eliminar configuración de webhook
+          description: Webhook deleted
+      summary: Delete webhook configuration
       tags:
       - Webhook Configuration
 components:
@@ -371,7 +370,7 @@ components:
       name: x-tenant-id
       required: true
       schema:
-        description: Identificador único de la empresa/sucursal (Tenant).
+        description: Unique identifier for the company/branch (Tenant).
         format: uuid
         type: string
       style: simple
@@ -381,13 +380,13 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
-      description: Error de autorización (Token expirado o inválido)
+      description: Authorization error (Expired or invalid token)
     ValidationError:
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorResponse"
-      description: Error en la estructura de los datos (400 Bad Request)
+      description: Data structure error (400 Bad Request)
   schemas:
     Environment:
       enum:
@@ -397,9 +396,9 @@ components:
       type: string
     InvoiceType:
       description: |
-        31: Crédito Fiscal, 32: Consumidor, 33: Nota de Débito, 34: Nota de Crédito,
-        41: Compras, 43: Gastos Menores, 44: Regímenes Especiales, 45: Gubernamental,
-        46: Exportaciones, 47: Pagos al Exterior.
+        31: Tax Credit, 32: Consumer, 33: Debit Note, 34: Credit Note,
+        41: Purchases, 43: Minor Expenses, 44: Special Regimes, 45: Governmental,
+        46: Exports, 47: Overseas Payments.
       enum:
       - "31"
       - "32"
@@ -424,7 +423,8 @@ components:
       - "8"
       type: string
     BillingIndicator:
-      description: "0: No Facturable, 1: Tasa 18%, 2: Tasa 16%, 3: Tasa 0%, 4: Exento"
+      description: "0: Non-Billable, 1: 18% Tax Rate, 2: 16% Tax Rate, 3: 0% Tax Rate,\
+        \ 4: Exempt"
       enum:
       - "0"
       - "1"
@@ -459,7 +459,7 @@ components:
       - thermal_58
       type: string
     AccountType:
-      description: "CT: Corriente, AH: Ahorros, OT: Otros"
+      description: "CT: Current, AH: Savings, OT: Others"
       enum:
       - CT
       - AH
@@ -884,7 +884,7 @@ components:
           maxLength: 75
           type: string
         creditNoteIndicator:
-          description: "0: emision affected ≤ 30 days, 1: > 30 days"
+          description: "0: issuance affected ≤ 30 days, 1: > 30 days"
           enum:
           - "0"
           - "1"
@@ -1677,14 +1677,14 @@ components:
   securitySchemes:
     oauth2:
       description: |
-        Autenticación robusta mediante Client Credentials.
-        Se recomienda usar el portal para generar las credenciales.
+        Robust authentication using Client Credentials.
+        It is recommended to use the portal to generate your credentials.
       flows:
         clientCredentials:
           scopes:
-            documents:read: Acceso de lectura a documentos enviados/recibidos.
-            documents:write: Permisos para enviar y modificar documentos.
-            ecf:submit: Permiso especializado para el envío de facturas e-CF.
-            admin: Acceso administrativo completo a la plataforma.
+            documents:read: Read access to sent/received documents.
+            documents:write: Permissions to send and modify documents.
+            ecf:submit: Specialized permission for e-CF invoice submission.
+            admin: Full administrative access to the platform.
           tokenUrl: oauth/token
       type: oauth2

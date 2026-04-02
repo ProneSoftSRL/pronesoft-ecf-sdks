@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **payment_account_type** | [**\PronesoftEcf\Model\AccountType**](AccountType.md) |  | [optional]
 **payment_account_number** | **string** |  | [optional]
 **payment_bank** | **string** |  | [optional]
-**credit_note_indicator** | **string** | 0: emision affected ≤ 30 days, 1: &gt; 30 days | [optional]
+**credit_note_indicator** | **string** | 0: issuance affected ≤ 30 days, 1: &gt; 30 days | [optional]
 **issuer_rnc** | **string** |  | [optional]
 **issuer_business_name** | **string** |  | [optional]
 **issuer_email** | **string** |  | [optional]

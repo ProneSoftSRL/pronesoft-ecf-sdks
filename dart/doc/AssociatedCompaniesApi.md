@@ -9,14 +9,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createAssociatedCompany**](AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Crear nueva empresa asociada
-[**listAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | Listar sucursales (Asociadas)
+[**createAssociatedCompany**](AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Create new associated company
+[**listAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | List associated branches/companies
 
 
 # **createAssociatedCompany**
 > CreateAssociatedCompany201Response createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo)
 
-Crear nueva empresa asociada
+Create new associated company
 
 ### Example
 ```dart
@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 # **listAssociatedCompanies**
 > List<AssociatedCompany> listAssociatedCompanies(xTenantId)
 
-Listar sucursales (Asociadas)
+List associated branches/companies
 
 ### Example
 ```dart

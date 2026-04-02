@@ -1,66 +1,80 @@
+
 # Totals
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**taxableAmount** | **number** |  | [optional] [default to undefined]
-**taxableAmount1** | **number** |  | [optional] [default to undefined]
-**taxableAmount2** | **number** |  | [optional] [default to undefined]
-**taxableAmount3** | **number** |  | [optional] [default to undefined]
-**exemptAmount** | **number** |  | [optional] [default to undefined]
-**itbisRate1** | **number** |  | [optional] [default to undefined]
-**itbisRate2** | **number** |  | [optional] [default to undefined]
-**itbisRate3** | **number** |  | [optional] [default to undefined]
-**totalITBIS** | **number** |  | [optional] [default to undefined]
-**itbis1** | **number** |  | [optional] [default to undefined]
-**itbis2** | **number** |  | [optional] [default to undefined]
-**itbis3** | **number** |  | [optional] [default to undefined]
-**additionalTaxAmount** | **number** |  | [optional] [default to undefined]
-**additionalTaxes** | [**Array&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) |  | [optional] [default to undefined]
-**totalAmount** | **number** |  | [default to undefined]
-**nonBillableAmount** | **number** |  | [optional] [default to undefined]
-**periodAmount** | **number** |  | [optional] [default to undefined]
-**previousBalance** | **number** |  | [optional] [default to undefined]
-**advancePaymentAmount** | **number** |  | [optional] [default to undefined]
-**amountToPay** | **number** |  | [optional] [default to undefined]
-**totalWithheldITBIS** | **number** |  | [optional] [default to undefined]
-**totalIncomeTaxWithholding** | **number** |  | [optional] [default to undefined]
-**totalITBISPerception** | **number** |  | [optional] [default to undefined]
-**totalISRPerception** | **number** |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`taxableAmount` | number
+`taxableAmount1` | number
+`taxableAmount2` | number
+`taxableAmount3` | number
+`exemptAmount` | number
+`itbisRate1` | number
+`itbisRate2` | number
+`itbisRate3` | number
+`totalITBIS` | number
+`itbis1` | number
+`itbis2` | number
+`itbis3` | number
+`additionalTaxAmount` | number
+`additionalTaxes` | [Array&lt;ItemAdditionalTax&gt;](ItemAdditionalTax.md)
+`totalAmount` | number
+`nonBillableAmount` | number
+`periodAmount` | number
+`previousBalance` | number
+`advancePaymentAmount` | number
+`amountToPay` | number
+`totalWithheldITBIS` | number
+`totalIncomeTaxWithholding` | number
+`totalITBISPerception` | number
+`totalISRPerception` | number
 
 ## Example
 
 ```typescript
-import { Totals } from '@pronesoft/ecf-sdk';
+import type { Totals } from '@pronesoft/ecf-sdk'
 
-const instance: Totals = {
-    taxableAmount,
-    taxableAmount1,
-    taxableAmount2,
-    taxableAmount3,
-    exemptAmount,
-    itbisRate1,
-    itbisRate2,
-    itbisRate3,
-    totalITBIS,
-    itbis1,
-    itbis2,
-    itbis3,
-    additionalTaxAmount,
-    additionalTaxes,
-    totalAmount,
-    nonBillableAmount,
-    periodAmount,
-    previousBalance,
-    advancePaymentAmount,
-    amountToPay,
-    totalWithheldITBIS,
-    totalIncomeTaxWithholding,
-    totalITBISPerception,
-    totalISRPerception,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "taxableAmount": null,
+  "taxableAmount1": null,
+  "taxableAmount2": null,
+  "taxableAmount3": null,
+  "exemptAmount": null,
+  "itbisRate1": null,
+  "itbisRate2": null,
+  "itbisRate3": null,
+  "totalITBIS": null,
+  "itbis1": null,
+  "itbis2": null,
+  "itbis3": null,
+  "additionalTaxAmount": null,
+  "additionalTaxes": null,
+  "totalAmount": null,
+  "nonBillableAmount": null,
+  "periodAmount": null,
+  "previousBalance": null,
+  "advancePaymentAmount": null,
+  "amountToPay": null,
+  "totalWithheldITBIS": null,
+  "totalIncomeTaxWithholding": null,
+  "totalITBISPerception": null,
+  "totalISRPerception": null,
+} satisfies Totals
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as Totals
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

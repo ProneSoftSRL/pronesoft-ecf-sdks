@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetAccessToken**](AuthenticationAPI.md#GetAccessToken) | **Post** /oauth/token | Obtener token de acceso (OAuth 2.0)
+[**GetAccessToken**](AuthenticationAPI.md#GetAccessToken) | **Post** /oauth/token | Get access token (OAuth 2.0)
 
 
 
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 > OAuthTokenResponse GetAccessToken(ctx).OAuthTokenRequest(oAuthTokenRequest).Execute()
 
-Obtener token de acceso (OAuth 2.0)
+Get access token (OAuth 2.0)
 
 ### Example
 

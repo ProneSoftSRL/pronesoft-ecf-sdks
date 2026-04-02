@@ -16,7 +16,7 @@ class TaxSequencesApi {
 
   final ApiClient apiClient;
 
-  /// Crear nueva secuencia fiscal
+  /// Create new tax sequence
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -52,7 +52,7 @@ class TaxSequencesApi {
     );
   }
 
-  /// Crear nueva secuencia fiscal
+  /// Create new tax sequence
   ///
   /// Parameters:
   ///
@@ -66,7 +66,7 @@ class TaxSequencesApi {
     }
   }
 
-  /// Obtener próximo número disponible
+  /// Get next available number
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -107,7 +107,7 @@ class TaxSequencesApi {
     );
   }
 
-  /// Obtener próximo número disponible
+  /// Get next available number
   ///
   /// Parameters:
   ///
@@ -131,7 +131,7 @@ class TaxSequencesApi {
     return null;
   }
 
-  /// Listar secuencias fiscales
+  /// List tax sequences
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -171,7 +171,7 @@ class TaxSequencesApi {
     );
   }
 
-  /// Listar secuencias fiscales
+  /// List tax sequences
   ///
   /// Parameters:
   ///

@@ -4,15 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Crear nueva empresa asociada |
-| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar sucursales (Asociadas) |
+| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create new associated company |
+| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated branches/companies |
 
 
 <a id="createAssociatedCompany"></a>
 # **createAssociatedCompany**
 > CreateAssociatedCompany201Response createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo)
 
-Crear nueva empresa asociada
+Create new associated company
 
 ### Example
 ```java
@@ -103,13 +103,13 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Empresa creada |  -  |
+| **201** | Company created |  -  |
 
 <a id="listAssociatedCompanies"></a>
 # **listAssociatedCompanies**
 > List&lt;AssociatedCompany&gt; listAssociatedCompanies(xTenantId)
 
-Listar sucursales (Asociadas)
+List associated branches/companies
 
 ### Example
 ```java
@@ -168,5 +168,5 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Lista de empresas asociadas |  -  |
+| **200** | List of associated companies |  -  |
 

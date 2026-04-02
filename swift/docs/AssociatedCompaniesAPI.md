@@ -4,8 +4,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createAssociatedCompany**](AssociatedCompaniesAPI.md#createassociatedcompany) | **POST** /associated-companies | Crear nueva empresa asociada
-[**listAssociatedCompanies**](AssociatedCompaniesAPI.md#listassociatedcompanies) | **GET** /associated-companies | Listar sucursales (Asociadas)
+[**createAssociatedCompany**](AssociatedCompaniesAPI.md#createassociatedcompany) | **POST** /associated-companies | Create new associated company
+[**listAssociatedCompanies**](AssociatedCompaniesAPI.md#listassociatedcompanies) | **GET** /associated-companies | List associated branches/companies
 
 
 # **createAssociatedCompany**
@@ -13,7 +13,7 @@ Method | HTTP request | Description
     open class func createAssociatedCompany(xTenantId: UUID, email: String, password: String, name: String, rnc: String, phone: String, address: String, city: String, country: String, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, printerType: PrintFormat? = nil, logo: URL? = nil, completion: @escaping (_ data: CreateAssociatedCompany201Response?, _ error: Error?) -> Void)
 ```
 
-Crear nueva empresa asociada
+Create new associated company
 
 ### Example
 ```swift
@@ -38,7 +38,7 @@ let monthlySalesRange = "monthlySalesRange_example" // String |  (optional)
 let printerType = PrintFormat() // PrintFormat |  (optional)
 let logo = URL(string: "https://example.com")! // URL |  (optional)
 
-// Crear nueva empresa asociada
+// Create new associated company
 AssociatedCompaniesAPI.createAssociatedCompany(xTenantId: xTenantId, email: email, password: password, name: name, rnc: rnc, phone: phone, address: address, city: city, country: country, firstName: firstName, lastName: lastName, jobTitle: jobTitle, website: website, category: category, monthlySalesRange: monthlySalesRange, printerType: printerType, logo: logo) { (response, error) in
     guard error == nil else {
         print(error)
@@ -93,7 +93,7 @@ Name | Type | Description  | Notes
     open class func listAssociatedCompanies(xTenantId: UUID, completion: @escaping (_ data: [AssociatedCompany]?, _ error: Error?) -> Void)
 ```
 
-Listar sucursales (Asociadas)
+List associated branches/companies
 
 ### Example
 ```swift
@@ -102,7 +102,7 @@ import PronesoftEcf
 
 let xTenantId = 987 // UUID | 
 
-// Listar sucursales (Asociadas)
+// List associated branches/companies
 AssociatedCompaniesAPI.listAssociatedCompanies(xTenantId: xTenantId) { (response, error) in
     guard error == nil else {
         print(error)

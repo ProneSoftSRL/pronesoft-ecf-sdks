@@ -55,7 +55,7 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /{rnc}/certificates
-     * Cargar Certificado Digital (P12)
+     * Upload Digital Certificate (P12)
      * 
      * @param rnc 
      * @param file 
@@ -89,7 +89,7 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /{rnc}/certificates
-     * Cargar Certificado Digital (P12)
+     * Upload Digital Certificate (P12)
      * 
      * @param rnc 
      * @param file 

@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12) |
+| [**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12) |
 
 
 ## upload_certificate
 
 > <UploadCertificate201Response> upload_certificate(rnc, file, password)
 
-Cargar Certificado Digital (P12)
+Upload Digital Certificate (P12)
 
 ### Examples
 
@@ -30,7 +30,7 @@ file = File.new('/path/to/some/file') # File |
 password = 'password_example' # String | 
 
 begin
-  # Cargar Certificado Digital (P12)
+  # Upload Digital Certificate (P12)
   result = api_instance.upload_certificate(rnc, file, password)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -46,7 +46,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Cargar Certificado Digital (P12)
+  # Upload Digital Certificate (P12)
   data, status_code, headers = api_instance.upload_certificate_with_http_info(rnc, file, password)
   p status_code # => 2xx
   p headers # => { ... }

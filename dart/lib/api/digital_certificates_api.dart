@@ -16,7 +16,7 @@ class DigitalCertificatesApi {
 
   final ApiClient apiClient;
 
-  /// Cargar Certificado Digital (P12)
+  /// Upload Digital Certificate (P12)
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -67,7 +67,7 @@ class DigitalCertificatesApi {
     );
   }
 
-  /// Cargar Certificado Digital (P12)
+  /// Upload Digital Certificate (P12)
   ///
   /// Parameters:
   ///

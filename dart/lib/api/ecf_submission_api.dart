@@ -16,7 +16,7 @@ class ECFSubmissionApi {
 
   final ApiClient apiClient;
 
-  /// Enviar e-CF a plataforma (Submit)
+  /// Submit e-CF to platform
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -55,7 +55,7 @@ class ECFSubmissionApi {
     );
   }
 
-  /// Enviar e-CF a plataforma (Submit)
+  /// Submit e-CF to platform
   ///
   /// Parameters:
   ///

@@ -16,7 +16,7 @@
 | **payment_account_type** | [**AccountType**](AccountType.md) |  | [optional] |
 | **payment_account_number** | **String** |  | [optional] |
 | **payment_bank** | **String** |  | [optional] |
-| **credit_note_indicator** | **String** | 0: emision affected ≤ 30 days, 1: &gt; 30 days | [optional] |
+| **credit_note_indicator** | **String** | 0: issuance affected ≤ 30 days, 1: &gt; 30 days | [optional] |
 | **issuer_rnc** | **String** |  | [optional] |
 | **issuer_business_name** | **String** |  | [optional] |
 | **issuer_email** | **String** |  | [optional] |

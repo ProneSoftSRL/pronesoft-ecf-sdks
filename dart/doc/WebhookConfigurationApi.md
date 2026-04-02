@@ -9,15 +9,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createWebhook**](WebhookConfigurationApi.md#createwebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook
-[**deleteWebhook**](WebhookConfigurationApi.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook
-[**listWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks
+[**createWebhook**](WebhookConfigurationApi.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook
+[**deleteWebhook**](WebhookConfigurationApi.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+[**listWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations
 
 
 # **createWebhook**
 > WebhookConfigResponse createWebhook(rnc, createWebhookConfig)
 
-Registrar nuevo webhook
+Register new webhook
 
 ### Example
 ```dart
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 # **deleteWebhook**
 > deleteWebhook(rnc, webhookId)
 
-Eliminar configuración de webhook
+Delete webhook configuration
 
 ### Example
 ```dart
@@ -106,7 +106,7 @@ void (empty response body)
 # **listWebhooks**
 > List<WebhookConfigResponse> listWebhooks(rnc)
 
-Listar todas las configuraciones de webhooks
+List all webhook configurations
 
 ### Example
 ```dart

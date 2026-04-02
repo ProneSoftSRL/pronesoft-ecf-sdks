@@ -105,8 +105,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_associated_company_subscription.py
-test/test_associated_company_subscription_plan.py
-test/test_create_associated_company201_response.py
-test/test_print_format.py
 tox.ini

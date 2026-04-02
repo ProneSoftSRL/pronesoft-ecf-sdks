@@ -2,63 +2,83 @@
 
 All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
-|Method | HTTP request | Description|
+| Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-|[**uploadCertificate**](#uploadcertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)|
+| [**uploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12) |
 
-# **uploadCertificate**
-> UploadCertificate201Response uploadCertificate()
 
+
+## uploadCertificate
+
+> UploadCertificate201Response uploadCertificate(rnc, file, password)
+
+Upload Digital Certificate (P12)
 
 ### Example
 
-```typescript
+```ts
 import {
-    DigitalCertificatesApi,
-    Configuration
+  Configuration,
+  DigitalCertificatesApi,
 } from '@pronesoft/ecf-sdk';
+import type { UploadCertificateRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new DigitalCertificatesApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new DigitalCertificatesApi(config);
 
-let rnc: string; // (default to undefined)
-let file: File; // (default to undefined)
-let password: string; // (default to undefined)
+  const body = {
+    // string
+    rnc: rnc_example,
+    // Blob
+    file: BINARY_DATA_HERE,
+    // string
+    password: password_example,
+  } satisfies UploadCertificateRequest;
 
-const { status, data } = await apiInstance.uploadCertificate(
-    rnc,
-    file,
-    password
-);
+  try {
+    const data = await api.uploadCertificate(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **rnc** | [**string**] |  | defaults to undefined|
-| **file** | [**File**] |  | defaults to undefined|
-| **password** | [**string**] |  | defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **rnc** | `string` |  | [Defaults to `undefined`] |
+| **file** | `Blob` |  | [Defaults to `undefined`] |
+| **password** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
 
-**UploadCertificate201Response**
+[**UploadCertificate201Response**](UploadCertificate201Response.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: `multipart/form-data`
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**201** | Certificado cargado exitosamente |  -  |
+| **201** | Certificate uploaded successfully |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 0: No Facturable, 1: Tasa 18%, 2: Tasa 16%, 3: Tasa 0%, 4: Exento
+ * 0: Non-Billable, 1: 18% Tax Rate, 2: 16% Tax Rate, 3: 0% Tax Rate, 4: Exempt
  *
  * Values: _0,_1,_2,_3,_4
  */

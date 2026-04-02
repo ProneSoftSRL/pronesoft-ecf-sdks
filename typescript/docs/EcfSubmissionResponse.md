@@ -1,28 +1,42 @@
+
 # EcfSubmissionResponse
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**success** | **boolean** |  | [default to undefined]
-**documentId** | **string** |  | [default to undefined]
-**encf** | **string** |  | [optional] [default to undefined]
-**trackId** | **string** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`success` | boolean
+`documentId` | string
+`encf` | string
+`trackId` | string
+`message` | string
 
 ## Example
 
 ```typescript
-import { EcfSubmissionResponse } from '@pronesoft/ecf-sdk';
+import type { EcfSubmissionResponse } from '@pronesoft/ecf-sdk'
 
-const instance: EcfSubmissionResponse = {
-    success,
-    documentId,
-    encf,
-    trackId,
-    message,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "success": null,
+  "documentId": null,
+  "encf": null,
+  "trackId": null,
+  "message": null,
+} satisfies EcfSubmissionResponse
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as EcfSubmissionResponse
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

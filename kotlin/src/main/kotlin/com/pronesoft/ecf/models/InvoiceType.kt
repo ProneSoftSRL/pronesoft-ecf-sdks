@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 31: Crédito Fiscal, 32: Consumidor, 33: Nota de Débito, 34: Nota de Crédito, 41: Compras, 43: Gastos Menores, 44: Regímenes Especiales, 45: Gubernamental, 46: Exportaciones, 47: Pagos al Exterior. 
+ * 31: Tax Credit, 32: Consumer, 33: Debit Note, 34: Credit Note, 41: Purchases, 43: Minor Expenses, 44: Special Regimes, 45: Governmental, 46: Exports, 47: Overseas Payments. 
  *
  * Values: _31,_32,_33,_34,_41,_43,_44,_45,_46,_47
  */

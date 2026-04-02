@@ -100,8 +100,4 @@ lib/pronesoft_ecf/models/webhook_event_type.rb
 lib/pronesoft_ecf/models/webhook_notification_payload.rb
 lib/pronesoft_ecf/version.rb
 pronesoft_ecf.gemspec
-spec/models/associated_company_subscription_plan_spec.rb
-spec/models/associated_company_subscription_spec.rb
-spec/models/create_associated_company201_response_spec.rb
-spec/models/print_format_spec.rb
 spec/spec_helper.rb

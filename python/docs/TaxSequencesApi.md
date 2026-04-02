@@ -4,15 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal
-[**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Obtener próximo número disponible
-[**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | Listar secuencias fiscales
+[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence
+[**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available number
+[**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences
 
 
 # **create_tax_sequence**
 > create_tax_sequence(x_tenant_id, create_tax_sequence_request)
 
-Crear nueva secuencia fiscal
+Create new tax sequence
 
 ### Example
 
@@ -45,7 +45,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     create_tax_sequence_request = pronesoft_ecf.CreateTaxSequenceRequest() # CreateTaxSequenceRequest | 
 
     try:
-        # Crear nueva secuencia fiscal
+        # Create new tax sequence
         api_instance.create_tax_sequence(x_tenant_id, create_tax_sequence_request)
     except Exception as e:
         print("Exception when calling TaxSequencesApi->create_tax_sequence: %s\n" % e)
@@ -78,14 +78,14 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Secuencia creada |  -  |
+**201** | Sequence created |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_next_number**
 > GetNextNumber200Response get_next_number(x_tenant_id, type, environment)
 
-Obtener próximo número disponible
+Get next available number
 
 ### Example
 
@@ -121,7 +121,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     environment = pronesoft_ecf.Environment() # Environment | 
 
     try:
-        # Obtener próximo número disponible
+        # Get next available number
         api_response = api_instance.get_next_number(x_tenant_id, type, environment)
         print("The response of TaxSequencesApi->get_next_number:\n")
         pprint(api_response)
@@ -157,14 +157,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Próximo número e-NCF |  -  |
+**200** | Next e-NCF number |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_tax_sequences**
 > ListTaxSequences200Response list_tax_sequences(x_tenant_id, type=type)
 
-Listar secuencias fiscales
+List tax sequences
 
 ### Example
 
@@ -198,7 +198,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     type = pronesoft_ecf.InvoiceType() # InvoiceType |  (optional)
 
     try:
-        # Listar secuencias fiscales
+        # List tax sequences
         api_response = api_instance.list_tax_sequences(x_tenant_id, type=type)
         print("The response of TaxSequencesApi->list_tax_sequences:\n")
         pprint(api_response)
@@ -233,7 +233,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Lista de secuencias |  -  |
+**200** | List of sequences |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

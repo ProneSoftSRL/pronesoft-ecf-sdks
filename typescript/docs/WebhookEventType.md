@@ -1,40 +1,32 @@
+
 # WebhookEventType
 
 
-## Enum
+## Properties
 
-* `DocumentReceived` (value: `'document.received'`)
+Name | Type
+------------ | -------------
 
-* `DocumentStatusChanged` (value: `'document.status_changed'`)
+## Example
 
-* `DocumentValidationError` (value: `'document.validation_error'`)
+```typescript
+import type { WebhookEventType } from '@pronesoft/ecf-sdk'
 
-* `DocumentContingencyActivated` (value: `'document.contingency_activated'`)
+// TODO: Update the object below with actual values
+const example = {
+} satisfies WebhookEventType
 
-* `CommercialApproval` (value: `'commercial.approval'`)
+console.log(example)
 
-* `CertificateExpiring` (value: `'certificate.expiring'`)
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
 
-* `PlanUsageAlert` (value: `'plan.usage_alert'`)
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as WebhookEventType
+console.log(exampleParsed)
+```
 
-* `PlanPaymentFailed` (value: `'plan.payment_failed'`)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-* `BillingInvoiceReady` (value: `'billing.invoice_ready'`)
 
-* `SequenceDepleted` (value: `'sequence.depleted'`)
-
-* `SequenceVoided` (value: `'sequence.voided'`)
-
-* `BranchCreated` (value: `'branch.created'`)
-
-* `BranchStatusChanged` (value: `'branch.status_changed'`)
-
-* `MemberInvited` (value: `'member.invited'`)
-
-* `MemberJoined` (value: `'member.joined'`)
-
-* `MemberRemoved` (value: `'member.removed'`)
-
-* `CertificationCompleted` (value: `'certification.completed'`)
-
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -2,156 +2,195 @@
 
 All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
-|Method | HTTP request | Description|
+| Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-|[**createAssociatedCompany**](#createassociatedcompany) | **POST** /associated-companies | Crear nueva empresa asociada|
-|[**listAssociatedCompanies**](#listassociatedcompanies) | **GET** /associated-companies | Listar sucursales (Asociadas)|
+| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Create new associated company |
+| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | List associated branches/companies |
 
-# **createAssociatedCompany**
-> CreateAssociatedCompany201Response createAssociatedCompany()
 
+
+## createAssociatedCompany
+
+> CreateAssociatedCompany201Response createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo)
+
+Create new associated company
 
 ### Example
 
-```typescript
+```ts
 import {
-    AssociatedCompaniesApi,
-    Configuration
+  Configuration,
+  AssociatedCompaniesApi,
 } from '@pronesoft/ecf-sdk';
+import type { CreateAssociatedCompanyRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new AssociatedCompaniesApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new AssociatedCompaniesApi(config);
 
-let xTenantId: string; // (default to undefined)
-let email: string; // (default to undefined)
-let password: string; // (default to undefined)
-let name: string; // (default to undefined)
-let rnc: string; // (default to undefined)
-let phone: string; // (default to undefined)
-let address: string; // (default to undefined)
-let city: string; // (default to undefined)
-let country: string; // (default to undefined)
-let firstName: string; // (optional) (default to undefined)
-let lastName: string; // (optional) (default to undefined)
-let jobTitle: string; // (optional) (default to undefined)
-let website: string; // (optional) (default to undefined)
-let category: string; // (optional) (default to undefined)
-let monthlySalesRange: string; // (optional) (default to undefined)
-let printerType: PrintFormat; // (optional) (default to undefined)
-let logo: File; // (optional) (default to undefined)
+  const body = {
+    // string
+    xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string
+    email: email_example,
+    // string
+    password: password_example,
+    // string
+    name: name_example,
+    // string
+    rnc: rnc_example,
+    // string
+    phone: phone_example,
+    // string
+    address: address_example,
+    // string
+    city: city_example,
+    // string
+    country: country_example,
+    // string (optional)
+    firstName: firstName_example,
+    // string (optional)
+    lastName: lastName_example,
+    // string (optional)
+    jobTitle: jobTitle_example,
+    // string (optional)
+    website: website_example,
+    // string (optional)
+    category: category_example,
+    // string (optional)
+    monthlySalesRange: monthlySalesRange_example,
+    // PrintFormat (optional)
+    printerType: ...,
+    // Blob (optional)
+    logo: BINARY_DATA_HERE,
+  } satisfies CreateAssociatedCompanyRequest;
 
-const { status, data } = await apiInstance.createAssociatedCompany(
-    xTenantId,
-    email,
-    password,
-    name,
-    rnc,
-    phone,
-    address,
-    city,
-    country,
-    firstName,
-    lastName,
-    jobTitle,
-    website,
-    category,
-    monthlySalesRange,
-    printerType,
-    logo
-);
+  try {
+    const data = await api.createAssociatedCompany(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **xTenantId** | [**string**] |  | defaults to undefined|
-| **email** | [**string**] |  | defaults to undefined|
-| **password** | [**string**] |  | defaults to undefined|
-| **name** | [**string**] |  | defaults to undefined|
-| **rnc** | [**string**] |  | defaults to undefined|
-| **phone** | [**string**] |  | defaults to undefined|
-| **address** | [**string**] |  | defaults to undefined|
-| **city** | [**string**] |  | defaults to undefined|
-| **country** | [**string**] |  | defaults to undefined|
-| **firstName** | [**string**] |  | (optional) defaults to undefined|
-| **lastName** | [**string**] |  | (optional) defaults to undefined|
-| **jobTitle** | [**string**] |  | (optional) defaults to undefined|
-| **website** | [**string**] |  | (optional) defaults to undefined|
-| **category** | [**string**] |  | (optional) defaults to undefined|
-| **monthlySalesRange** | [**string**] |  | (optional) defaults to undefined|
-| **printerType** | **PrintFormat** |  | (optional) defaults to undefined|
-| **logo** | [**File**] |  | (optional) defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTenantId** | `string` |  | [Defaults to `undefined`] |
+| **email** | `string` |  | [Defaults to `undefined`] |
+| **password** | `string` |  | [Defaults to `undefined`] |
+| **name** | `string` |  | [Defaults to `undefined`] |
+| **rnc** | `string` |  | [Defaults to `undefined`] |
+| **phone** | `string` |  | [Defaults to `undefined`] |
+| **address** | `string` |  | [Defaults to `undefined`] |
+| **city** | `string` |  | [Defaults to `undefined`] |
+| **country** | `string` |  | [Defaults to `undefined`] |
+| **firstName** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **lastName** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **jobTitle** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **website** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **category** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **monthlySalesRange** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **printerType** | `PrintFormat` |  | [Optional] [Defaults to `undefined`] [Enum: A4, thermal_80, thermal_58] |
+| **logo** | `Blob` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**CreateAssociatedCompany201Response**
+[**CreateAssociatedCompany201Response**](CreateAssociatedCompany201Response.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: `multipart/form-data`
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**201** | Empresa creada |  -  |
+| **201** | Company created |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-# **listAssociatedCompanies**
-> Array<AssociatedCompany> listAssociatedCompanies()
 
+## listAssociatedCompanies
+
+> Array&lt;AssociatedCompany&gt; listAssociatedCompanies(xTenantId)
+
+List associated branches/companies
 
 ### Example
 
-```typescript
+```ts
 import {
-    AssociatedCompaniesApi,
-    Configuration
+  Configuration,
+  AssociatedCompaniesApi,
 } from '@pronesoft/ecf-sdk';
+import type { ListAssociatedCompaniesRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new AssociatedCompaniesApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new AssociatedCompaniesApi(config);
 
-let xTenantId: string; // (default to undefined)
+  const body = {
+    // string
+    xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+  } satisfies ListAssociatedCompaniesRequest;
 
-const { status, data } = await apiInstance.listAssociatedCompanies(
-    xTenantId
-);
+  try {
+    const data = await api.listAssociatedCompanies(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **xTenantId** | [**string**] |  | defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTenantId** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
 
-**Array<AssociatedCompany>**
+[**Array&lt;AssociatedCompany&gt;**](AssociatedCompany.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | Lista de empresas asociadas |  -  |
+| **200** | List of associated companies |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

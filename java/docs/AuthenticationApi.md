@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getAccessToken**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0) |
+| [**getAccessToken**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token (OAuth 2.0) |
 
 
 <a id="getAccessToken"></a>
 # **getAccessToken**
 > OAuthTokenResponse getAccessToken(oauthTokenRequest)
 
-Obtener token de acceso (OAuth 2.0)
+Get access token (OAuth 2.0)
 
 ### Example
 ```java
@@ -65,6 +65,6 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Token generado exitosamente |  -  |
-| **401** | Error de autorización (Token expirado o inválido) |  -  |
+| **200** | Token generated successfully |  -  |
+| **401** | Authorization error (Expired or invalid token) |  -  |
 

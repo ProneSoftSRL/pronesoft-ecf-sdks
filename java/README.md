@@ -1,16 +1,16 @@
 # ecf-sdk
 
 eCF-Pronesoft Master Integration API
-- API version: 1.1.0
-  - Build date: 2026-03-31T22:52:40.053005431-04:00[America/Santo_Domingo]
+- API version: 0.0.1
+  - Build date: 2026-04-01T23:53:52.553113703-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
-Especificación de producción **200% detallada** de la API de eCF-Pronesoft.
-**Optimizada para la generación de SDKs de alta fidelidad.**
+**Highly detailed** production-grade API specification for eCF-Pronesoft.
+**Optimized for high-fidelity SDK generation.**
 
-Esta especificación es el resultado de una auditoría exhaustiva del código fuente (NestJS),
-cubriendo el 100% de los DTOs, validaciones con regex, esquemas de Webhooks y 
-flujos de seguridad OAuth 2.0.
+This specification is the result of an exhaustive audit of the source code (NestJS),
+covering 100% of the DTOs, regex validations, Webhook schemas, and 
+OAuth 2.0 security flows.
 
 
 
@@ -47,7 +47,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.pronesoft</groupId>
   <artifactId>ecf-sdk</artifactId>
-  <version>1.1.0</version>
+  <version>0.0.1</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -63,7 +63,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.pronesoft:ecf-sdk:1.1.0"
+     implementation "com.pronesoft:ecf-sdk:0.0.1"
   }
 ```
 
@@ -77,7 +77,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/ecf-sdk-1.1.0.jar`
+* `target/ecf-sdk-0.0.1.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -142,17 +142,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AssociatedCompaniesApi* | [**createAssociatedCompany**](docs/AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Crear nueva empresa asociada
-*AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar sucursales (Asociadas)
-*AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
-*DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)
-*ECfSubmissionApi* | [**submitEcf**](docs/ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
-*TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal
-*TaxSequencesApi* | [**getNextNumber**](docs/TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Obtener próximo número disponible
-*TaxSequencesApi* | [**listTaxSequences**](docs/TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | Listar secuencias fiscales
-*WebhookConfigurationApi* | [**createWebhook**](docs/WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook
-*WebhookConfigurationApi* | [**deleteWebhook**](docs/WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook
-*WebhookConfigurationApi* | [**listWebhooks**](docs/WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks
+*AssociatedCompaniesApi* | [**createAssociatedCompany**](docs/AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create new associated company
+*AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated branches/companies
+*AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token (OAuth 2.0)
+*DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12)
+*ECfSubmissionApi* | [**submitEcf**](docs/ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Submit e-CF to platform
+*TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Create new tax sequence
+*TaxSequencesApi* | [**getNextNumber**](docs/TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available number
+*TaxSequencesApi* | [**listTaxSequences**](docs/TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences
+*WebhookConfigurationApi* | [**createWebhook**](docs/WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook
+*WebhookConfigurationApi* | [**deleteWebhook**](docs/WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+*WebhookConfigurationApi* | [**listWebhooks**](docs/WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations
 
 
 ## Documentation for Models
@@ -208,10 +208,10 @@ Authentication schemes defined for the API:
 - **Flow**: application
 - **Authorization URL**: 
 - **Scopes**: 
-  - documents:read: Acceso de lectura a documentos enviados/recibidos.
-  - documents:write: Permisos para enviar y modificar documentos.
-  - ecf:submit: Permiso especializado para el envío de facturas e-CF.
-  - admin: Acceso administrativo completo a la plataforma.
+  - documents:read: Read access to sent/received documents.
+  - documents:write: Permissions to send and modify documents.
+  - ecf:submit: Specialized permission for e-CF invoice submission.
+  - admin: Full administrative access to the platform.
 
 
 ## Recommendation

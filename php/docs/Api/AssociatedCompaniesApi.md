@@ -6,8 +6,8 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createAssociatedCompany()**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Crear nueva empresa asociada |
-| [**listAssociatedCompanies()**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar sucursales (Asociadas) |
+| [**createAssociatedCompany()**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create new associated company |
+| [**listAssociatedCompanies()**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated branches/companies |
 
 
 ## `createAssociatedCompany()`
@@ -16,7 +16,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 createAssociatedCompany($x_tenant_id, $email, $password, $name, $rnc, $phone, $address, $city, $country, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $printer_type, $logo): \PronesoftEcf\Model\CreateAssociatedCompany201Response
 ```
 
-Crear nueva empresa asociada
+Create new associated company
 
 ### Example
 
@@ -106,7 +106,7 @@ try {
 listAssociatedCompanies($x_tenant_id): \PronesoftEcf\Model\AssociatedCompany[]
 ```
 
-Listar sucursales (Asociadas)
+List associated branches/companies
 
 ### Example
 

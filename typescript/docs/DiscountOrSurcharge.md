@@ -1,34 +1,48 @@
+
 # DiscountOrSurcharge
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**lineNumber** | **number** |  | [default to undefined]
-**type** | **string** |  | [default to undefined]
-**valueType** | **string** |  | [default to undefined]
-**amount** | **number** |  | [default to undefined]
-**description** | **string** |  | [optional] [default to undefined]
-**percentageValue** | **number** |  | [optional] [default to undefined]
-**alternativeCurrencyAmount** | **number** |  | [optional] [default to undefined]
-**billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`lineNumber` | number
+`type` | string
+`valueType` | string
+`amount` | number
+`description` | string
+`percentageValue` | number
+`alternativeCurrencyAmount` | number
+`billingIndicator` | [BillingIndicator](BillingIndicator.md)
 
 ## Example
 
 ```typescript
-import { DiscountOrSurcharge } from '@pronesoft/ecf-sdk';
+import type { DiscountOrSurcharge } from '@pronesoft/ecf-sdk'
 
-const instance: DiscountOrSurcharge = {
-    lineNumber,
-    type,
-    valueType,
-    amount,
-    description,
-    percentageValue,
-    alternativeCurrencyAmount,
-    billingIndicator,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "lineNumber": null,
+  "type": null,
+  "valueType": null,
+  "amount": null,
+  "description": null,
+  "percentageValue": null,
+  "alternativeCurrencyAmount": null,
+  "billingIndicator": null,
+} satisfies DiscountOrSurcharge
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as DiscountOrSurcharge
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

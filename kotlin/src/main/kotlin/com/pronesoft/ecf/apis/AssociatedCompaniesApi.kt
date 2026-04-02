@@ -57,7 +57,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /associated-companies
-     * Crear nueva empresa asociada
+     * Create new associated company
      * 
      * @param xTenantId 
      * @param email 
@@ -105,7 +105,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /associated-companies
-     * Crear nueva empresa asociada
+     * Create new associated company
      * 
      * @param xTenantId 
      * @param email 
@@ -195,7 +195,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies
-     * Listar sucursales (Asociadas)
+     * List associated branches/companies
      * 
      * @param xTenantId 
      * @return kotlin.collections.List<AssociatedCompany>
@@ -227,7 +227,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies
-     * Listar sucursales (Asociadas)
+     * List associated branches/companies
      * 
      * @param xTenantId 
      * @return ApiResponse<kotlin.collections.List<AssociatedCompany>?>

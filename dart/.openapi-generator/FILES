@@ -99,7 +99,3 @@ lib/model/webhook_config_response.dart
 lib/model/webhook_event_type.dart
 lib/model/webhook_notification_payload.dart
 pubspec.yaml
-test/associated_company_subscription_plan_test.dart
-test/associated_company_subscription_test.dart
-test/create_associated_company201_response_test.dart
-test/print_format_test.dart

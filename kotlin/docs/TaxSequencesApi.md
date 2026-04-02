@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createTaxSequence**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal |
-| [**getNextNumber**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Obtener próximo número disponible |
-| [**listTaxSequences**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | Listar secuencias fiscales |
+| [**createTaxSequence**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Create new tax sequence |
+| [**getNextNumber**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available number |
+| [**listTaxSequences**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences |
 
 
 <a id="createTaxSequence"></a>
 # **createTaxSequence**
 > createTaxSequence(xTenantId, createTaxSequenceRequest)
 
-Crear nueva secuencia fiscal
+Create new tax sequence
 
 ### Example
 ```kotlin
@@ -60,7 +60,7 @@ Configure oauth2:
 # **getNextNumber**
 > GetNextNumber200Response getNextNumber(xTenantId, type, environment)
 
-Obtener próximo número disponible
+Get next available number
 
 ### Example
 ```kotlin
@@ -110,7 +110,7 @@ Configure oauth2:
 # **listTaxSequences**
 > ListTaxSequences200Response listTaxSequences(xTenantId, type)
 
-Listar secuencias fiscales
+List tax sequences
 
 ### Example
 ```kotlin

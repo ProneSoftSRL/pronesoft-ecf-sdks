@@ -19,7 +19,7 @@
 |**paymentAccountType** | **AccountType** |  |  [optional] |
 |**paymentAccountNumber** | **String** |  |  [optional] |
 |**paymentBank** | **String** |  |  [optional] |
-|**creditNoteIndicator** | [**CreditNoteIndicatorEnum**](#CreditNoteIndicatorEnum) | 0: emision affected ≤ 30 days, 1: &gt; 30 days |  [optional] |
+|**creditNoteIndicator** | [**CreditNoteIndicatorEnum**](#CreditNoteIndicatorEnum) | 0: issuance affected ≤ 30 days, 1: &gt; 30 days |  [optional] |
 |**issuerRNC** | **String** |  |  [optional] |
 |**issuerBusinessName** | **String** |  |  [optional] |
 |**issuerEmail** | **String** |  |  [optional] |

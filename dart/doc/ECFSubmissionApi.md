@@ -9,13 +9,13 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**submitEcf**](ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
+[**submitEcf**](ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Submit e-CF to platform
 
 
 # **submitEcf**
 > EcfSubmissionResponse submitEcf(xTenantId, environment, electronicDocument)
 
-Enviar e-CF a plataforma (Submit)
+Submit e-CF to platform
 
 ### Example
 ```dart

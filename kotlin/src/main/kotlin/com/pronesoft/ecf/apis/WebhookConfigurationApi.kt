@@ -56,7 +56,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * POST /{rnc}/webhooks
-     * Registrar nuevo webhook
+     * Register new webhook
      * 
      * @param rnc 
      * @param createWebhookConfig 
@@ -89,7 +89,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * POST /{rnc}/webhooks
-     * Registrar nuevo webhook
+     * Register new webhook
      * 
      * @param rnc 
      * @param createWebhookConfig 
@@ -133,7 +133,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * DELETE /{rnc}/webhooks/{webhookId}
-     * Eliminar configuración de webhook
+     * Delete webhook configuration
      * 
      * @param rnc 
      * @param webhookId 
@@ -165,7 +165,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * DELETE /{rnc}/webhooks/{webhookId}
-     * Eliminar configuración de webhook
+     * Delete webhook configuration
      * 
      * @param rnc 
      * @param webhookId 
@@ -206,7 +206,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks
-     * Listar todas las configuraciones de webhooks
+     * List all webhook configurations
      * 
      * @param rnc 
      * @return kotlin.collections.List<WebhookConfigResponse>
@@ -238,7 +238,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks
-     * Listar todas las configuraciones de webhooks
+     * List all webhook configurations
      * 
      * @param rnc 
      * @return ApiResponse<kotlin.collections.List<WebhookConfigResponse>?>

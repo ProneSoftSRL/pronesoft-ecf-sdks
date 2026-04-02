@@ -50,7 +50,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public var paymentAccountType: AccountType?
     public var paymentAccountNumber: String?
     public var paymentBank: String?
-    /** 0: emision affected ≤ 30 days, 1: > 30 days */
+    /** 0: issuance affected ≤ 30 days, 1: > 30 days */
     public var creditNoteIndicator: CreditNoteIndicator?
     public var issuerRNC: String?
     public var issuerBusinessName: String?

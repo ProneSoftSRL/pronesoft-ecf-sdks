@@ -2,166 +2,223 @@
 
 All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
-|Method | HTTP request | Description|
+| Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-|[**createWebhook**](#createwebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook|
-|[**deleteWebhook**](#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook|
-|[**listWebhooks**](#listwebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks|
+| [**createWebhook**](WebhookConfigurationApi.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook |
+| [**deleteWebhook**](WebhookConfigurationApi.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**listWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
 
-# **createWebhook**
-> WebhookConfigResponse createWebhook(createWebhookConfig)
 
+
+## createWebhook
+
+> WebhookConfigResponse createWebhook(rnc, createWebhookConfig)
+
+Register new webhook
 
 ### Example
 
-```typescript
+```ts
 import {
-    WebhookConfigurationApi,
-    Configuration,
-    CreateWebhookConfig
+  Configuration,
+  WebhookConfigurationApi,
 } from '@pronesoft/ecf-sdk';
+import type { CreateWebhookRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new WebhookConfigurationApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new WebhookConfigurationApi(config);
 
-let rnc: string; // (default to undefined)
-let createWebhookConfig: CreateWebhookConfig; //
+  const body = {
+    // string
+    rnc: rnc_example,
+    // CreateWebhookConfig
+    createWebhookConfig: ...,
+  } satisfies CreateWebhookRequest;
 
-const { status, data } = await apiInstance.createWebhook(
-    rnc,
-    createWebhookConfig
-);
+  try {
+    const data = await api.createWebhook(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **createWebhookConfig** | **CreateWebhookConfig**|  | |
-| **rnc** | [**string**] |  | defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **rnc** | `string` |  | [Defaults to `undefined`] |
+| **createWebhookConfig** | [CreateWebhookConfig](CreateWebhookConfig.md) |  | |
 
 ### Return type
 
-**WebhookConfigResponse**
+[**WebhookConfigResponse**](WebhookConfigResponse.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**201** | Webhook registrado |  -  |
+| **201** | Webhook registered |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-# **deleteWebhook**
-> deleteWebhook()
 
+## deleteWebhook
+
+> deleteWebhook(rnc, webhookId)
+
+Delete webhook configuration
 
 ### Example
 
-```typescript
+```ts
 import {
-    WebhookConfigurationApi,
-    Configuration
+  Configuration,
+  WebhookConfigurationApi,
 } from '@pronesoft/ecf-sdk';
+import type { DeleteWebhookRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new WebhookConfigurationApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new WebhookConfigurationApi(config);
 
-let rnc: string; // (default to undefined)
-let webhookId: string; // (default to undefined)
+  const body = {
+    // string
+    rnc: rnc_example,
+    // string
+    webhookId: webhookId_example,
+  } satisfies DeleteWebhookRequest;
 
-const { status, data } = await apiInstance.deleteWebhook(
-    rnc,
-    webhookId
-);
+  try {
+    const data = await api.deleteWebhook(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **rnc** | [**string**] |  | defaults to undefined|
-| **webhookId** | [**string**] |  | defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **rnc** | `string` |  | [Defaults to `undefined`] |
+| **webhookId** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
 
-void (empty response body)
+`void` (Empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | Webhook eliminado |  -  |
+| **200** | Webhook deleted |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-# **listWebhooks**
-> Array<WebhookConfigResponse> listWebhooks()
 
+## listWebhooks
+
+> Array&lt;WebhookConfigResponse&gt; listWebhooks(rnc)
+
+List all webhook configurations
 
 ### Example
 
-```typescript
+```ts
 import {
-    WebhookConfigurationApi,
-    Configuration
+  Configuration,
+  WebhookConfigurationApi,
 } from '@pronesoft/ecf-sdk';
+import type { ListWebhooksRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new WebhookConfigurationApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new WebhookConfigurationApi(config);
 
-let rnc: string; // (default to undefined)
+  const body = {
+    // string
+    rnc: rnc_example,
+  } satisfies ListWebhooksRequest;
 
-const { status, data } = await apiInstance.listWebhooks(
-    rnc
-);
+  try {
+    const data = await api.listWebhooks(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **rnc** | [**string**] |  | defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **rnc** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
 
-**Array<WebhookConfigResponse>**
+[**Array&lt;WebhookConfigResponse&gt;**](WebhookConfigResponse.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | Lista de webhooks |  -  |
+| **200** | List of webhooks |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

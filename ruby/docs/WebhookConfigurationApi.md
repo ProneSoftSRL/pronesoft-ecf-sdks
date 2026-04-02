@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**create_webhook**](WebhookConfigurationApi.md#create_webhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook |
-| [**delete_webhook**](WebhookConfigurationApi.md#delete_webhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook |
-| [**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks |
+| [**create_webhook**](WebhookConfigurationApi.md#create_webhook) | **POST** /{rnc}/webhooks | Register new webhook |
+| [**delete_webhook**](WebhookConfigurationApi.md#delete_webhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
 
 
 ## create_webhook
 
 > <WebhookConfigResponse> create_webhook(rnc, create_webhook_config)
 
-Registrar nuevo webhook
+Register new webhook
 
 ### Examples
 
@@ -31,7 +31,7 @@ rnc = 'rnc_example' # String |
 create_webhook_config = PronesoftEcf::CreateWebhookConfig.new({url: 'url_example', event_types: [PronesoftEcf::WebhookEventType::DOCUMENT_RECEIVED]}) # CreateWebhookConfig | 
 
 begin
-  # Registrar nuevo webhook
+  # Register new webhook
   result = api_instance.create_webhook(rnc, create_webhook_config)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -47,7 +47,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Registrar nuevo webhook
+  # Register new webhook
   data, status_code, headers = api_instance.create_webhook_with_http_info(rnc, create_webhook_config)
   p status_code # => 2xx
   p headers # => { ... }
@@ -82,7 +82,7 @@ end
 
 > delete_webhook(rnc, webhook_id)
 
-Eliminar configuración de webhook
+Delete webhook configuration
 
 ### Examples
 
@@ -100,7 +100,7 @@ rnc = 'rnc_example' # String |
 webhook_id = 'webhook_id_example' # String | 
 
 begin
-  # Eliminar configuración de webhook
+  # Delete webhook configuration
   api_instance.delete_webhook(rnc, webhook_id)
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling WebhookConfigurationApi->delete_webhook: #{e}"
@@ -115,7 +115,7 @@ This returns an Array which contains the response data (`nil` in this case), sta
 
 ```ruby
 begin
-  # Eliminar configuración de webhook
+  # Delete webhook configuration
   data, status_code, headers = api_instance.delete_webhook_with_http_info(rnc, webhook_id)
   p status_code # => 2xx
   p headers # => { ... }
@@ -150,7 +150,7 @@ nil (empty response body)
 
 > <Array<WebhookConfigResponse>> list_webhooks(rnc)
 
-Listar todas las configuraciones de webhooks
+List all webhook configurations
 
 ### Examples
 
@@ -167,7 +167,7 @@ api_instance = PronesoftEcf::WebhookConfigurationApi.new
 rnc = 'rnc_example' # String | 
 
 begin
-  # Listar todas las configuraciones de webhooks
+  # List all webhook configurations
   result = api_instance.list_webhooks(rnc)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -183,7 +183,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Listar todas las configuraciones de webhooks
+  # List all webhook configurations
   data, status_code, headers = api_instance.list_webhooks_with_http_info(rnc)
   p status_code # => 2xx
   p headers # => { ... }

@@ -4,8 +4,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateAssociatedCompany**](AssociatedCompaniesAPI.md#CreateAssociatedCompany) | **Post** /associated-companies | Crear nueva empresa asociada
-[**ListAssociatedCompanies**](AssociatedCompaniesAPI.md#ListAssociatedCompanies) | **Get** /associated-companies | Listar sucursales (Asociadas)
+[**CreateAssociatedCompany**](AssociatedCompaniesAPI.md#CreateAssociatedCompany) | **Post** /associated-companies | Create new associated company
+[**ListAssociatedCompanies**](AssociatedCompaniesAPI.md#ListAssociatedCompanies) | **Get** /associated-companies | List associated branches/companies
 
 
 
@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 > CreateAssociatedCompany201Response CreateAssociatedCompany(ctx).XTenantId(xTenantId).Email(email).Password(password).Name(name).Rnc(rnc).Phone(phone).Address(address).City(city).Country(country).FirstName(firstName).LastName(lastName).JobTitle(jobTitle).Website(website).Category(category).MonthlySalesRange(monthlySalesRange).PrinterType(printerType).Logo(logo).Execute()
 
-Crear nueva empresa asociada
+Create new associated company
 
 ### Example
 
@@ -109,7 +109,7 @@ Name | Type | Description  | Notes
 
 > []AssociatedCompany ListAssociatedCompanies(ctx).XTenantId(xTenantId).Execute()
 
-Listar sucursales (Asociadas)
+List associated branches/companies
 
 ### Example
 

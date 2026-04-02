@@ -97,7 +97,3 @@ lib/Model/WebhookEventType.php
 lib/Model/WebhookNotificationPayload.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
-test/Model/AssociatedCompanySubscriptionPlanTest.php
-test/Model/AssociatedCompanySubscriptionTest.php
-test/Model/CreateAssociatedCompany201ResponseTest.php
-test/Model/PrintFormatTest.php

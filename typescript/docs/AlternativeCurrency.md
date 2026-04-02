@@ -1,24 +1,38 @@
+
 # AlternativeCurrency
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**code** | **string** |  | [default to undefined]
-**exchangeRate** | **number** |  | [default to undefined]
-**totalAmount** | **number** |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`code` | string
+`exchangeRate` | number
+`totalAmount` | number
 
 ## Example
 
 ```typescript
-import { AlternativeCurrency } from '@pronesoft/ecf-sdk';
+import type { AlternativeCurrency } from '@pronesoft/ecf-sdk'
 
-const instance: AlternativeCurrency = {
-    code,
-    exchangeRate,
-    totalAmount,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "code": null,
+  "exchangeRate": null,
+  "totalAmount": null,
+} satisfies AlternativeCurrency
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as AlternativeCurrency
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

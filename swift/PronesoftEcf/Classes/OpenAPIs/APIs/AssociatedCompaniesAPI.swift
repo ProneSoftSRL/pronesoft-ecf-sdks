@@ -13,7 +13,7 @@ import AnyCodable
 open class AssociatedCompaniesAPI {
 
     /**
-     Crear nueva empresa asociada
+     Create new associated company
      
      - parameter xTenantId: (header)  
      - parameter email: (form)  
@@ -48,7 +48,7 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Crear nueva empresa asociada
+     Create new associated company
      - POST /associated-companies
      - OAuth:
        - type: oauth2
@@ -112,7 +112,7 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Listar sucursales (Asociadas)
+     List associated branches/companies
      
      - parameter xTenantId: (header)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -131,7 +131,7 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Listar sucursales (Asociadas)
+     List associated branches/companies
      - GET /associated-companies
      - OAuth:
        - type: oauth2

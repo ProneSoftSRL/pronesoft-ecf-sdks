@@ -58,7 +58,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * POST /{environment}/ecf/submit
-     * Enviar e-CF a plataforma (Submit)
+     * Submit e-CF to platform
      * 
      * @param xTenantId 
      * @param environment 
@@ -92,7 +92,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * POST /{environment}/ecf/submit
-     * Enviar e-CF a plataforma (Submit)
+     * Submit e-CF to platform
      * 
      * @param xTenantId 
      * @param environment 

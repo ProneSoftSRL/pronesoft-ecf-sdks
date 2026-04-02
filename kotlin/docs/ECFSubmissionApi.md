@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**submitEcf**](ECFSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit) |
+| [**submitEcf**](ECFSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Submit e-CF to platform |
 
 
 <a id="submitEcf"></a>
 # **submitEcf**
 > EcfSubmissionResponse submitEcf(xTenantId, environment, electronicDocument)
 
-Enviar e-CF a plataforma (Submit)
+Submit e-CF to platform
 
 ### Example
 ```kotlin

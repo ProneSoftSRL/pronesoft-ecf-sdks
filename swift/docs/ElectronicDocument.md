@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **paymentAccountType** | [**AccountType**](AccountType.md) |  | [optional] 
 **paymentAccountNumber** | **String** |  | [optional] 
 **paymentBank** | **String** |  | [optional] 
-**creditNoteIndicator** | **String** | 0: emision affected ≤ 30 days, 1: &gt; 30 days | [optional] 
+**creditNoteIndicator** | **String** | 0: issuance affected ≤ 30 days, 1: &gt; 30 days | [optional] 
 **issuerRNC** | **String** |  | [optional] 
 **issuerBusinessName** | **String** |  | [optional] 
 **issuerEmail** | **String** |  | [optional] 

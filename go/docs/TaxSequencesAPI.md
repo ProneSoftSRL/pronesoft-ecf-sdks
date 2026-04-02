@@ -4,9 +4,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateTaxSequence**](TaxSequencesAPI.md#CreateTaxSequence) | **Post** /tax-sequences | Crear nueva secuencia fiscal
-[**GetNextNumber**](TaxSequencesAPI.md#GetNextNumber) | **Get** /tax-sequences/next | Obtener próximo número disponible
-[**ListTaxSequences**](TaxSequencesAPI.md#ListTaxSequences) | **Get** /tax-sequences | Listar secuencias fiscales
+[**CreateTaxSequence**](TaxSequencesAPI.md#CreateTaxSequence) | **Post** /tax-sequences | Create new tax sequence
+[**GetNextNumber**](TaxSequencesAPI.md#GetNextNumber) | **Get** /tax-sequences/next | Get next available number
+[**ListTaxSequences**](TaxSequencesAPI.md#ListTaxSequences) | **Get** /tax-sequences | List tax sequences
 
 
 
@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 > CreateTaxSequence(ctx).XTenantId(xTenantId).CreateTaxSequenceRequest(createTaxSequenceRequest).Execute()
 
-Crear nueva secuencia fiscal
+Create new tax sequence
 
 ### Example
 
@@ -78,7 +78,7 @@ Name | Type | Description  | Notes
 
 > GetNextNumber200Response GetNextNumber(ctx).XTenantId(xTenantId).Type_(type_).Environment(environment).Execute()
 
-Obtener próximo número disponible
+Get next available number
 
 ### Example
 
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 
 > ListTaxSequences200Response ListTaxSequences(ctx).XTenantId(xTenantId).Type_(type_).Execute()
 
-Listar secuencias fiscales
+List tax sequences
 
 ### Example
 

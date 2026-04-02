@@ -4,15 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_webhook**](WebhookConfigurationApi.md#create_webhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook
-[**delete_webhook**](WebhookConfigurationApi.md#delete_webhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook
-[**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks
+[**create_webhook**](WebhookConfigurationApi.md#create_webhook) | **POST** /{rnc}/webhooks | Register new webhook
+[**delete_webhook**](WebhookConfigurationApi.md#delete_webhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+[**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List all webhook configurations
 
 
 # **create_webhook**
 > WebhookConfigResponse create_webhook(rnc, create_webhook_config)
 
-Registrar nuevo webhook
+Register new webhook
 
 ### Example
 
@@ -46,7 +46,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     create_webhook_config = pronesoft_ecf.CreateWebhookConfig() # CreateWebhookConfig | 
 
     try:
-        # Registrar nuevo webhook
+        # Register new webhook
         api_response = api_instance.create_webhook(rnc, create_webhook_config)
         print("The response of WebhookConfigurationApi->create_webhook:\n")
         pprint(api_response)
@@ -81,14 +81,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Webhook registrado |  -  |
+**201** | Webhook registered |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_webhook**
 > delete_webhook(rnc, webhook_id)
 
-Eliminar configuración de webhook
+Delete webhook configuration
 
 ### Example
 
@@ -120,7 +120,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     webhook_id = 'webhook_id_example' # str | 
 
     try:
-        # Eliminar configuración de webhook
+        # Delete webhook configuration
         api_instance.delete_webhook(rnc, webhook_id)
     except Exception as e:
         print("Exception when calling WebhookConfigurationApi->delete_webhook: %s\n" % e)
@@ -153,14 +153,14 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Webhook eliminado |  -  |
+**200** | Webhook deleted |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_webhooks**
 > List[WebhookConfigResponse] list_webhooks(rnc)
 
-Listar todas las configuraciones de webhooks
+List all webhook configurations
 
 ### Example
 
@@ -192,7 +192,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     rnc = 'rnc_example' # str | 
 
     try:
-        # Listar todas las configuraciones de webhooks
+        # List all webhook configurations
         api_response = api_instance.list_webhooks(rnc)
         print("The response of WebhookConfigurationApi->list_webhooks:\n")
         pprint(api_response)
@@ -226,7 +226,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Lista de webhooks |  -  |
+**200** | List of webhooks |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

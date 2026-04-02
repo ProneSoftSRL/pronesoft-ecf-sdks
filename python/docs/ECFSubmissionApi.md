@@ -4,13 +4,13 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**submit_ecf**](ECFSubmissionApi.md#submit_ecf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
+[**submit_ecf**](ECFSubmissionApi.md#submit_ecf) | **POST** /{environment}/ecf/submit | Submit e-CF to platform
 
 
 # **submit_ecf**
 > EcfSubmissionResponse submit_ecf(x_tenant_id, environment, electronic_document)
 
-Enviar e-CF a plataforma (Submit)
+Submit e-CF to platform
 
 ### Example
 
@@ -46,7 +46,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     electronic_document = pronesoft_ecf.ElectronicDocument() # ElectronicDocument | 
 
     try:
-        # Enviar e-CF a plataforma (Submit)
+        # Submit e-CF to platform
         api_response = api_instance.submit_ecf(x_tenant_id, environment, electronic_document)
         print("The response of ECFSubmissionApi->submit_ecf:\n")
         pprint(api_response)
@@ -82,8 +82,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Documento enviado y procesado por plataforma |  -  |
-**400** | Error en la estructura de los datos (400 Bad Request) |  -  |
+**200** | Document submitted and processed by platform |  -  |
+**400** | Data structure error (400 Bad Request) |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

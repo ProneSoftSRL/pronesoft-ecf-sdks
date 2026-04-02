@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createWebhook**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook |
-| [**deleteWebhook**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook |
-| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks |
+| [**createWebhook**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook |
+| [**deleteWebhook**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
 
 
 <a id="createWebhook"></a>
 # **createWebhook**
 > WebhookConfigResponse createWebhook(rnc, createWebhookConfig)
 
-Registrar nuevo webhook
+Register new webhook
 
 ### Example
 ```java
@@ -74,13 +74,13 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Webhook registrado |  -  |
+| **201** | Webhook registered |  -  |
 
 <a id="deleteWebhook"></a>
 # **deleteWebhook**
 > deleteWebhook(rnc, webhookId)
 
-Eliminar configuración de webhook
+Delete webhook configuration
 
 ### Example
 ```java
@@ -140,13 +140,13 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook eliminado |  -  |
+| **200** | Webhook deleted |  -  |
 
 <a id="listWebhooks"></a>
 # **listWebhooks**
 > List&lt;WebhookConfigResponse&gt; listWebhooks(rnc)
 
-Listar todas las configuraciones de webhooks
+List all webhook configurations
 
 ### Example
 ```java
@@ -205,5 +205,5 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Lista de webhooks |  -  |
+| **200** | List of webhooks |  -  |
 

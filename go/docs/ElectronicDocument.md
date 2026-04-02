@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **PaymentAccountType** | Pointer to [**AccountType**](AccountType.md) |  | [optional] 
 **PaymentAccountNumber** | Pointer to **string** |  | [optional] 
 **PaymentBank** | Pointer to **string** |  | [optional] 
-**CreditNoteIndicator** | Pointer to **string** | 0: emision affected ≤ 30 days, 1: &gt; 30 days | [optional] 
+**CreditNoteIndicator** | Pointer to **string** | 0: issuance affected ≤ 30 days, 1: &gt; 30 days | [optional] 
 **IssuerRNC** | Pointer to **string** |  | [optional] 
 **IssuerBusinessName** | Pointer to **string** |  | [optional] 
 **IssuerEmail** | Pointer to **string** |  | [optional] 

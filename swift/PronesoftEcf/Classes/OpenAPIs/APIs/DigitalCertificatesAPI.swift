@@ -13,7 +13,7 @@ import AnyCodable
 open class DigitalCertificatesAPI {
 
     /**
-     Cargar Certificado Digital (P12)
+     Upload Digital Certificate (P12)
      
      - parameter rnc: (path)  
      - parameter file: (form)  
@@ -34,7 +34,7 @@ open class DigitalCertificatesAPI {
     }
 
     /**
-     Cargar Certificado Digital (P12)
+     Upload Digital Certificate (P12)
      - POST /{rnc}/certificates
      - OAuth:
        - type: oauth2

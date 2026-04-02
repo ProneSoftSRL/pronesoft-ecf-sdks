@@ -9,15 +9,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createTaxSequence**](TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal
-[**getNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener próximo número disponible
-[**listTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias fiscales
+[**createTaxSequence**](TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences | Create new tax sequence
+[**getNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Get next available number
+[**listTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences
 
 
 # **createTaxSequence**
 > createTaxSequence(xTenantId, createTaxSequenceRequest)
 
-Crear nueva secuencia fiscal
+Create new tax sequence
 
 ### Example
 ```dart
@@ -61,7 +61,7 @@ void (empty response body)
 # **getNextNumber**
 > GetNextNumber200Response getNextNumber(xTenantId, type, environment)
 
-Obtener próximo número disponible
+Get next available number
 
 ### Example
 ```dart
@@ -108,7 +108,7 @@ Name | Type | Description  | Notes
 # **listTaxSequences**
 > ListTaxSequences200Response listTaxSequences(xTenantId, type)
 
-Listar secuencias fiscales
+List tax sequences
 
 ### Example
 ```dart

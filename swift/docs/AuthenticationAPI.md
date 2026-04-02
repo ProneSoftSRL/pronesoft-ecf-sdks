@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getAccessToken**](AuthenticationAPI.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
+[**getAccessToken**](AuthenticationAPI.md#getaccesstoken) | **POST** /oauth/token | Get access token (OAuth 2.0)
 
 
 # **getAccessToken**
@@ -12,7 +12,7 @@ Method | HTTP request | Description
     open class func getAccessToken(oAuthTokenRequest: OAuthTokenRequest, completion: @escaping (_ data: OAuthTokenResponse?, _ error: Error?) -> Void)
 ```
 
-Obtener token de acceso (OAuth 2.0)
+Get access token (OAuth 2.0)
 
 ### Example
 ```swift
@@ -21,7 +21,7 @@ import PronesoftEcf
 
 let oAuthTokenRequest = OAuthTokenRequest(clientId: "clientId_example", clientSecret: "clientSecret_example") // OAuthTokenRequest | 
 
-// Obtener token de acceso (OAuth 2.0)
+// Get access token (OAuth 2.0)
 AuthenticationAPI.getAccessToken(oAuthTokenRequest: oAuthTokenRequest) { (response, error) in
     guard error == nil else {
         print(error)

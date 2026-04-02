@@ -2,172 +2,229 @@
 
 All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
-|Method | HTTP request | Description|
+| Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-|[**createTaxSequence**](#createtaxsequence) | **POST** /tax-sequences | Crear nueva secuencia fiscal|
-|[**getNextNumber**](#getnextnumber) | **GET** /tax-sequences/next | Obtener próximo número disponible|
-|[**listTaxSequences**](#listtaxsequences) | **GET** /tax-sequences | Listar secuencias fiscales|
+| [**createTaxSequence**](TaxSequencesApi.md#createtaxsequenceoperation) | **POST** /tax-sequences | Create new tax sequence |
+| [**getNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Get next available number |
+| [**listTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences |
 
-# **createTaxSequence**
-> createTaxSequence(createTaxSequenceRequest)
 
+
+## createTaxSequence
+
+> createTaxSequence(xTenantId, createTaxSequenceRequest)
+
+Create new tax sequence
 
 ### Example
 
-```typescript
+```ts
 import {
-    TaxSequencesApi,
-    Configuration,
-    CreateTaxSequenceRequest
+  Configuration,
+  TaxSequencesApi,
 } from '@pronesoft/ecf-sdk';
+import type { CreateTaxSequenceOperationRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new TaxSequencesApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new TaxSequencesApi(config);
 
-let xTenantId: string; // (default to undefined)
-let createTaxSequenceRequest: CreateTaxSequenceRequest; //
+  const body = {
+    // string
+    xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // CreateTaxSequenceRequest
+    createTaxSequenceRequest: ...,
+  } satisfies CreateTaxSequenceOperationRequest;
 
-const { status, data } = await apiInstance.createTaxSequence(
-    xTenantId,
-    createTaxSequenceRequest
-);
+  try {
+    const data = await api.createTaxSequence(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **createTaxSequenceRequest** | **CreateTaxSequenceRequest**|  | |
-| **xTenantId** | [**string**] |  | defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTenantId** | `string` |  | [Defaults to `undefined`] |
+| **createTaxSequenceRequest** | [CreateTaxSequenceRequest](CreateTaxSequenceRequest.md) |  | |
 
 ### Return type
 
-void (empty response body)
+`void` (Empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**201** | Secuencia creada |  -  |
+| **201** | Sequence created |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-# **getNextNumber**
-> GetNextNumber200Response getNextNumber()
 
+## getNextNumber
+
+> GetNextNumber200Response getNextNumber(xTenantId, type, environment)
+
+Get next available number
 
 ### Example
 
-```typescript
+```ts
 import {
-    TaxSequencesApi,
-    Configuration
+  Configuration,
+  TaxSequencesApi,
 } from '@pronesoft/ecf-sdk';
+import type { GetNextNumberRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new TaxSequencesApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new TaxSequencesApi(config);
 
-let xTenantId: string; // (default to undefined)
-let type: InvoiceType; // (default to undefined)
-let environment: Environment; // (default to undefined)
+  const body = {
+    // string
+    xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // InvoiceType
+    type: ...,
+    // Environment
+    environment: ...,
+  } satisfies GetNextNumberRequest;
 
-const { status, data } = await apiInstance.getNextNumber(
-    xTenantId,
-    type,
-    environment
-);
+  try {
+    const data = await api.getNextNumber(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **xTenantId** | [**string**] |  | defaults to undefined|
-| **type** | **InvoiceType** |  | defaults to undefined|
-| **environment** | **Environment** |  | defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTenantId** | `string` |  | [Defaults to `undefined`] |
+| **type** | `InvoiceType` |  | [Defaults to `undefined`] [Enum: 31, 32, 33, 34, 41, 43, 44, 45, 46, 47] |
+| **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
 
 ### Return type
 
-**GetNextNumber200Response**
+[**GetNextNumber200Response**](GetNextNumber200Response.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | Próximo número e-NCF |  -  |
+| **200** | Next e-NCF number |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-# **listTaxSequences**
-> ListTaxSequences200Response listTaxSequences()
 
+## listTaxSequences
+
+> ListTaxSequences200Response listTaxSequences(xTenantId, type)
+
+List tax sequences
 
 ### Example
 
-```typescript
+```ts
 import {
-    TaxSequencesApi,
-    Configuration
+  Configuration,
+  TaxSequencesApi,
 } from '@pronesoft/ecf-sdk';
+import type { ListTaxSequencesRequest } from '@pronesoft/ecf-sdk';
 
-const configuration = new Configuration();
-const apiInstance = new TaxSequencesApi(configuration);
+async function example() {
+  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new TaxSequencesApi(config);
 
-let xTenantId: string; // (default to undefined)
-let type: InvoiceType; // (optional) (default to undefined)
+  const body = {
+    // string
+    xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // InvoiceType (optional)
+    type: ...,
+  } satisfies ListTaxSequencesRequest;
 
-const { status, data } = await apiInstance.listTaxSequences(
-    xTenantId,
-    type
-);
+  try {
+    const data = await api.listTaxSequences(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **xTenantId** | [**string**] |  | defaults to undefined|
-| **type** | **InvoiceType** |  | (optional) defaults to undefined|
 
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTenantId** | `string` |  | [Defaults to `undefined`] |
+| **type** | `InvoiceType` |  | [Optional] [Defaults to `undefined`] [Enum: 31, 32, 33, 34, 41, 43, 44, 45, 46, 47] |
 
 ### Return type
 
-**ListTaxSequences200Response**
+[**ListTaxSequences200Response**](ListTaxSequences200Response.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-|**200** | Lista de secuencias |  -  |
+| **200** | List of sequences |  -  |
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

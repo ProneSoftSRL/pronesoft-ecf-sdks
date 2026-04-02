@@ -6,7 +6,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**submitEcf()**](ECFSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit) |
+| [**submitEcf()**](ECFSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Submit e-CF to platform |
 
 
 ## `submitEcf()`
@@ -15,7 +15,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 submitEcf($x_tenant_id, $environment, $electronic_document): \PronesoftEcf\Model\EcfSubmissionResponse
 ```
 
-Enviar e-CF a plataforma (Submit)
+Submit e-CF to platform
 
 ### Example
 

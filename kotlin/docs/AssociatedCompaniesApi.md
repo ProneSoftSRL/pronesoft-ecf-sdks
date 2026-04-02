@@ -4,15 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Crear nueva empresa asociada |
-| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar sucursales (Asociadas) |
+| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create new associated company |
+| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated branches/companies |
 
 
 <a id="createAssociatedCompany"></a>
 # **createAssociatedCompany**
 > CreateAssociatedCompany201Response createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo)
 
-Crear nueva empresa asociada
+Create new associated company
 
 ### Example
 ```kotlin
@@ -90,7 +90,7 @@ Configure oauth2:
 # **listAssociatedCompanies**
 > kotlin.collections.List&lt;AssociatedCompany&gt; listAssociatedCompanies(xTenantId)
 
-Listar sucursales (Asociadas)
+List associated branches/companies
 
 ### Example
 ```kotlin

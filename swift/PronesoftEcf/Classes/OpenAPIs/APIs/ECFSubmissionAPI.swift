@@ -13,7 +13,7 @@ import AnyCodable
 open class ECFSubmissionAPI {
 
     /**
-     Enviar e-CF a plataforma (Submit)
+     Submit e-CF to platform
      
      - parameter xTenantId: (header)  
      - parameter environment: (path)  
@@ -34,7 +34,7 @@ open class ECFSubmissionAPI {
     }
 
     /**
-     Enviar e-CF a plataforma (Submit)
+     Submit e-CF to platform
      - POST /{environment}/ecf/submit
      - OAuth:
        - type: oauth2

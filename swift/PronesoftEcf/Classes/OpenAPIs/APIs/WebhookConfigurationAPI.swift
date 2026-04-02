@@ -13,7 +13,7 @@ import AnyCodable
 open class WebhookConfigurationAPI {
 
     /**
-     Registrar nuevo webhook
+     Register new webhook
      
      - parameter rnc: (path)  
      - parameter createWebhookConfig: (body)  
@@ -33,7 +33,7 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Registrar nuevo webhook
+     Register new webhook
      - POST /{rnc}/webhooks
      - OAuth:
        - type: oauth2
@@ -64,7 +64,7 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Eliminar configuración de webhook
+     Delete webhook configuration
      
      - parameter rnc: (path)  
      - parameter webhookId: (path)  
@@ -84,7 +84,7 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Eliminar configuración de webhook
+     Delete webhook configuration
      - DELETE /{rnc}/webhooks/{webhookId}
      - OAuth:
        - type: oauth2
@@ -118,7 +118,7 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Listar todas las configuraciones de webhooks
+     List all webhook configurations
      
      - parameter rnc: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -137,7 +137,7 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Listar todas las configuraciones de webhooks
+     List all webhook configurations
      - GET /{rnc}/webhooks
      - OAuth:
        - type: oauth2

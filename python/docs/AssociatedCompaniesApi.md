@@ -4,14 +4,14 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Crear nueva empresa asociada
-[**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | Listar sucursales (Asociadas)
+[**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create new associated company
+[**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated branches/companies
 
 
 # **create_associated_company**
 > CreateAssociatedCompany201Response create_associated_company(x_tenant_id, email, password, name, rnc, phone, address, city, country, first_name=first_name, last_name=last_name, job_title=job_title, website=website, category=category, monthly_sales_range=monthly_sales_range, printer_type=printer_type, logo=logo)
 
-Crear nueva empresa asociada
+Create new associated company
 
 ### Example
 
@@ -60,7 +60,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     logo = None # bytes |  (optional)
 
     try:
-        # Crear nueva empresa asociada
+        # Create new associated company
         api_response = api_instance.create_associated_company(x_tenant_id, email, password, name, rnc, phone, address, city, country, first_name=first_name, last_name=last_name, job_title=job_title, website=website, category=category, monthly_sales_range=monthly_sales_range, printer_type=printer_type, logo=logo)
         print("The response of AssociatedCompaniesApi->create_associated_company:\n")
         pprint(api_response)
@@ -110,14 +110,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Empresa creada |  -  |
+**201** | Company created |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_associated_companies**
 > List[AssociatedCompany] list_associated_companies(x_tenant_id)
 
-Listar sucursales (Asociadas)
+List associated branches/companies
 
 ### Example
 
@@ -149,7 +149,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
 
     try:
-        # Listar sucursales (Asociadas)
+        # List associated branches/companies
         api_response = api_instance.list_associated_companies(x_tenant_id)
         print("The response of AssociatedCompaniesApi->list_associated_companies:\n")
         pprint(api_response)
@@ -183,7 +183,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Lista de empresas asociadas |  -  |
+**200** | List of associated companies |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

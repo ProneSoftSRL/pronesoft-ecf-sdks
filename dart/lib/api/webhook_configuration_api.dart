@@ -16,7 +16,7 @@ class WebhookConfigurationApi {
 
   final ApiClient apiClient;
 
-  /// Registrar nuevo webhook
+  /// Register new webhook
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -51,7 +51,7 @@ class WebhookConfigurationApi {
     );
   }
 
-  /// Registrar nuevo webhook
+  /// Register new webhook
   ///
   /// Parameters:
   ///
@@ -73,7 +73,7 @@ class WebhookConfigurationApi {
     return null;
   }
 
-  /// Eliminar configuración de webhook
+  /// Delete webhook configuration
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -109,7 +109,7 @@ class WebhookConfigurationApi {
     );
   }
 
-  /// Eliminar configuración de webhook
+  /// Delete webhook configuration
   ///
   /// Parameters:
   ///
@@ -123,7 +123,7 @@ class WebhookConfigurationApi {
     }
   }
 
-  /// Listar todas las configuraciones de webhooks
+  /// List all webhook configurations
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -156,7 +156,7 @@ class WebhookConfigurationApi {
     );
   }
 
-  /// Listar todas las configuraciones de webhooks
+  /// List all webhook configurations
   ///
   /// Parameters:
   ///

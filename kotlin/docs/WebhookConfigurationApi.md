@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createWebhook**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook |
-| [**deleteWebhook**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook |
-| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks |
+| [**createWebhook**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook |
+| [**deleteWebhook**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
 
 
 <a id="createWebhook"></a>
 # **createWebhook**
 > WebhookConfigResponse createWebhook(rnc, createWebhookConfig)
 
-Registrar nuevo webhook
+Register new webhook
 
 ### Example
 ```kotlin
@@ -61,7 +61,7 @@ Configure oauth2:
 # **deleteWebhook**
 > deleteWebhook(rnc, webhookId)
 
-Eliminar configuración de webhook
+Delete webhook configuration
 
 ### Example
 ```kotlin
@@ -108,7 +108,7 @@ Configure oauth2:
 # **listWebhooks**
 > kotlin.collections.List&lt;WebhookConfigResponse&gt; listWebhooks(rnc)
 
-Listar todas las configuraciones de webhooks
+List all webhook configurations
 
 ### Example
 ```kotlin

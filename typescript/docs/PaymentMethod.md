@@ -1,22 +1,32 @@
+
 # PaymentMethod
 
 
-## Enum
+## Properties
 
-* `_1` (value: `'1'`)
+Name | Type
+------------ | -------------
 
-* `_2` (value: `'2'`)
+## Example
 
-* `_3` (value: `'3'`)
+```typescript
+import type { PaymentMethod } from '@pronesoft/ecf-sdk'
 
-* `_4` (value: `'4'`)
+// TODO: Update the object below with actual values
+const example = {
+} satisfies PaymentMethod
 
-* `_5` (value: `'5'`)
+console.log(example)
 
-* `_6` (value: `'6'`)
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
 
-* `_7` (value: `'7'`)
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as PaymentMethod
+console.log(exampleParsed)
+```
 
-* `_8` (value: `'8'`)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+

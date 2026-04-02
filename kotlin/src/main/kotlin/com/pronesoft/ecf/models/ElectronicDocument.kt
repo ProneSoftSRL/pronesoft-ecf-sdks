@@ -56,7 +56,7 @@ import com.squareup.moshi.JsonClass
  * @param paymentAccountType 
  * @param paymentAccountNumber 
  * @param paymentBank 
- * @param creditNoteIndicator 0: emision affected ≤ 30 days, 1: > 30 days
+ * @param creditNoteIndicator 0: issuance affected ≤ 30 days, 1: > 30 days
  * @param issuerRNC 
  * @param issuerBusinessName 
  * @param issuerEmail 
@@ -116,7 +116,7 @@ data class ElectronicDocument (
     @Json(name = "paymentBank")
     val paymentBank: kotlin.String? = null,
 
-    /* 0: emision affected ≤ 30 days, 1: > 30 days */
+    /* 0: issuance affected ≤ 30 days, 1: > 30 days */
     @Json(name = "creditNoteIndicator")
     val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
 
@@ -184,7 +184,7 @@ data class ElectronicDocument (
         @Json(name = "3") _3("3");
     }
     /**
-     * 0: emision affected ≤ 30 days, 1: > 30 days
+     * 0: issuance affected ≤ 30 days, 1: > 30 days
      *
      * Values: _0,_1
      */

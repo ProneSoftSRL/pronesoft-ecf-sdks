@@ -4,15 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Crear nueva empresa asociada |
-| [**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | Listar sucursales (Asociadas) |
+| [**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create new associated company |
+| [**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated branches/companies |
 
 
 ## create_associated_company
 
 > <CreateAssociatedCompany201Response> create_associated_company(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
 
-Crear nueva empresa asociada
+Create new associated company
 
 ### Examples
 
@@ -47,7 +47,7 @@ opts = {
 }
 
 begin
-  # Crear nueva empresa asociada
+  # Create new associated company
   result = api_instance.create_associated_company(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -63,7 +63,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Crear nueva empresa asociada
+  # Create new associated company
   data, status_code, headers = api_instance.create_associated_company_with_http_info(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
   p status_code # => 2xx
   p headers # => { ... }
@@ -113,7 +113,7 @@ end
 
 > <Array<AssociatedCompany>> list_associated_companies(x_tenant_id)
 
-Listar sucursales (Asociadas)
+List associated branches/companies
 
 ### Examples
 
@@ -130,7 +130,7 @@ api_instance = PronesoftEcf::AssociatedCompaniesApi.new
 x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 
 begin
-  # Listar sucursales (Asociadas)
+  # List associated branches/companies
   result = api_instance.list_associated_companies(x_tenant_id)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -146,7 +146,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Listar sucursales (Asociadas)
+  # List associated branches/companies
   data, status_code, headers = api_instance.list_associated_companies_with_http_info(x_tenant_id)
   p status_code # => 2xx
   p headers # => { ... }

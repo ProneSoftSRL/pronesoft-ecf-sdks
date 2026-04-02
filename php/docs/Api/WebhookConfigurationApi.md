@@ -6,9 +6,9 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createWebhook()**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook |
-| [**deleteWebhook()**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook |
-| [**listWebhooks()**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks |
+| [**createWebhook()**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook |
+| [**deleteWebhook()**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**listWebhooks()**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
 
 
 ## `createWebhook()`
@@ -17,7 +17,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 createWebhook($rnc, $create_webhook_config): \PronesoftEcf\Model\WebhookConfigResponse
 ```
 
-Registrar nuevo webhook
+Register new webhook
 
 ### Example
 
@@ -77,7 +77,7 @@ try {
 deleteWebhook($rnc, $webhook_id)
 ```
 
-Eliminar configuración de webhook
+Delete webhook configuration
 
 ### Example
 
@@ -136,7 +136,7 @@ void (empty response body)
 listWebhooks($rnc): \PronesoftEcf\Model\WebhookConfigResponse[]
 ```
 
-Listar todas las configuraciones de webhooks
+List all webhook configurations
 
 ### Example
 

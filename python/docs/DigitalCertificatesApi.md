@@ -4,13 +4,13 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12)
+[**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12)
 
 
 # **upload_certificate**
 > UploadCertificate201Response upload_certificate(rnc, file, password)
 
-Cargar Certificado Digital (P12)
+Upload Digital Certificate (P12)
 
 ### Example
 
@@ -44,7 +44,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     password = 'password_example' # str | 
 
     try:
-        # Cargar Certificado Digital (P12)
+        # Upload Digital Certificate (P12)
         api_response = api_instance.upload_certificate(rnc, file, password)
         print("The response of DigitalCertificatesApi->upload_certificate:\n")
         pprint(api_response)
@@ -80,7 +80,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Certificado cargado exitosamente |  -  |
+**201** | Certificate uploaded successfully |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

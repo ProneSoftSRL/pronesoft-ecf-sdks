@@ -1,30 +1,44 @@
+
 # Transport
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**driver** | **string** |  | [optional] [default to undefined]
-**vehicleId** | **string** |  | [optional] [default to undefined]
-**licensePlate** | **string** |  | [optional] [default to undefined]
-**route** | **string** |  | [optional] [default to undefined]
-**departureDate** | **string** |  | [optional] [default to undefined]
-**arrivalDate** | **string** |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`driver` | string
+`vehicleId` | string
+`licensePlate` | string
+`route` | string
+`departureDate` | Date
+`arrivalDate` | Date
 
 ## Example
 
 ```typescript
-import { Transport } from '@pronesoft/ecf-sdk';
+import type { Transport } from '@pronesoft/ecf-sdk'
 
-const instance: Transport = {
-    driver,
-    vehicleId,
-    licensePlate,
-    route,
-    departureDate,
-    arrivalDate,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "driver": null,
+  "vehicleId": null,
+  "licensePlate": null,
+  "route": null,
+  "departureDate": null,
+  "arrivalDate": null,
+} satisfies Transport
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as Transport
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

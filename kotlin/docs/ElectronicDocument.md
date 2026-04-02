@@ -18,7 +18,7 @@
 | **paymentAccountType** | [**AccountType**](AccountType.md) |  |  [optional] |
 | **paymentAccountNumber** | **kotlin.String** |  |  [optional] |
 | **paymentBank** | **kotlin.String** |  |  [optional] |
-| **creditNoteIndicator** | [**inline**](#CreditNoteIndicator) | 0: emision affected ≤ 30 days, 1: &gt; 30 days |  [optional] |
+| **creditNoteIndicator** | [**inline**](#CreditNoteIndicator) | 0: issuance affected ≤ 30 days, 1: &gt; 30 days |  [optional] |
 | **issuerRNC** | **kotlin.String** |  |  [optional] |
 | **issuerBusinessName** | **kotlin.String** |  |  [optional] |
 | **issuerEmail** | **kotlin.String** |  |  [optional] |

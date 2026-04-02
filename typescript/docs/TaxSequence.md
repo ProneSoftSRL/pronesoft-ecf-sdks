@@ -1,24 +1,38 @@
+
 # TaxSequence
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **string** |  | [optional] [default to undefined]
-**type** | **string** |  | [optional] [default to undefined]
-**nextNumber** | **string** |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`id` | string
+`type` | string
+`nextNumber` | string
 
 ## Example
 
 ```typescript
-import { TaxSequence } from '@pronesoft/ecf-sdk';
+import type { TaxSequence } from '@pronesoft/ecf-sdk'
 
-const instance: TaxSequence = {
-    id,
-    type,
-    nextNumber,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "id": null,
+  "type": null,
+  "nextNumber": null,
+} satisfies TaxSequence
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as TaxSequence
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

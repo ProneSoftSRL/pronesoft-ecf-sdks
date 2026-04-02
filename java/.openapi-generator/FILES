@@ -122,7 +122,3 @@ src/main/java/org/openapitools/client/model/UploadCertificate201Response.java
 src/main/java/org/openapitools/client/model/WebhookConfigResponse.java
 src/main/java/org/openapitools/client/model/WebhookEventType.java
 src/main/java/org/openapitools/client/model/WebhookNotificationPayload.java
-src/test/java/org/openapitools/client/model/AssociatedCompanySubscriptionPlanTest.java
-src/test/java/org/openapitools/client/model/AssociatedCompanySubscriptionTest.java
-src/test/java/org/openapitools/client/model/CreateAssociatedCompany201ResponseTest.java
-src/test/java/org/openapitools/client/model/PrintFormatTest.java

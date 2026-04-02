@@ -6,7 +6,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**uploadCertificate()**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Cargar Certificado Digital (P12) |
+| [**uploadCertificate()**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12) |
 
 
 ## `uploadCertificate()`
@@ -15,7 +15,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 uploadCertificate($rnc, $file, $password): \PronesoftEcf\Model\UploadCertificate201Response
 ```
 
-Cargar Certificado Digital (P12)
+Upload Digital Certificate (P12)
 
 ### Example
 

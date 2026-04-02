@@ -6,7 +6,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**getAccessToken()**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0) |
+| [**getAccessToken()**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token (OAuth 2.0) |
 
 
 ## `getAccessToken()`
@@ -15,7 +15,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 getAccessToken($o_auth_token_request): \PronesoftEcf\Model\OAuthTokenResponse
 ```
 
-Obtener token de acceso (OAuth 2.0)
+Get access token (OAuth 2.0)
 
 ### Example
 

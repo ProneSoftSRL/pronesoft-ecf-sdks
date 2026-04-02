@@ -4,9 +4,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createWebhook**](WebhookConfigurationAPI.md#createwebhook) | **POST** /{rnc}/webhooks | Registrar nuevo webhook
-[**deleteWebhook**](WebhookConfigurationAPI.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Eliminar configuración de webhook
-[**listWebhooks**](WebhookConfigurationAPI.md#listwebhooks) | **GET** /{rnc}/webhooks | Listar todas las configuraciones de webhooks
+[**createWebhook**](WebhookConfigurationAPI.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook
+[**deleteWebhook**](WebhookConfigurationAPI.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+[**listWebhooks**](WebhookConfigurationAPI.md#listwebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations
 
 
 # **createWebhook**
@@ -14,7 +14,7 @@ Method | HTTP request | Description
     open class func createWebhook(rnc: String, createWebhookConfig: CreateWebhookConfig, completion: @escaping (_ data: WebhookConfigResponse?, _ error: Error?) -> Void)
 ```
 
-Registrar nuevo webhook
+Register new webhook
 
 ### Example
 ```swift
@@ -24,7 +24,7 @@ import PronesoftEcf
 let rnc = "rnc_example" // String | 
 let createWebhookConfig = CreateWebhookConfig(url: "url_example", eventTypes: [WebhookEventType()], description: "description_example", secret: "secret_example") // CreateWebhookConfig | 
 
-// Registrar nuevo webhook
+// Register new webhook
 WebhookConfigurationAPI.createWebhook(rnc: rnc, createWebhookConfig: createWebhookConfig) { (response, error) in
     guard error == nil else {
         print(error)
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
     open class func deleteWebhook(rnc: String, webhookId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
-Eliminar configuración de webhook
+Delete webhook configuration
 
 ### Example
 ```swift
@@ -74,7 +74,7 @@ import PronesoftEcf
 let rnc = "rnc_example" // String | 
 let webhookId = "webhookId_example" // String | 
 
-// Eliminar configuración de webhook
+// Delete webhook configuration
 WebhookConfigurationAPI.deleteWebhook(rnc: rnc, webhookId: webhookId) { (response, error) in
     guard error == nil else {
         print(error)
@@ -114,7 +114,7 @@ Void (empty response body)
     open class func listWebhooks(rnc: String, completion: @escaping (_ data: [WebhookConfigResponse]?, _ error: Error?) -> Void)
 ```
 
-Listar todas las configuraciones de webhooks
+List all webhook configurations
 
 ### Example
 ```swift
@@ -123,7 +123,7 @@ import PronesoftEcf
 
 let rnc = "rnc_example" // String | 
 
-// Listar todas las configuraciones de webhooks
+// List all webhook configurations
 WebhookConfigurationAPI.listWebhooks(rnc: rnc) { (response, error) in
     guard error == nil else {
         print(error)

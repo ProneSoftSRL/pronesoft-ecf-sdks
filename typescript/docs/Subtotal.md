@@ -1,46 +1,60 @@
+
 # Subtotal
 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**number** | **number** |  | [default to undefined]
-**amount** | **number** |  | [default to undefined]
-**description** | **string** |  | [optional] [default to undefined]
-**taxableAmount** | **number** |  | [optional] [default to undefined]
-**taxableAmount1** | **number** |  | [optional] [default to undefined]
-**taxableAmount2** | **number** |  | [optional] [default to undefined]
-**taxableAmount3** | **number** |  | [optional] [default to undefined]
-**totalITBIS** | **number** |  | [optional] [default to undefined]
-**itbis1** | **number** |  | [optional] [default to undefined]
-**itbis2** | **number** |  | [optional] [default to undefined]
-**itbis3** | **number** |  | [optional] [default to undefined]
-**additionalTaxes** | **number** |  | [optional] [default to undefined]
-**exemptAmount** | **number** |  | [optional] [default to undefined]
-**lines** | **number** |  | [optional] [default to undefined]
+Name | Type
+------------ | -------------
+`number` | number
+`amount` | number
+`description` | string
+`taxableAmount` | number
+`taxableAmount1` | number
+`taxableAmount2` | number
+`taxableAmount3` | number
+`totalITBIS` | number
+`itbis1` | number
+`itbis2` | number
+`itbis3` | number
+`additionalTaxes` | number
+`exemptAmount` | number
+`lines` | number
 
 ## Example
 
 ```typescript
-import { Subtotal } from '@pronesoft/ecf-sdk';
+import type { Subtotal } from '@pronesoft/ecf-sdk'
 
-const instance: Subtotal = {
-    number,
-    amount,
-    description,
-    taxableAmount,
-    taxableAmount1,
-    taxableAmount2,
-    taxableAmount3,
-    totalITBIS,
-    itbis1,
-    itbis2,
-    itbis3,
-    additionalTaxes,
-    exemptAmount,
-    lines,
-};
+// TODO: Update the object below with actual values
+const example = {
+  "number": null,
+  "amount": null,
+  "description": null,
+  "taxableAmount": null,
+  "taxableAmount1": null,
+  "taxableAmount2": null,
+  "taxableAmount3": null,
+  "totalITBIS": null,
+  "itbis1": null,
+  "itbis2": null,
+  "itbis3": null,
+  "additionalTaxes": null,
+  "exemptAmount": null,
+  "lines": null,
+} satisfies Subtotal
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as Subtotal
+console.log(exampleParsed)
 ```
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SubmitEcf**](ECFSubmissionAPI.md#SubmitEcf) | **Post** /{environment}/ecf/submit | Enviar e-CF a plataforma (Submit)
+[**SubmitEcf**](ECFSubmissionAPI.md#SubmitEcf) | **Post** /{environment}/ecf/submit | Submit e-CF to platform
 
 
 
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 > EcfSubmissionResponse SubmitEcf(ctx, environment).XTenantId(xTenantId).ElectronicDocument(electronicDocument).Execute()
 
-Enviar e-CF a plataforma (Submit)
+Submit e-CF to platform
 
 ### Example
 
