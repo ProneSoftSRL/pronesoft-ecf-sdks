@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * eCF-Pronesoft Master Integration API
- * **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+ * eCF-Pronesoft Integration API
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: contacto@pronesoft.com
@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   AssociatedCompany,
   CreateAssociatedCompany201Response,
+  ErrorResponse,
   PrintFormat,
 } from '../models/index';
 import {
@@ -24,6 +25,8 @@ import {
     AssociatedCompanyToJSON,
     CreateAssociatedCompany201ResponseFromJSON,
     CreateAssociatedCompany201ResponseToJSON,
+    ErrorResponseFromJSON,
+    ErrorResponseToJSON,
     PrintFormatFromJSON,
     PrintFormatToJSON,
 } from '../models/index';
@@ -53,9 +56,98 @@ export interface ListAssociatedCompaniesRequest {
 }
 
 /**
+ * AssociatedCompaniesApi - interface
+ * 
+ * @export
+ * @interface AssociatedCompaniesApiInterface
+ */
+export interface AssociatedCompaniesApiInterface {
+    /**
+     * Creates request options for createAssociatedCompany without sending the request
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {string} email Owner\\\&#39;s email address (used for login).
+     * @param {string} password Initial password for the new account (min 8 characters).
+     * @param {string} name Legal business name.
+     * @param {string} rnc Company RNC (9 digits) or personal cedula (11 digits).
+     * @param {string} phone 
+     * @param {string} address 
+     * @param {string} city 
+     * @param {string} country 
+     * @param {string} [firstName] 
+     * @param {string} [lastName] 
+     * @param {string} [jobTitle] 
+     * @param {string} [website] 
+     * @param {string} [category] Business category or industry.
+     * @param {string} [monthlySalesRange] Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;).
+     * @param {PrintFormat} [printerType] 
+     * @param {Blob} [logo] Company logo image file (multipart upload).
+     * @throws {RequiredError}
+     * @memberof AssociatedCompaniesApiInterface
+     */
+    createAssociatedCompanyRequestOpts(requestParameters: CreateAssociatedCompanyRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
+     * @summary Create new associated company
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {string} email Owner\\\&#39;s email address (used for login).
+     * @param {string} password Initial password for the new account (min 8 characters).
+     * @param {string} name Legal business name.
+     * @param {string} rnc Company RNC (9 digits) or personal cedula (11 digits).
+     * @param {string} phone 
+     * @param {string} address 
+     * @param {string} city 
+     * @param {string} country 
+     * @param {string} [firstName] 
+     * @param {string} [lastName] 
+     * @param {string} [jobTitle] 
+     * @param {string} [website] 
+     * @param {string} [category] Business category or industry.
+     * @param {string} [monthlySalesRange] Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;).
+     * @param {PrintFormat} [printerType] 
+     * @param {Blob} [logo] Company logo image file (multipart upload).
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssociatedCompaniesApiInterface
+     */
+    createAssociatedCompanyRaw(requestParameters: CreateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAssociatedCompany201Response>>;
+
+    /**
+     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
+     * Create new associated company
+     */
+    createAssociatedCompany(requestParameters: CreateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAssociatedCompany201Response>;
+
+    /**
+     * Creates request options for listAssociatedCompanies without sending the request
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @throws {RequiredError}
+     * @memberof AssociatedCompaniesApiInterface
+     */
+    listAssociatedCompaniesRequestOpts(requestParameters: ListAssociatedCompaniesRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns all companies and branches linked to the current tenant.
+     * @summary List associated companies / branches
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AssociatedCompaniesApiInterface
+     */
+    listAssociatedCompaniesRaw(requestParameters: ListAssociatedCompaniesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AssociatedCompany>>>;
+
+    /**
+     * Returns all companies and branches linked to the current tenant.
+     * List associated companies / branches
+     */
+    listAssociatedCompanies(requestParameters: ListAssociatedCompaniesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AssociatedCompany>>;
+
+}
+
+/**
  * 
  */
-export class AssociatedCompaniesApi extends runtime.BaseAPI {
+export class AssociatedCompaniesApi extends runtime.BaseAPI implements AssociatedCompaniesApiInterface {
 
     /**
      * Creates request options for createAssociatedCompany without sending the request
@@ -134,9 +226,17 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", []);
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:create"]);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
         const consumes: runtime.Consume[] = [
             { contentType: 'multipart/form-data' },
         ];
@@ -230,6 +330,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
      * Create new associated company
      */
     async createAssociatedCompanyRaw(requestParameters: CreateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAssociatedCompany201Response>> {
@@ -240,6 +341,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
      * Create new associated company
      */
     async createAssociatedCompany(requestParameters: CreateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAssociatedCompany201Response> {
@@ -268,9 +370,17 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", []);
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/associated-companies`;
 
@@ -283,7 +393,8 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List associated branches/companies
+     * Returns all companies and branches linked to the current tenant.
+     * List associated companies / branches
      */
     async listAssociatedCompaniesRaw(requestParameters: ListAssociatedCompaniesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AssociatedCompany>>> {
         const requestOptions = await this.listAssociatedCompaniesRequestOpts(requestParameters);
@@ -293,7 +404,8 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List associated branches/companies
+     * Returns all companies and branches linked to the current tenant.
+     * List associated companies / branches
      */
     async listAssociatedCompanies(requestParameters: ListAssociatedCompaniesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AssociatedCompany>> {
         const response = await this.listAssociatedCompaniesRaw(requestParameters, initOverrides);

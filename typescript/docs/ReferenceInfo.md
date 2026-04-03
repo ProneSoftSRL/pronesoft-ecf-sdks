@@ -1,6 +1,7 @@
 
 # ReferenceInfo
 
+Reference to a previously issued document. Required for: - Credit Notes (type 34) — references the original invoice - Debit Notes (type 33) — references the original invoice 
 
 ## Properties
 
@@ -19,7 +20,7 @@ import type { ReferenceInfo } from '@pronesoft/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "modifiedInvoiceNumber": null,
+  "modifiedInvoiceNumber": E310000000001,
   "otherContributorRNC": null,
   "modifiedInvoiceDate": null,
   "modificationCode": null,

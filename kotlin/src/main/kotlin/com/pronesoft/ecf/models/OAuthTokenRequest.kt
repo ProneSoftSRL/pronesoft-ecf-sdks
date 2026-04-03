@@ -24,23 +24,24 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Credentials for OAuth 2.0 Client Credentials authentication.  Obtain `clientId` and `clientSecret` from the Pronesoft portal: - Sandbox: https://ecf.sandbox.pronesoft.com - Production: https://ecf.pronesoft.com 
  *
- * @param clientId 
- * @param clientSecret 
+ * @param clientId Your application's client ID from the Pronesoft portal.
+ * @param clientSecret Your application's client secret. Keep this confidential.
  */
 
 
 data class OAuthTokenRequest (
 
-    @Json(name = "clientId")
+    /* Your application's client ID from the Pronesoft portal. */
+    @SerializedName("clientId")
     val clientId: kotlin.String,
 
-    @Json(name = "clientSecret")
+    /* Your application's client secret. Keep this confidential. */
+    @SerializedName("clientSecret")
     val clientSecret: kotlin.String
 
 ) {

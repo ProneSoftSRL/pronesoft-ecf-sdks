@@ -27,7 +27,6 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.models.CreateTaxSequenceRequest
-import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.InvoiceType
 
 class CreateTaxSequenceRequestTest : ShouldSpec() {
@@ -51,12 +50,6 @@ class CreateTaxSequenceRequestTest : ShouldSpec() {
         should("test to") {
             // uncomment below to test the property
             //modelInstance.to shouldBe ("TODO")
-        }
-
-        // to test the property `environment`
-        should("test environment") {
-            // uncomment below to test the property
-            //modelInstance.environment shouldBe ("TODO")
         }
 
     }

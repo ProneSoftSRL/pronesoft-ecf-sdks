@@ -27,72 +27,80 @@ import com.pronesoft.ecf.models.BillingIndicator
 import com.pronesoft.ecf.models.ItemAdditionalTax
 import com.pronesoft.ecf.models.Subquantity
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * A single line item in the electronic document.
  *
- * @param name 
- * @param type 
+ * @param name Product or service name.
+ * @param type Item type: - `1`: Product (Bien) - `2`: Service (Servicio) 
  * @param billingIndicator 
- * @param quantity 
- * @param unitPrice 
- * @param amount 
- * @param lineNumber 
- * @param discountAmount 
- * @param additionalTaxes 
- * @param subquantities 
- * @param alcoholDegree 
+ * @param quantity Quantity (as string to support decimals with precision).
+ * @param unitPrice Unit price (as string to support decimals with precision).
+ * @param amount Total line amount (quantity × unitPrice, before discounts).
+ * @param lineNumber Sequential line number (1-based). Auto-assigned if omitted.
+ * @param discountAmount Discount amount applied to this line item.
+ * @param additionalTaxes Additional taxes (e.g. ISC, IECS) for this line item.
+ * @param subquantities Sub-quantities (for items with multiple units of measure).
+ * @param alcoholDegree Alcohol degree (required for alcoholic beverages subject to ISC).
  */
 
 
 data class Item (
 
-    @Json(name = "name")
+    /* Product or service name. */
+    @SerializedName("name")
     val name: kotlin.String,
 
-    @Json(name = "type")
+    /* Item type: - `1`: Product (Bien) - `2`: Service (Servicio)  */
+    @SerializedName("type")
     val type: Item.Type,
 
-    @Json(name = "billingIndicator")
+    @SerializedName("billingIndicator")
     val billingIndicator: BillingIndicator,
 
-    @Json(name = "quantity")
+    /* Quantity (as string to support decimals with precision). */
+    @SerializedName("quantity")
     val quantity: kotlin.String,
 
-    @Json(name = "unitPrice")
+    /* Unit price (as string to support decimals with precision). */
+    @SerializedName("unitPrice")
     val unitPrice: kotlin.String,
 
-    @Json(name = "amount")
+    /* Total line amount (quantity × unitPrice, before discounts). */
+    @SerializedName("amount")
     val amount: java.math.BigDecimal,
 
-    @Json(name = "lineNumber")
+    /* Sequential line number (1-based). Auto-assigned if omitted. */
+    @SerializedName("lineNumber")
     val lineNumber: kotlin.Int? = null,
 
-    @Json(name = "discountAmount")
+    /* Discount amount applied to this line item. */
+    @SerializedName("discountAmount")
     val discountAmount: java.math.BigDecimal? = null,
 
-    @Json(name = "additionalTaxes")
+    /* Additional taxes (e.g. ISC, IECS) for this line item. */
+    @SerializedName("additionalTaxes")
     val additionalTaxes: kotlin.collections.List<ItemAdditionalTax>? = null,
 
-    @Json(name = "subquantities")
+    /* Sub-quantities (for items with multiple units of measure). */
+    @SerializedName("subquantities")
     val subquantities: kotlin.collections.List<Subquantity>? = null,
 
-    @Json(name = "alcoholDegree")
+    /* Alcohol degree (required for alcoholic beverages subject to ISC). */
+    @SerializedName("alcoholDegree")
     val alcoholDegree: java.math.BigDecimal? = null
 
 ) {
 
     /**
-     * 
+     * Item type: - `1`: Product (Bien) - `2`: Service (Servicio) 
      *
      * Values: _1,_2
      */
-    @JsonClass(generateAdapter = false)
     enum class Type(val value: kotlin.String) {
-        @Json(name = "1") _1("1"),
-        @Json(name = "2") _2("2");
+        @SerializedName(value = "1") _1("1"),
+        @SerializedName(value = "2") _2("2");
     }
 
 }

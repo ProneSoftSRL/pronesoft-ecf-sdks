@@ -25,27 +25,28 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.InvoiceType
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Request to register a new block of fiscal numbers. The `from` and `to` values define the numeric range (inclusive). 
  *
  * @param type 
- * @param from 
- * @param to 
+ * @param from First number in the sequence range.
+ * @param to Last number in the sequence range.
  */
 
 
 data class CreateTaxSequenceRequest (
 
-    @Json(name = "type")
+    @SerializedName("type")
     val type: InvoiceType,
 
-    @Json(name = "from")
+    /* First number in the sequence range. */
+    @SerializedName("from")
     val from: kotlin.Int,
 
-    @Json(name = "to")
+    /* Last number in the sequence range. */
+    @SerializedName("to")
     val to: kotlin.Int
 
 ) {

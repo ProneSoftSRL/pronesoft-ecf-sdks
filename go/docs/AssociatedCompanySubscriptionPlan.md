@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | Pointer to **string** |  | [optional] 
-**MaxDocsPerMonth** | Pointer to **int32** |  | [optional] 
+**MaxDocsPerMonth** | Pointer to **int32** | Maximum documents allowed per month on this plan. | [optional] 
 
 ## Methods
 

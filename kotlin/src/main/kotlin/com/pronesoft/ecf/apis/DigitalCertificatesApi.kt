@@ -27,9 +27,10 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
-import com.pronesoft.ecf.models.UploadCertificate201Response
+import com.pronesoft.ecf.models.ErrorResponse
+import com.pronesoft.ecf.models.UploadCertificateResponse
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 import com.pronesoft.ecf.infrastructure.ApiClient
 import com.pronesoft.ecf.infrastructure.ApiResponse
@@ -55,12 +56,12 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /{rnc}/certificates
-     * Upload Digital Certificate (P12)
-     * 
-     * @param rnc 
-     * @param file 
-     * @param password 
-     * @return UploadCertificate201Response
+     * Upload digital certificate (P12)
+     * Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param file The P12/PFX certificate file.
+     * @param password Password to unlock the P12 certificate.
+     * @return UploadCertificateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -69,11 +70,11 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadCertificate(rnc: kotlin.String, file: java.io.File, password: kotlin.String) : UploadCertificate201Response {
+    fun uploadCertificate(rnc: kotlin.String, file: java.io.File, password: kotlin.String) : UploadCertificateResponse {
         val localVarResponse = uploadCertificateWithHttpInfo(rnc = rnc, file = file, password = password)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as UploadCertificate201Response
+            ResponseType.Success -> (localVarResponse as Success<*>).data as UploadCertificateResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -89,21 +90,21 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /{rnc}/certificates
-     * Upload Digital Certificate (P12)
-     * 
-     * @param rnc 
-     * @param file 
-     * @param password 
-     * @return ApiResponse<UploadCertificate201Response?>
+     * Upload digital certificate (P12)
+     * Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param file The P12/PFX certificate file.
+     * @param password Password to unlock the P12 certificate.
+     * @return ApiResponse<UploadCertificateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun uploadCertificateWithHttpInfo(rnc: kotlin.String, file: java.io.File, password: kotlin.String) : ApiResponse<UploadCertificate201Response?> {
+    fun uploadCertificateWithHttpInfo(rnc: kotlin.String, file: java.io.File, password: kotlin.String) : ApiResponse<UploadCertificateResponse?> {
         val localVariableConfig = uploadCertificateRequestConfig(rnc = rnc, file = file, password = password)
 
-        return request<Map<String, PartConfig<*>>, UploadCertificate201Response>(
+        return request<Map<String, PartConfig<*>>, UploadCertificateResponse>(
             localVariableConfig
         )
     }
@@ -111,9 +112,9 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * To obtain the request config of the operation uploadCertificate
      *
-     * @param rnc 
-     * @param file 
-     * @param password 
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param file The P12/PFX certificate file.
+     * @param password Password to unlock the P12 certificate.
      * @return RequestConfig
      */
     fun uploadCertificateRequestConfig(rnc: kotlin.String, file: java.io.File, password: kotlin.String) : RequestConfig<Map<String, PartConfig<*>>> {

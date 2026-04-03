@@ -27,7 +27,6 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.models.DiscountOrSurcharge
-import com.pronesoft.ecf.models.AdjustmentType
 import com.pronesoft.ecf.models.BillingIndicator
 
 class DiscountOrSurchargeTest : ShouldSpec() {
@@ -57,12 +56,6 @@ class DiscountOrSurchargeTest : ShouldSpec() {
         should("test amount") {
             // uncomment below to test the property
             //modelInstance.amount shouldBe ("TODO")
-        }
-
-        // to test the property `norm1007Indicator`
-        should("test norm1007Indicator") {
-            // uncomment below to test the property
-            //modelInstance.norm1007Indicator shouldBe ("TODO")
         }
 
         // to test the property `description`

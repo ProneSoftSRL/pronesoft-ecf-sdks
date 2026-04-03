@@ -10,13 +10,19 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.AssociatedCompany")
+public typealias AssociatedCompany = PronesoftEcfAPI.AssociatedCompany
+
+extension PronesoftEcfAPI {
+
+/** A company or branch associated with the main tenant account. */
 public struct AssociatedCompany: Codable, JSONEncodable, Hashable {
 
     public enum ModelType: String, Codable, CaseIterable {
         case main = "MAIN"
         case associated = "ASSOCIATED"
     }
-    public static let rncRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[0-9]{9}|[0-9]{11}$/")
+    public static let rncRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^([0-9]{9}|[0-9]{11})$/")
     public var id: UUID?
     public var name: String?
     public var rnc: String?
@@ -26,9 +32,12 @@ public struct AssociatedCompany: Codable, JSONEncodable, Hashable {
     public var country: String?
     public var website: String?
     public var logoPath: String?
+    /** Whether this is the main account or an associated branch. */
     public var type: ModelType?
     public var createdAt: Date?
+    /** Number of e-CF documents issued in the current month. */
     public var docsIssuedThisMonth: Int?
+    /** Purchased document quota consumed this month. */
     public var purchasedDocsConsumedThisMonth: Int?
     public var ownerEmail: String?
     public var subscription: AssociatedCompanySubscription?
@@ -91,6 +100,7 @@ public struct AssociatedCompany: Codable, JSONEncodable, Hashable {
     }
 }
 
+}
 
 @available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
-extension AssociatedCompany: Identifiable {}
+extension PronesoftEcfAPI.AssociatedCompany: Identifiable {}

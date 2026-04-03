@@ -4,8 +4,8 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **number** | **kotlin.Int** |  |  |
-| **amount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  |
+| **number** | **kotlin.Int** | Page or section number. |  |
+| **amount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | Subtotal amount for this section. |  |
 | **description** | **kotlin.String** |  |  [optional] |
 | **taxableAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
 | **taxableAmount1** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
@@ -17,7 +17,7 @@
 | **itbis3** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
 | **additionalTaxes** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
 | **exemptAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **lines** | **kotlin.Int** |  |  [optional] |
+| **lines** | **kotlin.Int** | Number of line items included in this subtotal. |  [optional] |
 
 
 

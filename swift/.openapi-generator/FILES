@@ -50,7 +50,7 @@ PronesoftEcf/Classes/OpenAPIs/Models/Subtotal.swift
 PronesoftEcf/Classes/OpenAPIs/Models/TaxSequence.swift
 PronesoftEcf/Classes/OpenAPIs/Models/Totals.swift
 PronesoftEcf/Classes/OpenAPIs/Models/Transport.swift
-PronesoftEcf/Classes/OpenAPIs/Models/UploadCertificate201Response.swift
+PronesoftEcf/Classes/OpenAPIs/Models/UploadCertificateResponse.swift
 PronesoftEcf/Classes/OpenAPIs/Models/WebhookConfigResponse.swift
 PronesoftEcf/Classes/OpenAPIs/Models/WebhookEventType.swift
 PronesoftEcf/Classes/OpenAPIs/Models/WebhookNotificationPayload.swift
@@ -97,7 +97,7 @@ docs/TaxSequence.md
 docs/TaxSequencesAPI.md
 docs/Totals.md
 docs/Transport.md
-docs/UploadCertificate201Response.md
+docs/UploadCertificateResponse.md
 docs/WebhookConfigResponse.md
 docs/WebhookConfigurationAPI.md
 docs/WebhookEventType.md

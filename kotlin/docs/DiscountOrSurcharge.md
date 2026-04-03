@@ -4,13 +4,13 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **lineNumber** | **kotlin.Int** |  |  |
-| **type** | [**inline**](#Type) |  |  |
-| **valueType** | [**inline**](#ValueType) |  |  |
-| **amount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  |
-| **description** | **kotlin.String** |  |  [optional] |
-| **percentageValue** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **alternativeCurrencyAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **lineNumber** | **kotlin.Int** | Reference line number this discount/surcharge applies to. |  |
+| **type** | [**inline**](#Type) | - &#x60;D&#x60;: Discount (Descuento) - &#x60;R&#x60;: Surcharge/Recargo (Recargo)  |  |
+| **valueType** | [**inline**](#ValueType) | Whether the amount is a fixed value (&#x60;$&#x60;) or a percentage (&#x60;%&#x60;). |  |
+| **amount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | Discount or surcharge amount. |  |
+| **description** | **kotlin.String** | Description of the discount or surcharge. |  [optional] |
+| **percentageValue** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | Percentage value (when valueType is \&quot;%\&quot;). |  [optional] |
+| **alternativeCurrencyAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | Equivalent amount in the alternative currency. |  [optional] |
 | **billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  |  [optional] |
 
 

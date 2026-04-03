@@ -1,7 +1,7 @@
 
 # AccountType
 
-CT: Current, AH: Savings, OT: Others
+Bank account type: - `CT`: Current account (Cuenta Corriente) - `AH`: Savings account (Cuenta de Ahorros) - `OT`: Other 
 
 ## Properties
 

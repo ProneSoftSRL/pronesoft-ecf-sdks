@@ -24,14 +24,13 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Subtotal for a page or section within a multi-page document.
  *
- * @param number 
- * @param amount 
+ * @param number Page or section number.
+ * @param amount Subtotal amount for this section.
  * @param description 
  * @param taxableAmount 
  * @param taxableAmount1 
@@ -43,52 +42,55 @@ import com.squareup.moshi.JsonClass
  * @param itbis3 
  * @param additionalTaxes 
  * @param exemptAmount 
- * @param lines 
+ * @param lines Number of line items included in this subtotal.
  */
 
 
 data class Subtotal (
 
-    @Json(name = "number")
+    /* Page or section number. */
+    @SerializedName("number")
     val number: kotlin.Int,
 
-    @Json(name = "amount")
+    /* Subtotal amount for this section. */
+    @SerializedName("amount")
     val amount: java.math.BigDecimal,
 
-    @Json(name = "description")
+    @SerializedName("description")
     val description: kotlin.String? = null,
 
-    @Json(name = "taxableAmount")
+    @SerializedName("taxableAmount")
     val taxableAmount: java.math.BigDecimal? = null,
 
-    @Json(name = "taxableAmount1")
+    @SerializedName("taxableAmount1")
     val taxableAmount1: java.math.BigDecimal? = null,
 
-    @Json(name = "taxableAmount2")
+    @SerializedName("taxableAmount2")
     val taxableAmount2: java.math.BigDecimal? = null,
 
-    @Json(name = "taxableAmount3")
+    @SerializedName("taxableAmount3")
     val taxableAmount3: java.math.BigDecimal? = null,
 
-    @Json(name = "totalITBIS")
+    @SerializedName("totalITBIS")
     val totalITBIS: java.math.BigDecimal? = null,
 
-    @Json(name = "itbis1")
+    @SerializedName("itbis1")
     val itbis1: java.math.BigDecimal? = null,
 
-    @Json(name = "itbis2")
+    @SerializedName("itbis2")
     val itbis2: java.math.BigDecimal? = null,
 
-    @Json(name = "itbis3")
+    @SerializedName("itbis3")
     val itbis3: java.math.BigDecimal? = null,
 
-    @Json(name = "additionalTaxes")
+    @SerializedName("additionalTaxes")
     val additionalTaxes: java.math.BigDecimal? = null,
 
-    @Json(name = "exemptAmount")
+    @SerializedName("exemptAmount")
     val exemptAmount: java.math.BigDecimal? = null,
 
-    @Json(name = "lines")
+    /* Number of line items included in this subtotal. */
+    @SerializedName("lines")
     val lines: kotlin.Int? = null
 
 ) {

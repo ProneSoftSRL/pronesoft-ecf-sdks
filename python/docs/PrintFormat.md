@@ -1,5 +1,6 @@
 # PrintFormat
 
+Printer/receipt format: - `A4`: Standard A4 paper - `thermal_80`: 80mm thermal printer - `thermal_58`: 58mm thermal printer 
 
 ## Enum
 

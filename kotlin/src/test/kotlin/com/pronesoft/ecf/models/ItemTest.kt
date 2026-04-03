@@ -28,25 +28,13 @@ import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.models.Item
 import com.pronesoft.ecf.models.BillingIndicator
-import com.pronesoft.ecf.models.DiscountDetail
 import com.pronesoft.ecf.models.ItemAdditionalTax
-import com.pronesoft.ecf.models.ItemAlternativeCurrency
-import com.pronesoft.ecf.models.ItemCode
-import com.pronesoft.ecf.models.ItemType
-import com.pronesoft.ecf.models.MiningInfo
 import com.pronesoft.ecf.models.Subquantity
-import com.pronesoft.ecf.models.SurchargeDetail
 
 class ItemTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Item
         //val modelInstance = Item()
-
-        // to test the property `billingIndicator`
-        should("test billingIndicator") {
-            // uncomment below to test the property
-            //modelInstance.billingIndicator shouldBe ("TODO")
-        }
 
         // to test the property `name`
         should("test name") {
@@ -60,19 +48,25 @@ class ItemTest : ShouldSpec() {
             //modelInstance.type shouldBe ("TODO")
         }
 
-        // to test the property `quantity` - Decimal como string para mayor precisión
+        // to test the property `billingIndicator`
+        should("test billingIndicator") {
+            // uncomment below to test the property
+            //modelInstance.billingIndicator shouldBe ("TODO")
+        }
+
+        // to test the property `quantity`
         should("test quantity") {
             // uncomment below to test the property
             //modelInstance.quantity shouldBe ("TODO")
         }
 
-        // to test the property `unitPrice` - Decimal como string
+        // to test the property `unitPrice`
         should("test unitPrice") {
             // uncomment below to test the property
             //modelInstance.unitPrice shouldBe ("TODO")
         }
 
-        // to test the property `amount` - Monto total del item
+        // to test the property `amount`
         should("test amount") {
             // uncomment below to test the property
             //modelInstance.amount shouldBe ("TODO")
@@ -84,112 +78,10 @@ class ItemTest : ShouldSpec() {
             //modelInstance.lineNumber shouldBe ("TODO")
         }
 
-        // to test the property `codes`
-        should("test codes") {
-            // uncomment below to test the property
-            //modelInstance.codes shouldBe ("TODO")
-        }
-
-        // to test the property `withholdingAgentIndicator` - 1: Retención, 2: Percepción
-        should("test withholdingAgentIndicator") {
-            // uncomment below to test the property
-            //modelInstance.withholdingAgentIndicator shouldBe ("TODO")
-        }
-
-        // to test the property `withheldITBISAmount`
-        should("test withheldITBISAmount") {
-            // uncomment below to test the property
-            //modelInstance.withheldITBISAmount shouldBe ("TODO")
-        }
-
-        // to test the property `withheldISRAmount`
-        should("test withheldISRAmount") {
-            // uncomment below to test the property
-            //modelInstance.withheldISRAmount shouldBe ("TODO")
-        }
-
-        // to test the property `description`
-        should("test description") {
-            // uncomment below to test the property
-            //modelInstance.description shouldBe ("TODO")
-        }
-
-        // to test the property `unitOfMeasure`
-        should("test unitOfMeasure") {
-            // uncomment below to test the property
-            //modelInstance.unitOfMeasure shouldBe ("TODO")
-        }
-
-        // to test the property `referenceQuantity` - Obligatorio si hay impuesto al alcohol (códigos 6-22)
-        should("test referenceQuantity") {
-            // uncomment below to test the property
-            //modelInstance.referenceQuantity shouldBe ("TODO")
-        }
-
-        // to test the property `referenceUnit` - Obligatorio si existe referenceQuantity
-        should("test referenceUnit") {
-            // uncomment below to test the property
-            //modelInstance.referenceUnit shouldBe ("TODO")
-        }
-
-        // to test the property `subquantities` - Obligatorio si hay impuesto al alcohol o tabaco
-        should("test subquantities") {
-            // uncomment below to test the property
-            //modelInstance.subquantities shouldBe ("TODO")
-        }
-
-        // to test the property `alcoholDegree` - Obligatorio si hay impuesto al alcohol
-        should("test alcoholDegree") {
-            // uncomment below to test the property
-            //modelInstance.alcoholDegree shouldBe ("TODO")
-        }
-
-        // to test the property `referenceUnitPrice` - PVP. Obligatorio para impuestos adValorem
-        should("test referenceUnitPrice") {
-            // uncomment below to test the property
-            //modelInstance.referenceUnitPrice shouldBe ("TODO")
-        }
-
-        // to test the property `manufacturingDate`
-        should("test manufacturingDate") {
-            // uncomment below to test the property
-            //modelInstance.manufacturingDate shouldBe ("TODO")
-        }
-
-        // to test the property `expirationDate`
-        should("test expirationDate") {
-            // uncomment below to test the property
-            //modelInstance.expirationDate shouldBe ("TODO")
-        }
-
-        // to test the property `miningInfo`
-        should("test miningInfo") {
-            // uncomment below to test the property
-            //modelInstance.miningInfo shouldBe ("TODO")
-        }
-
         // to test the property `discountAmount`
         should("test discountAmount") {
             // uncomment below to test the property
             //modelInstance.discountAmount shouldBe ("TODO")
-        }
-
-        // to test the property `discount`
-        should("test discount") {
-            // uncomment below to test the property
-            //modelInstance.discount shouldBe ("TODO")
-        }
-
-        // to test the property `surchargeAmount`
-        should("test surchargeAmount") {
-            // uncomment below to test the property
-            //modelInstance.surchargeAmount shouldBe ("TODO")
-        }
-
-        // to test the property `surcharge`
-        should("test surcharge") {
-            // uncomment below to test the property
-            //modelInstance.surcharge shouldBe ("TODO")
         }
 
         // to test the property `additionalTaxes`
@@ -198,10 +90,16 @@ class ItemTest : ShouldSpec() {
             //modelInstance.additionalTaxes shouldBe ("TODO")
         }
 
-        // to test the property `alternativeCurrency`
-        should("test alternativeCurrency") {
+        // to test the property `subquantities`
+        should("test subquantities") {
             // uncomment below to test the property
-            //modelInstance.alternativeCurrency shouldBe ("TODO")
+            //modelInstance.subquantities shouldBe ("TODO")
+        }
+
+        // to test the property `alcoholDegree`
+        should("test alcoholDegree") {
+            // uncomment below to test the property
+            //modelInstance.alcoholDegree shouldBe ("TODO")
         }
 
     }

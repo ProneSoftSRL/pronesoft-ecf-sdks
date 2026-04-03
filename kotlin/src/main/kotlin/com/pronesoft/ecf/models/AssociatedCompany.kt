@@ -25,11 +25,10 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.AssociatedCompanySubscription
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * A company or branch associated with the main tenant account.
  *
  * @param id 
  * @param name 
@@ -40,10 +39,10 @@ import com.squareup.moshi.JsonClass
  * @param country 
  * @param website 
  * @param logoPath 
- * @param type 
+ * @param type Whether this is the main account or an associated branch.
  * @param createdAt 
- * @param docsIssuedThisMonth 
- * @param purchasedDocsConsumedThisMonth 
+ * @param docsIssuedThisMonth Number of e-CF documents issued in the current month.
+ * @param purchasedDocsConsumedThisMonth Purchased document quota consumed this month.
  * @param ownerEmail 
  * @param subscription 
  */
@@ -51,62 +50,64 @@ import com.squareup.moshi.JsonClass
 
 data class AssociatedCompany (
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: java.util.UUID? = null,
 
-    @Json(name = "name")
+    @SerializedName("name")
     val name: kotlin.String? = null,
 
-    @Json(name = "rnc")
+    @SerializedName("rnc")
     val rnc: kotlin.String? = null,
 
-    @Json(name = "phone")
+    @SerializedName("phone")
     val phone: kotlin.String? = null,
 
-    @Json(name = "address")
+    @SerializedName("address")
     val address: kotlin.String? = null,
 
-    @Json(name = "city")
+    @SerializedName("city")
     val city: kotlin.String? = null,
 
-    @Json(name = "country")
+    @SerializedName("country")
     val country: kotlin.String? = null,
 
-    @Json(name = "website")
+    @SerializedName("website")
     val website: java.net.URI? = null,
 
-    @Json(name = "logoPath")
+    @SerializedName("logoPath")
     val logoPath: kotlin.String? = null,
 
-    @Json(name = "type")
+    /* Whether this is the main account or an associated branch. */
+    @SerializedName("type")
     val type: AssociatedCompany.Type? = null,
 
-    @Json(name = "createdAt")
+    @SerializedName("createdAt")
     val createdAt: java.time.OffsetDateTime? = null,
 
-    @Json(name = "docsIssuedThisMonth")
+    /* Number of e-CF documents issued in the current month. */
+    @SerializedName("docsIssuedThisMonth")
     val docsIssuedThisMonth: kotlin.Int? = null,
 
-    @Json(name = "purchasedDocsConsumedThisMonth")
+    /* Purchased document quota consumed this month. */
+    @SerializedName("purchasedDocsConsumedThisMonth")
     val purchasedDocsConsumedThisMonth: kotlin.Int? = null,
 
-    @Json(name = "ownerEmail")
+    @SerializedName("ownerEmail")
     val ownerEmail: kotlin.String? = null,
 
-    @Json(name = "subscription")
+    @SerializedName("subscription")
     val subscription: AssociatedCompanySubscription? = null
 
 ) {
 
     /**
-     * 
+     * Whether this is the main account or an associated branch.
      *
      * Values: MAIN,ASSOCIATED
      */
-    @JsonClass(generateAdapter = false)
     enum class Type(val value: kotlin.String) {
-        @Json(name = "MAIN") MAIN("MAIN"),
-        @Json(name = "ASSOCIATED") ASSOCIATED("ASSOCIATED");
+        @SerializedName(value = "MAIN") MAIN("MAIN"),
+        @SerializedName(value = "ASSOCIATED") ASSOCIATED("ASSOCIATED");
     }
 
 }

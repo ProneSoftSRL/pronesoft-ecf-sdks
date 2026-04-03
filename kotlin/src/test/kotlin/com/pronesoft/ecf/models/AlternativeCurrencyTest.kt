@@ -45,18 +45,6 @@ class AlternativeCurrencyTest : ShouldSpec() {
             //modelInstance.exchangeRate shouldBe ("TODO")
         }
 
-        // to test the property `taxableAmount`
-        should("test taxableAmount") {
-            // uncomment below to test the property
-            //modelInstance.taxableAmount shouldBe ("TODO")
-        }
-
-        // to test the property `totalITBIS`
-        should("test totalITBIS") {
-            // uncomment below to test the property
-            //modelInstance.totalITBIS shouldBe ("TODO")
-        }
-
         // to test the property `totalAmount`
         should("test totalAmount") {
             // uncomment below to test the property

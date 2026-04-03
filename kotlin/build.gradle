@@ -1,4 +1,4 @@
-group 'org.openapitools'
+group 'com.pronesoft'
 version '0.0.1'
 
 wrapper {
@@ -54,9 +54,7 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.squareup.moshi:moshi-kotlin:1.15.2"
-    implementation "com.squareup.moshi:moshi-adapters:1.15.2"
+    implementation "com.google.code.gson:gson:2.13.2"
     implementation "com.squareup.okhttp3:okhttp:5.1.0"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
@@ -68,8 +66,8 @@ java {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'org.openapitools'
-            artifactId = 'kotlin-client'
+            groupId = 'com.pronesoft'
+            artifactId = 'ecf-sdk'
             version = '0.0.1'
             from components.java
         }

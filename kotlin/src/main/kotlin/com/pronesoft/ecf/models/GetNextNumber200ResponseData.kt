@@ -24,23 +24,24 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * 
  *
- * @param nextNumber 
- * @param remainingNumbers 
+ * @param nextNumber The next available e-NCF number (13 characters).
+ * @param remainingNumbers How many numbers are left in the current sequence.
  */
 
 
 data class GetNextNumber200ResponseData (
 
-    @Json(name = "nextNumber")
+    /* The next available e-NCF number (13 characters). */
+    @SerializedName("nextNumber")
     val nextNumber: kotlin.String? = null,
 
-    @Json(name = "remainingNumbers")
+    /* How many numbers are left in the current sequence. */
+    @SerializedName("remainingNumbers")
     val remainingNumbers: kotlin.Int? = null
 
 ) {

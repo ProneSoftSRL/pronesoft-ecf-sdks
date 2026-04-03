@@ -1,7 +1,7 @@
 """
-    eCF-Pronesoft Master Integration API
+    eCF-Pronesoft Integration API
 
-    **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
     The version of the OpenAPI document: 0.0.1
     Contact: contacto@pronesoft.com
@@ -16,7 +16,9 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from pydantic import Field
 from typing import Optional
+from typing_extensions import Annotated
 from uuid import UUID
 from pronesoft_ecf.models.create_tax_sequence_request import CreateTaxSequenceRequest
 from pronesoft_ecf.models.environment import Environment
@@ -45,7 +47,7 @@ class TaxSequencesApi:
     @validate_call
     def create_tax_sequence(
         self,
-        x_tenant_id: UUID,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
         create_tax_sequence_request: CreateTaxSequenceRequest,
         _request_timeout: Union[
             None,
@@ -62,8 +64,9 @@ class TaxSequencesApi:
     ) -> None:
         """Create new tax sequence
 
+        Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
         :param create_tax_sequence_request: (required)
         :type create_tax_sequence_request: CreateTaxSequenceRequest
@@ -100,6 +103,8 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': None,
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,7 +120,7 @@ class TaxSequencesApi:
     @validate_call
     def create_tax_sequence_with_http_info(
         self,
-        x_tenant_id: UUID,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
         create_tax_sequence_request: CreateTaxSequenceRequest,
         _request_timeout: Union[
             None,
@@ -132,8 +137,9 @@ class TaxSequencesApi:
     ) -> ApiResponse[None]:
         """Create new tax sequence
 
+        Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
         :param create_tax_sequence_request: (required)
         :type create_tax_sequence_request: CreateTaxSequenceRequest
@@ -170,6 +176,8 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': None,
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -185,7 +193,7 @@ class TaxSequencesApi:
     @validate_call
     def create_tax_sequence_without_preload_content(
         self,
-        x_tenant_id: UUID,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
         create_tax_sequence_request: CreateTaxSequenceRequest,
         _request_timeout: Union[
             None,
@@ -202,8 +210,9 @@ class TaxSequencesApi:
     ) -> RESTResponseType:
         """Create new tax sequence
 
+        Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
         :param create_tax_sequence_request: (required)
         :type create_tax_sequence_request: CreateTaxSequenceRequest
@@ -240,6 +249,8 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': None,
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -283,6 +294,13 @@ class TaxSequencesApi:
             _body_params = create_tax_sequence_request
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -300,7 +318,8 @@ class TaxSequencesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2'
+            'oauth2', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -324,9 +343,9 @@ class TaxSequencesApi:
     @validate_call
     def get_next_number(
         self,
-        x_tenant_id: UUID,
-        type: InvoiceType,
-        environment: Environment,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        type: Annotated[InvoiceType, Field(description="Invoice type code (e.g. \"31\" for Tax Credit Invoice).")],
+        environment: Annotated[Environment, Field(description="Target environment for the sequence.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -340,14 +359,15 @@ class TaxSequencesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> GetNextNumber200Response:
-        """Get next available number
+        """Get next available fiscal number
 
+        Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param type: (required)
+        :param type: Invoice type code (e.g. \"31\" for Tax Credit Invoice). (required)
         :type type: InvoiceType
-        :param environment: (required)
+        :param environment: Target environment for the sequence. (required)
         :type environment: Environment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -383,6 +403,7 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GetNextNumber200Response",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -398,9 +419,9 @@ class TaxSequencesApi:
     @validate_call
     def get_next_number_with_http_info(
         self,
-        x_tenant_id: UUID,
-        type: InvoiceType,
-        environment: Environment,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        type: Annotated[InvoiceType, Field(description="Invoice type code (e.g. \"31\" for Tax Credit Invoice).")],
+        environment: Annotated[Environment, Field(description="Target environment for the sequence.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -414,14 +435,15 @@ class TaxSequencesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[GetNextNumber200Response]:
-        """Get next available number
+        """Get next available fiscal number
 
+        Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param type: (required)
+        :param type: Invoice type code (e.g. \"31\" for Tax Credit Invoice). (required)
         :type type: InvoiceType
-        :param environment: (required)
+        :param environment: Target environment for the sequence. (required)
         :type environment: Environment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -457,6 +479,7 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GetNextNumber200Response",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -472,9 +495,9 @@ class TaxSequencesApi:
     @validate_call
     def get_next_number_without_preload_content(
         self,
-        x_tenant_id: UUID,
-        type: InvoiceType,
-        environment: Environment,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        type: Annotated[InvoiceType, Field(description="Invoice type code (e.g. \"31\" for Tax Credit Invoice).")],
+        environment: Annotated[Environment, Field(description="Target environment for the sequence.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -488,14 +511,15 @@ class TaxSequencesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get next available number
+        """Get next available fiscal number
 
+        Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param type: (required)
+        :param type: Invoice type code (e.g. \"31\" for Tax Credit Invoice). (required)
         :type type: InvoiceType
-        :param environment: (required)
+        :param environment: Target environment for the sequence. (required)
         :type environment: Environment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -531,6 +555,7 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GetNextNumber200Response",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -592,7 +617,8 @@ class TaxSequencesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2'
+            'oauth2', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -616,8 +642,8 @@ class TaxSequencesApi:
     @validate_call
     def list_tax_sequences(
         self,
-        x_tenant_id: UUID,
-        type: Optional[InvoiceType] = None,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        type: Annotated[Optional[InvoiceType], Field(description="Filter by invoice type (e.g. \"31\" for Tax Credit).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -633,10 +659,11 @@ class TaxSequencesApi:
     ) -> ListTaxSequences200Response:
         """List tax sequences
 
+        Returns all fiscal number sequences registered for the tenant.
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param type:
+        :param type: Filter by invoice type (e.g. \"31\" for Tax Credit).
         :type type: InvoiceType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -671,6 +698,7 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ListTaxSequences200Response",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -686,8 +714,8 @@ class TaxSequencesApi:
     @validate_call
     def list_tax_sequences_with_http_info(
         self,
-        x_tenant_id: UUID,
-        type: Optional[InvoiceType] = None,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        type: Annotated[Optional[InvoiceType], Field(description="Filter by invoice type (e.g. \"31\" for Tax Credit).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -703,10 +731,11 @@ class TaxSequencesApi:
     ) -> ApiResponse[ListTaxSequences200Response]:
         """List tax sequences
 
+        Returns all fiscal number sequences registered for the tenant.
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param type:
+        :param type: Filter by invoice type (e.g. \"31\" for Tax Credit).
         :type type: InvoiceType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -741,6 +770,7 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ListTaxSequences200Response",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -756,8 +786,8 @@ class TaxSequencesApi:
     @validate_call
     def list_tax_sequences_without_preload_content(
         self,
-        x_tenant_id: UUID,
-        type: Optional[InvoiceType] = None,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        type: Annotated[Optional[InvoiceType], Field(description="Filter by invoice type (e.g. \"31\" for Tax Credit).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -773,10 +803,11 @@ class TaxSequencesApi:
     ) -> RESTResponseType:
         """List tax sequences
 
+        Returns all fiscal number sequences registered for the tenant.
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param type:
+        :param type: Filter by invoice type (e.g. \"31\" for Tax Credit).
         :type type: InvoiceType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -811,6 +842,7 @@ class TaxSequencesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ListTaxSequences200Response",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -867,7 +899,8 @@ class TaxSequencesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2'
+            'oauth2', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

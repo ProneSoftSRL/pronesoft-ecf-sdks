@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Number** | **int32** |  | 
-**Amount** | **float32** |  | 
+**Number** | **int32** | Page or section number. | 
+**Amount** | **float32** | Subtotal amount for this section. | 
 **Description** | Pointer to **string** |  | [optional] 
 **TaxableAmount** | Pointer to **float32** |  | [optional] 
 **TaxableAmount1** | Pointer to **float32** |  | [optional] 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **Itbis3** | Pointer to **float32** |  | [optional] 
 **AdditionalTaxes** | Pointer to **float32** |  | [optional] 
 **ExemptAmount** | Pointer to **float32** |  | [optional] 
-**Lines** | Pointer to **int32** |  | [optional] 
+**Lines** | Pointer to **int32** | Number of line items included in this subtotal. | [optional] 
 
 ## Methods
 

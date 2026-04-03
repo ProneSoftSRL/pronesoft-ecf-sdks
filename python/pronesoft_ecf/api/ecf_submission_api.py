@@ -1,7 +1,7 @@
 """
-    eCF-Pronesoft Master Integration API
+    eCF-Pronesoft Integration API
 
-    **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
     The version of the OpenAPI document: 0.0.1
     Contact: contacto@pronesoft.com
@@ -16,6 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from pydantic import Field
+from typing_extensions import Annotated
 from uuid import UUID
 from pronesoft_ecf.models.ecf_submission_response import EcfSubmissionResponse
 from pronesoft_ecf.models.electronic_document import ElectronicDocument
@@ -42,8 +44,8 @@ class ECFSubmissionApi:
     @validate_call
     def submit_ecf(
         self,
-        x_tenant_id: UUID,
-        environment: Environment,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        environment: Annotated[Environment, Field(description="Target submission environment.")],
         electronic_document: ElectronicDocument,
         _request_timeout: Union[
             None,
@@ -58,12 +60,13 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EcfSubmissionResponse:
-        """Submit e-CF to platform
+        """Submit e-CF document to DGII
 
+        Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the `ElectronicDocument` payload. 2. Call this endpoint with the target `environment` in the path. 3. Receive a `documentId` and `trackId` in the response. 4. Listen for the `document.status_changed` webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | `TesteCF` | Functional tests (no DGII interaction) | | `CerteCF` | DGII certification environment | | `eCF` | Production — real documents | 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param environment: (required)
+        :param environment: Target submission environment. (required)
         :type environment: Environment
         :param electronic_document: (required)
         :type electronic_document: ElectronicDocument
@@ -102,6 +105,7 @@ class ECFSubmissionApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EcfSubmissionResponse",
             '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -117,8 +121,8 @@ class ECFSubmissionApi:
     @validate_call
     def submit_ecf_with_http_info(
         self,
-        x_tenant_id: UUID,
-        environment: Environment,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        environment: Annotated[Environment, Field(description="Target submission environment.")],
         electronic_document: ElectronicDocument,
         _request_timeout: Union[
             None,
@@ -133,12 +137,13 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EcfSubmissionResponse]:
-        """Submit e-CF to platform
+        """Submit e-CF document to DGII
 
+        Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the `ElectronicDocument` payload. 2. Call this endpoint with the target `environment` in the path. 3. Receive a `documentId` and `trackId` in the response. 4. Listen for the `document.status_changed` webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | `TesteCF` | Functional tests (no DGII interaction) | | `CerteCF` | DGII certification environment | | `eCF` | Production — real documents | 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param environment: (required)
+        :param environment: Target submission environment. (required)
         :type environment: Environment
         :param electronic_document: (required)
         :type electronic_document: ElectronicDocument
@@ -177,6 +182,7 @@ class ECFSubmissionApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EcfSubmissionResponse",
             '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -192,8 +198,8 @@ class ECFSubmissionApi:
     @validate_call
     def submit_ecf_without_preload_content(
         self,
-        x_tenant_id: UUID,
-        environment: Environment,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        environment: Annotated[Environment, Field(description="Target submission environment.")],
         electronic_document: ElectronicDocument,
         _request_timeout: Union[
             None,
@@ -208,12 +214,13 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Submit e-CF to platform
+        """Submit e-CF document to DGII
 
+        Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the `ElectronicDocument` payload. 2. Call this endpoint with the target `environment` in the path. 3. Receive a `documentId` and `trackId` in the response. 4. Listen for the `document.status_changed` webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | `TesteCF` | Functional tests (no DGII interaction) | | `CerteCF` | DGII certification environment | | `eCF` | Production — real documents | 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param environment: (required)
+        :param environment: Target submission environment. (required)
         :type environment: Environment
         :param electronic_document: (required)
         :type electronic_document: ElectronicDocument
@@ -252,6 +259,7 @@ class ECFSubmissionApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EcfSubmissionResponse",
             '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -322,7 +330,8 @@ class ECFSubmissionApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2'
+            'oauth2', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

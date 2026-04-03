@@ -10,12 +10,15 @@ import Foundation
 import AnyCodable
 #endif
 
+extension PronesoftEcfAPI {
+
+
 open class TaxSequencesAPI {
 
     /**
      Create new tax sequence
      
-     - parameter xTenantId: (header)  
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
      - parameter createTaxSequenceRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -35,10 +38,14 @@ open class TaxSequencesAPI {
     /**
      Create new tax sequence
      - POST /tax-sequences
+     - Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter xTenantId: (header)  
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
      - parameter createTaxSequenceRequest: (body)  
      - returns: RequestBuilder<Void> 
      */
@@ -62,11 +69,11 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Get next available number
+     Get next available fiscal number
      
-     - parameter xTenantId: (header)  
-     - parameter type: (query)  
-     - parameter environment: (query)  
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter type: (query) Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). 
+     - parameter environment: (query) Target environment for the sequence. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -83,14 +90,18 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Get next available number
+     Get next available fiscal number
      - GET /tax-sequences/next
+     - Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter xTenantId: (header)  
-     - parameter type: (query)  
-     - parameter environment: (query)  
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter type: (query) Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). 
+     - parameter environment: (query) Target environment for the sequence. 
      - returns: RequestBuilder<GetNextNumber200Response> 
      */
     open class func getNextNumberWithRequestBuilder(xTenantId: UUID, type: InvoiceType, environment: Environment) -> RequestBuilder<GetNextNumber200Response> {
@@ -118,8 +129,8 @@ open class TaxSequencesAPI {
     /**
      List tax sequences
      
-     - parameter xTenantId: (header)  
-     - parameter type: (query)  (optional)
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter type: (query) Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -138,11 +149,15 @@ open class TaxSequencesAPI {
     /**
      List tax sequences
      - GET /tax-sequences
+     - Returns all fiscal number sequences registered for the tenant.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter xTenantId: (header)  
-     - parameter type: (query)  (optional)
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter type: (query) Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
      - returns: RequestBuilder<ListTaxSequences200Response> 
      */
     open class func listTaxSequencesWithRequestBuilder(xTenantId: UUID, type: InvoiceType? = nil) -> RequestBuilder<ListTaxSequences200Response> {
@@ -165,4 +180,5 @@ open class TaxSequencesAPI {
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
+}
 }

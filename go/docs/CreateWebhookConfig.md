@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Url** | **string** |  | 
-**EventTypes** | [**[]WebhookEventType**](WebhookEventType.md) |  | 
-**Description** | Pointer to **string** |  | [optional] 
-**Secret** | Pointer to **string** |  | [optional] 
+**Url** | **string** | Your HTTPS endpoint that will receive POST notifications. | 
+**EventTypes** | [**[]WebhookEventType**](WebhookEventType.md) | List of events to subscribe to. | 
+**Description** | Pointer to **string** | Optional label for this webhook (for your reference). | [optional] 
+**Secret** | Pointer to **string** | Optional HMAC signing secret (min 16 characters). Pronesoft will sign payloads so you can verify they are authentic.  | [optional] 
 
 ## Methods
 

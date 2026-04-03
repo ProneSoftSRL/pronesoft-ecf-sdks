@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.DiscountOrSurcharge")
+public typealias DiscountOrSurcharge = PronesoftEcfAPI.DiscountOrSurcharge
+
+extension PronesoftEcfAPI {
+
+/** A document-level discount or surcharge. */
 public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
 
     public enum ModelType: String, Codable, CaseIterable {
@@ -20,12 +26,19 @@ public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
         case dollar = "$"
         case percent = "%"
     }
+    /** Reference line number this discount/surcharge applies to. */
     public var lineNumber: Int
+    /** - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo)  */
     public var type: ModelType
+    /** Whether the amount is a fixed value (`$`) or a percentage (`%`). */
     public var valueType: ValueType
+    /** Discount or surcharge amount. */
     public var amount: Double
+    /** Description of the discount or surcharge. */
     public var description: String?
+    /** Percentage value (when valueType is \"%\"). */
     public var percentageValue: Double?
+    /** Equivalent amount in the alternative currency. */
     public var alternativeCurrencyAmount: Double?
     public var billingIndicator: BillingIndicator?
 
@@ -66,3 +79,4 @@ public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

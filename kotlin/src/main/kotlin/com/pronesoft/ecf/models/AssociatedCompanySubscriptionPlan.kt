@@ -24,23 +24,23 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * 
  *
  * @param name 
- * @param maxDocsPerMonth 
+ * @param maxDocsPerMonth Maximum documents allowed per month on this plan.
  */
 
 
 data class AssociatedCompanySubscriptionPlan (
 
-    @Json(name = "name")
+    @SerializedName("name")
     val name: kotlin.String? = null,
 
-    @Json(name = "maxDocsPerMonth")
+    /* Maximum documents allowed per month on this plan. */
+    @SerializedName("maxDocsPerMonth")
     val maxDocsPerMonth: kotlin.Int? = null
 
 ) {

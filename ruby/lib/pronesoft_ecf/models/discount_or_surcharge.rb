@@ -1,7 +1,7 @@
 =begin
-#eCF-Pronesoft Master Integration API
+#eCF-Pronesoft Integration API
 
-#**Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
 The version of the OpenAPI document: 0.0.1
 Contact: contacto@pronesoft.com
@@ -14,19 +14,27 @@ require 'date'
 require 'time'
 
 module PronesoftEcf
+  # A document-level discount or surcharge.
   class DiscountOrSurcharge < ApiModelBase
+    # Reference line number this discount/surcharge applies to.
     attr_accessor :line_number
 
+    # - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo) 
     attr_accessor :type
 
+    # Whether the amount is a fixed value (`$`) or a percentage (`%`).
     attr_accessor :value_type
 
+    # Discount or surcharge amount.
     attr_accessor :amount
 
+    # Description of the discount or surcharge.
     attr_accessor :description
 
+    # Percentage value (when valueType is \"%\").
     attr_accessor :percentage_value
 
+    # Equivalent amount in the alternative currency.
     attr_accessor :alternative_currency_amount
 
     attr_accessor :billing_indicator

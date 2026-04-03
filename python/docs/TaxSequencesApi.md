@@ -5,7 +5,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence
-[**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available number
+[**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number
 [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences
 
 
@@ -14,9 +14,14 @@ Method | HTTP request | Description
 
 Create new tax sequence
 
+Registers a new block of fiscal numbers for a given invoice type.
+The `from` and `to` values define the numeric range of the sequence.
+
+
 ### Example
 
 * OAuth Authentication (oauth2):
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -37,12 +42,17 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = pronesoft_ecf.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
-    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
-    create_tax_sequence_request = pronesoft_ecf.CreateTaxSequenceRequest() # CreateTaxSequenceRequest | 
+    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    create_tax_sequence_request = {"type":"31","from":1,"to":500} # CreateTaxSequenceRequest | 
 
     try:
         # Create new tax sequence
@@ -58,7 +68,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **x_tenant_id** | **UUID**|  | 
+ **x_tenant_id** | **UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
  **create_tax_sequence_request** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | 
 
 ### Return type
@@ -67,29 +77,37 @@ void (empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Sequence created |  -  |
+**201** | Sequence created successfully |  -  |
+**400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_next_number**
 > GetNextNumber200Response get_next_number(x_tenant_id, type, environment)
 
-Get next available number
+Get next available fiscal number
+
+Returns the next available e-NCF number for a given invoice type
+and environment. Use this number as the `invoiceNumber` when
+submitting a document.
+
 
 ### Example
 
 * OAuth Authentication (oauth2):
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -112,16 +130,21 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = pronesoft_ecf.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
-    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
-    type = pronesoft_ecf.InvoiceType() # InvoiceType | 
-    environment = pronesoft_ecf.Environment() # Environment | 
+    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    type = pronesoft_ecf.InvoiceType() # InvoiceType | Invoice type code (e.g. \"31\" for Tax Credit Invoice).
+    environment = pronesoft_ecf.Environment() # Environment | Target environment for the sequence.
 
     try:
-        # Get next available number
+        # Get next available fiscal number
         api_response = api_instance.get_next_number(x_tenant_id, type, environment)
         print("The response of TaxSequencesApi->get_next_number:\n")
         pprint(api_response)
@@ -136,9 +159,9 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **x_tenant_id** | **UUID**|  | 
- **type** | [**InvoiceType**](.md)|  | 
- **environment** | [**Environment**](.md)|  | 
+ **x_tenant_id** | **UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
+ **type** | [**InvoiceType**](.md)| Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). | 
+ **environment** | [**Environment**](.md)| Target environment for the sequence. | 
 
 ### Return type
 
@@ -146,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -157,7 +180,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Next e-NCF number |  -  |
+**200** | Next available e-NCF number |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -166,9 +190,12 @@ Name | Type | Description  | Notes
 
 List tax sequences
 
+Returns all fiscal number sequences registered for the tenant.
+
 ### Example
 
 * OAuth Authentication (oauth2):
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -190,12 +217,17 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = pronesoft_ecf.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
-    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
-    type = pronesoft_ecf.InvoiceType() # InvoiceType |  (optional)
+    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    type = pronesoft_ecf.InvoiceType() # InvoiceType | Filter by invoice type (e.g. \"31\" for Tax Credit). (optional)
 
     try:
         # List tax sequences
@@ -213,8 +245,8 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **x_tenant_id** | **UUID**|  | 
- **type** | [**InvoiceType**](.md)|  | [optional] 
+ **x_tenant_id** | **UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
+ **type** | [**InvoiceType**](.md)| Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). | [optional] 
 
 ### Return type
 
@@ -222,7 +254,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -233,7 +265,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | List of sequences |  -  |
+**200** | List of tax sequences |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

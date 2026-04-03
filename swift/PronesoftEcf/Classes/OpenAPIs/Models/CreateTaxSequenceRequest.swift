@@ -10,10 +10,18 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.CreateTaxSequenceRequest")
+public typealias CreateTaxSequenceRequest = PronesoftEcfAPI.CreateTaxSequenceRequest
+
+extension PronesoftEcfAPI {
+
+/** Request to register a new block of fiscal numbers. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range (inclusive).  */
 public struct CreateTaxSequenceRequest: Codable, JSONEncodable, Hashable {
 
     public var type: InvoiceType
+    /** First number in the sequence range. */
     public var from: Int
+    /** Last number in the sequence range. */
     public var to: Int
 
     public init(type: InvoiceType, from: Int, to: Int) {
@@ -38,3 +46,4 @@ public struct CreateTaxSequenceRequest: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

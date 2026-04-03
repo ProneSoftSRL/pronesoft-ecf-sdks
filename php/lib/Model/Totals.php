@@ -11,9 +11,9 @@
  */
 
 /**
- * eCF-Pronesoft Master Integration API
+ * eCF-Pronesoft Integration API
  *
- * **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows.
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) |
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: contacto@pronesoft.com
@@ -36,6 +36,7 @@ use \PronesoftEcf\ObjectSerializer;
  * Totals Class Doc Comment
  *
  * @category Class
+ * @description Document totals. &#x60;totalAmount&#x60; is required. Provide ITBIS breakdowns by rate when applicable.
  * @package  PronesoftEcf
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -471,7 +472,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets taxable_amount
      *
-     * @param float|null $taxable_amount taxable_amount
+     * @param float|null $taxable_amount Total taxable base amount (all ITBIS rates combined).
      *
      * @return self
      */
@@ -498,7 +499,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets taxable_amount1
      *
-     * @param float|null $taxable_amount1 taxable_amount1
+     * @param float|null $taxable_amount1 Taxable base for 18% ITBIS rate.
      *
      * @return self
      */
@@ -525,7 +526,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets taxable_amount2
      *
-     * @param float|null $taxable_amount2 taxable_amount2
+     * @param float|null $taxable_amount2 Taxable base for 16% ITBIS rate.
      *
      * @return self
      */
@@ -552,7 +553,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets taxable_amount3
      *
-     * @param float|null $taxable_amount3 taxable_amount3
+     * @param float|null $taxable_amount3 Taxable base for 0% ITBIS rate.
      *
      * @return self
      */
@@ -579,7 +580,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets exempt_amount
      *
-     * @param float|null $exempt_amount exempt_amount
+     * @param float|null $exempt_amount Total amount exempt from ITBIS.
      *
      * @return self
      */
@@ -606,7 +607,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets itbis_rate1
      *
-     * @param float|null $itbis_rate1 itbis_rate1
+     * @param float|null $itbis_rate1 ITBIS rate 1 (typically 0.18).
      *
      * @return self
      */
@@ -633,7 +634,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets itbis_rate2
      *
-     * @param float|null $itbis_rate2 itbis_rate2
+     * @param float|null $itbis_rate2 ITBIS rate 2 (typically 0.16).
      *
      * @return self
      */
@@ -660,7 +661,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets itbis_rate3
      *
-     * @param float|null $itbis_rate3 itbis_rate3
+     * @param float|null $itbis_rate3 ITBIS rate 3 (typically 0.00).
      *
      * @return self
      */
@@ -687,7 +688,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets total_itbis
      *
-     * @param float|null $total_itbis total_itbis
+     * @param float|null $total_itbis Total ITBIS tax (all rates combined).
      *
      * @return self
      */
@@ -714,7 +715,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets itbis1
      *
-     * @param float|null $itbis1 itbis1
+     * @param float|null $itbis1 ITBIS amount at rate 1.
      *
      * @return self
      */
@@ -741,7 +742,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets itbis2
      *
-     * @param float|null $itbis2 itbis2
+     * @param float|null $itbis2 ITBIS amount at rate 2.
      *
      * @return self
      */
@@ -768,7 +769,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets itbis3
      *
-     * @param float|null $itbis3 itbis3
+     * @param float|null $itbis3 ITBIS amount at rate 3.
      *
      * @return self
      */
@@ -795,7 +796,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets additional_tax_amount
      *
-     * @param float|null $additional_tax_amount additional_tax_amount
+     * @param float|null $additional_tax_amount Total of all additional taxes (ISC, IECS, etc.).
      *
      * @return self
      */
@@ -822,7 +823,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets additional_taxes
      *
-     * @param \PronesoftEcf\Model\ItemAdditionalTax[]|null $additional_taxes additional_taxes
+     * @param \PronesoftEcf\Model\ItemAdditionalTax[]|null $additional_taxes Breakdown of additional taxes at document level.
      *
      * @return self
      */
@@ -853,7 +854,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets total_amount
      *
-     * @param float $total_amount total_amount
+     * @param float $total_amount Grand total of the document (required).
      *
      * @return self
      */
@@ -880,7 +881,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets non_billable_amount
      *
-     * @param float|null $non_billable_amount non_billable_amount
+     * @param float|null $non_billable_amount Amount not subject to billing.
      *
      * @return self
      */
@@ -907,7 +908,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets period_amount
      *
-     * @param float|null $period_amount period_amount
+     * @param float|null $period_amount Amount for the current billing period.
      *
      * @return self
      */
@@ -934,7 +935,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets previous_balance
      *
-     * @param float|null $previous_balance previous_balance
+     * @param float|null $previous_balance Previous balance (for billing statements).
      *
      * @return self
      */
@@ -961,7 +962,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets advance_payment_amount
      *
-     * @param float|null $advance_payment_amount advance_payment_amount
+     * @param float|null $advance_payment_amount Advance payment amount already received.
      *
      * @return self
      */
@@ -988,7 +989,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets amount_to_pay
      *
-     * @param float|null $amount_to_pay amount_to_pay
+     * @param float|null $amount_to_pay Net amount due after advance payments and previous balance.
      *
      * @return self
      */
@@ -1015,7 +1016,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets total_withheld_itbis
      *
-     * @param float|null $total_withheld_itbis total_withheld_itbis
+     * @param float|null $total_withheld_itbis Total ITBIS withheld at source.
      *
      * @return self
      */
@@ -1042,7 +1043,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets total_income_tax_withholding
      *
-     * @param float|null $total_income_tax_withholding total_income_tax_withholding
+     * @param float|null $total_income_tax_withholding Total income tax (ISR) withheld at source.
      *
      * @return self
      */
@@ -1069,7 +1070,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets total_itbis_perception
      *
-     * @param float|null $total_itbis_perception total_itbis_perception
+     * @param float|null $total_itbis_perception Total ITBIS perception collected.
      *
      * @return self
      */
@@ -1096,7 +1097,7 @@ class Totals implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets total_isr_perception
      *
-     * @param float|null $total_isr_perception total_isr_perception
+     * @param float|null $total_isr_perception Total ISR perception collected.
      *
      * @return self
      */

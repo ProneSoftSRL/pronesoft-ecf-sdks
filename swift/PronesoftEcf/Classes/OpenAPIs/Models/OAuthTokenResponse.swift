@@ -10,10 +10,19 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.OAuthTokenResponse")
+public typealias OAuthTokenResponse = PronesoftEcfAPI.OAuthTokenResponse
+
+extension PronesoftEcfAPI {
+
+/** Successful token response. Use &#x60;accessToken&#x60; as a Bearer token in the &#x60;Authorization&#x60; header of all subsequent requests.  */
 public struct OAuthTokenResponse: Codable, JSONEncodable, Hashable {
 
+    /** JWT Bearer token. Pass as Authorization: Bearer <accessToken>. */
     public var accessToken: String?
+    /** Always \"Bearer\". */
     public var tokenType: String?
+    /** Token lifetime in seconds. Request a new token when it expires. */
     public var expiresIn: Int?
 
     public init(accessToken: String? = nil, tokenType: String? = nil, expiresIn: Int? = nil) {
@@ -38,3 +47,4 @@ public struct OAuthTokenResponse: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

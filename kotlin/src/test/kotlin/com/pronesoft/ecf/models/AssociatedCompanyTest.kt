@@ -27,6 +27,7 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.models.AssociatedCompany
+import com.pronesoft.ecf.models.AssociatedCompanySubscription
 
 class AssociatedCompanyTest : ShouldSpec() {
     init {
@@ -49,6 +50,78 @@ class AssociatedCompanyTest : ShouldSpec() {
         should("test rnc") {
             // uncomment below to test the property
             //modelInstance.rnc shouldBe ("TODO")
+        }
+
+        // to test the property `phone`
+        should("test phone") {
+            // uncomment below to test the property
+            //modelInstance.phone shouldBe ("TODO")
+        }
+
+        // to test the property `address`
+        should("test address") {
+            // uncomment below to test the property
+            //modelInstance.address shouldBe ("TODO")
+        }
+
+        // to test the property `city`
+        should("test city") {
+            // uncomment below to test the property
+            //modelInstance.city shouldBe ("TODO")
+        }
+
+        // to test the property `country`
+        should("test country") {
+            // uncomment below to test the property
+            //modelInstance.country shouldBe ("TODO")
+        }
+
+        // to test the property `website`
+        should("test website") {
+            // uncomment below to test the property
+            //modelInstance.website shouldBe ("TODO")
+        }
+
+        // to test the property `logoPath`
+        should("test logoPath") {
+            // uncomment below to test the property
+            //modelInstance.logoPath shouldBe ("TODO")
+        }
+
+        // to test the property `type`
+        should("test type") {
+            // uncomment below to test the property
+            //modelInstance.type shouldBe ("TODO")
+        }
+
+        // to test the property `createdAt`
+        should("test createdAt") {
+            // uncomment below to test the property
+            //modelInstance.createdAt shouldBe ("TODO")
+        }
+
+        // to test the property `docsIssuedThisMonth`
+        should("test docsIssuedThisMonth") {
+            // uncomment below to test the property
+            //modelInstance.docsIssuedThisMonth shouldBe ("TODO")
+        }
+
+        // to test the property `purchasedDocsConsumedThisMonth`
+        should("test purchasedDocsConsumedThisMonth") {
+            // uncomment below to test the property
+            //modelInstance.purchasedDocsConsumedThisMonth shouldBe ("TODO")
+        }
+
+        // to test the property `ownerEmail`
+        should("test ownerEmail") {
+            // uncomment below to test the property
+            //modelInstance.ownerEmail shouldBe ("TODO")
+        }
+
+        // to test the property `subscription`
+        should("test subscription") {
+            // uncomment below to test the property
+            //modelInstance.subscription shouldBe ("TODO")
         }
 
     }

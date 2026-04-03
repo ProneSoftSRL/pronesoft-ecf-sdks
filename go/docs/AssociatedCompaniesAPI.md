@@ -5,7 +5,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateAssociatedCompany**](AssociatedCompaniesAPI.md#CreateAssociatedCompany) | **Post** /associated-companies | Create new associated company
-[**ListAssociatedCompanies**](AssociatedCompaniesAPI.md#ListAssociatedCompanies) | **Get** /associated-companies | List associated branches/companies
+[**ListAssociatedCompanies**](AssociatedCompaniesAPI.md#ListAssociatedCompanies) | **Get** /associated-companies | List associated companies / branches
 
 
 
@@ -14,6 +14,8 @@ Method | HTTP request | Description
 > CreateAssociatedCompany201Response CreateAssociatedCompany(ctx).XTenantId(xTenantId).Email(email).Password(password).Name(name).Rnc(rnc).Phone(phone).Address(address).City(city).Country(country).FirstName(firstName).LastName(lastName).JobTitle(jobTitle).Website(website).Category(category).MonthlySalesRange(monthlySalesRange).PrinterType(printerType).Logo(logo).Execute()
 
 Create new associated company
+
+
 
 ### Example
 
@@ -24,15 +26,15 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
 func main() {
-	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
-	email := "email_example" // string | 
-	password := "password_example" // string | 
-	name := "name_example" // string | 
-	rnc := "rnc_example" // string | 
+	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+	email := "email_example" // string | Owner's email address (used for login).
+	password := "password_example" // string | Initial password for the new account (min 8 characters).
+	name := "name_example" // string | Legal business name.
+	rnc := "rnc_example" // string | Company RNC (9 digits) or personal cedula (11 digits).
 	phone := "phone_example" // string | 
 	address := "address_example" // string | 
 	city := "city_example" // string | 
@@ -41,10 +43,10 @@ func main() {
 	lastName := "lastName_example" // string |  (optional)
 	jobTitle := "jobTitle_example" // string |  (optional)
 	website := "website_example" // string |  (optional)
-	category := "category_example" // string |  (optional)
-	monthlySalesRange := "monthlySalesRange_example" // string |  (optional)
+	category := "category_example" // string | Business category or industry. (optional)
+	monthlySalesRange := "monthlySalesRange_example" // string | Estimated monthly sales range (e.g. \\\"0-500000\\\"). (optional)
 	printerType := openapiclient.PrintFormat("A4") // PrintFormat |  (optional)
-	logo := os.NewFile(1234, "some_file") // *os.File |  (optional)
+	logo := os.NewFile(1234, "some_file") // *os.File | Company logo image file (multipart upload). (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -69,11 +71,11 @@ Other parameters are passed through a pointer to a apiCreateAssociatedCompanyReq
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **string** |  | 
- **email** | **string** |  | 
- **password** | **string** |  | 
- **name** | **string** |  | 
- **rnc** | **string** |  | 
+ **xTenantId** | **string** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
+ **email** | **string** | Owner&#39;s email address (used for login). | 
+ **password** | **string** | Initial password for the new account (min 8 characters). | 
+ **name** | **string** | Legal business name. | 
+ **rnc** | **string** | Company RNC (9 digits) or personal cedula (11 digits). | 
  **phone** | **string** |  | 
  **address** | **string** |  | 
  **city** | **string** |  | 
@@ -82,10 +84,10 @@ Name | Type | Description  | Notes
  **lastName** | **string** |  | 
  **jobTitle** | **string** |  | 
  **website** | **string** |  | 
- **category** | **string** |  | 
- **monthlySalesRange** | **string** |  | 
+ **category** | **string** | Business category or industry. | 
+ **monthlySalesRange** | **string** | Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). | 
  **printerType** | [**PrintFormat**](PrintFormat.md) |  | 
- **logo** | ***os.File** |  | 
+ **logo** | ***os.File** | Company logo image file (multipart upload). | 
 
 ### Return type
 
@@ -93,7 +95,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -109,7 +111,9 @@ Name | Type | Description  | Notes
 
 > []AssociatedCompany ListAssociatedCompanies(ctx).XTenantId(xTenantId).Execute()
 
-List associated branches/companies
+List associated companies / branches
+
+
 
 ### Example
 
@@ -120,11 +124,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
 func main() {
-	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -149,7 +153,7 @@ Other parameters are passed through a pointer to a apiListAssociatedCompaniesReq
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **string** |  | 
+ **xTenantId** | **string** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
 
 ### Return type
 
@@ -157,7 +161,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

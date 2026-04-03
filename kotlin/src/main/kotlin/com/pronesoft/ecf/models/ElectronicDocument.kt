@@ -36,162 +36,176 @@ import com.pronesoft.ecf.models.Subtotal
 import com.pronesoft.ecf.models.Totals
 import com.pronesoft.ecf.models.Transport
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * The main e-CF document payload. Build this object and submit it to `POST /{environment}/ecf/submit`.  **Required fields:** `version`, `invoiceType`, `invoiceNumber`, `issueDate`, `items`, `totals`.  Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`. 
  *
- * @param version 
+ * @param version Document schema version. Always \"1.0\".
  * @param invoiceType 
- * @param invoiceNumber 
- * @param issueDate 
- * @param items 
+ * @param invoiceNumber e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`. 
+ * @param issueDate Document issue date and time (ISO 8601).
+ * @param items Line items of the document. At least 1 required.
  * @param totals 
- * @param expirationDate 
- * @param incomeType 
- * @param paymentType 
- * @param paymentDeadline 
- * @param paymentTerms 
+ * @param expirationDate Document expiration date (optional, for credit documents).
+ * @param incomeType Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income 
+ * @param paymentType Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto) 
+ * @param paymentDeadline Payment due date (required when paymentType is \"2\" or \"3\").
+ * @param paymentTerms Payment terms description (e.g. \"Net 30\").
  * @param paymentAccountType 
- * @param paymentAccountNumber 
- * @param paymentBank 
- * @param creditNoteIndicator 0: issuance affected ≤ 30 days, 1: > 30 days
- * @param issuerRNC 
- * @param issuerBusinessName 
- * @param issuerEmail 
- * @param issuerPhones 
+ * @param paymentAccountNumber Bank account number for payment reference.
+ * @param paymentBank Bank name for payment reference.
+ * @param creditNoteIndicator For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago 
+ * @param issuerRNC RNC of the issuing company (overrides tenant default if provided).
+ * @param issuerBusinessName Legal business name of the issuer.
+ * @param issuerEmail Contact email of the issuer.
+ * @param issuerPhones Issuer phone numbers in format \"809-555-1234\".
  * @param buyer 
  * @param transport 
  * @param additionalInfo 
  * @param alternativeCurrency 
  * @param referenceInfo 
- * @param subtotals 
- * @param discountsOrSurcharges 
- * @param pages 
+ * @param subtotals Page/section subtotals (for multi-page documents).
+ * @param discountsOrSurcharges Document-level discounts or surcharges.
+ * @param pages Page breakdown for multi-page documents.
  */
 
 
 data class ElectronicDocument (
 
-    @Json(name = "version")
+    /* Document schema version. Always \"1.0\". */
+    @SerializedName("version")
     val version: kotlin.String = "1.0",
 
-    @Json(name = "invoiceType")
+    @SerializedName("invoiceType")
     val invoiceType: InvoiceType,
 
-    @Json(name = "invoiceNumber")
+    /* e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`.  */
+    @SerializedName("invoiceNumber")
     val invoiceNumber: kotlin.String,
 
-    @Json(name = "issueDate")
+    /* Document issue date and time (ISO 8601). */
+    @SerializedName("issueDate")
     val issueDate: java.time.OffsetDateTime,
 
-    @Json(name = "items")
+    /* Line items of the document. At least 1 required. */
+    @SerializedName("items")
     val items: kotlin.collections.List<Item>,
 
-    @Json(name = "totals")
+    @SerializedName("totals")
     val totals: Totals,
 
-    @Json(name = "expirationDate")
+    /* Document expiration date (optional, for credit documents). */
+    @SerializedName("expirationDate")
     val expirationDate: java.time.OffsetDateTime? = null,
 
-    @Json(name = "incomeType")
+    /* Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income  */
+    @SerializedName("incomeType")
     val incomeType: ElectronicDocument.IncomeType? = null,
 
-    @Json(name = "paymentType")
+    /* Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto)  */
+    @SerializedName("paymentType")
     val paymentType: ElectronicDocument.PaymentType? = null,
 
-    @Json(name = "paymentDeadline")
+    /* Payment due date (required when paymentType is \"2\" or \"3\"). */
+    @SerializedName("paymentDeadline")
     val paymentDeadline: java.time.OffsetDateTime? = null,
 
-    @Json(name = "paymentTerms")
+    /* Payment terms description (e.g. \"Net 30\"). */
+    @SerializedName("paymentTerms")
     val paymentTerms: kotlin.String? = null,
 
-    @Json(name = "paymentAccountType")
+    @SerializedName("paymentAccountType")
     val paymentAccountType: AccountType? = null,
 
-    @Json(name = "paymentAccountNumber")
+    /* Bank account number for payment reference. */
+    @SerializedName("paymentAccountNumber")
     val paymentAccountNumber: kotlin.String? = null,
 
-    @Json(name = "paymentBank")
+    /* Bank name for payment reference. */
+    @SerializedName("paymentBank")
     val paymentBank: kotlin.String? = null,
 
-    /* 0: issuance affected ≤ 30 days, 1: > 30 days */
-    @Json(name = "creditNoteIndicator")
+    /* For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago  */
+    @SerializedName("creditNoteIndicator")
     val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
 
-    @Json(name = "issuerRNC")
+    /* RNC of the issuing company (overrides tenant default if provided). */
+    @SerializedName("issuerRNC")
     val issuerRNC: kotlin.String? = null,
 
-    @Json(name = "issuerBusinessName")
+    /* Legal business name of the issuer. */
+    @SerializedName("issuerBusinessName")
     val issuerBusinessName: kotlin.String? = null,
 
-    @Json(name = "issuerEmail")
+    /* Contact email of the issuer. */
+    @SerializedName("issuerEmail")
     val issuerEmail: kotlin.String? = null,
 
-    @Json(name = "issuerPhones")
+    /* Issuer phone numbers in format \"809-555-1234\". */
+    @SerializedName("issuerPhones")
     val issuerPhones: kotlin.collections.List<kotlin.String>? = null,
 
-    @Json(name = "buyer")
+    @SerializedName("buyer")
     val buyer: Buyer? = null,
 
-    @Json(name = "transport")
+    @SerializedName("transport")
     val transport: Transport? = null,
 
-    @Json(name = "additionalInfo")
+    @SerializedName("additionalInfo")
     val additionalInfo: AdditionalInfo? = null,
 
-    @Json(name = "alternativeCurrency")
+    @SerializedName("alternativeCurrency")
     val alternativeCurrency: AlternativeCurrency? = null,
 
-    @Json(name = "referenceInfo")
+    @SerializedName("referenceInfo")
     val referenceInfo: ReferenceInfo? = null,
 
-    @Json(name = "subtotals")
+    /* Page/section subtotals (for multi-page documents). */
+    @SerializedName("subtotals")
     val subtotals: kotlin.collections.List<Subtotal>? = null,
 
-    @Json(name = "discountsOrSurcharges")
+    /* Document-level discounts or surcharges. */
+    @SerializedName("discountsOrSurcharges")
     val discountsOrSurcharges: kotlin.collections.List<DiscountOrSurcharge>? = null,
 
-    @Json(name = "pages")
+    /* Page breakdown for multi-page documents. */
+    @SerializedName("pages")
     val pages: kotlin.collections.List<Page>? = null
 
 ) {
 
     /**
-     * 
+     * Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income 
      *
      * Values: _01,_02,_03,_04,_05,_06
      */
-    @JsonClass(generateAdapter = false)
     enum class IncomeType(val value: kotlin.String) {
-        @Json(name = "01") _01("01"),
-        @Json(name = "02") _02("02"),
-        @Json(name = "03") _03("03"),
-        @Json(name = "04") _04("04"),
-        @Json(name = "05") _05("05"),
-        @Json(name = "06") _06("06");
+        @SerializedName(value = "01") _01("01"),
+        @SerializedName(value = "02") _02("02"),
+        @SerializedName(value = "03") _03("03"),
+        @SerializedName(value = "04") _04("04"),
+        @SerializedName(value = "05") _05("05"),
+        @SerializedName(value = "06") _06("06");
     }
     /**
-     * 
+     * Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto) 
      *
      * Values: _1,_2,_3
      */
-    @JsonClass(generateAdapter = false)
     enum class PaymentType(val value: kotlin.String) {
-        @Json(name = "1") _1("1"),
-        @Json(name = "2") _2("2"),
-        @Json(name = "3") _3("3");
+        @SerializedName(value = "1") _1("1"),
+        @SerializedName(value = "2") _2("2"),
+        @SerializedName(value = "3") _3("3");
     }
     /**
-     * 0: issuance affected ≤ 30 days, 1: > 30 days
+     * For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago 
      *
      * Values: _0,_1
      */
-    @JsonClass(generateAdapter = false)
     enum class CreditNoteIndicator(val value: kotlin.String) {
-        @Json(name = "0") _0("0"),
-        @Json(name = "1") _1("1");
+        @SerializedName(value = "0") _0("0"),
+        @SerializedName(value = "1") _1("1");
     }
 
 }

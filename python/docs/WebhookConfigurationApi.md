@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_webhook**](WebhookConfigurationApi.md#create_webhook) | **POST** /{rnc}/webhooks | Register new webhook
 [**delete_webhook**](WebhookConfigurationApi.md#delete_webhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
-[**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List all webhook configurations
+[**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List webhook configurations
 
 
 # **create_webhook**
@@ -14,9 +14,18 @@ Method | HTTP request | Description
 
 Register new webhook
 
+Registers a URL to receive real-time event notifications for the
+given RNC. You can subscribe to one or more `WebhookEventType` values.
+
+Optionally provide a `secret` (min 16 chars) — Pronesoft will sign
+webhook payloads with HMAC-SHA256 using this secret so you can verify
+authenticity on your end.
+
+
 ### Example
 
 * OAuth Authentication (oauth2):
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -38,12 +47,17 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = pronesoft_ecf.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.WebhookConfigurationApi(api_client)
-    rnc = 'rnc_example' # str | 
-    create_webhook_config = pronesoft_ecf.CreateWebhookConfig() # CreateWebhookConfig | 
+    rnc = '130000001' # str | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+    create_webhook_config = {"url":"https://myapp.com/webhooks/ecf","eventTypes":["document.status_changed","sequence.depleted"],"description":"Main notification endpoint","secret":"my-super-secret-value-here"} # CreateWebhookConfig | 
 
     try:
         # Register new webhook
@@ -61,7 +75,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **str**|  | 
+ **rnc** | **str**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
  **create_webhook_config** | [**CreateWebhookConfig**](CreateWebhookConfig.md)|  | 
 
 ### Return type
@@ -70,7 +84,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -81,7 +95,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Webhook registered |  -  |
+**201** | Webhook registered successfully |  -  |
+**400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -90,9 +106,12 @@ Name | Type | Description  | Notes
 
 Delete webhook configuration
 
+Removes a registered webhook by its ID.
+
 ### Example
 
 * OAuth Authentication (oauth2):
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -112,12 +131,17 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = pronesoft_ecf.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.WebhookConfigurationApi(api_client)
-    rnc = 'rnc_example' # str | 
-    webhook_id = 'webhook_id_example' # str | 
+    rnc = '130000001' # str | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+    webhook_id = 'webhook_id_example' # str | The unique ID of the webhook to delete.
 
     try:
         # Delete webhook configuration
@@ -133,8 +157,8 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **str**|  | 
- **webhook_id** | **str**|  | 
+ **rnc** | **str**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
+ **webhook_id** | **str**| The unique ID of the webhook to delete. | 
 
 ### Return type
 
@@ -142,29 +166,34 @@ void (empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Webhook deleted |  -  |
+**200** | Webhook deleted successfully |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+**404** | Webhook not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_webhooks**
 > List[WebhookConfigResponse] list_webhooks(rnc)
 
-List all webhook configurations
+List webhook configurations
+
+Returns all registered webhooks for the given RNC.
 
 ### Example
 
 * OAuth Authentication (oauth2):
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -185,14 +214,19 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = pronesoft_ecf.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.WebhookConfigurationApi(api_client)
-    rnc = 'rnc_example' # str | 
+    rnc = '130000001' # str | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
 
     try:
-        # List all webhook configurations
+        # List webhook configurations
         api_response = api_instance.list_webhooks(rnc)
         print("The response of WebhookConfigurationApi->list_webhooks:\n")
         pprint(api_response)
@@ -207,7 +241,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **str**|  | 
+ **rnc** | **str**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
 
 ### Return type
 
@@ -215,7 +249,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -226,7 +260,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | List of webhooks |  -  |
+**200** | List of webhook configurations |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

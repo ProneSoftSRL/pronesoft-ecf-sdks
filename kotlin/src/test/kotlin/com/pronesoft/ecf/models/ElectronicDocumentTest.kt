@@ -32,12 +32,9 @@ import com.pronesoft.ecf.models.AdditionalInfo
 import com.pronesoft.ecf.models.AlternativeCurrency
 import com.pronesoft.ecf.models.Buyer
 import com.pronesoft.ecf.models.DiscountOrSurcharge
-import com.pronesoft.ecf.models.IncomeType
 import com.pronesoft.ecf.models.InvoiceType
 import com.pronesoft.ecf.models.Item
 import com.pronesoft.ecf.models.Page
-import com.pronesoft.ecf.models.PaymentForm
-import com.pronesoft.ecf.models.PaymentType
 import com.pronesoft.ecf.models.ReferenceInfo
 import com.pronesoft.ecf.models.Subtotal
 import com.pronesoft.ecf.models.Totals
@@ -72,46 +69,22 @@ class ElectronicDocumentTest : ShouldSpec() {
             //modelInstance.issueDate shouldBe ("TODO")
         }
 
-        // to test the property `totals`
-        should("test totals") {
-            // uncomment below to test the property
-            //modelInstance.totals shouldBe ("TODO")
-        }
-
         // to test the property `items`
         should("test items") {
             // uncomment below to test the property
             //modelInstance.items shouldBe ("TODO")
         }
 
-        // to test the property `groupId`
-        should("test groupId") {
+        // to test the property `totals`
+        should("test totals") {
             // uncomment below to test the property
-            //modelInstance.groupId shouldBe ("TODO")
+            //modelInstance.totals shouldBe ("TODO")
         }
 
         // to test the property `expirationDate`
         should("test expirationDate") {
             // uncomment below to test the property
             //modelInstance.expirationDate shouldBe ("TODO")
-        }
-
-        // to test the property `creditNoteIndicator`
-        should("test creditNoteIndicator") {
-            // uncomment below to test the property
-            //modelInstance.creditNoteIndicator shouldBe ("TODO")
-        }
-
-        // to test the property `deferredSendingIndicator`
-        should("test deferredSendingIndicator") {
-            // uncomment below to test the property
-            //modelInstance.deferredSendingIndicator shouldBe ("TODO")
-        }
-
-        // to test the property `taxedAmountIndicator`
-        should("test taxedAmountIndicator") {
-            // uncomment below to test the property
-            //modelInstance.taxedAmountIndicator shouldBe ("TODO")
         }
 
         // to test the property `incomeType`
@@ -138,12 +111,6 @@ class ElectronicDocumentTest : ShouldSpec() {
             //modelInstance.paymentTerms shouldBe ("TODO")
         }
 
-        // to test the property `paymentForms`
-        should("test paymentForms") {
-            // uncomment below to test the property
-            //modelInstance.paymentForms shouldBe ("TODO")
-        }
-
         // to test the property `paymentAccountType`
         should("test paymentAccountType") {
             // uncomment below to test the property
@@ -162,22 +129,10 @@ class ElectronicDocumentTest : ShouldSpec() {
             //modelInstance.paymentBank shouldBe ("TODO")
         }
 
-        // to test the property `serviceStartDate`
-        should("test serviceStartDate") {
+        // to test the property `creditNoteIndicator` - 0: issuance affected ≤ 30 days, 1: > 30 days
+        should("test creditNoteIndicator") {
             // uncomment below to test the property
-            //modelInstance.serviceStartDate shouldBe ("TODO")
-        }
-
-        // to test the property `serviceEndDate`
-        should("test serviceEndDate") {
-            // uncomment below to test the property
-            //modelInstance.serviceEndDate shouldBe ("TODO")
-        }
-
-        // to test the property `totalPages`
-        should("test totalPages") {
-            // uncomment below to test the property
-            //modelInstance.totalPages shouldBe ("TODO")
+            //modelInstance.creditNoteIndicator shouldBe ("TODO")
         }
 
         // to test the property `issuerRNC`
@@ -192,34 +147,10 @@ class ElectronicDocumentTest : ShouldSpec() {
             //modelInstance.issuerBusinessName shouldBe ("TODO")
         }
 
-        // to test the property `issuerCommercialName`
-        should("test issuerCommercialName") {
+        // to test the property `issuerEmail`
+        should("test issuerEmail") {
             // uncomment below to test the property
-            //modelInstance.issuerCommercialName shouldBe ("TODO")
-        }
-
-        // to test the property `branchName`
-        should("test branchName") {
-            // uncomment below to test the property
-            //modelInstance.branchName shouldBe ("TODO")
-        }
-
-        // to test the property `issuerAddress`
-        should("test issuerAddress") {
-            // uncomment below to test the property
-            //modelInstance.issuerAddress shouldBe ("TODO")
-        }
-
-        // to test the property `municipalityCode`
-        should("test municipalityCode") {
-            // uncomment below to test the property
-            //modelInstance.municipalityCode shouldBe ("TODO")
-        }
-
-        // to test the property `provinceCode`
-        should("test provinceCode") {
-            // uncomment below to test the property
-            //modelInstance.provinceCode shouldBe ("TODO")
+            //modelInstance.issuerEmail shouldBe ("TODO")
         }
 
         // to test the property `issuerPhones`
@@ -228,70 +159,10 @@ class ElectronicDocumentTest : ShouldSpec() {
             //modelInstance.issuerPhones shouldBe ("TODO")
         }
 
-        // to test the property `issuerEmail`
-        should("test issuerEmail") {
-            // uncomment below to test the property
-            //modelInstance.issuerEmail shouldBe ("TODO")
-        }
-
-        // to test the property `issuerWebsite`
-        should("test issuerWebsite") {
-            // uncomment below to test the property
-            //modelInstance.issuerWebsite shouldBe ("TODO")
-        }
-
-        // to test the property `issuerEconomicActivity`
-        should("test issuerEconomicActivity") {
-            // uncomment below to test the property
-            //modelInstance.issuerEconomicActivity shouldBe ("TODO")
-        }
-
-        // to test the property `sellerCode`
-        should("test sellerCode") {
-            // uncomment below to test the property
-            //modelInstance.sellerCode shouldBe ("TODO")
-        }
-
-        // to test the property `internalInvoiceNumber`
-        should("test internalInvoiceNumber") {
-            // uncomment below to test the property
-            //modelInstance.internalInvoiceNumber shouldBe ("TODO")
-        }
-
-        // to test the property `internalOrderNumber`
-        should("test internalOrderNumber") {
-            // uncomment below to test the property
-            //modelInstance.internalOrderNumber shouldBe ("TODO")
-        }
-
-        // to test the property `salesZone`
-        should("test salesZone") {
-            // uncomment below to test the property
-            //modelInstance.salesZone shouldBe ("TODO")
-        }
-
-        // to test the property `salesRoute`
-        should("test salesRoute") {
-            // uncomment below to test the property
-            //modelInstance.salesRoute shouldBe ("TODO")
-        }
-
-        // to test the property `additionalIssuerInfo`
-        should("test additionalIssuerInfo") {
-            // uncomment below to test the property
-            //modelInstance.additionalIssuerInfo shouldBe ("TODO")
-        }
-
         // to test the property `buyer`
         should("test buyer") {
             // uncomment below to test the property
             //modelInstance.buyer shouldBe ("TODO")
-        }
-
-        // to test the property `additionalInfo`
-        should("test additionalInfo") {
-            // uncomment below to test the property
-            //modelInstance.additionalInfo shouldBe ("TODO")
         }
 
         // to test the property `transport`
@@ -300,10 +171,22 @@ class ElectronicDocumentTest : ShouldSpec() {
             //modelInstance.transport shouldBe ("TODO")
         }
 
+        // to test the property `additionalInfo`
+        should("test additionalInfo") {
+            // uncomment below to test the property
+            //modelInstance.additionalInfo shouldBe ("TODO")
+        }
+
         // to test the property `alternativeCurrency`
         should("test alternativeCurrency") {
             // uncomment below to test the property
             //modelInstance.alternativeCurrency shouldBe ("TODO")
+        }
+
+        // to test the property `referenceInfo`
+        should("test referenceInfo") {
+            // uncomment below to test the property
+            //modelInstance.referenceInfo shouldBe ("TODO")
         }
 
         // to test the property `subtotals`
@@ -322,12 +205,6 @@ class ElectronicDocumentTest : ShouldSpec() {
         should("test pages") {
             // uncomment below to test the property
             //modelInstance.pages shouldBe ("TODO")
-        }
-
-        // to test the property `referenceInfo`
-        should("test referenceInfo") {
-            // uncomment below to test the property
-            //modelInstance.referenceInfo shouldBe ("TODO")
         }
 
     }

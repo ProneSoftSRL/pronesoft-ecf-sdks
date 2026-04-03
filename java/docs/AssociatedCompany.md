@@ -2,6 +2,7 @@
 
 # AssociatedCompany
 
+A company or branch associated with the main tenant account.
 
 ## Properties
 
@@ -16,10 +17,10 @@
 |**country** | **String** |  |  [optional] |
 |**website** | **URI** |  |  [optional] |
 |**logoPath** | **String** |  |  [optional] |
-|**type** | [**TypeEnum**](#TypeEnum) |  |  [optional] |
+|**type** | [**TypeEnum**](#TypeEnum) | Whether this is the main account or an associated branch. |  [optional] |
 |**createdAt** | **OffsetDateTime** |  |  [optional] |
-|**docsIssuedThisMonth** | **Integer** |  |  [optional] |
-|**purchasedDocsConsumedThisMonth** | **Integer** |  |  [optional] |
+|**docsIssuedThisMonth** | **Integer** | Number of e-CF documents issued in the current month. |  [optional] |
+|**purchasedDocsConsumedThisMonth** | **Integer** | Purchased document quota consumed this month. |  [optional] |
 |**ownerEmail** | **String** |  |  [optional] |
 |**subscription** | [**AssociatedCompanySubscription**](AssociatedCompanySubscription.md) |  |  [optional] |
 

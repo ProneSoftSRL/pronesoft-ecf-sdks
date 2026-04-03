@@ -1,6 +1,7 @@
 
 # WebhookConfigResponse
 
+A registered webhook configuration.
 
 ## Properties
 

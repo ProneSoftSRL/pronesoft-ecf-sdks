@@ -13,10 +13,10 @@ Name | Type | Description | Notes
 **Country** | Pointer to **string** |  | [optional] 
 **Website** | Pointer to **NullableString** |  | [optional] 
 **LogoPath** | Pointer to **NullableString** |  | [optional] 
-**Type** | Pointer to **string** |  | [optional] 
+**Type** | Pointer to **string** | Whether this is the main account or an associated branch. | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**DocsIssuedThisMonth** | Pointer to **int32** |  | [optional] 
-**PurchasedDocsConsumedThisMonth** | Pointer to **int32** |  | [optional] 
+**DocsIssuedThisMonth** | Pointer to **int32** | Number of e-CF documents issued in the current month. | [optional] 
+**PurchasedDocsConsumedThisMonth** | Pointer to **int32** | Purchased document quota consumed this month. | [optional] 
 **OwnerEmail** | Pointer to **string** |  | [optional] 
 **Subscription** | Pointer to [**AssociatedCompanySubscription**](AssociatedCompanySubscription.md) |  | [optional] 
 

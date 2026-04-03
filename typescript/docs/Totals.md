@@ -1,6 +1,7 @@
 
 # Totals
 
+Document totals. `totalAmount` is required. Provide ITBIS breakdowns by rate when applicable. 
 
 ## Properties
 
@@ -43,16 +44,16 @@ const example = {
   "taxableAmount2": null,
   "taxableAmount3": null,
   "exemptAmount": null,
-  "itbisRate1": null,
-  "itbisRate2": null,
-  "itbisRate3": null,
+  "itbisRate1": 0.18,
+  "itbisRate2": 0.16,
+  "itbisRate3": 0.0,
   "totalITBIS": null,
   "itbis1": null,
   "itbis2": null,
   "itbis3": null,
   "additionalTaxAmount": null,
   "additionalTaxes": null,
-  "totalAmount": null,
+  "totalAmount": 11800.0,
   "nonBillableAmount": null,
   "periodAmount": null,
   "previousBalance": null,

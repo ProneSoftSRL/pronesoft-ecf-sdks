@@ -24,23 +24,24 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Sub-quantity for items measured in multiple units.
  *
- * @param quantity 
- * @param unitCode 
+ * @param quantity Quantity in this unit of measure.
+ * @param unitCode DGII unit of measure code.
  */
 
 
 data class Subquantity (
 
-    @Json(name = "quantity")
+    /* Quantity in this unit of measure. */
+    @SerializedName("quantity")
     val quantity: java.math.BigDecimal,
 
-    @Json(name = "unitCode")
+    /* DGII unit of measure code. */
+    @SerializedName("unitCode")
     val unitCode: java.math.BigDecimal
 
 ) {

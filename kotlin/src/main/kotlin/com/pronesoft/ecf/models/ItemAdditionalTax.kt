@@ -24,23 +24,24 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * An additional tax applied to a line item (e.g. ISC, IECS).
  *
- * @param code 
- * @param amount 
+ * @param code Tax code as defined by the DGII (e.g. \"ISC\", \"IECS\").
+ * @param amount Tax amount.
  */
 
 
 data class ItemAdditionalTax (
 
-    @Json(name = "code")
+    /* Tax code as defined by the DGII (e.g. \"ISC\", \"IECS\"). */
+    @SerializedName("code")
     val code: kotlin.String,
 
-    @Json(name = "amount")
+    /* Tax amount. */
+    @SerializedName("amount")
     val amount: java.math.BigDecimal
 
 ) {

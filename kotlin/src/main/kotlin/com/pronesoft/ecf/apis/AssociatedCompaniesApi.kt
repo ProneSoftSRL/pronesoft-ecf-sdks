@@ -29,9 +29,10 @@ import okhttp3.HttpUrl
 
 import com.pronesoft.ecf.models.AssociatedCompany
 import com.pronesoft.ecf.models.CreateAssociatedCompany201Response
+import com.pronesoft.ecf.models.ErrorResponse
 import com.pronesoft.ecf.models.PrintFormat
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 import com.pronesoft.ecf.infrastructure.ApiClient
 import com.pronesoft.ecf.infrastructure.ApiResponse
@@ -58,12 +59,12 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * POST /associated-companies
      * Create new associated company
-     * 
-     * @param xTenantId 
-     * @param email 
-     * @param password 
-     * @param name 
-     * @param rnc 
+     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param email Owner&#39;s email address (used for login).
+     * @param password Initial password for the new account (min 8 characters).
+     * @param name Legal business name.
+     * @param rnc Company RNC (9 digits) or personal cedula (11 digits).
      * @param phone 
      * @param address 
      * @param city 
@@ -72,10 +73,10 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category  (optional)
-     * @param monthlySalesRange  (optional)
+     * @param category Business category or industry. (optional)
+     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
      * @param printerType  (optional)
-     * @param logo  (optional)
+     * @param logo Company logo image file (multipart upload). (optional)
      * @return CreateAssociatedCompany201Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -106,12 +107,12 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * POST /associated-companies
      * Create new associated company
-     * 
-     * @param xTenantId 
-     * @param email 
-     * @param password 
-     * @param name 
-     * @param rnc 
+     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param email Owner&#39;s email address (used for login).
+     * @param password Initial password for the new account (min 8 characters).
+     * @param name Legal business name.
+     * @param rnc Company RNC (9 digits) or personal cedula (11 digits).
      * @param phone 
      * @param address 
      * @param city 
@@ -120,10 +121,10 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category  (optional)
-     * @param monthlySalesRange  (optional)
+     * @param category Business category or industry. (optional)
+     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
      * @param printerType  (optional)
-     * @param logo  (optional)
+     * @param logo Company logo image file (multipart upload). (optional)
      * @return ApiResponse<CreateAssociatedCompany201Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -141,11 +142,11 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * To obtain the request config of the operation createAssociatedCompany
      *
-     * @param xTenantId 
-     * @param email 
-     * @param password 
-     * @param name 
-     * @param rnc 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param email Owner&#39;s email address (used for login).
+     * @param password Initial password for the new account (min 8 characters).
+     * @param name Legal business name.
+     * @param rnc Company RNC (9 digits) or personal cedula (11 digits).
      * @param phone 
      * @param address 
      * @param city 
@@ -154,10 +155,10 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category  (optional)
-     * @param monthlySalesRange  (optional)
+     * @param category Business category or industry. (optional)
+     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
      * @param printerType  (optional)
-     * @param logo  (optional)
+     * @param logo Company logo image file (multipart upload). (optional)
      * @return RequestConfig
      */
     fun createAssociatedCompanyRequestConfig(xTenantId: java.util.UUID, email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, printerType: PrintFormat?, logo: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
@@ -195,9 +196,9 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies
-     * List associated branches/companies
-     * 
-     * @param xTenantId 
+     * List associated companies / branches
+     * Returns all companies and branches linked to the current tenant.
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
      * @return kotlin.collections.List<AssociatedCompany>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -227,9 +228,9 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies
-     * List associated branches/companies
-     * 
-     * @param xTenantId 
+     * List associated companies / branches
+     * Returns all companies and branches linked to the current tenant.
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
      * @return ApiResponse<kotlin.collections.List<AssociatedCompany>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -247,7 +248,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * To obtain the request config of the operation listAssociatedCompanies
      *
-     * @param xTenantId 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
      * @return RequestConfig
      */
     fun listAssociatedCompaniesRequestConfig(xTenantId: java.util.UUID) : RequestConfig<Unit> {

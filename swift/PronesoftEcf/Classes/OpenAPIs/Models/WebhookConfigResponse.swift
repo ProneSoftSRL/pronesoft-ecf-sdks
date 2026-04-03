@@ -10,13 +10,24 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.WebhookConfigResponse")
+public typealias WebhookConfigResponse = PronesoftEcfAPI.WebhookConfigResponse
+
+extension PronesoftEcfAPI {
+
+/** A registered webhook configuration. */
 public struct WebhookConfigResponse: Codable, JSONEncodable, Hashable {
 
+    /** Unique webhook identifier. */
     public var id: String?
+    /** The URL that receives webhook notifications. */
     public var url: String?
+    /** Events this webhook is subscribed to. */
     public var eventTypes: [WebhookEventType]?
+    /** Whether this webhook is currently active. */
     public var isActive: Bool?
     public var createdAt: Date?
+    /** When this webhook was last triggered. Null if never triggered. */
     public var lastTriggeredAt: Date?
 
     public init(id: String? = nil, url: String? = nil, eventTypes: [WebhookEventType]? = nil, isActive: Bool? = nil, createdAt: Date? = nil, lastTriggeredAt: Date? = nil) {
@@ -50,6 +61,7 @@ public struct WebhookConfigResponse: Codable, JSONEncodable, Hashable {
     }
 }
 
+}
 
 @available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
-extension WebhookConfigResponse: Identifiable {}
+extension PronesoftEcfAPI.WebhookConfigResponse: Identifiable {}

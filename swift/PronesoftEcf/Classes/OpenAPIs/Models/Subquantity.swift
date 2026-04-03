@@ -10,9 +10,17 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.Subquantity")
+public typealias Subquantity = PronesoftEcfAPI.Subquantity
+
+extension PronesoftEcfAPI {
+
+/** Sub-quantity for items measured in multiple units. */
 public struct Subquantity: Codable, JSONEncodable, Hashable {
 
+    /** Quantity in this unit of measure. */
     public var quantity: Double
+    /** DGII unit of measure code. */
     public var unitCode: Double
 
     public init(quantity: Double, unitCode: Double) {
@@ -34,3 +42,4 @@ public struct Subquantity: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

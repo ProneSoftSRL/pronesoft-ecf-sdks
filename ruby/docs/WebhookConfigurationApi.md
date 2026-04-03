@@ -6,7 +6,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | ------ | ------------ | ----------- |
 | [**create_webhook**](WebhookConfigurationApi.md#create_webhook) | **POST** /{rnc}/webhooks | Register new webhook |
 | [**delete_webhook**](WebhookConfigurationApi.md#delete_webhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
-| [**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
+| [**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
 
 ## create_webhook
@@ -14,6 +14,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 > <WebhookConfigResponse> create_webhook(rnc, create_webhook_config)
 
 Register new webhook
+
+Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
 
 ### Examples
 
@@ -24,11 +26,14 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = 'rnc_example' # String | 
-create_webhook_config = PronesoftEcf::CreateWebhookConfig.new({url: 'url_example', event_types: [PronesoftEcf::WebhookEventType::DOCUMENT_RECEIVED]}) # CreateWebhookConfig | 
+rnc = '130000001' # String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+create_webhook_config = PronesoftEcf::CreateWebhookConfig.new({url: 'https://myapp.com/webhooks/ecf', event_types: [PronesoftEcf::WebhookEventType::DOCUMENT_RECEIVED]}) # CreateWebhookConfig | 
 
 begin
   # Register new webhook
@@ -61,7 +66,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** |  |  |
+| **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
 | **create_webhook_config** | [**CreateWebhookConfig**](CreateWebhookConfig.md) |  |  |
 
 ### Return type
@@ -70,7 +75,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -84,6 +89,8 @@ end
 
 Delete webhook configuration
 
+Removes a registered webhook by its ID.
+
 ### Examples
 
 ```ruby
@@ -93,11 +100,14 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = 'rnc_example' # String | 
-webhook_id = 'webhook_id_example' # String | 
+rnc = '130000001' # String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+webhook_id = 'webhook_id_example' # String | The unique ID of the webhook to delete.
 
 begin
   # Delete webhook configuration
@@ -129,8 +139,8 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** |  |  |
-| **webhook_id** | **String** |  |  |
+| **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
+| **webhook_id** | **String** | The unique ID of the webhook to delete. |  |
 
 ### Return type
 
@@ -138,19 +148,21 @@ nil (empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## list_webhooks
 
 > <Array<WebhookConfigResponse>> list_webhooks(rnc)
 
-List all webhook configurations
+List webhook configurations
+
+Returns all registered webhooks for the given RNC.
 
 ### Examples
 
@@ -161,13 +173,16 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = 'rnc_example' # String | 
+rnc = '130000001' # String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
 
 begin
-  # List all webhook configurations
+  # List webhook configurations
   result = api_instance.list_webhooks(rnc)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -183,7 +198,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # List all webhook configurations
+  # List webhook configurations
   data, status_code, headers = api_instance.list_webhooks_with_http_info(rnc)
   p status_code # => 2xx
   p headers # => { ... }
@@ -197,7 +212,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** |  |  |
+| **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
 
 ### Return type
 
@@ -205,7 +220,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

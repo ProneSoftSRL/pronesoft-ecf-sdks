@@ -5,7 +5,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
 | [**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create new associated company |
-| [**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated branches/companies |
+| [**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated companies / branches |
 
 
 ## create_associated_company
@@ -13,6 +13,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 > <CreateAssociatedCompany201Response> create_associated_company(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
 
 Create new associated company
+
+Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
 
 ### Examples
 
@@ -23,14 +25,17 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
-email = 'email_example' # String | 
-password = 'password_example' # String | 
-name = 'name_example' # String | 
-rnc = 'rnc_example' # String | 
+x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+email = 'email_example' # String | Owner's email address (used for login).
+password = 'password_example' # String | Initial password for the new account (min 8 characters).
+name = 'name_example' # String | Legal business name.
+rnc = 'rnc_example' # String | Company RNC (9 digits) or personal cedula (11 digits).
 phone = 'phone_example' # String | 
 address = 'address_example' # String | 
 city = 'city_example' # String | 
@@ -40,10 +45,10 @@ opts = {
   last_name: 'last_name_example', # String | 
   job_title: 'job_title_example', # String | 
   website: 'website_example', # String | 
-  category: 'category_example', # String | 
-  monthly_sales_range: 'monthly_sales_range_example', # String | 
+  category: 'category_example', # String | Business category or industry.
+  monthly_sales_range: 'monthly_sales_range_example', # String | Estimated monthly sales range (e.g. \\\"0-500000\\\").
   printer_type: PronesoftEcf::PrintFormat::A4, # PrintFormat | 
-  logo: File.new('/path/to/some/file') # File | 
+  logo: File.new('/path/to/some/file') # File | Company logo image file (multipart upload).
 }
 
 begin
@@ -77,11 +82,11 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** |  |  |
-| **email** | **String** |  |  |
-| **password** | **String** |  |  |
-| **name** | **String** |  |  |
-| **rnc** | **String** |  |  |
+| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
+| **email** | **String** | Owner&#39;s email address (used for login). |  |
+| **password** | **String** | Initial password for the new account (min 8 characters). |  |
+| **name** | **String** | Legal business name. |  |
+| **rnc** | **String** | Company RNC (9 digits) or personal cedula (11 digits). |  |
 | **phone** | **String** |  |  |
 | **address** | **String** |  |  |
 | **city** | **String** |  |  |
@@ -90,10 +95,10 @@ end
 | **last_name** | **String** |  | [optional] |
 | **job_title** | **String** |  | [optional] |
 | **website** | **String** |  | [optional] |
-| **category** | **String** |  | [optional] |
-| **monthly_sales_range** | **String** |  | [optional] |
+| **category** | **String** | Business category or industry. | [optional] |
+| **monthly_sales_range** | **String** | Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). | [optional] |
 | **printer_type** | [**PrintFormat**](PrintFormat.md) |  | [optional] |
-| **logo** | **File** |  | [optional] |
+| **logo** | **File** | Company logo image file (multipart upload). | [optional] |
 
 ### Return type
 
@@ -101,7 +106,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -113,7 +118,9 @@ end
 
 > <Array<AssociatedCompany>> list_associated_companies(x_tenant_id)
 
-List associated branches/companies
+List associated companies / branches
+
+Returns all companies and branches linked to the current tenant.
 
 ### Examples
 
@@ -124,13 +131,16 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
 
 begin
-  # List associated branches/companies
+  # List associated companies / branches
   result = api_instance.list_associated_companies(x_tenant_id)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -146,7 +156,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # List associated branches/companies
+  # List associated companies / branches
   data, status_code, headers = api_instance.list_associated_companies_with_http_info(x_tenant_id)
   p status_code # => 2xx
   p headers # => { ... }
@@ -160,7 +170,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** |  |  |
+| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
 
 ### Return type
 
@@ -168,7 +178,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

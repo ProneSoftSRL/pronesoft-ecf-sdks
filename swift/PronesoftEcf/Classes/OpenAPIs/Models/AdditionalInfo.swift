@@ -10,11 +10,21 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.AdditionalInfo")
+public typealias AdditionalInfo = PronesoftEcfAPI.AdditionalInfo
+
+extension PronesoftEcfAPI {
+
+/** Additional shipping/logistics information. */
 public struct AdditionalInfo: Codable, JSONEncodable, Hashable {
 
+    /** Gross weight of the shipment (in kg). */
     public var grossWeight: Double?
+    /** Number of packages. */
     public var packageQuantity: Double?
+    /** Container identifier (for imports/exports). */
     public var containerId: String?
+    /** Seal/precinto identifier. */
     public var sealId: String?
 
     public init(grossWeight: Double? = nil, packageQuantity: Double? = nil, containerId: String? = nil, sealId: String? = nil) {
@@ -42,3 +52,4 @@ public struct AdditionalInfo: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

@@ -1,13 +1,14 @@
 # ErrorResponse
 
+Standard error response returned by all endpoints on failure.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status_code** | **int** |  | [optional] 
-**message** | **str** |  | [optional] 
-**timestamp** | **datetime** |  | [optional] 
+**status_code** | **int** | HTTP status code. | [optional] 
+**message** | **str** | Human-readable error description. | [optional] 
+**timestamp** | **datetime** | When the error occurred. | [optional] 
 
 ## Example
 

@@ -29,11 +29,12 @@ import okhttp3.HttpUrl
 
 import com.pronesoft.ecf.models.CreateTaxSequenceRequest
 import com.pronesoft.ecf.models.Environment
+import com.pronesoft.ecf.models.ErrorResponse
 import com.pronesoft.ecf.models.GetNextNumber200Response
 import com.pronesoft.ecf.models.InvoiceType
 import com.pronesoft.ecf.models.ListTaxSequences200Response
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 import com.pronesoft.ecf.infrastructure.ApiClient
 import com.pronesoft.ecf.infrastructure.ApiResponse
@@ -60,8 +61,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * POST /tax-sequences
      * Create new tax sequence
-     * 
-     * @param xTenantId 
+     * Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
      * @param createTaxSequenceRequest 
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
@@ -92,8 +93,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * POST /tax-sequences
      * Create new tax sequence
-     * 
-     * @param xTenantId 
+     * Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
      * @param createTaxSequenceRequest 
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -111,7 +112,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation createTaxSequence
      *
-     * @param xTenantId 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
      * @param createTaxSequenceRequest 
      * @return RequestConfig
      */
@@ -121,7 +122,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Content-Type"] = "application/json"
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/tax-sequences",
@@ -134,11 +136,11 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences/next
-     * Get next available number
-     * 
-     * @param xTenantId 
-     * @param type 
-     * @param environment 
+     * Get next available fiscal number
+     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
+     * @param environment Target environment for the sequence.
      * @return GetNextNumber200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -168,11 +170,11 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences/next
-     * Get next available number
-     * 
-     * @param xTenantId 
-     * @param type 
-     * @param environment 
+     * Get next available fiscal number
+     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
+     * @param environment Target environment for the sequence.
      * @return ApiResponse<GetNextNumber200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -190,9 +192,9 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation getNextNumber
      *
-     * @param xTenantId 
-     * @param type 
-     * @param environment 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
+     * @param environment Target environment for the sequence.
      * @return RequestConfig
      */
     fun getNextNumberRequestConfig(xTenantId: java.util.UUID, type: InvoiceType, environment: Environment) : RequestConfig<Unit> {
@@ -219,9 +221,9 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * GET /tax-sequences
      * List tax sequences
-     * 
-     * @param xTenantId 
-     * @param type  (optional)
+     * Returns all fiscal number sequences registered for the tenant.
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
      * @return ListTaxSequences200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -252,9 +254,9 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * GET /tax-sequences
      * List tax sequences
-     * 
-     * @param xTenantId 
-     * @param type  (optional)
+     * Returns all fiscal number sequences registered for the tenant.
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
      * @return ApiResponse<ListTaxSequences200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -272,8 +274,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation listTaxSequences
      *
-     * @param xTenantId 
-     * @param type  (optional)
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
      * @return RequestConfig
      */
     fun listTaxSequencesRequestConfig(xTenantId: java.util.UUID, type: InvoiceType?) : RequestConfig<Unit> {

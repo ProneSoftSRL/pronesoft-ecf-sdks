@@ -10,10 +10,19 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.ModelErrorResponse")
+public typealias ModelErrorResponse = PronesoftEcfAPI.ModelErrorResponse
+
+extension PronesoftEcfAPI {
+
+/** Standard error response returned by all endpoints on failure. */
 public struct ModelErrorResponse: Codable, JSONEncodable, Hashable {
 
+    /** HTTP status code. */
     public var statusCode: Int?
+    /** Human-readable error description. */
     public var message: String?
+    /** When the error occurred. */
     public var timestamp: Date?
 
     public init(statusCode: Int? = nil, message: String? = nil, timestamp: Date? = nil) {
@@ -38,3 +47,4 @@ public struct ModelErrorResponse: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

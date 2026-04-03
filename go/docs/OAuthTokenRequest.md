@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ClientId** | **string** |  | 
-**ClientSecret** | **string** |  | 
+**ClientId** | **string** | Your application&#39;s client ID from the Pronesoft portal. | 
+**ClientSecret** | **string** | Your application&#39;s client secret. Keep this confidential. | 
 
 ## Methods
 

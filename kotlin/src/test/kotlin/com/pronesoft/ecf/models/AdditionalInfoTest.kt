@@ -33,52 +33,10 @@ class AdditionalInfoTest : ShouldSpec() {
         // uncomment below to create an instance of AdditionalInfo
         //val modelInstance = AdditionalInfo()
 
-        // to test the property `shipmentDate`
-        should("test shipmentDate") {
-            // uncomment below to test the property
-            //modelInstance.shipmentDate shouldBe ("TODO")
-        }
-
-        // to test the property `shipmentNumber`
-        should("test shipmentNumber") {
-            // uncomment below to test the property
-            //modelInstance.shipmentNumber shouldBe ("TODO")
-        }
-
-        // to test the property `containerNumber`
-        should("test containerNumber") {
-            // uncomment below to test the property
-            //modelInstance.containerNumber shouldBe ("TODO")
-        }
-
-        // to test the property `referenceNumber`
-        should("test referenceNumber") {
-            // uncomment below to test the property
-            //modelInstance.referenceNumber shouldBe ("TODO")
-        }
-
         // to test the property `grossWeight`
         should("test grossWeight") {
             // uncomment below to test the property
             //modelInstance.grossWeight shouldBe ("TODO")
-        }
-
-        // to test the property `netWeight`
-        should("test netWeight") {
-            // uncomment below to test the property
-            //modelInstance.netWeight shouldBe ("TODO")
-        }
-
-        // to test the property `grossWeightUnit`
-        should("test grossWeightUnit") {
-            // uncomment below to test the property
-            //modelInstance.grossWeightUnit shouldBe ("TODO")
-        }
-
-        // to test the property `netWeightUnit`
-        should("test netWeightUnit") {
-            // uncomment below to test the property
-            //modelInstance.netWeightUnit shouldBe ("TODO")
         }
 
         // to test the property `packageQuantity`
@@ -87,22 +45,16 @@ class AdditionalInfoTest : ShouldSpec() {
             //modelInstance.packageQuantity shouldBe ("TODO")
         }
 
-        // to test the property `packageUnit`
-        should("test packageUnit") {
+        // to test the property `containerId`
+        should("test containerId") {
             // uncomment below to test the property
-            //modelInstance.packageUnit shouldBe ("TODO")
+            //modelInstance.containerId shouldBe ("TODO")
         }
 
-        // to test the property `packageVolume`
-        should("test packageVolume") {
+        // to test the property `sealId`
+        should("test sealId") {
             // uncomment below to test the property
-            //modelInstance.packageVolume shouldBe ("TODO")
-        }
-
-        // to test the property `volumeUnit`
-        should("test volumeUnit") {
-            // uncomment below to test the property
-            //modelInstance.volumeUnit shouldBe ("TODO")
+            //modelInstance.sealId shouldBe ("TODO")
         }
 
     }

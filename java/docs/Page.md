@@ -2,14 +2,15 @@
 
 # Page
 
+Page-level breakdown for multi-page documents.
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**pageNumber** | **Integer** |  |  |
-|**lineFrom** | **Integer** |  |  |
-|**lineTo** | **Integer** |  |  |
+|**lineFrom** | **Integer** | First line item number on this page. |  |
+|**lineTo** | **Integer** | Last line item number on this page. |  |
 |**subtotal** | **BigDecimal** |  |  [optional] |
 |**taxableAmount** | **BigDecimal** |  |  [optional] |
 |**taxableAmount1** | **BigDecimal** |  |  [optional] |

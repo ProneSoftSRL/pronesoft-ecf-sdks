@@ -1,7 +1,7 @@
 =begin
-#eCF-Pronesoft Master Integration API
+#eCF-Pronesoft Integration API
 
-#**Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
 The version of the OpenAPI document: 0.0.1
 Contact: contacto@pronesoft.com
@@ -14,44 +14,60 @@ require 'date'
 require 'time'
 
 module PronesoftEcf
+  # The main e-CF document payload. Build this object and submit it to `POST /{environment}/ecf/submit`.  **Required fields:** `version`, `invoiceType`, `invoiceNumber`, `issueDate`, `items`, `totals`.  Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`. 
   class ElectronicDocument < ApiModelBase
+    # Document schema version. Always \"1.0\".
     attr_accessor :version
 
     attr_accessor :invoice_type
 
+    # e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`. 
     attr_accessor :invoice_number
 
+    # Document issue date and time (ISO 8601).
     attr_accessor :issue_date
 
+    # Document expiration date (optional, for credit documents).
     attr_accessor :expiration_date
 
+    # Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income 
     attr_accessor :income_type
 
+    # Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto) 
     attr_accessor :payment_type
 
+    # Payment due date (required when paymentType is \"2\" or \"3\").
     attr_accessor :payment_deadline
 
+    # Payment terms description (e.g. \"Net 30\").
     attr_accessor :payment_terms
 
     attr_accessor :payment_account_type
 
+    # Bank account number for payment reference.
     attr_accessor :payment_account_number
 
+    # Bank name for payment reference.
     attr_accessor :payment_bank
 
-    # 0: issuance affected ≤ 30 days, 1: > 30 days
+    # For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago 
     attr_accessor :credit_note_indicator
 
+    # RNC of the issuing company (overrides tenant default if provided).
     attr_accessor :issuer_rnc
 
+    # Legal business name of the issuer.
     attr_accessor :issuer_business_name
 
+    # Contact email of the issuer.
     attr_accessor :issuer_email
 
+    # Issuer phone numbers in format \"809-555-1234\".
     attr_accessor :issuer_phones
 
     attr_accessor :buyer
 
+    # Line items of the document. At least 1 required.
     attr_accessor :items
 
     attr_accessor :totals
@@ -64,10 +80,13 @@ module PronesoftEcf
 
     attr_accessor :reference_info
 
+    # Page/section subtotals (for multi-page documents).
     attr_accessor :subtotals
 
+    # Document-level discounts or surcharges.
     attr_accessor :discounts_or_surcharges
 
+    # Page breakdown for multi-page documents.
     attr_accessor :pages
 
     class EnumAttributeValidator
@@ -364,7 +383,7 @@ module PronesoftEcf
         invalid_properties.push('invalid value for "payment_bank", the character length must be smaller than or equal to 75.')
       end
 
-      pattern = Regexp.new(/^[0-9]{9}|[0-9]{11}$/)
+      pattern = Regexp.new(/^([0-9]{9}|[0-9]{11})$/)
       if !@issuer_rnc.nil? && @issuer_rnc !~ pattern
         invalid_properties.push("invalid value for \"issuer_rnc\", must conform to the pattern #{pattern}.")
       end
@@ -415,7 +434,7 @@ module PronesoftEcf
       return false if !@payment_bank.nil? && @payment_bank.to_s.length > 75
       credit_note_indicator_validator = EnumAttributeValidator.new('String', ["0", "1"])
       return false unless credit_note_indicator_validator.valid?(@credit_note_indicator)
-      return false if !@issuer_rnc.nil? && @issuer_rnc !~ Regexp.new(/^[0-9]{9}|[0-9]{11}$/)
+      return false if !@issuer_rnc.nil? && @issuer_rnc !~ Regexp.new(/^([0-9]{9}|[0-9]{11})$/)
       return false if !@issuer_business_name.nil? && @issuer_business_name.to_s.length > 150
       return false if !@issuer_phones.nil? && @issuer_phones.length > 3
       return false if @items.nil?
@@ -554,7 +573,7 @@ module PronesoftEcf
         fail ArgumentError, 'issuer_rnc cannot be nil'
       end
 
-      pattern = Regexp.new(/^[0-9]{9}|[0-9]{11}$/)
+      pattern = Regexp.new(/^([0-9]{9}|[0-9]{11})$/)
       if issuer_rnc !~ pattern
         fail ArgumentError, "invalid value for \"issuer_rnc\", must conform to the pattern #{pattern}."
       end

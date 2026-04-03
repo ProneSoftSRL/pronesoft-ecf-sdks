@@ -28,9 +28,10 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import com.pronesoft.ecf.models.CreateWebhookConfig
+import com.pronesoft.ecf.models.ErrorResponse
 import com.pronesoft.ecf.models.WebhookConfigResponse
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 import com.pronesoft.ecf.infrastructure.ApiClient
 import com.pronesoft.ecf.infrastructure.ApiResponse
@@ -57,8 +58,8 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * POST /{rnc}/webhooks
      * Register new webhook
-     * 
-     * @param rnc 
+     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
      * @param createWebhookConfig 
      * @return WebhookConfigResponse
      * @throws IllegalStateException If the request is not correctly configured
@@ -90,8 +91,8 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * POST /{rnc}/webhooks
      * Register new webhook
-     * 
-     * @param rnc 
+     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
      * @param createWebhookConfig 
      * @return ApiResponse<WebhookConfigResponse?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -110,7 +111,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * To obtain the request config of the operation createWebhook
      *
-     * @param rnc 
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
      * @param createWebhookConfig 
      * @return RequestConfig
      */
@@ -134,9 +135,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * DELETE /{rnc}/webhooks/{webhookId}
      * Delete webhook configuration
-     * 
-     * @param rnc 
-     * @param webhookId 
+     * Removes a registered webhook by its ID.
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param webhookId The unique ID of the webhook to delete.
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -166,9 +167,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * DELETE /{rnc}/webhooks/{webhookId}
      * Delete webhook configuration
-     * 
-     * @param rnc 
-     * @param webhookId 
+     * Removes a registered webhook by its ID.
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param webhookId The unique ID of the webhook to delete.
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -185,15 +186,16 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * To obtain the request config of the operation deleteWebhook
      *
-     * @param rnc 
-     * @param webhookId 
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param webhookId The unique ID of the webhook to delete.
      * @return RequestConfig
      */
     fun deleteWebhookRequestConfig(rnc: kotlin.String, webhookId: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/{rnc}/webhooks/{webhookId}".replace("{"+"rnc"+"}", encodeURIComponent(rnc.toString())).replace("{"+"webhookId"+"}", encodeURIComponent(webhookId.toString())),
@@ -206,9 +208,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks
-     * List all webhook configurations
-     * 
-     * @param rnc 
+     * List webhook configurations
+     * Returns all registered webhooks for the given RNC.
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
      * @return kotlin.collections.List<WebhookConfigResponse>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -238,9 +240,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks
-     * List all webhook configurations
-     * 
-     * @param rnc 
+     * List webhook configurations
+     * Returns all registered webhooks for the given RNC.
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
      * @return ApiResponse<kotlin.collections.List<WebhookConfigResponse>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -258,7 +260,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * To obtain the request config of the operation listWebhooks
      *
-     * @param rnc 
+     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
      * @return RequestConfig
      */
     fun listWebhooksRequestConfig(rnc: kotlin.String) : RequestConfig<Unit> {

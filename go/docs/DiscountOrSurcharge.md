@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**LineNumber** | **int32** |  | 
-**Type** | **string** |  | 
-**ValueType** | **string** |  | 
-**Amount** | **float32** |  | 
-**Description** | Pointer to **string** |  | [optional] 
-**PercentageValue** | Pointer to **float32** |  | [optional] 
-**AlternativeCurrencyAmount** | Pointer to **float32** |  | [optional] 
+**LineNumber** | **int32** | Reference line number this discount/surcharge applies to. | 
+**Type** | **string** | - &#x60;D&#x60;: Discount (Descuento) - &#x60;R&#x60;: Surcharge/Recargo (Recargo)  | 
+**ValueType** | **string** | Whether the amount is a fixed value (&#x60;$&#x60;) or a percentage (&#x60;%&#x60;). | 
+**Amount** | **float32** | Discount or surcharge amount. | 
+**Description** | Pointer to **string** | Description of the discount or surcharge. | [optional] 
+**PercentageValue** | Pointer to **float32** | Percentage value (when valueType is \&quot;%\&quot;). | [optional] 
+**AlternativeCurrencyAmount** | Pointer to **float32** | Equivalent amount in the alternative currency. | [optional] 
 **BillingIndicator** | Pointer to [**BillingIndicator**](BillingIndicator.md) |  | [optional] 
 
 ## Methods

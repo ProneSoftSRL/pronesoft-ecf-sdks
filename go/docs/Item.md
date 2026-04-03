@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**LineNumber** | Pointer to **int32** |  | [optional] 
-**Name** | **string** |  | 
-**Type** | **string** |  | 
+**LineNumber** | Pointer to **int32** | Sequential line number (1-based). Auto-assigned if omitted. | [optional] 
+**Name** | **string** | Product or service name. | 
+**Type** | **string** | Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio)  | 
 **BillingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
-**Quantity** | **string** |  | 
-**UnitPrice** | **string** |  | 
-**Amount** | **float32** |  | 
-**DiscountAmount** | Pointer to **float32** |  | [optional] 
-**AdditionalTaxes** | Pointer to [**[]ItemAdditionalTax**](ItemAdditionalTax.md) |  | [optional] 
-**Subquantities** | Pointer to [**[]Subquantity**](Subquantity.md) |  | [optional] 
-**AlcoholDegree** | Pointer to **float32** |  | [optional] 
+**Quantity** | **string** | Quantity (as string to support decimals with precision). | 
+**UnitPrice** | **string** | Unit price (as string to support decimals with precision). | 
+**Amount** | **float32** | Total line amount (quantity × unitPrice, before discounts). | 
+**DiscountAmount** | Pointer to **float32** | Discount amount applied to this line item. | [optional] 
+**AdditionalTaxes** | Pointer to [**[]ItemAdditionalTax**](ItemAdditionalTax.md) | Additional taxes (e.g. ISC, IECS) for this line item. | [optional] 
+**Subquantities** | Pointer to [**[]Subquantity**](Subquantity.md) | Sub-quantities (for items with multiple units of measure). | [optional] 
+**AlcoholDegree** | Pointer to **float32** | Alcohol degree (required for alcoholic beverages subject to ISC). | [optional] 
 
 ## Methods
 

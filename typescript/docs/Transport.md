@@ -1,6 +1,7 @@
 
 # Transport
 
+Transport/delivery information (required for certain invoice types).
 
 ## Properties
 

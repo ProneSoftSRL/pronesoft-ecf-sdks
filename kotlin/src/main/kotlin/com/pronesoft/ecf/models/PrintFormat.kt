@@ -24,25 +24,23 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Printer/receipt format: - `A4`: Standard A4 paper - `thermal_80`: 80mm thermal printer - `thermal_58`: 58mm thermal printer 
  *
  * Values: A4,thermal_80,thermal_58
  */
 
-@JsonClass(generateAdapter = false)
 enum class PrintFormat(val value: kotlin.String) {
 
-    @Json(name = "A4")
+    @SerializedName(value = "A4")
     A4("A4"),
 
-    @Json(name = "thermal_80")
+    @SerializedName(value = "thermal_80")
     thermal_80("thermal_80"),
 
-    @Json(name = "thermal_58")
+    @SerializedName(value = "thermal_58")
     thermal_58("thermal_58");
 
     /**

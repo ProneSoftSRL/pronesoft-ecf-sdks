@@ -10,9 +10,15 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.AssociatedCompanySubscriptionPlan")
+public typealias AssociatedCompanySubscriptionPlan = PronesoftEcfAPI.AssociatedCompanySubscriptionPlan
+
+extension PronesoftEcfAPI {
+
 public struct AssociatedCompanySubscriptionPlan: Codable, JSONEncodable, Hashable {
 
     public var name: String?
+    /** Maximum documents allowed per month on this plan. */
     public var maxDocsPerMonth: Int?
 
     public init(name: String? = nil, maxDocsPerMonth: Int? = nil) {
@@ -34,3 +40,4 @@ public struct AssociatedCompanySubscriptionPlan: Codable, JSONEncodable, Hashabl
     }
 }
 
+}

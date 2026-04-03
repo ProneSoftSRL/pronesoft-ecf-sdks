@@ -1,6 +1,7 @@
 
 # AdditionalInfo
 
+Additional shipping/logistics information.
 
 ## Properties
 

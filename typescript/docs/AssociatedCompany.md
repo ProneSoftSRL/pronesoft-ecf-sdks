@@ -1,6 +1,7 @@
 
 # AssociatedCompany
 
+A company or branch associated with the main tenant account.
 
 ## Properties
 

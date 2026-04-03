@@ -44,7 +44,7 @@ docs/TaxSequence.md
 docs/TaxSequencesApi.md
 docs/Totals.md
 docs/Transport.md
-docs/UploadCertificate201Response.md
+docs/UploadCertificateResponse.md
 docs/WebhookConfigResponse.md
 docs/WebhookConfigurationApi.md
 docs/WebhookEventType.md
@@ -94,10 +94,11 @@ lib/pronesoft_ecf/models/subtotal.rb
 lib/pronesoft_ecf/models/tax_sequence.rb
 lib/pronesoft_ecf/models/totals.rb
 lib/pronesoft_ecf/models/transport.rb
-lib/pronesoft_ecf/models/upload_certificate201_response.rb
+lib/pronesoft_ecf/models/upload_certificate_response.rb
 lib/pronesoft_ecf/models/webhook_config_response.rb
 lib/pronesoft_ecf/models/webhook_event_type.rb
 lib/pronesoft_ecf/models/webhook_notification_payload.rb
 lib/pronesoft_ecf/version.rb
 pronesoft_ecf.gemspec
+spec/models/upload_certificate_response_spec.rb
 spec/spec_helper.rb

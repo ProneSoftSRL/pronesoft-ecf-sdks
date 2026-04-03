@@ -5,8 +5,8 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **page_number** | **Integer** |  |  |
-| **line_from** | **Integer** |  |  |
-| **line_to** | **Integer** |  |  |
+| **line_from** | **Integer** | First line item number on this page. |  |
+| **line_to** | **Integer** | Last line item number on this page. |  |
 | **subtotal** | **Float** |  | [optional] |
 | **taxable_amount** | **Float** |  | [optional] |
 | **taxable_amount1** | **Float** |  | [optional] |

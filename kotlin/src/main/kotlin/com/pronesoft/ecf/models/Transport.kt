@@ -24,39 +24,44 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Transport/delivery information (required for certain invoice types).
  *
- * @param driver 
- * @param vehicleId 
- * @param licensePlate 
- * @param route 
- * @param departureDate 
- * @param arrivalDate 
+ * @param driver Driver's full name.
+ * @param vehicleId Vehicle identification number.
+ * @param licensePlate Vehicle license plate.
+ * @param route Delivery route description.
+ * @param departureDate Departure date and time.
+ * @param arrivalDate Estimated arrival date and time.
  */
 
 
 data class Transport (
 
-    @Json(name = "driver")
+    /* Driver's full name. */
+    @SerializedName("driver")
     val driver: kotlin.String? = null,
 
-    @Json(name = "vehicleId")
+    /* Vehicle identification number. */
+    @SerializedName("vehicleId")
     val vehicleId: kotlin.String? = null,
 
-    @Json(name = "licensePlate")
+    /* Vehicle license plate. */
+    @SerializedName("licensePlate")
     val licensePlate: kotlin.String? = null,
 
-    @Json(name = "route")
+    /* Delivery route description. */
+    @SerializedName("route")
     val route: kotlin.String? = null,
 
-    @Json(name = "departureDate")
+    /* Departure date and time. */
+    @SerializedName("departureDate")
     val departureDate: java.time.OffsetDateTime? = null,
 
-    @Json(name = "arrivalDate")
+    /* Estimated arrival date and time. */
+    @SerializedName("arrivalDate")
     val arrivalDate: java.time.OffsetDateTime? = null
 
 ) {

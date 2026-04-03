@@ -1,6 +1,7 @@
 
 # Buyer
 
+Information about the buyer/recipient of the document.
 
 ## Properties
 
@@ -21,9 +22,9 @@ import type { Buyer } from '@pronesoft/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "taxId": null,
-  "name": null,
-  "email": null,
+  "taxId": 130000001,
+  "name": Empresa Compradora SRL,
+  "email": comprador@empresa.com,
   "address": null,
   "municipalityCode": null,
   "provinceCode": null,

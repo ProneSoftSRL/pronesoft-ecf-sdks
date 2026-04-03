@@ -1,6 +1,7 @@
 
 # WebhookNotificationPayload
 
+Payload sent to your registered webhook URL when an event occurs. Verify authenticity using HMAC-SHA256 with your webhook `secret`. 
 
 ## Properties
 

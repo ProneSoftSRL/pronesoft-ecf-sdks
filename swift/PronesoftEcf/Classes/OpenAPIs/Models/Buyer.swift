@@ -10,17 +10,30 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.Buyer")
+public typealias Buyer = PronesoftEcfAPI.Buyer
+
+extension PronesoftEcfAPI {
+
+/** Information about the buyer/recipient of the document. */
 public struct Buyer: Codable, JSONEncodable, Hashable {
 
-    public static let taxIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[0-9]{9}|[0-9]{11}$/")
+    public static let taxIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^([0-9]{9}|[0-9]{11})$/")
     public static let nameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
     public static let addressRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
+    /** Buyer's RNC (9 digits) or cedula (11 digits). Required for type 31. */
     public var taxId: String?
+    /** Buyer's full legal name or business name. */
     public var name: String
+    /** Buyer's email address (for digital delivery of the e-CF). */
     public var email: String?
+    /** Buyer's physical address. */
     public var address: String?
+    /** DGII municipality code of the buyer. */
     public var municipalityCode: String?
+    /** DGII province code of the buyer. */
     public var provinceCode: String?
+    /** Delivery address (if different from billing address). */
     public var deliveryAddress: String?
 
     public init(taxId: String? = nil, name: String, email: String? = nil, address: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, deliveryAddress: String? = nil) {
@@ -57,3 +70,4 @@ public struct Buyer: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

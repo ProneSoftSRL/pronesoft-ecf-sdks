@@ -45,12 +45,6 @@ class ErrorResponseTest : ShouldSpec() {
             //modelInstance.message shouldBe ("TODO")
         }
 
-        // to test the property `error`
-        should("test error") {
-            // uncomment below to test the property
-            //modelInstance.error shouldBe ("TODO")
-        }
-
         // to test the property `timestamp`
         should("test timestamp") {
             // uncomment below to test the property

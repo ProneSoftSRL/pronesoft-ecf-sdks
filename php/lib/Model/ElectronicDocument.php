@@ -11,9 +11,9 @@
  */
 
 /**
- * eCF-Pronesoft Master Integration API
+ * eCF-Pronesoft Integration API
  *
- * **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows.
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) |
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: contacto@pronesoft.com
@@ -36,6 +36,7 @@ use \PronesoftEcf\ObjectSerializer;
  * ElectronicDocument Class Doc Comment
  *
  * @category Class
+ * @description The main e-CF document payload. Build this object and submit it to &#x60;POST /{environment}/ecf/submit&#x60;.  **Required fields:** &#x60;version&#x60;, &#x60;invoiceType&#x60;, &#x60;invoiceNumber&#x60;, &#x60;issueDate&#x60;, &#x60;items&#x60;, &#x60;totals&#x60;.  Use &#x60;GET /tax-sequences/next&#x60; to obtain the correct &#x60;invoiceNumber&#x60;.
  * @package  PronesoftEcf
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -571,8 +572,8 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             );
         }
 
-        if (!is_null($this->container['issuer_rnc']) && !preg_match("/^[0-9]{9}|[0-9]{11}$/", $this->container['issuer_rnc'])) {
-            $invalidProperties[] = "invalid value for 'issuer_rnc', must be conform to the pattern /^[0-9]{9}|[0-9]{11}$/.";
+        if (!is_null($this->container['issuer_rnc']) && !preg_match("/^([0-9]{9}|[0-9]{11})$/", $this->container['issuer_rnc'])) {
+            $invalidProperties[] = "invalid value for 'issuer_rnc', must be conform to the pattern /^([0-9]{9}|[0-9]{11})$/.";
         }
 
         if (!is_null($this->container['issuer_business_name']) && (mb_strlen($this->container['issuer_business_name']) > 150)) {
@@ -625,7 +626,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets version
      *
-     * @param string $version version
+     * @param string $version Document schema version. Always \"1.0\".
      *
      * @return self
      */
@@ -684,7 +685,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets invoice_number
      *
-     * @param string $invoice_number invoice_number
+     * @param string $invoice_number e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`.
      *
      * @return self
      */
@@ -716,7 +717,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets issue_date
      *
-     * @param \DateTime $issue_date issue_date
+     * @param \DateTime $issue_date Document issue date and time (ISO 8601).
      *
      * @return self
      */
@@ -743,7 +744,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets expiration_date
      *
-     * @param \DateTime|null $expiration_date expiration_date
+     * @param \DateTime|null $expiration_date Document expiration date (optional, for credit documents).
      *
      * @return self
      */
@@ -770,7 +771,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets income_type
      *
-     * @param string|null $income_type income_type
+     * @param string|null $income_type Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income
      *
      * @return self
      */
@@ -807,7 +808,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_type
      *
-     * @param string|null $payment_type payment_type
+     * @param string|null $payment_type Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto)
      *
      * @return self
      */
@@ -844,7 +845,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_deadline
      *
-     * @param \DateTime|null $payment_deadline payment_deadline
+     * @param \DateTime|null $payment_deadline Payment due date (required when paymentType is \"2\" or \"3\").
      *
      * @return self
      */
@@ -871,7 +872,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_terms
      *
-     * @param string|null $payment_terms payment_terms
+     * @param string|null $payment_terms Payment terms description (e.g. \"Net 30\").
      *
      * @return self
      */
@@ -929,7 +930,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_account_number
      *
-     * @param string|null $payment_account_number payment_account_number
+     * @param string|null $payment_account_number Bank account number for payment reference.
      *
      * @return self
      */
@@ -960,7 +961,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_bank
      *
-     * @param string|null $payment_bank payment_bank
+     * @param string|null $payment_bank Bank name for payment reference.
      *
      * @return self
      */
@@ -991,7 +992,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets credit_note_indicator
      *
-     * @param string|null $credit_note_indicator 0: issuance affected ≤ 30 days, 1: > 30 days
+     * @param string|null $credit_note_indicator For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago
      *
      * @return self
      */
@@ -1028,7 +1029,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets issuer_rnc
      *
-     * @param string|null $issuer_rnc issuer_rnc
+     * @param string|null $issuer_rnc RNC of the issuing company (overrides tenant default if provided).
      *
      * @return self
      */
@@ -1038,8 +1039,8 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             throw new \InvalidArgumentException('non-nullable issuer_rnc cannot be null');
         }
 
-        if ((!preg_match("/^[0-9]{9}|[0-9]{11}$/", ObjectSerializer::toString($issuer_rnc)))) {
-            throw new \InvalidArgumentException("invalid value for \$issuer_rnc when calling ElectronicDocument., must conform to the pattern /^[0-9]{9}|[0-9]{11}$/.");
+        if ((!preg_match("/^([0-9]{9}|[0-9]{11})$/", ObjectSerializer::toString($issuer_rnc)))) {
+            throw new \InvalidArgumentException("invalid value for \$issuer_rnc when calling ElectronicDocument., must conform to the pattern /^([0-9]{9}|[0-9]{11})$/.");
         }
 
         $this->container['issuer_rnc'] = $issuer_rnc;
@@ -1060,7 +1061,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets issuer_business_name
      *
-     * @param string|null $issuer_business_name issuer_business_name
+     * @param string|null $issuer_business_name Legal business name of the issuer.
      *
      * @return self
      */
@@ -1091,7 +1092,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets issuer_email
      *
-     * @param string|null $issuer_email issuer_email
+     * @param string|null $issuer_email Contact email of the issuer.
      *
      * @return self
      */
@@ -1118,7 +1119,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets issuer_phones
      *
-     * @param string[]|null $issuer_phones issuer_phones
+     * @param string[]|null $issuer_phones Issuer phone numbers in format \"809-555-1234\".
      *
      * @return self
      */
@@ -1176,7 +1177,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets items
      *
-     * @param \PronesoftEcf\Model\Item[] $items items
+     * @param \PronesoftEcf\Model\Item[] $items Line items of the document. At least 1 required.
      *
      * @return self
      */
@@ -1345,7 +1346,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets subtotals
      *
-     * @param \PronesoftEcf\Model\Subtotal[]|null $subtotals subtotals
+     * @param \PronesoftEcf\Model\Subtotal[]|null $subtotals Page/section subtotals (for multi-page documents).
      *
      * @return self
      */
@@ -1372,7 +1373,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets discounts_or_surcharges
      *
-     * @param \PronesoftEcf\Model\DiscountOrSurcharge[]|null $discounts_or_surcharges discounts_or_surcharges
+     * @param \PronesoftEcf\Model\DiscountOrSurcharge[]|null $discounts_or_surcharges Document-level discounts or surcharges.
      *
      * @return self
      */
@@ -1399,7 +1400,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets pages
      *
-     * @param \PronesoftEcf\Model\Page[]|null $pages pages
+     * @param \PronesoftEcf\Model\Page[]|null $pages Page breakdown for multi-page documents.
      *
      * @return self
      */

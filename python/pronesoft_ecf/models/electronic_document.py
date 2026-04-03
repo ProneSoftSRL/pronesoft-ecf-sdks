@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-    eCF-Pronesoft Master Integration API
+    eCF-Pronesoft Integration API
 
-    **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
     The version of the OpenAPI document: 0.0.1
     Contact: contacto@pronesoft.com
@@ -40,35 +40,35 @@ from pydantic_core import to_jsonable_python
 
 class ElectronicDocument(BaseModel):
     """
-    ElectronicDocument
+    The main e-CF document payload. Build this object and submit it to `POST /{environment}/ecf/submit`.  **Required fields:** `version`, `invoiceType`, `invoiceNumber`, `issueDate`, `items`, `totals`.  Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`. 
     """ # noqa: E501
-    version: Annotated[str, Field(strict=True)]
+    version: Annotated[str, Field(strict=True)] = Field(description="Document schema version. Always \"1.0\".")
     invoice_type: InvoiceType = Field(alias="invoiceType")
-    invoice_number: Annotated[str, Field(strict=True)] = Field(alias="invoiceNumber")
-    issue_date: datetime = Field(alias="issueDate")
-    expiration_date: Optional[datetime] = Field(default=None, alias="expirationDate")
-    income_type: Optional[StrictStr] = Field(default=None, alias="incomeType")
-    payment_type: Optional[StrictStr] = Field(default=None, alias="paymentType")
-    payment_deadline: Optional[datetime] = Field(default=None, alias="paymentDeadline")
-    payment_terms: Optional[Annotated[str, Field(strict=True, max_length=15)]] = Field(default=None, alias="paymentTerms")
+    invoice_number: Annotated[str, Field(strict=True)] = Field(description="e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`. ", alias="invoiceNumber")
+    issue_date: datetime = Field(description="Document issue date and time (ISO 8601).", alias="issueDate")
+    expiration_date: Optional[datetime] = Field(default=None, description="Document expiration date (optional, for credit documents).", alias="expirationDate")
+    income_type: Optional[StrictStr] = Field(default=None, description="Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income ", alias="incomeType")
+    payment_type: Optional[StrictStr] = Field(default=None, description="Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto) ", alias="paymentType")
+    payment_deadline: Optional[datetime] = Field(default=None, description="Payment due date (required when paymentType is \"2\" or \"3\").", alias="paymentDeadline")
+    payment_terms: Optional[Annotated[str, Field(strict=True, max_length=15)]] = Field(default=None, description="Payment terms description (e.g. \"Net 30\").", alias="paymentTerms")
     payment_account_type: Optional[AccountType] = Field(default=None, alias="paymentAccountType")
-    payment_account_number: Optional[Annotated[str, Field(strict=True, max_length=28)]] = Field(default=None, alias="paymentAccountNumber")
-    payment_bank: Optional[Annotated[str, Field(strict=True, max_length=75)]] = Field(default=None, alias="paymentBank")
-    credit_note_indicator: Optional[StrictStr] = Field(default=None, description="0: issuance affected ≤ 30 days, 1: > 30 days", alias="creditNoteIndicator")
-    issuer_rnc: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, alias="issuerRNC")
-    issuer_business_name: Optional[Annotated[str, Field(strict=True, max_length=150)]] = Field(default=None, alias="issuerBusinessName")
-    issuer_email: Optional[StrictStr] = Field(default=None, alias="issuerEmail")
-    issuer_phones: Optional[Annotated[List[Annotated[str, Field(strict=True)]], Field(max_length=3)]] = Field(default=None, alias="issuerPhones")
+    payment_account_number: Optional[Annotated[str, Field(strict=True, max_length=28)]] = Field(default=None, description="Bank account number for payment reference.", alias="paymentAccountNumber")
+    payment_bank: Optional[Annotated[str, Field(strict=True, max_length=75)]] = Field(default=None, description="Bank name for payment reference.", alias="paymentBank")
+    credit_note_indicator: Optional[StrictStr] = Field(default=None, description="For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago ", alias="creditNoteIndicator")
+    issuer_rnc: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="RNC of the issuing company (overrides tenant default if provided).", alias="issuerRNC")
+    issuer_business_name: Optional[Annotated[str, Field(strict=True, max_length=150)]] = Field(default=None, description="Legal business name of the issuer.", alias="issuerBusinessName")
+    issuer_email: Optional[StrictStr] = Field(default=None, description="Contact email of the issuer.", alias="issuerEmail")
+    issuer_phones: Optional[Annotated[List[Annotated[str, Field(strict=True)]], Field(max_length=3)]] = Field(default=None, description="Issuer phone numbers in format \"809-555-1234\".", alias="issuerPhones")
     buyer: Optional[Buyer] = None
-    items: Annotated[List[Item], Field(min_length=1, max_length=1000)]
+    items: Annotated[List[Item], Field(min_length=1, max_length=1000)] = Field(description="Line items of the document. At least 1 required.")
     totals: Totals
     transport: Optional[Transport] = None
     additional_info: Optional[AdditionalInfo] = Field(default=None, alias="additionalInfo")
     alternative_currency: Optional[AlternativeCurrency] = Field(default=None, alias="alternativeCurrency")
     reference_info: Optional[ReferenceInfo] = Field(default=None, alias="referenceInfo")
-    subtotals: Optional[List[Subtotal]] = None
-    discounts_or_surcharges: Optional[List[DiscountOrSurcharge]] = Field(default=None, alias="discountsOrSurcharges")
-    pages: Optional[List[Page]] = None
+    subtotals: Optional[List[Subtotal]] = Field(default=None, description="Page/section subtotals (for multi-page documents).")
+    discounts_or_surcharges: Optional[List[DiscountOrSurcharge]] = Field(default=None, description="Document-level discounts or surcharges.", alias="discountsOrSurcharges")
+    pages: Optional[List[Page]] = Field(default=None, description="Page breakdown for multi-page documents.")
     __properties: ClassVar[List[str]] = ["version", "invoiceType", "invoiceNumber", "issueDate", "expirationDate", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "creditNoteIndicator", "issuerRNC", "issuerBusinessName", "issuerEmail", "issuerPhones", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"]
 
     @field_validator('version')
@@ -121,8 +121,8 @@ class ElectronicDocument(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^[0-9]{9}|[0-9]{11}$", value):
-            raise ValueError(r"must validate the regular expression /^[0-9]{9}|[0-9]{11}$/")
+        if not re.match(r"^([0-9]{9}|[0-9]{11})$", value):
+            raise ValueError(r"must validate the regular expression /^([0-9]{9}|[0-9]{11})$/")
         return value
 
     model_config = ConfigDict(

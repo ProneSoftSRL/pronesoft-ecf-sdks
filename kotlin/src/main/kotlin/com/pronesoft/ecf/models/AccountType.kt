@@ -24,25 +24,23 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * CT: Current, AH: Savings, OT: Others
+ * Bank account type: - `CT`: Current account (Cuenta Corriente) - `AH`: Savings account (Cuenta de Ahorros) - `OT`: Other 
  *
  * Values: CT,AH,OT
  */
 
-@JsonClass(generateAdapter = false)
 enum class AccountType(val value: kotlin.String) {
 
-    @Json(name = "CT")
+    @SerializedName(value = "CT")
     CT("CT"),
 
-    @Json(name = "AH")
+    @SerializedName(value = "AH")
     AH("AH"),
 
-    @Json(name = "OT")
+    @SerializedName(value = "OT")
     OT("OT");
 
     /**

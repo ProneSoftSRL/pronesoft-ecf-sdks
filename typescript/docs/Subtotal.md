@@ -1,6 +1,7 @@
 
 # Subtotal
 
+Subtotal for a page or section within a multi-page document.
 
 ## Properties
 

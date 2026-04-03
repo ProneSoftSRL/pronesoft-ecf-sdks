@@ -13,14 +13,14 @@
 
 package org.openapitools.client.api;
 
-import Pronesoft.Ecf.ApiCallback;
-import Pronesoft.Ecf.ApiClient;
-import Pronesoft.Ecf.ApiException;
-import Pronesoft.Ecf.ApiResponse;
-import Pronesoft.Ecf.Configuration;
-import Pronesoft.Ecf.Pair;
-import Pronesoft.Ecf.ProgressRequestBody;
-import Pronesoft.Ecf.ProgressResponseBody;
+import com.pronesoft.ecf.ApiCallback;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.ApiResponse;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.Pair;
+import com.pronesoft.ecf.ProgressRequestBody;
+import com.pronesoft.ecf.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 

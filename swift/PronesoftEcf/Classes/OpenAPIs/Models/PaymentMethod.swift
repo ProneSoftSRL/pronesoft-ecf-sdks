@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.PaymentMethod")
+public typealias PaymentMethod = PronesoftEcfAPI.PaymentMethod
+
+extension PronesoftEcfAPI {
+
+/** Payment method code: - &#x60;1&#x60;: Cash (Efectivo) - &#x60;2&#x60;: Check (Cheque) - &#x60;3&#x60;: Debit/Credit Card (Tarjeta de Débito/Crédito) - &#x60;4&#x60;: Credit (Crédito) - &#x60;5&#x60;: Bank Transfer (Transferencia Bancaria) - &#x60;6&#x60;: Electronic Money (Dinero Electrónico) - &#x60;7&#x60;: Bond/Gift Card (Bono/Gift Card) - &#x60;8&#x60;: Other (Otro)  */
 public enum PaymentMethod: String, Codable, CaseIterable {
     case _1 = "1"
     case _2 = "2"
@@ -19,4 +25,5 @@ public enum PaymentMethod: String, Codable, CaseIterable {
     case _6 = "6"
     case _7 = "7"
     case _8 = "8"
+}
 }

@@ -24,27 +24,29 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Successful token response. Use `accessToken` as a Bearer token in the `Authorization` header of all subsequent requests. 
  *
- * @param accessToken 
- * @param tokenType 
- * @param expiresIn 
+ * @param accessToken JWT Bearer token. Pass as Authorization: Bearer <accessToken>.
+ * @param tokenType Always \"Bearer\".
+ * @param expiresIn Token lifetime in seconds. Request a new token when it expires.
  */
 
 
 data class OAuthTokenResponse (
 
-    @Json(name = "accessToken")
+    /* JWT Bearer token. Pass as Authorization: Bearer <accessToken>. */
+    @SerializedName("accessToken")
     val accessToken: kotlin.String? = null,
 
-    @Json(name = "tokenType")
+    /* Always \"Bearer\". */
+    @SerializedName("tokenType")
     val tokenType: kotlin.String? = null,
 
-    @Json(name = "expiresIn")
+    /* Token lifetime in seconds. Request a new token when it expires. */
+    @SerializedName("expiresIn")
     val expiresIn: kotlin.Int? = null
 
 ) {

@@ -24,43 +24,49 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Information about the buyer/recipient of the document.
  *
- * @param name 
- * @param taxId 
- * @param email 
- * @param address 
- * @param municipalityCode 
- * @param provinceCode 
- * @param deliveryAddress 
+ * @param name Buyer's full legal name or business name.
+ * @param taxId Buyer's RNC (9 digits) or cedula (11 digits). Required for type 31.
+ * @param email Buyer's email address (for digital delivery of the e-CF).
+ * @param address Buyer's physical address.
+ * @param municipalityCode DGII municipality code of the buyer.
+ * @param provinceCode DGII province code of the buyer.
+ * @param deliveryAddress Delivery address (if different from billing address).
  */
 
 
 data class Buyer (
 
-    @Json(name = "name")
+    /* Buyer's full legal name or business name. */
+    @SerializedName("name")
     val name: kotlin.String,
 
-    @Json(name = "taxId")
+    /* Buyer's RNC (9 digits) or cedula (11 digits). Required for type 31. */
+    @SerializedName("taxId")
     val taxId: kotlin.String? = null,
 
-    @Json(name = "email")
+    /* Buyer's email address (for digital delivery of the e-CF). */
+    @SerializedName("email")
     val email: kotlin.String? = null,
 
-    @Json(name = "address")
+    /* Buyer's physical address. */
+    @SerializedName("address")
     val address: kotlin.String? = null,
 
-    @Json(name = "municipalityCode")
+    /* DGII municipality code of the buyer. */
+    @SerializedName("municipalityCode")
     val municipalityCode: kotlin.String? = null,
 
-    @Json(name = "provinceCode")
+    /* DGII province code of the buyer. */
+    @SerializedName("provinceCode")
     val provinceCode: kotlin.String? = null,
 
-    @Json(name = "deliveryAddress")
+    /* Delivery address (if different from billing address). */
+    @SerializedName("deliveryAddress")
     val deliveryAddress: kotlin.String? = null
 
 ) {

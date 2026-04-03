@@ -16,8 +16,8 @@ import type { GetNextNumber200ResponseData } from '@pronesoft/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "nextNumber": null,
-  "remainingNumbers": null,
+  "nextNumber": E310000000001,
+  "remainingNumbers": 499,
 } satisfies GetNextNumber200ResponseData
 
 console.log(example)

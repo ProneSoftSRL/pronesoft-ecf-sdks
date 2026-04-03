@@ -28,7 +28,6 @@ import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.models.WebhookNotificationPayload
 import com.pronesoft.ecf.models.WebhookEventType
-import com.pronesoft.ecf.models.WebhookNotificationPayloadData
 
 class WebhookNotificationPayloadTest : ShouldSpec() {
     init {

@@ -27,7 +27,6 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.models.EcfSubmissionResponse
-import com.pronesoft.ecf.models.DgiiResponseData
 
 class EcfSubmissionResponseTest : ShouldSpec() {
     init {
@@ -46,82 +45,22 @@ class EcfSubmissionResponseTest : ShouldSpec() {
             //modelInstance.documentId shouldBe ("TODO")
         }
 
-        // to test the property `authType`
-        should("test authType") {
-            // uncomment below to test the property
-            //modelInstance.authType shouldBe ("TODO")
-        }
-
-        // to test the property `timestamp`
-        should("test timestamp") {
-            // uncomment below to test the property
-            //modelInstance.timestamp shouldBe ("TODO")
-        }
-
-        // to test the property `contingencyMode`
-        should("test contingencyMode") {
-            // uncomment below to test the property
-            //modelInstance.contingencyMode shouldBe ("TODO")
-        }
-
-        // to test the property `isSummary`
-        should("test isSummary") {
-            // uncomment below to test the property
-            //modelInstance.isSummary shouldBe ("TODO")
-        }
-
-        // to test the property `message`
-        should("test message") {
-            // uncomment below to test the property
-            //modelInstance.message shouldBe ("TODO")
-        }
-
-        // to test the property `estimatedProcessTime`
-        should("test estimatedProcessTime") {
-            // uncomment below to test the property
-            //modelInstance.estimatedProcessTime shouldBe ("TODO")
-        }
-
         // to test the property `encf`
         should("test encf") {
             // uncomment below to test the property
             //modelInstance.encf shouldBe ("TODO")
         }
 
-        // to test the property `qrUrl`
-        should("test qrUrl") {
+        // to test the property `trackId`
+        should("test trackId") {
             // uncomment below to test the property
-            //modelInstance.qrUrl shouldBe ("TODO")
+            //modelInstance.trackId shouldBe ("TODO")
         }
 
-        // to test the property `signatureTime`
-        should("test signatureTime") {
+        // to test the property `message`
+        should("test message") {
             // uncomment below to test the property
-            //modelInstance.signatureTime shouldBe ("TODO")
-        }
-
-        // to test the property `securityCode`
-        should("test securityCode") {
-            // uncomment below to test the property
-            //modelInstance.securityCode shouldBe ("TODO")
-        }
-
-        // to test the property `documentType`
-        should("test documentType") {
-            // uncomment below to test the property
-            //modelInstance.documentType shouldBe ("TODO")
-        }
-
-        // to test the property `printUrl`
-        should("test printUrl") {
-            // uncomment below to test the property
-            //modelInstance.printUrl shouldBe ("TODO")
-        }
-
-        // to test the property `dgiiResponse`
-        should("test dgiiResponse") {
-            // uncomment below to test the property
-            //modelInstance.dgiiResponse shouldBe ("TODO")
+            //modelInstance.message shouldBe ("TODO")
         }
 
     }

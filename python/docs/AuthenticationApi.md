@@ -4,13 +4,34 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Get access token (OAuth 2.0)
+[**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Get access token
 
 
 # **get_access_token**
 > OAuthTokenResponse get_access_token(o_auth_token_request)
 
-Get access token (OAuth 2.0)
+Get access token
+
+Authenticates using OAuth 2.0 **Client Credentials** flow.
+Returns a Bearer token to use in subsequent requests.
+
+**This endpoint does NOT require an Authorization header.**
+
+```
+POST /oauth/token
+Content-Type: application/json
+
+{
+  "clientId": "your-client-id",
+  "clientSecret": "your-client-secret"
+}
+```
+
+Use the returned `accessToken` as:
+```
+Authorization: Bearer <accessToken>
+```
+
 
 ### Example
 
@@ -33,10 +54,10 @@ configuration = pronesoft_ecf.Configuration(
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.AuthenticationApi(api_client)
-    o_auth_token_request = pronesoft_ecf.OAuthTokenRequest() # OAuthTokenRequest | 
+    o_auth_token_request = {"clientId":"my-client-id","clientSecret":"my-super-secret"} # OAuthTokenRequest | 
 
     try:
-        # Get access token (OAuth 2.0)
+        # Get access token
         api_response = api_instance.get_access_token(o_auth_token_request)
         print("The response of AuthenticationApi->get_access_token:\n")
         pprint(api_response)
@@ -71,7 +92,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Token generated successfully |  -  |
-**401** | Authorization error (Expired or invalid token) |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**TaxId** | Pointer to **string** |  | [optional] 
-**Name** | **string** |  | 
-**Email** | Pointer to **string** |  | [optional] 
-**Address** | Pointer to **string** |  | [optional] 
-**MunicipalityCode** | Pointer to **string** |  | [optional] 
-**ProvinceCode** | Pointer to **string** |  | [optional] 
-**DeliveryAddress** | Pointer to **string** |  | [optional] 
+**TaxId** | Pointer to **string** | Buyer&#39;s RNC (9 digits) or cedula (11 digits). Required for type 31. | [optional] 
+**Name** | **string** | Buyer&#39;s full legal name or business name. | 
+**Email** | Pointer to **string** | Buyer&#39;s email address (for digital delivery of the e-CF). | [optional] 
+**Address** | Pointer to **string** | Buyer&#39;s physical address. | [optional] 
+**MunicipalityCode** | Pointer to **string** | DGII municipality code of the buyer. | [optional] 
+**ProvinceCode** | Pointer to **string** | DGII province code of the buyer. | [optional] 
+**DeliveryAddress** | Pointer to **string** | Delivery address (if different from billing address). | [optional] 
 
 ## Methods
 

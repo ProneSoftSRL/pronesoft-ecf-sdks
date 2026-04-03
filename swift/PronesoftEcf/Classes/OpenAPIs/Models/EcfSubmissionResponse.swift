@@ -10,12 +10,23 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.EcfSubmissionResponse")
+public typealias EcfSubmissionResponse = PronesoftEcfAPI.EcfSubmissionResponse
+
+extension PronesoftEcfAPI {
+
+/** Response returned after successfully submitting an e-CF document. */
 public struct EcfSubmissionResponse: Codable, JSONEncodable, Hashable {
 
+    /** Whether the document was accepted by the platform. */
     public var success: Bool
+    /** Pronesoft internal document identifier. */
     public var documentId: UUID
+    /** The e-NCF number assigned to the document. */
     public var encf: String?
+    /** DGII tracking ID for status polling. */
     public var trackId: String?
+    /** Human-readable status message. */
     public var message: String?
 
     public init(success: Bool, documentId: UUID, encf: String? = nil, trackId: String? = nil, message: String? = nil) {
@@ -46,3 +57,4 @@ public struct EcfSubmissionResponse: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

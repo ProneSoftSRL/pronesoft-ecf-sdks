@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Status** | Pointer to **string** |  | [optional] 
+**Status** | Pointer to **string** | Subscription status (e.g. \&quot;active\&quot;, \&quot;expired\&quot;). | [optional] 
 **ExpirationDate** | Pointer to **time.Time** |  | [optional] 
 **Plan** | Pointer to [**AssociatedCompanySubscriptionPlan**](AssociatedCompanySubscriptionPlan.md) |  | [optional] 
 

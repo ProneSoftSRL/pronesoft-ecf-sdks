@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * eCF-Pronesoft Master Integration API
- * **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+ * eCF-Pronesoft Integration API
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: contacto@pronesoft.com
@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   CreateTaxSequenceRequest,
   Environment,
+  ErrorResponse,
   GetNextNumber200Response,
   InvoiceType,
   ListTaxSequences200Response,
@@ -26,6 +27,8 @@ import {
     CreateTaxSequenceRequestToJSON,
     EnvironmentFromJSON,
     EnvironmentToJSON,
+    ErrorResponseFromJSON,
+    ErrorResponseToJSON,
     GetNextNumber200ResponseFromJSON,
     GetNextNumber200ResponseToJSON,
     InvoiceTypeFromJSON,
@@ -51,9 +54,98 @@ export interface ListTaxSequencesRequest {
 }
 
 /**
+ * TaxSequencesApi - interface
+ * 
+ * @export
+ * @interface TaxSequencesApiInterface
+ */
+export interface TaxSequencesApiInterface {
+    /**
+     * Creates request options for createTaxSequence without sending the request
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {CreateTaxSequenceRequest} createTaxSequenceRequest 
+     * @throws {RequiredError}
+     * @memberof TaxSequencesApiInterface
+     */
+    createTaxSequenceRequestOpts(requestParameters: CreateTaxSequenceOperationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
+     * @summary Create new tax sequence
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {CreateTaxSequenceRequest} createTaxSequenceRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaxSequencesApiInterface
+     */
+    createTaxSequenceRaw(requestParameters: CreateTaxSequenceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
+     * Create new tax sequence
+     */
+    createTaxSequence(requestParameters: CreateTaxSequenceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * Creates request options for getNextNumber without sending the request
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {InvoiceType} type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
+     * @param {Environment} environment Target environment for the sequence.
+     * @throws {RequiredError}
+     * @memberof TaxSequencesApiInterface
+     */
+    getNextNumberRequestOpts(requestParameters: GetNextNumberRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
+     * @summary Get next available fiscal number
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {InvoiceType} type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
+     * @param {Environment} environment Target environment for the sequence.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaxSequencesApiInterface
+     */
+    getNextNumberRaw(requestParameters: GetNextNumberRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetNextNumber200Response>>;
+
+    /**
+     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
+     * Get next available fiscal number
+     */
+    getNextNumber(requestParameters: GetNextNumberRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetNextNumber200Response>;
+
+    /**
+     * Creates request options for listTaxSequences without sending the request
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {InvoiceType} [type] Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit).
+     * @throws {RequiredError}
+     * @memberof TaxSequencesApiInterface
+     */
+    listTaxSequencesRequestOpts(requestParameters: ListTaxSequencesRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns all fiscal number sequences registered for the tenant.
+     * @summary List tax sequences
+     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param {InvoiceType} [type] Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit).
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaxSequencesApiInterface
+     */
+    listTaxSequencesRaw(requestParameters: ListTaxSequencesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListTaxSequences200Response>>;
+
+    /**
+     * Returns all fiscal number sequences registered for the tenant.
+     * List tax sequences
+     */
+    listTaxSequences(requestParameters: ListTaxSequencesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListTaxSequences200Response>;
+
+}
+
+/**
  * 
  */
-export class TaxSequencesApi extends runtime.BaseAPI {
+export class TaxSequencesApi extends runtime.BaseAPI implements TaxSequencesApiInterface {
 
     /**
      * Creates request options for createTaxSequence without sending the request
@@ -85,9 +177,17 @@ export class TaxSequencesApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", []);
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["sequences:create"]);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/tax-sequences`;
 
@@ -101,6 +201,7 @@ export class TaxSequencesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
      * Create new tax sequence
      */
     async createTaxSequenceRaw(requestParameters: CreateTaxSequenceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
@@ -111,6 +212,7 @@ export class TaxSequencesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
      * Create new tax sequence
      */
     async createTaxSequence(requestParameters: CreateTaxSequenceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
@@ -160,9 +262,17 @@ export class TaxSequencesApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", []);
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["sequences:read"]);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/tax-sequences/next`;
 
@@ -175,7 +285,8 @@ export class TaxSequencesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get next available number
+     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
+     * Get next available fiscal number
      */
     async getNextNumberRaw(requestParameters: GetNextNumberRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetNextNumber200Response>> {
         const requestOptions = await this.getNextNumberRequestOpts(requestParameters);
@@ -185,7 +296,8 @@ export class TaxSequencesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get next available number
+     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
+     * Get next available fiscal number
      */
     async getNextNumber(requestParameters: GetNextNumberRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetNextNumber200Response> {
         const response = await this.getNextNumberRaw(requestParameters, initOverrides);
@@ -217,9 +329,17 @@ export class TaxSequencesApi extends runtime.BaseAPI {
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", []);
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["sequences:read"]);
         }
 
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
 
         let urlPath = `/tax-sequences`;
 
@@ -232,6 +352,7 @@ export class TaxSequencesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Returns all fiscal number sequences registered for the tenant.
      * List tax sequences
      */
     async listTaxSequencesRaw(requestParameters: ListTaxSequencesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListTaxSequences200Response>> {
@@ -242,6 +363,7 @@ export class TaxSequencesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Returns all fiscal number sequences registered for the tenant.
      * List tax sequences
      */
     async listTaxSequences(requestParameters: ListTaxSequencesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListTaxSequences200Response> {

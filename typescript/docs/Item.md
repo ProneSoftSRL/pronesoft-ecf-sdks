@@ -1,6 +1,7 @@
 
 # Item
 
+A single line item in the electronic document.
 
 ## Properties
 
@@ -25,14 +26,14 @@ import type { Item } from '@pronesoft/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "lineNumber": null,
-  "name": null,
+  "lineNumber": 1,
+  "name": Consulting Services,
   "type": null,
   "billingIndicator": null,
-  "quantity": null,
-  "unitPrice": null,
-  "amount": null,
-  "discountAmount": null,
+  "quantity": 2.5,
+  "unitPrice": 1500.00,
+  "amount": 3750.0,
+  "discountAmount": 0.0,
   "additionalTaxes": null,
   "subquantities": null,
   "alcoholDegree": null,

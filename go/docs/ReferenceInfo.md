@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ModifiedInvoiceNumber** | **string** |  | 
-**OtherContributorRNC** | Pointer to **string** |  | [optional] 
-**ModifiedInvoiceDate** | Pointer to **string** |  | [optional] 
-**ModificationCode** | **string** |  | 
-**ModificationReason** | Pointer to **string** |  | [optional] 
+**ModifiedInvoiceNumber** | **string** | e-NCF number of the original document being referenced. | 
+**OtherContributorRNC** | Pointer to **string** | RNC of the other contributor (if different from issuer). | [optional] 
+**ModifiedInvoiceDate** | Pointer to **string** | Issue date of the original document. | [optional] 
+**ModificationCode** | **string** | Reason for the modification: - &#x60;1&#x60;: Price correction - &#x60;2&#x60;: Quantity correction - &#x60;3&#x60;: Return of goods - &#x60;4&#x60;: Tax correction - &#x60;5&#x60;: Other  | 
+**ModificationReason** | Pointer to **string** | Free-text description of the modification reason. | [optional] 
 
 ## Methods
 

@@ -4,12 +4,12 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **id** | **String** |  | [optional] |
-| **url** | **String** |  | [optional] |
-| **event_types** | [**Array&lt;WebhookEventType&gt;**](WebhookEventType.md) |  | [optional] |
-| **is_active** | **Boolean** |  | [optional] |
+| **id** | **String** | Unique webhook identifier. | [optional] |
+| **url** | **String** | The URL that receives webhook notifications. | [optional] |
+| **event_types** | [**Array&lt;WebhookEventType&gt;**](WebhookEventType.md) | Events this webhook is subscribed to. | [optional] |
+| **is_active** | **Boolean** | Whether this webhook is currently active. | [optional] |
 | **created_at** | **Time** |  | [optional] |
-| **last_triggered_at** | **Time** |  | [optional] |
+| **last_triggered_at** | **Time** | When this webhook was last triggered. Null if never triggered. | [optional] |
 
 ## Example
 

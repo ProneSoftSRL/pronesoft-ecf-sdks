@@ -1,6 +1,7 @@
 
 # DiscountOrSurcharge
 
+A document-level discount or surcharge.
 
 ## Properties
 

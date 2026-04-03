@@ -5,8 +5,8 @@
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
 | **type** | [**InvoiceType**](InvoiceType.md) |  |  |
-| **from** | **kotlin.Int** |  |  |
-| **to** | **kotlin.Int** |  |  |
+| **from** | **kotlin.Int** | First number in the sequence range. |  |
+| **to** | **kotlin.Int** | Last number in the sequence range. |  |
 
 
 

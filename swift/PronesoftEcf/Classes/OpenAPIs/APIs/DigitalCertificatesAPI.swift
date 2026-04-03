@@ -10,19 +10,22 @@ import Foundation
 import AnyCodable
 #endif
 
+extension PronesoftEcfAPI {
+
+
 open class DigitalCertificatesAPI {
 
     /**
-     Upload Digital Certificate (P12)
+     Upload digital certificate (P12)
      
-     - parameter rnc: (path)  
-     - parameter file: (form)  
-     - parameter password: (form)  
+     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
+     - parameter file: (form) The P12/PFX certificate file. 
+     - parameter password: (form) Password to unlock the P12 certificate. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func uploadCertificate(rnc: String, file: URL, password: String, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: UploadCertificate201Response?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func uploadCertificate(rnc: String, file: URL, password: String, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: UploadCertificateResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return uploadCertificateWithRequestBuilder(rnc: rnc, file: file, password: password).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -34,17 +37,21 @@ open class DigitalCertificatesAPI {
     }
 
     /**
-     Upload Digital Certificate (P12)
+     Upload digital certificate (P12)
      - POST /{rnc}/certificates
+     - Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter rnc: (path)  
-     - parameter file: (form)  
-     - parameter password: (form)  
-     - returns: RequestBuilder<UploadCertificate201Response> 
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
+     - parameter file: (form) The P12/PFX certificate file. 
+     - parameter password: (form) Password to unlock the P12 certificate. 
+     - returns: RequestBuilder<UploadCertificateResponse> 
      */
-    open class func uploadCertificateWithRequestBuilder(rnc: String, file: URL, password: String) -> RequestBuilder<UploadCertificate201Response> {
+    open class func uploadCertificateWithRequestBuilder(rnc: String, file: URL, password: String) -> RequestBuilder<UploadCertificateResponse> {
         var localVariablePath = "/{rnc}/certificates"
         let rncPreEscape = "\(APIHelper.mapValueToPathItem(rnc))"
         let rncPostEscape = rncPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -66,8 +73,9 @@ open class DigitalCertificatesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<UploadCertificate201Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<UploadCertificateResponse>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
+}
 }

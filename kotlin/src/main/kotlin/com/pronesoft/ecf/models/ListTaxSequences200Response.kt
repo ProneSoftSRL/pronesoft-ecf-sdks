@@ -25,8 +25,7 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.TaxSequence
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * 
@@ -38,10 +37,10 @@ import com.squareup.moshi.JsonClass
 
 data class ListTaxSequences200Response (
 
-    @Json(name = "success")
+    @SerializedName("success")
     val success: kotlin.Boolean? = null,
 
-    @Json(name = "data")
+    @SerializedName("data")
     val `data`: kotlin.collections.List<TaxSequence>? = null
 
 ) {

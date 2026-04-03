@@ -64,5 +64,11 @@ class WebhookConfigResponseTest : ShouldSpec() {
             //modelInstance.createdAt shouldBe ("TODO")
         }
 
+        // to test the property `lastTriggeredAt`
+        should("test lastTriggeredAt") {
+            // uncomment below to test the property
+            //modelInstance.lastTriggeredAt shouldBe ("TODO")
+        }
+
     }
 }

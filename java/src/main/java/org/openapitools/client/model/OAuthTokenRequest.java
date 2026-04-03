@@ -43,12 +43,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import Pronesoft.Ecf.JSON;
+import com.pronesoft.ecf.JSON;
 
 /**
  * OAuthTokenRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T00:09:12.516551142-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T00:28:38.959068209-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class OAuthTokenRequest {
   public static final String SERIALIZED_NAME_CLIENT_ID = "clientId";
   @SerializedName(SERIALIZED_NAME_CLIENT_ID)

@@ -1,6 +1,7 @@
 
 # WebhookEventType
 
+Type of event that triggers a webhook notification.
 
 ## Properties
 

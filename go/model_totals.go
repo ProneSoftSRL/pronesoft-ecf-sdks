@@ -1,7 +1,7 @@
 /*
-eCF-Pronesoft Master Integration API
+eCF-Pronesoft Integration API
 
-**Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
 API version: 0.0.1
 Contact: contacto@pronesoft.com
@@ -20,31 +20,55 @@ import (
 // checks if the Totals type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Totals{}
 
-// Totals struct for Totals
+// Totals Document totals. `totalAmount` is required. Provide ITBIS breakdowns by rate when applicable. 
 type Totals struct {
+	// Total taxable base amount (all ITBIS rates combined).
 	TaxableAmount *float32 `json:"taxableAmount,omitempty"`
+	// Taxable base for 18% ITBIS rate.
 	TaxableAmount1 *float32 `json:"taxableAmount1,omitempty"`
+	// Taxable base for 16% ITBIS rate.
 	TaxableAmount2 *float32 `json:"taxableAmount2,omitempty"`
+	// Taxable base for 0% ITBIS rate.
 	TaxableAmount3 *float32 `json:"taxableAmount3,omitempty"`
+	// Total amount exempt from ITBIS.
 	ExemptAmount *float32 `json:"exemptAmount,omitempty"`
+	// ITBIS rate 1 (typically 0.18).
 	ItbisRate1 *float32 `json:"itbisRate1,omitempty"`
+	// ITBIS rate 2 (typically 0.16).
 	ItbisRate2 *float32 `json:"itbisRate2,omitempty"`
+	// ITBIS rate 3 (typically 0.00).
 	ItbisRate3 *float32 `json:"itbisRate3,omitempty"`
+	// Total ITBIS tax (all rates combined).
 	TotalITBIS *float32 `json:"totalITBIS,omitempty"`
+	// ITBIS amount at rate 1.
 	Itbis1 *float32 `json:"itbis1,omitempty"`
+	// ITBIS amount at rate 2.
 	Itbis2 *float32 `json:"itbis2,omitempty"`
+	// ITBIS amount at rate 3.
 	Itbis3 *float32 `json:"itbis3,omitempty"`
+	// Total of all additional taxes (ISC, IECS, etc.).
 	AdditionalTaxAmount *float32 `json:"additionalTaxAmount,omitempty"`
+	// Breakdown of additional taxes at document level.
 	AdditionalTaxes []ItemAdditionalTax `json:"additionalTaxes,omitempty"`
+	// Grand total of the document (required).
 	TotalAmount float32 `json:"totalAmount"`
+	// Amount not subject to billing.
 	NonBillableAmount *float32 `json:"nonBillableAmount,omitempty"`
+	// Amount for the current billing period.
 	PeriodAmount *float32 `json:"periodAmount,omitempty"`
+	// Previous balance (for billing statements).
 	PreviousBalance *float32 `json:"previousBalance,omitempty"`
+	// Advance payment amount already received.
 	AdvancePaymentAmount *float32 `json:"advancePaymentAmount,omitempty"`
+	// Net amount due after advance payments and previous balance.
 	AmountToPay *float32 `json:"amountToPay,omitempty"`
+	// Total ITBIS withheld at source.
 	TotalWithheldITBIS *float32 `json:"totalWithheldITBIS,omitempty"`
+	// Total income tax (ISR) withheld at source.
 	TotalIncomeTaxWithholding *float32 `json:"totalIncomeTaxWithholding,omitempty"`
+	// Total ITBIS perception collected.
 	TotalITBISPerception *float32 `json:"totalITBISPerception,omitempty"`
+	// Total ISR perception collected.
 	TotalISRPerception *float32 `json:"totalISRPerception,omitempty"`
 }
 

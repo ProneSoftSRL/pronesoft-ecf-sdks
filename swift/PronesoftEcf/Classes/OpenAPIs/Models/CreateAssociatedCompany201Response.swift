@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.CreateAssociatedCompany201Response")
+public typealias CreateAssociatedCompany201Response = PronesoftEcfAPI.CreateAssociatedCompany201Response
+
+extension PronesoftEcfAPI {
+
 public struct CreateAssociatedCompany201Response: Codable, JSONEncodable, Hashable {
 
     public var message: String?
@@ -34,3 +39,4 @@ public struct CreateAssociatedCompany201Response: Codable, JSONEncodable, Hashab
     }
 }
 
+}

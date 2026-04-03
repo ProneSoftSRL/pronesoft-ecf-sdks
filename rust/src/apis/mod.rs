@@ -111,6 +111,7 @@ impl From<&str> for ContentType {
     }
 }
 
+pub mod associated_companies_api;
 pub mod authentication_api;
 pub mod digital_certificates_api;
 pub mod ecf_submission_api;

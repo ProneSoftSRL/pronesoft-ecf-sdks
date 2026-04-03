@@ -1,7 +1,7 @@
 =begin
-#eCF-Pronesoft Master Integration API
+#eCF-Pronesoft Integration API
 
-#**Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
 The version of the OpenAPI document: 0.0.1
 Contact: contacto@pronesoft.com
@@ -20,7 +20,8 @@ module PronesoftEcf
       @api_client = api_client
     end
     # Create new tax sequence
-    # @param x_tenant_id [String] 
+    # Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     # @param create_tax_sequence_request [CreateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
     # @return [nil]
@@ -30,7 +31,8 @@ module PronesoftEcf
     end
 
     # Create new tax sequence
-    # @param x_tenant_id [String] 
+    # Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     # @param create_tax_sequence_request [CreateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
@@ -54,6 +56,8 @@ module PronesoftEcf
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
@@ -71,7 +75,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2']
+      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
 
       new_options = opts.merge(
         :operation => :"TaxSequencesApi.create_tax_sequence",
@@ -90,10 +94,11 @@ module PronesoftEcf
       return data, status_code, headers
     end
 
-    # Get next available number
-    # @param x_tenant_id [String] 
-    # @param type [InvoiceType] 
-    # @param environment [Environment] 
+    # Get next available fiscal number
+    # Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    # @param type [InvoiceType] Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
+    # @param environment [Environment] Target environment for the sequence.
     # @param [Hash] opts the optional parameters
     # @return [GetNextNumber200Response]
     def get_next_number(x_tenant_id, type, environment, opts = {})
@@ -101,10 +106,11 @@ module PronesoftEcf
       data
     end
 
-    # Get next available number
-    # @param x_tenant_id [String] 
-    # @param type [InvoiceType] 
-    # @param environment [Environment] 
+    # Get next available fiscal number
+    # Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    # @param type [InvoiceType] Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
+    # @param environment [Environment] Target environment for the sequence.
     # @param [Hash] opts the optional parameters
     # @return [Array<(GetNextNumber200Response, Integer, Hash)>] GetNextNumber200Response data, response status code and response headers
     def get_next_number_with_http_info(x_tenant_id, type, environment, opts = {})
@@ -147,7 +153,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'GetNextNumber200Response'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2']
+      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
 
       new_options = opts.merge(
         :operation => :"TaxSequencesApi.get_next_number",
@@ -167,9 +173,10 @@ module PronesoftEcf
     end
 
     # List tax sequences
-    # @param x_tenant_id [String] 
+    # Returns all fiscal number sequences registered for the tenant.
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     # @param [Hash] opts the optional parameters
-    # @option opts [InvoiceType] :type 
+    # @option opts [InvoiceType] :type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit).
     # @return [ListTaxSequences200Response]
     def list_tax_sequences(x_tenant_id, opts = {})
       data, _status_code, _headers = list_tax_sequences_with_http_info(x_tenant_id, opts)
@@ -177,9 +184,10 @@ module PronesoftEcf
     end
 
     # List tax sequences
-    # @param x_tenant_id [String] 
+    # Returns all fiscal number sequences registered for the tenant.
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     # @param [Hash] opts the optional parameters
-    # @option opts [InvoiceType] :type 
+    # @option opts [InvoiceType] :type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit).
     # @return [Array<(ListTaxSequences200Response, Integer, Hash)>] ListTaxSequences200Response data, response status code and response headers
     def list_tax_sequences_with_http_info(x_tenant_id, opts = {})
       if @api_client.config.debugging
@@ -212,7 +220,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'ListTaxSequences200Response'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2']
+      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
 
       new_options = opts.merge(
         :operation => :"TaxSequencesApi.list_tax_sequences",

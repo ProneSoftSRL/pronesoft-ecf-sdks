@@ -28,7 +28,7 @@ import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Locale
 import java.util.regex.Pattern
-import com.squareup.moshi.adapter
+import com.google.gson.reflect.TypeToken
 
 val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
@@ -199,7 +199,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         }
 
         return if (contentType?.contains("json") == true) {
-            Serializer.moshi.adapter(Any::class.java).toJson(obj)
+            Serializer.gson.toJson(obj)
         } else {
             parameterToString(obj)
         }
@@ -266,7 +266,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
-                    Serializer.moshi.adapter(T::class.java).toJson(content)
+                    Serializer.gson.toJson(content, T::class.java)
                         .toRequestBody((mediaType ?: JSON_MEDIA_TYPE).toMediaTypeOrNull())
                 }
             mediaType == XML_MEDIA_TYPE -> throw UnsupportedOperationException("xml not currently supported.")
@@ -283,7 +283,6 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
 
-    @OptIn(ExperimentalStdlibApi::class)
     protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JSON_MEDIA_TYPE): T? {
         val body = response.body
 
@@ -347,7 +346,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                 if (bodyContent.isEmpty()) {
                     return null
                 }
-                Serializer.moshi.adapter<T>().fromJson(bodyContent)
+                Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
             }
             mediaType == OCTET_MEDIA_TYPE -> body.bytes() as? T
             mediaType == TEXT_MEDIA_TYPE -> body.string() as? T
@@ -356,6 +355,11 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     }
 
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
+        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
+            accessToken?.let { accessToken ->
+                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken"
+            }
+        }
         if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
                 requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken "
@@ -472,6 +476,6 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         formatter. It also easily allows to provide a simple way to define a custom date format pattern
         inside a gson/moshi adapter.
         */
-        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
+        return Serializer.gson.toJson(value, T::class.java).replace("\"", "")
     }
 }

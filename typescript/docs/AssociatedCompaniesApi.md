@@ -5,7 +5,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**createAssociatedCompany**](AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Create new associated company |
-| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | List associated branches/companies |
+| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | List associated companies / branches |
 
 
 
@@ -14,6 +14,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 > CreateAssociatedCompany201Response createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo)
 
 Create new associated company
+
+Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
 
 ### Example
 
@@ -29,19 +31,21 @@ async function example() {
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AssociatedCompaniesApi(config);
 
   const body = {
-    // string
+    // string | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // string
+    // string | Owner\\\'s email address (used for login).
     email: email_example,
-    // string
+    // string | Initial password for the new account (min 8 characters).
     password: password_example,
-    // string
+    // string | Legal business name.
     name: name_example,
-    // string
+    // string | Company RNC (9 digits) or personal cedula (11 digits).
     rnc: rnc_example,
     // string
     phone: phone_example,
@@ -59,13 +63,13 @@ async function example() {
     jobTitle: jobTitle_example,
     // string (optional)
     website: website_example,
-    // string (optional)
+    // string | Business category or industry. (optional)
     category: category_example,
-    // string (optional)
+    // string | Estimated monthly sales range (e.g. \\\"0-500000\\\"). (optional)
     monthlySalesRange: monthlySalesRange_example,
     // PrintFormat (optional)
     printerType: ...,
-    // Blob (optional)
+    // Blob | Company logo image file (multipart upload). (optional)
     logo: BINARY_DATA_HERE,
   } satisfies CreateAssociatedCompanyRequest;
 
@@ -86,11 +90,11 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` |  | [Defaults to `undefined`] |
-| **email** | `string` |  | [Defaults to `undefined`] |
-| **password** | `string` |  | [Defaults to `undefined`] |
-| **name** | `string` |  | [Defaults to `undefined`] |
-| **rnc** | `string` |  | [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | [Defaults to `undefined`] |
+| **email** | `string` | Owner\\\&#39;s email address (used for login). | [Defaults to `undefined`] |
+| **password** | `string` | Initial password for the new account (min 8 characters). | [Defaults to `undefined`] |
+| **name** | `string` | Legal business name. | [Defaults to `undefined`] |
+| **rnc** | `string` | Company RNC (9 digits) or personal cedula (11 digits). | [Defaults to `undefined`] |
 | **phone** | `string` |  | [Defaults to `undefined`] |
 | **address** | `string` |  | [Defaults to `undefined`] |
 | **city** | `string` |  | [Defaults to `undefined`] |
@@ -99,10 +103,10 @@ example().catch(console.error);
 | **lastName** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **jobTitle** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **website** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **category** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **monthlySalesRange** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **category** | `string` | Business category or industry. | [Optional] [Defaults to `undefined`] |
+| **monthlySalesRange** | `string` | Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). | [Optional] [Defaults to `undefined`] |
 | **printerType** | `PrintFormat` |  | [Optional] [Defaults to `undefined`] [Enum: A4, thermal_80, thermal_58] |
-| **logo** | `Blob` |  | [Optional] [Defaults to `undefined`] |
+| **logo** | `Blob` | Company logo image file (multipart upload). | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -110,7 +114,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application)
+[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -121,7 +125,9 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Company created |  -  |
+| **201** | Associated company created successfully |  -  |
+| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
+| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -130,7 +136,9 @@ example().catch(console.error);
 
 > Array&lt;AssociatedCompany&gt; listAssociatedCompanies(xTenantId)
 
-List associated branches/companies
+List associated companies / branches
+
+Returns all companies and branches linked to the current tenant.
 
 ### Example
 
@@ -146,11 +154,13 @@ async function example() {
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AssociatedCompaniesApi(config);
 
   const body = {
-    // string
+    // string | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
   } satisfies ListAssociatedCompaniesRequest;
 
@@ -171,7 +181,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` |  | [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | [Defaults to `undefined`] |
 
 ### Return type
 
@@ -179,7 +189,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application)
+[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -191,6 +201,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List of associated companies |  -  |
+| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

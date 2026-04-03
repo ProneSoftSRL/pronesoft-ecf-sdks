@@ -25,8 +25,7 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.AssociatedCompany
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * 
@@ -38,10 +37,10 @@ import com.squareup.moshi.JsonClass
 
 data class CreateAssociatedCompany201Response (
 
-    @Json(name = "message")
+    @SerializedName("message")
     val message: kotlin.String? = null,
 
-    @Json(name = "business")
+    @SerializedName("business")
     val business: AssociatedCompany? = null
 
 ) {

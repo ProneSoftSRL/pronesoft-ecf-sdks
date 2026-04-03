@@ -1,6 +1,7 @@
 
 # Page
 
+Page-level breakdown for multi-page documents.
 
 ## Properties
 

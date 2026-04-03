@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AccessToken** | Pointer to **string** |  | [optional] 
-**TokenType** | Pointer to **string** |  | [optional] 
-**ExpiresIn** | Pointer to **int32** |  | [optional] 
+**AccessToken** | Pointer to **string** | JWT Bearer token. Pass as Authorization: Bearer &lt;accessToken&gt;. | [optional] 
+**TokenType** | Pointer to **string** | Always \&quot;Bearer\&quot;. | [optional] 
+**ExpiresIn** | Pointer to **int32** | Token lifetime in seconds. Request a new token when it expires. | [optional] 
 
 ## Methods
 

@@ -24,35 +24,39 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Response returned after successfully submitting an e-CF document.
  *
- * @param success 
- * @param documentId 
- * @param encf 
- * @param trackId 
- * @param message 
+ * @param success Whether the document was accepted by the platform.
+ * @param documentId Pronesoft internal document identifier.
+ * @param encf The e-NCF number assigned to the document.
+ * @param trackId DGII tracking ID for status polling.
+ * @param message Human-readable status message.
  */
 
 
 data class EcfSubmissionResponse (
 
-    @Json(name = "success")
+    /* Whether the document was accepted by the platform. */
+    @SerializedName("success")
     val success: kotlin.Boolean,
 
-    @Json(name = "documentId")
+    /* Pronesoft internal document identifier. */
+    @SerializedName("documentId")
     val documentId: java.util.UUID,
 
-    @Json(name = "encf")
+    /* The e-NCF number assigned to the document. */
+    @SerializedName("encf")
     val encf: kotlin.String? = null,
 
-    @Json(name = "trackId")
+    /* DGII tracking ID for status polling. */
+    @SerializedName("trackId")
     val trackId: kotlin.String? = null,
 
-    @Json(name = "message")
+    /* Human-readable status message. */
+    @SerializedName("message")
     val message: kotlin.String? = null
 
 ) {

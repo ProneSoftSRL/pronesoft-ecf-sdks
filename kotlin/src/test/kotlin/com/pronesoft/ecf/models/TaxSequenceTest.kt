@@ -45,28 +45,10 @@ class TaxSequenceTest : ShouldSpec() {
             //modelInstance.type shouldBe ("TODO")
         }
 
-        // to test the property `startNumber`
-        should("test startNumber") {
+        // to test the property `nextNumber`
+        should("test nextNumber") {
             // uncomment below to test the property
-            //modelInstance.startNumber shouldBe ("TODO")
-        }
-
-        // to test the property `endNumber`
-        should("test endNumber") {
-            // uncomment below to test the property
-            //modelInstance.endNumber shouldBe ("TODO")
-        }
-
-        // to test the property `currentNumber`
-        should("test currentNumber") {
-            // uncomment below to test the property
-            //modelInstance.currentNumber shouldBe ("TODO")
-        }
-
-        // to test the property `availableNumbers`
-        should("test availableNumbers") {
-            // uncomment below to test the property
-            //modelInstance.availableNumbers shouldBe ("TODO")
+            //modelInstance.nextNumber shouldBe ("TODO")
         }
 
     }

@@ -4,9 +4,9 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **accessToken** | **kotlin.String** |  |  [optional] |
-| **tokenType** | **kotlin.String** |  |  [optional] |
-| **expiresIn** | **kotlin.Int** |  |  [optional] |
+| **accessToken** | **kotlin.String** | JWT Bearer token. Pass as Authorization: Bearer &lt;accessToken&gt;. |  [optional] |
+| **tokenType** | **kotlin.String** | Always \&quot;Bearer\&quot;. |  [optional] |
+| **expiresIn** | **kotlin.Int** | Token lifetime in seconds. Request a new token when it expires. |  [optional] |
 
 
 

@@ -1,6 +1,7 @@
 
 # ElectronicDocument
 
+The main e-CF document payload. Build this object and submit it to `POST /{environment}/ecf/submit`.  **Required fields:** `version`, `invoiceType`, `invoiceNumber`, `issueDate`, `items`, `totals`.  Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`. 
 
 ## Properties
 
@@ -41,11 +42,11 @@ import type { ElectronicDocument } from '@pronesoft/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "version": null,
+  "version": 1.0,
   "invoiceType": null,
-  "invoiceNumber": null,
-  "issueDate": null,
-  "expirationDate": null,
+  "invoiceNumber": E310000000001,
+  "issueDate": 2024-01-15T10:30Z,
+  "expirationDate": 2024-02-15T10:30Z,
   "incomeType": null,
   "paymentType": null,
   "paymentDeadline": null,

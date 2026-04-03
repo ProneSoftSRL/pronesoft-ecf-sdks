@@ -6,7 +6,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 |------------- | ------------- | -------------|
 | [**createWebhook**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook |
 | [**deleteWebhook**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
-| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
+| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
 
 <a id="createWebhook"></a>
@@ -15,15 +15,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Register new webhook
 
+Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+
 ### Example
 ```java
 // Import classes:
-import Pronesoft.Ecf.ApiClient;
-import Pronesoft.Ecf.ApiException;
-import Pronesoft.Ecf.Configuration;
-import Pronesoft.Ecf.auth.*;
-import Pronesoft.Ecf.models.*;
-import org.openapitools.client.api.WebhookConfigurationApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -34,8 +36,12 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
     WebhookConfigurationApi apiInstance = new WebhookConfigurationApi(defaultClient);
-    String rnc = "rnc_example"; // String | 
+    String rnc = "130000001"; // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
     CreateWebhookConfig createWebhookConfig = new CreateWebhookConfig(); // CreateWebhookConfig | 
     try {
       WebhookConfigResponse result = apiInstance.createWebhook(rnc, createWebhookConfig);
@@ -55,7 +61,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | **String**|  | |
+| **rnc** | **String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
 | **createWebhookConfig** | [**CreateWebhookConfig**](CreateWebhookConfig.md)|  | |
 
 ### Return type
@@ -64,7 +70,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -74,7 +80,9 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Webhook registered |  -  |
+| **201** | Webhook registered successfully |  -  |
+| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
+| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 <a id="deleteWebhook"></a>
 # **deleteWebhook**
@@ -82,15 +90,17 @@ public class Example {
 
 Delete webhook configuration
 
+Removes a registered webhook by its ID.
+
 ### Example
 ```java
 // Import classes:
-import Pronesoft.Ecf.ApiClient;
-import Pronesoft.Ecf.ApiException;
-import Pronesoft.Ecf.Configuration;
-import Pronesoft.Ecf.auth.*;
-import Pronesoft.Ecf.models.*;
-import org.openapitools.client.api.WebhookConfigurationApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -101,9 +111,13 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
     WebhookConfigurationApi apiInstance = new WebhookConfigurationApi(defaultClient);
-    String rnc = "rnc_example"; // String | 
-    String webhookId = "webhookId_example"; // String | 
+    String rnc = "130000001"; // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+    String webhookId = "webhookId_example"; // String | The unique ID of the webhook to delete.
     try {
       apiInstance.deleteWebhook(rnc, webhookId);
     } catch (ApiException e) {
@@ -121,8 +135,8 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | **String**|  | |
-| **webhookId** | **String**|  | |
+| **rnc** | **String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
+| **webhookId** | **String**| The unique ID of the webhook to delete. | |
 
 ### Return type
 
@@ -130,33 +144,37 @@ null (empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook deleted |  -  |
+| **200** | Webhook deleted successfully |  -  |
+| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **404** | Webhook not found |  -  |
 
 <a id="listWebhooks"></a>
 # **listWebhooks**
 > List&lt;WebhookConfigResponse&gt; listWebhooks(rnc)
 
-List all webhook configurations
+List webhook configurations
+
+Returns all registered webhooks for the given RNC.
 
 ### Example
 ```java
 // Import classes:
-import Pronesoft.Ecf.ApiClient;
-import Pronesoft.Ecf.ApiException;
-import Pronesoft.Ecf.Configuration;
-import Pronesoft.Ecf.auth.*;
-import Pronesoft.Ecf.models.*;
-import org.openapitools.client.api.WebhookConfigurationApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -167,8 +185,12 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
     WebhookConfigurationApi apiInstance = new WebhookConfigurationApi(defaultClient);
-    String rnc = "rnc_example"; // String | 
+    String rnc = "130000001"; // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
     try {
       List<WebhookConfigResponse> result = apiInstance.listWebhooks(rnc);
       System.out.println(result);
@@ -187,7 +209,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | **String**|  | |
+| **rnc** | **String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
 
 ### Return type
 
@@ -195,7 +217,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -205,5 +227,6 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List of webhooks |  -  |
+| **200** | List of webhook configurations |  -  |
+| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 

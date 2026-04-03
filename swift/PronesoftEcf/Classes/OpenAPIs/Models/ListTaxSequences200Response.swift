@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.ListTaxSequences200Response")
+public typealias ListTaxSequences200Response = PronesoftEcfAPI.ListTaxSequences200Response
+
+extension PronesoftEcfAPI {
+
 public struct ListTaxSequences200Response: Codable, JSONEncodable, Hashable {
 
     public var success: Bool?
@@ -34,3 +39,4 @@ public struct ListTaxSequences200Response: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

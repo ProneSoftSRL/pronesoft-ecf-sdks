@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **PageNumber** | **int32** |  | 
-**LineFrom** | **int32** |  | 
-**LineTo** | **int32** |  | 
+**LineFrom** | **int32** | First line item number on this page. | 
+**LineTo** | **int32** | Last line item number on this page. | 
 **Subtotal** | Pointer to **float32** |  | [optional] 
 **TaxableAmount** | Pointer to **float32** |  | [optional] 
 **TaxableAmount1** | Pointer to **float32** |  | [optional] 

@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**url** | **String** |  | 
-**event_types** | [**Vec<models::WebhookEventType>**](WebhookEventType.md) |  | 
-**description** | Option<**String**> |  | [optional]
-**secret** | Option<**String**> |  | [optional]
+**url** | **String** | Your HTTPS endpoint that will receive POST notifications. | 
+**event_types** | [**Vec<models::WebhookEventType>**](WebhookEventType.md) | List of events to subscribe to. | 
+**description** | Option<**String**> | Optional label for this webhook (for your reference). | [optional]
+**secret** | Option<**String**> | Optional HMAC signing secret (min 16 characters). Pronesoft will sign payloads so you can verify they are authentic.  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -1,7 +1,7 @@
 """
-    eCF-Pronesoft Master Integration API
+    eCF-Pronesoft Integration API
 
-    **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
     The version of the OpenAPI document: 0.0.1
     Contact: contacto@pronesoft.com
@@ -45,11 +45,11 @@ class AssociatedCompaniesApi:
     @validate_call
     def create_associated_company(
         self,
-        x_tenant_id: UUID,
-        email: StrictStr,
-        password: Annotated[str, Field(min_length=8, strict=True)],
-        name: StrictStr,
-        rnc: Annotated[str, Field(strict=True)],
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        email: Annotated[StrictStr, Field(description="Owner's email address (used for login).")],
+        password: Annotated[str, Field(min_length=8, strict=True, description="Initial password for the new account (min 8 characters).")],
+        name: Annotated[StrictStr, Field(description="Legal business name.")],
+        rnc: Annotated[str, Field(strict=True, description="Company RNC (9 digits) or personal cedula (11 digits).")],
         phone: StrictStr,
         address: StrictStr,
         city: StrictStr,
@@ -58,10 +58,10 @@ class AssociatedCompaniesApi:
         last_name: Optional[StrictStr] = None,
         job_title: Optional[StrictStr] = None,
         website: Optional[StrictStr] = None,
-        category: Optional[StrictStr] = None,
-        monthly_sales_range: Optional[StrictStr] = None,
+        category: Annotated[Optional[StrictStr], Field(description="Business category or industry.")] = None,
+        monthly_sales_range: Annotated[Optional[StrictStr], Field(description="Estimated monthly sales range (e.g. \\\"0-500000\\\").")] = None,
         printer_type: Optional[PrintFormat] = None,
-        logo: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        logo: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="Company logo image file (multipart upload).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77,16 +77,17 @@ class AssociatedCompaniesApi:
     ) -> CreateAssociatedCompany201Response:
         """Create new associated company
 
+        Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param email: (required)
+        :param email: Owner's email address (used for login). (required)
         :type email: str
-        :param password: (required)
+        :param password: Initial password for the new account (min 8 characters). (required)
         :type password: str
-        :param name: (required)
+        :param name: Legal business name. (required)
         :type name: str
-        :param rnc: (required)
+        :param rnc: Company RNC (9 digits) or personal cedula (11 digits). (required)
         :type rnc: str
         :param phone: (required)
         :type phone: str
@@ -104,13 +105,13 @@ class AssociatedCompaniesApi:
         :type job_title: str
         :param website:
         :type website: str
-        :param category:
+        :param category: Business category or industry.
         :type category: str
-        :param monthly_sales_range:
+        :param monthly_sales_range: Estimated monthly sales range (e.g. \\\"0-500000\\\").
         :type monthly_sales_range: str
         :param printer_type:
         :type printer_type: PrintFormat
-        :param logo:
+        :param logo: Company logo image file (multipart upload).
         :type logo: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -160,6 +161,8 @@ class AssociatedCompaniesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateAssociatedCompany201Response",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -175,11 +178,11 @@ class AssociatedCompaniesApi:
     @validate_call
     def create_associated_company_with_http_info(
         self,
-        x_tenant_id: UUID,
-        email: StrictStr,
-        password: Annotated[str, Field(min_length=8, strict=True)],
-        name: StrictStr,
-        rnc: Annotated[str, Field(strict=True)],
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        email: Annotated[StrictStr, Field(description="Owner's email address (used for login).")],
+        password: Annotated[str, Field(min_length=8, strict=True, description="Initial password for the new account (min 8 characters).")],
+        name: Annotated[StrictStr, Field(description="Legal business name.")],
+        rnc: Annotated[str, Field(strict=True, description="Company RNC (9 digits) or personal cedula (11 digits).")],
         phone: StrictStr,
         address: StrictStr,
         city: StrictStr,
@@ -188,10 +191,10 @@ class AssociatedCompaniesApi:
         last_name: Optional[StrictStr] = None,
         job_title: Optional[StrictStr] = None,
         website: Optional[StrictStr] = None,
-        category: Optional[StrictStr] = None,
-        monthly_sales_range: Optional[StrictStr] = None,
+        category: Annotated[Optional[StrictStr], Field(description="Business category or industry.")] = None,
+        monthly_sales_range: Annotated[Optional[StrictStr], Field(description="Estimated monthly sales range (e.g. \\\"0-500000\\\").")] = None,
         printer_type: Optional[PrintFormat] = None,
-        logo: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        logo: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="Company logo image file (multipart upload).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -207,16 +210,17 @@ class AssociatedCompaniesApi:
     ) -> ApiResponse[CreateAssociatedCompany201Response]:
         """Create new associated company
 
+        Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param email: (required)
+        :param email: Owner's email address (used for login). (required)
         :type email: str
-        :param password: (required)
+        :param password: Initial password for the new account (min 8 characters). (required)
         :type password: str
-        :param name: (required)
+        :param name: Legal business name. (required)
         :type name: str
-        :param rnc: (required)
+        :param rnc: Company RNC (9 digits) or personal cedula (11 digits). (required)
         :type rnc: str
         :param phone: (required)
         :type phone: str
@@ -234,13 +238,13 @@ class AssociatedCompaniesApi:
         :type job_title: str
         :param website:
         :type website: str
-        :param category:
+        :param category: Business category or industry.
         :type category: str
-        :param monthly_sales_range:
+        :param monthly_sales_range: Estimated monthly sales range (e.g. \\\"0-500000\\\").
         :type monthly_sales_range: str
         :param printer_type:
         :type printer_type: PrintFormat
-        :param logo:
+        :param logo: Company logo image file (multipart upload).
         :type logo: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -290,6 +294,8 @@ class AssociatedCompaniesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateAssociatedCompany201Response",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -305,11 +311,11 @@ class AssociatedCompaniesApi:
     @validate_call
     def create_associated_company_without_preload_content(
         self,
-        x_tenant_id: UUID,
-        email: StrictStr,
-        password: Annotated[str, Field(min_length=8, strict=True)],
-        name: StrictStr,
-        rnc: Annotated[str, Field(strict=True)],
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
+        email: Annotated[StrictStr, Field(description="Owner's email address (used for login).")],
+        password: Annotated[str, Field(min_length=8, strict=True, description="Initial password for the new account (min 8 characters).")],
+        name: Annotated[StrictStr, Field(description="Legal business name.")],
+        rnc: Annotated[str, Field(strict=True, description="Company RNC (9 digits) or personal cedula (11 digits).")],
         phone: StrictStr,
         address: StrictStr,
         city: StrictStr,
@@ -318,10 +324,10 @@ class AssociatedCompaniesApi:
         last_name: Optional[StrictStr] = None,
         job_title: Optional[StrictStr] = None,
         website: Optional[StrictStr] = None,
-        category: Optional[StrictStr] = None,
-        monthly_sales_range: Optional[StrictStr] = None,
+        category: Annotated[Optional[StrictStr], Field(description="Business category or industry.")] = None,
+        monthly_sales_range: Annotated[Optional[StrictStr], Field(description="Estimated monthly sales range (e.g. \\\"0-500000\\\").")] = None,
         printer_type: Optional[PrintFormat] = None,
-        logo: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        logo: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="Company logo image file (multipart upload).")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -337,16 +343,17 @@ class AssociatedCompaniesApi:
     ) -> RESTResponseType:
         """Create new associated company
 
+        Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
-        :param email: (required)
+        :param email: Owner's email address (used for login). (required)
         :type email: str
-        :param password: (required)
+        :param password: Initial password for the new account (min 8 characters). (required)
         :type password: str
-        :param name: (required)
+        :param name: Legal business name. (required)
         :type name: str
-        :param rnc: (required)
+        :param rnc: Company RNC (9 digits) or personal cedula (11 digits). (required)
         :type rnc: str
         :param phone: (required)
         :type phone: str
@@ -364,13 +371,13 @@ class AssociatedCompaniesApi:
         :type job_title: str
         :param website:
         :type website: str
-        :param category:
+        :param category: Business category or industry.
         :type category: str
-        :param monthly_sales_range:
+        :param monthly_sales_range: Estimated monthly sales range (e.g. \\\"0-500000\\\").
         :type monthly_sales_range: str
         :param printer_type:
         :type printer_type: PrintFormat
-        :param logo:
+        :param logo: Company logo image file (multipart upload).
         :type logo: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -420,6 +427,8 @@ class AssociatedCompaniesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "CreateAssociatedCompany201Response",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -532,7 +541,8 @@ class AssociatedCompaniesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2'
+            'oauth2', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -556,7 +566,7 @@ class AssociatedCompaniesApi:
     @validate_call
     def list_associated_companies(
         self,
-        x_tenant_id: UUID,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -570,10 +580,11 @@ class AssociatedCompaniesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[AssociatedCompany]:
-        """List associated branches/companies
+        """List associated companies / branches
 
+        Returns all companies and branches linked to the current tenant.
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -607,6 +618,7 @@ class AssociatedCompaniesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[AssociatedCompany]",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -622,7 +634,7 @@ class AssociatedCompaniesApi:
     @validate_call
     def list_associated_companies_with_http_info(
         self,
-        x_tenant_id: UUID,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -636,10 +648,11 @@ class AssociatedCompaniesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[AssociatedCompany]]:
-        """List associated branches/companies
+        """List associated companies / branches
 
+        Returns all companies and branches linked to the current tenant.
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -673,6 +686,7 @@ class AssociatedCompaniesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[AssociatedCompany]",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -688,7 +702,7 @@ class AssociatedCompaniesApi:
     @validate_call
     def list_associated_companies_without_preload_content(
         self,
-        x_tenant_id: UUID,
+        x_tenant_id: Annotated[UUID, Field(description="UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. ")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -702,10 +716,11 @@ class AssociatedCompaniesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List associated branches/companies
+        """List associated companies / branches
 
+        Returns all companies and branches linked to the current tenant.
 
-        :param x_tenant_id: (required)
+        :param x_tenant_id: UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -739,6 +754,7 @@ class AssociatedCompaniesApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[AssociatedCompany]",
+            '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -790,7 +806,8 @@ class AssociatedCompaniesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2'
+            'oauth2', 
+            'bearerAuth'
         ]
 
         return self.api_client.param_serialize(

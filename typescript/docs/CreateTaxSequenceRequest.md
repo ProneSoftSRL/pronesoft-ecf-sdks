@@ -1,6 +1,7 @@
 
 # CreateTaxSequenceRequest
 
+Request to register a new block of fiscal numbers. The `from` and `to` values define the numeric range (inclusive). 
 
 ## Properties
 
@@ -18,8 +19,8 @@ import type { CreateTaxSequenceRequest } from '@pronesoft/ecf-sdk'
 // TODO: Update the object below with actual values
 const example = {
   "type": null,
-  "from": null,
-  "to": null,
+  "from": 1,
+  "to": 500,
 } satisfies CreateTaxSequenceRequest
 
 console.log(example)

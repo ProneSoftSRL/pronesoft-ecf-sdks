@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | [**InvoiceType**](InvoiceType.md) |  | 
-**From** | **int32** |  | 
-**To** | **int32** |  | 
+**From** | **int32** | First number in the sequence range. | 
+**To** | **int32** | Last number in the sequence range. | 
 
 ## Methods
 

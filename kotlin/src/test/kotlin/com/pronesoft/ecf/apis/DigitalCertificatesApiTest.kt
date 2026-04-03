@@ -38,8 +38,8 @@ class DigitalCertificatesApiTest : ShouldSpec() {
         should("test uploadCertificate") {
             // uncomment below to test uploadCertificate
             //val rnc : kotlin.String = rnc_example // kotlin.String | 
-            //val file : java.io.File = BINARY_DATA_HERE // java.io.File | Archivo .p12 o .pfx
-            //val password : kotlin.String = password_example // kotlin.String | Contraseña del certificado
+            //val file : java.io.File = BINARY_DATA_HERE // java.io.File | 
+            //val password : kotlin.String = password_example // kotlin.String | 
             //val result : UploadCertificate201Response = apiInstance.uploadCertificate(rnc, file, password)
             //result shouldBe ("TODO")
         }

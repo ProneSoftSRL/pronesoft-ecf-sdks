@@ -10,9 +10,17 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.Subtotal")
+public typealias Subtotal = PronesoftEcfAPI.Subtotal
+
+extension PronesoftEcfAPI {
+
+/** Subtotal for a page or section within a multi-page document. */
 public struct Subtotal: Codable, JSONEncodable, Hashable {
 
+    /** Page or section number. */
     public var number: Int
+    /** Subtotal amount for this section. */
     public var amount: Double
     public var description: String?
     public var taxableAmount: Double?
@@ -25,6 +33,7 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
     public var itbis3: Double?
     public var additionalTaxes: Double?
     public var exemptAmount: Double?
+    /** Number of line items included in this subtotal. */
     public var lines: Int?
 
     public init(number: Int, amount: Double, description: String? = nil, taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxes: Double? = nil, exemptAmount: Double? = nil, lines: Int? = nil) {
@@ -82,3 +91,4 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

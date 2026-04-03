@@ -10,10 +10,13 @@ import Foundation
 import AnyCodable
 #endif
 
+extension PronesoftEcfAPI {
+
+
 open class AuthenticationAPI {
 
     /**
-     Get access token (OAuth 2.0)
+     Get access token
      
      - parameter oAuthTokenRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -32,8 +35,9 @@ open class AuthenticationAPI {
     }
 
     /**
-     Get access token (OAuth 2.0)
+     Get access token
      - POST /oauth/token
+     - Authenticates using OAuth 2.0 **Client Credentials** flow. Returns a Bearer token to use in subsequent requests.  **This endpoint does NOT require an Authorization header.**  ``` POST /oauth/token Content-Type: application/json  {   \"clientId\": \"your-client-id\",   \"clientSecret\": \"your-client-secret\" } ```  Use the returned `accessToken` as: ``` Authorization: Bearer <accessToken> ``` 
      - parameter oAuthTokenRequest: (body)  
      - returns: RequestBuilder<OAuthTokenResponse> 
      */
@@ -54,4 +58,5 @@ open class AuthenticationAPI {
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
+}
 }

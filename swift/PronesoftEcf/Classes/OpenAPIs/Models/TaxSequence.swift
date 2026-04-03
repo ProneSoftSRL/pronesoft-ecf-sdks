@@ -10,13 +10,21 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.TaxSequence")
+public typealias TaxSequence = PronesoftEcfAPI.TaxSequence
+
+extension PronesoftEcfAPI {
+
+/** A registered fiscal number sequence for a given invoice type. */
 public struct TaxSequence: Codable, JSONEncodable, Hashable {
 
+    /** Internal sequence identifier. */
     public var id: String?
-    public var type: String?
+    public var type: InvoiceType?
+    /** Next available e-NCF number in this sequence. */
     public var nextNumber: String?
 
-    public init(id: String? = nil, type: String? = nil, nextNumber: String? = nil) {
+    public init(id: String? = nil, type: InvoiceType? = nil, nextNumber: String? = nil) {
         self.id = id
         self.type = type
         self.nextNumber = nextNumber
@@ -38,6 +46,7 @@ public struct TaxSequence: Codable, JSONEncodable, Hashable {
     }
 }
 
+}
 
 @available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
-extension TaxSequence: Identifiable {}
+extension PronesoftEcfAPI.TaxSequence: Identifiable {}

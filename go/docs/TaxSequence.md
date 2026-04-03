@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **string** |  | [optional] 
-**Type** | Pointer to **string** |  | [optional] 
-**NextNumber** | Pointer to **string** |  | [optional] 
+**Id** | Pointer to **string** | Internal sequence identifier. | [optional] 
+**Type** | Pointer to [**InvoiceType**](InvoiceType.md) |  | [optional] 
+**NextNumber** | Pointer to **string** | Next available e-NCF number in this sequence. | [optional] 
 
 ## Methods
 
@@ -54,20 +54,20 @@ HasId returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *TaxSequence) GetType() string`
+`func (o *TaxSequence) GetType() InvoiceType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *TaxSequence) GetTypeOk() (*string, bool)`
+`func (o *TaxSequence) GetTypeOk() (*InvoiceType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *TaxSequence) SetType(v string)`
+`func (o *TaxSequence) SetType(v InvoiceType)`
 
 SetType sets Type field to given value.
 

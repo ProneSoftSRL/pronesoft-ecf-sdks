@@ -1,7 +1,7 @@
 =begin
-#eCF-Pronesoft Master Integration API
+#eCF-Pronesoft Integration API
 
-#**Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
 The version of the OpenAPI document: 0.0.1
 Contact: contacto@pronesoft.com
@@ -19,23 +19,25 @@ module PronesoftEcf
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # Upload Digital Certificate (P12)
-    # @param rnc [String] 
-    # @param file [File] 
-    # @param password [String] 
+    # Upload digital certificate (P12)
+    # Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+    # @param rnc [String] RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+    # @param file [File] The P12/PFX certificate file.
+    # @param password [String] Password to unlock the P12 certificate.
     # @param [Hash] opts the optional parameters
-    # @return [UploadCertificate201Response]
+    # @return [UploadCertificateResponse]
     def upload_certificate(rnc, file, password, opts = {})
       data, _status_code, _headers = upload_certificate_with_http_info(rnc, file, password, opts)
       data
     end
 
-    # Upload Digital Certificate (P12)
-    # @param rnc [String] 
-    # @param file [File] 
-    # @param password [String] 
+    # Upload digital certificate (P12)
+    # Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+    # @param rnc [String] RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+    # @param file [File] The P12/PFX certificate file.
+    # @param password [String] Password to unlock the P12 certificate.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(UploadCertificate201Response, Integer, Hash)>] UploadCertificate201Response data, response status code and response headers
+    # @return [Array<(UploadCertificateResponse, Integer, Hash)>] UploadCertificateResponse data, response status code and response headers
     def upload_certificate_with_http_info(rnc, file, password, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: DigitalCertificatesApi.upload_certificate ...'
@@ -44,7 +46,7 @@ module PronesoftEcf
       if @api_client.config.client_side_validation && rnc.nil?
         fail ArgumentError, "Missing the required parameter 'rnc' when calling DigitalCertificatesApi.upload_certificate"
       end
-      pattern = Regexp.new(/^[0-9]{9}|[0-9]{11}$/)
+      pattern = Regexp.new(/^([0-9]{9}|[0-9]{11})$/)
       if @api_client.config.client_side_validation && rnc !~ pattern
         fail ArgumentError, "invalid value for 'rnc' when calling DigitalCertificatesApi.upload_certificate, must conform to the pattern #{pattern}."
       end
@@ -82,10 +84,10 @@ module PronesoftEcf
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'UploadCertificate201Response'
+      return_type = opts[:debug_return_type] || 'UploadCertificateResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2']
+      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
 
       new_options = opts.merge(
         :operation => :"DigitalCertificatesApi.upload_certificate",

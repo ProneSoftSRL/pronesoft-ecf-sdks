@@ -11,7 +11,15 @@
 | CommercialApproval | commercial.approval |
 | CertificateExpiring | certificate.expiring |
 | PlanUsageAlert | plan.usage_alert |
+| PlanPaymentFailed | plan.payment_failed |
+| BillingInvoiceReady | billing.invoice_ready |
 | SequenceDepleted | sequence.depleted |
+| SequenceVoided | sequence.voided |
+| BranchCreated | branch.created |
+| BranchStatusChanged | branch.status_changed |
+| MemberInvited | member.invited |
+| MemberJoined | member.joined |
+| MemberRemoved | member.removed |
 | CertificationCompleted | certification.completed |
 
 

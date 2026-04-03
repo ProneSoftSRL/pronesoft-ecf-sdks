@@ -1,7 +1,7 @@
 /*
-eCF-Pronesoft Master Integration API
+eCF-Pronesoft Integration API
 
-**Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
 API version: 0.0.1
 Contact: contacto@pronesoft.com
@@ -30,6 +30,7 @@ type ApiCreateTaxSequenceRequest struct {
 	createTaxSequenceRequest *CreateTaxSequenceRequest
 }
 
+// UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
 func (r ApiCreateTaxSequenceRequest) XTenantId(xTenantId string) ApiCreateTaxSequenceRequest {
 	r.xTenantId = &xTenantId
 	return r
@@ -46,6 +47,10 @@ func (r ApiCreateTaxSequenceRequest) Execute() (*http.Response, error) {
 
 /*
 CreateTaxSequence Create new tax sequence
+
+Registers a new block of fiscal numbers for a given invoice type.
+The `from` and `to` values define the numeric range of the sequence.
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateTaxSequenceRequest
@@ -92,7 +97,7 @@ func (a *TaxSequencesAPIService) CreateTaxSequenceExecute(r ApiCreateTaxSequence
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -124,6 +129,27 @@ func (a *TaxSequencesAPIService) CreateTaxSequenceExecute(r ApiCreateTaxSequence
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarHTTPResponse, newErr
 	}
 
@@ -138,16 +164,19 @@ type ApiGetNextNumberRequest struct {
 	environment *Environment
 }
 
+// UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
 func (r ApiGetNextNumberRequest) XTenantId(xTenantId string) ApiGetNextNumberRequest {
 	r.xTenantId = &xTenantId
 	return r
 }
 
+// Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
 func (r ApiGetNextNumberRequest) Type_(type_ InvoiceType) ApiGetNextNumberRequest {
 	r.type_ = &type_
 	return r
 }
 
+// Target environment for the sequence.
 func (r ApiGetNextNumberRequest) Environment(environment Environment) ApiGetNextNumberRequest {
 	r.environment = &environment
 	return r
@@ -158,7 +187,12 @@ func (r ApiGetNextNumberRequest) Execute() (*GetNextNumber200Response, *http.Res
 }
 
 /*
-GetNextNumber Get next available number
+GetNextNumber Get next available fiscal number
+
+Returns the next available e-NCF number for a given invoice type
+and environment. Use this number as the `invoiceNumber` when
+submitting a document.
+
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetNextNumberRequest
@@ -242,6 +276,16 @@ func (a *TaxSequencesAPIService) GetNextNumberExecute(r ApiGetNextNumberRequest)
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -264,11 +308,13 @@ type ApiListTaxSequencesRequest struct {
 	type_ *InvoiceType
 }
 
+// UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
 func (r ApiListTaxSequencesRequest) XTenantId(xTenantId string) ApiListTaxSequencesRequest {
 	r.xTenantId = &xTenantId
 	return r
 }
 
+// Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit).
 func (r ApiListTaxSequencesRequest) Type_(type_ InvoiceType) ApiListTaxSequencesRequest {
 	r.type_ = &type_
 	return r
@@ -280,6 +326,8 @@ func (r ApiListTaxSequencesRequest) Execute() (*ListTaxSequences200Response, *ht
 
 /*
 ListTaxSequences List tax sequences
+
+Returns all fiscal number sequences registered for the tenant.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListTaxSequencesRequest
@@ -357,6 +405,16 @@ func (a *TaxSequencesAPIService) ListTaxSequencesExecute(r ApiListTaxSequencesRe
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

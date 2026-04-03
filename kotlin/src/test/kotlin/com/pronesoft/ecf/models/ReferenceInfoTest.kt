@@ -27,7 +27,6 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.models.ReferenceInfo
-import com.pronesoft.ecf.models.ModificationCode
 
 class ReferenceInfoTest : ShouldSpec() {
     init {

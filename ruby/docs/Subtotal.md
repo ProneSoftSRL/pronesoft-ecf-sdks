@@ -4,8 +4,8 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **number** | **Integer** |  |  |
-| **amount** | **Float** |  |  |
+| **number** | **Integer** | Page or section number. |  |
+| **amount** | **Float** | Subtotal amount for this section. |  |
 | **description** | **String** |  | [optional] |
 | **taxable_amount** | **Float** |  | [optional] |
 | **taxable_amount1** | **Float** |  | [optional] |
@@ -17,7 +17,7 @@
 | **itbis3** | **Float** |  | [optional] |
 | **additional_taxes** | **Float** |  | [optional] |
 | **exempt_amount** | **Float** |  | [optional] |
-| **lines** | **Integer** |  | [optional] |
+| **lines** | **Integer** | Number of line items included in this subtotal. | [optional] |
 
 ## Example
 

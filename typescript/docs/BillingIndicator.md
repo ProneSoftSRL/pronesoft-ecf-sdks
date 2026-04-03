@@ -1,7 +1,7 @@
 
 # BillingIndicator
 
-0: Non-Billable, 1: 18% Tax Rate, 2: 16% Tax Rate, 3: 0% Tax Rate, 4: Exempt
+ITBIS tax billing indicator for a line item: - `0`: Non-billable (No facturable) - `1`: 18% ITBIS rate - `2`: 16% ITBIS rate - `3`: 0% ITBIS rate - `4`: Exempt (Exento) 
 
 ## Properties
 

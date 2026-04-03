@@ -51,16 +51,70 @@ class SubtotalTest : ShouldSpec() {
             //modelInstance.description shouldBe ("TODO")
         }
 
-        // to test the property `order`
-        should("test order") {
-            // uncomment below to test the property
-            //modelInstance.order shouldBe ("TODO")
-        }
-
         // to test the property `taxableAmount`
         should("test taxableAmount") {
             // uncomment below to test the property
             //modelInstance.taxableAmount shouldBe ("TODO")
+        }
+
+        // to test the property `taxableAmount1`
+        should("test taxableAmount1") {
+            // uncomment below to test the property
+            //modelInstance.taxableAmount1 shouldBe ("TODO")
+        }
+
+        // to test the property `taxableAmount2`
+        should("test taxableAmount2") {
+            // uncomment below to test the property
+            //modelInstance.taxableAmount2 shouldBe ("TODO")
+        }
+
+        // to test the property `taxableAmount3`
+        should("test taxableAmount3") {
+            // uncomment below to test the property
+            //modelInstance.taxableAmount3 shouldBe ("TODO")
+        }
+
+        // to test the property `totalITBIS`
+        should("test totalITBIS") {
+            // uncomment below to test the property
+            //modelInstance.totalITBIS shouldBe ("TODO")
+        }
+
+        // to test the property `itbis1`
+        should("test itbis1") {
+            // uncomment below to test the property
+            //modelInstance.itbis1 shouldBe ("TODO")
+        }
+
+        // to test the property `itbis2`
+        should("test itbis2") {
+            // uncomment below to test the property
+            //modelInstance.itbis2 shouldBe ("TODO")
+        }
+
+        // to test the property `itbis3`
+        should("test itbis3") {
+            // uncomment below to test the property
+            //modelInstance.itbis3 shouldBe ("TODO")
+        }
+
+        // to test the property `additionalTaxes`
+        should("test additionalTaxes") {
+            // uncomment below to test the property
+            //modelInstance.additionalTaxes shouldBe ("TODO")
+        }
+
+        // to test the property `exemptAmount`
+        should("test exemptAmount") {
+            // uncomment below to test the property
+            //modelInstance.exemptAmount shouldBe ("TODO")
+        }
+
+        // to test the property `lines`
+        should("test lines") {
+            // uncomment below to test the property
+            //modelInstance.lines shouldBe ("TODO")
         }
 
     }

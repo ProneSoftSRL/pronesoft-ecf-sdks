@@ -31,7 +31,7 @@ import com.pronesoft.ecf.models.ErrorResponse
 import com.pronesoft.ecf.models.OAuthTokenRequest
 import com.pronesoft.ecf.models.OAuthTokenResponse
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 import com.pronesoft.ecf.infrastructure.ApiClient
 import com.pronesoft.ecf.infrastructure.ApiResponse
@@ -57,8 +57,8 @@ open class AuthenticationApi(basePath: kotlin.String = defaultBasePath, client: 
 
     /**
      * POST /oauth/token
-     * Get access token (OAuth 2.0)
-     * 
+     * Get access token
+     * Authenticates using OAuth 2.0 **Client Credentials** flow. Returns a Bearer token to use in subsequent requests.  **This endpoint does NOT require an Authorization header.**  &#x60;&#x60;&#x60; POST /oauth/token Content-Type: application/json  {   \&quot;clientId\&quot;: \&quot;your-client-id\&quot;,   \&quot;clientSecret\&quot;: \&quot;your-client-secret\&quot; } &#x60;&#x60;&#x60;  Use the returned &#x60;accessToken&#x60; as: &#x60;&#x60;&#x60; Authorization: Bearer &lt;accessToken&gt; &#x60;&#x60;&#x60; 
      * @param oauthTokenRequest 
      * @return OAuthTokenResponse
      * @throws IllegalStateException If the request is not correctly configured
@@ -89,8 +89,8 @@ open class AuthenticationApi(basePath: kotlin.String = defaultBasePath, client: 
 
     /**
      * POST /oauth/token
-     * Get access token (OAuth 2.0)
-     * 
+     * Get access token
+     * Authenticates using OAuth 2.0 **Client Credentials** flow. Returns a Bearer token to use in subsequent requests.  **This endpoint does NOT require an Authorization header.**  &#x60;&#x60;&#x60; POST /oauth/token Content-Type: application/json  {   \&quot;clientId\&quot;: \&quot;your-client-id\&quot;,   \&quot;clientSecret\&quot;: \&quot;your-client-secret\&quot; } &#x60;&#x60;&#x60;  Use the returned &#x60;accessToken&#x60; as: &#x60;&#x60;&#x60; Authorization: Bearer &lt;accessToken&gt; &#x60;&#x60;&#x60; 
      * @param oauthTokenRequest 
      * @return ApiResponse<OAuthTokenResponse?>
      * @throws IllegalStateException If the request is not correctly configured

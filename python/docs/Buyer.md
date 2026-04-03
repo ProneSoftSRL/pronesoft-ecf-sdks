@@ -1,17 +1,18 @@
 # Buyer
 
+Information about the buyer/recipient of the document.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**tax_id** | **str** |  | [optional] 
-**name** | **str** |  | 
-**email** | **str** |  | [optional] 
-**address** | **str** |  | [optional] 
-**municipality_code** | **str** |  | [optional] 
-**province_code** | **str** |  | [optional] 
-**delivery_address** | **str** |  | [optional] 
+**tax_id** | **str** | Buyer&#39;s RNC (9 digits) or cedula (11 digits). Required for type 31. | [optional] 
+**name** | **str** | Buyer&#39;s full legal name or business name. | 
+**email** | **str** | Buyer&#39;s email address (for digital delivery of the e-CF). | [optional] 
+**address** | **str** | Buyer&#39;s physical address. | [optional] 
+**municipality_code** | **str** | DGII municipality code of the buyer. | [optional] 
+**province_code** | **str** | DGII province code of the buyer. | [optional] 
+**delivery_address** | **str** | Delivery address (if different from billing address). | [optional] 
 
 ## Example
 

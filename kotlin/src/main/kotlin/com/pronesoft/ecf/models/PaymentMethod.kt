@@ -24,40 +24,38 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Payment method code: - `1`: Cash (Efectivo) - `2`: Check (Cheque) - `3`: Debit/Credit Card (Tarjeta de Débito/Crédito) - `4`: Credit (Crédito) - `5`: Bank Transfer (Transferencia Bancaria) - `6`: Electronic Money (Dinero Electrónico) - `7`: Bond/Gift Card (Bono/Gift Card) - `8`: Other (Otro) 
  *
  * Values: _1,_2,_3,_4,_5,_6,_7,_8
  */
 
-@JsonClass(generateAdapter = false)
 enum class PaymentMethod(val value: kotlin.String) {
 
-    @Json(name = "1")
+    @SerializedName(value = "1")
     _1("1"),
 
-    @Json(name = "2")
+    @SerializedName(value = "2")
     _2("2"),
 
-    @Json(name = "3")
+    @SerializedName(value = "3")
     _3("3"),
 
-    @Json(name = "4")
+    @SerializedName(value = "4")
     _4("4"),
 
-    @Json(name = "5")
+    @SerializedName(value = "5")
     _5("5"),
 
-    @Json(name = "6")
+    @SerializedName(value = "6")
     _6("6"),
 
-    @Json(name = "7")
+    @SerializedName(value = "7")
     _7("7"),
 
-    @Json(name = "8")
+    @SerializedName(value = "8")
     _8("8");
 
     /**

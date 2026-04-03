@@ -4,49 +4,148 @@ info:
     email: contacto@pronesoft.com
     name: Pronesoft SRL Support
     url: https://pronesoft.com
-  description: "**Highly detailed** production-grade API specification for eCF-Pronesoft.\n\
-    **Optimized for high-fidelity SDK generation.**\n\nThis specification is the result\
-    \ of an exhaustive audit of the source code (NestJS),\ncovering 100% of the DTOs,\
-    \ regex validations, Webhook schemas, and \nOAuth 2.0 security flows.\n"
+  description: |
+    ## Overview
+    Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
+    Dominican Republic through the Pronesoft platform, which handles all
+    communication with the DGII on your behalf.
+
+    ## Authentication — OAuth 2.0 Client Credentials
+    This API uses the **OAuth 2.0 Client Credentials** flow. There is no
+    user login — authentication is machine-to-machine using a
+    `clientId` and `clientSecret` issued by the Pronesoft portal.
+
+    ### Step-by-step
+    1. **Get credentials**:
+       - Sandbox: https://ecf.sandbox.pronesoft.com
+       - Production: https://ecf.pronesoft.com
+    2. **Request a token** — call `POST /oauth/token` with your credentials.
+       The server returns an `accessToken` valid for `expiresIn` seconds.
+    3. **Authorize requests** — include the token in every subsequent request:
+       ```
+       Authorization: Bearer <accessToken>
+       ```
+    4. **Identify your tenant** — include your company/branch UUID in every
+       protected request:
+       ```
+       x-tenant-id: <your-tenant-uuid>
+       ```
+    5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.
+
+    ### Scopes
+    | Category | Scope | Description |
+    |---|---|---|
+    | **Business** | `business:read` | Read company data |
+    | | `business:create` | Create a new company |
+    | | `business:update` | Update company data |
+    | **Members** | `members:read` | View team members |
+    | | `members:invite` | Invite new members |
+    | | `members:revoke` | Revoke member access |
+    | **Certificates** | `certificates:read` | View digital certificates |
+    | | `certificates:upload` | Upload new certificates |
+    | | `certificates:update` | Update existing certificates |
+    | **Documents** | `documents:read` | List and view documents |
+    | | `documents:create` | Create drafts or internal documents |
+    | | `documents:send` | Submit e-CF to DGII |
+    | | `documents:receive` | Receive e-CF from third parties |
+    | | `documents:update` | Modify document metadata |
+    | **Approvals** | `approvals:read` | View approval statuses |
+    | | `approvals:commercial` | Perform commercial approvals/rejections |
+    | **Sequences** | `sequences:read` | View NCF/e-NCF ranges |
+    | | `sequences:create` | Request new sequences |
+    | | `sequences:update` | Modify sequence configurations |
+    | | `sequences:cancel` | Cancel unused sequences |
+    | **Dashboard** | `business_info:read` | Access dashboard stats and metrics |
+    | **Certification** | `certification:read` | View certification progress |
+    | | `certification:write` | Run automated DGII certification tests |
+    | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |
+
+    ## Environments
+    | Environment | Portal | API Host | Purpose |
+    |---|---|---|---|
+    | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing |
+    | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |
+
+    ## Invoice Types (e-NCF)
+    | Code | Name |
+    |---|---|
+    | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) |
+    | `32` | Consumer Invoice (Factura de Consumo) |
+    | `33` | Debit Note (Nota de Débito) |
+    | `34` | Credit Note (Nota de Crédito) |
+    | `41` | Purchases (Compras) |
+    | `43` | Minor Expenses (Gastos Menores) |
+    | `44` | Special Regimes (Regímenes Especiales) |
+    | `45` | Governmental (Gubernamentales) |
+    | `46` | Exports (Exportaciones) |
+    | `47` | Overseas Payments (Pagos al Exterior) |
   license:
     name: Proprietary
     url: https://pronesoft.com/terms
-  title: eCF-Pronesoft Master Integration API
+  title: eCF-Pronesoft Integration API
   version: 0.0.1
 externalDocs:
   description: Pronesoft eCF SDKs Repository
   url: https://github.com/ProneSoftSRL/pronesoft-ecf-sdks
 servers:
-- description: Pronesoft eCF Server
-  url: "https://{host}/api/v1"
-  variables:
-    host:
-      default: api.ecf.sandbox.pronesoft.com
-      description: Sandbox (api.ecf.sandbox.pronesoft.com) or Production (api.ecf.pronesoft.com)
-      enum:
-      - api.ecf.sandbox.pronesoft.com
-      - api.ecf.pronesoft.com
+- description: Sandbox — for development and testing
+  url: https://api.ecf.sandbox.pronesoft.com/api/v1
+- description: Production — live e-CF issuance
+  url: https://api.ecf.pronesoft.com/api/v1
 security:
-- oauth2: []
+- bearerAuth: []
 tags:
-- name: Authentication
-- name: Digital Certificates
-- name: Tax Sequences
-- name: eCF Submission
-- name: Documents Sent
-- name: Documents Received
-- name: Commercial Approvals
-- name: Associated Companies
-- name: Reports
-- name: Automated Certification
-- name: Webhook Configuration
+- description: |
+    OAuth 2.0 token endpoint. Call this first to get your `accessToken`.
+    No `Authorization` header is needed for this endpoint.
+  name: Authentication
+- description: Upload and manage DGII digital signing certificates (P12 format).
+  name: Digital Certificates
+- description: |
+    Manage e-NCF fiscal number sequences. You must have a valid sequence
+    before submitting documents. Use `GET /tax-sequences/next` to get the
+    next available number for a given invoice type.
+  name: Tax Sequences
+- description: |
+    Core endpoint for submitting electronic tax documents to the DGII
+    via the Pronesoft platform.
+  name: eCF Submission
+- description: Manage branches and associated companies under your main account.
+  name: Associated Companies
+- description: |
+    Register URLs to receive real-time event notifications (e.g. when the
+    DGII finishes processing a document, or when a sequence is depleted).
+  name: Webhook Configuration
 paths:
   /oauth/token:
     post:
+      description: |
+        Authenticates using OAuth 2.0 **Client Credentials** flow.
+        Returns a Bearer token to use in subsequent requests.
+
+        **This endpoint does NOT require an Authorization header.**
+
+        ```
+        POST /oauth/token
+        Content-Type: application/json
+
+        {
+          "clientId": "your-client-id",
+          "clientSecret": "your-client-secret"
+        }
+        ```
+
+        Use the returned `accessToken` as:
+        ```
+        Authorization: Bearer <accessToken>
+        ```
       operationId: getAccessToken
       requestBody:
         content:
           application/json:
+            example:
+              clientId: my-client-id
+              clientSecret: my-super-secret
             schema:
               $ref: "#/components/schemas/OAuthTokenRequest"
         required: true
@@ -54,29 +153,48 @@ paths:
         "200":
           content:
             application/json:
+              example:
+                accessToken: eyJhbGciOiJSUzI1NiJ9...
+                tokenType: Bearer
+                expiresIn: 3600
               schema:
                 $ref: "#/components/schemas/OAuthTokenResponse"
           description: Token generated successfully
         "401":
           content:
             application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-          description: Authorization error (Expired or invalid token)
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
       security: []
-      summary: Get access token (OAuth 2.0)
+      summary: Get access token
       tags:
       - Authentication
   /{rnc}/certificates:
     post:
+      description: |
+        Uploads the DGII-issued digital signing certificate for a company
+        identified by its RNC. The certificate must be in P12/PFX format.
+
+        This is required before submitting any e-CF documents.
       operationId: uploadCertificate
       parameters:
-      - explode: false
+      - description: |
+          RNC (Registro Nacional del Contribuyente) of the company.
+          Must be 9 digits (persona jurídica) or 11 digits (persona física).
+        explode: false
         in: path
         name: rnc
         required: true
         schema:
-          pattern: "^[0-9]{9}|[0-9]{11}$"
+          example: "130000001"
+          pattern: "^([0-9]{9}|[0-9]{11})$"
           type: string
         style: simple
       requestBody:
@@ -84,30 +202,64 @@ paths:
           multipart/form-data:
             schema:
               $ref: "#/components/schemas/uploadCertificate_request"
+        required: true
       responses:
         "201":
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/uploadCertificate_201_response"
-          description: Certificate uploaded successfully
-      summary: Upload Digital Certificate (P12)
+                $ref: "#/components/schemas/UploadCertificateResponse"
+          description: Certificate uploaded and registered successfully
+        "400":
+          content:
+            application/json:
+              example:
+                statusCode: 400
+                message: "invoiceNumber must match pattern ^[a-zA-Z0-9]{13}$"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Validation error (400 Bad Request). The request body or parameters
+            did not pass validation. Check the `message` field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - certificates:upload
+      summary: Upload digital certificate (P12)
       tags:
       - Digital Certificates
   /tax-sequences:
     get:
+      description: Returns all fiscal number sequences registered for the tenant.
       operationId: listTaxSequences
       parameters:
-      - explode: false
+      - description: |
+          UUID of the company or branch (tenant) making the request.
+          Obtained from the Pronesoft portal after account setup.
+        explode: false
         in: header
         name: x-tenant-id
         required: true
         schema:
-          description: Unique identifier for the company/branch (Tenant).
+          example: 38400000-8cf0-11bd-b23e-10b96e4ef00d
           format: uuid
           type: string
         style: simple
-      - explode: true
+      - description: Filter by invoice type (e.g. "31" for Tax Credit).
+        explode: true
         in: query
         name: type
         required: false
@@ -120,55 +272,118 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/listTaxSequences_200_response"
-          description: List of sequences
+          description: List of tax sequences
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - sequences:read
       summary: List tax sequences
       tags:
       - Tax Sequences
     post:
+      description: |
+        Registers a new block of fiscal numbers for a given invoice type.
+        The `from` and `to` values define the numeric range of the sequence.
       operationId: createTaxSequence
       parameters:
-      - explode: false
+      - description: |
+          UUID of the company or branch (tenant) making the request.
+          Obtained from the Pronesoft portal after account setup.
+        explode: false
         in: header
         name: x-tenant-id
         required: true
         schema:
-          description: Unique identifier for the company/branch (Tenant).
+          example: 38400000-8cf0-11bd-b23e-10b96e4ef00d
           format: uuid
           type: string
         style: simple
       requestBody:
         content:
           application/json:
+            example:
+              type: "31"
+              from: 1
+              to: 500
             schema:
               $ref: "#/components/schemas/CreateTaxSequenceRequest"
         required: true
       responses:
         "201":
-          description: Sequence created
+          description: Sequence created successfully
+        "400":
+          content:
+            application/json:
+              example:
+                statusCode: 400
+                message: "invoiceNumber must match pattern ^[a-zA-Z0-9]{13}$"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Validation error (400 Bad Request). The request body or parameters
+            did not pass validation. Check the `message` field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - sequences:create
       summary: Create new tax sequence
       tags:
       - Tax Sequences
   /tax-sequences/next:
     get:
+      description: |
+        Returns the next available e-NCF number for a given invoice type
+        and environment. Use this number as the `invoiceNumber` when
+        submitting a document.
       operationId: getNextNumber
       parameters:
-      - explode: false
+      - description: |
+          UUID of the company or branch (tenant) making the request.
+          Obtained from the Pronesoft portal after account setup.
+        explode: false
         in: header
         name: x-tenant-id
         required: true
         schema:
-          description: Unique identifier for the company/branch (Tenant).
+          example: 38400000-8cf0-11bd-b23e-10b96e4ef00d
           format: uuid
           type: string
         style: simple
-      - explode: true
+      - description: Invoice type code (e.g. "31" for Tax Credit Invoice).
+        explode: true
         in: query
         name: type
         required: true
         schema:
           $ref: "#/components/schemas/InvoiceType"
         style: form
-      - explode: true
+      - description: Target environment for the sequence.
+        explode: true
         in: query
         name: environment
         required: true
@@ -181,8 +396,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/getNextNumber_200_response"
-          description: Next e-NCF number
-      summary: Get next available number
+          description: Next available e-NCF number
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - sequences:read
+      summary: Get next available fiscal number
       tags:
       - Tax Sequences
   /{environment}/ecf/submit:
@@ -191,31 +422,55 @@ paths:
         onEcfProcessed:
           '{$request.body#/callbackUrl}':
             post:
-              description: The server will send this event when the DGII finishes
-                processing the document.
+              description: |
+                Sent by Pronesoft to your `callbackUrl` when the DGII
+                finishes processing the document.
               operationId: OnEcfProcessedPost
               requestBody:
                 content:
                   application/json:
                     schema:
                       $ref: "#/components/schemas/WebhookNotificationPayload"
+                required: true
               responses:
                 "200":
                   description: Callback received successfully
-              summary: e-CF Processing Callback
+              summary: DGII processing result callback
               x-callback-request: true
+      description: |
+        Submits an electronic tax document to the DGII via the Pronesoft
+        platform. Pronesoft handles XML signing, DGII authentication, and
+        status polling on your behalf.
+
+        ### Flow
+        1. Build the `ElectronicDocument` payload.
+        2. Call this endpoint with the target `environment` in the path.
+        3. Receive a `documentId` and `trackId` in the response.
+        4. Listen for the `document.status_changed` webhook event, or poll
+           the DGII track ID to confirm final approval.
+
+        ### Path parameter: environment
+        | Value | Description |
+        |---|---|
+        | `TesteCF` | Functional tests (no DGII interaction) |
+        | `CerteCF` | DGII certification environment |
+        | `eCF` | Production — real documents |
       operationId: submitEcf
       parameters:
-      - explode: false
+      - description: |
+          UUID of the company or branch (tenant) making the request.
+          Obtained from the Pronesoft portal after account setup.
+        explode: false
         in: header
         name: x-tenant-id
         required: true
         schema:
-          description: Unique identifier for the company/branch (Tenant).
+          example: 38400000-8cf0-11bd-b23e-10b96e4ef00d
           format: uuid
           type: string
         style: simple
-      - explode: false
+      - description: Target submission environment.
+        explode: false
         in: path
         name: environment
         required: true
@@ -232,28 +487,60 @@ paths:
         "200":
           content:
             application/json:
+              example:
+                success: true
+                documentId: 550e8400-e29b-41d4-a716-446655440000
+                encf: E310000000001
+                trackId: TRK-20240101-0001
+                message: Document submitted successfully
               schema:
                 $ref: "#/components/schemas/EcfSubmissionResponse"
-          description: Document submitted and processed by platform
+          description: Document accepted and submitted to DGII
         "400":
           content:
             application/json:
+              example:
+                statusCode: 400
+                message: "invoiceNumber must match pattern ^[a-zA-Z0-9]{13}$"
+                timestamp: 2024-01-01T12:00:00Z
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-          description: Data structure error (400 Bad Request)
-      summary: Submit e-CF to platform
+          description: |
+            Validation error (400 Bad Request). The request body or parameters
+            did not pass validation. Check the `message` field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:send
+      summary: Submit e-CF document to DGII
       tags:
       - eCF Submission
   /associated-companies:
     get:
+      description: Returns all companies and branches linked to the current tenant.
       operationId: listAssociatedCompanies
       parameters:
-      - explode: false
+      - description: |
+          UUID of the company or branch (tenant) making the request.
+          Obtained from the Pronesoft portal after account setup.
+        explode: false
         in: header
         name: x-tenant-id
         required: true
         schema:
-          description: Unique identifier for the company/branch (Tenant).
+          example: 38400000-8cf0-11bd-b23e-10b96e4ef00d
           format: uuid
           type: string
         style: simple
@@ -266,18 +553,40 @@ paths:
                   $ref: "#/components/schemas/AssociatedCompany"
                 type: array
           description: List of associated companies
-      summary: List associated branches/companies
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:read
+      summary: List associated companies / branches
       tags:
       - Associated Companies
     post:
+      description: |
+        Registers a new branch or associated company under the current
+        tenant account. Accepts multipart/form-data to support logo upload.
       operationId: createAssociatedCompany
       parameters:
-      - explode: false
+      - description: |
+          UUID of the company or branch (tenant) making the request.
+          Obtained from the Pronesoft portal after account setup.
+        explode: false
         in: header
         name: x-tenant-id
         required: true
         schema:
-          description: Unique identifier for the company/branch (Tenant).
+          example: 38400000-8cf0-11bd-b23e-10b96e4ef00d
           format: uuid
           type: string
         style: simple
@@ -293,20 +602,53 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/createAssociatedCompany_201_response"
-          description: Company created
+          description: Associated company created successfully
+        "400":
+          content:
+            application/json:
+              example:
+                statusCode: 400
+                message: "invoiceNumber must match pattern ^[a-zA-Z0-9]{13}$"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Validation error (400 Bad Request). The request body or parameters
+            did not pass validation. Check the `message` field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:create
       summary: Create new associated company
       tags:
       - Associated Companies
   /{rnc}/webhooks:
     get:
+      description: Returns all registered webhooks for the given RNC.
       operationId: listWebhooks
       parameters:
-      - explode: false
+      - description: |
+          RNC (Registro Nacional del Contribuyente) of the company.
+          Must be 9 digits (persona jurídica) or 11 digits (persona física).
+        explode: false
         in: path
         name: rnc
         required: true
         schema:
-          pattern: "^[0-9]{9}|[0-9]{11}$"
+          example: "130000001"
+          pattern: "^([0-9]{9}|[0-9]{11})$"
           type: string
         style: simple
       responses:
@@ -317,24 +659,58 @@ paths:
                 items:
                   $ref: "#/components/schemas/WebhookConfigResponse"
                 type: array
-          description: List of webhooks
-      summary: List all webhook configurations
+          description: List of webhook configurations
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:read
+      summary: List webhook configurations
       tags:
       - Webhook Configuration
     post:
+      description: |
+        Registers a URL to receive real-time event notifications for the
+        given RNC. You can subscribe to one or more `WebhookEventType` values.
+
+        Optionally provide a `secret` (min 16 chars) — Pronesoft will sign
+        webhook payloads with HMAC-SHA256 using this secret so you can verify
+        authenticity on your end.
       operationId: createWebhook
       parameters:
-      - explode: false
+      - description: |
+          RNC (Registro Nacional del Contribuyente) of the company.
+          Must be 9 digits (persona jurídica) or 11 digits (persona física).
+        explode: false
         in: path
         name: rnc
         required: true
         schema:
-          pattern: "^[0-9]{9}|[0-9]{11}$"
+          example: "130000001"
+          pattern: "^([0-9]{9}|[0-9]{11})$"
           type: string
         style: simple
       requestBody:
         content:
           application/json:
+            example:
+              url: https://myapp.com/webhooks/ecf
+              eventTypes:
+              - document.status_changed
+              - sequence.depleted
+              description: Main notification endpoint
+              secret: my-super-secret-value-here
             schema:
               $ref: "#/components/schemas/CreateWebhookConfig"
         required: true
@@ -344,22 +720,57 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/WebhookConfigResponse"
-          description: Webhook registered
+          description: Webhook registered successfully
+        "400":
+          content:
+            application/json:
+              example:
+                statusCode: 400
+                message: "invoiceNumber must match pattern ^[a-zA-Z0-9]{13}$"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Validation error (400 Bad Request). The request body or parameters
+            did not pass validation. Check the `message` field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:update
       summary: Register new webhook
       tags:
       - Webhook Configuration
   /{rnc}/webhooks/{webhookId}:
     delete:
+      description: Removes a registered webhook by its ID.
       operationId: deleteWebhook
       parameters:
-      - explode: false
+      - description: |
+          RNC (Registro Nacional del Contribuyente) of the company.
+          Must be 9 digits (persona jurídica) or 11 digits (persona física).
+        explode: false
         in: path
         name: rnc
         required: true
         schema:
+          example: "130000001"
+          pattern: "^([0-9]{9}|[0-9]{11})$"
           type: string
         style: simple
-      - explode: false
+      - description: The unique ID of the webhook to delete.
+        explode: false
         in: path
         name: webhookId
         required: true
@@ -368,37 +779,88 @@ paths:
         style: simple
       responses:
         "200":
-          description: Webhook deleted
+          description: Webhook deleted successfully
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: "Unauthorized: token expired"
+                timestamp: 2024-01-01T12:00:00Z
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: |
+            Authorization error. The token is missing, expired, or invalid.
+            Call `POST /oauth/token` to get a new token.
+        "404":
+          description: Webhook not found
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:update
       summary: Delete webhook configuration
       tags:
       - Webhook Configuration
 components:
   parameters:
     TenantIdHeader:
+      description: |
+        UUID of the company or branch (tenant) making the request.
+        Obtained from the Pronesoft portal after account setup.
       explode: false
       in: header
       name: x-tenant-id
       required: true
       schema:
-        description: Unique identifier for the company/branch (Tenant).
+        example: 38400000-8cf0-11bd-b23e-10b96e4ef00d
         format: uuid
+        type: string
+      style: simple
+    RncPath:
+      description: |
+        RNC (Registro Nacional del Contribuyente) of the company.
+        Must be 9 digits (persona jurídica) or 11 digits (persona física).
+      explode: false
+      in: path
+      name: rnc
+      required: true
+      schema:
+        example: "130000001"
+        pattern: "^([0-9]{9}|[0-9]{11})$"
         type: string
       style: simple
   responses:
     UnauthorizedError:
       content:
         application/json:
+          example:
+            statusCode: 401
+            message: "Unauthorized: token expired"
+            timestamp: 2024-01-01T12:00:00Z
           schema:
             $ref: "#/components/schemas/ErrorResponse"
-      description: Authorization error (Expired or invalid token)
+      description: |
+        Authorization error. The token is missing, expired, or invalid.
+        Call `POST /oauth/token` to get a new token.
     ValidationError:
       content:
         application/json:
+          example:
+            statusCode: 400
+            message: "invoiceNumber must match pattern ^[a-zA-Z0-9]{13}$"
+            timestamp: 2024-01-01T12:00:00Z
           schema:
             $ref: "#/components/schemas/ErrorResponse"
-      description: Data structure error (400 Bad Request)
+      description: |
+        Validation error (400 Bad Request). The request body or parameters
+        did not pass validation. Check the `message` field for details.
   schemas:
     Environment:
+      description: |
+        Target environment for e-CF submission.
+        - `TesteCF`: Functional tests, no real DGII interaction.
+        - `CerteCF`: DGII certification environment.
+        - `eCF`: Production — issues real legal documents.
       enum:
       - TesteCF
       - CerteCF
@@ -406,9 +868,17 @@ components:
       type: string
     InvoiceType:
       description: |
-        31: Tax Credit, 32: Consumer, 33: Debit Note, 34: Credit Note,
-        41: Purchases, 43: Minor Expenses, 44: Special Regimes, 45: Governmental,
-        46: Exports, 47: Overseas Payments.
+        e-NCF invoice type code as defined by the DGII:
+        - `31`: Tax Credit Invoice (Factura de Crédito Fiscal)
+        - `32`: Consumer Invoice (Factura de Consumo)
+        - `33`: Debit Note (Nota de Débito)
+        - `34`: Credit Note (Nota de Crédito)
+        - `41`: Purchases (Compras)
+        - `43`: Minor Expenses (Gastos Menores)
+        - `44`: Special Regimes (Regímenes Especiales)
+        - `45`: Governmental (Gubernamentales)
+        - `46`: Exports (Exportaciones)
+        - `47`: Overseas Payments (Pagos al Exterior)
       enum:
       - "31"
       - "32"
@@ -422,6 +892,16 @@ components:
       - "47"
       type: string
     PaymentMethod:
+      description: |
+        Payment method code:
+        - `1`: Cash (Efectivo)
+        - `2`: Check (Cheque)
+        - `3`: Debit/Credit Card (Tarjeta de Débito/Crédito)
+        - `4`: Credit (Crédito)
+        - `5`: Bank Transfer (Transferencia Bancaria)
+        - `6`: Electronic Money (Dinero Electrónico)
+        - `7`: Bond/Gift Card (Bono/Gift Card)
+        - `8`: Other (Otro)
       enum:
       - "1"
       - "2"
@@ -433,8 +913,13 @@ components:
       - "8"
       type: string
     BillingIndicator:
-      description: "0: Non-Billable, 1: 18% Tax Rate, 2: 16% Tax Rate, 3: 0% Tax Rate,\
-        \ 4: Exempt"
+      description: |
+        ITBIS tax billing indicator for a line item:
+        - `0`: Non-billable (No facturable)
+        - `1`: 18% ITBIS rate
+        - `2`: 16% ITBIS rate
+        - `3`: 0% ITBIS rate
+        - `4`: Exempt (Exento)
       enum:
       - "0"
       - "1"
@@ -443,6 +928,7 @@ components:
       - "4"
       type: string
     WebhookEventType:
+      description: Type of event that triggers a webhook notification.
       enum:
       - document.received
       - document.status_changed
@@ -463,19 +949,802 @@ components:
       - certification.completed
       type: string
     PrintFormat:
+      description: |
+        Printer/receipt format:
+        - `A4`: Standard A4 paper
+        - `thermal_80`: 80mm thermal printer
+        - `thermal_58`: 58mm thermal printer
       enum:
       - A4
       - thermal_80
       - thermal_58
       type: string
     AccountType:
-      description: "CT: Current, AH: Savings, OT: Others"
+      description: |
+        Bank account type:
+        - `CT`: Current account (Cuenta Corriente)
+        - `AH`: Savings account (Cuenta de Ahorros)
+        - `OT`: Other
       enum:
       - CT
       - AH
       - OT
       type: string
+    OAuthTokenRequest:
+      description: |
+        Credentials for OAuth 2.0 Client Credentials authentication.
+
+        Obtain `clientId` and `clientSecret` from the Pronesoft portal:
+        - Sandbox: https://ecf.sandbox.pronesoft.com
+        - Production: https://ecf.pronesoft.com
+      example:
+        clientId: my-app-client-id
+        clientSecret: my-super-secret-value
+      properties:
+        clientId:
+          description: Your application's client ID from the Pronesoft portal.
+          example: my-app-client-id
+          type: string
+        clientSecret:
+          description: Your application's client secret. Keep this confidential.
+          example: my-super-secret-value
+          type: string
+      required:
+      - clientId
+      - clientSecret
+      type: object
+    OAuthTokenResponse:
+      description: |
+        Successful token response. Use `accessToken` as a Bearer token
+        in the `Authorization` header of all subsequent requests.
+      example:
+        expiresIn: 3600
+        accessToken: eyJhbGciOiJSUzI1NiJ9...
+        tokenType: Bearer
+      properties:
+        accessToken:
+          description: "JWT Bearer token. Pass as Authorization: Bearer <accessToken>."
+          example: eyJhbGciOiJSUzI1NiJ9...
+          type: string
+        tokenType:
+          description: Always "Bearer".
+          example: Bearer
+          type: string
+        expiresIn:
+          description: Token lifetime in seconds. Request a new token when it expires.
+          example: 3600
+          type: integer
+      type: object
+    ElectronicDocument:
+      description: |
+        The main e-CF document payload. Build this object and submit it to
+        `POST /{environment}/ecf/submit`.
+
+        **Required fields:** `version`, `invoiceType`, `invoiceNumber`,
+        `issueDate`, `items`, `totals`.
+
+        Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`.
+      example:
+        paymentAccountType: CT
+        paymentBank: paymentBank
+        alternativeCurrency:
+          totalAmount: 201.71
+          code: USD
+          exchangeRate: 58.5
+        paymentType: "1"
+        pages:
+        - taxableAmount: 7.04836565559697
+          pageNumber: 8
+          additionalTaxes: 4.678947989005849
+          lineTo: 3
+          exemptAmount: 7.260521264802104
+          itbis2: 4.258773108174356
+          lineFrom: 7
+          itbis1: 6.628464275087742
+          itbis3: 1.041444916118296
+          nonBillableAmount: 9.132027271330688
+          totalITBIS: 0.2025324113236393
+          subtotal: 3.0576100241049344
+          taxableAmount2: 3.2588565619047607
+          taxableAmount1: 5.533258397034986
+          taxableAmount3: 4.078845849666752
+        - taxableAmount: 7.04836565559697
+          pageNumber: 8
+          additionalTaxes: 4.678947989005849
+          lineTo: 3
+          exemptAmount: 7.260521264802104
+          itbis2: 4.258773108174356
+          lineFrom: 7
+          itbis1: 6.628464275087742
+          itbis3: 1.041444916118296
+          nonBillableAmount: 9.132027271330688
+          totalITBIS: 0.2025324113236393
+          subtotal: 3.0576100241049344
+          taxableAmount2: 3.2588565619047607
+          taxableAmount1: 5.533258397034986
+          taxableAmount3: 4.078845849666752
+        invoiceNumber: E310000000001
+        additionalInfo:
+          grossWeight: 8.762042012749001
+          sealId: sealId
+          packageQuantity: 9.018348186070783
+          containerId: containerId
+        invoiceType: "31"
+        issueDate: 2024-01-15T10:30:00Z
+        paymentTerms: paymentTerms
+        expirationDate: 2024-02-15T10:30:00Z
+        paymentAccountNumber: paymentAccountNumber
+        subtotals:
+        - taxableAmount: 6.965117697638846
+          amount: 3.5571952270680973
+          additionalTaxes: 3.0937452626664474
+          description: description
+          exemptAmount: 7.143538047012306
+          itbis2: 6.704019297950036
+          itbis1: 5.944895607614016
+          itbis3: 3.353193347011243
+          number: 6
+          totalITBIS: 6.878052220127876
+          taxableAmount2: 2.8841621266687802
+          taxableAmount1: 1.284659006116532
+          taxableAmount3: 6.778324963048013
+          lines: 0
+        - taxableAmount: 6.965117697638846
+          amount: 3.5571952270680973
+          additionalTaxes: 3.0937452626664474
+          description: description
+          exemptAmount: 7.143538047012306
+          itbis2: 6.704019297950036
+          itbis1: 5.944895607614016
+          itbis3: 3.353193347011243
+          number: 6
+          totalITBIS: 6.878052220127876
+          taxableAmount2: 2.8841621266687802
+          taxableAmount1: 1.284659006116532
+          taxableAmount3: 6.778324963048013
+          lines: 0
+        creditNoteIndicator: "0"
+        incomeType: "01"
+        totals:
+          itbisRate2: 0.16
+          amountToPay: 4.965218492984954
+          taxableAmount: 5.637376656633329
+          itbisRate1: 0.18
+          totalITBISPerception: 9.369310271410669
+          itbisRate3: 0.0
+          additionalTaxes:
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          totalISRPerception: 6.683562403749608
+          advancePaymentAmount: 1.1730742509559433
+          exemptAmount: 3.616076749251911
+          additionalTaxAmount: 1.0246457001441578
+          itbis2: 7.386281948385884
+          itbis1: 4.145608029883936
+          itbis3: 1.2315135367772556
+          previousBalance: 7.457744773683766
+          nonBillableAmount: 1.4894159098541704
+          periodAmount: 6.84685269835264
+          totalIncomeTaxWithholding: 9.965781217890562
+          totalAmount: 11800.0
+          totalITBIS: 2.027123023002322
+          taxableAmount2: 7.061401241503109
+          taxableAmount1: 2.3021358869347655
+          taxableAmount3: 9.301444243932576
+          totalWithheldITBIS: 5.025004791520295
+        transport:
+          licensePlate: licensePlate
+          route: route
+          driver: driver
+          vehicleId: vehicleId
+          departureDate: 2000-01-23T04:56:07.000+00:00
+          arrivalDate: 2000-01-23T04:56:07.000+00:00
+        issuerEmail: issuerEmail
+        version: "1.0"
+        buyer:
+          address: address
+          deliveryAddress: deliveryAddress
+          taxId: "130000001"
+          provinceCode: provinceCode
+          name: Empresa Compradora SRL
+          municipalityCode: municipalityCode
+          email: comprador@empresa.com
+        issuerPhones:
+        - issuerPhones
+        - issuerPhones
+        - issuerPhones
+        discountsOrSurcharges:
+        - amount: 6.519180951018382
+          alternativeCurrencyAmount: 4.652396432933246
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 0.10263654006109402
+          lineNumber: 7
+          type: D
+        - amount: 6.519180951018382
+          alternativeCurrencyAmount: 4.652396432933246
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 0.10263654006109402
+          lineNumber: 7
+          type: D
+        paymentDeadline: 2000-01-23T04:56:07.000+00:00
+        items:
+        - unitPrice: "1500.00"
+          alcoholDegree: 5.962133916683182
+          amount: 3750.0
+          quantity: "2.5"
+          subquantities:
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          additionalTaxes:
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          name: Consulting Services
+          billingIndicator: "0"
+          discountAmount: 0.0
+          lineNumber: 1
+          type: "1"
+        - unitPrice: "1500.00"
+          alcoholDegree: 5.962133916683182
+          amount: 3750.0
+          quantity: "2.5"
+          subquantities:
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          additionalTaxes:
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          name: Consulting Services
+          billingIndicator: "0"
+          discountAmount: 0.0
+          lineNumber: 1
+          type: "1"
+        - unitPrice: "1500.00"
+          alcoholDegree: 5.962133916683182
+          amount: 3750.0
+          quantity: "2.5"
+          subquantities:
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          additionalTaxes:
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          name: Consulting Services
+          billingIndicator: "0"
+          discountAmount: 0.0
+          lineNumber: 1
+          type: "1"
+        - unitPrice: "1500.00"
+          alcoholDegree: 5.962133916683182
+          amount: 3750.0
+          quantity: "2.5"
+          subquantities:
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          additionalTaxes:
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          name: Consulting Services
+          billingIndicator: "0"
+          discountAmount: 0.0
+          lineNumber: 1
+          type: "1"
+        - unitPrice: "1500.00"
+          alcoholDegree: 5.962133916683182
+          amount: 3750.0
+          quantity: "2.5"
+          subquantities:
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          - quantity: 6.027456183070403
+            unitCode: 1.4658129805029452
+          additionalTaxes:
+          - amount: 0.8008281904610115
+            code: code
+          - amount: 0.8008281904610115
+            code: code
+          name: Consulting Services
+          billingIndicator: "0"
+          discountAmount: 0.0
+          lineNumber: 1
+          type: "1"
+        issuerRNC: issuerRNC
+        referenceInfo:
+          modifiedInvoiceDate: 2000-01-23
+          modificationReason: modificationReason
+          otherContributorRNC: otherContributorRNC
+          modifiedInvoiceNumber: E310000000001
+          modificationCode: "1"
+        issuerBusinessName: issuerBusinessName
+      properties:
+        version:
+          default: "1.0"
+          description: Document schema version. Always "1.0".
+          example: "1.0"
+          pattern: ^1\.0$
+          type: string
+        invoiceType:
+          $ref: "#/components/schemas/InvoiceType"
+        invoiceNumber:
+          description: |
+            e-NCF number (13 alphanumeric characters).
+            Obtain from `GET /tax-sequences/next`.
+          example: E310000000001
+          pattern: "^[a-zA-Z0-9]{13}$"
+          type: string
+        issueDate:
+          description: Document issue date and time (ISO 8601).
+          example: 2024-01-15T10:30:00Z
+          format: date-time
+          type: string
+        expirationDate:
+          description: "Document expiration date (optional, for credit documents)."
+          example: 2024-02-15T10:30:00Z
+          format: date-time
+          type: string
+        incomeType:
+          description: |
+            Income type code:
+            - `01`: Operations Income
+            - `02`: Financial Income
+            - `03`: Extraordinary Income
+            - `04`: Leasing Income
+            - `05`: Income from Sales of Assets
+            - `06`: Other Income
+          enum:
+          - "01"
+          - "02"
+          - "03"
+          - "04"
+          - "05"
+          - "06"
+          type: string
+        paymentType:
+          description: |
+            Payment condition:
+            - `1`: Cash (Al Contado)
+            - `2`: Credit (Crédito)
+            - `3`: Mixed (Mixto)
+          enum:
+          - "1"
+          - "2"
+          - "3"
+          type: string
+        paymentDeadline:
+          description: Payment due date (required when paymentType is "2" or "3").
+          format: date-time
+          type: string
+        paymentTerms:
+          description: Payment terms description (e.g. "Net 30").
+          maxLength: 15
+          type: string
+        paymentAccountType:
+          $ref: "#/components/schemas/AccountType"
+        paymentAccountNumber:
+          description: Bank account number for payment reference.
+          maxLength: 28
+          type: string
+        paymentBank:
+          description: Bank name for payment reference.
+          maxLength: 75
+          type: string
+        creditNoteIndicator:
+          description: |
+            For Credit Notes (type 34) only:
+            - `0`: Affected invoice issued ≤ 30 days ago
+            - `1`: Affected invoice issued > 30 days ago
+          enum:
+          - "0"
+          - "1"
+          type: string
+        issuerRNC:
+          description: RNC of the issuing company (overrides tenant default if provided).
+          pattern: "^([0-9]{9}|[0-9]{11})$"
+          type: string
+        issuerBusinessName:
+          description: Legal business name of the issuer.
+          maxLength: 150
+          type: string
+        issuerEmail:
+          description: Contact email of the issuer.
+          format: email
+          type: string
+        issuerPhones:
+          description: Issuer phone numbers in format "809-555-1234".
+          items:
+            pattern: "^\\d{3}-\\d{3}-\\d{4}$"
+            type: string
+          maxItems: 3
+          type: array
+        buyer:
+          $ref: "#/components/schemas/Buyer"
+        items:
+          description: Line items of the document. At least 1 required.
+          items:
+            $ref: "#/components/schemas/Item"
+          maxItems: 1000
+          minItems: 1
+          type: array
+        totals:
+          $ref: "#/components/schemas/Totals"
+        transport:
+          $ref: "#/components/schemas/Transport"
+        additionalInfo:
+          $ref: "#/components/schemas/AdditionalInfo"
+        alternativeCurrency:
+          $ref: "#/components/schemas/AlternativeCurrency"
+        referenceInfo:
+          $ref: "#/components/schemas/ReferenceInfo"
+        subtotals:
+          description: Page/section subtotals (for multi-page documents).
+          items:
+            $ref: "#/components/schemas/Subtotal"
+          type: array
+        discountsOrSurcharges:
+          description: Document-level discounts or surcharges.
+          items:
+            $ref: "#/components/schemas/DiscountOrSurcharge"
+          type: array
+        pages:
+          description: Page breakdown for multi-page documents.
+          items:
+            $ref: "#/components/schemas/Page"
+          type: array
+      required:
+      - invoiceNumber
+      - invoiceType
+      - issueDate
+      - items
+      - totals
+      - version
+      type: object
+    Buyer:
+      description: Information about the buyer/recipient of the document.
+      example:
+        address: address
+        deliveryAddress: deliveryAddress
+        taxId: "130000001"
+        provinceCode: provinceCode
+        name: Empresa Compradora SRL
+        municipalityCode: municipalityCode
+        email: comprador@empresa.com
+      properties:
+        taxId:
+          description: Buyer's RNC (9 digits) or cedula (11 digits). Required for
+            type 31.
+          example: "130000001"
+          pattern: "^([0-9]{9}|[0-9]{11})$"
+          type: string
+        name:
+          description: Buyer's full legal name or business name.
+          example: Empresa Compradora SRL
+          maxLength: 150
+          type: string
+        email:
+          description: Buyer's email address (for digital delivery of the e-CF).
+          example: comprador@empresa.com
+          format: email
+          type: string
+        address:
+          description: Buyer's physical address.
+          maxLength: 100
+          type: string
+        municipalityCode:
+          description: DGII municipality code of the buyer.
+          type: string
+        provinceCode:
+          description: DGII province code of the buyer.
+          type: string
+        deliveryAddress:
+          description: Delivery address (if different from billing address).
+          type: string
+      required:
+      - name
+      type: object
+    Item:
+      description: A single line item in the electronic document.
+      example:
+        unitPrice: "1500.00"
+        alcoholDegree: 5.962133916683182
+        amount: 3750.0
+        quantity: "2.5"
+        subquantities:
+        - quantity: 6.027456183070403
+          unitCode: 1.4658129805029452
+        - quantity: 6.027456183070403
+          unitCode: 1.4658129805029452
+        additionalTaxes:
+        - amount: 0.8008281904610115
+          code: code
+        - amount: 0.8008281904610115
+          code: code
+        name: Consulting Services
+        billingIndicator: "0"
+        discountAmount: 0.0
+        lineNumber: 1
+        type: "1"
+      properties:
+        lineNumber:
+          description: Sequential line number (1-based). Auto-assigned if omitted.
+          example: 1
+          type: integer
+        name:
+          description: Product or service name.
+          example: Consulting Services
+          maxLength: 80
+          type: string
+        type:
+          description: |
+            Item type:
+            - `1`: Product (Bien)
+            - `2`: Service (Servicio)
+          enum:
+          - "1"
+          - "2"
+          type: string
+        billingIndicator:
+          $ref: "#/components/schemas/BillingIndicator"
+        quantity:
+          description: Quantity (as string to support decimals with precision).
+          example: "2.5"
+          type: string
+        unitPrice:
+          description: Unit price (as string to support decimals with precision).
+          example: "1500.00"
+          type: string
+        amount:
+          description: "Total line amount (quantity × unitPrice, before discounts)."
+          example: 3750.0
+          type: number
+        discountAmount:
+          description: Discount amount applied to this line item.
+          example: 0.0
+          type: number
+        additionalTaxes:
+          description: "Additional taxes (e.g. ISC, IECS) for this line item."
+          items:
+            $ref: "#/components/schemas/ItemAdditionalTax"
+          type: array
+        subquantities:
+          description: Sub-quantities (for items with multiple units of measure).
+          items:
+            $ref: "#/components/schemas/Subquantity"
+          type: array
+        alcoholDegree:
+          description: Alcohol degree (required for alcoholic beverages subject to
+            ISC).
+          type: number
+      required:
+      - amount
+      - billingIndicator
+      - name
+      - quantity
+      - type
+      - unitPrice
+      type: object
+    Totals:
+      description: |
+        Document totals. `totalAmount` is required.
+        Provide ITBIS breakdowns by rate when applicable.
+      example:
+        itbisRate2: 0.16
+        amountToPay: 4.965218492984954
+        taxableAmount: 5.637376656633329
+        itbisRate1: 0.18
+        totalITBISPerception: 9.369310271410669
+        itbisRate3: 0.0
+        additionalTaxes:
+        - amount: 0.8008281904610115
+          code: code
+        - amount: 0.8008281904610115
+          code: code
+        - amount: 0.8008281904610115
+          code: code
+        - amount: 0.8008281904610115
+          code: code
+        - amount: 0.8008281904610115
+          code: code
+        totalISRPerception: 6.683562403749608
+        advancePaymentAmount: 1.1730742509559433
+        exemptAmount: 3.616076749251911
+        additionalTaxAmount: 1.0246457001441578
+        itbis2: 7.386281948385884
+        itbis1: 4.145608029883936
+        itbis3: 1.2315135367772556
+        previousBalance: 7.457744773683766
+        nonBillableAmount: 1.4894159098541704
+        periodAmount: 6.84685269835264
+        totalIncomeTaxWithholding: 9.965781217890562
+        totalAmount: 11800.0
+        totalITBIS: 2.027123023002322
+        taxableAmount2: 7.061401241503109
+        taxableAmount1: 2.3021358869347655
+        taxableAmount3: 9.301444243932576
+        totalWithheldITBIS: 5.025004791520295
+      properties:
+        taxableAmount:
+          description: Total taxable base amount (all ITBIS rates combined).
+          type: number
+        taxableAmount1:
+          description: Taxable base for 18% ITBIS rate.
+          type: number
+        taxableAmount2:
+          description: Taxable base for 16% ITBIS rate.
+          type: number
+        taxableAmount3:
+          description: Taxable base for 0% ITBIS rate.
+          type: number
+        exemptAmount:
+          description: Total amount exempt from ITBIS.
+          type: number
+        itbisRate1:
+          description: ITBIS rate 1 (typically 0.18).
+          example: 0.18
+          type: number
+        itbisRate2:
+          description: ITBIS rate 2 (typically 0.16).
+          example: 0.16
+          type: number
+        itbisRate3:
+          description: ITBIS rate 3 (typically 0.00).
+          example: 0.0
+          type: number
+        totalITBIS:
+          description: Total ITBIS tax (all rates combined).
+          type: number
+        itbis1:
+          description: ITBIS amount at rate 1.
+          type: number
+        itbis2:
+          description: ITBIS amount at rate 2.
+          type: number
+        itbis3:
+          description: ITBIS amount at rate 3.
+          type: number
+        additionalTaxAmount:
+          description: "Total of all additional taxes (ISC, IECS, etc.)."
+          type: number
+        additionalTaxes:
+          description: Breakdown of additional taxes at document level.
+          items:
+            $ref: "#/components/schemas/ItemAdditionalTax"
+          maxItems: 20
+          type: array
+        totalAmount:
+          description: Grand total of the document (required).
+          example: 11800.0
+          type: number
+        nonBillableAmount:
+          description: Amount not subject to billing.
+          type: number
+        periodAmount:
+          description: Amount for the current billing period.
+          type: number
+        previousBalance:
+          description: Previous balance (for billing statements).
+          type: number
+        advancePaymentAmount:
+          description: Advance payment amount already received.
+          type: number
+        amountToPay:
+          description: Net amount due after advance payments and previous balance.
+          type: number
+        totalWithheldITBIS:
+          description: Total ITBIS withheld at source.
+          type: number
+        totalIncomeTaxWithholding:
+          description: Total income tax (ISR) withheld at source.
+          type: number
+        totalITBISPerception:
+          description: Total ITBIS perception collected.
+          type: number
+        totalISRPerception:
+          description: Total ISR perception collected.
+          type: number
+      required:
+      - totalAmount
+      type: object
+    EcfSubmissionResponse:
+      description: Response returned after successfully submitting an e-CF document.
+      example:
+        encf: E310000000001
+        success: true
+        trackId: TRK-20240101-0001
+        documentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        message: message
+      properties:
+        success:
+          description: Whether the document was accepted by the platform.
+          type: boolean
+        documentId:
+          description: Pronesoft internal document identifier.
+          format: uuid
+          type: string
+        encf:
+          description: The e-NCF number assigned to the document.
+          example: E310000000001
+          type: string
+        trackId:
+          description: DGII tracking ID for status polling.
+          example: TRK-20240101-0001
+          type: string
+        message:
+          description: Human-readable status message.
+          type: string
+      required:
+      - documentId
+      - success
+      type: object
+    TaxSequence:
+      description: A registered fiscal number sequence for a given invoice type.
+      example:
+        nextNumber: E310000000001
+        id: id
+        type: "31"
+      properties:
+        id:
+          description: Internal sequence identifier.
+          type: string
+        type:
+          $ref: "#/components/schemas/InvoiceType"
+        nextNumber:
+          description: Next available e-NCF number in this sequence.
+          example: E310000000001
+          type: string
+      type: object
+    CreateTaxSequenceRequest:
+      description: |
+        Request to register a new block of fiscal numbers.
+        The `from` and `to` values define the numeric range (inclusive).
+      example:
+        from: 1
+        to: 500
+        type: "31"
+      properties:
+        type:
+          $ref: "#/components/schemas/InvoiceType"
+        from:
+          description: First number in the sequence range.
+          example: 1
+          type: integer
+        to:
+          description: Last number in the sequence range.
+          example: 500
+          type: integer
+      required:
+      - from
+      - to
+      - type
+      type: object
     AssociatedCompany:
+      description: A company or branch associated with the main tenant account.
       example:
         docsIssuedThisMonth: 0
         country: country
@@ -504,7 +1773,7 @@ components:
         name:
           type: string
         rnc:
-          pattern: "^[0-9]{9}|[0-9]{11}$"
+          pattern: "^([0-9]{9}|[0-9]{11})$"
           type: string
         phone:
           type: string
@@ -522,6 +1791,7 @@ components:
           nullable: true
           type: string
         type:
+          description: Whether this is the main account or an associated branch.
           enum:
           - MAIN
           - ASSOCIATED
@@ -530,8 +1800,10 @@ components:
           format: date-time
           type: string
         docsIssuedThisMonth:
+          description: Number of e-CF documents issued in the current month.
           type: integer
         purchasedDocsConsumedThisMonth:
+          description: Purchased document quota consumed this month.
           type: integer
         ownerEmail:
           format: email
@@ -540,11 +1812,14 @@ components:
           $ref: "#/components/schemas/AssociatedCompany_subscription"
       type: object
     CreateAssociatedCompanyRequest:
+      description: Request body for creating a new associated company or branch.
       properties:
         email:
+          description: Owner's email address (used for login).
           format: email
           type: string
         password:
+          description: Initial password for the new account (min 8 characters).
           minLength: 8
           type: string
         firstName:
@@ -554,9 +1829,11 @@ components:
         jobTitle:
           type: string
         name:
+          description: Legal business name.
           type: string
         rnc:
-          pattern: "^[0-9]{9}|[0-9]{11}$"
+          description: Company RNC (9 digits) or personal cedula (11 digits).
+          pattern: "^([0-9]{9}|[0-9]{11})$"
           type: string
         phone:
           type: string
@@ -570,12 +1847,15 @@ components:
           format: uri
           type: string
         category:
+          description: Business category or industry.
           type: string
         monthlySalesRange:
+          description: Estimated monthly sales range (e.g. "0-500000").
           type: string
         printerType:
           $ref: "#/components/schemas/PrintFormat"
         logo:
+          description: Company logo image file (multipart upload).
           format: binary
           type: string
       required:
@@ -588,553 +1868,10 @@ components:
       - phone
       - rnc
       type: object
-    ElectronicDocument:
-      example:
-        paymentAccountType: CT
-        paymentBank: paymentBank
-        alternativeCurrency:
-          totalAmount: 6.704019297950036
-          code: code
-          exchangeRate: 5.944895607614016
-        paymentType: "1"
-        pages:
-        - taxableAmount: 7.260521264802104
-          pageNumber: 6
-          additionalTaxes: 6.073898085781152
-          lineTo: 1
-          exemptAmount: 8.251625748923757
-          itbis2: 5.507386964179881
-          lineFrom: 4
-          itbis1: 7.933506881737151
-          itbis3: 4.86315908102884
-          nonBillableAmount: 4.459605034958679
-          totalITBIS: 0.5199002018724985
-          subtotal: 4.678947989005849
-          taxableAmount2: 0.8774076871421566
-          taxableAmount1: 9.132027271330688
-          taxableAmount3: 9.702963800023566
-        - taxableAmount: 7.260521264802104
-          pageNumber: 6
-          additionalTaxes: 6.073898085781152
-          lineTo: 1
-          exemptAmount: 8.251625748923757
-          itbis2: 5.507386964179881
-          lineFrom: 4
-          itbis1: 7.933506881737151
-          itbis3: 4.86315908102884
-          nonBillableAmount: 4.459605034958679
-          totalITBIS: 0.5199002018724985
-          subtotal: 4.678947989005849
-          taxableAmount2: 0.8774076871421566
-          taxableAmount1: 9.132027271330688
-          taxableAmount3: 9.702963800023566
-        invoiceNumber: invoiceNumber
-        additionalInfo:
-          grossWeight: 6.778324963048013
-          sealId: sealId
-          packageQuantity: 6.878052220127876
-          containerId: containerId
-        invoiceType: "31"
-        issueDate: 2000-01-23T04:56:07.000+00:00
-        paymentTerms: paymentTerms
-        expirationDate: 2000-01-23T04:56:07.000+00:00
-        paymentAccountNumber: paymentAccountNumber
-        subtotals:
-        - taxableAmount: 7.143538047012306
-          amount: 3.0937452626664474
-          additionalTaxes: 3.0205796992916243
-          description: description
-          exemptAmount: 3.0576100241049344
-          itbis2: 8.969578798196912
-          itbis1: 4.652396432933246
-          itbis3: 7.740351818741173
-          number: 3
-          totalITBIS: 0.10263654006109402
-          taxableAmount2: 7.058770351582356
-          taxableAmount1: 0.8851374739011653
-          taxableAmount3: 6.519180951018382
-          lines: 7
-        - taxableAmount: 7.143538047012306
-          amount: 3.0937452626664474
-          additionalTaxes: 3.0205796992916243
-          description: description
-          exemptAmount: 3.0576100241049344
-          itbis2: 8.969578798196912
-          itbis1: 4.652396432933246
-          itbis3: 7.740351818741173
-          number: 3
-          totalITBIS: 0.10263654006109402
-          taxableAmount2: 7.058770351582356
-          taxableAmount1: 0.8851374739011653
-          taxableAmount3: 6.519180951018382
-          lines: 7
-        creditNoteIndicator: "0"
-        incomeType: "01"
-        totals:
-          itbisRate2: 1.0246457001441578
-          amountToPay: 6.438423552598547
-          taxableAmount: 9.301444243932576
-          itbisRate1: 1.2315135367772556
-          totalITBISPerception: 1.284659006116532
-          itbisRate3: 1.4894159098541704
-          additionalTaxes:
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          totalISRPerception: 2.8841621266687802
-          advancePaymentAmount: 9.018348186070783
-          exemptAmount: 7.386281948385884
-          additionalTaxAmount: 5.025004791520295
-          itbis2: 1.1730742509559433
-          itbis1: 7.457744773683766
-          itbis3: 4.965218492984954
-          previousBalance: 8.762042012749001
-          nonBillableAmount: 9.369310271410669
-          periodAmount: 6.683562403749608
-          totalIncomeTaxWithholding: 6.965117697638846
-          totalAmount: 9.965781217890562
-          totalITBIS: 6.84685269835264
-          taxableAmount2: 2.027123023002322
-          taxableAmount1: 3.616076749251911
-          taxableAmount3: 4.145608029883936
-          totalWithheldITBIS: 3.5571952270680973
-        transport:
-          licensePlate: licensePlate
-          route: route
-          driver: driver
-          vehicleId: vehicleId
-          departureDate: 2000-01-23T04:56:07.000+00:00
-          arrivalDate: 2000-01-23T04:56:07.000+00:00
-        issuerEmail: issuerEmail
-        version: "1.0"
-        buyer:
-          address: address
-          deliveryAddress: deliveryAddress
-          taxId: taxId
-          provinceCode: provinceCode
-          name: name
-          municipalityCode: municipalityCode
-          email: email
-        issuerPhones:
-        - issuerPhones
-        - issuerPhones
-        - issuerPhones
-        discountsOrSurcharges:
-        - amount: 3.2588565619047607
-          alternativeCurrencyAmount: 0.2025324113236393
-          valueType: $
-          description: description
-          billingIndicator: null
-          percentageValue: 4.078845849666752
-          lineNumber: 5
-          type: D
-        - amount: 3.2588565619047607
-          alternativeCurrencyAmount: 0.2025324113236393
-          valueType: $
-          description: description
-          billingIndicator: null
-          percentageValue: 4.078845849666752
-          lineNumber: 5
-          type: D
-        paymentDeadline: 2000-01-23T04:56:07.000+00:00
-        items:
-        - unitPrice: unitPrice
-          alcoholDegree: 7.061401241503109
-          amount: 6.027456183070403
-          quantity: quantity
-          subquantities:
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          additionalTaxes:
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          name: name
-          billingIndicator: "0"
-          discountAmount: 1.4658129805029452
-          lineNumber: 0
-          type: "1"
-        - unitPrice: unitPrice
-          alcoholDegree: 7.061401241503109
-          amount: 6.027456183070403
-          quantity: quantity
-          subquantities:
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          additionalTaxes:
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          name: name
-          billingIndicator: "0"
-          discountAmount: 1.4658129805029452
-          lineNumber: 0
-          type: "1"
-        - unitPrice: unitPrice
-          alcoholDegree: 7.061401241503109
-          amount: 6.027456183070403
-          quantity: quantity
-          subquantities:
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          additionalTaxes:
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          name: name
-          billingIndicator: "0"
-          discountAmount: 1.4658129805029452
-          lineNumber: 0
-          type: "1"
-        - unitPrice: unitPrice
-          alcoholDegree: 7.061401241503109
-          amount: 6.027456183070403
-          quantity: quantity
-          subquantities:
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          additionalTaxes:
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          name: name
-          billingIndicator: "0"
-          discountAmount: 1.4658129805029452
-          lineNumber: 0
-          type: "1"
-        - unitPrice: unitPrice
-          alcoholDegree: 7.061401241503109
-          amount: 6.027456183070403
-          quantity: quantity
-          subquantities:
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          - quantity: 5.637376656633329
-            unitCode: 2.3021358869347655
-          additionalTaxes:
-          - amount: 5.962133916683182
-            code: code
-          - amount: 5.962133916683182
-            code: code
-          name: name
-          billingIndicator: "0"
-          discountAmount: 1.4658129805029452
-          lineNumber: 0
-          type: "1"
-        issuerRNC: issuerRNC
-        referenceInfo:
-          modifiedInvoiceDate: 2000-01-23
-          modificationReason: modificationReason
-          otherContributorRNC: otherContributorRNC
-          modifiedInvoiceNumber: modifiedInvoiceNumber
-          modificationCode: "1"
-        issuerBusinessName: issuerBusinessName
-      properties:
-        version:
-          default: "1.0"
-          pattern: ^1\.0$
-          type: string
-        invoiceType:
-          $ref: "#/components/schemas/InvoiceType"
-        invoiceNumber:
-          pattern: "^[a-zA-Z0-9]{13}$"
-          type: string
-        issueDate:
-          format: date-time
-          type: string
-        expirationDate:
-          format: date-time
-          type: string
-        incomeType:
-          enum:
-          - "01"
-          - "02"
-          - "03"
-          - "04"
-          - "05"
-          - "06"
-          type: string
-        paymentType:
-          enum:
-          - "1"
-          - "2"
-          - "3"
-          type: string
-        paymentDeadline:
-          format: date-time
-          type: string
-        paymentTerms:
-          maxLength: 15
-          type: string
-        paymentAccountType:
-          $ref: "#/components/schemas/AccountType"
-        paymentAccountNumber:
-          maxLength: 28
-          type: string
-        paymentBank:
-          maxLength: 75
-          type: string
-        creditNoteIndicator:
-          description: "0: issuance affected ≤ 30 days, 1: > 30 days"
-          enum:
-          - "0"
-          - "1"
-          type: string
-        issuerRNC:
-          pattern: "^[0-9]{9}|[0-9]{11}$"
-          type: string
-        issuerBusinessName:
-          maxLength: 150
-          type: string
-        issuerEmail:
-          format: email
-          type: string
-        issuerPhones:
-          items:
-            pattern: "^\\d{3}-\\d{3}-\\d{4}$"
-            type: string
-          maxItems: 3
-          type: array
-        buyer:
-          $ref: "#/components/schemas/Buyer"
-        items:
-          items:
-            $ref: "#/components/schemas/Item"
-          maxItems: 1000
-          minItems: 1
-          type: array
-        totals:
-          $ref: "#/components/schemas/Totals"
-        transport:
-          $ref: "#/components/schemas/Transport"
-        additionalInfo:
-          $ref: "#/components/schemas/AdditionalInfo"
-        alternativeCurrency:
-          $ref: "#/components/schemas/AlternativeCurrency"
-        referenceInfo:
-          $ref: "#/components/schemas/ReferenceInfo"
-        subtotals:
-          items:
-            $ref: "#/components/schemas/Subtotal"
-          type: array
-        discountsOrSurcharges:
-          items:
-            $ref: "#/components/schemas/DiscountOrSurcharge"
-          type: array
-        pages:
-          items:
-            $ref: "#/components/schemas/Page"
-          type: array
-      required:
-      - invoiceNumber
-      - invoiceType
-      - issueDate
-      - items
-      - totals
-      - version
-      type: object
-    Buyer:
-      example:
-        address: address
-        deliveryAddress: deliveryAddress
-        taxId: taxId
-        provinceCode: provinceCode
-        name: name
-        municipalityCode: municipalityCode
-        email: email
-      properties:
-        taxId:
-          pattern: "^[0-9]{9}|[0-9]{11}$"
-          type: string
-        name:
-          maxLength: 150
-          type: string
-        email:
-          format: email
-          type: string
-        address:
-          maxLength: 100
-          type: string
-        municipalityCode:
-          type: string
-        provinceCode:
-          type: string
-        deliveryAddress:
-          type: string
-      required:
-      - name
-      type: object
-    Item:
-      example:
-        unitPrice: unitPrice
-        alcoholDegree: 7.061401241503109
-        amount: 6.027456183070403
-        quantity: quantity
-        subquantities:
-        - quantity: 5.637376656633329
-          unitCode: 2.3021358869347655
-        - quantity: 5.637376656633329
-          unitCode: 2.3021358869347655
-        additionalTaxes:
-        - amount: 5.962133916683182
-          code: code
-        - amount: 5.962133916683182
-          code: code
-        name: name
-        billingIndicator: "0"
-        discountAmount: 1.4658129805029452
-        lineNumber: 0
-        type: "1"
-      properties:
-        lineNumber:
-          type: integer
-        name:
-          maxLength: 80
-          type: string
-        type:
-          enum:
-          - "1"
-          - "2"
-          type: string
-        billingIndicator:
-          $ref: "#/components/schemas/BillingIndicator"
-        quantity:
-          type: string
-        unitPrice:
-          type: string
-        amount:
-          type: number
-        discountAmount:
-          type: number
-        additionalTaxes:
-          items:
-            $ref: "#/components/schemas/ItemAdditionalTax"
-          type: array
-        subquantities:
-          items:
-            $ref: "#/components/schemas/Subquantity"
-          type: array
-        alcoholDegree:
-          type: number
-      required:
-      - amount
-      - billingIndicator
-      - name
-      - quantity
-      - type
-      - unitPrice
-      type: object
-    Totals:
-      example:
-        itbisRate2: 1.0246457001441578
-        amountToPay: 6.438423552598547
-        taxableAmount: 9.301444243932576
-        itbisRate1: 1.2315135367772556
-        totalITBISPerception: 1.284659006116532
-        itbisRate3: 1.4894159098541704
-        additionalTaxes:
-        - amount: 5.962133916683182
-          code: code
-        - amount: 5.962133916683182
-          code: code
-        - amount: 5.962133916683182
-          code: code
-        - amount: 5.962133916683182
-          code: code
-        - amount: 5.962133916683182
-          code: code
-        totalISRPerception: 2.8841621266687802
-        advancePaymentAmount: 9.018348186070783
-        exemptAmount: 7.386281948385884
-        additionalTaxAmount: 5.025004791520295
-        itbis2: 1.1730742509559433
-        itbis1: 7.457744773683766
-        itbis3: 4.965218492984954
-        previousBalance: 8.762042012749001
-        nonBillableAmount: 9.369310271410669
-        periodAmount: 6.683562403749608
-        totalIncomeTaxWithholding: 6.965117697638846
-        totalAmount: 9.965781217890562
-        totalITBIS: 6.84685269835264
-        taxableAmount2: 2.027123023002322
-        taxableAmount1: 3.616076749251911
-        taxableAmount3: 4.145608029883936
-        totalWithheldITBIS: 3.5571952270680973
-      properties:
-        taxableAmount:
-          type: number
-        taxableAmount1:
-          type: number
-        taxableAmount2:
-          type: number
-        taxableAmount3:
-          type: number
-        exemptAmount:
-          type: number
-        itbisRate1:
-          type: number
-        itbisRate2:
-          type: number
-        itbisRate3:
-          type: number
-        totalITBIS:
-          type: number
-        itbis1:
-          type: number
-        itbis2:
-          type: number
-        itbis3:
-          type: number
-        additionalTaxAmount:
-          type: number
-        additionalTaxes:
-          items:
-            $ref: "#/components/schemas/ItemAdditionalTax"
-          maxItems: 20
-          type: array
-        totalAmount:
-          type: number
-        nonBillableAmount:
-          type: number
-        periodAmount:
-          type: number
-        previousBalance:
-          type: number
-        advancePaymentAmount:
-          type: number
-        amountToPay:
-          type: number
-        totalWithheldITBIS:
-          type: number
-        totalIncomeTaxWithholding:
-          type: number
-        totalITBISPerception:
-          type: number
-        totalISRPerception:
-          type: number
-      required:
-      - totalAmount
-      type: object
     WebhookNotificationPayload:
+      description: |
+        Payload sent to your registered webhook URL when an event occurs.
+        Verify authenticity using HMAC-SHA256 with your webhook `secret`.
       example:
         businessRnc: businessRnc
         data: "{}"
@@ -1143,16 +1880,20 @@ components:
         timestamp: 2000-01-23T04:56:07.000+00:00
       properties:
         id:
+          description: Unique notification identifier (use for deduplication).
           format: uuid
           type: string
         event:
           $ref: "#/components/schemas/WebhookEventType"
         timestamp:
+          description: When the event occurred (ISO 8601).
           format: date-time
           type: string
         businessRnc:
+          description: RNC of the company that triggered the event.
           type: string
         data:
+          description: Event-specific data payload.
           type: object
       required:
       - businessRnc
@@ -1162,6 +1903,7 @@ components:
       - timestamp
       type: object
     WebhookConfigResponse:
+      description: A registered webhook configuration.
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
         id: id
@@ -1173,69 +1915,104 @@ components:
         url: https://openapi-generator.tech
       properties:
         id:
+          description: Unique webhook identifier.
           type: string
         url:
+          description: The URL that receives webhook notifications.
           format: uri
           type: string
         eventTypes:
+          description: Events this webhook is subscribed to.
           items:
             $ref: "#/components/schemas/WebhookEventType"
           type: array
         isActive:
+          description: Whether this webhook is currently active.
           type: boolean
         createdAt:
           format: date-time
           type: string
         lastTriggeredAt:
+          description: When this webhook was last triggered. Null if never triggered.
           format: date-time
           nullable: true
           type: string
       type: object
     CreateWebhookConfig:
+      description: Request body for registering a new webhook.
       example:
         description: description
         secret: secret
         eventTypes:
         - document.received
         - document.received
-        url: https://openapi-generator.tech
+        url: https://myapp.com/webhooks/ecf
       properties:
         url:
+          description: Your HTTPS endpoint that will receive POST notifications.
+          example: https://myapp.com/webhooks/ecf
           format: uri
           type: string
         eventTypes:
+          description: List of events to subscribe to.
           items:
             $ref: "#/components/schemas/WebhookEventType"
           type: array
         description:
+          description: Optional label for this webhook (for your reference).
           type: string
         secret:
+          description: |
+            Optional HMAC signing secret (min 16 characters).
+            Pronesoft will sign payloads so you can verify they are authentic.
           minLength: 16
           type: string
       required:
       - eventTypes
       - url
       type: object
-    Subtotal:
+    UploadCertificateResponse:
+      description: Response after successfully uploading a digital certificate.
       example:
-        taxableAmount: 7.143538047012306
-        amount: 3.0937452626664474
-        additionalTaxes: 3.0205796992916243
+        message: Certificate uploaded successfully
+        representative: representative
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+      properties:
+        message:
+          description: Confirmation message.
+          example: Certificate uploaded successfully
+          type: string
+        representative:
+          description: Name of the certificate holder as registered with the DGII.
+          type: string
+        expirationDate:
+          description: Certificate expiration date. Monitor this to avoid disruptions.
+          format: date-time
+          type: string
+      type: object
+    Subtotal:
+      description: Subtotal for a page or section within a multi-page document.
+      example:
+        taxableAmount: 6.965117697638846
+        amount: 3.5571952270680973
+        additionalTaxes: 3.0937452626664474
         description: description
-        exemptAmount: 3.0576100241049344
-        itbis2: 8.969578798196912
-        itbis1: 4.652396432933246
-        itbis3: 7.740351818741173
-        number: 3
-        totalITBIS: 0.10263654006109402
-        taxableAmount2: 7.058770351582356
-        taxableAmount1: 0.8851374739011653
-        taxableAmount3: 6.519180951018382
-        lines: 7
+        exemptAmount: 7.143538047012306
+        itbis2: 6.704019297950036
+        itbis1: 5.944895607614016
+        itbis3: 3.353193347011243
+        number: 6
+        totalITBIS: 6.878052220127876
+        taxableAmount2: 2.8841621266687802
+        taxableAmount1: 1.284659006116532
+        taxableAmount3: 6.778324963048013
+        lines: 0
       properties:
         number:
+          description: Page or section number.
           type: integer
         amount:
+          description: Subtotal amount for this section.
           type: number
         description:
           type: string
@@ -1260,41 +2037,52 @@ components:
         exemptAmount:
           type: number
         lines:
+          description: Number of line items included in this subtotal.
           type: integer
       required:
       - amount
       - number
       type: object
     DiscountOrSurcharge:
+      description: A document-level discount or surcharge.
       example:
-        amount: 3.2588565619047607
-        alternativeCurrencyAmount: 0.2025324113236393
+        amount: 6.519180951018382
+        alternativeCurrencyAmount: 4.652396432933246
         valueType: $
         description: description
         billingIndicator: null
-        percentageValue: 4.078845849666752
-        lineNumber: 5
+        percentageValue: 0.10263654006109402
+        lineNumber: 7
         type: D
       properties:
         lineNumber:
+          description: Reference line number this discount/surcharge applies to.
           type: integer
         type:
+          description: |
+            - `D`: Discount (Descuento)
+            - `R`: Surcharge/Recargo (Recargo)
           enum:
           - D
           - R
           type: string
         valueType:
+          description: Whether the amount is a fixed value (`$`) or a percentage (`%`).
           enum:
           - $
           - '%'
           type: string
         amount:
+          description: Discount or surcharge amount.
           type: number
         description:
+          description: Description of the discount or surcharge.
           type: string
         percentageValue:
+          description: Percentage value (when valueType is "%").
           type: number
         alternativeCurrencyAmount:
+          description: Equivalent amount in the alternative currency.
           type: number
         billingIndicator:
           $ref: "#/components/schemas/BillingIndicator"
@@ -1305,28 +2093,31 @@ components:
       - valueType
       type: object
     Page:
+      description: Page-level breakdown for multi-page documents.
       example:
-        taxableAmount: 7.260521264802104
-        pageNumber: 6
-        additionalTaxes: 6.073898085781152
-        lineTo: 1
-        exemptAmount: 8.251625748923757
-        itbis2: 5.507386964179881
-        lineFrom: 4
-        itbis1: 7.933506881737151
-        itbis3: 4.86315908102884
-        nonBillableAmount: 4.459605034958679
-        totalITBIS: 0.5199002018724985
-        subtotal: 4.678947989005849
-        taxableAmount2: 0.8774076871421566
-        taxableAmount1: 9.132027271330688
-        taxableAmount3: 9.702963800023566
+        taxableAmount: 7.04836565559697
+        pageNumber: 8
+        additionalTaxes: 4.678947989005849
+        lineTo: 3
+        exemptAmount: 7.260521264802104
+        itbis2: 4.258773108174356
+        lineFrom: 7
+        itbis1: 6.628464275087742
+        itbis3: 1.041444916118296
+        nonBillableAmount: 9.132027271330688
+        totalITBIS: 0.2025324113236393
+        subtotal: 3.0576100241049344
+        taxableAmount2: 3.2588565619047607
+        taxableAmount1: 5.533258397034986
+        taxableAmount3: 4.078845849666752
       properties:
         pageNumber:
           type: integer
         lineFrom:
+          description: First line item number on this page.
           type: integer
         lineTo:
+          description: Last line item number on this page.
           type: integer
         subtotal:
           type: number
@@ -1358,6 +2149,7 @@ components:
       - pageNumber
       type: object
     Transport:
+      description: Transport/delivery information (required for certain invoice types).
       example:
         licensePlate: licensePlate
         route: route
@@ -1367,69 +2159,104 @@ components:
         arrivalDate: 2000-01-23T04:56:07.000+00:00
       properties:
         driver:
+          description: Driver's full name.
           type: string
         vehicleId:
+          description: Vehicle identification number.
           type: string
         licensePlate:
+          description: Vehicle license plate.
           type: string
         route:
+          description: Delivery route description.
           type: string
         departureDate:
+          description: Departure date and time.
           format: date-time
           type: string
         arrivalDate:
+          description: Estimated arrival date and time.
           format: date-time
           type: string
       type: object
     AdditionalInfo:
+      description: Additional shipping/logistics information.
       example:
-        grossWeight: 6.778324963048013
+        grossWeight: 8.762042012749001
         sealId: sealId
-        packageQuantity: 6.878052220127876
+        packageQuantity: 9.018348186070783
         containerId: containerId
       properties:
         grossWeight:
+          description: Gross weight of the shipment (in kg).
           type: number
         packageQuantity:
+          description: Number of packages.
           type: number
         containerId:
+          description: Container identifier (for imports/exports).
           type: string
         sealId:
+          description: Seal/precinto identifier.
           type: string
       type: object
     AlternativeCurrency:
+      description: |
+        Alternative currency information for documents issued in a
+        currency other than Dominican Peso (DOP).
       example:
-        totalAmount: 6.704019297950036
-        code: code
-        exchangeRate: 5.944895607614016
+        totalAmount: 201.71
+        code: USD
+        exchangeRate: 58.5
       properties:
         code:
+          description: "ISO 4217 currency code (e.g. \"USD\", \"EUR\")."
+          example: USD
           maxLength: 3
           type: string
         exchangeRate:
+          description: Exchange rate to Dominican Peso at time of issuance.
+          example: 58.5
           type: number
         totalAmount:
+          description: Total document amount in the alternative currency.
+          example: 201.71
           type: number
       required:
       - code
       - exchangeRate
       type: object
     ReferenceInfo:
+      description: |
+        Reference to a previously issued document. Required for:
+        - Credit Notes (type 34) — references the original invoice
+        - Debit Notes (type 33) — references the original invoice
       example:
         modifiedInvoiceDate: 2000-01-23
         modificationReason: modificationReason
         otherContributorRNC: otherContributorRNC
-        modifiedInvoiceNumber: modifiedInvoiceNumber
+        modifiedInvoiceNumber: E310000000001
         modificationCode: "1"
       properties:
         modifiedInvoiceNumber:
+          description: e-NCF number of the original document being referenced.
+          example: E310000000001
           type: string
         otherContributorRNC:
+          description: RNC of the other contributor (if different from issuer).
           type: string
         modifiedInvoiceDate:
+          description: Issue date of the original document.
           format: date
           type: string
         modificationCode:
+          description: |
+            Reason for the modification:
+            - `1`: Price correction
+            - `2`: Quantity correction
+            - `3`: Return of goods
+            - `4`: Tax correction
+            - `5`: Other
           enum:
           - "1"
           - "2"
@@ -1438,165 +2265,88 @@ components:
           - "5"
           type: string
         modificationReason:
+          description: Free-text description of the modification reason.
           type: string
       required:
       - modificationCode
       - modifiedInvoiceNumber
       type: object
     ItemAdditionalTax:
+      description: "An additional tax applied to a line item (e.g. ISC, IECS)."
       example:
-        amount: 5.962133916683182
+        amount: 0.8008281904610115
         code: code
       properties:
         code:
+          description: "Tax code as defined by the DGII (e.g. \"ISC\", \"IECS\")."
           type: string
         amount:
+          description: Tax amount.
           type: number
       required:
       - amount
       - code
       type: object
     Subquantity:
+      description: Sub-quantity for items measured in multiple units.
       example:
-        quantity: 5.637376656633329
-        unitCode: 2.3021358869347655
+        quantity: 6.027456183070403
+        unitCode: 1.4658129805029452
       properties:
         quantity:
+          description: Quantity in this unit of measure.
           type: number
         unitCode:
+          description: DGII unit of measure code.
           type: number
       required:
       - quantity
       - unitCode
       type: object
-    OAuthTokenRequest:
-      example:
-        clientId: clientId
-        clientSecret: clientSecret
-      properties:
-        clientId:
-          type: string
-        clientSecret:
-          type: string
-      required:
-      - clientId
-      - clientSecret
-      type: object
-    OAuthTokenResponse:
-      example:
-        expiresIn: 0
-        accessToken: accessToken
-        tokenType: tokenType
-      properties:
-        accessToken:
-          type: string
-        tokenType:
-          type: string
-        expiresIn:
-          type: integer
-      type: object
-    EcfSubmissionResponse:
-      example:
-        encf: encf
-        success: true
-        trackId: trackId
-        documentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        message: message
-      properties:
-        success:
-          type: boolean
-        documentId:
-          format: uuid
-          type: string
-        encf:
-          type: string
-        trackId:
-          type: string
-        message:
-          type: string
-      required:
-      - documentId
-      - success
-      type: object
-    TaxSequence:
-      example:
-        nextNumber: nextNumber
-        id: id
-        type: type
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-        nextNumber:
-          type: string
-      type: object
-    CreateTaxSequenceRequest:
-      example:
-        from: 0
-        to: 6
-        type: "31"
-      properties:
-        type:
-          $ref: "#/components/schemas/InvoiceType"
-        from:
-          type: integer
-        to:
-          type: integer
-      required:
-      - from
-      - to
-      - type
-      type: object
     ErrorResponse:
+      description: Standard error response returned by all endpoints on failure.
       example:
-        message: message
-        statusCode: 6
-        timestamp: 2000-01-23T04:56:07.000+00:00
+        message: "invoiceNumber must match pattern ^[a-zA-Z0-9]{13}$"
+        statusCode: 400
+        timestamp: 2024-01-01T12:00:00Z
       properties:
         statusCode:
+          description: HTTP status code.
+          example: 400
           type: integer
         message:
+          description: Human-readable error description.
+          example: "invoiceNumber must match pattern ^[a-zA-Z0-9]{13}$"
           type: string
         timestamp:
+          description: When the error occurred.
+          example: 2024-01-01T12:00:00Z
           format: date-time
           type: string
       type: object
     uploadCertificate_request:
       properties:
         file:
+          description: The P12/PFX certificate file.
           format: binary
           type: string
         password:
+          description: Password to unlock the P12 certificate.
           format: password
           type: string
       required:
       - file
       - password
       type: object
-    uploadCertificate_201_response:
-      example:
-        message: message
-        representative: representative
-        expirationDate: 2000-01-23T04:56:07.000+00:00
-      properties:
-        message:
-          type: string
-        representative:
-          type: string
-        expirationDate:
-          format: date-time
-          type: string
-      type: object
     listTaxSequences_200_response:
       example:
         data:
-        - nextNumber: nextNumber
+        - nextNumber: E310000000001
           id: id
-          type: type
-        - nextNumber: nextNumber
+          type: "31"
+        - nextNumber: E310000000001
           id: id
-          type: type
+          type: "31"
         success: true
       properties:
         success:
@@ -1608,19 +2358,23 @@ components:
       type: object
     getNextNumber_200_response_data:
       example:
-        nextNumber: nextNumber
-        remainingNumbers: 0
+        nextNumber: E310000000001
+        remainingNumbers: 499
       properties:
         nextNumber:
+          description: The next available e-NCF number (13 characters).
+          example: E310000000001
           type: string
         remainingNumbers:
+          description: How many numbers are left in the current sequence.
+          example: 499
           type: integer
       type: object
     getNextNumber_200_response:
       example:
         data:
-          nextNumber: nextNumber
-          remainingNumbers: 0
+          nextNumber: E310000000001
+          remainingNumbers: 499
         success: true
       properties:
         success:
@@ -1666,6 +2420,7 @@ components:
         name:
           type: string
         maxDocsPerMonth:
+          description: Maximum documents allowed per month on this plan.
           type: integer
       type: object
     AssociatedCompany_subscription:
@@ -1677,6 +2432,7 @@ components:
         expirationDate: 2000-01-23T04:56:07.000+00:00
       properties:
         status:
+          description: "Subscription status (e.g. \"active\", \"expired\")."
           type: string
         expirationDate:
           format: date-time
@@ -1685,16 +2441,66 @@ components:
           $ref: "#/components/schemas/AssociatedCompany_subscription_plan"
       type: object
   securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      description: |
+        JWT Bearer token obtained from `POST /oauth/token`.
+
+        **How to get credentials:**
+        - Sandbox: https://ecf.sandbox.pronesoft.com
+        - Production: https://ecf.pronesoft.com
+
+        **How to get a token:**
+        ```
+        POST /oauth/token
+        Content-Type: application/json
+
+        { "clientId": "...", "clientSecret": "..." }
+        ```
+
+        **How to use the token:**
+        ```
+        Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...
+        ```
+
+        Tokens expire after `expiresIn` seconds (typically 3600 = 1 hour).
+        Simply call `/oauth/token` again to get a new one.
+      scheme: bearer
+      type: http
     oauth2:
       description: |
-        Robust authentication using Client Credentials.
-        It is recommended to use the portal to generate your credentials.
+        OAuth 2.0 Client Credentials. Use `clientId` + `clientSecret` to
+        obtain a Bearer token from `POST /oauth/token`.
+
+        Get your credentials at:
+        - Sandbox: https://ecf.sandbox.pronesoft.com
+        - Production: https://ecf.pronesoft.com
       flows:
         clientCredentials:
           scopes:
-            documents:read: Read access to sent/received documents.
-            documents:write: Permissions to send and modify documents.
-            ecf:submit: Specialized permission for e-CF invoice submission.
-            admin: Full administrative access to the platform.
-          tokenUrl: oauth/token
+            business:read: Read company data.
+            business:create: Create a new company.
+            business:update: Update company data.
+            members:read: View team members.
+            members:invite: Invite new members.
+            members:revoke: Revoke member access.
+            certificates:read: View digital certificates.
+            certificates:upload: Upload new certificates.
+            certificates:update: Update existing certificates.
+            documents:read: List and view document details.
+            documents:create: Create drafts or internal documents.
+            documents:send: Submit e-CF to the DGII.
+            documents:receive: Receive e-CF from third parties.
+            documents:update: Modify document metadata.
+            approvals:read: View approval statuses.
+            approvals:commercial: Perform commercial approvals or rejections.
+            sequences:read: View NCF/e-NCF ranges.
+            sequences:create: Request or add new sequences.
+            sequences:update: Modify sequence configurations.
+            sequences:cancel: Cancel unused sequences.
+            business_info:read: Access dashboard statistics and metrics.
+            certification:read: View DGII certification progress.
+            certification:write: Execute automated DGII certification tests.
+            reports:read: Generate and export reports (e.g. format 606).
+          tokenUrl: https://api.ecf.sandbox.pronesoft.com/api/v1/oauth/token
       type: oauth2

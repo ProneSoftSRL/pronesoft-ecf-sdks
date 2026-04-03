@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**NextNumber** | Pointer to **string** |  | [optional] 
-**RemainingNumbers** | Pointer to **int32** |  | [optional] 
+**NextNumber** | Pointer to **string** | The next available e-NCF number (13 characters). | [optional] 
+**RemainingNumbers** | Pointer to **int32** | How many numbers are left in the current sequence. | [optional] 
 
 ## Methods
 

@@ -44,12 +44,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import Pronesoft.Ecf.JSON;
+import com.pronesoft.ecf.JSON;
 
 /**
  * UploadCertificate201Response
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T00:09:12.516551142-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T00:28:38.959068209-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class UploadCertificate201Response {
   public static final String SERIALIZED_NAME_MESSAGE = "message";
   @SerializedName(SERIALIZED_NAME_MESSAGE)

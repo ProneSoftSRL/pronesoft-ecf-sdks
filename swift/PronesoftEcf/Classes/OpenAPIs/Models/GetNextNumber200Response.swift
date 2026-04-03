@@ -10,6 +10,11 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.GetNextNumber200Response")
+public typealias GetNextNumber200Response = PronesoftEcfAPI.GetNextNumber200Response
+
+extension PronesoftEcfAPI {
+
 public struct GetNextNumber200Response: Codable, JSONEncodable, Hashable {
 
     public var success: Bool?
@@ -34,3 +39,4 @@ public struct GetNextNumber200Response: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

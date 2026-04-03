@@ -10,12 +10,22 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.CreateWebhookConfig")
+public typealias CreateWebhookConfig = PronesoftEcfAPI.CreateWebhookConfig
+
+extension PronesoftEcfAPI {
+
+/** Request body for registering a new webhook. */
 public struct CreateWebhookConfig: Codable, JSONEncodable, Hashable {
 
     public static let secretRule = StringRule(minLength: 16, maxLength: nil, pattern: nil)
+    /** Your HTTPS endpoint that will receive POST notifications. */
     public var url: String
+    /** List of events to subscribe to. */
     public var eventTypes: [WebhookEventType]
+    /** Optional label for this webhook (for your reference). */
     public var description: String?
+    /** Optional HMAC signing secret (min 16 characters). Pronesoft will sign payloads so you can verify they are authentic.  */
     public var secret: String?
 
     public init(url: String, eventTypes: [WebhookEventType], description: String? = nil, secret: String? = nil) {
@@ -43,3 +53,4 @@ public struct CreateWebhookConfig: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

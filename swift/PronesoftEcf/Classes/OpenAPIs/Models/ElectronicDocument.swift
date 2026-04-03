@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.ElectronicDocument")
+public typealias ElectronicDocument = PronesoftEcfAPI.ElectronicDocument
+
+extension PronesoftEcfAPI {
+
+/** The main e-CF document payload. Build this object and submit it to &#x60;POST /{environment}/ecf/submit&#x60;.  **Required fields:** &#x60;version&#x60;, &#x60;invoiceType&#x60;, &#x60;invoiceNumber&#x60;, &#x60;issueDate&#x60;, &#x60;items&#x60;, &#x60;totals&#x60;.  Use &#x60;GET /tax-sequences/next&#x60; to obtain the correct &#x60;invoiceNumber&#x60;.  */
 public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
 
     public enum IncomeType: String, Codable, CaseIterable {
@@ -34,37 +40,55 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public static let paymentTermsRule = StringRule(minLength: nil, maxLength: 15, pattern: nil)
     public static let paymentAccountNumberRule = StringRule(minLength: nil, maxLength: 28, pattern: nil)
     public static let paymentBankRule = StringRule(minLength: nil, maxLength: 75, pattern: nil)
-    public static let issuerRNCRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[0-9]{9}|[0-9]{11}$/")
+    public static let issuerRNCRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^([0-9]{9}|[0-9]{11})$/")
     public static let issuerBusinessNameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
     public static let issuerPhonesRule = ArrayRule(minItems: nil, maxItems: 3, uniqueItems: false)
     public static let itemsRule = ArrayRule(minItems: 1, maxItems: 1000, uniqueItems: false)
+    /** Document schema version. Always \"1.0\". */
     public var version: String = "1.0"
     public var invoiceType: InvoiceType
+    /** e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`.  */
     public var invoiceNumber: String
+    /** Document issue date and time (ISO 8601). */
     public var issueDate: Date
+    /** Document expiration date (optional, for credit documents). */
     public var expirationDate: Date?
+    /** Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income  */
     public var incomeType: IncomeType?
+    /** Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto)  */
     public var paymentType: PaymentType?
+    /** Payment due date (required when paymentType is \"2\" or \"3\"). */
     public var paymentDeadline: Date?
+    /** Payment terms description (e.g. \"Net 30\"). */
     public var paymentTerms: String?
     public var paymentAccountType: AccountType?
+    /** Bank account number for payment reference. */
     public var paymentAccountNumber: String?
+    /** Bank name for payment reference. */
     public var paymentBank: String?
-    /** 0: issuance affected ≤ 30 days, 1: > 30 days */
+    /** For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago  */
     public var creditNoteIndicator: CreditNoteIndicator?
+    /** RNC of the issuing company (overrides tenant default if provided). */
     public var issuerRNC: String?
+    /** Legal business name of the issuer. */
     public var issuerBusinessName: String?
+    /** Contact email of the issuer. */
     public var issuerEmail: String?
+    /** Issuer phone numbers in format \"809-555-1234\". */
     public var issuerPhones: [String]?
     public var buyer: Buyer?
+    /** Line items of the document. At least 1 required. */
     public var items: [Item]
     public var totals: Totals
     public var transport: Transport?
     public var additionalInfo: AdditionalInfo?
     public var alternativeCurrency: AlternativeCurrency?
     public var referenceInfo: ReferenceInfo?
+    /** Page/section subtotals (for multi-page documents). */
     public var subtotals: [Subtotal]?
+    /** Document-level discounts or surcharges. */
     public var discountsOrSurcharges: [DiscountOrSurcharge]?
+    /** Page breakdown for multi-page documents. */
     public var pages: [Page]?
 
     public init(version: String = "1.0", invoiceType: InvoiceType, invoiceNumber: String, issueDate: Date, expirationDate: Date? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerEmail: String? = nil, issuerPhones: [String]? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: [Subtotal]? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: [Page]? = nil) {
@@ -161,3 +185,4 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

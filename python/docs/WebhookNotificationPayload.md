@@ -1,15 +1,16 @@
 # WebhookNotificationPayload
 
+Payload sent to your registered webhook URL when an event occurs. Verify authenticity using HMAC-SHA256 with your webhook `secret`. 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **UUID** |  | 
+**id** | **UUID** | Unique notification identifier (use for deduplication). | 
 **event** | [**WebhookEventType**](WebhookEventType.md) |  | 
-**timestamp** | **datetime** |  | 
-**business_rnc** | **str** |  | 
-**data** | **object** |  | 
+**timestamp** | **datetime** | When the event occurred (ISO 8601). | 
+**business_rnc** | **str** | RNC of the company that triggered the event. | 
+**data** | **object** | Event-specific data payload. | 
 
 ## Example
 

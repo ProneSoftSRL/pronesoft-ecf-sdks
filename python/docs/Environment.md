@@ -1,5 +1,6 @@
 # Environment
 
+Target environment for e-CF submission. - `TesteCF`: Functional tests, no real DGII interaction. - `CerteCF`: DGII certification environment. - `eCF`: Production — issues real legal documents. 
 
 ## Enum
 

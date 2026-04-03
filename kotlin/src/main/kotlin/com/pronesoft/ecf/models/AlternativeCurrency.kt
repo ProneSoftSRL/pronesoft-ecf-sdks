@@ -24,27 +24,29 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Alternative currency information for documents issued in a currency other than Dominican Peso (DOP). 
  *
- * @param code 
- * @param exchangeRate 
- * @param totalAmount 
+ * @param code ISO 4217 currency code (e.g. \"USD\", \"EUR\").
+ * @param exchangeRate Exchange rate to Dominican Peso at time of issuance.
+ * @param totalAmount Total document amount in the alternative currency.
  */
 
 
 data class AlternativeCurrency (
 
-    @Json(name = "code")
+    /* ISO 4217 currency code (e.g. \"USD\", \"EUR\"). */
+    @SerializedName("code")
     val code: kotlin.String,
 
-    @Json(name = "exchangeRate")
+    /* Exchange rate to Dominican Peso at time of issuance. */
+    @SerializedName("exchangeRate")
     val exchangeRate: java.math.BigDecimal,
 
-    @Json(name = "totalAmount")
+    /* Total document amount in the alternative currency. */
+    @SerializedName("totalAmount")
     val totalAmount: java.math.BigDecimal? = null
 
 ) {

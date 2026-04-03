@@ -4,14 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12) |
+| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12) |
 
 
 <a id="uploadCertificate"></a>
 # **uploadCertificate**
-> UploadCertificate201Response uploadCertificate(rnc, file, password)
+> UploadCertificateResponse uploadCertificate(rnc, file, password)
 
-Upload Digital Certificate (P12)
+Upload digital certificate (P12)
+
+Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
 
 ### Example
 ```kotlin
@@ -20,11 +22,11 @@ Upload Digital Certificate (P12)
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = DigitalCertificatesApi()
-val rnc : kotlin.String = rnc_example // kotlin.String | 
-val file : java.io.File = BINARY_DATA_HERE // java.io.File | 
-val password : kotlin.String = password_example // kotlin.String | 
+val rnc : kotlin.String = 130000001 // kotlin.String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+val file : java.io.File = BINARY_DATA_HERE // java.io.File | The P12/PFX certificate file.
+val password : kotlin.String = password_example // kotlin.String | Password to unlock the P12 certificate.
 try {
-    val result : UploadCertificate201Response = apiInstance.uploadCertificate(rnc, file, password)
+    val result : UploadCertificateResponse = apiInstance.uploadCertificate(rnc, file, password)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling DigitalCertificatesApi#uploadCertificate")
@@ -36,20 +38,22 @@ try {
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**|  | |
-| **file** | **java.io.File**|  | |
+| **rnc** | **kotlin.String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
+| **file** | **java.io.File**| The P12/PFX certificate file. | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **password** | **kotlin.String**|  | |
+| **password** | **kotlin.String**| Password to unlock the P12 certificate. | |
 
 ### Return type
 
-[**UploadCertificate201Response**](UploadCertificate201Response.md)
+[**UploadCertificateResponse**](UploadCertificateResponse.md)
 
 ### Authorization
 
 
 Configure oauth2:
+    ApiClient.accessToken = ""
+Configure bearerAuth:
     ApiClient.accessToken = ""
 
 ### HTTP request headers

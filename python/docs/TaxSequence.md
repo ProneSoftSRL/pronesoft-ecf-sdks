@@ -1,13 +1,14 @@
 # TaxSequence
 
+A registered fiscal number sequence for a given invoice type.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | [optional] 
-**type** | **str** |  | [optional] 
-**next_number** | **str** |  | [optional] 
+**id** | **str** | Internal sequence identifier. | [optional] 
+**type** | [**InvoiceType**](InvoiceType.md) |  | [optional] 
+**next_number** | **str** | Next available e-NCF number in this sequence. | [optional] 
 
 ## Example
 

@@ -1,6 +1,7 @@
 
 # AlternativeCurrency
 
+Alternative currency information for documents issued in a currency other than Dominican Peso (DOP). 
 
 ## Properties
 
@@ -17,9 +18,9 @@ import type { AlternativeCurrency } from '@pronesoft/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "code": null,
-  "exchangeRate": null,
-  "totalAmount": null,
+  "code": USD,
+  "exchangeRate": 58.5,
+  "totalAmount": 201.71,
 } satisfies AlternativeCurrency
 
 console.log(example)

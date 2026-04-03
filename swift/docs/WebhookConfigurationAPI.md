@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**createWebhook**](WebhookConfigurationAPI.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook
 [**deleteWebhook**](WebhookConfigurationAPI.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
-[**listWebhooks**](WebhookConfigurationAPI.md#listwebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations
+[**listWebhooks**](WebhookConfigurationAPI.md#listwebhooks) | **GET** /{rnc}/webhooks | List webhook configurations
 
 
 # **createWebhook**
@@ -16,12 +16,14 @@ Method | HTTP request | Description
 
 Register new webhook
 
+Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let rnc = "rnc_example" // String | 
+let rnc = "rnc_example" // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
 let createWebhookConfig = CreateWebhookConfig(url: "url_example", eventTypes: [WebhookEventType()], description: "description_example", secret: "secret_example") // CreateWebhookConfig | 
 
 // Register new webhook
@@ -41,7 +43,7 @@ WebhookConfigurationAPI.createWebhook(rnc: rnc, createWebhookConfig: createWebho
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String** |  | 
+ **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
  **createWebhookConfig** | [**CreateWebhookConfig**](CreateWebhookConfig.md) |  | 
 
 ### Return type
@@ -50,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -66,13 +68,15 @@ Name | Type | Description  | Notes
 
 Delete webhook configuration
 
+Removes a registered webhook by its ID.
+
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let rnc = "rnc_example" // String | 
-let webhookId = "webhookId_example" // String | 
+let rnc = "rnc_example" // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+let webhookId = "webhookId_example" // String | The unique ID of the webhook to delete.
 
 // Delete webhook configuration
 WebhookConfigurationAPI.deleteWebhook(rnc: rnc, webhookId: webhookId) { (response, error) in
@@ -91,8 +95,8 @@ WebhookConfigurationAPI.deleteWebhook(rnc: rnc, webhookId: webhookId) { (respons
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String** |  | 
- **webhookId** | **String** |  | 
+ **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
+ **webhookId** | **String** | The unique ID of the webhook to delete. | 
 
 ### Return type
 
@@ -100,12 +104,12 @@ Void (empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -114,16 +118,18 @@ Void (empty response body)
     open class func listWebhooks(rnc: String, completion: @escaping (_ data: [WebhookConfigResponse]?, _ error: Error?) -> Void)
 ```
 
-List all webhook configurations
+List webhook configurations
+
+Returns all registered webhooks for the given RNC.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let rnc = "rnc_example" // String | 
+let rnc = "rnc_example" // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
 
-// List all webhook configurations
+// List webhook configurations
 WebhookConfigurationAPI.listWebhooks(rnc: rnc) { (response, error) in
     guard error == nil else {
         print(error)
@@ -140,7 +146,7 @@ WebhookConfigurationAPI.listWebhooks(rnc: rnc) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String** |  | 
+ **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
 
 ### Return type
 
@@ -148,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

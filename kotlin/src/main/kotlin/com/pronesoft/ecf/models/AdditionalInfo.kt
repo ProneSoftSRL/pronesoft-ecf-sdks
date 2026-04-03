@@ -24,31 +24,34 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Additional shipping/logistics information.
  *
- * @param grossWeight 
- * @param packageQuantity 
- * @param containerId 
- * @param sealId 
+ * @param grossWeight Gross weight of the shipment (in kg).
+ * @param packageQuantity Number of packages.
+ * @param containerId Container identifier (for imports/exports).
+ * @param sealId Seal/precinto identifier.
  */
 
 
 data class AdditionalInfo (
 
-    @Json(name = "grossWeight")
+    /* Gross weight of the shipment (in kg). */
+    @SerializedName("grossWeight")
     val grossWeight: java.math.BigDecimal? = null,
 
-    @Json(name = "packageQuantity")
+    /* Number of packages. */
+    @SerializedName("packageQuantity")
     val packageQuantity: java.math.BigDecimal? = null,
 
-    @Json(name = "containerId")
+    /* Container identifier (for imports/exports). */
+    @SerializedName("containerId")
     val containerId: kotlin.String? = null,
 
-    @Json(name = "sealId")
+    /* Seal/precinto identifier. */
+    @SerializedName("sealId")
     val sealId: kotlin.String? = null
 
 ) {

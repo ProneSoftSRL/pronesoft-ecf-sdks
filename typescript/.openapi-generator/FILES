@@ -39,7 +39,7 @@ docs/TaxSequence.md
 docs/TaxSequencesApi.md
 docs/Totals.md
 docs/Transport.md
-docs/UploadCertificate201Response.md
+docs/UploadCertificateResponse.md
 docs/WebhookConfigResponse.md
 docs/WebhookConfigurationApi.md
 docs/WebhookEventType.md
@@ -86,7 +86,7 @@ src/models/Subtotal.ts
 src/models/TaxSequence.ts
 src/models/Totals.ts
 src/models/Transport.ts
-src/models/UploadCertificate201Response.ts
+src/models/UploadCertificateResponse.ts
 src/models/WebhookConfigResponse.ts
 src/models/WebhookEventType.ts
 src/models/WebhookNotificationPayload.ts

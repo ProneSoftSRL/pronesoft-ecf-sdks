@@ -4,10 +4,10 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **gross_weight** | **Float** |  | [optional] |
-| **package_quantity** | **Float** |  | [optional] |
-| **container_id** | **String** |  | [optional] |
-| **seal_id** | **String** |  | [optional] |
+| **gross_weight** | **Float** | Gross weight of the shipment (in kg). | [optional] |
+| **package_quantity** | **Float** | Number of packages. | [optional] |
+| **container_id** | **String** | Container identifier (for imports/exports). | [optional] |
+| **seal_id** | **String** | Seal/precinto identifier. | [optional] |
 
 ## Example
 

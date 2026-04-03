@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SubmitEcf**](ECFSubmissionAPI.md#SubmitEcf) | **Post** /{environment}/ecf/submit | Submit e-CF to platform
+[**SubmitEcf**](ECFSubmissionAPI.md#SubmitEcf) | **Post** /{environment}/ecf/submit | Submit e-CF document to DGII
 
 
 
@@ -12,7 +12,9 @@ Method | HTTP request | Description
 
 > EcfSubmissionResponse SubmitEcf(ctx, environment).XTenantId(xTenantId).ElectronicDocument(electronicDocument).Execute()
 
-Submit e-CF to platform
+Submit e-CF document to DGII
+
+
 
 ### Example
 
@@ -24,13 +26,13 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
 func main() {
-	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
-	environment := openapiclient.Environment("TesteCF") // Environment | 
-	electronicDocument := *openapiclient.NewElectronicDocument("Version_example", openapiclient.InvoiceType("31"), "InvoiceNumber_example", time.Now(), []openapiclient.Item{*openapiclient.NewItem("Name_example", "Type_example", openapiclient.BillingIndicator("0"), "Quantity_example", "UnitPrice_example", float32(123))}, *openapiclient.NewTotals(float32(123))) // ElectronicDocument | 
+	xTenantId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+	environment := openapiclient.Environment("TesteCF") // Environment | Target submission environment.
+	electronicDocument := *openapiclient.NewElectronicDocument("1.0", openapiclient.InvoiceType("31"), "E310000000001", time.Now(), []openapiclient.Item{*openapiclient.NewItem("Consulting Services", "Type_example", openapiclient.BillingIndicator("0"), "2.5", "1500.00", float32(3750.0))}, *openapiclient.NewTotals(float32(11800.0))) // ElectronicDocument | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -50,7 +52,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**environment** | [**Environment**](.md) |  | 
+**environment** | [**Environment**](.md) | Target submission environment. | 
 
 ### Other Parameters
 
@@ -59,7 +61,7 @@ Other parameters are passed through a pointer to a apiSubmitEcfRequest struct vi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **string** |  | 
+ **xTenantId** | **string** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
 
  **electronicDocument** | [**ElectronicDocument**](ElectronicDocument.md) |  | 
 
@@ -69,7 +71,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

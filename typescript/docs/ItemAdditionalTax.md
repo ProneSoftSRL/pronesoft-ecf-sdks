@@ -1,6 +1,7 @@
 
 # ItemAdditionalTax
 
+An additional tax applied to a line item (e.g. ISC, IECS).
 
 ## Properties
 

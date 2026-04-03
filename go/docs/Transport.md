@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Driver** | Pointer to **string** |  | [optional] 
-**VehicleId** | Pointer to **string** |  | [optional] 
-**LicensePlate** | Pointer to **string** |  | [optional] 
-**Route** | Pointer to **string** |  | [optional] 
-**DepartureDate** | Pointer to **time.Time** |  | [optional] 
-**ArrivalDate** | Pointer to **time.Time** |  | [optional] 
+**Driver** | Pointer to **string** | Driver&#39;s full name. | [optional] 
+**VehicleId** | Pointer to **string** | Vehicle identification number. | [optional] 
+**LicensePlate** | Pointer to **string** | Vehicle license plate. | [optional] 
+**Route** | Pointer to **string** | Delivery route description. | [optional] 
+**DepartureDate** | Pointer to **time.Time** | Departure date and time. | [optional] 
+**ArrivalDate** | Pointer to **time.Time** | Estimated arrival date and time. | [optional] 
 
 ## Methods
 

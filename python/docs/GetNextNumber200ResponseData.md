@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**next_number** | **str** |  | [optional] 
-**remaining_numbers** | **int** |  | [optional] 
+**next_number** | **str** | The next available e-NCF number (13 characters). | [optional] 
+**remaining_numbers** | **int** | How many numbers are left in the current sequence. | [optional] 
 
 ## Example
 

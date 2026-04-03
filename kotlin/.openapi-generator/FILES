@@ -38,7 +38,7 @@ docs/TaxSequence.md
 docs/TaxSequencesApi.md
 docs/Totals.md
 docs/Transport.md
-docs/UploadCertificate201Response.md
+docs/UploadCertificateResponse.md
 docs/WebhookConfigResponse.md
 docs/WebhookConfigurationApi.md
 docs/WebhookEventType.md
@@ -57,8 +57,6 @@ src/main/kotlin/com/pronesoft/ecf/apis/WebhookConfigurationApi.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/ApiAbstractions.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/ApiClient.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/ApiResponse.kt
-src/main/kotlin/com/pronesoft/ecf/infrastructure/BigDecimalAdapter.kt
-src/main/kotlin/com/pronesoft/ecf/infrastructure/BigIntegerAdapter.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/ByteArrayAdapter.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/Errors.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/LocalDateAdapter.kt
@@ -69,8 +67,6 @@ src/main/kotlin/com/pronesoft/ecf/infrastructure/RequestConfig.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/RequestMethod.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/ResponseExtensions.kt
 src/main/kotlin/com/pronesoft/ecf/infrastructure/Serializer.kt
-src/main/kotlin/com/pronesoft/ecf/infrastructure/URIAdapter.kt
-src/main/kotlin/com/pronesoft/ecf/infrastructure/UUIDAdapter.kt
 src/main/kotlin/com/pronesoft/ecf/models/AccountType.kt
 src/main/kotlin/com/pronesoft/ecf/models/AdditionalInfo.kt
 src/main/kotlin/com/pronesoft/ecf/models/AlternativeCurrency.kt
@@ -104,7 +100,8 @@ src/main/kotlin/com/pronesoft/ecf/models/Subtotal.kt
 src/main/kotlin/com/pronesoft/ecf/models/TaxSequence.kt
 src/main/kotlin/com/pronesoft/ecf/models/Totals.kt
 src/main/kotlin/com/pronesoft/ecf/models/Transport.kt
-src/main/kotlin/com/pronesoft/ecf/models/UploadCertificate201Response.kt
+src/main/kotlin/com/pronesoft/ecf/models/UploadCertificateResponse.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookConfigResponse.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookEventType.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookNotificationPayload.kt
+src/test/kotlin/com/pronesoft/ecf/models/UploadCertificateResponseTest.kt

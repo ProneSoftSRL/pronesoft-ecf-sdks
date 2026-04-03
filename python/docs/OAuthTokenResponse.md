@@ -1,13 +1,14 @@
 # OAuthTokenResponse
 
+Successful token response. Use `accessToken` as a Bearer token in the `Authorization` header of all subsequent requests. 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**access_token** | **str** |  | [optional] 
-**token_type** | **str** |  | [optional] 
-**expires_in** | **int** |  | [optional] 
+**access_token** | **str** | JWT Bearer token. Pass as Authorization: Bearer &lt;accessToken&gt;. | [optional] 
+**token_type** | **str** | Always \&quot;Bearer\&quot;. | [optional] 
+**expires_in** | **int** | Token lifetime in seconds. Request a new token when it expires. | [optional] 
 
 ## Example
 

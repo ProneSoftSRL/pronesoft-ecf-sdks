@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-    eCF-Pronesoft Master Integration API
+    eCF-Pronesoft Integration API
 
-    **Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
     The version of the OpenAPI document: 0.0.1
     Contact: contacto@pronesoft.com
@@ -28,32 +28,32 @@ from pydantic_core import to_jsonable_python
 
 class Totals(BaseModel):
     """
-    Totals
+    Document totals. `totalAmount` is required. Provide ITBIS breakdowns by rate when applicable. 
     """ # noqa: E501
-    taxable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount")
-    taxable_amount1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount1")
-    taxable_amount2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount2")
-    taxable_amount3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="taxableAmount3")
-    exempt_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="exemptAmount")
-    itbis_rate1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="itbisRate1")
-    itbis_rate2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="itbisRate2")
-    itbis_rate3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="itbisRate3")
-    total_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalITBIS")
-    itbis1: Optional[Union[StrictFloat, StrictInt]] = None
-    itbis2: Optional[Union[StrictFloat, StrictInt]] = None
-    itbis3: Optional[Union[StrictFloat, StrictInt]] = None
-    additional_tax_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="additionalTaxAmount")
-    additional_taxes: Optional[Annotated[List[ItemAdditionalTax], Field(max_length=20)]] = Field(default=None, alias="additionalTaxes")
-    total_amount: Union[StrictFloat, StrictInt] = Field(alias="totalAmount")
-    non_billable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="nonBillableAmount")
-    period_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="periodAmount")
-    previous_balance: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="previousBalance")
-    advance_payment_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="advancePaymentAmount")
-    amount_to_pay: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="amountToPay")
-    total_withheld_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalWithheldITBIS")
-    total_income_tax_withholding: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalIncomeTaxWithholding")
-    total_itbis_perception: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalITBISPerception")
-    total_isr_perception: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalISRPerception")
+    taxable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Total taxable base amount (all ITBIS rates combined).", alias="taxableAmount")
+    taxable_amount1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Taxable base for 18% ITBIS rate.", alias="taxableAmount1")
+    taxable_amount2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Taxable base for 16% ITBIS rate.", alias="taxableAmount2")
+    taxable_amount3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Taxable base for 0% ITBIS rate.", alias="taxableAmount3")
+    exempt_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Total amount exempt from ITBIS.", alias="exemptAmount")
+    itbis_rate1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ITBIS rate 1 (typically 0.18).", alias="itbisRate1")
+    itbis_rate2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ITBIS rate 2 (typically 0.16).", alias="itbisRate2")
+    itbis_rate3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ITBIS rate 3 (typically 0.00).", alias="itbisRate3")
+    total_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Total ITBIS tax (all rates combined).", alias="totalITBIS")
+    itbis1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ITBIS amount at rate 1.")
+    itbis2: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ITBIS amount at rate 2.")
+    itbis3: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ITBIS amount at rate 3.")
+    additional_tax_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Total of all additional taxes (ISC, IECS, etc.).", alias="additionalTaxAmount")
+    additional_taxes: Optional[Annotated[List[ItemAdditionalTax], Field(max_length=20)]] = Field(default=None, description="Breakdown of additional taxes at document level.", alias="additionalTaxes")
+    total_amount: Union[StrictFloat, StrictInt] = Field(description="Grand total of the document (required).", alias="totalAmount")
+    non_billable_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Amount not subject to billing.", alias="nonBillableAmount")
+    period_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Amount for the current billing period.", alias="periodAmount")
+    previous_balance: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Previous balance (for billing statements).", alias="previousBalance")
+    advance_payment_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Advance payment amount already received.", alias="advancePaymentAmount")
+    amount_to_pay: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Net amount due after advance payments and previous balance.", alias="amountToPay")
+    total_withheld_itbis: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Total ITBIS withheld at source.", alias="totalWithheldITBIS")
+    total_income_tax_withholding: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Total income tax (ISR) withheld at source.", alias="totalIncomeTaxWithholding")
+    total_itbis_perception: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Total ITBIS perception collected.", alias="totalITBISPerception")
+    total_isr_perception: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Total ISR perception collected.", alias="totalISRPerception")
     __properties: ClassVar[List[str]] = ["taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "exemptAmount", "itbisRate1", "itbisRate2", "itbisRate3", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxAmount", "additionalTaxes", "totalAmount", "nonBillableAmount", "periodAmount", "previousBalance", "advancePaymentAmount", "amountToPay", "totalWithheldITBIS", "totalIncomeTaxWithholding", "totalITBISPerception", "totalISRPerception"]
 
     model_config = ConfigDict(

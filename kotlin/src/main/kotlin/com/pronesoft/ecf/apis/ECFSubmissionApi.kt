@@ -32,7 +32,7 @@ import com.pronesoft.ecf.models.ElectronicDocument
 import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.ErrorResponse
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 import com.pronesoft.ecf.infrastructure.ApiClient
 import com.pronesoft.ecf.infrastructure.ApiResponse
@@ -58,10 +58,10 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * POST /{environment}/ecf/submit
-     * Submit e-CF to platform
-     * 
-     * @param xTenantId 
-     * @param environment 
+     * Submit e-CF document to DGII
+     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the &#x60;ElectronicDocument&#x60; payload. 2. Call this endpoint with the target &#x60;environment&#x60; in the path. 3. Receive a &#x60;documentId&#x60; and &#x60;trackId&#x60; in the response. 4. Listen for the &#x60;document.status_changed&#x60; webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | &#x60;TesteCF&#x60; | Functional tests (no DGII interaction) | | &#x60;CerteCF&#x60; | DGII certification environment | | &#x60;eCF&#x60; | Production — real documents | 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param environment Target submission environment.
      * @param electronicDocument 
      * @return EcfSubmissionResponse
      * @throws IllegalStateException If the request is not correctly configured
@@ -92,10 +92,10 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * POST /{environment}/ecf/submit
-     * Submit e-CF to platform
-     * 
-     * @param xTenantId 
-     * @param environment 
+     * Submit e-CF document to DGII
+     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the &#x60;ElectronicDocument&#x60; payload. 2. Call this endpoint with the target &#x60;environment&#x60; in the path. 3. Receive a &#x60;documentId&#x60; and &#x60;trackId&#x60; in the response. 4. Listen for the &#x60;document.status_changed&#x60; webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | &#x60;TesteCF&#x60; | Functional tests (no DGII interaction) | | &#x60;CerteCF&#x60; | DGII certification environment | | &#x60;eCF&#x60; | Production — real documents | 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param environment Target submission environment.
      * @param electronicDocument 
      * @return ApiResponse<EcfSubmissionResponse?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -114,8 +114,8 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * To obtain the request config of the operation submitEcf
      *
-     * @param xTenantId 
-     * @param environment 
+     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param environment Target submission environment.
      * @param electronicDocument 
      * @return RequestConfig
      */

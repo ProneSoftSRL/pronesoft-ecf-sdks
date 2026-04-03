@@ -41,24 +41,27 @@ class TaxSequencesApiTest : ShouldSpec() {
         // to test createTaxSequence
         should("test createTaxSequence") {
             // uncomment below to test createTaxSequence
+            //val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
             //val createTaxSequenceRequest : CreateTaxSequenceRequest =  // CreateTaxSequenceRequest | 
-            //apiInstance.createTaxSequence(createTaxSequenceRequest)
+            //apiInstance.createTaxSequence(xTenantId, createTaxSequenceRequest)
         }
 
         // to test getNextNumber
         should("test getNextNumber") {
             // uncomment below to test getNextNumber
+            //val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
             //val type : InvoiceType =  // InvoiceType | 
             //val environment : Environment =  // Environment | 
-            //val result : GetNextNumber200Response = apiInstance.getNextNumber(type, environment)
+            //val result : GetNextNumber200Response = apiInstance.getNextNumber(xTenantId, type, environment)
             //result shouldBe ("TODO")
         }
 
         // to test listTaxSequences
         should("test listTaxSequences") {
             // uncomment below to test listTaxSequences
+            //val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
             //val type : InvoiceType =  // InvoiceType | 
-            //val result : ListTaxSequences200Response = apiInstance.listTaxSequences(type)
+            //val result : ListTaxSequences200Response = apiInstance.listTaxSequences(xTenantId, type)
             //result shouldBe ("TODO")
         }
 

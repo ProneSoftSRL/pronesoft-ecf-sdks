@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**GrossWeight** | Pointer to **float32** |  | [optional] 
-**PackageQuantity** | Pointer to **float32** |  | [optional] 
-**ContainerId** | Pointer to **string** |  | [optional] 
-**SealId** | Pointer to **string** |  | [optional] 
+**GrossWeight** | Pointer to **float32** | Gross weight of the shipment (in kg). | [optional] 
+**PackageQuantity** | Pointer to **float32** | Number of packages. | [optional] 
+**ContainerId** | Pointer to **string** | Container identifier (for imports/exports). | [optional] 
+**SealId** | Pointer to **string** | Seal/precinto identifier. | [optional] 
 
 ## Methods
 

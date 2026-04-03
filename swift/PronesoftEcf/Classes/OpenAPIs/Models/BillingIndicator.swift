@@ -10,11 +10,17 @@ import Foundation
 import AnyCodable
 #endif
 
-/** 0: Non-Billable, 1: 18% Tax Rate, 2: 16% Tax Rate, 3: 0% Tax Rate, 4: Exempt */
+@available(*, deprecated, renamed: "PronesoftEcfAPI.BillingIndicator")
+public typealias BillingIndicator = PronesoftEcfAPI.BillingIndicator
+
+extension PronesoftEcfAPI {
+
+/** ITBIS tax billing indicator for a line item: - &#x60;0&#x60;: Non-billable (No facturable) - &#x60;1&#x60;: 18% ITBIS rate - &#x60;2&#x60;: 16% ITBIS rate - &#x60;3&#x60;: 0% ITBIS rate - &#x60;4&#x60;: Exempt (Exento)  */
 public enum BillingIndicator: String, Codable, CaseIterable {
     case _0 = "0"
     case _1 = "1"
     case _2 = "2"
     case _3 = "3"
     case _4 = "4"
+}
 }

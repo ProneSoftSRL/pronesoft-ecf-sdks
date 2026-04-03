@@ -4,8 +4,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **pageNumber** | **Int** |  | 
-**lineFrom** | **Int** |  | 
-**lineTo** | **Int** |  | 
+**lineFrom** | **Int** | First line item number on this page. | 
+**lineTo** | **Int** | Last line item number on this page. | 
 **subtotal** | **Double** |  | [optional] 
 **taxableAmount** | **Double** |  | [optional] 
 **taxableAmount1** | **Double** |  | [optional] 

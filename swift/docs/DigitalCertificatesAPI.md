@@ -4,26 +4,28 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**uploadCertificate**](DigitalCertificatesAPI.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12)
+[**uploadCertificate**](DigitalCertificatesAPI.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12)
 
 
 # **uploadCertificate**
 ```swift
-    open class func uploadCertificate(rnc: String, file: URL, password: String, completion: @escaping (_ data: UploadCertificate201Response?, _ error: Error?) -> Void)
+    open class func uploadCertificate(rnc: String, file: URL, password: String, completion: @escaping (_ data: UploadCertificateResponse?, _ error: Error?) -> Void)
 ```
 
-Upload Digital Certificate (P12)
+Upload digital certificate (P12)
+
+Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let rnc = "rnc_example" // String | 
-let file = URL(string: "https://example.com")! // URL | 
-let password = "password_example" // String | 
+let rnc = "rnc_example" // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+let file = URL(string: "https://example.com")! // URL | The P12/PFX certificate file.
+let password = "password_example" // String | Password to unlock the P12 certificate.
 
-// Upload Digital Certificate (P12)
+// Upload digital certificate (P12)
 DigitalCertificatesAPI.uploadCertificate(rnc: rnc, file: file, password: password) { (response, error) in
     guard error == nil else {
         print(error)
@@ -40,17 +42,17 @@ DigitalCertificatesAPI.uploadCertificate(rnc: rnc, file: file, password: passwor
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String** |  | 
- **file** | **URL** |  | 
- **password** | **String** |  | 
+ **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
+ **file** | **URL** | The P12/PFX certificate file. | 
+ **password** | **String** | Password to unlock the P12 certificate. | 
 
 ### Return type
 
-[**UploadCertificate201Response**](UploadCertificate201Response.md)
+[**UploadCertificateResponse**](UploadCertificateResponse.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

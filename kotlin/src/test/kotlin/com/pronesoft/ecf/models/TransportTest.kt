@@ -39,12 +39,6 @@ class TransportTest : ShouldSpec() {
             //modelInstance.driver shouldBe ("TODO")
         }
 
-        // to test the property `document`
-        should("test document") {
-            // uncomment below to test the property
-            //modelInstance.document shouldBe ("TODO")
-        }
-
         // to test the property `vehicleId`
         should("test vehicleId") {
             // uncomment below to test the property
@@ -63,22 +57,16 @@ class TransportTest : ShouldSpec() {
             //modelInstance.route shouldBe ("TODO")
         }
 
-        // to test the property `zone`
-        should("test zone") {
+        // to test the property `departureDate`
+        should("test departureDate") {
             // uncomment below to test the property
-            //modelInstance.zone shouldBe ("TODO")
+            //modelInstance.departureDate shouldBe ("TODO")
         }
 
-        // to test the property `deliveryNoteNumber`
-        should("test deliveryNoteNumber") {
+        // to test the property `arrivalDate`
+        should("test arrivalDate") {
             // uncomment below to test the property
-            //modelInstance.deliveryNoteNumber shouldBe ("TODO")
-        }
-
-        // to test the property `destinationCountry`
-        should("test destinationCountry") {
-            // uncomment below to test the property
-            //modelInstance.destinationCountry shouldBe ("TODO")
+            //modelInstance.arrivalDate shouldBe ("TODO")
         }
 
     }

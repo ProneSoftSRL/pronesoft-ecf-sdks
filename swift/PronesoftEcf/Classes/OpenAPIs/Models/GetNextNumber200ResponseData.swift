@@ -10,9 +10,16 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.GetNextNumber200ResponseData")
+public typealias GetNextNumber200ResponseData = PronesoftEcfAPI.GetNextNumber200ResponseData
+
+extension PronesoftEcfAPI {
+
 public struct GetNextNumber200ResponseData: Codable, JSONEncodable, Hashable {
 
+    /** The next available e-NCF number (13 characters). */
     public var nextNumber: String?
+    /** How many numbers are left in the current sequence. */
     public var remainingNumbers: Int?
 
     public init(nextNumber: String? = nil, remainingNumbers: Int? = nil) {
@@ -34,3 +41,4 @@ public struct GetNextNumber200ResponseData: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

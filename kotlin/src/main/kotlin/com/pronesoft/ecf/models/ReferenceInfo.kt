@@ -24,51 +24,54 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Reference to a previously issued document. Required for: - Credit Notes (type 34) — references the original invoice - Debit Notes (type 33) — references the original invoice 
  *
- * @param modifiedInvoiceNumber 
- * @param modificationCode 
- * @param otherContributorRNC 
- * @param modifiedInvoiceDate 
- * @param modificationReason 
+ * @param modifiedInvoiceNumber e-NCF number of the original document being referenced.
+ * @param modificationCode Reason for the modification: - `1`: Price correction - `2`: Quantity correction - `3`: Return of goods - `4`: Tax correction - `5`: Other 
+ * @param otherContributorRNC RNC of the other contributor (if different from issuer).
+ * @param modifiedInvoiceDate Issue date of the original document.
+ * @param modificationReason Free-text description of the modification reason.
  */
 
 
 data class ReferenceInfo (
 
-    @Json(name = "modifiedInvoiceNumber")
+    /* e-NCF number of the original document being referenced. */
+    @SerializedName("modifiedInvoiceNumber")
     val modifiedInvoiceNumber: kotlin.String,
 
-    @Json(name = "modificationCode")
+    /* Reason for the modification: - `1`: Price correction - `2`: Quantity correction - `3`: Return of goods - `4`: Tax correction - `5`: Other  */
+    @SerializedName("modificationCode")
     val modificationCode: ReferenceInfo.ModificationCode,
 
-    @Json(name = "otherContributorRNC")
+    /* RNC of the other contributor (if different from issuer). */
+    @SerializedName("otherContributorRNC")
     val otherContributorRNC: kotlin.String? = null,
 
-    @Json(name = "modifiedInvoiceDate")
+    /* Issue date of the original document. */
+    @SerializedName("modifiedInvoiceDate")
     val modifiedInvoiceDate: java.time.LocalDate? = null,
 
-    @Json(name = "modificationReason")
+    /* Free-text description of the modification reason. */
+    @SerializedName("modificationReason")
     val modificationReason: kotlin.String? = null
 
 ) {
 
     /**
-     * 
+     * Reason for the modification: - `1`: Price correction - `2`: Quantity correction - `3`: Return of goods - `4`: Tax correction - `5`: Other 
      *
      * Values: _1,_2,_3,_4,_5
      */
-    @JsonClass(generateAdapter = false)
     enum class ModificationCode(val value: kotlin.String) {
-        @Json(name = "1") _1("1"),
-        @Json(name = "2") _2("2"),
-        @Json(name = "3") _3("3"),
-        @Json(name = "4") _4("4"),
-        @Json(name = "5") _5("5");
+        @SerializedName(value = "1") _1("1"),
+        @SerializedName(value = "2") _2("2"),
+        @SerializedName(value = "3") _3("3"),
+        @SerializedName(value = "4") _4("4"),
+        @SerializedName(value = "5") _5("5");
     }
 
 }

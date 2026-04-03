@@ -41,7 +41,7 @@ docs/TaxSequence.md
 docs/TaxSequencesApi.md
 docs/Totals.md
 docs/Transport.md
-docs/UploadCertificate201Response.md
+docs/UploadCertificateResponse.md
 docs/WebhookConfigResponse.md
 docs/WebhookConfigurationApi.md
 docs/WebhookEventType.md
@@ -93,7 +93,7 @@ pronesoft_ecf/models/subtotal.py
 pronesoft_ecf/models/tax_sequence.py
 pronesoft_ecf/models/totals.py
 pronesoft_ecf/models/transport.py
-pronesoft_ecf/models/upload_certificate201_response.py
+pronesoft_ecf/models/upload_certificate_response.py
 pronesoft_ecf/models/webhook_config_response.py
 pronesoft_ecf/models/webhook_event_type.py
 pronesoft_ecf/models/webhook_notification_payload.py
@@ -105,4 +105,5 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_upload_certificate_response.py
 tox.ini

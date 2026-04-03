@@ -10,10 +10,18 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.Page")
+public typealias Page = PronesoftEcfAPI.Page
+
+extension PronesoftEcfAPI {
+
+/** Page-level breakdown for multi-page documents. */
 public struct Page: Codable, JSONEncodable, Hashable {
 
     public var pageNumber: Int
+    /** First line item number on this page. */
     public var lineFrom: Int
+    /** Last line item number on this page. */
     public var lineTo: Int
     public var subtotal: Double?
     public var taxableAmount: Double?
@@ -86,3 +94,4 @@ public struct Page: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

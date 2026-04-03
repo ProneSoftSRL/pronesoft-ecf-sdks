@@ -1,13 +1,14 @@
 
 # TaxSequence
 
+A registered fiscal number sequence for a given invoice type.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `id` | string
-`type` | string
+`type` | [InvoiceType](InvoiceType.md)
 `nextNumber` | string
 
 ## Example
@@ -19,7 +20,7 @@ import type { TaxSequence } from '@pronesoft/ecf-sdk'
 const example = {
   "id": null,
   "type": null,
-  "nextNumber": null,
+  "nextNumber": E310000000001,
 } satisfies TaxSequence
 
 console.log(example)

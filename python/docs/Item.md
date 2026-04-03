@@ -1,21 +1,22 @@
 # Item
 
+A single line item in the electronic document.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**line_number** | **int** |  | [optional] 
-**name** | **str** |  | 
-**type** | **str** |  | 
+**line_number** | **int** | Sequential line number (1-based). Auto-assigned if omitted. | [optional] 
+**name** | **str** | Product or service name. | 
+**type** | **str** | Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio)  | 
 **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
-**quantity** | **str** |  | 
-**unit_price** | **str** |  | 
-**amount** | **float** |  | 
-**discount_amount** | **float** |  | [optional] 
-**additional_taxes** | [**List[ItemAdditionalTax]**](ItemAdditionalTax.md) |  | [optional] 
-**subquantities** | [**List[Subquantity]**](Subquantity.md) |  | [optional] 
-**alcohol_degree** | **float** |  | [optional] 
+**quantity** | **str** | Quantity (as string to support decimals with precision). | 
+**unit_price** | **str** | Unit price (as string to support decimals with precision). | 
+**amount** | **float** | Total line amount (quantity × unitPrice, before discounts). | 
+**discount_amount** | **float** | Discount amount applied to this line item. | [optional] 
+**additional_taxes** | [**List[ItemAdditionalTax]**](ItemAdditionalTax.md) | Additional taxes (e.g. ISC, IECS) for this line item. | [optional] 
+**subquantities** | [**List[Subquantity]**](Subquantity.md) | Sub-quantities (for items with multiple units of measure). | [optional] 
+**alcohol_degree** | **float** | Alcohol degree (required for alcoholic beverages subject to ISC). | [optional] 
 
 ## Example
 

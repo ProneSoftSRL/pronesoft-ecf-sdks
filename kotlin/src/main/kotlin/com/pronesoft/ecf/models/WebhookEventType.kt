@@ -24,67 +24,65 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Type of event that triggers a webhook notification.
  *
  * Values: documentPeriodReceived,documentPeriodStatus_changed,documentPeriodValidation_error,documentPeriodContingency_activated,commercialPeriodApproval,certificatePeriodExpiring,planPeriodUsage_alert,planPeriodPayment_failed,billingPeriodInvoice_ready,sequencePeriodDepleted,sequencePeriodVoided,branchPeriodCreated,branchPeriodStatus_changed,memberPeriodInvited,memberPeriodJoined,memberPeriodRemoved,certificationPeriodCompleted
  */
 
-@JsonClass(generateAdapter = false)
 enum class WebhookEventType(val value: kotlin.String) {
 
-    @Json(name = "document.received")
+    @SerializedName(value = "document.received")
     documentPeriodReceived("document.received"),
 
-    @Json(name = "document.status_changed")
+    @SerializedName(value = "document.status_changed")
     documentPeriodStatus_changed("document.status_changed"),
 
-    @Json(name = "document.validation_error")
+    @SerializedName(value = "document.validation_error")
     documentPeriodValidation_error("document.validation_error"),
 
-    @Json(name = "document.contingency_activated")
+    @SerializedName(value = "document.contingency_activated")
     documentPeriodContingency_activated("document.contingency_activated"),
 
-    @Json(name = "commercial.approval")
+    @SerializedName(value = "commercial.approval")
     commercialPeriodApproval("commercial.approval"),
 
-    @Json(name = "certificate.expiring")
+    @SerializedName(value = "certificate.expiring")
     certificatePeriodExpiring("certificate.expiring"),
 
-    @Json(name = "plan.usage_alert")
+    @SerializedName(value = "plan.usage_alert")
     planPeriodUsage_alert("plan.usage_alert"),
 
-    @Json(name = "plan.payment_failed")
+    @SerializedName(value = "plan.payment_failed")
     planPeriodPayment_failed("plan.payment_failed"),
 
-    @Json(name = "billing.invoice_ready")
+    @SerializedName(value = "billing.invoice_ready")
     billingPeriodInvoice_ready("billing.invoice_ready"),
 
-    @Json(name = "sequence.depleted")
+    @SerializedName(value = "sequence.depleted")
     sequencePeriodDepleted("sequence.depleted"),
 
-    @Json(name = "sequence.voided")
+    @SerializedName(value = "sequence.voided")
     sequencePeriodVoided("sequence.voided"),
 
-    @Json(name = "branch.created")
+    @SerializedName(value = "branch.created")
     branchPeriodCreated("branch.created"),
 
-    @Json(name = "branch.status_changed")
+    @SerializedName(value = "branch.status_changed")
     branchPeriodStatus_changed("branch.status_changed"),
 
-    @Json(name = "member.invited")
+    @SerializedName(value = "member.invited")
     memberPeriodInvited("member.invited"),
 
-    @Json(name = "member.joined")
+    @SerializedName(value = "member.joined")
     memberPeriodJoined("member.joined"),
 
-    @Json(name = "member.removed")
+    @SerializedName(value = "member.removed")
     memberPeriodRemoved("member.removed"),
 
-    @Json(name = "certification.completed")
+    @SerializedName(value = "certification.completed")
     certificationPeriodCompleted("certification.completed");
 
     /**

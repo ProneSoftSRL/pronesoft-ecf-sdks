@@ -24,27 +24,29 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Standard error response returned by all endpoints on failure.
  *
- * @param statusCode 
- * @param message 
- * @param timestamp 
+ * @param statusCode HTTP status code.
+ * @param message Human-readable error description.
+ * @param timestamp When the error occurred.
  */
 
 
 data class ErrorResponse (
 
-    @Json(name = "statusCode")
+    /* HTTP status code. */
+    @SerializedName("statusCode")
     val statusCode: kotlin.Int? = null,
 
-    @Json(name = "message")
+    /* Human-readable error description. */
+    @SerializedName("message")
     val message: kotlin.String? = null,
 
-    @Json(name = "timestamp")
+    /* When the error occurred. */
+    @SerializedName("timestamp")
     val timestamp: java.time.OffsetDateTime? = null
 
 ) {

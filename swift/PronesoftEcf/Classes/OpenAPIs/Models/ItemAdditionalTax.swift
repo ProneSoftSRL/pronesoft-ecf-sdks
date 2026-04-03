@@ -10,9 +10,17 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.ItemAdditionalTax")
+public typealias ItemAdditionalTax = PronesoftEcfAPI.ItemAdditionalTax
+
+extension PronesoftEcfAPI {
+
+/** An additional tax applied to a line item (e.g. ISC, IECS). */
 public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
 
+    /** Tax code as defined by the DGII (e.g. \"ISC\", \"IECS\"). */
     public var code: String
+    /** Tax amount. */
     public var amount: Double
 
     public init(code: String, amount: Double) {
@@ -34,3 +42,4 @@ public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

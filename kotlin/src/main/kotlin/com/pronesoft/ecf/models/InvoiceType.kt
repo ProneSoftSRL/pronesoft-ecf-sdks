@@ -24,46 +24,44 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 31: Tax Credit, 32: Consumer, 33: Debit Note, 34: Credit Note, 41: Purchases, 43: Minor Expenses, 44: Special Regimes, 45: Governmental, 46: Exports, 47: Overseas Payments. 
+ * e-NCF invoice type code as defined by the DGII: - `31`: Tax Credit Invoice (Factura de Crédito Fiscal) - `32`: Consumer Invoice (Factura de Consumo) - `33`: Debit Note (Nota de Débito) - `34`: Credit Note (Nota de Crédito) - `41`: Purchases (Compras) - `43`: Minor Expenses (Gastos Menores) - `44`: Special Regimes (Regímenes Especiales) - `45`: Governmental (Gubernamentales) - `46`: Exports (Exportaciones) - `47`: Overseas Payments (Pagos al Exterior) 
  *
  * Values: _31,_32,_33,_34,_41,_43,_44,_45,_46,_47
  */
 
-@JsonClass(generateAdapter = false)
 enum class InvoiceType(val value: kotlin.String) {
 
-    @Json(name = "31")
+    @SerializedName(value = "31")
     _31("31"),
 
-    @Json(name = "32")
+    @SerializedName(value = "32")
     _32("32"),
 
-    @Json(name = "33")
+    @SerializedName(value = "33")
     _33("33"),
 
-    @Json(name = "34")
+    @SerializedName(value = "34")
     _34("34"),
 
-    @Json(name = "41")
+    @SerializedName(value = "41")
     _41("41"),
 
-    @Json(name = "43")
+    @SerializedName(value = "43")
     _43("43"),
 
-    @Json(name = "44")
+    @SerializedName(value = "44")
     _44("44"),
 
-    @Json(name = "45")
+    @SerializedName(value = "45")
     _45("45"),
 
-    @Json(name = "46")
+    @SerializedName(value = "46")
     _46("46"),
 
-    @Json(name = "47")
+    @SerializedName(value = "47")
     _47("47");
 
     /**

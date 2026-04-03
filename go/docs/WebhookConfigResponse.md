@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **string** |  | [optional] 
-**Url** | Pointer to **string** |  | [optional] 
-**EventTypes** | Pointer to [**[]WebhookEventType**](WebhookEventType.md) |  | [optional] 
-**IsActive** | Pointer to **bool** |  | [optional] 
+**Id** | Pointer to **string** | Unique webhook identifier. | [optional] 
+**Url** | Pointer to **string** | The URL that receives webhook notifications. | [optional] 
+**EventTypes** | Pointer to [**[]WebhookEventType**](WebhookEventType.md) | Events this webhook is subscribed to. | [optional] 
+**IsActive** | Pointer to **bool** | Whether this webhook is currently active. | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**LastTriggeredAt** | Pointer to **NullableTime** |  | [optional] 
+**LastTriggeredAt** | Pointer to **NullableTime** | When this webhook was last triggered. Null if never triggered. | [optional] 
 
 ## Methods
 

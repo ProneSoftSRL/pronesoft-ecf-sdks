@@ -33,28 +33,16 @@ class BuyerTest : ShouldSpec() {
         // uncomment below to create an instance of Buyer
         //val modelInstance = Buyer()
 
-        // to test the property `name` - Obligatorio
+        // to test the property `name`
         should("test name") {
             // uncomment below to test the property
             //modelInstance.name shouldBe ("TODO")
         }
 
-        // to test the property `taxId` - Opcional en DTO, pero necesario para validez fiscal DGII
+        // to test the property `taxId`
         should("test taxId") {
             // uncomment below to test the property
             //modelInstance.taxId shouldBe ("TODO")
-        }
-
-        // to test the property `foreignId`
-        should("test foreignId") {
-            // uncomment below to test the property
-            //modelInstance.foreignId shouldBe ("TODO")
-        }
-
-        // to test the property `contact`
-        should("test contact") {
-            // uncomment below to test the property
-            //modelInstance.contact shouldBe ("TODO")
         }
 
         // to test the property `email`
@@ -81,58 +69,10 @@ class BuyerTest : ShouldSpec() {
             //modelInstance.provinceCode shouldBe ("TODO")
         }
 
-        // to test the property `deliveryDate`
-        should("test deliveryDate") {
-            // uncomment below to test the property
-            //modelInstance.deliveryDate shouldBe ("TODO")
-        }
-
-        // to test the property `deliveryContact`
-        should("test deliveryContact") {
-            // uncomment below to test the property
-            //modelInstance.deliveryContact shouldBe ("TODO")
-        }
-
         // to test the property `deliveryAddress`
         should("test deliveryAddress") {
             // uncomment below to test the property
             //modelInstance.deliveryAddress shouldBe ("TODO")
-        }
-
-        // to test the property `additionalPhone`
-        should("test additionalPhone") {
-            // uncomment below to test the property
-            //modelInstance.additionalPhone shouldBe ("TODO")
-        }
-
-        // to test the property `purchaseOrderDate`
-        should("test purchaseOrderDate") {
-            // uncomment below to test the property
-            //modelInstance.purchaseOrderDate shouldBe ("TODO")
-        }
-
-        // to test the property `purchaseOrderNumber`
-        should("test purchaseOrderNumber") {
-            // uncomment below to test the property
-            //modelInstance.purchaseOrderNumber shouldBe ("TODO")
-        }
-
-        // to test the property `internalCode`
-        should("test internalCode") {
-            // uncomment below to test the property
-            //modelInstance.internalCode shouldBe ("TODO")
-        }
-
-        // to test the property `paymentResponsible`
-        should("test paymentResponsible") {
-            // uncomment below to test the property
-            //modelInstance.paymentResponsible shouldBe ("TODO")
-        }
-
-        // to test the property `additionalInfo`
-        should("test additionalInfo") {
-            // uncomment below to test the property
-            //modelInstance.additionalInfo shouldBe ("TODO")
         }
 
     }

@@ -23,28 +23,30 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.InvoiceType
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * A registered fiscal number sequence for a given invoice type.
  *
- * @param id 
+ * @param id Internal sequence identifier.
  * @param type 
- * @param nextNumber 
+ * @param nextNumber Next available e-NCF number in this sequence.
  */
 
 
 data class TaxSequence (
 
-    @Json(name = "id")
+    /* Internal sequence identifier. */
+    @SerializedName("id")
     val id: kotlin.String? = null,
 
-    @Json(name = "type")
-    val type: kotlin.String? = null,
+    @SerializedName("type")
+    val type: InvoiceType? = null,
 
-    @Json(name = "nextNumber")
+    /* Next available e-NCF number in this sequence. */
+    @SerializedName("nextNumber")
     val nextNumber: kotlin.String? = null
 
 ) {

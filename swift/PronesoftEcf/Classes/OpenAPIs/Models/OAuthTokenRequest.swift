@@ -10,9 +10,17 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.OAuthTokenRequest")
+public typealias OAuthTokenRequest = PronesoftEcfAPI.OAuthTokenRequest
+
+extension PronesoftEcfAPI {
+
+/** Credentials for OAuth 2.0 Client Credentials authentication.  Obtain &#x60;clientId&#x60; and &#x60;clientSecret&#x60; from the Pronesoft portal: - Sandbox: https://ecf.sandbox.pronesoft.com - Production: https://ecf.pronesoft.com  */
 public struct OAuthTokenRequest: Codable, JSONEncodable, Hashable {
 
+    /** Your application's client ID from the Pronesoft portal. */
     public var clientId: String
+    /** Your application's client secret. Keep this confidential. */
     public var clientSecret: String
 
     public init(clientId: String, clientSecret: String) {
@@ -34,3 +42,4 @@ public struct OAuthTokenRequest: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

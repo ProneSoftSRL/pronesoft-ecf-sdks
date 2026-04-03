@@ -27,12 +27,18 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.models.Totals
-import com.pronesoft.ecf.models.AdditionalTax
+import com.pronesoft.ecf.models.ItemAdditionalTax
 
 class TotalsTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Totals
         //val modelInstance = Totals()
+
+        // to test the property `totalAmount`
+        should("test totalAmount") {
+            // uncomment below to test the property
+            //modelInstance.totalAmount shouldBe ("TODO")
+        }
 
         // to test the property `taxableAmount`
         should("test taxableAmount") {
@@ -56,6 +62,12 @@ class TotalsTest : ShouldSpec() {
         should("test taxableAmount3") {
             // uncomment below to test the property
             //modelInstance.taxableAmount3 shouldBe ("TODO")
+        }
+
+        // to test the property `exemptAmount`
+        should("test exemptAmount") {
+            // uncomment below to test the property
+            //modelInstance.exemptAmount shouldBe ("TODO")
         }
 
         // to test the property `itbisRate1`
@@ -82,6 +94,24 @@ class TotalsTest : ShouldSpec() {
             //modelInstance.totalITBIS shouldBe ("TODO")
         }
 
+        // to test the property `itbis1`
+        should("test itbis1") {
+            // uncomment below to test the property
+            //modelInstance.itbis1 shouldBe ("TODO")
+        }
+
+        // to test the property `itbis2`
+        should("test itbis2") {
+            // uncomment below to test the property
+            //modelInstance.itbis2 shouldBe ("TODO")
+        }
+
+        // to test the property `itbis3`
+        should("test itbis3") {
+            // uncomment below to test the property
+            //modelInstance.itbis3 shouldBe ("TODO")
+        }
+
         // to test the property `additionalTaxAmount`
         should("test additionalTaxAmount") {
             // uncomment below to test the property
@@ -94,28 +124,58 @@ class TotalsTest : ShouldSpec() {
             //modelInstance.additionalTaxes shouldBe ("TODO")
         }
 
-        // to test the property `exemptAmount`
-        should("test exemptAmount") {
-            // uncomment below to test the property
-            //modelInstance.exemptAmount shouldBe ("TODO")
-        }
-
-        // to test the property `totalAmount` - Obligatorio por lógica de negocio
-        should("test totalAmount") {
-            // uncomment below to test the property
-            //modelInstance.totalAmount shouldBe ("TODO")
-        }
-
         // to test the property `nonBillableAmount`
         should("test nonBillableAmount") {
             // uncomment below to test the property
             //modelInstance.nonBillableAmount shouldBe ("TODO")
         }
 
+        // to test the property `periodAmount`
+        should("test periodAmount") {
+            // uncomment below to test the property
+            //modelInstance.periodAmount shouldBe ("TODO")
+        }
+
+        // to test the property `previousBalance`
+        should("test previousBalance") {
+            // uncomment below to test the property
+            //modelInstance.previousBalance shouldBe ("TODO")
+        }
+
+        // to test the property `advancePaymentAmount`
+        should("test advancePaymentAmount") {
+            // uncomment below to test the property
+            //modelInstance.advancePaymentAmount shouldBe ("TODO")
+        }
+
         // to test the property `amountToPay`
         should("test amountToPay") {
             // uncomment below to test the property
             //modelInstance.amountToPay shouldBe ("TODO")
+        }
+
+        // to test the property `totalWithheldITBIS`
+        should("test totalWithheldITBIS") {
+            // uncomment below to test the property
+            //modelInstance.totalWithheldITBIS shouldBe ("TODO")
+        }
+
+        // to test the property `totalIncomeTaxWithholding`
+        should("test totalIncomeTaxWithholding") {
+            // uncomment below to test the property
+            //modelInstance.totalIncomeTaxWithholding shouldBe ("TODO")
+        }
+
+        // to test the property `totalITBISPerception`
+        should("test totalITBISPerception") {
+            // uncomment below to test the property
+            //modelInstance.totalITBISPerception shouldBe ("TODO")
+        }
+
+        // to test the property `totalISRPerception`
+        should("test totalISRPerception") {
+            // uncomment below to test the property
+            //modelInstance.totalISRPerception shouldBe ("TODO")
         }
 
     }

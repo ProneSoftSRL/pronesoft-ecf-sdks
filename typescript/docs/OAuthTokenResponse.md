@@ -1,6 +1,7 @@
 
 # OAuthTokenResponse
 
+Successful token response. Use `accessToken` as a Bearer token in the `Authorization` header of all subsequent requests. 
 
 ## Properties
 
@@ -17,9 +18,9 @@ import type { OAuthTokenResponse } from '@pronesoft/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "accessToken": null,
-  "tokenType": null,
-  "expiresIn": null,
+  "accessToken": eyJhbGciOiJSUzI1NiJ9...,
+  "tokenType": Bearer,
+  "expiresIn": 3600,
 } satisfies OAuthTokenResponse
 
 console.log(example)

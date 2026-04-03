@@ -25,13 +25,12 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.AssociatedCompanySubscriptionPlan
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * 
  *
- * @param status 
+ * @param status Subscription status (e.g. \"active\", \"expired\").
  * @param expirationDate 
  * @param plan 
  */
@@ -39,13 +38,14 @@ import com.squareup.moshi.JsonClass
 
 data class AssociatedCompanySubscription (
 
-    @Json(name = "status")
+    /* Subscription status (e.g. \"active\", \"expired\"). */
+    @SerializedName("status")
     val status: kotlin.String? = null,
 
-    @Json(name = "expirationDate")
+    @SerializedName("expirationDate")
     val expirationDate: java.time.OffsetDateTime? = null,
 
-    @Json(name = "plan")
+    @SerializedName("plan")
     val plan: AssociatedCompanySubscriptionPlan? = null
 
 ) {

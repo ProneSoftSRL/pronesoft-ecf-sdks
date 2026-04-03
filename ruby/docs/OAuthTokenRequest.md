@@ -4,8 +4,8 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **client_id** | **String** |  |  |
-| **client_secret** | **String** |  |  |
+| **client_id** | **String** | Your application&#39;s client ID from the Pronesoft portal. |  |
+| **client_secret** | **String** | Your application&#39;s client secret. Keep this confidential. |  |
 
 ## Example
 
@@ -13,8 +13,8 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::OAuthTokenRequest.new(
-  client_id: null,
-  client_secret: null
+  client_id: my-app-client-id,
+  client_secret: my-super-secret-value
 )
 ```
 

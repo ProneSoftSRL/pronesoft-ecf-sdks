@@ -1,7 +1,7 @@
 =begin
-#eCF-Pronesoft Master Integration API
+#eCF-Pronesoft Integration API
 
-#**Highly detailed** production-grade API specification for eCF-Pronesoft. **Optimized for high-fidelity SDK generation.**  This specification is the result of an exhaustive audit of the source code (NestJS), covering 100% of the DTOs, regex validations, Webhook schemas, and  OAuth 2.0 security flows. 
+### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
 
 The version of the OpenAPI document: 0.0.1
 Contact: contacto@pronesoft.com
@@ -20,11 +20,12 @@ module PronesoftEcf
       @api_client = api_client
     end
     # Create new associated company
-    # @param x_tenant_id [String] 
-    # @param email [String] 
-    # @param password [String] 
-    # @param name [String] 
-    # @param rnc [String] 
+    # Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    # @param email [String] Owner&#39;s email address (used for login).
+    # @param password [String] Initial password for the new account (min 8 characters).
+    # @param name [String] Legal business name.
+    # @param rnc [String] Company RNC (9 digits) or personal cedula (11 digits).
     # @param phone [String] 
     # @param address [String] 
     # @param city [String] 
@@ -34,10 +35,10 @@ module PronesoftEcf
     # @option opts [String] :last_name 
     # @option opts [String] :job_title 
     # @option opts [String] :website 
-    # @option opts [String] :category 
-    # @option opts [String] :monthly_sales_range 
+    # @option opts [String] :category Business category or industry.
+    # @option opts [String] :monthly_sales_range Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;).
     # @option opts [PrintFormat] :printer_type 
-    # @option opts [File] :logo 
+    # @option opts [File] :logo Company logo image file (multipart upload).
     # @return [CreateAssociatedCompany201Response]
     def create_associated_company(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts = {})
       data, _status_code, _headers = create_associated_company_with_http_info(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
@@ -45,11 +46,12 @@ module PronesoftEcf
     end
 
     # Create new associated company
-    # @param x_tenant_id [String] 
-    # @param email [String] 
-    # @param password [String] 
-    # @param name [String] 
-    # @param rnc [String] 
+    # Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    # @param email [String] Owner&#39;s email address (used for login).
+    # @param password [String] Initial password for the new account (min 8 characters).
+    # @param name [String] Legal business name.
+    # @param rnc [String] Company RNC (9 digits) or personal cedula (11 digits).
     # @param phone [String] 
     # @param address [String] 
     # @param city [String] 
@@ -59,10 +61,10 @@ module PronesoftEcf
     # @option opts [String] :last_name 
     # @option opts [String] :job_title 
     # @option opts [String] :website 
-    # @option opts [String] :category 
-    # @option opts [String] :monthly_sales_range 
+    # @option opts [String] :category Business category or industry.
+    # @option opts [String] :monthly_sales_range Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;).
     # @option opts [PrintFormat] :printer_type 
-    # @option opts [File] :logo 
+    # @option opts [File] :logo Company logo image file (multipart upload).
     # @return [Array<(CreateAssociatedCompany201Response, Integer, Hash)>] CreateAssociatedCompany201Response data, response status code and response headers
     def create_associated_company_with_http_info(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts = {})
       if @api_client.config.debugging
@@ -92,7 +94,7 @@ module PronesoftEcf
       if @api_client.config.client_side_validation && rnc.nil?
         fail ArgumentError, "Missing the required parameter 'rnc' when calling AssociatedCompaniesApi.create_associated_company"
       end
-      pattern = Regexp.new(/^[0-9]{9}|[0-9]{11}$/)
+      pattern = Regexp.new(/^([0-9]{9}|[0-9]{11})$/)
       if @api_client.config.client_side_validation && rnc !~ pattern
         fail ArgumentError, "invalid value for 'rnc' when calling AssociatedCompaniesApi.create_associated_company, must conform to the pattern #{pattern}."
       end
@@ -156,7 +158,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'CreateAssociatedCompany201Response'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2']
+      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
 
       new_options = opts.merge(
         :operation => :"AssociatedCompaniesApi.create_associated_company",
@@ -175,8 +177,9 @@ module PronesoftEcf
       return data, status_code, headers
     end
 
-    # List associated branches/companies
-    # @param x_tenant_id [String] 
+    # List associated companies / branches
+    # Returns all companies and branches linked to the current tenant.
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     # @param [Hash] opts the optional parameters
     # @return [Array<AssociatedCompany>]
     def list_associated_companies(x_tenant_id, opts = {})
@@ -184,8 +187,9 @@ module PronesoftEcf
       data
     end
 
-    # List associated branches/companies
-    # @param x_tenant_id [String] 
+    # List associated companies / branches
+    # Returns all companies and branches linked to the current tenant.
+    # @param x_tenant_id [String] UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     # @param [Hash] opts the optional parameters
     # @return [Array<(Array<AssociatedCompany>, Integer, Hash)>] Array<AssociatedCompany> data, response status code and response headers
     def list_associated_companies_with_http_info(x_tenant_id, opts = {})
@@ -218,7 +222,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'Array<AssociatedCompany>'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2']
+      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
 
       new_options = opts.merge(
         :operation => :"AssociatedCompaniesApi.list_associated_companies",

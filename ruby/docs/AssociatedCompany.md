@@ -13,10 +13,10 @@
 | **country** | **String** |  | [optional] |
 | **website** | **String** |  | [optional] |
 | **logo_path** | **String** |  | [optional] |
-| **type** | **String** |  | [optional] |
+| **type** | **String** | Whether this is the main account or an associated branch. | [optional] |
 | **created_at** | **Time** |  | [optional] |
-| **docs_issued_this_month** | **Integer** |  | [optional] |
-| **purchased_docs_consumed_this_month** | **Integer** |  | [optional] |
+| **docs_issued_this_month** | **Integer** | Number of e-CF documents issued in the current month. | [optional] |
+| **purchased_docs_consumed_this_month** | **Integer** | Purchased document quota consumed this month. | [optional] |
 | **owner_email** | **String** |  | [optional] |
 | **subscription** | [**AssociatedCompanySubscription**](AssociatedCompanySubscription.md) |  | [optional] |
 

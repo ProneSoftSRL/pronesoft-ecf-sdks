@@ -51,11 +51,5 @@ class OAuthTokenResponseTest : ShouldSpec() {
             //modelInstance.expiresIn shouldBe ("TODO")
         }
 
-        // to test the property `scope`
-        should("test scope") {
-            // uncomment below to test the property
-            //modelInstance.scope shouldBe ("TODO")
-        }
-
     }
 }

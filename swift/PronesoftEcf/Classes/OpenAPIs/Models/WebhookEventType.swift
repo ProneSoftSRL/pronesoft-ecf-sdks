@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.WebhookEventType")
+public typealias WebhookEventType = PronesoftEcfAPI.WebhookEventType
+
+extension PronesoftEcfAPI {
+
+/** Type of event that triggers a webhook notification. */
 public enum WebhookEventType: String, Codable, CaseIterable {
     case documentPeriodReceived = "document.received"
     case documentPeriodStatusChanged = "document.status_changed"
@@ -28,4 +34,5 @@ public enum WebhookEventType: String, Codable, CaseIterable {
     case memberPeriodJoined = "member.joined"
     case memberPeriodRemoved = "member.removed"
     case certificationPeriodCompleted = "certification.completed"
+}
 }

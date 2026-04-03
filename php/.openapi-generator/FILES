@@ -42,7 +42,7 @@ docs/Model/Subtotal.md
 docs/Model/TaxSequence.md
 docs/Model/Totals.md
 docs/Model/Transport.md
-docs/Model/UploadCertificate201Response.md
+docs/Model/UploadCertificateResponse.md
 docs/Model/WebhookConfigResponse.md
 docs/Model/WebhookEventType.md
 docs/Model/WebhookNotificationPayload.md
@@ -91,9 +91,10 @@ lib/Model/Subtotal.php
 lib/Model/TaxSequence.php
 lib/Model/Totals.php
 lib/Model/Transport.php
-lib/Model/UploadCertificate201Response.php
+lib/Model/UploadCertificateResponse.php
 lib/Model/WebhookConfigResponse.php
 lib/Model/WebhookEventType.php
 lib/Model/WebhookNotificationPayload.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
+test/Model/UploadCertificateResponseTest.php

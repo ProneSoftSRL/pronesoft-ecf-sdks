@@ -1,14 +1,15 @@
 # CreateWebhookConfig
 
+Request body for registering a new webhook.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**url** | **str** |  | 
-**event_types** | [**List[WebhookEventType]**](WebhookEventType.md) |  | 
-**description** | **str** |  | [optional] 
-**secret** | **str** |  | [optional] 
+**url** | **str** | Your HTTPS endpoint that will receive POST notifications. | 
+**event_types** | [**List[WebhookEventType]**](WebhookEventType.md) | List of events to subscribe to. | 
+**description** | **str** | Optional label for this webhook (for your reference). | [optional] 
+**secret** | **str** | Optional HMAC signing secret (min 16 characters). Pronesoft will sign payloads so you can verify they are authentic.  | [optional] 
 
 ## Example
 

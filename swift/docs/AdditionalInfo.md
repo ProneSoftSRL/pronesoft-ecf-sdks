@@ -3,10 +3,10 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**grossWeight** | **Double** |  | [optional] 
-**packageQuantity** | **Double** |  | [optional] 
-**containerId** | **String** |  | [optional] 
-**sealId** | **String** |  | [optional] 
+**grossWeight** | **Double** | Gross weight of the shipment (in kg). | [optional] 
+**packageQuantity** | **Double** | Number of packages. | [optional] 
+**containerId** | **String** | Container identifier (for imports/exports). | [optional] 
+**sealId** | **String** | Seal/precinto identifier. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

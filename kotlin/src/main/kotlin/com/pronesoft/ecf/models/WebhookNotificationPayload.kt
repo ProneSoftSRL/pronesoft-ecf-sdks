@@ -25,35 +25,38 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.WebhookEventType
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Payload sent to your registered webhook URL when an event occurs. Verify authenticity using HMAC-SHA256 with your webhook `secret`. 
  *
- * @param id 
+ * @param id Unique notification identifier (use for deduplication).
  * @param event 
- * @param timestamp 
- * @param businessRnc 
- * @param `data` 
+ * @param timestamp When the event occurred (ISO 8601).
+ * @param businessRnc RNC of the company that triggered the event.
+ * @param `data` Event-specific data payload.
  */
 
 
 data class WebhookNotificationPayload (
 
-    @Json(name = "id")
+    /* Unique notification identifier (use for deduplication). */
+    @SerializedName("id")
     val id: java.util.UUID,
 
-    @Json(name = "event")
+    @SerializedName("event")
     val event: WebhookEventType,
 
-    @Json(name = "timestamp")
+    /* When the event occurred (ISO 8601). */
+    @SerializedName("timestamp")
     val timestamp: java.time.OffsetDateTime,
 
-    @Json(name = "businessRnc")
+    /* RNC of the company that triggered the event. */
+    @SerializedName("businessRnc")
     val businessRnc: kotlin.String,
 
-    @Json(name = "data")
+    /* Event-specific data payload. */
+    @SerializedName("data")
     val `data`: kotlin.Any
 
 ) {

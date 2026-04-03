@@ -9,6 +9,10 @@ import Foundation
 import FoundationNetworking
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.Configuration")
+public typealias Configuration = PronesoftEcfAPI.Configuration
+
+extension PronesoftEcfAPI {
 open class Configuration {
     
     /// Configures the range of HTTP status codes that will result in a successful response
@@ -16,3 +20,5 @@ open class Configuration {
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
     public static var successfulStatusCodeRange: Range = 200..<300
 }
+}
+

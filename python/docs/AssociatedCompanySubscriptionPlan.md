@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | [optional] 
-**max_docs_per_month** | **int** |  | [optional] 
+**max_docs_per_month** | **int** | Maximum documents allowed per month on this plan. | [optional] 
 
 ## Example
 

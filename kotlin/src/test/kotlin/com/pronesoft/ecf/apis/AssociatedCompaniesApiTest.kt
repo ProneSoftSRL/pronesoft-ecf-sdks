@@ -28,16 +28,43 @@ import io.kotlintest.specs.ShouldSpec
 
 import com.pronesoft.ecf.apis.AssociatedCompaniesApi
 import com.pronesoft.ecf.models.AssociatedCompany
+import com.pronesoft.ecf.models.CreateAssociatedCompany201Response
+import com.pronesoft.ecf.models.PrintFormat
 
 class AssociatedCompaniesApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of AssociatedCompaniesApi
         //val apiInstance = AssociatedCompaniesApi()
 
+        // to test createAssociatedCompany
+        should("test createAssociatedCompany") {
+            // uncomment below to test createAssociatedCompany
+            //val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
+            //val email : kotlin.String = email_example // kotlin.String | 
+            //val password : kotlin.String = password_example // kotlin.String | 
+            //val name : kotlin.String = name_example // kotlin.String | 
+            //val rnc : kotlin.String = rnc_example // kotlin.String | 
+            //val phone : kotlin.String = phone_example // kotlin.String | 
+            //val address : kotlin.String = address_example // kotlin.String | 
+            //val city : kotlin.String = city_example // kotlin.String | 
+            //val country : kotlin.String = country_example // kotlin.String | 
+            //val firstName : kotlin.String = firstName_example // kotlin.String | 
+            //val lastName : kotlin.String = lastName_example // kotlin.String | 
+            //val jobTitle : kotlin.String = jobTitle_example // kotlin.String | 
+            //val website : java.net.URI = website_example // java.net.URI | 
+            //val category : kotlin.String = category_example // kotlin.String | 
+            //val monthlySalesRange : kotlin.String = monthlySalesRange_example // kotlin.String | 
+            //val printerType : PrintFormat =  // PrintFormat | 
+            //val logo : java.io.File = BINARY_DATA_HERE // java.io.File | 
+            //val result : CreateAssociatedCompany201Response = apiInstance.createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo)
+            //result shouldBe ("TODO")
+        }
+
         // to test listAssociatedCompanies
         should("test listAssociatedCompanies") {
             // uncomment below to test listAssociatedCompanies
-            //val result : kotlin.collections.List<AssociatedCompany> = apiInstance.listAssociatedCompanies()
+            //val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
+            //val result : kotlin.collections.List<AssociatedCompany> = apiInstance.listAssociatedCompanies(xTenantId)
             //result shouldBe ("TODO")
         }
 

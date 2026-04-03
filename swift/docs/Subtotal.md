@@ -3,8 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**number** | **Int** |  | 
-**amount** | **Double** |  | 
+**number** | **Int** | Page or section number. | 
+**amount** | **Double** | Subtotal amount for this section. | 
 **description** | **String** |  | [optional] 
 **taxableAmount** | **Double** |  | [optional] 
 **taxableAmount1** | **Double** |  | [optional] 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **itbis3** | **Double** |  | [optional] 
 **additionalTaxes** | **Double** |  | [optional] 
 **exemptAmount** | **Double** |  | [optional] 
-**lines** | **Int** |  | [optional] 
+**lines** | **Int** | Number of line items included in this subtotal. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

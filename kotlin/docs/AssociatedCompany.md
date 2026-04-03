@@ -13,10 +13,10 @@
 | **country** | **kotlin.String** |  |  [optional] |
 | **website** | [**java.net.URI**](java.net.URI.md) |  |  [optional] |
 | **logoPath** | **kotlin.String** |  |  [optional] |
-| **type** | [**inline**](#Type) |  |  [optional] |
+| **type** | [**inline**](#Type) | Whether this is the main account or an associated branch. |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **docsIssuedThisMonth** | **kotlin.Int** |  |  [optional] |
-| **purchasedDocsConsumedThisMonth** | **kotlin.Int** |  |  [optional] |
+| **docsIssuedThisMonth** | **kotlin.Int** | Number of e-CF documents issued in the current month. |  [optional] |
+| **purchasedDocsConsumedThisMonth** | **kotlin.Int** | Purchased document quota consumed this month. |  [optional] |
 | **ownerEmail** | **kotlin.String** |  |  [optional] |
 | **subscription** | [**AssociatedCompanySubscription**](AssociatedCompanySubscription.md) |  |  [optional] |
 

@@ -5,7 +5,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create new associated company |
-| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated branches/companies |
+| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated companies / branches |
 
 
 <a id="createAssociatedCompany"></a>
@@ -14,15 +14,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Create new associated company
 
+Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
+
 ### Example
 ```java
 // Import classes:
-import Pronesoft.Ecf.ApiClient;
-import Pronesoft.Ecf.ApiException;
-import Pronesoft.Ecf.Configuration;
-import Pronesoft.Ecf.auth.*;
-import Pronesoft.Ecf.models.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -33,12 +35,16 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
-    UUID xTenantId = UUID.randomUUID(); // UUID | 
-    String email = "email_example"; // String | 
-    String password = "password_example"; // String | 
-    String name = "name_example"; // String | 
-    String rnc = "rnc_example"; // String | 
+    UUID xTenantId = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); // UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    String email = "email_example"; // String | Owner's email address (used for login).
+    String password = "password_example"; // String | Initial password for the new account (min 8 characters).
+    String name = "name_example"; // String | Legal business name.
+    String rnc = "rnc_example"; // String | Company RNC (9 digits) or personal cedula (11 digits).
     String phone = "phone_example"; // String | 
     String address = "address_example"; // String | 
     String city = "city_example"; // String | 
@@ -47,10 +53,10 @@ public class Example {
     String lastName = "lastName_example"; // String | 
     String jobTitle = "jobTitle_example"; // String | 
     URI website = new URI(); // URI | 
-    String category = "category_example"; // String | 
-    String monthlySalesRange = "monthlySalesRange_example"; // String | 
+    String category = "category_example"; // String | Business category or industry.
+    String monthlySalesRange = "monthlySalesRange_example"; // String | Estimated monthly sales range (e.g. \\\"0-500000\\\").
     PrintFormat printerType = PrintFormat.fromValue("A4"); // PrintFormat | 
-    File logo = new File("/path/to/file"); // File | 
+    File logo = new File("/path/to/file"); // File | Company logo image file (multipart upload).
     try {
       CreateAssociatedCompany201Response result = apiInstance.createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo);
       System.out.println(result);
@@ -69,11 +75,11 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | **UUID**|  | |
-| **email** | **String**|  | |
-| **password** | **String**|  | |
-| **name** | **String**|  | |
-| **rnc** | **String**|  | |
+| **xTenantId** | **UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | |
+| **email** | **String**| Owner&#39;s email address (used for login). | |
+| **password** | **String**| Initial password for the new account (min 8 characters). | |
+| **name** | **String**| Legal business name. | |
+| **rnc** | **String**| Company RNC (9 digits) or personal cedula (11 digits). | |
 | **phone** | **String**|  | |
 | **address** | **String**|  | |
 | **city** | **String**|  | |
@@ -82,10 +88,10 @@ public class Example {
 | **lastName** | **String**|  | [optional] |
 | **jobTitle** | **String**|  | [optional] |
 | **website** | **URI**|  | [optional] |
-| **category** | **String**|  | [optional] |
-| **monthlySalesRange** | **String**|  | [optional] |
+| **category** | **String**| Business category or industry. | [optional] |
+| **monthlySalesRange** | **String**| Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). | [optional] |
 | **printerType** | [**PrintFormat**](PrintFormat.md)|  | [optional] [enum: A4, thermal_80, thermal_58] |
-| **logo** | **File**|  | [optional] |
+| **logo** | **File**| Company logo image file (multipart upload). | [optional] |
 
 ### Return type
 
@@ -93,7 +99,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -103,23 +109,27 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Company created |  -  |
+| **201** | Associated company created successfully |  -  |
+| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
+| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 <a id="listAssociatedCompanies"></a>
 # **listAssociatedCompanies**
 > List&lt;AssociatedCompany&gt; listAssociatedCompanies(xTenantId)
 
-List associated branches/companies
+List associated companies / branches
+
+Returns all companies and branches linked to the current tenant.
 
 ### Example
 ```java
 // Import classes:
-import Pronesoft.Ecf.ApiClient;
-import Pronesoft.Ecf.ApiException;
-import Pronesoft.Ecf.Configuration;
-import Pronesoft.Ecf.auth.*;
-import Pronesoft.Ecf.models.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -130,8 +140,12 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
-    UUID xTenantId = UUID.randomUUID(); // UUID | 
+    UUID xTenantId = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); // UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
     try {
       List<AssociatedCompany> result = apiInstance.listAssociatedCompanies(xTenantId);
       System.out.println(result);
@@ -150,7 +164,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | **UUID**|  | |
+| **xTenantId** | **UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | |
 
 ### Return type
 
@@ -158,7 +172,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -169,4 +183,5 @@ public class Example {
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List of associated companies |  -  |
+| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 

@@ -10,7 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
-/** 31: Tax Credit, 32: Consumer, 33: Debit Note, 34: Credit Note, 41: Purchases, 43: Minor Expenses, 44: Special Regimes, 45: Governmental, 46: Exports, 47: Overseas Payments.  */
+@available(*, deprecated, renamed: "PronesoftEcfAPI.InvoiceType")
+public typealias InvoiceType = PronesoftEcfAPI.InvoiceType
+
+extension PronesoftEcfAPI {
+
+/** e-NCF invoice type code as defined by the DGII: - &#x60;31&#x60;: Tax Credit Invoice (Factura de Crédito Fiscal) - &#x60;32&#x60;: Consumer Invoice (Factura de Consumo) - &#x60;33&#x60;: Debit Note (Nota de Débito) - &#x60;34&#x60;: Credit Note (Nota de Crédito) - &#x60;41&#x60;: Purchases (Compras) - &#x60;43&#x60;: Minor Expenses (Gastos Menores) - &#x60;44&#x60;: Special Regimes (Regímenes Especiales) - &#x60;45&#x60;: Governmental (Gubernamentales) - &#x60;46&#x60;: Exports (Exportaciones) - &#x60;47&#x60;: Overseas Payments (Pagos al Exterior)  */
 public enum InvoiceType: String, Codable, CaseIterable {
     case _31 = "31"
     case _32 = "32"
@@ -22,4 +27,5 @@ public enum InvoiceType: String, Codable, CaseIterable {
     case _45 = "45"
     case _46 = "46"
     case _47 = "47"
+}
 }

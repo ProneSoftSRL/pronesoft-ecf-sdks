@@ -25,70 +25,74 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.BillingIndicator
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * A document-level discount or surcharge.
  *
- * @param lineNumber 
- * @param type 
- * @param valueType 
- * @param amount 
- * @param description 
- * @param percentageValue 
- * @param alternativeCurrencyAmount 
+ * @param lineNumber Reference line number this discount/surcharge applies to.
+ * @param type - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo) 
+ * @param valueType Whether the amount is a fixed value (`$`) or a percentage (`%`).
+ * @param amount Discount or surcharge amount.
+ * @param description Description of the discount or surcharge.
+ * @param percentageValue Percentage value (when valueType is \"%\").
+ * @param alternativeCurrencyAmount Equivalent amount in the alternative currency.
  * @param billingIndicator 
  */
 
 
 data class DiscountOrSurcharge (
 
-    @Json(name = "lineNumber")
+    /* Reference line number this discount/surcharge applies to. */
+    @SerializedName("lineNumber")
     val lineNumber: kotlin.Int,
 
-    @Json(name = "type")
+    /* - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo)  */
+    @SerializedName("type")
     val type: DiscountOrSurcharge.Type,
 
-    @Json(name = "valueType")
+    /* Whether the amount is a fixed value (`$`) or a percentage (`%`). */
+    @SerializedName("valueType")
     val valueType: DiscountOrSurcharge.ValueType,
 
-    @Json(name = "amount")
+    /* Discount or surcharge amount. */
+    @SerializedName("amount")
     val amount: java.math.BigDecimal,
 
-    @Json(name = "description")
+    /* Description of the discount or surcharge. */
+    @SerializedName("description")
     val description: kotlin.String? = null,
 
-    @Json(name = "percentageValue")
+    /* Percentage value (when valueType is \"%\"). */
+    @SerializedName("percentageValue")
     val percentageValue: java.math.BigDecimal? = null,
 
-    @Json(name = "alternativeCurrencyAmount")
+    /* Equivalent amount in the alternative currency. */
+    @SerializedName("alternativeCurrencyAmount")
     val alternativeCurrencyAmount: java.math.BigDecimal? = null,
 
-    @Json(name = "billingIndicator")
+    @SerializedName("billingIndicator")
     val billingIndicator: BillingIndicator? = null
 
 ) {
 
     /**
-     * 
+     * - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo) 
      *
      * Values: D,R
      */
-    @JsonClass(generateAdapter = false)
     enum class Type(val value: kotlin.String) {
-        @Json(name = "D") D("D"),
-        @Json(name = "R") R("R");
+        @SerializedName(value = "D") D("D"),
+        @SerializedName(value = "R") R("R");
     }
     /**
-     * 
+     * Whether the amount is a fixed value (`$`) or a percentage (`%`).
      *
      * Values: Dollar,Percent
      */
-    @JsonClass(generateAdapter = false)
     enum class ValueType(val value: kotlin.String) {
-        @Json(name = "$") Dollar("$"),
-        @Json(name = "%") Percent("%");
+        @SerializedName(value = "$") Dollar("$"),
+        @SerializedName(value = "%") Percent("%");
     }
 
 }

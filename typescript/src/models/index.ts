@@ -33,7 +33,7 @@ export * from './Subtotal';
 export * from './TaxSequence';
 export * from './Totals';
 export * from './Transport';
-export * from './UploadCertificate201Response';
+export * from './UploadCertificateResponse';
 export * from './WebhookConfigResponse';
 export * from './WebhookEventType';
 export * from './WebhookNotificationPayload';

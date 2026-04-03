@@ -5,7 +5,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create new associated company
-[**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated branches/companies
+[**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated companies / branches
 
 
 # **create_associated_company**
@@ -13,9 +13,14 @@ Method | HTTP request | Description
 
 Create new associated company
 
+Registers a new branch or associated company under the current
+tenant account. Accepts multipart/form-data to support logo upload.
+
+
 ### Example
 
 * OAuth Authentication (oauth2):
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -37,15 +42,20 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = pronesoft_ecf.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.AssociatedCompaniesApi(api_client)
-    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
-    email = 'email_example' # str | 
-    password = 'password_example' # str | 
-    name = 'name_example' # str | 
-    rnc = 'rnc_example' # str | 
+    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+    email = 'email_example' # str | Owner's email address (used for login).
+    password = 'password_example' # str | Initial password for the new account (min 8 characters).
+    name = 'name_example' # str | Legal business name.
+    rnc = 'rnc_example' # str | Company RNC (9 digits) or personal cedula (11 digits).
     phone = 'phone_example' # str | 
     address = 'address_example' # str | 
     city = 'city_example' # str | 
@@ -54,10 +64,10 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     last_name = 'last_name_example' # str |  (optional)
     job_title = 'job_title_example' # str |  (optional)
     website = 'website_example' # str |  (optional)
-    category = 'category_example' # str |  (optional)
-    monthly_sales_range = 'monthly_sales_range_example' # str |  (optional)
+    category = 'category_example' # str | Business category or industry. (optional)
+    monthly_sales_range = 'monthly_sales_range_example' # str | Estimated monthly sales range (e.g. \\\"0-500000\\\"). (optional)
     printer_type = pronesoft_ecf.PrintFormat() # PrintFormat |  (optional)
-    logo = None # bytes |  (optional)
+    logo = None # bytes | Company logo image file (multipart upload). (optional)
 
     try:
         # Create new associated company
@@ -75,11 +85,11 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **x_tenant_id** | **UUID**|  | 
- **email** | **str**|  | 
- **password** | **str**|  | 
- **name** | **str**|  | 
- **rnc** | **str**|  | 
+ **x_tenant_id** | **UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
+ **email** | **str**| Owner&#39;s email address (used for login). | 
+ **password** | **str**| Initial password for the new account (min 8 characters). | 
+ **name** | **str**| Legal business name. | 
+ **rnc** | **str**| Company RNC (9 digits) or personal cedula (11 digits). | 
  **phone** | **str**|  | 
  **address** | **str**|  | 
  **city** | **str**|  | 
@@ -88,10 +98,10 @@ Name | Type | Description  | Notes
  **last_name** | **str**|  | [optional] 
  **job_title** | **str**|  | [optional] 
  **website** | **str**|  | [optional] 
- **category** | **str**|  | [optional] 
- **monthly_sales_range** | **str**|  | [optional] 
+ **category** | **str**| Business category or industry. | [optional] 
+ **monthly_sales_range** | **str**| Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). | [optional] 
  **printer_type** | [**PrintFormat**](PrintFormat.md)|  | [optional] 
- **logo** | **bytes**|  | [optional] 
+ **logo** | **bytes**| Company logo image file (multipart upload). | [optional] 
 
 ### Return type
 
@@ -99,7 +109,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -110,18 +120,23 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Company created |  -  |
+**201** | Associated company created successfully |  -  |
+**400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_associated_companies**
 > List[AssociatedCompany] list_associated_companies(x_tenant_id)
 
-List associated branches/companies
+List associated companies / branches
+
+Returns all companies and branches linked to the current tenant.
 
 ### Example
 
 * OAuth Authentication (oauth2):
+* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -142,14 +157,19 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = pronesoft_ecf.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.AssociatedCompaniesApi(api_client)
-    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
+    x_tenant_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
 
     try:
-        # List associated branches/companies
+        # List associated companies / branches
         api_response = api_instance.list_associated_companies(x_tenant_id)
         print("The response of AssociatedCompaniesApi->list_associated_companies:\n")
         pprint(api_response)
@@ -164,7 +184,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **x_tenant_id** | **UUID**|  | 
+ **x_tenant_id** | **UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
 
 ### Return type
 
@@ -172,7 +192,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -184,6 +204,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | List of associated companies |  -  |
+**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

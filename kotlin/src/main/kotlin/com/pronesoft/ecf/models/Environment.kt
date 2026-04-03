@@ -24,25 +24,23 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Target environment for e-CF submission. - `TesteCF`: Functional tests, no real DGII interaction. - `CerteCF`: DGII certification environment. - `eCF`: Production — issues real legal documents. 
  *
  * Values: TesteCF,CerteCF,eCF
  */
 
-@JsonClass(generateAdapter = false)
 enum class Environment(val value: kotlin.String) {
 
-    @Json(name = "TesteCF")
+    @SerializedName(value = "TesteCF")
     TesteCF("TesteCF"),
 
-    @Json(name = "CerteCF")
+    @SerializedName(value = "CerteCF")
     CerteCF("CerteCF"),
 
-    @Json(name = "eCF")
+    @SerializedName(value = "eCF")
     eCF("eCF");
 
     /**

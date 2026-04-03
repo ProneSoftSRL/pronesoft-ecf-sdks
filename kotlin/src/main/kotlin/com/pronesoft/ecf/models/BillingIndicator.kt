@@ -24,31 +24,29 @@
 package com.pronesoft.ecf.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 0: Non-Billable, 1: 18% Tax Rate, 2: 16% Tax Rate, 3: 0% Tax Rate, 4: Exempt
+ * ITBIS tax billing indicator for a line item: - `0`: Non-billable (No facturable) - `1`: 18% ITBIS rate - `2`: 16% ITBIS rate - `3`: 0% ITBIS rate - `4`: Exempt (Exento) 
  *
  * Values: _0,_1,_2,_3,_4
  */
 
-@JsonClass(generateAdapter = false)
 enum class BillingIndicator(val value: kotlin.String) {
 
-    @Json(name = "0")
+    @SerializedName(value = "0")
     _0("0"),
 
-    @Json(name = "1")
+    @SerializedName(value = "1")
     _1("1"),
 
-    @Json(name = "2")
+    @SerializedName(value = "2")
     _2("2"),
 
-    @Json(name = "3")
+    @SerializedName(value = "3")
     _3("3"),
 
-    @Json(name = "4")
+    @SerializedName(value = "4")
     _4("4");
 
     /**

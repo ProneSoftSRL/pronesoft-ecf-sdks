@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **String** |  | [optional] 
+**status** | **String** | Subscription status (e.g. \&quot;active\&quot;, \&quot;expired\&quot;). | [optional] 
 **expirationDate** | **Date** |  | [optional] 
 **plan** | [**AssociatedCompanySubscriptionPlan**](AssociatedCompanySubscriptionPlan.md) |  | [optional] 
 

@@ -10,13 +10,16 @@ import Foundation
 import AnyCodable
 #endif
 
+extension PronesoftEcfAPI {
+
+
 open class ECFSubmissionAPI {
 
     /**
-     Submit e-CF to platform
+     Submit e-CF document to DGII
      
-     - parameter xTenantId: (header)  
-     - parameter environment: (path)  
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter environment: (path) Target submission environment. 
      - parameter electronicDocument: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -34,13 +37,17 @@ open class ECFSubmissionAPI {
     }
 
     /**
-     Submit e-CF to platform
+     Submit e-CF document to DGII
      - POST /{environment}/ecf/submit
+     - Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the `ElectronicDocument` payload. 2. Call this endpoint with the target `environment` in the path. 3. Receive a `documentId` and `trackId` in the response. 4. Listen for the `document.status_changed` webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | `TesteCF` | Functional tests (no DGII interaction) | | `CerteCF` | DGII certification environment | | `eCF` | Production — real documents | 
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter xTenantId: (header)  
-     - parameter environment: (path)  
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter environment: (path) Target submission environment. 
      - parameter electronicDocument: (body)  
      - returns: RequestBuilder<EcfSubmissionResponse> 
      */
@@ -65,4 +72,5 @@ open class ECFSubmissionAPI {
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
+}
 }

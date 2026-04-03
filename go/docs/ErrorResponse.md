@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**StatusCode** | Pointer to **int32** |  | [optional] 
-**Message** | Pointer to **string** |  | [optional] 
-**Timestamp** | Pointer to **time.Time** |  | [optional] 
+**StatusCode** | Pointer to **int32** | HTTP status code. | [optional] 
+**Message** | Pointer to **string** | Human-readable error description. | [optional] 
+**Timestamp** | Pointer to **time.Time** | When the error occurred. | [optional] 
 
 ## Methods
 

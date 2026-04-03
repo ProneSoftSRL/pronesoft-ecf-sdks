@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateWebhook**](WebhookConfigurationAPI.md#CreateWebhook) | **Post** /{rnc}/webhooks | Register new webhook
 [**DeleteWebhook**](WebhookConfigurationAPI.md#DeleteWebhook) | **Delete** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
-[**ListWebhooks**](WebhookConfigurationAPI.md#ListWebhooks) | **Get** /{rnc}/webhooks | List all webhook configurations
+[**ListWebhooks**](WebhookConfigurationAPI.md#ListWebhooks) | **Get** /{rnc}/webhooks | List webhook configurations
 
 
 
@@ -15,6 +15,8 @@ Method | HTTP request | Description
 > WebhookConfigResponse CreateWebhook(ctx, rnc).CreateWebhookConfig(createWebhookConfig).Execute()
 
 Register new webhook
+
+
 
 ### Example
 
@@ -25,12 +27,12 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
 func main() {
-	rnc := "rnc_example" // string | 
-	createWebhookConfig := *openapiclient.NewCreateWebhookConfig("Url_example", []openapiclient.WebhookEventType{openapiclient.WebhookEventType("document.received")}) // CreateWebhookConfig | 
+	rnc := "130000001" // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+	createWebhookConfig := *openapiclient.NewCreateWebhookConfig("https://myapp.com/webhooks/ecf", []openapiclient.WebhookEventType{openapiclient.WebhookEventType("document.received")}) // CreateWebhookConfig | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -50,7 +52,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** |  | 
+**rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
 
 ### Other Parameters
 
@@ -68,7 +70,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -86,6 +88,8 @@ Name | Type | Description  | Notes
 
 Delete webhook configuration
 
+
+
 ### Example
 
 ```go
@@ -95,12 +99,12 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
 func main() {
-	rnc := "rnc_example" // string | 
-	webhookId := "webhookId_example" // string | 
+	rnc := "130000001" // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+	webhookId := "webhookId_example" // string | The unique ID of the webhook to delete.
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -118,8 +122,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** |  | 
-**webhookId** | **string** |  | 
+**rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
+**webhookId** | **string** | The unique ID of the webhook to delete. | 
 
 ### Other Parameters
 
@@ -137,12 +141,12 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -153,7 +157,9 @@ Name | Type | Description  | Notes
 
 > []WebhookConfigResponse ListWebhooks(ctx, rnc).Execute()
 
-List all webhook configurations
+List webhook configurations
+
+
 
 ### Example
 
@@ -164,11 +170,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
 func main() {
-	rnc := "rnc_example" // string | 
+	rnc := "130000001" // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -188,7 +194,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** |  | 
+**rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
 
 ### Other Parameters
 
@@ -205,7 +211,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Quantity** | **float32** |  | 
-**UnitCode** | **float32** |  | 
+**Quantity** | **float32** | Quantity in this unit of measure. | 
+**UnitCode** | **float32** | DGII unit of measure code. | 
 
 ## Methods
 

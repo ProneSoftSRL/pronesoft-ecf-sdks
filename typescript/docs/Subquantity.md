@@ -1,6 +1,7 @@
 
 # Subquantity
 
+Sub-quantity for items measured in multiple units.
 
 ## Properties
 

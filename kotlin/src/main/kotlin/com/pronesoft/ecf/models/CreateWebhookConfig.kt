@@ -25,31 +25,34 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.WebhookEventType
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Request body for registering a new webhook.
  *
- * @param url 
- * @param eventTypes 
- * @param description 
- * @param secret 
+ * @param url Your HTTPS endpoint that will receive POST notifications.
+ * @param eventTypes List of events to subscribe to.
+ * @param description Optional label for this webhook (for your reference).
+ * @param secret Optional HMAC signing secret (min 16 characters). Pronesoft will sign payloads so you can verify they are authentic. 
  */
 
 
 data class CreateWebhookConfig (
 
-    @Json(name = "url")
+    /* Your HTTPS endpoint that will receive POST notifications. */
+    @SerializedName("url")
     val url: java.net.URI,
 
-    @Json(name = "eventTypes")
+    /* List of events to subscribe to. */
+    @SerializedName("eventTypes")
     val eventTypes: kotlin.collections.List<WebhookEventType>,
 
-    @Json(name = "description")
+    /* Optional label for this webhook (for your reference). */
+    @SerializedName("description")
     val description: kotlin.String? = null,
 
-    @Json(name = "secret")
+    /* Optional HMAC signing secret (min 16 characters). Pronesoft will sign payloads so you can verify they are authentic.  */
+    @SerializedName("secret")
     val secret: kotlin.String? = null
 
 ) {

@@ -1,11 +1,79 @@
 # Swift5 API client for PronesoftEcf
 
-**Highly detailed** production-grade API specification for eCF-Pronesoft.
-**Optimized for high-fidelity SDK generation.**
+## Overview
+Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
+Dominican Republic through the Pronesoft platform, which handles all
+communication with the DGII on your behalf.
 
-This specification is the result of an exhaustive audit of the source code (NestJS),
-covering 100% of the DTOs, regex validations, Webhook schemas, and 
-OAuth 2.0 security flows.
+## Authentication — OAuth 2.0 Client Credentials
+This API uses the **OAuth 2.0 Client Credentials** flow. There is no
+user login — authentication is machine-to-machine using a
+`clientId` and `clientSecret` issued by the Pronesoft portal.
+
+### Step-by-step
+1. **Get credentials**:
+   - Sandbox: https://ecf.sandbox.pronesoft.com
+   - Production: https://ecf.pronesoft.com
+2. **Request a token** — call `POST /oauth/token` with your credentials.
+   The server returns an `accessToken` valid for `expiresIn` seconds.
+3. **Authorize requests** — include the token in every subsequent request:
+   ```
+   Authorization: Bearer <accessToken>
+   ```
+4. **Identify your tenant** — include your company/branch UUID in every
+   protected request:
+   ```
+   x-tenant-id: <your-tenant-uuid>
+   ```
+5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.
+
+### Scopes
+| Category | Scope | Description |
+|---|---|---|
+| **Business** | `business:read` | Read company data |
+| | `business:create` | Create a new company |
+| | `business:update` | Update company data |
+| **Members** | `members:read` | View team members |
+| | `members:invite` | Invite new members |
+| | `members:revoke` | Revoke member access |
+| **Certificates** | `certificates:read` | View digital certificates |
+| | `certificates:upload` | Upload new certificates |
+| | `certificates:update` | Update existing certificates |
+| **Documents** | `documents:read` | List and view documents |
+| | `documents:create` | Create drafts or internal documents |
+| | `documents:send` | Submit e-CF to DGII |
+| | `documents:receive` | Receive e-CF from third parties |
+| | `documents:update` | Modify document metadata |
+| **Approvals** | `approvals:read` | View approval statuses |
+| | `approvals:commercial` | Perform commercial approvals/rejections |
+| **Sequences** | `sequences:read` | View NCF/e-NCF ranges |
+| | `sequences:create` | Request new sequences |
+| | `sequences:update` | Modify sequence configurations |
+| | `sequences:cancel` | Cancel unused sequences |
+| **Dashboard** | `business_info:read` | Access dashboard stats and metrics |
+| **Certification** | `certification:read` | View certification progress |
+| | `certification:write` | Run automated DGII certification tests |
+| **Reports** | `reports:read` | Generate and export reports (e.g. 606) |
+
+## Environments
+| Environment | Portal | API Host | Purpose |
+|---|---|---|---|
+| Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing |
+| Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |
+
+## Invoice Types (e-NCF)
+| Code | Name |
+|---|---|
+| `31` | Tax Credit Invoice (Factura de Crédito Fiscal) |
+| `32` | Consumer Invoice (Factura de Consumo) |
+| `33` | Debit Note (Nota de Débito) |
+| `34` | Credit Note (Nota de Crédito) |
+| `41` | Purchases (Compras) |
+| `43` | Minor Expenses (Gastos Menores) |
+| `44` | Special Regimes (Regímenes Especiales) |
+| `45` | Governmental (Gubernamentales) |
+| `46` | Exports (Exportaciones) |
+| `47` | Overseas Payments (Pagos al Exterior) |
 
 
 ## Overview
@@ -34,16 +102,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AssociatedCompaniesAPI* | [**createAssociatedCompany**](docs/AssociatedCompaniesAPI.md#createassociatedcompany) | **POST** /associated-companies | Create new associated company
-*AssociatedCompaniesAPI* | [**listAssociatedCompanies**](docs/AssociatedCompaniesAPI.md#listassociatedcompanies) | **GET** /associated-companies | List associated branches/companies
-*AuthenticationAPI* | [**getAccessToken**](docs/AuthenticationAPI.md#getaccesstoken) | **POST** /oauth/token | Get access token (OAuth 2.0)
-*DigitalCertificatesAPI* | [**uploadCertificate**](docs/DigitalCertificatesAPI.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12)
-*ECFSubmissionAPI* | [**submitEcf**](docs/ECFSubmissionAPI.md#submitecf) | **POST** /{environment}/ecf/submit | Submit e-CF to platform
+*AssociatedCompaniesAPI* | [**listAssociatedCompanies**](docs/AssociatedCompaniesAPI.md#listassociatedcompanies) | **GET** /associated-companies | List associated companies / branches
+*AuthenticationAPI* | [**getAccessToken**](docs/AuthenticationAPI.md#getaccesstoken) | **POST** /oauth/token | Get access token
+*DigitalCertificatesAPI* | [**uploadCertificate**](docs/DigitalCertificatesAPI.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12)
+*ECFSubmissionAPI* | [**submitEcf**](docs/ECFSubmissionAPI.md#submitecf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII
 *TaxSequencesAPI* | [**createTaxSequence**](docs/TaxSequencesAPI.md#createtaxsequence) | **POST** /tax-sequences | Create new tax sequence
-*TaxSequencesAPI* | [**getNextNumber**](docs/TaxSequencesAPI.md#getnextnumber) | **GET** /tax-sequences/next | Get next available number
+*TaxSequencesAPI* | [**getNextNumber**](docs/TaxSequencesAPI.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number
 *TaxSequencesAPI* | [**listTaxSequences**](docs/TaxSequencesAPI.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences
 *WebhookConfigurationAPI* | [**createWebhook**](docs/WebhookConfigurationAPI.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook
 *WebhookConfigurationAPI* | [**deleteWebhook**](docs/WebhookConfigurationAPI.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
-*WebhookConfigurationAPI* | [**listWebhooks**](docs/WebhookConfigurationAPI.md#listwebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations
+*WebhookConfigurationAPI* | [**listWebhooks**](docs/WebhookConfigurationAPI.md#listwebhooks) | **GET** /{rnc}/webhooks | List webhook configurations
 
 
 ## Documentation For Models
@@ -81,7 +149,7 @@ Class | Method | HTTP request | Description
  - [TaxSequence](docs/TaxSequence.md)
  - [Totals](docs/Totals.md)
  - [Transport](docs/Transport.md)
- - [UploadCertificate201Response](docs/UploadCertificate201Response.md)
+ - [UploadCertificateResponse](docs/UploadCertificateResponse.md)
  - [WebhookConfigResponse](docs/WebhookConfigResponse.md)
  - [WebhookEventType](docs/WebhookEventType.md)
  - [WebhookNotificationPayload](docs/WebhookNotificationPayload.md)
@@ -92,6 +160,11 @@ Class | Method | HTTP request | Description
 
 
 Authentication schemes defined for the API:
+<a id="bearerAuth"></a>
+### bearerAuth
+
+- **Type**: HTTP Bearer Token authentication (JWT)
+
 <a id="oauth2"></a>
 ### oauth2
 
@@ -99,10 +172,30 @@ Authentication schemes defined for the API:
 - **Flow**: application
 - **Authorization URL**: 
 - **Scopes**: 
- - **documents:read**: Read access to sent/received documents.
- - **documents:write**: Permissions to send and modify documents.
- - **ecf:submit**: Specialized permission for e-CF invoice submission.
- - **admin**: Full administrative access to the platform.
+ - **business:read**: Read company data.
+ - **business:create**: Create a new company.
+ - **business:update**: Update company data.
+ - **members:read**: View team members.
+ - **members:invite**: Invite new members.
+ - **members:revoke**: Revoke member access.
+ - **certificates:read**: View digital certificates.
+ - **certificates:upload**: Upload new certificates.
+ - **certificates:update**: Update existing certificates.
+ - **documents:read**: List and view document details.
+ - **documents:create**: Create drafts or internal documents.
+ - **documents:send**: Submit e-CF to the DGII.
+ - **documents:receive**: Receive e-CF from third parties.
+ - **documents:update**: Modify document metadata.
+ - **approvals:read**: View approval statuses.
+ - **approvals:commercial**: Perform commercial approvals or rejections.
+ - **sequences:read**: View NCF/e-NCF ranges.
+ - **sequences:create**: Request or add new sequences.
+ - **sequences:update**: Modify sequence configurations.
+ - **sequences:cancel**: Cancel unused sequences.
+ - **business_info:read**: Access dashboard statistics and metrics.
+ - **certification:read**: View DGII certification progress.
+ - **certification:write**: Execute automated DGII certification tests.
+ - **reports:read**: Generate and export reports (e.g. format 606).
 
 
 # How do I migrate from the Swift 5 generator to the swift 6 generator?

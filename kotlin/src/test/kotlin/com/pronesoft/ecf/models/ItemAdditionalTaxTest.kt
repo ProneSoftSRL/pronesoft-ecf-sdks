@@ -39,22 +39,10 @@ class ItemAdditionalTaxTest : ShouldSpec() {
             //modelInstance.code shouldBe ("TODO")
         }
 
-        // to test the property `rate`
-        should("test rate") {
-            // uncomment below to test the property
-            //modelInstance.rate shouldBe ("TODO")
-        }
-
         // to test the property `amount`
         should("test amount") {
             // uncomment below to test the property
             //modelInstance.amount shouldBe ("TODO")
-        }
-
-        // to test the property `alternativeCurrencyAmount`
-        should("test alternativeCurrencyAmount") {
-            // uncomment below to test the property
-            //modelInstance.alternativeCurrencyAmount shouldBe ("TODO")
         }
 
     }

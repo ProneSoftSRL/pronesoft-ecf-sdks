@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **string** |  | 
-**Amount** | **float32** |  | 
+**Code** | **string** | Tax code as defined by the DGII (e.g. \&quot;ISC\&quot;, \&quot;IECS\&quot;). | 
+**Amount** | **float32** | Tax amount. | 
 
 ## Methods
 

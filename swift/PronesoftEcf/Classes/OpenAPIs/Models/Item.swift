@@ -10,6 +10,12 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.Item")
+public typealias Item = PronesoftEcfAPI.Item
+
+extension PronesoftEcfAPI {
+
+/** A single line item in the electronic document. */
 public struct Item: Codable, JSONEncodable, Hashable {
 
     public enum ModelType: String, Codable, CaseIterable {
@@ -17,16 +23,26 @@ public struct Item: Codable, JSONEncodable, Hashable {
         case _2 = "2"
     }
     public static let nameRule = StringRule(minLength: nil, maxLength: 80, pattern: nil)
+    /** Sequential line number (1-based). Auto-assigned if omitted. */
     public var lineNumber: Int?
+    /** Product or service name. */
     public var name: String
+    /** Item type: - `1`: Product (Bien) - `2`: Service (Servicio)  */
     public var type: ModelType
     public var billingIndicator: BillingIndicator
+    /** Quantity (as string to support decimals with precision). */
     public var quantity: String
+    /** Unit price (as string to support decimals with precision). */
     public var unitPrice: String
+    /** Total line amount (quantity × unitPrice, before discounts). */
     public var amount: Double
+    /** Discount amount applied to this line item. */
     public var discountAmount: Double?
+    /** Additional taxes (e.g. ISC, IECS) for this line item. */
     public var additionalTaxes: [ItemAdditionalTax]?
+    /** Sub-quantities (for items with multiple units of measure). */
     public var subquantities: [Subquantity]?
+    /** Alcohol degree (required for alcoholic beverages subject to ISC). */
     public var alcoholDegree: Double?
 
     public init(lineNumber: Int? = nil, name: String, type: ModelType, billingIndicator: BillingIndicator, quantity: String, unitPrice: String, amount: Double, discountAmount: Double? = nil, additionalTaxes: [ItemAdditionalTax]? = nil, subquantities: [Subquantity]? = nil, alcoholDegree: Double? = nil) {
@@ -75,3 +91,4 @@ public struct Item: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

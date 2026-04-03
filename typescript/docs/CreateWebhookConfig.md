@@ -1,6 +1,7 @@
 
 # CreateWebhookConfig
 
+Request body for registering a new webhook.
 
 ## Properties
 
@@ -18,7 +19,7 @@ import type { CreateWebhookConfig } from '@pronesoft/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "url": null,
+  "url": https://myapp.com/webhooks/ecf,
   "eventTypes": null,
   "description": null,
   "secret": null,

@@ -4,33 +4,33 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Version** | **string** |  | [default to "1.0"]
+**Version** | **string** | Document schema version. Always \&quot;1.0\&quot;. | [default to "1.0"]
 **InvoiceType** | [**InvoiceType**](InvoiceType.md) |  | 
-**InvoiceNumber** | **string** |  | 
-**IssueDate** | **time.Time** |  | 
-**ExpirationDate** | Pointer to **time.Time** |  | [optional] 
-**IncomeType** | Pointer to **string** |  | [optional] 
-**PaymentType** | Pointer to **string** |  | [optional] 
-**PaymentDeadline** | Pointer to **time.Time** |  | [optional] 
-**PaymentTerms** | Pointer to **string** |  | [optional] 
+**InvoiceNumber** | **string** | e-NCF number (13 alphanumeric characters). Obtain from &#x60;GET /tax-sequences/next&#x60;.  | 
+**IssueDate** | **time.Time** | Document issue date and time (ISO 8601). | 
+**ExpirationDate** | Pointer to **time.Time** | Document expiration date (optional, for credit documents). | [optional] 
+**IncomeType** | Pointer to **string** | Income type code: - &#x60;01&#x60;: Operations Income - &#x60;02&#x60;: Financial Income - &#x60;03&#x60;: Extraordinary Income - &#x60;04&#x60;: Leasing Income - &#x60;05&#x60;: Income from Sales of Assets - &#x60;06&#x60;: Other Income  | [optional] 
+**PaymentType** | Pointer to **string** | Payment condition: - &#x60;1&#x60;: Cash (Al Contado) - &#x60;2&#x60;: Credit (Crédito) - &#x60;3&#x60;: Mixed (Mixto)  | [optional] 
+**PaymentDeadline** | Pointer to **time.Time** | Payment due date (required when paymentType is \&quot;2\&quot; or \&quot;3\&quot;). | [optional] 
+**PaymentTerms** | Pointer to **string** | Payment terms description (e.g. \&quot;Net 30\&quot;). | [optional] 
 **PaymentAccountType** | Pointer to [**AccountType**](AccountType.md) |  | [optional] 
-**PaymentAccountNumber** | Pointer to **string** |  | [optional] 
-**PaymentBank** | Pointer to **string** |  | [optional] 
-**CreditNoteIndicator** | Pointer to **string** | 0: issuance affected ≤ 30 days, 1: &gt; 30 days | [optional] 
-**IssuerRNC** | Pointer to **string** |  | [optional] 
-**IssuerBusinessName** | Pointer to **string** |  | [optional] 
-**IssuerEmail** | Pointer to **string** |  | [optional] 
-**IssuerPhones** | Pointer to **[]string** |  | [optional] 
+**PaymentAccountNumber** | Pointer to **string** | Bank account number for payment reference. | [optional] 
+**PaymentBank** | Pointer to **string** | Bank name for payment reference. | [optional] 
+**CreditNoteIndicator** | Pointer to **string** | For Credit Notes (type 34) only: - &#x60;0&#x60;: Affected invoice issued ≤ 30 days ago - &#x60;1&#x60;: Affected invoice issued &gt; 30 days ago  | [optional] 
+**IssuerRNC** | Pointer to **string** | RNC of the issuing company (overrides tenant default if provided). | [optional] 
+**IssuerBusinessName** | Pointer to **string** | Legal business name of the issuer. | [optional] 
+**IssuerEmail** | Pointer to **string** | Contact email of the issuer. | [optional] 
+**IssuerPhones** | Pointer to **[]string** | Issuer phone numbers in format \&quot;809-555-1234\&quot;. | [optional] 
 **Buyer** | Pointer to [**Buyer**](Buyer.md) |  | [optional] 
-**Items** | [**[]Item**](Item.md) |  | 
+**Items** | [**[]Item**](Item.md) | Line items of the document. At least 1 required. | 
 **Totals** | [**Totals**](Totals.md) |  | 
 **Transport** | Pointer to [**Transport**](Transport.md) |  | [optional] 
 **AdditionalInfo** | Pointer to [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
 **AlternativeCurrency** | Pointer to [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 
 **ReferenceInfo** | Pointer to [**ReferenceInfo**](ReferenceInfo.md) |  | [optional] 
-**Subtotals** | Pointer to [**[]Subtotal**](Subtotal.md) |  | [optional] 
-**DiscountsOrSurcharges** | Pointer to [**[]DiscountOrSurcharge**](DiscountOrSurcharge.md) |  | [optional] 
-**Pages** | Pointer to [**[]Page**](Page.md) |  | [optional] 
+**Subtotals** | Pointer to [**[]Subtotal**](Subtotal.md) | Page/section subtotals (for multi-page documents). | [optional] 
+**DiscountsOrSurcharges** | Pointer to [**[]DiscountOrSurcharge**](DiscountOrSurcharge.md) | Document-level discounts or surcharges. | [optional] 
+**Pages** | Pointer to [**[]Page**](Page.md) | Page breakdown for multi-page documents. | [optional] 
 
 ## Methods
 

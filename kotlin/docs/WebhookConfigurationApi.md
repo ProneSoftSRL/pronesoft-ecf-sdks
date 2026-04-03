@@ -6,7 +6,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | ------------- | ------------- | ------------- |
 | [**createWebhook**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook |
 | [**deleteWebhook**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
-| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
+| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
 
 <a id="createWebhook"></a>
@@ -15,6 +15,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Register new webhook
 
+Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+
 ### Example
 ```kotlin
 // Import classes:
@@ -22,8 +24,8 @@ Register new webhook
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = rnc_example // kotlin.String | 
-val createWebhookConfig : CreateWebhookConfig =  // CreateWebhookConfig | 
+val rnc : kotlin.String = 130000001 // kotlin.String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+val createWebhookConfig : CreateWebhookConfig = {"url":"https://myapp.com/webhooks/ecf","eventTypes":["document.status_changed","sequence.depleted"],"description":"Main notification endpoint","secret":"my-super-secret-value-here"} // CreateWebhookConfig | 
 try {
     val result : WebhookConfigResponse = apiInstance.createWebhook(rnc, createWebhookConfig)
     println(result)
@@ -37,7 +39,7 @@ try {
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**|  | |
+| **rnc** | **kotlin.String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **createWebhookConfig** | [**CreateWebhookConfig**](CreateWebhookConfig.md)|  | |
@@ -51,6 +53,8 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
+Configure bearerAuth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -63,6 +67,8 @@ Configure oauth2:
 
 Delete webhook configuration
 
+Removes a registered webhook by its ID.
+
 ### Example
 ```kotlin
 // Import classes:
@@ -70,8 +76,8 @@ Delete webhook configuration
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = rnc_example // kotlin.String | 
-val webhookId : kotlin.String = webhookId_example // kotlin.String | 
+val rnc : kotlin.String = 130000001 // kotlin.String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+val webhookId : kotlin.String = webhookId_example // kotlin.String | The unique ID of the webhook to delete.
 try {
     apiInstance.deleteWebhook(rnc, webhookId)
 } catch (e: ClientException) {
@@ -84,10 +90,10 @@ try {
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**|  | |
+| **rnc** | **kotlin.String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **webhookId** | **kotlin.String**|  | |
+| **webhookId** | **kotlin.String**| The unique ID of the webhook to delete. | |
 
 ### Return type
 
@@ -98,17 +104,21 @@ null (empty response body)
 
 Configure oauth2:
     ApiClient.accessToken = ""
+Configure bearerAuth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a id="listWebhooks"></a>
 # **listWebhooks**
 > kotlin.collections.List&lt;WebhookConfigResponse&gt; listWebhooks(rnc)
 
-List all webhook configurations
+List webhook configurations
+
+Returns all registered webhooks for the given RNC.
 
 ### Example
 ```kotlin
@@ -117,7 +127,7 @@ List all webhook configurations
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = rnc_example // kotlin.String | 
+val rnc : kotlin.String = 130000001 // kotlin.String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
 try {
     val result : kotlin.collections.List<WebhookConfigResponse> = apiInstance.listWebhooks(rnc)
     println(result)
@@ -133,7 +143,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **kotlin.String**|  | |
+| **rnc** | **kotlin.String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
 
 ### Return type
 
@@ -143,6 +153,8 @@ try {
 
 
 Configure oauth2:
+    ApiClient.accessToken = ""
+Configure bearerAuth:
     ApiClient.accessToken = ""
 
 ### HTTP request headers

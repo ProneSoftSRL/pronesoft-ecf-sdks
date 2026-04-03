@@ -1,6 +1,7 @@
 
 # EcfSubmissionResponse
 
+Response returned after successfully submitting an e-CF document.
 
 ## Properties
 
@@ -21,8 +22,8 @@ import type { EcfSubmissionResponse } from '@pronesoft/ecf-sdk'
 const example = {
   "success": null,
   "documentId": null,
-  "encf": null,
-  "trackId": null,
+  "encf": E310000000001,
+  "trackId": TRK-20240101-0001,
   "message": null,
 } satisfies EcfSubmissionResponse
 

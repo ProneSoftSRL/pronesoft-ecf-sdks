@@ -1,15 +1,16 @@
 # EcfSubmissionResponse
 
+Response returned after successfully submitting an e-CF document.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**success** | **bool** |  | 
-**document_id** | **UUID** |  | 
-**encf** | **str** |  | [optional] 
-**track_id** | **str** |  | [optional] 
-**message** | **str** |  | [optional] 
+**success** | **bool** | Whether the document was accepted by the platform. | 
+**document_id** | **UUID** | Pronesoft internal document identifier. | 
+**encf** | **str** | The e-NCF number assigned to the document. | [optional] 
+**track_id** | **str** | DGII tracking ID for status polling. | [optional] 
+**message** | **str** | Human-readable status message. | [optional] 
 
 ## Example
 

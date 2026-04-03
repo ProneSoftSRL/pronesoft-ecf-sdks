@@ -5,7 +5,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
 | [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence |
-| [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available number |
+| [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences |
 
 
@@ -14,6 +14,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 > create_tax_sequence(x_tenant_id, create_tax_sequence_request)
 
 Create new tax sequence
+
+Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
 
 ### Examples
 
@@ -24,11 +26,14 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
-create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceType::N31, from: 37, to: 37}) # CreateTaxSequenceRequest | 
+x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceType::N31, from: 1, to: 500}) # CreateTaxSequenceRequest | 
 
 begin
   # Create new tax sequence
@@ -60,7 +65,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** |  |  |
+| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
 | **create_tax_sequence_request** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  |  |
 
 ### Return type
@@ -69,19 +74,21 @@ nil (empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: Not defined
+- **Accept**: application/json
 
 
 ## get_next_number
 
 > <GetNextNumber200Response> get_next_number(x_tenant_id, type, environment)
 
-Get next available number
+Get next available fiscal number
+
+Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
 
 ### Examples
 
@@ -92,15 +99,18 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
-type = PronesoftEcf::InvoiceType::N31 # InvoiceType | 
-environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
+x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+type = PronesoftEcf::InvoiceType::N31 # InvoiceType | Invoice type code (e.g. \"31\" for Tax Credit Invoice).
+environment = PronesoftEcf::Environment::TESTE_CF # Environment | Target environment for the sequence.
 
 begin
-  # Get next available number
+  # Get next available fiscal number
   result = api_instance.get_next_number(x_tenant_id, type, environment)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -116,7 +126,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Get next available number
+  # Get next available fiscal number
   data, status_code, headers = api_instance.get_next_number_with_http_info(x_tenant_id, type, environment)
   p status_code # => 2xx
   p headers # => { ... }
@@ -130,9 +140,9 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** |  |  |
-| **type** | [**InvoiceType**](.md) |  |  |
-| **environment** | [**Environment**](.md) |  |  |
+| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
+| **type** | [**InvoiceType**](.md) | Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). |  |
+| **environment** | [**Environment**](.md) | Target environment for the sequence. |  |
 
 ### Return type
 
@@ -140,7 +150,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -154,6 +164,8 @@ end
 
 List tax sequences
 
+Returns all fiscal number sequences registered for the tenant.
+
 ### Examples
 
 ```ruby
@@ -163,12 +175,15 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
 opts = {
-  type: PronesoftEcf::InvoiceType::N31 # InvoiceType | 
+  type: PronesoftEcf::InvoiceType::N31 # InvoiceType | Filter by invoice type (e.g. \"31\" for Tax Credit).
 }
 
 begin
@@ -202,8 +217,8 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** |  |  |
-| **type** | [**InvoiceType**](.md) |  | [optional] |
+| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
+| **type** | [**InvoiceType**](.md) | Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). | [optional] |
 
 ### Return type
 
@@ -211,7 +226,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

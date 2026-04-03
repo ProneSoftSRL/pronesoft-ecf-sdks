@@ -10,9 +10,15 @@ import Foundation
 import AnyCodable
 #endif
 
-/** CT: Current, AH: Savings, OT: Others */
+@available(*, deprecated, renamed: "PronesoftEcfAPI.AccountType")
+public typealias AccountType = PronesoftEcfAPI.AccountType
+
+extension PronesoftEcfAPI {
+
+/** Bank account type: - &#x60;CT&#x60;: Current account (Cuenta Corriente) - &#x60;AH&#x60;: Savings account (Cuenta de Ahorros) - &#x60;OT&#x60;: Other  */
 public enum AccountType: String, Codable, CaseIterable {
     case ct = "CT"
     case ah = "AH"
     case ot = "OT"
+}
 }

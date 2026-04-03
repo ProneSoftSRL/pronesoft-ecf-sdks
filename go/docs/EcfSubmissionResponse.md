@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Success** | **bool** |  | 
-**DocumentId** | **string** |  | 
-**Encf** | Pointer to **string** |  | [optional] 
-**TrackId** | Pointer to **string** |  | [optional] 
-**Message** | Pointer to **string** |  | [optional] 
+**Success** | **bool** | Whether the document was accepted by the platform. | 
+**DocumentId** | **string** | Pronesoft internal document identifier. | 
+**Encf** | Pointer to **string** | The e-NCF number assigned to the document. | [optional] 
+**TrackId** | Pointer to **string** | DGII tracking ID for status polling. | [optional] 
+**Message** | Pointer to **string** | Human-readable status message. | [optional] 
 
 ## Methods
 

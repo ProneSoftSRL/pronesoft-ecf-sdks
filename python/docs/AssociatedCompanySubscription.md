@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **str** |  | [optional] 
+**status** | **str** | Subscription status (e.g. \&quot;active\&quot;, \&quot;expired\&quot;). | [optional] 
 **expiration_date** | **datetime** |  | [optional] 
 **plan** | [**AssociatedCompanySubscriptionPlan**](AssociatedCompanySubscriptionPlan.md) |  | [optional] 
 

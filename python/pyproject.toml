@@ -1,13 +1,13 @@
 [project]
 name = "pronesoft_ecf"
 version = "0.0.1"
-description = "eCF-Pronesoft Master Integration API"
+description = "eCF-Pronesoft Integration API"
 authors = [
   {name = "Pronesoft SRL Support",email = "contacto@pronesoft.com"},
 ]
 license = { text = "Proprietary" }
 readme = "README.md"
-keywords = ["OpenAPI", "OpenAPI-Generator", "eCF-Pronesoft Master Integration API"]
+keywords = ["OpenAPI", "OpenAPI-Generator", "eCF-Pronesoft Integration API"]
 requires-python = ">=3.9"
 
 dependencies = [
@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
+Repository = "https://github.com/ProneSoftSRL/pronesoft-ecf-sdks"
 
 [tool.poetry]
 requires-poetry = ">=2.0"

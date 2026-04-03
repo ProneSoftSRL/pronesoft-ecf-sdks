@@ -8,7 +8,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 | ------------- | ------------- | ------------- |
 | [**createWebhook()**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook |
 | [**deleteWebhook()**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
-| [**listWebhooks()**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
+| [**listWebhooks()**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
 
 ## `createWebhook()`
@@ -18,6 +18,8 @@ createWebhook($rnc, $create_webhook_config): \PronesoftEcf\Model\WebhookConfigRe
 ```
 
 Register new webhook
+
+Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end.
 
 ### Example
 
@@ -29,6 +31,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Configure Bearer (JWT) authorization: bearerAuth
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -36,8 +41,8 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 'rnc_example'; // string
-$create_webhook_config = new \PronesoftEcf\Model\CreateWebhookConfig(); // \PronesoftEcf\Model\CreateWebhookConfig
+$rnc = 130000001; // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).
+$create_webhook_config = {"url":"https://myapp.com/webhooks/ecf","eventTypes":["document.status_changed","sequence.depleted"],"description":"Main notification endpoint","secret":"my-super-secret-value-here"}; // \PronesoftEcf\Model\CreateWebhookConfig
 
 try {
     $result = $apiInstance->createWebhook($rnc, $create_webhook_config);
@@ -51,7 +56,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**|  | |
+| **rnc** | **string**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). | |
 | **create_webhook_config** | [**\PronesoftEcf\Model\CreateWebhookConfig**](../Model/CreateWebhookConfig.md)|  | |
 
 ### Return type
@@ -60,7 +65,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2)
+[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -79,6 +84,8 @@ deleteWebhook($rnc, $webhook_id)
 
 Delete webhook configuration
 
+Removes a registered webhook by its ID.
+
 ### Example
 
 ```php
@@ -89,6 +96,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Configure Bearer (JWT) authorization: bearerAuth
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -96,8 +106,8 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 'rnc_example'; // string
-$webhook_id = 'webhook_id_example'; // string
+$rnc = 130000001; // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).
+$webhook_id = 'webhook_id_example'; // string | The unique ID of the webhook to delete.
 
 try {
     $apiInstance->deleteWebhook($rnc, $webhook_id);
@@ -110,8 +120,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**|  | |
-| **webhook_id** | **string**|  | |
+| **rnc** | **string**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). | |
+| **webhook_id** | **string**| The unique ID of the webhook to delete. | |
 
 ### Return type
 
@@ -119,12 +129,12 @@ void (empty response body)
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2)
+[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -136,7 +146,9 @@ void (empty response body)
 listWebhooks($rnc): \PronesoftEcf\Model\WebhookConfigResponse[]
 ```
 
-List all webhook configurations
+List webhook configurations
+
+Returns all registered webhooks for the given RNC.
 
 ### Example
 
@@ -148,6 +160,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
+// Configure Bearer (JWT) authorization: bearerAuth
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
 
 $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -155,7 +170,7 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 'rnc_example'; // string
+$rnc = 130000001; // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).
 
 try {
     $result = $apiInstance->listWebhooks($rnc);
@@ -169,7 +184,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**|  | |
+| **rnc** | **string**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). | |
 
 ### Return type
 
@@ -177,7 +192,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2)
+[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
 
 ### HTTP request headers
 

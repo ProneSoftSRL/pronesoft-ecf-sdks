@@ -10,8 +10,15 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.Environment")
+public typealias Environment = PronesoftEcfAPI.Environment
+
+extension PronesoftEcfAPI {
+
+/** Target environment for e-CF submission. - &#x60;TesteCF&#x60;: Functional tests, no real DGII interaction. - &#x60;CerteCF&#x60;: DGII certification environment. - &#x60;eCF&#x60;: Production — issues real legal documents.  */
 public enum Environment: String, Codable, CaseIterable {
     case testeCF = "TesteCF"
     case certeCF = "CerteCF"
     case ecf = "eCF"
+}
 }

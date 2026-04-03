@@ -25,39 +25,43 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.WebhookEventType
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * A registered webhook configuration.
  *
- * @param id 
- * @param url 
- * @param eventTypes 
- * @param isActive 
+ * @param id Unique webhook identifier.
+ * @param url The URL that receives webhook notifications.
+ * @param eventTypes Events this webhook is subscribed to.
+ * @param isActive Whether this webhook is currently active.
  * @param createdAt 
- * @param lastTriggeredAt 
+ * @param lastTriggeredAt When this webhook was last triggered. Null if never triggered.
  */
 
 
 data class WebhookConfigResponse (
 
-    @Json(name = "id")
+    /* Unique webhook identifier. */
+    @SerializedName("id")
     val id: kotlin.String? = null,
 
-    @Json(name = "url")
+    /* The URL that receives webhook notifications. */
+    @SerializedName("url")
     val url: java.net.URI? = null,
 
-    @Json(name = "eventTypes")
+    /* Events this webhook is subscribed to. */
+    @SerializedName("eventTypes")
     val eventTypes: kotlin.collections.List<WebhookEventType>? = null,
 
-    @Json(name = "isActive")
+    /* Whether this webhook is currently active. */
+    @SerializedName("isActive")
     val isActive: kotlin.Boolean? = null,
 
-    @Json(name = "createdAt")
+    @SerializedName("createdAt")
     val createdAt: java.time.OffsetDateTime? = null,
 
-    @Json(name = "lastTriggeredAt")
+    /* When this webhook was last triggered. Null if never triggered. */
+    @SerializedName("lastTriggeredAt")
     val lastTriggeredAt: java.time.OffsetDateTime? = null
 
 ) {

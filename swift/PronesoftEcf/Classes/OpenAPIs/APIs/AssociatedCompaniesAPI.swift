@@ -10,16 +10,19 @@ import Foundation
 import AnyCodable
 #endif
 
+extension PronesoftEcfAPI {
+
+
 open class AssociatedCompaniesAPI {
 
     /**
      Create new associated company
      
-     - parameter xTenantId: (header)  
-     - parameter email: (form)  
-     - parameter password: (form)  
-     - parameter name: (form)  
-     - parameter rnc: (form)  
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter email: (form) Owner&#39;s email address (used for login). 
+     - parameter password: (form) Initial password for the new account (min 8 characters). 
+     - parameter name: (form) Legal business name. 
+     - parameter rnc: (form) Company RNC (9 digits) or personal cedula (11 digits). 
      - parameter phone: (form)  
      - parameter address: (form)  
      - parameter city: (form)  
@@ -28,10 +31,10 @@ open class AssociatedCompaniesAPI {
      - parameter lastName: (form)  (optional)
      - parameter jobTitle: (form)  (optional)
      - parameter website: (form)  (optional)
-     - parameter category: (form)  (optional)
-     - parameter monthlySalesRange: (form)  (optional)
+     - parameter category: (form) Business category or industry. (optional)
+     - parameter monthlySalesRange: (form) Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
      - parameter printerType: (form)  (optional)
-     - parameter logo: (form)  (optional)
+     - parameter logo: (form) Company logo image file (multipart upload). (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -50,14 +53,18 @@ open class AssociatedCompaniesAPI {
     /**
      Create new associated company
      - POST /associated-companies
+     - Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter xTenantId: (header)  
-     - parameter email: (form)  
-     - parameter password: (form)  
-     - parameter name: (form)  
-     - parameter rnc: (form)  
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter email: (form) Owner&#39;s email address (used for login). 
+     - parameter password: (form) Initial password for the new account (min 8 characters). 
+     - parameter name: (form) Legal business name. 
+     - parameter rnc: (form) Company RNC (9 digits) or personal cedula (11 digits). 
      - parameter phone: (form)  
      - parameter address: (form)  
      - parameter city: (form)  
@@ -66,10 +73,10 @@ open class AssociatedCompaniesAPI {
      - parameter lastName: (form)  (optional)
      - parameter jobTitle: (form)  (optional)
      - parameter website: (form)  (optional)
-     - parameter category: (form)  (optional)
-     - parameter monthlySalesRange: (form)  (optional)
+     - parameter category: (form) Business category or industry. (optional)
+     - parameter monthlySalesRange: (form) Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
      - parameter printerType: (form)  (optional)
-     - parameter logo: (form)  (optional)
+     - parameter logo: (form) Company logo image file (multipart upload). (optional)
      - returns: RequestBuilder<CreateAssociatedCompany201Response> 
      */
     open class func createAssociatedCompanyWithRequestBuilder(xTenantId: UUID, email: String, password: String, name: String, rnc: String, phone: String, address: String, city: String, country: String, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, printerType: PrintFormat? = nil, logo: URL? = nil) -> RequestBuilder<CreateAssociatedCompany201Response> {
@@ -112,9 +119,9 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     List associated branches/companies
+     List associated companies / branches
      
-     - parameter xTenantId: (header)  
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -131,12 +138,16 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     List associated branches/companies
+     List associated companies / branches
      - GET /associated-companies
+     - Returns all companies and branches linked to the current tenant.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter xTenantId: (header)  
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
      - returns: RequestBuilder<[AssociatedCompany]> 
      */
     open class func listAssociatedCompaniesWithRequestBuilder(xTenantId: UUID) -> RequestBuilder<[AssociatedCompany]> {
@@ -156,4 +167,5 @@ open class AssociatedCompaniesAPI {
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
+}
 }

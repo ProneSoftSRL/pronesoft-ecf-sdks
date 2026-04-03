@@ -10,11 +10,20 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.AlternativeCurrency")
+public typealias AlternativeCurrency = PronesoftEcfAPI.AlternativeCurrency
+
+extension PronesoftEcfAPI {
+
+/** Alternative currency information for documents issued in a currency other than Dominican Peso (DOP).  */
 public struct AlternativeCurrency: Codable, JSONEncodable, Hashable {
 
     public static let codeRule = StringRule(minLength: nil, maxLength: 3, pattern: nil)
+    /** ISO 4217 currency code (e.g. \"USD\", \"EUR\"). */
     public var code: String
+    /** Exchange rate to Dominican Peso at time of issuance. */
     public var exchangeRate: Double
+    /** Total document amount in the alternative currency. */
     public var totalAmount: Double?
 
     public init(code: String, exchangeRate: Double, totalAmount: Double? = nil) {
@@ -39,3 +48,4 @@ public struct AlternativeCurrency: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

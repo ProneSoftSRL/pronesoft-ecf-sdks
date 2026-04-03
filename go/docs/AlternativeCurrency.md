@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **string** |  | 
-**ExchangeRate** | **float32** |  | 
-**TotalAmount** | Pointer to **float32** |  | [optional] 
+**Code** | **string** | ISO 4217 currency code (e.g. \&quot;USD\&quot;, \&quot;EUR\&quot;). | 
+**ExchangeRate** | **float32** | Exchange rate to Dominican Peso at time of issuance. | 
+**TotalAmount** | Pointer to **float32** | Total document amount in the alternative currency. | [optional] 
 
 ## Methods
 

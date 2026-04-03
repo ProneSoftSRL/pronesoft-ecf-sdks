@@ -10,13 +10,25 @@ import Foundation
 import AnyCodable
 #endif
 
+@available(*, deprecated, renamed: "PronesoftEcfAPI.Transport")
+public typealias Transport = PronesoftEcfAPI.Transport
+
+extension PronesoftEcfAPI {
+
+/** Transport/delivery information (required for certain invoice types). */
 public struct Transport: Codable, JSONEncodable, Hashable {
 
+    /** Driver's full name. */
     public var driver: String?
+    /** Vehicle identification number. */
     public var vehicleId: String?
+    /** Vehicle license plate. */
     public var licensePlate: String?
+    /** Delivery route description. */
     public var route: String?
+    /** Departure date and time. */
     public var departureDate: Date?
+    /** Estimated arrival date and time. */
     public var arrivalDate: Date?
 
     public init(driver: String? = nil, vehicleId: String? = nil, licensePlate: String? = nil, route: String? = nil, departureDate: Date? = nil, arrivalDate: Date? = nil) {
@@ -50,3 +62,4 @@ public struct Transport: Codable, JSONEncodable, Hashable {
     }
 }
 
+}

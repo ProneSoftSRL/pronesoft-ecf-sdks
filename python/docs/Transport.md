@@ -1,16 +1,17 @@
 # Transport
 
+Transport/delivery information (required for certain invoice types).
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**driver** | **str** |  | [optional] 
-**vehicle_id** | **str** |  | [optional] 
-**license_plate** | **str** |  | [optional] 
-**route** | **str** |  | [optional] 
-**departure_date** | **datetime** |  | [optional] 
-**arrival_date** | **datetime** |  | [optional] 
+**driver** | **str** | Driver&#39;s full name. | [optional] 
+**vehicle_id** | **str** | Vehicle identification number. | [optional] 
+**license_plate** | **str** | Vehicle license plate. | [optional] 
+**route** | **str** | Delivery route description. | [optional] 
+**departure_date** | **datetime** | Departure date and time. | [optional] 
+**arrival_date** | **datetime** | Estimated arrival date and time. | [optional] 
 
 ## Example
 

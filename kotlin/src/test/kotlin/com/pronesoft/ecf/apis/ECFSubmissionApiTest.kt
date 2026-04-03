@@ -31,28 +31,19 @@ import com.pronesoft.ecf.models.EcfSubmissionResponse
 import com.pronesoft.ecf.models.ElectronicDocument
 import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.ErrorResponse
-import com.pronesoft.ecf.models.TrackStatusResponse
 
 class ECFSubmissionApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of ECFSubmissionApi
         //val apiInstance = ECFSubmissionApi()
 
-        // to test getEcfStatus
-        should("test getEcfStatus") {
-            // uncomment below to test getEcfStatus
-            //val environment : Environment =  // Environment | 
-            //val trackId : kotlin.String = trackId_example // kotlin.String | 
-            //val result : TrackStatusResponse = apiInstance.getEcfStatus(environment, trackId)
-            //result shouldBe ("TODO")
-        }
-
         // to test submitEcf
         should("test submitEcf") {
             // uncomment below to test submitEcf
+            //val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
             //val environment : Environment =  // Environment | 
             //val electronicDocument : ElectronicDocument =  // ElectronicDocument | 
-            //val result : EcfSubmissionResponse = apiInstance.submitEcf(environment, electronicDocument)
+            //val result : EcfSubmissionResponse = apiInstance.submitEcf(xTenantId, environment, electronicDocument)
             //result shouldBe ("TODO")
         }
 

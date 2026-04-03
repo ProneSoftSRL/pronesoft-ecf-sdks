@@ -10,12 +10,15 @@ import Foundation
 import AnyCodable
 #endif
 
+extension PronesoftEcfAPI {
+
+
 open class WebhookConfigurationAPI {
 
     /**
      Register new webhook
      
-     - parameter rnc: (path)  
+     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
      - parameter createWebhookConfig: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -35,10 +38,14 @@ open class WebhookConfigurationAPI {
     /**
      Register new webhook
      - POST /{rnc}/webhooks
+     - Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter rnc: (path)  
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
      - parameter createWebhookConfig: (body)  
      - returns: RequestBuilder<WebhookConfigResponse> 
      */
@@ -66,8 +73,8 @@ open class WebhookConfigurationAPI {
     /**
      Delete webhook configuration
      
-     - parameter rnc: (path)  
-     - parameter webhookId: (path)  
+     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
+     - parameter webhookId: (path) The unique ID of the webhook to delete. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -86,11 +93,15 @@ open class WebhookConfigurationAPI {
     /**
      Delete webhook configuration
      - DELETE /{rnc}/webhooks/{webhookId}
+     - Removes a registered webhook by its ID.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter rnc: (path)  
-     - parameter webhookId: (path)  
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
+     - parameter webhookId: (path) The unique ID of the webhook to delete. 
      - returns: RequestBuilder<Void> 
      */
     open class func deleteWebhookWithRequestBuilder(rnc: String, webhookId: String) -> RequestBuilder<Void> {
@@ -118,9 +129,9 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     List all webhook configurations
+     List webhook configurations
      
-     - parameter rnc: (path)  
+     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -137,12 +148,16 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     List all webhook configurations
+     List webhook configurations
      - GET /{rnc}/webhooks
+     - Returns all registered webhooks for the given RNC.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter rnc: (path)  
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
      - returns: RequestBuilder<[WebhookConfigResponse]> 
      */
     open class func listWebhooksWithRequestBuilder(rnc: String) -> RequestBuilder<[WebhookConfigResponse]> {
@@ -165,4 +180,5 @@ open class WebhookConfigurationAPI {
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
+}
 }

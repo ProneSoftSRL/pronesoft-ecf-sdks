@@ -60,7 +60,7 @@ class UploadCertificate201Response implements ModelInterface, ArrayAccess, \Json
     protected static $openAPITypes = [
         'message' => 'string',
         'representative' => 'string',
-        'expiration_date' => '\DateTime'
+        'expirationDate' => '\DateTime'
     ];
 
     /**
@@ -73,7 +73,7 @@ class UploadCertificate201Response implements ModelInterface, ArrayAccess, \Json
     protected static $openAPIFormats = [
         'message' => null,
         'representative' => null,
-        'expiration_date' => 'date-time'
+        'expirationDate' => 'date-time'
     ];
 
     /**
@@ -84,7 +84,7 @@ class UploadCertificate201Response implements ModelInterface, ArrayAccess, \Json
     protected static array $openAPINullables = [
         'message' => false,
         'representative' => false,
-        'expiration_date' => false
+        'expirationDate' => false
     ];
 
     /**
@@ -175,7 +175,7 @@ class UploadCertificate201Response implements ModelInterface, ArrayAccess, \Json
     protected static $attributeMap = [
         'message' => 'message',
         'representative' => 'representative',
-        'expiration_date' => 'expirationDate'
+        'expirationDate' => 'expirationDate'
     ];
 
     /**
@@ -186,7 +186,7 @@ class UploadCertificate201Response implements ModelInterface, ArrayAccess, \Json
     protected static $setters = [
         'message' => 'setMessage',
         'representative' => 'setRepresentative',
-        'expiration_date' => 'setExpirationDate'
+        'expirationDate' => 'setExpirationDate'
     ];
 
     /**
@@ -197,7 +197,7 @@ class UploadCertificate201Response implements ModelInterface, ArrayAccess, \Json
     protected static $getters = [
         'message' => 'getMessage',
         'representative' => 'getRepresentative',
-        'expiration_date' => 'getExpirationDate'
+        'expirationDate' => 'getExpirationDate'
     ];
 
     /**
@@ -259,7 +259,7 @@ class UploadCertificate201Response implements ModelInterface, ArrayAccess, \Json
     {
         $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('representative', $data ?? [], null);
-        $this->setIfExists('expiration_date', $data ?? [], null);
+        $this->setIfExists('expirationDate', $data ?? [], null);
     }
 
     /**
@@ -359,28 +359,28 @@ class UploadCertificate201Response implements ModelInterface, ArrayAccess, \Json
     }
 
     /**
-     * Gets expiration_date
+     * Gets expirationDate
      *
      * @return \DateTime|null
      */
     public function getExpirationDate()
     {
-        return $this->container['expiration_date'];
+        return $this->container['expirationDate'];
     }
 
     /**
-     * Sets expiration_date
+     * Sets expirationDate
      *
-     * @param \DateTime|null $expiration_date expiration_date
+     * @param \DateTime|null $expirationDate expirationDate
      *
      * @return self
      */
-    public function setExpirationDate($expiration_date)
+    public function setExpirationDate($expirationDate)
     {
-        if (is_null($expiration_date)) {
-            throw new \InvalidArgumentException('non-nullable expiration_date cannot be null');
+        if (is_null($expirationDate)) {
+            throw new \InvalidArgumentException('non-nullable expirationDate cannot be null');
         }
-        $this->container['expiration_date'] = $expiration_date;
+        $this->container['expirationDate'] = $expirationDate;
 
         return $this;
     }
