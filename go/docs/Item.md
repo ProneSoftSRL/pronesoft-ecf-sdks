@@ -4,17 +4,33 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**LineNumber** | Pointer to **int32** | Sequential line number (1-based). Auto-assigned if omitted. | [optional] 
-**Name** | **string** | Product or service name. | 
-**Type** | **string** | Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio)  | 
+**LineNumber** | Pointer to **int32** |  | [optional] 
+**Codes** | Pointer to [**[]ItemCodesInner**](ItemCodesInner.md) |  | [optional] 
+**Name** | **string** |  | 
+**Description** | Pointer to **string** |  | [optional] 
+**Type** | **string** | 1&#x3D;Product, 2&#x3D;Service | 
 **BillingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
-**Quantity** | **string** | Quantity (as string to support decimals with precision). | 
-**UnitPrice** | **string** | Unit price (as string to support decimals with precision). | 
-**Amount** | **float32** | Total line amount (quantity × unitPrice, before discounts). | 
-**DiscountAmount** | Pointer to **float32** | Discount amount applied to this line item. | [optional] 
-**AdditionalTaxes** | Pointer to [**[]ItemAdditionalTax**](ItemAdditionalTax.md) | Additional taxes (e.g. ISC, IECS) for this line item. | [optional] 
-**Subquantities** | Pointer to [**[]Subquantity**](Subquantity.md) | Sub-quantities (for items with multiple units of measure). | [optional] 
-**AlcoholDegree** | Pointer to **float32** | Alcohol degree (required for alcoholic beverages subject to ISC). | [optional] 
+**WithholdingAgentIndicator** | Pointer to **int32** |  | [optional] 
+**WithheldITBISAmount** | Pointer to **float32** |  | [optional] 
+**WithheldISRAmount** | Pointer to **float32** |  | [optional] 
+**Quantity** | **string** |  | 
+**UnitOfMeasure** | Pointer to **int32** |  | [optional] 
+**ReferenceQuantity** | Pointer to **float32** |  | [optional] 
+**ReferenceUnit** | Pointer to **int32** |  | [optional] 
+**ReferenceUnitPrice** | Pointer to **float32** |  | [optional] 
+**Subquantities** | Pointer to [**[]Subquantity**](Subquantity.md) |  | [optional] 
+**AlcoholDegree** | Pointer to **float32** |  | [optional] 
+**ManufacturingDate** | Pointer to **time.Time** |  | [optional] 
+**ExpirationDate** | Pointer to **time.Time** |  | [optional] 
+**MiningInfo** | Pointer to [**ItemMiningInfo**](ItemMiningInfo.md) |  | [optional] 
+**UnitPrice** | **string** |  | 
+**DiscountAmount** | Pointer to **float32** |  | [optional] 
+**Discount** | Pointer to [**[]ItemDiscountInner**](ItemDiscountInner.md) |  | [optional] 
+**SurchargeAmount** | Pointer to **float32** |  | [optional] 
+**Surcharge** | Pointer to [**[]ItemDiscountInner**](ItemDiscountInner.md) |  | [optional] 
+**AdditionalTaxes** | Pointer to [**[]ItemAdditionalTax**](ItemAdditionalTax.md) |  | [optional] 
+**AlternativeCurrency** | Pointer to [**ItemAlternativeCurrency**](ItemAlternativeCurrency.md) |  | [optional] 
+**Amount** | **float32** |  | 
 
 ## Methods
 
@@ -60,6 +76,31 @@ SetLineNumber sets LineNumber field to given value.
 
 HasLineNumber returns a boolean if a field has been set.
 
+### GetCodes
+
+`func (o *Item) GetCodes() []ItemCodesInner`
+
+GetCodes returns the Codes field if non-nil, zero value otherwise.
+
+### GetCodesOk
+
+`func (o *Item) GetCodesOk() (*[]ItemCodesInner, bool)`
+
+GetCodesOk returns a tuple with the Codes field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCodes
+
+`func (o *Item) SetCodes(v []ItemCodesInner)`
+
+SetCodes sets Codes field to given value.
+
+### HasCodes
+
+`func (o *Item) HasCodes() bool`
+
+HasCodes returns a boolean if a field has been set.
+
 ### GetName
 
 `func (o *Item) GetName() string`
@@ -79,6 +120,31 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+
+### GetDescription
+
+`func (o *Item) GetDescription() string`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *Item) GetDescriptionOk() (*string, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *Item) SetDescription(v string)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *Item) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
 
 ### GetType
 
@@ -120,6 +186,81 @@ and a boolean to check if the value has been set.
 SetBillingIndicator sets BillingIndicator field to given value.
 
 
+### GetWithholdingAgentIndicator
+
+`func (o *Item) GetWithholdingAgentIndicator() int32`
+
+GetWithholdingAgentIndicator returns the WithholdingAgentIndicator field if non-nil, zero value otherwise.
+
+### GetWithholdingAgentIndicatorOk
+
+`func (o *Item) GetWithholdingAgentIndicatorOk() (*int32, bool)`
+
+GetWithholdingAgentIndicatorOk returns a tuple with the WithholdingAgentIndicator field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWithholdingAgentIndicator
+
+`func (o *Item) SetWithholdingAgentIndicator(v int32)`
+
+SetWithholdingAgentIndicator sets WithholdingAgentIndicator field to given value.
+
+### HasWithholdingAgentIndicator
+
+`func (o *Item) HasWithholdingAgentIndicator() bool`
+
+HasWithholdingAgentIndicator returns a boolean if a field has been set.
+
+### GetWithheldITBISAmount
+
+`func (o *Item) GetWithheldITBISAmount() float32`
+
+GetWithheldITBISAmount returns the WithheldITBISAmount field if non-nil, zero value otherwise.
+
+### GetWithheldITBISAmountOk
+
+`func (o *Item) GetWithheldITBISAmountOk() (*float32, bool)`
+
+GetWithheldITBISAmountOk returns a tuple with the WithheldITBISAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWithheldITBISAmount
+
+`func (o *Item) SetWithheldITBISAmount(v float32)`
+
+SetWithheldITBISAmount sets WithheldITBISAmount field to given value.
+
+### HasWithheldITBISAmount
+
+`func (o *Item) HasWithheldITBISAmount() bool`
+
+HasWithheldITBISAmount returns a boolean if a field has been set.
+
+### GetWithheldISRAmount
+
+`func (o *Item) GetWithheldISRAmount() float32`
+
+GetWithheldISRAmount returns the WithheldISRAmount field if non-nil, zero value otherwise.
+
+### GetWithheldISRAmountOk
+
+`func (o *Item) GetWithheldISRAmountOk() (*float32, bool)`
+
+GetWithheldISRAmountOk returns a tuple with the WithheldISRAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWithheldISRAmount
+
+`func (o *Item) SetWithheldISRAmount(v float32)`
+
+SetWithheldISRAmount sets WithheldISRAmount field to given value.
+
+### HasWithheldISRAmount
+
+`func (o *Item) HasWithheldISRAmount() bool`
+
+HasWithheldISRAmount returns a boolean if a field has been set.
+
 ### GetQuantity
 
 `func (o *Item) GetQuantity() string`
@@ -140,95 +281,105 @@ and a boolean to check if the value has been set.
 SetQuantity sets Quantity field to given value.
 
 
-### GetUnitPrice
+### GetUnitOfMeasure
 
-`func (o *Item) GetUnitPrice() string`
+`func (o *Item) GetUnitOfMeasure() int32`
 
-GetUnitPrice returns the UnitPrice field if non-nil, zero value otherwise.
+GetUnitOfMeasure returns the UnitOfMeasure field if non-nil, zero value otherwise.
 
-### GetUnitPriceOk
+### GetUnitOfMeasureOk
 
-`func (o *Item) GetUnitPriceOk() (*string, bool)`
+`func (o *Item) GetUnitOfMeasureOk() (*int32, bool)`
 
-GetUnitPriceOk returns a tuple with the UnitPrice field if it's non-nil, zero value otherwise
+GetUnitOfMeasureOk returns a tuple with the UnitOfMeasure field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUnitPrice
+### SetUnitOfMeasure
 
-`func (o *Item) SetUnitPrice(v string)`
+`func (o *Item) SetUnitOfMeasure(v int32)`
 
-SetUnitPrice sets UnitPrice field to given value.
+SetUnitOfMeasure sets UnitOfMeasure field to given value.
 
+### HasUnitOfMeasure
 
-### GetAmount
+`func (o *Item) HasUnitOfMeasure() bool`
 
-`func (o *Item) GetAmount() float32`
+HasUnitOfMeasure returns a boolean if a field has been set.
 
-GetAmount returns the Amount field if non-nil, zero value otherwise.
+### GetReferenceQuantity
 
-### GetAmountOk
+`func (o *Item) GetReferenceQuantity() float32`
 
-`func (o *Item) GetAmountOk() (*float32, bool)`
+GetReferenceQuantity returns the ReferenceQuantity field if non-nil, zero value otherwise.
 
-GetAmountOk returns a tuple with the Amount field if it's non-nil, zero value otherwise
+### GetReferenceQuantityOk
+
+`func (o *Item) GetReferenceQuantityOk() (*float32, bool)`
+
+GetReferenceQuantityOk returns a tuple with the ReferenceQuantity field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAmount
+### SetReferenceQuantity
 
-`func (o *Item) SetAmount(v float32)`
+`func (o *Item) SetReferenceQuantity(v float32)`
 
-SetAmount sets Amount field to given value.
+SetReferenceQuantity sets ReferenceQuantity field to given value.
 
+### HasReferenceQuantity
 
-### GetDiscountAmount
+`func (o *Item) HasReferenceQuantity() bool`
 
-`func (o *Item) GetDiscountAmount() float32`
+HasReferenceQuantity returns a boolean if a field has been set.
 
-GetDiscountAmount returns the DiscountAmount field if non-nil, zero value otherwise.
+### GetReferenceUnit
 
-### GetDiscountAmountOk
+`func (o *Item) GetReferenceUnit() int32`
 
-`func (o *Item) GetDiscountAmountOk() (*float32, bool)`
+GetReferenceUnit returns the ReferenceUnit field if non-nil, zero value otherwise.
 
-GetDiscountAmountOk returns a tuple with the DiscountAmount field if it's non-nil, zero value otherwise
+### GetReferenceUnitOk
+
+`func (o *Item) GetReferenceUnitOk() (*int32, bool)`
+
+GetReferenceUnitOk returns a tuple with the ReferenceUnit field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDiscountAmount
+### SetReferenceUnit
 
-`func (o *Item) SetDiscountAmount(v float32)`
+`func (o *Item) SetReferenceUnit(v int32)`
 
-SetDiscountAmount sets DiscountAmount field to given value.
+SetReferenceUnit sets ReferenceUnit field to given value.
 
-### HasDiscountAmount
+### HasReferenceUnit
 
-`func (o *Item) HasDiscountAmount() bool`
+`func (o *Item) HasReferenceUnit() bool`
 
-HasDiscountAmount returns a boolean if a field has been set.
+HasReferenceUnit returns a boolean if a field has been set.
 
-### GetAdditionalTaxes
+### GetReferenceUnitPrice
 
-`func (o *Item) GetAdditionalTaxes() []ItemAdditionalTax`
+`func (o *Item) GetReferenceUnitPrice() float32`
 
-GetAdditionalTaxes returns the AdditionalTaxes field if non-nil, zero value otherwise.
+GetReferenceUnitPrice returns the ReferenceUnitPrice field if non-nil, zero value otherwise.
 
-### GetAdditionalTaxesOk
+### GetReferenceUnitPriceOk
 
-`func (o *Item) GetAdditionalTaxesOk() (*[]ItemAdditionalTax, bool)`
+`func (o *Item) GetReferenceUnitPriceOk() (*float32, bool)`
 
-GetAdditionalTaxesOk returns a tuple with the AdditionalTaxes field if it's non-nil, zero value otherwise
+GetReferenceUnitPriceOk returns a tuple with the ReferenceUnitPrice field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAdditionalTaxes
+### SetReferenceUnitPrice
 
-`func (o *Item) SetAdditionalTaxes(v []ItemAdditionalTax)`
+`func (o *Item) SetReferenceUnitPrice(v float32)`
 
-SetAdditionalTaxes sets AdditionalTaxes field to given value.
+SetReferenceUnitPrice sets ReferenceUnitPrice field to given value.
 
-### HasAdditionalTaxes
+### HasReferenceUnitPrice
 
-`func (o *Item) HasAdditionalTaxes() bool`
+`func (o *Item) HasReferenceUnitPrice() bool`
 
-HasAdditionalTaxes returns a boolean if a field has been set.
+HasReferenceUnitPrice returns a boolean if a field has been set.
 
 ### GetSubquantities
 
@@ -279,6 +430,271 @@ SetAlcoholDegree sets AlcoholDegree field to given value.
 `func (o *Item) HasAlcoholDegree() bool`
 
 HasAlcoholDegree returns a boolean if a field has been set.
+
+### GetManufacturingDate
+
+`func (o *Item) GetManufacturingDate() time.Time`
+
+GetManufacturingDate returns the ManufacturingDate field if non-nil, zero value otherwise.
+
+### GetManufacturingDateOk
+
+`func (o *Item) GetManufacturingDateOk() (*time.Time, bool)`
+
+GetManufacturingDateOk returns a tuple with the ManufacturingDate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetManufacturingDate
+
+`func (o *Item) SetManufacturingDate(v time.Time)`
+
+SetManufacturingDate sets ManufacturingDate field to given value.
+
+### HasManufacturingDate
+
+`func (o *Item) HasManufacturingDate() bool`
+
+HasManufacturingDate returns a boolean if a field has been set.
+
+### GetExpirationDate
+
+`func (o *Item) GetExpirationDate() time.Time`
+
+GetExpirationDate returns the ExpirationDate field if non-nil, zero value otherwise.
+
+### GetExpirationDateOk
+
+`func (o *Item) GetExpirationDateOk() (*time.Time, bool)`
+
+GetExpirationDateOk returns a tuple with the ExpirationDate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExpirationDate
+
+`func (o *Item) SetExpirationDate(v time.Time)`
+
+SetExpirationDate sets ExpirationDate field to given value.
+
+### HasExpirationDate
+
+`func (o *Item) HasExpirationDate() bool`
+
+HasExpirationDate returns a boolean if a field has been set.
+
+### GetMiningInfo
+
+`func (o *Item) GetMiningInfo() ItemMiningInfo`
+
+GetMiningInfo returns the MiningInfo field if non-nil, zero value otherwise.
+
+### GetMiningInfoOk
+
+`func (o *Item) GetMiningInfoOk() (*ItemMiningInfo, bool)`
+
+GetMiningInfoOk returns a tuple with the MiningInfo field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMiningInfo
+
+`func (o *Item) SetMiningInfo(v ItemMiningInfo)`
+
+SetMiningInfo sets MiningInfo field to given value.
+
+### HasMiningInfo
+
+`func (o *Item) HasMiningInfo() bool`
+
+HasMiningInfo returns a boolean if a field has been set.
+
+### GetUnitPrice
+
+`func (o *Item) GetUnitPrice() string`
+
+GetUnitPrice returns the UnitPrice field if non-nil, zero value otherwise.
+
+### GetUnitPriceOk
+
+`func (o *Item) GetUnitPriceOk() (*string, bool)`
+
+GetUnitPriceOk returns a tuple with the UnitPrice field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnitPrice
+
+`func (o *Item) SetUnitPrice(v string)`
+
+SetUnitPrice sets UnitPrice field to given value.
+
+
+### GetDiscountAmount
+
+`func (o *Item) GetDiscountAmount() float32`
+
+GetDiscountAmount returns the DiscountAmount field if non-nil, zero value otherwise.
+
+### GetDiscountAmountOk
+
+`func (o *Item) GetDiscountAmountOk() (*float32, bool)`
+
+GetDiscountAmountOk returns a tuple with the DiscountAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDiscountAmount
+
+`func (o *Item) SetDiscountAmount(v float32)`
+
+SetDiscountAmount sets DiscountAmount field to given value.
+
+### HasDiscountAmount
+
+`func (o *Item) HasDiscountAmount() bool`
+
+HasDiscountAmount returns a boolean if a field has been set.
+
+### GetDiscount
+
+`func (o *Item) GetDiscount() []ItemDiscountInner`
+
+GetDiscount returns the Discount field if non-nil, zero value otherwise.
+
+### GetDiscountOk
+
+`func (o *Item) GetDiscountOk() (*[]ItemDiscountInner, bool)`
+
+GetDiscountOk returns a tuple with the Discount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDiscount
+
+`func (o *Item) SetDiscount(v []ItemDiscountInner)`
+
+SetDiscount sets Discount field to given value.
+
+### HasDiscount
+
+`func (o *Item) HasDiscount() bool`
+
+HasDiscount returns a boolean if a field has been set.
+
+### GetSurchargeAmount
+
+`func (o *Item) GetSurchargeAmount() float32`
+
+GetSurchargeAmount returns the SurchargeAmount field if non-nil, zero value otherwise.
+
+### GetSurchargeAmountOk
+
+`func (o *Item) GetSurchargeAmountOk() (*float32, bool)`
+
+GetSurchargeAmountOk returns a tuple with the SurchargeAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSurchargeAmount
+
+`func (o *Item) SetSurchargeAmount(v float32)`
+
+SetSurchargeAmount sets SurchargeAmount field to given value.
+
+### HasSurchargeAmount
+
+`func (o *Item) HasSurchargeAmount() bool`
+
+HasSurchargeAmount returns a boolean if a field has been set.
+
+### GetSurcharge
+
+`func (o *Item) GetSurcharge() []ItemDiscountInner`
+
+GetSurcharge returns the Surcharge field if non-nil, zero value otherwise.
+
+### GetSurchargeOk
+
+`func (o *Item) GetSurchargeOk() (*[]ItemDiscountInner, bool)`
+
+GetSurchargeOk returns a tuple with the Surcharge field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSurcharge
+
+`func (o *Item) SetSurcharge(v []ItemDiscountInner)`
+
+SetSurcharge sets Surcharge field to given value.
+
+### HasSurcharge
+
+`func (o *Item) HasSurcharge() bool`
+
+HasSurcharge returns a boolean if a field has been set.
+
+### GetAdditionalTaxes
+
+`func (o *Item) GetAdditionalTaxes() []ItemAdditionalTax`
+
+GetAdditionalTaxes returns the AdditionalTaxes field if non-nil, zero value otherwise.
+
+### GetAdditionalTaxesOk
+
+`func (o *Item) GetAdditionalTaxesOk() (*[]ItemAdditionalTax, bool)`
+
+GetAdditionalTaxesOk returns a tuple with the AdditionalTaxes field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAdditionalTaxes
+
+`func (o *Item) SetAdditionalTaxes(v []ItemAdditionalTax)`
+
+SetAdditionalTaxes sets AdditionalTaxes field to given value.
+
+### HasAdditionalTaxes
+
+`func (o *Item) HasAdditionalTaxes() bool`
+
+HasAdditionalTaxes returns a boolean if a field has been set.
+
+### GetAlternativeCurrency
+
+`func (o *Item) GetAlternativeCurrency() ItemAlternativeCurrency`
+
+GetAlternativeCurrency returns the AlternativeCurrency field if non-nil, zero value otherwise.
+
+### GetAlternativeCurrencyOk
+
+`func (o *Item) GetAlternativeCurrencyOk() (*ItemAlternativeCurrency, bool)`
+
+GetAlternativeCurrencyOk returns a tuple with the AlternativeCurrency field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAlternativeCurrency
+
+`func (o *Item) SetAlternativeCurrency(v ItemAlternativeCurrency)`
+
+SetAlternativeCurrency sets AlternativeCurrency field to given value.
+
+### HasAlternativeCurrency
+
+`func (o *Item) HasAlternativeCurrency() bool`
+
+HasAlternativeCurrency returns a boolean if a field has been set.
+
+### GetAmount
+
+`func (o *Item) GetAmount() float32`
+
+GetAmount returns the Amount field if non-nil, zero value otherwise.
+
+### GetAmountOk
+
+`func (o *Item) GetAmountOk() (*float32, bool)`
+
+GetAmountOk returns a tuple with the Amount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAmount
+
+`func (o *Item) SetAmount(v float32)`
+
+SetAmount sets Amount field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

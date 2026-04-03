@@ -4,32 +4,52 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**version** | **string** | Document schema version. Always \&quot;1.0\&quot;. | [default to '1.0']
+**environment** | [**\PronesoftEcf\Model\Environment**](Environment.md) |  | [optional]
+**version** | **int** | Always 1. | [default to 1]
 **invoice_type** | [**\PronesoftEcf\Model\InvoiceType**](InvoiceType.md) |  |
-**invoice_number** | **string** | e-NCF number (13 alphanumeric characters). Obtain from &#x60;GET /tax-sequences/next&#x60;. |
-**issue_date** | **\DateTime** | Document issue date and time (ISO 8601). |
-**expiration_date** | **\DateTime** | Document expiration date (optional, for credit documents). | [optional]
-**income_type** | **string** | Income type code: - &#x60;01&#x60;: Operations Income - &#x60;02&#x60;: Financial Income - &#x60;03&#x60;: Extraordinary Income - &#x60;04&#x60;: Leasing Income - &#x60;05&#x60;: Income from Sales of Assets - &#x60;06&#x60;: Other Income | [optional]
-**payment_type** | **string** | Payment condition: - &#x60;1&#x60;: Cash (Al Contado) - &#x60;2&#x60;: Credit (Crédito) - &#x60;3&#x60;: Mixed (Mixto) | [optional]
-**payment_deadline** | **\DateTime** | Payment due date (required when paymentType is \&quot;2\&quot; or \&quot;3\&quot;). | [optional]
-**payment_terms** | **string** | Payment terms description (e.g. \&quot;Net 30\&quot;). | [optional]
+**invoice_number** | **string** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |
+**issue_date** | **\DateTime** |  |
+**expiration_date** | **\DateTime** |  | [optional]
+**credit_note_indicator** | **string** | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days | [optional]
+**deferred_sending_indicator** | **string** |  | [optional]
+**taxed_amount_indicator** | **string** |  | [optional]
+**income_type** | **string** | 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other | [optional]
+**payment_type** | **string** | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed | [optional]
+**payment_deadline** | **\DateTime** |  | [optional]
+**payment_terms** | **string** |  | [optional]
+**payment_forms** | [**\PronesoftEcf\Model\PaymentForm[]**](PaymentForm.md) | Payment breakdown. Required. |
 **payment_account_type** | [**\PronesoftEcf\Model\AccountType**](AccountType.md) |  | [optional]
-**payment_account_number** | **string** | Bank account number for payment reference. | [optional]
-**payment_bank** | **string** | Bank name for payment reference. | [optional]
-**credit_note_indicator** | **string** | For Credit Notes (type 34) only: - &#x60;0&#x60;: Affected invoice issued ≤ 30 days ago - &#x60;1&#x60;: Affected invoice issued &gt; 30 days ago | [optional]
-**issuer_rnc** | **string** | RNC of the issuing company (overrides tenant default if provided). | [optional]
-**issuer_business_name** | **string** | Legal business name of the issuer. | [optional]
-**issuer_email** | **string** | Contact email of the issuer. | [optional]
-**issuer_phones** | **string[]** | Issuer phone numbers in format \&quot;809-555-1234\&quot;. | [optional]
+**payment_account_number** | **string** |  | [optional]
+**payment_bank** | **string** |  | [optional]
+**service_start_date** | **\DateTime** |  | [optional]
+**service_end_date** | **\DateTime** |  | [optional]
+**total_pages** | **int** |  | [optional]
+**issuer_rnc** | **string** | RNC of the issuing company. | [optional]
+**issuer_business_name** | **string** |  | [optional]
+**issuer_commercial_name** | **string** |  | [optional]
+**branch_name** | **string** |  | [optional]
+**issuer_address** | **string** |  | [optional]
+**municipality_code** | **string** |  | [optional]
+**province_code** | **string** |  | [optional]
+**issuer_phones** | **string[]** |  | [optional]
+**issuer_email** | **string** |  | [optional]
+**issuer_website** | **string** |  | [optional]
+**issuer_economic_activity** | **string** |  | [optional]
+**seller_code** | **string** |  | [optional]
+**internal_invoice_number** | **string** |  | [optional]
+**internal_order_number** | **int** |  | [optional]
+**sales_zone** | **string** |  | [optional]
+**sales_route** | **string** |  | [optional]
+**additional_issuer_info** | **string** |  | [optional]
 **buyer** | [**\PronesoftEcf\Model\Buyer**](Buyer.md) |  | [optional]
-**items** | [**\PronesoftEcf\Model\Item[]**](Item.md) | Line items of the document. At least 1 required. |
+**items** | [**\PronesoftEcf\Model\Item[]**](Item.md) |  |
 **totals** | [**\PronesoftEcf\Model\Totals**](Totals.md) |  |
 **transport** | [**\PronesoftEcf\Model\Transport**](Transport.md) |  | [optional]
 **additional_info** | [**\PronesoftEcf\Model\AdditionalInfo**](AdditionalInfo.md) |  | [optional]
 **alternative_currency** | [**\PronesoftEcf\Model\AlternativeCurrency**](AlternativeCurrency.md) |  | [optional]
 **reference_info** | [**\PronesoftEcf\Model\ReferenceInfo**](ReferenceInfo.md) |  | [optional]
-**subtotals** | [**\PronesoftEcf\Model\Subtotal[]**](Subtotal.md) | Page/section subtotals (for multi-page documents). | [optional]
-**discounts_or_surcharges** | [**\PronesoftEcf\Model\DiscountOrSurcharge[]**](DiscountOrSurcharge.md) | Document-level discounts or surcharges. | [optional]
-**pages** | [**\PronesoftEcf\Model\Page[]**](Page.md) | Page breakdown for multi-page documents. | [optional]
+**subtotals** | [**\PronesoftEcf\Model\Subtotal**](Subtotal.md) |  | [optional]
+**discounts_or_surcharges** | [**\PronesoftEcf\Model\DiscountOrSurcharge[]**](DiscountOrSurcharge.md) |  | [optional]
+**pages** | [**\PronesoftEcf\Model\Page**](Page.md) |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

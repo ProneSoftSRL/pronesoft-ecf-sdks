@@ -1,26 +1,31 @@
 
 # CreateTaxSequenceRequest
 
-Request to register a new block of fiscal numbers. The `from` and `to` values define the numeric range (inclusive). 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`type` | [InvoiceType](InvoiceType.md)
+`type` | [InvoiceTypeSequence](InvoiceTypeSequence.md)
 `from` | number
 `to` | number
+`quantity` | number
+`expiration` | Date
+`environment` | [Environment](Environment.md)
 
 ## Example
 
 ```typescript
-import type { CreateTaxSequenceRequest } from '@pronesoft/ecf-sdk'
+import type { CreateTaxSequenceRequest } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "type": null,
   "from": 1,
-  "to": 500,
+  "to": 10000,
+  "quantity": 10000,
+  "expiration": Tue Dec 30 20:00:00 AST 2025,
+  "environment": null,
 } satisfies CreateTaxSequenceRequest
 
 console.log(example)

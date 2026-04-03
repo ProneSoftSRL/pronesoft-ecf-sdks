@@ -1,7 +1,6 @@
 
 # DiscountOrSurcharge
 
-A document-level discount or surcharge.
 
 ## Properties
 
@@ -9,26 +8,28 @@ Name | Type
 ------------ | -------------
 `lineNumber` | number
 `type` | string
-`valueType` | string
-`amount` | number
+`norm1007Indicator` | string
 `description` | string
+`valueType` | string
 `percentageValue` | number
+`amount` | number
 `alternativeCurrencyAmount` | number
 `billingIndicator` | [BillingIndicator](BillingIndicator.md)
 
 ## Example
 
 ```typescript
-import type { DiscountOrSurcharge } from '@pronesoft/ecf-sdk'
+import type { DiscountOrSurcharge } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "lineNumber": null,
   "type": null,
-  "valueType": null,
-  "amount": null,
+  "norm1007Indicator": null,
   "description": null,
+  "valueType": null,
   "percentageValue": null,
+  "amount": null,
   "alternativeCurrencyAmount": null,
   "billingIndicator": null,
 } satisfies DiscountOrSurcharge

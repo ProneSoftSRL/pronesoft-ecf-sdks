@@ -6,6 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **success** | **Boolean** |  | [optional] |
 | **data** | [**Array&lt;TaxSequence&gt;**](TaxSequence.md) |  | [optional] |
+| **meta** | [**PaginationMeta**](PaginationMeta.md) |  | [optional] |
 
 ## Example
 
@@ -14,7 +15,8 @@ require 'pronesoft_ecf'
 
 instance = PronesoftEcf::ListTaxSequences200Response.new(
   success: null,
-  data: null
+  data: null,
+  meta: null
 )
 ```
 

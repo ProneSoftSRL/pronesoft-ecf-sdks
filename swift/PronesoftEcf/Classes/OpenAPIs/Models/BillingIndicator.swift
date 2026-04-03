@@ -15,7 +15,7 @@ public typealias BillingIndicator = PronesoftEcfAPI.BillingIndicator
 
 extension PronesoftEcfAPI {
 
-/** ITBIS tax billing indicator for a line item: - &#x60;0&#x60;: Non-billable (No facturable) - &#x60;1&#x60;: 18% ITBIS rate - &#x60;2&#x60;: 16% ITBIS rate - &#x60;3&#x60;: 0% ITBIS rate - &#x60;4&#x60;: Exempt (Exento)  */
+/** 0&#x3D;Non-billable, 1&#x3D;18% ITBIS, 2&#x3D;16% ITBIS, 3&#x3D;0% ITBIS, 4&#x3D;Exempt */
 public enum BillingIndicator: String, Codable, CaseIterable {
     case _0 = "0"
     case _1 = "1"

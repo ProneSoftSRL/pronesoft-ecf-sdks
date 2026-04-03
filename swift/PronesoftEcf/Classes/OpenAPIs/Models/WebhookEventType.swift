@@ -15,24 +15,24 @@ public typealias WebhookEventType = PronesoftEcfAPI.WebhookEventType
 
 extension PronesoftEcfAPI {
 
-/** Type of event that triggers a webhook notification. */
 public enum WebhookEventType: String, Codable, CaseIterable {
     case documentPeriodReceived = "document.received"
     case documentPeriodStatusChanged = "document.status_changed"
     case documentPeriodValidationError = "document.validation_error"
     case documentPeriodContingencyActivated = "document.contingency_activated"
-    case commercialPeriodApproval = "commercial.approval"
-    case certificatePeriodExpiring = "certificate.expiring"
+    case sequencePeriodDepleted = "sequence.depleted"
+    case sequencePeriodVoided = "sequence.voided"
     case planPeriodUsageAlert = "plan.usage_alert"
     case planPeriodPaymentFailed = "plan.payment_failed"
     case billingPeriodInvoiceReady = "billing.invoice_ready"
-    case sequencePeriodDepleted = "sequence.depleted"
-    case sequencePeriodVoided = "sequence.voided"
     case branchPeriodCreated = "branch.created"
     case branchPeriodStatusChanged = "branch.status_changed"
+    case securityPeriodNewLogin = "security.new_login"
     case memberPeriodInvited = "member.invited"
     case memberPeriodJoined = "member.joined"
     case memberPeriodRemoved = "member.removed"
+    case certificatePeriodExpiring = "certificate.expiring"
+    case commercialPeriodApproval = "commercial.approval"
     case certificationPeriodCompleted = "certification.completed"
 }
 }

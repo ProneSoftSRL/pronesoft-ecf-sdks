@@ -1,7 +1,7 @@
 
 # InvoiceType
 
-e-NCF invoice type code as defined by the DGII: - `31`: Tax Credit Invoice (Factura de Crédito Fiscal) - `32`: Consumer Invoice (Factura de Consumo) - `33`: Debit Note (Nota de Débito) - `34`: Credit Note (Nota de Crédito) - `41`: Purchases (Compras) - `43`: Minor Expenses (Gastos Menores) - `44`: Special Regimes (Regímenes Especiales) - `45`: Governmental (Gubernamentales) - `46`: Exports (Exportaciones) - `47`: Overseas Payments (Pagos al Exterior) 
+31=Factura Credito Fiscal, 32=Factura Consumo, 33=Nota Debito, 34=Nota Credito, 41=Compras, 43=Gastos Menores, 44=Regimenes Especiales, 45=Gubernamental, 46=Exportaciones, 47=Pagos Exterior 
 
 ## Properties
 
@@ -11,7 +11,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { InvoiceType } from '@pronesoft/ecf-sdk'
+import type { InvoiceType } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

@@ -4,13 +4,23 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **tax_id** | **String** | Buyer&#39;s RNC (9 digits) or cedula (11 digits). Required for type 31. | [optional] |
-| **name** | **String** | Buyer&#39;s full legal name or business name. |  |
-| **email** | **String** | Buyer&#39;s email address (for digital delivery of the e-CF). | [optional] |
-| **address** | **String** | Buyer&#39;s physical address. | [optional] |
-| **municipality_code** | **String** | DGII municipality code of the buyer. | [optional] |
-| **province_code** | **String** | DGII province code of the buyer. | [optional] |
-| **delivery_address** | **String** | Delivery address (if different from billing address). | [optional] |
+| **tax_id** | **String** | RNC (9 digits) or cedula (11 digits). Required for type 31. | [optional] |
+| **foreign_id** | **String** |  | [optional] |
+| **name** | **String** |  |  |
+| **contact** | **String** |  | [optional] |
+| **email** | **String** |  | [optional] |
+| **address** | **String** |  | [optional] |
+| **municipality_code** | **String** |  | [optional] |
+| **province_code** | **String** |  | [optional] |
+| **delivery_date** | **Time** |  | [optional] |
+| **delivery_contact** | **String** |  | [optional] |
+| **delivery_address** | **String** |  | [optional] |
+| **additional_phone** | **String** |  | [optional] |
+| **purchase_order_date** | **Time** |  | [optional] |
+| **purchase_order_number** | **String** |  | [optional] |
+| **internal_code** | **String** |  | [optional] |
+| **payment_responsible** | **String** |  | [optional] |
+| **additional_info** | **String** |  | [optional] |
 
 ## Example
 
@@ -18,13 +28,23 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::Buyer.new(
-  tax_id: 130000001,
-  name: Empresa Compradora SRL,
-  email: comprador@empresa.com,
+  tax_id: 131415678,
+  foreign_id: null,
+  name: Cliente Empresa SRL,
+  contact: null,
+  email: null,
   address: null,
   municipality_code: null,
   province_code: null,
-  delivery_address: null
+  delivery_date: null,
+  delivery_contact: null,
+  delivery_address: null,
+  additional_phone: null,
+  purchase_order_date: null,
+  purchase_order_number: null,
+  internal_code: null,
+  payment_responsible: null,
+  additional_info: null
 )
 ```
 

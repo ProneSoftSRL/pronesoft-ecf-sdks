@@ -1,7 +1,6 @@
 
 # Page
 
-Page-level breakdown for multi-page documents.
 
 ## Properties
 
@@ -10,40 +9,40 @@ Name | Type
 `pageNumber` | number
 `lineFrom` | number
 `lineTo` | number
-`subtotal` | number
 `taxableAmount` | number
 `taxableAmount1` | number
 `taxableAmount2` | number
 `taxableAmount3` | number
+`exemptAmount` | number
 `totalITBIS` | number
 `itbis1` | number
 `itbis2` | number
 `itbis3` | number
 `additionalTaxes` | number
-`exemptAmount` | number
+`subtotal` | number
 `nonBillableAmount` | number
 
 ## Example
 
 ```typescript
-import type { Page } from '@pronesoft/ecf-sdk'
+import type { Page } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "pageNumber": null,
   "lineFrom": null,
   "lineTo": null,
-  "subtotal": null,
   "taxableAmount": null,
   "taxableAmount1": null,
   "taxableAmount2": null,
   "taxableAmount3": null,
+  "exemptAmount": null,
   "totalITBIS": null,
   "itbis1": null,
   "itbis2": null,
   "itbis3": null,
   "additionalTaxes": null,
-  "exemptAmount": null,
+  "subtotal": null,
   "nonBillableAmount": null,
 } satisfies Page
 

@@ -27,22 +27,20 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Sub-quantity for items measured in multiple units.
+ * 
  *
- * @param quantity Quantity in this unit of measure.
- * @param unitCode DGII unit of measure code.
+ * @param quantity 
+ * @param unitCode 
  */
 
 
 data class Subquantity (
 
-    /* Quantity in this unit of measure. */
     @SerializedName("quantity")
     val quantity: java.math.BigDecimal,
 
-    /* DGII unit of measure code. */
     @SerializedName("unitCode")
-    val unitCode: java.math.BigDecimal
+    val unitCode: kotlin.Int
 
 ) {
 

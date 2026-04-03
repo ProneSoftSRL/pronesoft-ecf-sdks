@@ -2,15 +2,17 @@
 
 # CreateTaxSequenceRequest
 
-Request to register a new block of fiscal numbers. The `from` and `to` values define the numeric range (inclusive). 
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**type** | **InvoiceType** |  |  |
-|**from** | **Integer** | First number in the sequence range. |  |
-|**to** | **Integer** | Last number in the sequence range. |  |
+|**type** | **InvoiceTypeSequence** |  |  |
+|**from** | **Integer** |  |  |
+|**to** | **Integer** |  |  |
+|**quantity** | **Integer** |  |  [optional] |
+|**expiration** | **LocalDate** |  |  [optional] |
+|**environment** | **Environment** |  |  [optional] |
 
 
 

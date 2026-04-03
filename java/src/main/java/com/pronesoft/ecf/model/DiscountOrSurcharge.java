@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -48,9 +48,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * A document-level discount or surcharge.
+ * DiscountOrSurcharge
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class DiscountOrSurcharge {
   public static final String SERIALIZED_NAME_LINE_NUMBER = "lineNumber";
   @SerializedName(SERIALIZED_NAME_LINE_NUMBER)
@@ -58,7 +58,7 @@ public class DiscountOrSurcharge {
   private Integer lineNumber;
 
   /**
-   * - &#x60;D&#x60;: Discount (Descuento) - &#x60;R&#x60;: Surcharge/Recargo (Recargo) 
+   * D&#x3D;Discount, R&#x3D;Surcharge
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
@@ -115,7 +115,69 @@ public class DiscountOrSurcharge {
   private TypeEnum type;
 
   /**
-   * Whether the amount is a fixed value (&#x60;$&#x60;) or a percentage (&#x60;%&#x60;).
+   * Gets or Sets norm1007Indicator
+   */
+  @JsonAdapter(Norm1007IndicatorEnum.Adapter.class)
+  public enum Norm1007IndicatorEnum {
+    _0("0"),
+    
+    _1("1");
+
+    private String value;
+
+    Norm1007IndicatorEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static Norm1007IndicatorEnum fromValue(String value) {
+      for (Norm1007IndicatorEnum b : Norm1007IndicatorEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<Norm1007IndicatorEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final Norm1007IndicatorEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public Norm1007IndicatorEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return Norm1007IndicatorEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      Norm1007IndicatorEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_NORM1007_INDICATOR = "norm1007Indicator";
+  @SerializedName(SERIALIZED_NAME_NORM1007_INDICATOR)
+  @javax.annotation.Nullable
+  private Norm1007IndicatorEnum norm1007Indicator;
+
+  public static final String SERIALIZED_NAME_DESCRIPTION = "description";
+  @SerializedName(SERIALIZED_NAME_DESCRIPTION)
+  @javax.annotation.Nullable
+  private String description;
+
+  /**
+   * Gets or Sets valueType
    */
   @JsonAdapter(ValueTypeEnum.Adapter.class)
   public enum ValueTypeEnum {
@@ -171,20 +233,15 @@ public class DiscountOrSurcharge {
   @javax.annotation.Nonnull
   private ValueTypeEnum valueType;
 
-  public static final String SERIALIZED_NAME_AMOUNT = "amount";
-  @SerializedName(SERIALIZED_NAME_AMOUNT)
-  @javax.annotation.Nonnull
-  private BigDecimal amount;
-
-  public static final String SERIALIZED_NAME_DESCRIPTION = "description";
-  @SerializedName(SERIALIZED_NAME_DESCRIPTION)
-  @javax.annotation.Nullable
-  private String description;
-
   public static final String SERIALIZED_NAME_PERCENTAGE_VALUE = "percentageValue";
   @SerializedName(SERIALIZED_NAME_PERCENTAGE_VALUE)
   @javax.annotation.Nullable
   private BigDecimal percentageValue;
+
+  public static final String SERIALIZED_NAME_AMOUNT = "amount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT)
+  @javax.annotation.Nonnull
+  private BigDecimal amount;
 
   public static final String SERIALIZED_NAME_ALTERNATIVE_CURRENCY_AMOUNT = "alternativeCurrencyAmount";
   @SerializedName(SERIALIZED_NAME_ALTERNATIVE_CURRENCY_AMOUNT)
@@ -205,7 +262,7 @@ public class DiscountOrSurcharge {
   }
 
   /**
-   * Reference line number this discount/surcharge applies to.
+   * Get lineNumber
    * @return lineNumber
    */
   @javax.annotation.Nonnull
@@ -224,7 +281,7 @@ public class DiscountOrSurcharge {
   }
 
   /**
-   * - &#x60;D&#x60;: Discount (Descuento) - &#x60;R&#x60;: Surcharge/Recargo (Recargo) 
+   * D&#x3D;Discount, R&#x3D;Surcharge
    * @return type
    */
   @javax.annotation.Nonnull
@@ -237,41 +294,22 @@ public class DiscountOrSurcharge {
   }
 
 
-  public DiscountOrSurcharge valueType(@javax.annotation.Nonnull ValueTypeEnum valueType) {
-    this.valueType = valueType;
+  public DiscountOrSurcharge norm1007Indicator(@javax.annotation.Nullable Norm1007IndicatorEnum norm1007Indicator) {
+    this.norm1007Indicator = norm1007Indicator;
     return this;
   }
 
   /**
-   * Whether the amount is a fixed value (&#x60;$&#x60;) or a percentage (&#x60;%&#x60;).
-   * @return valueType
+   * Get norm1007Indicator
+   * @return norm1007Indicator
    */
-  @javax.annotation.Nonnull
-  public ValueTypeEnum getValueType() {
-    return valueType;
+  @javax.annotation.Nullable
+  public Norm1007IndicatorEnum getNorm1007Indicator() {
+    return norm1007Indicator;
   }
 
-  public void setValueType(@javax.annotation.Nonnull ValueTypeEnum valueType) {
-    this.valueType = valueType;
-  }
-
-
-  public DiscountOrSurcharge amount(@javax.annotation.Nonnull BigDecimal amount) {
-    this.amount = amount;
-    return this;
-  }
-
-  /**
-   * Discount or surcharge amount.
-   * @return amount
-   */
-  @javax.annotation.Nonnull
-  public BigDecimal getAmount() {
-    return amount;
-  }
-
-  public void setAmount(@javax.annotation.Nonnull BigDecimal amount) {
-    this.amount = amount;
+  public void setNorm1007Indicator(@javax.annotation.Nullable Norm1007IndicatorEnum norm1007Indicator) {
+    this.norm1007Indicator = norm1007Indicator;
   }
 
 
@@ -281,7 +319,7 @@ public class DiscountOrSurcharge {
   }
 
   /**
-   * Description of the discount or surcharge.
+   * Get description
    * @return description
    */
   @javax.annotation.Nullable
@@ -294,13 +332,32 @@ public class DiscountOrSurcharge {
   }
 
 
+  public DiscountOrSurcharge valueType(@javax.annotation.Nonnull ValueTypeEnum valueType) {
+    this.valueType = valueType;
+    return this;
+  }
+
+  /**
+   * Get valueType
+   * @return valueType
+   */
+  @javax.annotation.Nonnull
+  public ValueTypeEnum getValueType() {
+    return valueType;
+  }
+
+  public void setValueType(@javax.annotation.Nonnull ValueTypeEnum valueType) {
+    this.valueType = valueType;
+  }
+
+
   public DiscountOrSurcharge percentageValue(@javax.annotation.Nullable BigDecimal percentageValue) {
     this.percentageValue = percentageValue;
     return this;
   }
 
   /**
-   * Percentage value (when valueType is \&quot;%\&quot;).
+   * Get percentageValue
    * @return percentageValue
    */
   @javax.annotation.Nullable
@@ -313,13 +370,32 @@ public class DiscountOrSurcharge {
   }
 
 
+  public DiscountOrSurcharge amount(@javax.annotation.Nonnull BigDecimal amount) {
+    this.amount = amount;
+    return this;
+  }
+
+  /**
+   * Get amount
+   * @return amount
+   */
+  @javax.annotation.Nonnull
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public void setAmount(@javax.annotation.Nonnull BigDecimal amount) {
+    this.amount = amount;
+  }
+
+
   public DiscountOrSurcharge alternativeCurrencyAmount(@javax.annotation.Nullable BigDecimal alternativeCurrencyAmount) {
     this.alternativeCurrencyAmount = alternativeCurrencyAmount;
     return this;
   }
 
   /**
-   * Equivalent amount in the alternative currency.
+   * Get alternativeCurrencyAmount
    * @return alternativeCurrencyAmount
    */
   @javax.annotation.Nullable
@@ -363,17 +439,18 @@ public class DiscountOrSurcharge {
     DiscountOrSurcharge discountOrSurcharge = (DiscountOrSurcharge) o;
     return Objects.equals(this.lineNumber, discountOrSurcharge.lineNumber) &&
         Objects.equals(this.type, discountOrSurcharge.type) &&
-        Objects.equals(this.valueType, discountOrSurcharge.valueType) &&
-        Objects.equals(this.amount, discountOrSurcharge.amount) &&
+        Objects.equals(this.norm1007Indicator, discountOrSurcharge.norm1007Indicator) &&
         Objects.equals(this.description, discountOrSurcharge.description) &&
+        Objects.equals(this.valueType, discountOrSurcharge.valueType) &&
         Objects.equals(this.percentageValue, discountOrSurcharge.percentageValue) &&
+        Objects.equals(this.amount, discountOrSurcharge.amount) &&
         Objects.equals(this.alternativeCurrencyAmount, discountOrSurcharge.alternativeCurrencyAmount) &&
         Objects.equals(this.billingIndicator, discountOrSurcharge.billingIndicator);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNumber, type, valueType, amount, description, percentageValue, alternativeCurrencyAmount, billingIndicator);
+    return Objects.hash(lineNumber, type, norm1007Indicator, description, valueType, percentageValue, amount, alternativeCurrencyAmount, billingIndicator);
   }
 
   @Override
@@ -382,10 +459,11 @@ public class DiscountOrSurcharge {
     sb.append("class DiscountOrSurcharge {\n");
     sb.append("    lineNumber: ").append(toIndentedString(lineNumber)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    valueType: ").append(toIndentedString(valueType)).append("\n");
-    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    norm1007Indicator: ").append(toIndentedString(norm1007Indicator)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    valueType: ").append(toIndentedString(valueType)).append("\n");
     sb.append("    percentageValue: ").append(toIndentedString(percentageValue)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    alternativeCurrencyAmount: ").append(toIndentedString(alternativeCurrencyAmount)).append("\n");
     sb.append("    billingIndicator: ").append(toIndentedString(billingIndicator)).append("\n");
     sb.append("}");
@@ -406,7 +484,7 @@ public class DiscountOrSurcharge {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("lineNumber", "type", "valueType", "amount", "description", "percentageValue", "alternativeCurrencyAmount", "billingIndicator"));
+    openapiFields = new HashSet<String>(Arrays.asList("lineNumber", "type", "norm1007Indicator", "description", "valueType", "percentageValue", "amount", "alternativeCurrencyAmount", "billingIndicator"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("lineNumber", "type", "valueType", "amount"));
@@ -445,14 +523,21 @@ public class DiscountOrSurcharge {
       }
       // validate the required field `type`
       TypeEnum.validateJsonElement(jsonObj.get("type"));
+      if ((jsonObj.get("norm1007Indicator") != null && !jsonObj.get("norm1007Indicator").isJsonNull()) && !jsonObj.get("norm1007Indicator").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `norm1007Indicator` to be a primitive type in the JSON string but got `%s`", jsonObj.get("norm1007Indicator").toString()));
+      }
+      // validate the optional field `norm1007Indicator`
+      if (jsonObj.get("norm1007Indicator") != null && !jsonObj.get("norm1007Indicator").isJsonNull()) {
+        Norm1007IndicatorEnum.validateJsonElement(jsonObj.get("norm1007Indicator"));
+      }
+      if ((jsonObj.get("description") != null && !jsonObj.get("description").isJsonNull()) && !jsonObj.get("description").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `description` to be a primitive type in the JSON string but got `%s`", jsonObj.get("description").toString()));
+      }
       if (!jsonObj.get("valueType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `valueType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("valueType").toString()));
       }
       // validate the required field `valueType`
       ValueTypeEnum.validateJsonElement(jsonObj.get("valueType"));
-      if ((jsonObj.get("description") != null && !jsonObj.get("description").isJsonNull()) && !jsonObj.get("description").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `description` to be a primitive type in the JSON string but got `%s`", jsonObj.get("description").toString()));
-      }
       // validate the optional field `billingIndicator`
       if (jsonObj.get("billingIndicator") != null && !jsonObj.get("billingIndicator").isJsonNull()) {
         BillingIndicator.validateJsonElement(jsonObj.get("billingIndicator"));

@@ -29,18 +29,20 @@ import com.google.gson.annotations.SerializedName
 /**
  * 
  *
- * @param nextNumber The next available e-NCF number (13 characters).
- * @param remainingNumbers How many numbers are left in the current sequence.
+ * @param nextNumber 
+ * @param sequenceId 
+ * @param remainingNumbers 
  */
 
 
 data class GetNextNumber200ResponseData (
 
-    /* The next available e-NCF number (13 characters). */
     @SerializedName("nextNumber")
     val nextNumber: kotlin.String? = null,
 
-    /* How many numbers are left in the current sequence. */
+    @SerializedName("sequenceId")
+    val sequenceId: kotlin.String? = null,
+
     @SerializedName("remainingNumbers")
     val remainingNumbers: kotlin.Int? = null
 

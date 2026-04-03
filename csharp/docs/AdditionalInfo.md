@@ -1,14 +1,21 @@
 # Pronesoft.Ecf.Sdk.Model.AdditionalInfo
-Additional shipping/logistics information.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**GrossWeight** | **decimal** | Gross weight of the shipment (in kg). | [optional] 
-**PackageQuantity** | **decimal** | Number of packages. | [optional] 
-**ContainerId** | **string** | Container identifier (for imports/exports). | [optional] 
-**SealId** | **string** | Seal/precinto identifier. | [optional] 
+**ShipmentDate** | **string** |  | [optional] 
+**ShipmentNumber** | **string** |  | [optional] 
+**ContainerNumber** | **string** |  | [optional] 
+**ReferenceNumber** | **string** |  | [optional] 
+**GrossWeight** | **decimal** |  | [optional] 
+**NetWeight** | **decimal** |  | [optional] 
+**GrossWeightUnit** | **int** |  | [optional] 
+**NetWeightUnit** | **int** |  | [optional] 
+**PackageQuantity** | **decimal** |  | [optional] 
+**PackageUnit** | **int** |  | [optional] 
+**PackageVolume** | **decimal** |  | [optional] 
+**VolumeUnit** | **int** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

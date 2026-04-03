@@ -4,8 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**NextNumber** | Pointer to **string** | The next available e-NCF number (13 characters). | [optional] 
-**RemainingNumbers** | Pointer to **int32** | How many numbers are left in the current sequence. | [optional] 
+**NextNumber** | Pointer to **string** |  | [optional] 
+**SequenceId** | Pointer to **string** |  | [optional] 
+**RemainingNumbers** | Pointer to **int32** |  | [optional] 
 
 ## Methods
 
@@ -50,6 +51,31 @@ SetNextNumber sets NextNumber field to given value.
 `func (o *GetNextNumber200ResponseData) HasNextNumber() bool`
 
 HasNextNumber returns a boolean if a field has been set.
+
+### GetSequenceId
+
+`func (o *GetNextNumber200ResponseData) GetSequenceId() string`
+
+GetSequenceId returns the SequenceId field if non-nil, zero value otherwise.
+
+### GetSequenceIdOk
+
+`func (o *GetNextNumber200ResponseData) GetSequenceIdOk() (*string, bool)`
+
+GetSequenceIdOk returns a tuple with the SequenceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSequenceId
+
+`func (o *GetNextNumber200ResponseData) SetSequenceId(v string)`
+
+SetSequenceId sets SequenceId field to given value.
+
+### HasSequenceId
+
+`func (o *GetNextNumber200ResponseData) HasSequenceId() bool`
+
+HasSequenceId returns a boolean if a field has been set.
 
 ### GetRemainingNumbers
 

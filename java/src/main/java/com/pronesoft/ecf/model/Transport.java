@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -20,7 +20,6 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
@@ -47,14 +46,19 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Transport/delivery information (required for certain invoice types).
+ * Transport
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Transport {
   public static final String SERIALIZED_NAME_DRIVER = "driver";
   @SerializedName(SERIALIZED_NAME_DRIVER)
   @javax.annotation.Nullable
   private String driver;
+
+  public static final String SERIALIZED_NAME_DOCUMENT = "document";
+  @SerializedName(SERIALIZED_NAME_DOCUMENT)
+  @javax.annotation.Nullable
+  private String document;
 
   public static final String SERIALIZED_NAME_VEHICLE_ID = "vehicleId";
   @SerializedName(SERIALIZED_NAME_VEHICLE_ID)
@@ -71,15 +75,20 @@ public class Transport {
   @javax.annotation.Nullable
   private String route;
 
-  public static final String SERIALIZED_NAME_DEPARTURE_DATE = "departureDate";
-  @SerializedName(SERIALIZED_NAME_DEPARTURE_DATE)
+  public static final String SERIALIZED_NAME_ZONE = "zone";
+  @SerializedName(SERIALIZED_NAME_ZONE)
   @javax.annotation.Nullable
-  private OffsetDateTime departureDate;
+  private String zone;
 
-  public static final String SERIALIZED_NAME_ARRIVAL_DATE = "arrivalDate";
-  @SerializedName(SERIALIZED_NAME_ARRIVAL_DATE)
+  public static final String SERIALIZED_NAME_DELIVERY_NOTE_NUMBER = "deliveryNoteNumber";
+  @SerializedName(SERIALIZED_NAME_DELIVERY_NOTE_NUMBER)
   @javax.annotation.Nullable
-  private OffsetDateTime arrivalDate;
+  private String deliveryNoteNumber;
+
+  public static final String SERIALIZED_NAME_DESTINATION_COUNTRY = "destinationCountry";
+  @SerializedName(SERIALIZED_NAME_DESTINATION_COUNTRY)
+  @javax.annotation.Nullable
+  private String destinationCountry;
 
   public Transport() {
   }
@@ -90,7 +99,7 @@ public class Transport {
   }
 
   /**
-   * Driver&#39;s full name.
+   * Get driver
    * @return driver
    */
   @javax.annotation.Nullable
@@ -103,13 +112,32 @@ public class Transport {
   }
 
 
+  public Transport document(@javax.annotation.Nullable String document) {
+    this.document = document;
+    return this;
+  }
+
+  /**
+   * Get document
+   * @return document
+   */
+  @javax.annotation.Nullable
+  public String getDocument() {
+    return document;
+  }
+
+  public void setDocument(@javax.annotation.Nullable String document) {
+    this.document = document;
+  }
+
+
   public Transport vehicleId(@javax.annotation.Nullable String vehicleId) {
     this.vehicleId = vehicleId;
     return this;
   }
 
   /**
-   * Vehicle identification number.
+   * Get vehicleId
    * @return vehicleId
    */
   @javax.annotation.Nullable
@@ -128,7 +156,7 @@ public class Transport {
   }
 
   /**
-   * Vehicle license plate.
+   * Get licensePlate
    * @return licensePlate
    */
   @javax.annotation.Nullable
@@ -147,7 +175,7 @@ public class Transport {
   }
 
   /**
-   * Delivery route description.
+   * Get route
    * @return route
    */
   @javax.annotation.Nullable
@@ -160,41 +188,60 @@ public class Transport {
   }
 
 
-  public Transport departureDate(@javax.annotation.Nullable OffsetDateTime departureDate) {
-    this.departureDate = departureDate;
+  public Transport zone(@javax.annotation.Nullable String zone) {
+    this.zone = zone;
     return this;
   }
 
   /**
-   * Departure date and time.
-   * @return departureDate
+   * Get zone
+   * @return zone
    */
   @javax.annotation.Nullable
-  public OffsetDateTime getDepartureDate() {
-    return departureDate;
+  public String getZone() {
+    return zone;
   }
 
-  public void setDepartureDate(@javax.annotation.Nullable OffsetDateTime departureDate) {
-    this.departureDate = departureDate;
+  public void setZone(@javax.annotation.Nullable String zone) {
+    this.zone = zone;
   }
 
 
-  public Transport arrivalDate(@javax.annotation.Nullable OffsetDateTime arrivalDate) {
-    this.arrivalDate = arrivalDate;
+  public Transport deliveryNoteNumber(@javax.annotation.Nullable String deliveryNoteNumber) {
+    this.deliveryNoteNumber = deliveryNoteNumber;
     return this;
   }
 
   /**
-   * Estimated arrival date and time.
-   * @return arrivalDate
+   * Get deliveryNoteNumber
+   * @return deliveryNoteNumber
    */
   @javax.annotation.Nullable
-  public OffsetDateTime getArrivalDate() {
-    return arrivalDate;
+  public String getDeliveryNoteNumber() {
+    return deliveryNoteNumber;
   }
 
-  public void setArrivalDate(@javax.annotation.Nullable OffsetDateTime arrivalDate) {
-    this.arrivalDate = arrivalDate;
+  public void setDeliveryNoteNumber(@javax.annotation.Nullable String deliveryNoteNumber) {
+    this.deliveryNoteNumber = deliveryNoteNumber;
+  }
+
+
+  public Transport destinationCountry(@javax.annotation.Nullable String destinationCountry) {
+    this.destinationCountry = destinationCountry;
+    return this;
+  }
+
+  /**
+   * Get destinationCountry
+   * @return destinationCountry
+   */
+  @javax.annotation.Nullable
+  public String getDestinationCountry() {
+    return destinationCountry;
+  }
+
+  public void setDestinationCountry(@javax.annotation.Nullable String destinationCountry) {
+    this.destinationCountry = destinationCountry;
   }
 
 
@@ -209,16 +256,18 @@ public class Transport {
     }
     Transport transport = (Transport) o;
     return Objects.equals(this.driver, transport.driver) &&
+        Objects.equals(this.document, transport.document) &&
         Objects.equals(this.vehicleId, transport.vehicleId) &&
         Objects.equals(this.licensePlate, transport.licensePlate) &&
         Objects.equals(this.route, transport.route) &&
-        Objects.equals(this.departureDate, transport.departureDate) &&
-        Objects.equals(this.arrivalDate, transport.arrivalDate);
+        Objects.equals(this.zone, transport.zone) &&
+        Objects.equals(this.deliveryNoteNumber, transport.deliveryNoteNumber) &&
+        Objects.equals(this.destinationCountry, transport.destinationCountry);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(driver, vehicleId, licensePlate, route, departureDate, arrivalDate);
+    return Objects.hash(driver, document, vehicleId, licensePlate, route, zone, deliveryNoteNumber, destinationCountry);
   }
 
   @Override
@@ -226,11 +275,13 @@ public class Transport {
     StringBuilder sb = new StringBuilder();
     sb.append("class Transport {\n");
     sb.append("    driver: ").append(toIndentedString(driver)).append("\n");
+    sb.append("    document: ").append(toIndentedString(document)).append("\n");
     sb.append("    vehicleId: ").append(toIndentedString(vehicleId)).append("\n");
     sb.append("    licensePlate: ").append(toIndentedString(licensePlate)).append("\n");
     sb.append("    route: ").append(toIndentedString(route)).append("\n");
-    sb.append("    departureDate: ").append(toIndentedString(departureDate)).append("\n");
-    sb.append("    arrivalDate: ").append(toIndentedString(arrivalDate)).append("\n");
+    sb.append("    zone: ").append(toIndentedString(zone)).append("\n");
+    sb.append("    deliveryNoteNumber: ").append(toIndentedString(deliveryNoteNumber)).append("\n");
+    sb.append("    destinationCountry: ").append(toIndentedString(destinationCountry)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -249,7 +300,7 @@ public class Transport {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("driver", "vehicleId", "licensePlate", "route", "departureDate", "arrivalDate"));
+    openapiFields = new HashSet<String>(Arrays.asList("driver", "document", "vehicleId", "licensePlate", "route", "zone", "deliveryNoteNumber", "destinationCountry"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -279,6 +330,9 @@ public class Transport {
       if ((jsonObj.get("driver") != null && !jsonObj.get("driver").isJsonNull()) && !jsonObj.get("driver").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `driver` to be a primitive type in the JSON string but got `%s`", jsonObj.get("driver").toString()));
       }
+      if ((jsonObj.get("document") != null && !jsonObj.get("document").isJsonNull()) && !jsonObj.get("document").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `document` to be a primitive type in the JSON string but got `%s`", jsonObj.get("document").toString()));
+      }
       if ((jsonObj.get("vehicleId") != null && !jsonObj.get("vehicleId").isJsonNull()) && !jsonObj.get("vehicleId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `vehicleId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("vehicleId").toString()));
       }
@@ -287,6 +341,15 @@ public class Transport {
       }
       if ((jsonObj.get("route") != null && !jsonObj.get("route").isJsonNull()) && !jsonObj.get("route").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `route` to be a primitive type in the JSON string but got `%s`", jsonObj.get("route").toString()));
+      }
+      if ((jsonObj.get("zone") != null && !jsonObj.get("zone").isJsonNull()) && !jsonObj.get("zone").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `zone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("zone").toString()));
+      }
+      if ((jsonObj.get("deliveryNoteNumber") != null && !jsonObj.get("deliveryNoteNumber").isJsonNull()) && !jsonObj.get("deliveryNoteNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `deliveryNoteNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryNoteNumber").toString()));
+      }
+      if ((jsonObj.get("destinationCountry") != null && !jsonObj.get("destinationCountry").isJsonNull()) && !jsonObj.get("destinationCountry").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `destinationCountry` to be a primitive type in the JSON string but got `%s`", jsonObj.get("destinationCountry").toString()));
       }
   }
 

@@ -23,34 +23,75 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.InvoiceType
+import com.pronesoft.ecf.models.InvoiceTypeSequence
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * A registered fiscal number sequence for a given invoice type.
+ * 
  *
- * @param id Internal sequence identifier.
+ * @param id 
  * @param type 
- * @param nextNumber Next available e-NCF number in this sequence.
+ * @param startNumber 
+ * @param endNumber 
+ * @param currentNumber 
+ * @param status 
+ * @param totalNumbers 
+ * @param usedNumbers 
+ * @param availableNumbers 
+ * @param createdAt 
+ * @param expiresAt 
  */
 
 
 data class TaxSequence (
 
-    /* Internal sequence identifier. */
     @SerializedName("id")
     val id: kotlin.String? = null,
 
     @SerializedName("type")
-    val type: InvoiceType? = null,
+    val type: InvoiceTypeSequence? = null,
 
-    /* Next available e-NCF number in this sequence. */
-    @SerializedName("nextNumber")
-    val nextNumber: kotlin.String? = null
+    @SerializedName("startNumber")
+    val startNumber: kotlin.String? = null,
+
+    @SerializedName("endNumber")
+    val endNumber: kotlin.String? = null,
+
+    @SerializedName("currentNumber")
+    val currentNumber: kotlin.String? = null,
+
+    @SerializedName("status")
+    val status: TaxSequence.Status? = null,
+
+    @SerializedName("totalNumbers")
+    val totalNumbers: kotlin.Int? = null,
+
+    @SerializedName("usedNumbers")
+    val usedNumbers: kotlin.Int? = null,
+
+    @SerializedName("availableNumbers")
+    val availableNumbers: kotlin.Int? = null,
+
+    @SerializedName("createdAt")
+    val createdAt: java.time.OffsetDateTime? = null,
+
+    @SerializedName("expiresAt")
+    val expiresAt: java.time.OffsetDateTime? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: ACTIVE,EXHAUSTED,EXPIRED,VOIDED
+     */
+    enum class Status(val value: kotlin.String) {
+        @SerializedName(value = "ACTIVE") ACTIVE("ACTIVE"),
+        @SerializedName(value = "EXHAUSTED") EXHAUSTED("EXHAUSTED"),
+        @SerializedName(value = "EXPIRED") EXPIRED("EXPIRED"),
+        @SerializedName(value = "VOIDED") VOIDED("VOIDED");
+    }
 
 }
 

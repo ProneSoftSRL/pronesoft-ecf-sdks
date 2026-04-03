@@ -2,16 +2,23 @@
 
 # AdditionalInfo
 
-Additional shipping/logistics information.
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**grossWeight** | **BigDecimal** | Gross weight of the shipment (in kg). |  [optional] |
-|**packageQuantity** | **BigDecimal** | Number of packages. |  [optional] |
-|**containerId** | **String** | Container identifier (for imports/exports). |  [optional] |
-|**sealId** | **String** | Seal/precinto identifier. |  [optional] |
+|**shipmentDate** | **String** |  |  [optional] |
+|**shipmentNumber** | **String** |  |  [optional] |
+|**containerNumber** | **String** |  |  [optional] |
+|**referenceNumber** | **String** |  |  [optional] |
+|**grossWeight** | **BigDecimal** |  |  [optional] |
+|**netWeight** | **BigDecimal** |  |  [optional] |
+|**grossWeightUnit** | **Integer** |  |  [optional] |
+|**netWeightUnit** | **Integer** |  |  [optional] |
+|**packageQuantity** | **BigDecimal** |  |  [optional] |
+|**packageUnit** | **Integer** |  |  [optional] |
+|**packageVolume** | **BigDecimal** |  |  [optional] |
+|**volumeUnit** | **Integer** |  |  [optional] |
 
 
 

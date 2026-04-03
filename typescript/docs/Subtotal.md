@@ -1,15 +1,14 @@
 
 # Subtotal
 
-Subtotal for a page or section within a multi-page document.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `number` | number
-`amount` | number
 `description` | string
+`order` | number
 `taxableAmount` | number
 `taxableAmount1` | number
 `taxableAmount2` | number
@@ -20,18 +19,19 @@ Name | Type
 `itbis3` | number
 `additionalTaxes` | number
 `exemptAmount` | number
+`amount` | number
 `lines` | number
 
 ## Example
 
 ```typescript
-import type { Subtotal } from '@pronesoft/ecf-sdk'
+import type { Subtotal } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "number": null,
-  "amount": null,
   "description": null,
+  "order": null,
   "taxableAmount": null,
   "taxableAmount1": null,
   "taxableAmount2": null,
@@ -42,6 +42,7 @@ const example = {
   "itbis3": null,
   "additionalTaxes": null,
   "exemptAmount": null,
+  "amount": null,
   "lines": null,
 } satisfies Subtotal
 

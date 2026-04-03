@@ -15,40 +15,39 @@ public typealias DiscountOrSurcharge = PronesoftEcfAPI.DiscountOrSurcharge
 
 extension PronesoftEcfAPI {
 
-/** A document-level discount or surcharge. */
 public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
 
     public enum ModelType: String, Codable, CaseIterable {
         case d = "D"
         case r = "R"
     }
+    public enum Norm1007Indicator: String, Codable, CaseIterable {
+        case _0 = "0"
+        case _1 = "1"
+    }
     public enum ValueType: String, Codable, CaseIterable {
         case dollar = "$"
         case percent = "%"
     }
-    /** Reference line number this discount/surcharge applies to. */
     public var lineNumber: Int
-    /** - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo)  */
+    /** D=Discount, R=Surcharge */
     public var type: ModelType
-    /** Whether the amount is a fixed value (`$`) or a percentage (`%`). */
-    public var valueType: ValueType
-    /** Discount or surcharge amount. */
-    public var amount: Double
-    /** Description of the discount or surcharge. */
+    public var norm1007Indicator: Norm1007Indicator?
     public var description: String?
-    /** Percentage value (when valueType is \"%\"). */
+    public var valueType: ValueType
     public var percentageValue: Double?
-    /** Equivalent amount in the alternative currency. */
+    public var amount: Double
     public var alternativeCurrencyAmount: Double?
     public var billingIndicator: BillingIndicator?
 
-    public init(lineNumber: Int, type: ModelType, valueType: ValueType, amount: Double, description: String? = nil, percentageValue: Double? = nil, alternativeCurrencyAmount: Double? = nil, billingIndicator: BillingIndicator? = nil) {
+    public init(lineNumber: Int, type: ModelType, norm1007Indicator: Norm1007Indicator? = nil, description: String? = nil, valueType: ValueType, percentageValue: Double? = nil, amount: Double, alternativeCurrencyAmount: Double? = nil, billingIndicator: BillingIndicator? = nil) {
         self.lineNumber = lineNumber
         self.type = type
-        self.valueType = valueType
-        self.amount = amount
+        self.norm1007Indicator = norm1007Indicator
         self.description = description
+        self.valueType = valueType
         self.percentageValue = percentageValue
+        self.amount = amount
         self.alternativeCurrencyAmount = alternativeCurrencyAmount
         self.billingIndicator = billingIndicator
     }
@@ -56,10 +55,11 @@ public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case lineNumber
         case type
-        case valueType
-        case amount
+        case norm1007Indicator
         case description
+        case valueType
         case percentageValue
+        case amount
         case alternativeCurrencyAmount
         case billingIndicator
     }
@@ -70,10 +70,11 @@ public struct DiscountOrSurcharge: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(lineNumber, forKey: .lineNumber)
         try container.encode(type, forKey: .type)
-        try container.encode(valueType, forKey: .valueType)
-        try container.encode(amount, forKey: .amount)
+        try container.encodeIfPresent(norm1007Indicator, forKey: .norm1007Indicator)
         try container.encodeIfPresent(description, forKey: .description)
+        try container.encode(valueType, forKey: .valueType)
         try container.encodeIfPresent(percentageValue, forKey: .percentageValue)
+        try container.encode(amount, forKey: .amount)
         try container.encodeIfPresent(alternativeCurrencyAmount, forKey: .alternativeCurrencyAmount)
         try container.encodeIfPresent(billingIndicator, forKey: .billingIndicator)
     }

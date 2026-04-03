@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12) |
+| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX) |
 
 
 <a id="uploadCertificate"></a>
 # **uploadCertificate**
 > UploadCertificateResponse uploadCertificate(rnc, _file, password)
 
-Upload digital certificate (P12)
+Upload digital certificate (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
 
 ### Example
 ```java
@@ -39,9 +39,9 @@ public class Example {
     bearerAuth.setBearerToken("BEARER TOKEN");
 
     DigitalCertificatesApi apiInstance = new DigitalCertificatesApi(defaultClient);
-    String rnc = "130000001"; // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-    File _file = new File("/path/to/file"); // File | The P12/PFX certificate file.
-    String password = "password_example"; // String | Password to unlock the P12 certificate.
+    String rnc = "133190907"; // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    File _file = new File("/path/to/file"); // File | Certificate file in .p12 or .pfx format.
+    String password = "password_example"; // String | Password to unlock the certificate.
     try {
       UploadCertificateResponse result = apiInstance.uploadCertificate(rnc, _file, password);
       System.out.println(result);
@@ -60,9 +60,9 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | **String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
-| **_file** | **File**| The P12/PFX certificate file. | |
-| **password** | **String**| Password to unlock the P12 certificate. | |
+| **rnc** | **String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **_file** | **File**| Certificate file in .p12 or .pfx format. | |
+| **password** | **String**| Password to unlock the certificate. | |
 
 ### Return type
 
@@ -80,7 +80,9 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Certificate uploaded and registered successfully |  -  |
-| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **201** | Certificate uploaded successfully |  -  |
+| **400** | Validation error (400). Check the message field for details. |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **403** | The token does not have the required scope. |  -  |
+| **404** | Company RNC not found in the system. |  -  |
 

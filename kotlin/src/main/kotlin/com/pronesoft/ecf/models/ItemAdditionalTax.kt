@@ -27,22 +27,21 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * An additional tax applied to a line item (e.g. ISC, IECS).
+ * 
  *
- * @param code Tax code as defined by the DGII (e.g. \"ISC\", \"IECS\").
- * @param amount Tax amount.
+ * @param code DGII tax code (e.g. ISC, IECS)
+ * @param amount 
  */
 
 
 data class ItemAdditionalTax (
 
-    /* Tax code as defined by the DGII (e.g. \"ISC\", \"IECS\"). */
+    /* DGII tax code (e.g. ISC, IECS) */
     @SerializedName("code")
     val code: kotlin.String,
 
-    /* Tax amount. */
     @SerializedName("amount")
-    val amount: java.math.BigDecimal
+    val amount: java.math.BigDecimal? = null
 
 ) {
 

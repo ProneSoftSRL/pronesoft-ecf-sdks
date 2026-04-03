@@ -2,10 +2,10 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -20,13 +20,6 @@ import {
     AdditionalInfoToJSON,
     AdditionalInfoToJSONTyped,
 } from './AdditionalInfo';
-import type { Item } from './Item';
-import {
-    ItemFromJSON,
-    ItemFromJSONTyped,
-    ItemToJSON,
-    ItemToJSONTyped,
-} from './Item';
 import type { Totals } from './Totals';
 import {
     TotalsFromJSON,
@@ -41,20 +34,6 @@ import {
     SubtotalToJSON,
     SubtotalToJSONTyped,
 } from './Subtotal';
-import type { AlternativeCurrency } from './AlternativeCurrency';
-import {
-    AlternativeCurrencyFromJSON,
-    AlternativeCurrencyFromJSONTyped,
-    AlternativeCurrencyToJSON,
-    AlternativeCurrencyToJSONTyped,
-} from './AlternativeCurrency';
-import type { DiscountOrSurcharge } from './DiscountOrSurcharge';
-import {
-    DiscountOrSurchargeFromJSON,
-    DiscountOrSurchargeFromJSONTyped,
-    DiscountOrSurchargeToJSON,
-    DiscountOrSurchargeToJSONTyped,
-} from './DiscountOrSurcharge';
 import type { Buyer } from './Buyer';
 import {
     BuyerFromJSON,
@@ -69,13 +48,6 @@ import {
     PageToJSON,
     PageToJSONTyped,
 } from './Page';
-import type { Transport } from './Transport';
-import {
-    TransportFromJSON,
-    TransportFromJSONTyped,
-    TransportToJSON,
-    TransportToJSONTyped,
-} from './Transport';
 import type { AccountType } from './AccountType';
 import {
     AccountTypeFromJSON,
@@ -90,6 +62,48 @@ import {
     InvoiceTypeToJSON,
     InvoiceTypeToJSONTyped,
 } from './InvoiceType';
+import type { Item } from './Item';
+import {
+    ItemFromJSON,
+    ItemFromJSONTyped,
+    ItemToJSON,
+    ItemToJSONTyped,
+} from './Item';
+import type { PaymentForm } from './PaymentForm';
+import {
+    PaymentFormFromJSON,
+    PaymentFormFromJSONTyped,
+    PaymentFormToJSON,
+    PaymentFormToJSONTyped,
+} from './PaymentForm';
+import type { AlternativeCurrency } from './AlternativeCurrency';
+import {
+    AlternativeCurrencyFromJSON,
+    AlternativeCurrencyFromJSONTyped,
+    AlternativeCurrencyToJSON,
+    AlternativeCurrencyToJSONTyped,
+} from './AlternativeCurrency';
+import type { DiscountOrSurcharge } from './DiscountOrSurcharge';
+import {
+    DiscountOrSurchargeFromJSON,
+    DiscountOrSurchargeFromJSONTyped,
+    DiscountOrSurchargeToJSON,
+    DiscountOrSurchargeToJSONTyped,
+} from './DiscountOrSurcharge';
+import type { Environment } from './Environment';
+import {
+    EnvironmentFromJSON,
+    EnvironmentFromJSONTyped,
+    EnvironmentToJSON,
+    EnvironmentToJSONTyped,
+} from './Environment';
+import type { Transport } from './Transport';
+import {
+    TransportFromJSON,
+    TransportFromJSONTyped,
+    TransportToJSON,
+    TransportToJSONTyped,
+} from './Transport';
 import type { ReferenceInfo } from './ReferenceInfo';
 import {
     ReferenceInfoFromJSON,
@@ -99,24 +113,26 @@ import {
 } from './ReferenceInfo';
 
 /**
- * The main e-CF document payload. Build this object and submit it to
- * `POST /{environment}/ecf/submit`.
- * 
- * **Required fields:** `version`, `invoiceType`, `invoiceNumber`,
- * `issueDate`, `items`, `totals`.
- * 
- * Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`.
+ * Electronic tax document (e-CF) payload.
+ * Use GET /tax-sequences/next to obtain invoiceNumber.
+ * paymentForms is always required.
  * 
  * @export
  * @interface ElectronicDocument
  */
 export interface ElectronicDocument {
     /**
-     * Document schema version. Always "1.0".
-     * @type {string}
+     * 
+     * @type {Environment}
      * @memberof ElectronicDocument
      */
-    version: string;
+    environment?: Environment;
+    /**
+     * Always 1.
+     * @type {number}
+     * @memberof ElectronicDocument
+     */
+    version: number;
     /**
      * 
      * @type {InvoiceType}
@@ -124,60 +140,71 @@ export interface ElectronicDocument {
      */
     invoiceType: InvoiceType;
     /**
-     * e-NCF number (13 alphanumeric characters).
-     * Obtain from `GET /tax-sequences/next`.
-     * 
+     * e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
      * @type {string}
      * @memberof ElectronicDocument
      */
     invoiceNumber: string;
     /**
-     * Document issue date and time (ISO 8601).
+     * 
      * @type {Date}
      * @memberof ElectronicDocument
      */
     issueDate: Date;
     /**
-     * Document expiration date (optional, for credit documents).
+     * 
      * @type {Date}
      * @memberof ElectronicDocument
      */
     expirationDate?: Date;
     /**
-     * Income type code:
-     * - `01`: Operations Income
-     * - `02`: Financial Income
-     * - `03`: Extraordinary Income
-     * - `04`: Leasing Income
-     * - `05`: Income from Sales of Assets
-     * - `06`: Other Income
+     * Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+     * @type {ElectronicDocumentCreditNoteIndicatorEnum}
+     * @memberof ElectronicDocument
+     */
+    creditNoteIndicator?: ElectronicDocumentCreditNoteIndicatorEnum;
+    /**
      * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    deferredSendingIndicator?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    taxedAmountIndicator?: string;
+    /**
+     * 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
      * @type {ElectronicDocumentIncomeTypeEnum}
      * @memberof ElectronicDocument
      */
     incomeType?: ElectronicDocumentIncomeTypeEnum;
     /**
-     * Payment condition:
-     * - `1`: Cash (Al Contado)
-     * - `2`: Credit (Crédito)
-     * - `3`: Mixed (Mixto)
-     * 
+     * 1=Cash, 2=Credit, 3=Mixed
      * @type {ElectronicDocumentPaymentTypeEnum}
      * @memberof ElectronicDocument
      */
     paymentType?: ElectronicDocumentPaymentTypeEnum;
     /**
-     * Payment due date (required when paymentType is "2" or "3").
+     * 
      * @type {Date}
      * @memberof ElectronicDocument
      */
     paymentDeadline?: Date;
     /**
-     * Payment terms description (e.g. "Net 30").
+     * 
      * @type {string}
      * @memberof ElectronicDocument
      */
     paymentTerms?: string;
+    /**
+     * Payment breakdown. Required.
+     * @type {Array<PaymentForm>}
+     * @memberof ElectronicDocument
+     */
+    paymentForms: Array<PaymentForm>;
     /**
      * 
      * @type {AccountType}
@@ -185,50 +212,137 @@ export interface ElectronicDocument {
      */
     paymentAccountType?: AccountType;
     /**
-     * Bank account number for payment reference.
+     * 
      * @type {string}
      * @memberof ElectronicDocument
      */
     paymentAccountNumber?: string;
     /**
-     * Bank name for payment reference.
+     * 
      * @type {string}
      * @memberof ElectronicDocument
      */
     paymentBank?: string;
     /**
-     * For Credit Notes (type 34) only:
-     * - `0`: Affected invoice issued ≤ 30 days ago
-     * - `1`: Affected invoice issued > 30 days ago
      * 
-     * @type {ElectronicDocumentCreditNoteIndicatorEnum}
+     * @type {Date}
      * @memberof ElectronicDocument
      */
-    creditNoteIndicator?: ElectronicDocumentCreditNoteIndicatorEnum;
+    serviceStartDate?: Date;
     /**
-     * RNC of the issuing company (overrides tenant default if provided).
+     * 
+     * @type {Date}
+     * @memberof ElectronicDocument
+     */
+    serviceEndDate?: Date;
+    /**
+     * 
+     * @type {number}
+     * @memberof ElectronicDocument
+     */
+    totalPages?: number;
+    /**
+     * RNC of the issuing company.
      * @type {string}
      * @memberof ElectronicDocument
      */
     issuerRNC?: string;
     /**
-     * Legal business name of the issuer.
+     * 
      * @type {string}
      * @memberof ElectronicDocument
      */
     issuerBusinessName?: string;
     /**
-     * Contact email of the issuer.
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    issuerCommercialName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    branchName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    issuerAddress?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    municipalityCode?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    provinceCode?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ElectronicDocument
+     */
+    issuerPhones?: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof ElectronicDocument
      */
     issuerEmail?: string;
     /**
-     * Issuer phone numbers in format "809-555-1234".
-     * @type {Array<string>}
+     * 
+     * @type {string}
      * @memberof ElectronicDocument
      */
-    issuerPhones?: Array<string>;
+    issuerWebsite?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    issuerEconomicActivity?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    sellerCode?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    internalInvoiceNumber?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ElectronicDocument
+     */
+    internalOrderNumber?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    salesZone?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    salesRoute?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ElectronicDocument
+     */
+    additionalIssuerInfo?: string;
     /**
      * 
      * @type {Buyer}
@@ -236,7 +350,7 @@ export interface ElectronicDocument {
      */
     buyer?: Buyer;
     /**
-     * Line items of the document. At least 1 required.
+     * 
      * @type {Array<Item>}
      * @memberof ElectronicDocument
      */
@@ -272,25 +386,34 @@ export interface ElectronicDocument {
      */
     referenceInfo?: ReferenceInfo;
     /**
-     * Page/section subtotals (for multi-page documents).
-     * @type {Array<Subtotal>}
+     * 
+     * @type {Subtotal}
      * @memberof ElectronicDocument
      */
-    subtotals?: Array<Subtotal>;
+    subtotals?: Subtotal;
     /**
-     * Document-level discounts or surcharges.
+     * 
      * @type {Array<DiscountOrSurcharge>}
      * @memberof ElectronicDocument
      */
     discountsOrSurcharges?: Array<DiscountOrSurcharge>;
     /**
-     * Page breakdown for multi-page documents.
-     * @type {Array<Page>}
+     * 
+     * @type {Page}
      * @memberof ElectronicDocument
      */
-    pages?: Array<Page>;
+    pages?: Page;
 }
 
+
+/**
+ * @export
+ */
+export const ElectronicDocumentCreditNoteIndicatorEnum = {
+    _0: '0',
+    _1: '1'
+} as const;
+export type ElectronicDocumentCreditNoteIndicatorEnum = typeof ElectronicDocumentCreditNoteIndicatorEnum[keyof typeof ElectronicDocumentCreditNoteIndicatorEnum];
 
 /**
  * @export
@@ -315,15 +438,6 @@ export const ElectronicDocumentPaymentTypeEnum = {
 } as const;
 export type ElectronicDocumentPaymentTypeEnum = typeof ElectronicDocumentPaymentTypeEnum[keyof typeof ElectronicDocumentPaymentTypeEnum];
 
-/**
- * @export
- */
-export const ElectronicDocumentCreditNoteIndicatorEnum = {
-    _0: '0',
-    _1: '1'
-} as const;
-export type ElectronicDocumentCreditNoteIndicatorEnum = typeof ElectronicDocumentCreditNoteIndicatorEnum[keyof typeof ElectronicDocumentCreditNoteIndicatorEnum];
-
 
 /**
  * Check if a given object implements the ElectronicDocument interface.
@@ -333,6 +447,7 @@ export function instanceOfElectronicDocument(value: object): value is Electronic
     if (!('invoiceType' in value) || value['invoiceType'] === undefined) return false;
     if (!('invoiceNumber' in value) || value['invoiceNumber'] === undefined) return false;
     if (!('issueDate' in value) || value['issueDate'] === undefined) return false;
+    if (!('paymentForms' in value) || value['paymentForms'] === undefined) return false;
     if (!('items' in value) || value['items'] === undefined) return false;
     if (!('totals' in value) || value['totals'] === undefined) return false;
     return true;
@@ -348,23 +463,43 @@ export function ElectronicDocumentFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
+        'environment': json['environment'] == null ? undefined : EnvironmentFromJSON(json['environment']),
         'version': json['version'],
         'invoiceType': InvoiceTypeFromJSON(json['invoiceType']),
         'invoiceNumber': json['invoiceNumber'],
         'issueDate': (new Date(json['issueDate'])),
         'expirationDate': json['expirationDate'] == null ? undefined : (new Date(json['expirationDate'])),
+        'creditNoteIndicator': json['creditNoteIndicator'] == null ? undefined : json['creditNoteIndicator'],
+        'deferredSendingIndicator': json['deferredSendingIndicator'] == null ? undefined : json['deferredSendingIndicator'],
+        'taxedAmountIndicator': json['taxedAmountIndicator'] == null ? undefined : json['taxedAmountIndicator'],
         'incomeType': json['incomeType'] == null ? undefined : json['incomeType'],
         'paymentType': json['paymentType'] == null ? undefined : json['paymentType'],
         'paymentDeadline': json['paymentDeadline'] == null ? undefined : (new Date(json['paymentDeadline'])),
         'paymentTerms': json['paymentTerms'] == null ? undefined : json['paymentTerms'],
+        'paymentForms': ((json['paymentForms'] as Array<any>).map(PaymentFormFromJSON)),
         'paymentAccountType': json['paymentAccountType'] == null ? undefined : AccountTypeFromJSON(json['paymentAccountType']),
         'paymentAccountNumber': json['paymentAccountNumber'] == null ? undefined : json['paymentAccountNumber'],
         'paymentBank': json['paymentBank'] == null ? undefined : json['paymentBank'],
-        'creditNoteIndicator': json['creditNoteIndicator'] == null ? undefined : json['creditNoteIndicator'],
+        'serviceStartDate': json['serviceStartDate'] == null ? undefined : (new Date(json['serviceStartDate'])),
+        'serviceEndDate': json['serviceEndDate'] == null ? undefined : (new Date(json['serviceEndDate'])),
+        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'issuerRNC': json['issuerRNC'] == null ? undefined : json['issuerRNC'],
         'issuerBusinessName': json['issuerBusinessName'] == null ? undefined : json['issuerBusinessName'],
-        'issuerEmail': json['issuerEmail'] == null ? undefined : json['issuerEmail'],
+        'issuerCommercialName': json['issuerCommercialName'] == null ? undefined : json['issuerCommercialName'],
+        'branchName': json['branchName'] == null ? undefined : json['branchName'],
+        'issuerAddress': json['issuerAddress'] == null ? undefined : json['issuerAddress'],
+        'municipalityCode': json['municipalityCode'] == null ? undefined : json['municipalityCode'],
+        'provinceCode': json['provinceCode'] == null ? undefined : json['provinceCode'],
         'issuerPhones': json['issuerPhones'] == null ? undefined : json['issuerPhones'],
+        'issuerEmail': json['issuerEmail'] == null ? undefined : json['issuerEmail'],
+        'issuerWebsite': json['issuerWebsite'] == null ? undefined : json['issuerWebsite'],
+        'issuerEconomicActivity': json['issuerEconomicActivity'] == null ? undefined : json['issuerEconomicActivity'],
+        'sellerCode': json['sellerCode'] == null ? undefined : json['sellerCode'],
+        'internalInvoiceNumber': json['internalInvoiceNumber'] == null ? undefined : json['internalInvoiceNumber'],
+        'internalOrderNumber': json['internalOrderNumber'] == null ? undefined : json['internalOrderNumber'],
+        'salesZone': json['salesZone'] == null ? undefined : json['salesZone'],
+        'salesRoute': json['salesRoute'] == null ? undefined : json['salesRoute'],
+        'additionalIssuerInfo': json['additionalIssuerInfo'] == null ? undefined : json['additionalIssuerInfo'],
         'buyer': json['buyer'] == null ? undefined : BuyerFromJSON(json['buyer']),
         'items': ((json['items'] as Array<any>).map(ItemFromJSON)),
         'totals': TotalsFromJSON(json['totals']),
@@ -372,9 +507,9 @@ export function ElectronicDocumentFromJSONTyped(json: any, ignoreDiscriminator: 
         'additionalInfo': json['additionalInfo'] == null ? undefined : AdditionalInfoFromJSON(json['additionalInfo']),
         'alternativeCurrency': json['alternativeCurrency'] == null ? undefined : AlternativeCurrencyFromJSON(json['alternativeCurrency']),
         'referenceInfo': json['referenceInfo'] == null ? undefined : ReferenceInfoFromJSON(json['referenceInfo']),
-        'subtotals': json['subtotals'] == null ? undefined : ((json['subtotals'] as Array<any>).map(SubtotalFromJSON)),
+        'subtotals': json['subtotals'] == null ? undefined : SubtotalFromJSON(json['subtotals']),
         'discountsOrSurcharges': json['discountsOrSurcharges'] == null ? undefined : ((json['discountsOrSurcharges'] as Array<any>).map(DiscountOrSurchargeFromJSON)),
-        'pages': json['pages'] == null ? undefined : ((json['pages'] as Array<any>).map(PageFromJSON)),
+        'pages': json['pages'] == null ? undefined : PageFromJSON(json['pages']),
     };
 }
 
@@ -389,23 +524,43 @@ export function ElectronicDocumentToJSONTyped(value?: ElectronicDocument | null,
 
     return {
         
+        'environment': EnvironmentToJSON(value['environment']),
         'version': value['version'],
         'invoiceType': InvoiceTypeToJSON(value['invoiceType']),
         'invoiceNumber': value['invoiceNumber'],
         'issueDate': value['issueDate'].toISOString(),
         'expirationDate': value['expirationDate'] == null ? value['expirationDate'] : value['expirationDate'].toISOString(),
+        'creditNoteIndicator': value['creditNoteIndicator'],
+        'deferredSendingIndicator': value['deferredSendingIndicator'],
+        'taxedAmountIndicator': value['taxedAmountIndicator'],
         'incomeType': value['incomeType'],
         'paymentType': value['paymentType'],
         'paymentDeadline': value['paymentDeadline'] == null ? value['paymentDeadline'] : value['paymentDeadline'].toISOString(),
         'paymentTerms': value['paymentTerms'],
+        'paymentForms': ((value['paymentForms'] as Array<any>).map(PaymentFormToJSON)),
         'paymentAccountType': AccountTypeToJSON(value['paymentAccountType']),
         'paymentAccountNumber': value['paymentAccountNumber'],
         'paymentBank': value['paymentBank'],
-        'creditNoteIndicator': value['creditNoteIndicator'],
+        'serviceStartDate': value['serviceStartDate'] == null ? value['serviceStartDate'] : value['serviceStartDate'].toISOString(),
+        'serviceEndDate': value['serviceEndDate'] == null ? value['serviceEndDate'] : value['serviceEndDate'].toISOString(),
+        'totalPages': value['totalPages'],
         'issuerRNC': value['issuerRNC'],
         'issuerBusinessName': value['issuerBusinessName'],
-        'issuerEmail': value['issuerEmail'],
+        'issuerCommercialName': value['issuerCommercialName'],
+        'branchName': value['branchName'],
+        'issuerAddress': value['issuerAddress'],
+        'municipalityCode': value['municipalityCode'],
+        'provinceCode': value['provinceCode'],
         'issuerPhones': value['issuerPhones'],
+        'issuerEmail': value['issuerEmail'],
+        'issuerWebsite': value['issuerWebsite'],
+        'issuerEconomicActivity': value['issuerEconomicActivity'],
+        'sellerCode': value['sellerCode'],
+        'internalInvoiceNumber': value['internalInvoiceNumber'],
+        'internalOrderNumber': value['internalOrderNumber'],
+        'salesZone': value['salesZone'],
+        'salesRoute': value['salesRoute'],
+        'additionalIssuerInfo': value['additionalIssuerInfo'],
         'buyer': BuyerToJSON(value['buyer']),
         'items': ((value['items'] as Array<any>).map(ItemToJSON)),
         'totals': TotalsToJSON(value['totals']),
@@ -413,9 +568,9 @@ export function ElectronicDocumentToJSONTyped(value?: ElectronicDocument | null,
         'additionalInfo': AdditionalInfoToJSON(value['additionalInfo']),
         'alternativeCurrency': AlternativeCurrencyToJSON(value['alternativeCurrency']),
         'referenceInfo': ReferenceInfoToJSON(value['referenceInfo']),
-        'subtotals': value['subtotals'] == null ? undefined : ((value['subtotals'] as Array<any>).map(SubtotalToJSON)),
+        'subtotals': SubtotalToJSON(value['subtotals']),
         'discountsOrSurcharges': value['discountsOrSurcharges'] == null ? undefined : ((value['discountsOrSurcharges'] as Array<any>).map(DiscountOrSurchargeToJSON)),
-        'pages': value['pages'] == null ? undefined : ((value['pages'] as Array<any>).map(PageToJSON)),
+        'pages': PageToJSON(value['pages']),
     };
 }
 

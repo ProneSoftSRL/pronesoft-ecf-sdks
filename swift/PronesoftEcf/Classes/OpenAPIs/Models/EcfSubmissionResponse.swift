@@ -15,34 +15,56 @@ public typealias EcfSubmissionResponse = PronesoftEcfAPI.EcfSubmissionResponse
 
 extension PronesoftEcfAPI {
 
-/** Response returned after successfully submitting an e-CF document. */
+/** Response after submitting an e-CF. HTTP 200 even when rejected. Check the success field and dgiiResponse.estado for actual result.  */
 public struct EcfSubmissionResponse: Codable, JSONEncodable, Hashable {
 
-    /** Whether the document was accepted by the platform. */
     public var success: Bool
-    /** Pronesoft internal document identifier. */
-    public var documentId: UUID
-    /** The e-NCF number assigned to the document. */
+    public var documentId: UUID?
+    public var dgiiResponse: EcfSubmissionResponseDgiiResponse?
+    public var qrUrl: String?
+    public var signatureTime: Date?
+    public var securityCode: String?
     public var encf: String?
-    /** DGII tracking ID for status polling. */
-    public var trackId: String?
-    /** Human-readable status message. */
+    public var documentType: String?
+    public var printUrl: String?
+    public var authType: String?
+    public var timestamp: Date?
     public var message: String?
+    public var contingencyMode: Bool?
+    public var estimatedProcessTime: String?
 
-    public init(success: Bool, documentId: UUID, encf: String? = nil, trackId: String? = nil, message: String? = nil) {
+    public init(success: Bool, documentId: UUID? = nil, dgiiResponse: EcfSubmissionResponseDgiiResponse? = nil, qrUrl: String? = nil, signatureTime: Date? = nil, securityCode: String? = nil, encf: String? = nil, documentType: String? = nil, printUrl: String? = nil, authType: String? = nil, timestamp: Date? = nil, message: String? = nil, contingencyMode: Bool? = nil, estimatedProcessTime: String? = nil) {
         self.success = success
         self.documentId = documentId
+        self.dgiiResponse = dgiiResponse
+        self.qrUrl = qrUrl
+        self.signatureTime = signatureTime
+        self.securityCode = securityCode
         self.encf = encf
-        self.trackId = trackId
+        self.documentType = documentType
+        self.printUrl = printUrl
+        self.authType = authType
+        self.timestamp = timestamp
         self.message = message
+        self.contingencyMode = contingencyMode
+        self.estimatedProcessTime = estimatedProcessTime
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case success
         case documentId
+        case dgiiResponse
+        case qrUrl
+        case signatureTime
+        case securityCode
         case encf
-        case trackId
+        case documentType
+        case printUrl
+        case authType
+        case timestamp
         case message
+        case contingencyMode
+        case estimatedProcessTime
     }
 
     // Encodable protocol methods
@@ -50,10 +72,19 @@ public struct EcfSubmissionResponse: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(success, forKey: .success)
-        try container.encode(documentId, forKey: .documentId)
+        try container.encodeIfPresent(documentId, forKey: .documentId)
+        try container.encodeIfPresent(dgiiResponse, forKey: .dgiiResponse)
+        try container.encodeIfPresent(qrUrl, forKey: .qrUrl)
+        try container.encodeIfPresent(signatureTime, forKey: .signatureTime)
+        try container.encodeIfPresent(securityCode, forKey: .securityCode)
         try container.encodeIfPresent(encf, forKey: .encf)
-        try container.encodeIfPresent(trackId, forKey: .trackId)
+        try container.encodeIfPresent(documentType, forKey: .documentType)
+        try container.encodeIfPresent(printUrl, forKey: .printUrl)
+        try container.encodeIfPresent(authType, forKey: .authType)
+        try container.encodeIfPresent(timestamp, forKey: .timestamp)
         try container.encodeIfPresent(message, forKey: .message)
+        try container.encodeIfPresent(contingencyMode, forKey: .contingencyMode)
+        try container.encodeIfPresent(estimatedProcessTime, forKey: .estimatedProcessTime)
     }
 }
 

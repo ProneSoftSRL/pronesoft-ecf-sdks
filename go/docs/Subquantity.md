@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Quantity** | **float32** | Quantity in this unit of measure. | 
-**UnitCode** | **float32** | DGII unit of measure code. | 
+**Quantity** | **float32** |  | 
+**UnitCode** | **int32** |  | 
 
 ## Methods
 
 ### NewSubquantity
 
-`func NewSubquantity(quantity float32, unitCode float32, ) *Subquantity`
+`func NewSubquantity(quantity float32, unitCode int32, ) *Subquantity`
 
 NewSubquantity instantiates a new Subquantity object
 This constructor will assign default values to properties that have it defined,
@@ -48,20 +48,20 @@ SetQuantity sets Quantity field to given value.
 
 ### GetUnitCode
 
-`func (o *Subquantity) GetUnitCode() float32`
+`func (o *Subquantity) GetUnitCode() int32`
 
 GetUnitCode returns the UnitCode field if non-nil, zero value otherwise.
 
 ### GetUnitCodeOk
 
-`func (o *Subquantity) GetUnitCodeOk() (*float32, bool)`
+`func (o *Subquantity) GetUnitCodeOk() (*int32, bool)`
 
 GetUnitCodeOk returns a tuple with the UnitCode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUnitCode
 
-`func (o *Subquantity) SetUnitCode(v float32)`
+`func (o *Subquantity) SetUnitCode(v int32)`
 
 SetUnitCode sets UnitCode field to given value.
 

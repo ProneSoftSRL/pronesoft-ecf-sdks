@@ -1,7 +1,6 @@
 
 # PrintFormat
 
-Printer/receipt format: - `A4`: Standard A4 paper - `thermal_80`: 80mm thermal printer - `thermal_58`: 58mm thermal printer 
 
 ## Properties
 
@@ -11,7 +10,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { PrintFormat } from '@pronesoft/ecf-sdk'
+import type { PrintFormat } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

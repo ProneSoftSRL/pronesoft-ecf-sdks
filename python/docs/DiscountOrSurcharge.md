@@ -1,18 +1,18 @@
 # DiscountOrSurcharge
 
-A document-level discount or surcharge.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**line_number** | **int** | Reference line number this discount/surcharge applies to. | 
-**type** | **str** | - &#x60;D&#x60;: Discount (Descuento) - &#x60;R&#x60;: Surcharge/Recargo (Recargo)  | 
-**value_type** | **str** | Whether the amount is a fixed value (&#x60;$&#x60;) or a percentage (&#x60;%&#x60;). | 
-**amount** | **float** | Discount or surcharge amount. | 
-**description** | **str** | Description of the discount or surcharge. | [optional] 
-**percentage_value** | **float** | Percentage value (when valueType is \&quot;%\&quot;). | [optional] 
-**alternative_currency_amount** | **float** | Equivalent amount in the alternative currency. | [optional] 
+**line_number** | **int** |  | 
+**type** | **str** | D&#x3D;Discount, R&#x3D;Surcharge | 
+**norm1007_indicator** | **str** |  | [optional] 
+**description** | **str** |  | [optional] 
+**value_type** | **str** |  | 
+**percentage_value** | **float** |  | [optional] 
+**amount** | **float** |  | 
+**alternative_currency_amount** | **float** |  | [optional] 
 **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  | [optional] 
 
 ## Example

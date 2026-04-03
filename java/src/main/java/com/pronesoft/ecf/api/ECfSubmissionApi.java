@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -27,10 +27,14 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.pronesoft.ecf.model.EcfHistoryItem;
+import com.pronesoft.ecf.model.EcfStatsResponse;
+import com.pronesoft.ecf.model.EcfStatusResponse;
 import com.pronesoft.ecf.model.EcfSubmissionResponse;
 import com.pronesoft.ecf.model.ElectronicDocument;
 import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.ErrorResponse;
+import com.pronesoft.ecf.model.RateLimitErrorResponse;
 import java.util.UUID;
 
 import java.lang.reflect.Type;
@@ -77,10 +81,9 @@ public class ECfSubmissionApi {
     }
 
     /**
-     * Build call for submitEcf
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param environment Target submission environment. (required)
-     * @param electronicDocument  (required)
+     * Build call for getEcfHistory
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -88,12 +91,444 @@ public class ECfSubmissionApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Document accepted and submitted to DGII </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Document history </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call submitEcfCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getEcfHistoryCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/{environment}/ecf/responses/history"
+            .replace("{" + "environment" + "}", localVarApiClient.escapeString(environment.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xTenantId != null) {
+            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getEcfHistoryValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'environment' is set
+        if (environment == null) {
+            throw new ApiException("Missing the required parameter 'environment' when calling getEcfHistory(Async)");
+        }
+
+        return getEcfHistoryCall(environment, xTenantId, _callback);
+
+    }
+
+    /**
+     * Get submission history (last 50 documents)
+     * 
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return List&lt;EcfHistoryItem&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document history </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public List<EcfHistoryItem> getEcfHistory(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<List<EcfHistoryItem>> localVarResp = getEcfHistoryWithHttpInfo(environment, xTenantId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get submission history (last 50 documents)
+     * 
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse&lt;List&lt;EcfHistoryItem&gt;&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document history </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<List<EcfHistoryItem>> getEcfHistoryWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = getEcfHistoryValidateBeforeCall(environment, xTenantId, null);
+        Type localVarReturnType = new TypeToken<List<EcfHistoryItem>>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get submission history (last 50 documents) (asynchronously)
+     * 
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document history </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getEcfHistoryAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<List<EcfHistoryItem>> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getEcfHistoryValidateBeforeCall(environment, xTenantId, _callback);
+        Type localVarReturnType = new TypeToken<List<EcfHistoryItem>>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for getEcfStats
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Submission statistics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getEcfStatsCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/{environment}/ecf/responses/stats"
+            .replace("{" + "environment" + "}", localVarApiClient.escapeString(environment.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xTenantId != null) {
+            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getEcfStatsValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'environment' is set
+        if (environment == null) {
+            throw new ApiException("Missing the required parameter 'environment' when calling getEcfStats(Async)");
+        }
+
+        return getEcfStatsCall(environment, xTenantId, _callback);
+
+    }
+
+    /**
+     * Get submission statistics (last 30 days)
+     * 
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return EcfStatsResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Submission statistics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public EcfStatsResponse getEcfStats(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<EcfStatsResponse> localVarResp = getEcfStatsWithHttpInfo(environment, xTenantId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get submission statistics (last 30 days)
+     * 
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse&lt;EcfStatsResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Submission statistics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<EcfStatsResponse> getEcfStatsWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = getEcfStatsValidateBeforeCall(environment, xTenantId, null);
+        Type localVarReturnType = new TypeToken<EcfStatsResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get submission statistics (last 30 days) (asynchronously)
+     * 
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Submission statistics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getEcfStatsAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<EcfStatsResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getEcfStatsValidateBeforeCall(environment, xTenantId, _callback);
+        Type localVarReturnType = new TypeToken<EcfStatsResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for getEcfStatus
+     * @param environment  (required)
+     * @param trackId  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document status </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getEcfStatusCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String trackId, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/{environment}/ecf/status/{trackId}"
+            .replace("{" + "environment" + "}", localVarApiClient.escapeString(environment.toString()))
+            .replace("{" + "trackId" + "}", localVarApiClient.escapeString(trackId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xTenantId != null) {
+            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getEcfStatusValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String trackId, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'environment' is set
+        if (environment == null) {
+            throw new ApiException("Missing the required parameter 'environment' when calling getEcfStatus(Async)");
+        }
+
+        // verify the required parameter 'trackId' is set
+        if (trackId == null) {
+            throw new ApiException("Missing the required parameter 'trackId' when calling getEcfStatus(Async)");
+        }
+
+        return getEcfStatusCall(environment, trackId, xTenantId, _callback);
+
+    }
+
+    /**
+     * Get document status by trackId
+     * 
+     * @param environment  (required)
+     * @param trackId  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return EcfStatusResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document status </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public EcfStatusResponse getEcfStatus(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String trackId, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<EcfStatusResponse> localVarResp = getEcfStatusWithHttpInfo(environment, trackId, xTenantId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get document status by trackId
+     * 
+     * @param environment  (required)
+     * @param trackId  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse&lt;EcfStatusResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document status </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<EcfStatusResponse> getEcfStatusWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String trackId, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = getEcfStatusValidateBeforeCall(environment, trackId, xTenantId, null);
+        Type localVarReturnType = new TypeToken<EcfStatusResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get document status by trackId (asynchronously)
+     * 
+     * @param environment  (required)
+     * @param trackId  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document status </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getEcfStatusAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String trackId, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<EcfStatusResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getEcfStatusValidateBeforeCall(environment, trackId, xTenantId, _callback);
+        Type localVarReturnType = new TypeToken<EcfStatusResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for submitEcf
+     * @param environment  (required)
+     * @param electronicDocument  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document submitted (approved, queued, or contingency mode) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Rate limit exceeded. Retry after indicated seconds. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call submitEcfCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -145,12 +580,7 @@ public class ECfSubmissionApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call submitEcfValidateBeforeCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'xTenantId' is set
-        if (xTenantId == null) {
-            throw new ApiException("Missing the required parameter 'xTenantId' when calling submitEcf(Async)");
-        }
-
+    private okhttp3.Call submitEcfValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'environment' is set
         if (environment == null) {
             throw new ApiException("Missing the required parameter 'environment' when calling submitEcf(Async)");
@@ -161,61 +591,63 @@ public class ECfSubmissionApi {
             throw new ApiException("Missing the required parameter 'electronicDocument' when calling submitEcf(Async)");
         }
 
-        return submitEcfCall(xTenantId, environment, electronicDocument, _callback);
+        return submitEcfCall(environment, electronicDocument, xTenantId, _callback);
 
     }
 
     /**
      * Submit e-CF document to DGII
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the &#x60;ElectronicDocument&#x60; payload. 2. Call this endpoint with the target &#x60;environment&#x60; in the path. 3. Receive a &#x60;documentId&#x60; and &#x60;trackId&#x60; in the response. 4. Listen for the &#x60;document.status_changed&#x60; webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | &#x60;TesteCF&#x60; | Functional tests (no DGII interaction) | | &#x60;CerteCF&#x60; | DGII certification environment | | &#x60;eCF&#x60; | Production — real documents | 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param environment Target submission environment. (required)
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+     * @param environment  (required)
      * @param electronicDocument  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return EcfSubmissionResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Document accepted and submitted to DGII </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Document submitted (approved, queued, or contingency mode) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Rate limit exceeded. Retry after indicated seconds. </td><td>  -  </td></tr>
      </table>
      */
-    public EcfSubmissionResponse submitEcf(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument) throws ApiException {
-        ApiResponse<EcfSubmissionResponse> localVarResp = submitEcfWithHttpInfo(xTenantId, environment, electronicDocument);
+    public EcfSubmissionResponse submitEcf(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<EcfSubmissionResponse> localVarResp = submitEcfWithHttpInfo(environment, electronicDocument, xTenantId);
         return localVarResp.getData();
     }
 
     /**
      * Submit e-CF document to DGII
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the &#x60;ElectronicDocument&#x60; payload. 2. Call this endpoint with the target &#x60;environment&#x60; in the path. 3. Receive a &#x60;documentId&#x60; and &#x60;trackId&#x60; in the response. 4. Listen for the &#x60;document.status_changed&#x60; webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | &#x60;TesteCF&#x60; | Functional tests (no DGII interaction) | | &#x60;CerteCF&#x60; | DGII certification environment | | &#x60;eCF&#x60; | Production — real documents | 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param environment Target submission environment. (required)
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+     * @param environment  (required)
      * @param electronicDocument  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return ApiResponse&lt;EcfSubmissionResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Document accepted and submitted to DGII </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Document submitted (approved, queued, or contingency mode) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Rate limit exceeded. Retry after indicated seconds. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<EcfSubmissionResponse> submitEcfWithHttpInfo(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument) throws ApiException {
-        okhttp3.Call localVarCall = submitEcfValidateBeforeCall(xTenantId, environment, electronicDocument, null);
+    public ApiResponse<EcfSubmissionResponse> submitEcfWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = submitEcfValidateBeforeCall(environment, electronicDocument, xTenantId, null);
         Type localVarReturnType = new TypeToken<EcfSubmissionResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Submit e-CF document to DGII (asynchronously)
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the &#x60;ElectronicDocument&#x60; payload. 2. Call this endpoint with the target &#x60;environment&#x60; in the path. 3. Receive a &#x60;documentId&#x60; and &#x60;trackId&#x60; in the response. 4. Listen for the &#x60;document.status_changed&#x60; webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | &#x60;TesteCF&#x60; | Functional tests (no DGII interaction) | | &#x60;CerteCF&#x60; | DGII certification environment | | &#x60;eCF&#x60; | Production — real documents | 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param environment Target submission environment. (required)
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+     * @param environment  (required)
      * @param electronicDocument  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -223,14 +655,15 @@ public class ECfSubmissionApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Document accepted and submitted to DGII </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Document submitted (approved, queued, or contingency mode) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Rate limit exceeded. Retry after indicated seconds. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call submitEcfAsync(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, final ApiCallback<EcfSubmissionResponse> _callback) throws ApiException {
+    public okhttp3.Call submitEcfAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<EcfSubmissionResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = submitEcfValidateBeforeCall(xTenantId, environment, electronicDocument, _callback);
+        okhttp3.Call localVarCall = submitEcfValidateBeforeCall(environment, electronicDocument, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<EcfSubmissionResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

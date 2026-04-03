@@ -4,9 +4,17 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **id** | **String** | Internal sequence identifier. | [optional] |
-| **type** | [**InvoiceType**](InvoiceType.md) |  | [optional] |
-| **next_number** | **String** | Next available e-NCF number in this sequence. | [optional] |
+| **id** | **String** |  | [optional] |
+| **type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | [optional] |
+| **start_number** | **String** |  | [optional] |
+| **end_number** | **String** |  | [optional] |
+| **current_number** | **String** |  | [optional] |
+| **status** | **String** |  | [optional] |
+| **total_numbers** | **Integer** |  | [optional] |
+| **used_numbers** | **Integer** |  | [optional] |
+| **available_numbers** | **Integer** |  | [optional] |
+| **created_at** | **Time** |  | [optional] |
+| **expires_at** | **Time** |  | [optional] |
 
 ## Example
 
@@ -14,9 +22,17 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::TaxSequence.new(
-  id: null,
+  id: seq_sbx_1234567890,
   type: null,
-  next_number: E310000000001
+  start_number: E32000000001,
+  end_number: E32000010000,
+  current_number: E32000005250,
+  status: null,
+  total_numbers: null,
+  used_numbers: null,
+  available_numbers: null,
+  created_at: null,
+  expires_at: null
 )
 ```
 

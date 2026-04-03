@@ -28,9 +28,11 @@ import com.pronesoft.ecf.models.AdditionalInfo
 import com.pronesoft.ecf.models.AlternativeCurrency
 import com.pronesoft.ecf.models.Buyer
 import com.pronesoft.ecf.models.DiscountOrSurcharge
+import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.InvoiceType
 import com.pronesoft.ecf.models.Item
 import com.pronesoft.ecf.models.Page
+import com.pronesoft.ecf.models.PaymentForm
 import com.pronesoft.ecf.models.ReferenceInfo
 import com.pronesoft.ecf.models.Subtotal
 import com.pronesoft.ecf.models.Totals
@@ -39,112 +41,183 @@ import com.pronesoft.ecf.models.Transport
 import com.google.gson.annotations.SerializedName
 
 /**
- * The main e-CF document payload. Build this object and submit it to `POST /{environment}/ecf/submit`.  **Required fields:** `version`, `invoiceType`, `invoiceNumber`, `issueDate`, `items`, `totals`.  Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`. 
+ * Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
  *
- * @param version Document schema version. Always \"1.0\".
+ * @param version Always 1.
  * @param invoiceType 
- * @param invoiceNumber e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`. 
- * @param issueDate Document issue date and time (ISO 8601).
- * @param items Line items of the document. At least 1 required.
+ * @param invoiceNumber e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+ * @param issueDate 
+ * @param paymentForms Payment breakdown. Required.
+ * @param items 
  * @param totals 
- * @param expirationDate Document expiration date (optional, for credit documents).
- * @param incomeType Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income 
- * @param paymentType Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto) 
- * @param paymentDeadline Payment due date (required when paymentType is \"2\" or \"3\").
- * @param paymentTerms Payment terms description (e.g. \"Net 30\").
+ * @param environment 
+ * @param expirationDate 
+ * @param creditNoteIndicator Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+ * @param deferredSendingIndicator 
+ * @param taxedAmountIndicator 
+ * @param incomeType 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
+ * @param paymentType 1=Cash, 2=Credit, 3=Mixed
+ * @param paymentDeadline 
+ * @param paymentTerms 
  * @param paymentAccountType 
- * @param paymentAccountNumber Bank account number for payment reference.
- * @param paymentBank Bank name for payment reference.
- * @param creditNoteIndicator For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago 
- * @param issuerRNC RNC of the issuing company (overrides tenant default if provided).
- * @param issuerBusinessName Legal business name of the issuer.
- * @param issuerEmail Contact email of the issuer.
- * @param issuerPhones Issuer phone numbers in format \"809-555-1234\".
+ * @param paymentAccountNumber 
+ * @param paymentBank 
+ * @param serviceStartDate 
+ * @param serviceEndDate 
+ * @param totalPages 
+ * @param issuerRNC RNC of the issuing company.
+ * @param issuerBusinessName 
+ * @param issuerCommercialName 
+ * @param branchName 
+ * @param issuerAddress 
+ * @param municipalityCode 
+ * @param provinceCode 
+ * @param issuerPhones 
+ * @param issuerEmail 
+ * @param issuerWebsite 
+ * @param issuerEconomicActivity 
+ * @param sellerCode 
+ * @param internalInvoiceNumber 
+ * @param internalOrderNumber 
+ * @param salesZone 
+ * @param salesRoute 
+ * @param additionalIssuerInfo 
  * @param buyer 
  * @param transport 
  * @param additionalInfo 
  * @param alternativeCurrency 
  * @param referenceInfo 
- * @param subtotals Page/section subtotals (for multi-page documents).
- * @param discountsOrSurcharges Document-level discounts or surcharges.
- * @param pages Page breakdown for multi-page documents.
+ * @param subtotals 
+ * @param discountsOrSurcharges 
+ * @param pages 
  */
 
 
 data class ElectronicDocument (
 
-    /* Document schema version. Always \"1.0\". */
+    /* Always 1. */
     @SerializedName("version")
-    val version: kotlin.String = "1.0",
+    val version: kotlin.Int = 1,
 
     @SerializedName("invoiceType")
     val invoiceType: InvoiceType,
 
-    /* e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`.  */
+    /* e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). */
     @SerializedName("invoiceNumber")
     val invoiceNumber: kotlin.String,
 
-    /* Document issue date and time (ISO 8601). */
     @SerializedName("issueDate")
     val issueDate: java.time.OffsetDateTime,
 
-    /* Line items of the document. At least 1 required. */
+    /* Payment breakdown. Required. */
+    @SerializedName("paymentForms")
+    val paymentForms: kotlin.collections.List<PaymentForm>,
+
     @SerializedName("items")
     val items: kotlin.collections.List<Item>,
 
     @SerializedName("totals")
     val totals: Totals,
 
-    /* Document expiration date (optional, for credit documents). */
+    @SerializedName("environment")
+    val environment: Environment? = null,
+
     @SerializedName("expirationDate")
     val expirationDate: java.time.OffsetDateTime? = null,
 
-    /* Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income  */
+    /* Credit Notes only: 0=affected invoice <=30 days, 1=>30 days */
+    @SerializedName("creditNoteIndicator")
+    val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
+
+    @SerializedName("deferredSendingIndicator")
+    val deferredSendingIndicator: kotlin.String? = null,
+
+    @SerializedName("taxedAmountIndicator")
+    val taxedAmountIndicator: kotlin.String? = null,
+
+    /* 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other */
     @SerializedName("incomeType")
     val incomeType: ElectronicDocument.IncomeType? = null,
 
-    /* Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto)  */
+    /* 1=Cash, 2=Credit, 3=Mixed */
     @SerializedName("paymentType")
     val paymentType: ElectronicDocument.PaymentType? = null,
 
-    /* Payment due date (required when paymentType is \"2\" or \"3\"). */
     @SerializedName("paymentDeadline")
     val paymentDeadline: java.time.OffsetDateTime? = null,
 
-    /* Payment terms description (e.g. \"Net 30\"). */
     @SerializedName("paymentTerms")
     val paymentTerms: kotlin.String? = null,
 
     @SerializedName("paymentAccountType")
     val paymentAccountType: AccountType? = null,
 
-    /* Bank account number for payment reference. */
     @SerializedName("paymentAccountNumber")
     val paymentAccountNumber: kotlin.String? = null,
 
-    /* Bank name for payment reference. */
     @SerializedName("paymentBank")
     val paymentBank: kotlin.String? = null,
 
-    /* For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago  */
-    @SerializedName("creditNoteIndicator")
-    val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
+    @SerializedName("serviceStartDate")
+    val serviceStartDate: java.time.OffsetDateTime? = null,
 
-    /* RNC of the issuing company (overrides tenant default if provided). */
+    @SerializedName("serviceEndDate")
+    val serviceEndDate: java.time.OffsetDateTime? = null,
+
+    @SerializedName("totalPages")
+    val totalPages: kotlin.Int? = null,
+
+    /* RNC of the issuing company. */
     @SerializedName("issuerRNC")
     val issuerRNC: kotlin.String? = null,
 
-    /* Legal business name of the issuer. */
     @SerializedName("issuerBusinessName")
     val issuerBusinessName: kotlin.String? = null,
 
-    /* Contact email of the issuer. */
+    @SerializedName("issuerCommercialName")
+    val issuerCommercialName: kotlin.String? = null,
+
+    @SerializedName("branchName")
+    val branchName: kotlin.String? = null,
+
+    @SerializedName("issuerAddress")
+    val issuerAddress: kotlin.String? = null,
+
+    @SerializedName("municipalityCode")
+    val municipalityCode: kotlin.String? = null,
+
+    @SerializedName("provinceCode")
+    val provinceCode: kotlin.String? = null,
+
+    @SerializedName("issuerPhones")
+    val issuerPhones: kotlin.collections.List<kotlin.String>? = null,
+
     @SerializedName("issuerEmail")
     val issuerEmail: kotlin.String? = null,
 
-    /* Issuer phone numbers in format \"809-555-1234\". */
-    @SerializedName("issuerPhones")
-    val issuerPhones: kotlin.collections.List<kotlin.String>? = null,
+    @SerializedName("issuerWebsite")
+    val issuerWebsite: java.net.URI? = null,
+
+    @SerializedName("issuerEconomicActivity")
+    val issuerEconomicActivity: kotlin.String? = null,
+
+    @SerializedName("sellerCode")
+    val sellerCode: kotlin.String? = null,
+
+    @SerializedName("internalInvoiceNumber")
+    val internalInvoiceNumber: kotlin.String? = null,
+
+    @SerializedName("internalOrderNumber")
+    val internalOrderNumber: kotlin.Int? = null,
+
+    @SerializedName("salesZone")
+    val salesZone: kotlin.String? = null,
+
+    @SerializedName("salesRoute")
+    val salesRoute: kotlin.String? = null,
+
+    @SerializedName("additionalIssuerInfo")
+    val additionalIssuerInfo: kotlin.String? = null,
 
     @SerializedName("buyer")
     val buyer: Buyer? = null,
@@ -161,22 +234,28 @@ data class ElectronicDocument (
     @SerializedName("referenceInfo")
     val referenceInfo: ReferenceInfo? = null,
 
-    /* Page/section subtotals (for multi-page documents). */
     @SerializedName("subtotals")
-    val subtotals: kotlin.collections.List<Subtotal>? = null,
+    val subtotals: Subtotal? = null,
 
-    /* Document-level discounts or surcharges. */
     @SerializedName("discountsOrSurcharges")
     val discountsOrSurcharges: kotlin.collections.List<DiscountOrSurcharge>? = null,
 
-    /* Page breakdown for multi-page documents. */
     @SerializedName("pages")
-    val pages: kotlin.collections.List<Page>? = null
+    val pages: Page? = null
 
 ) {
 
     /**
-     * Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income 
+     * Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+     *
+     * Values: _0,_1
+     */
+    enum class CreditNoteIndicator(val value: kotlin.String) {
+        @SerializedName(value = "0") _0("0"),
+        @SerializedName(value = "1") _1("1");
+    }
+    /**
+     * 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
      *
      * Values: _01,_02,_03,_04,_05,_06
      */
@@ -189,7 +268,7 @@ data class ElectronicDocument (
         @SerializedName(value = "06") _06("06");
     }
     /**
-     * Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto) 
+     * 1=Cash, 2=Credit, 3=Mixed
      *
      * Values: _1,_2,_3
      */
@@ -197,15 +276,6 @@ data class ElectronicDocument (
         @SerializedName(value = "1") _1("1"),
         @SerializedName(value = "2") _2("2"),
         @SerializedName(value = "3") _3("3");
-    }
-    /**
-     * For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago 
-     *
-     * Values: _0,_1
-     */
-    enum class CreditNoteIndicator(val value: kotlin.String) {
-        @SerializedName(value = "0") _0("0"),
-        @SerializedName(value = "1") _1("1");
     }
 
 }

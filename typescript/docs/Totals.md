@@ -1,7 +1,6 @@
 
 # Totals
 
-Document totals. `totalAmount` is required. Provide ITBIS breakdowns by rate when applicable. 
 
 ## Properties
 
@@ -20,7 +19,7 @@ Name | Type
 `itbis2` | number
 `itbis3` | number
 `additionalTaxAmount` | number
-`additionalTaxes` | [Array&lt;ItemAdditionalTax&gt;](ItemAdditionalTax.md)
+`additionalTaxes` | Array&lt;string&gt;
 `totalAmount` | number
 `nonBillableAmount` | number
 `periodAmount` | number
@@ -35,7 +34,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Totals } from '@pronesoft/ecf-sdk'
+import type { Totals } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

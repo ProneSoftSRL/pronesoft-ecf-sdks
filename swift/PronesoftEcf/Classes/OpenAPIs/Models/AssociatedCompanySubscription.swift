@@ -17,7 +17,6 @@ extension PronesoftEcfAPI {
 
 public struct AssociatedCompanySubscription: Codable, JSONEncodable, Hashable {
 
-    /** Subscription status (e.g. \"active\", \"expired\"). */
     public var status: String?
     public var expirationDate: Date?
     public var plan: AssociatedCompanySubscriptionPlan?

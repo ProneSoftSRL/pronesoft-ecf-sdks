@@ -1,7 +1,7 @@
 
 # Environment
 
-Target environment for e-CF submission. - `TesteCF`: Functional tests, no real DGII interaction. - `CerteCF`: DGII certification environment. - `eCF`: Production — issues real legal documents. 
+TesteCF=testing no DGII, CerteCF=official certification, eCF=production
 
 ## Properties
 
@@ -11,7 +11,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Environment } from '@pronesoft/ecf-sdk'
+import type { Environment } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

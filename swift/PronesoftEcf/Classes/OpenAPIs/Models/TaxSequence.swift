@@ -15,25 +15,52 @@ public typealias TaxSequence = PronesoftEcfAPI.TaxSequence
 
 extension PronesoftEcfAPI {
 
-/** A registered fiscal number sequence for a given invoice type. */
 public struct TaxSequence: Codable, JSONEncodable, Hashable {
 
-    /** Internal sequence identifier. */
+    public enum Status: String, Codable, CaseIterable {
+        case active = "ACTIVE"
+        case exhausted = "EXHAUSTED"
+        case expired = "EXPIRED"
+        case voided = "VOIDED"
+    }
     public var id: String?
-    public var type: InvoiceType?
-    /** Next available e-NCF number in this sequence. */
-    public var nextNumber: String?
+    public var type: InvoiceTypeSequence?
+    public var startNumber: String?
+    public var endNumber: String?
+    public var currentNumber: String?
+    public var status: Status?
+    public var totalNumbers: Int?
+    public var usedNumbers: Int?
+    public var availableNumbers: Int?
+    public var createdAt: Date?
+    public var expiresAt: Date?
 
-    public init(id: String? = nil, type: InvoiceType? = nil, nextNumber: String? = nil) {
+    public init(id: String? = nil, type: InvoiceTypeSequence? = nil, startNumber: String? = nil, endNumber: String? = nil, currentNumber: String? = nil, status: Status? = nil, totalNumbers: Int? = nil, usedNumbers: Int? = nil, availableNumbers: Int? = nil, createdAt: Date? = nil, expiresAt: Date? = nil) {
         self.id = id
         self.type = type
-        self.nextNumber = nextNumber
+        self.startNumber = startNumber
+        self.endNumber = endNumber
+        self.currentNumber = currentNumber
+        self.status = status
+        self.totalNumbers = totalNumbers
+        self.usedNumbers = usedNumbers
+        self.availableNumbers = availableNumbers
+        self.createdAt = createdAt
+        self.expiresAt = expiresAt
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case type
-        case nextNumber
+        case startNumber
+        case endNumber
+        case currentNumber
+        case status
+        case totalNumbers
+        case usedNumbers
+        case availableNumbers
+        case createdAt
+        case expiresAt
     }
 
     // Encodable protocol methods
@@ -42,7 +69,15 @@ public struct TaxSequence: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(type, forKey: .type)
-        try container.encodeIfPresent(nextNumber, forKey: .nextNumber)
+        try container.encodeIfPresent(startNumber, forKey: .startNumber)
+        try container.encodeIfPresent(endNumber, forKey: .endNumber)
+        try container.encodeIfPresent(currentNumber, forKey: .currentNumber)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(totalNumbers, forKey: .totalNumbers)
+        try container.encodeIfPresent(usedNumbers, forKey: .usedNumbers)
+        try container.encodeIfPresent(availableNumbers, forKey: .availableNumbers)
+        try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(expiresAt, forKey: .expiresAt)
     }
 }
 

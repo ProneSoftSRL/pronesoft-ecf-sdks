@@ -1,7 +1,6 @@
 
 # Subquantity
 
-Sub-quantity for items measured in multiple units.
 
 ## Properties
 
@@ -13,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Subquantity } from '@pronesoft/ecf-sdk'
+import type { Subquantity } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

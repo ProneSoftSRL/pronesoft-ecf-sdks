@@ -28,7 +28,10 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import com.pronesoft.ecf.models.AssociatedCompany
+import com.pronesoft.ecf.models.CompanyDocumentMetrics
+import com.pronesoft.ecf.models.CompanyMetrics
 import com.pronesoft.ecf.models.CreateAssociatedCompany201Response
+import com.pronesoft.ecf.models.DeleteAssociatedCompany200Response
 import com.pronesoft.ecf.models.ErrorResponse
 import com.pronesoft.ecf.models.PrintFormat
 
@@ -58,25 +61,24 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /associated-companies
-     * Create new associated company
-     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param email Owner&#39;s email address (used for login).
-     * @param password Initial password for the new account (min 8 characters).
-     * @param name Legal business name.
-     * @param rnc Company RNC (9 digits) or personal cedula (11 digits).
+     * Create associated company / branch
+     * 
+     * @param email 
+     * @param password 
+     * @param name 
+     * @param rnc 
      * @param phone 
      * @param address 
      * @param city 
      * @param country 
+     * @param printerType 
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category Business category or industry. (optional)
-     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     * @param printerType  (optional)
-     * @param logo Company logo image file (multipart upload). (optional)
+     * @param category  (optional)
+     * @param monthlySalesRange  (optional)
+     * @param logo  (optional)
      * @return CreateAssociatedCompany201Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -86,8 +88,8 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createAssociatedCompany(xTenantId: java.util.UUID, email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, firstName: kotlin.String? = null, lastName: kotlin.String? = null, jobTitle: kotlin.String? = null, website: java.net.URI? = null, category: kotlin.String? = null, monthlySalesRange: kotlin.String? = null, printerType: PrintFormat? = null, logo: java.io.File? = null) : CreateAssociatedCompany201Response {
-        val localVarResponse = createAssociatedCompanyWithHttpInfo(xTenantId = xTenantId, email = email, password = password, name = name, rnc = rnc, phone = phone, address = address, city = city, country = country, firstName = firstName, lastName = lastName, jobTitle = jobTitle, website = website, category = category, monthlySalesRange = monthlySalesRange, printerType = printerType, logo = logo)
+    fun createAssociatedCompany(email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, printerType: PrintFormat, firstName: kotlin.String? = null, lastName: kotlin.String? = null, jobTitle: kotlin.String? = null, website: java.net.URI? = null, category: kotlin.String? = null, monthlySalesRange: kotlin.String? = null, logo: java.io.File? = null) : CreateAssociatedCompany201Response {
+        val localVarResponse = createAssociatedCompanyWithHttpInfo(email = email, password = password, name = name, rnc = rnc, phone = phone, address = address, city = city, country = country, printerType = printerType, firstName = firstName, lastName = lastName, jobTitle = jobTitle, website = website, category = category, monthlySalesRange = monthlySalesRange, logo = logo)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateAssociatedCompany201Response
@@ -106,33 +108,32 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /associated-companies
-     * Create new associated company
-     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param email Owner&#39;s email address (used for login).
-     * @param password Initial password for the new account (min 8 characters).
-     * @param name Legal business name.
-     * @param rnc Company RNC (9 digits) or personal cedula (11 digits).
+     * Create associated company / branch
+     * 
+     * @param email 
+     * @param password 
+     * @param name 
+     * @param rnc 
      * @param phone 
      * @param address 
      * @param city 
      * @param country 
+     * @param printerType 
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category Business category or industry. (optional)
-     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     * @param printerType  (optional)
-     * @param logo Company logo image file (multipart upload). (optional)
+     * @param category  (optional)
+     * @param monthlySalesRange  (optional)
+     * @param logo  (optional)
      * @return ApiResponse<CreateAssociatedCompany201Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createAssociatedCompanyWithHttpInfo(xTenantId: java.util.UUID, email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, printerType: PrintFormat?, logo: java.io.File?) : ApiResponse<CreateAssociatedCompany201Response?> {
-        val localVariableConfig = createAssociatedCompanyRequestConfig(xTenantId = xTenantId, email = email, password = password, name = name, rnc = rnc, phone = phone, address = address, city = city, country = country, firstName = firstName, lastName = lastName, jobTitle = jobTitle, website = website, category = category, monthlySalesRange = monthlySalesRange, printerType = printerType, logo = logo)
+    fun createAssociatedCompanyWithHttpInfo(email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, printerType: PrintFormat, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, logo: java.io.File?) : ApiResponse<CreateAssociatedCompany201Response?> {
+        val localVariableConfig = createAssociatedCompanyRequestConfig(email = email, password = password, name = name, rnc = rnc, phone = phone, address = address, city = city, country = country, printerType = printerType, firstName = firstName, lastName = lastName, jobTitle = jobTitle, website = website, category = category, monthlySalesRange = monthlySalesRange, logo = logo)
 
         return request<Map<String, PartConfig<*>>, CreateAssociatedCompany201Response>(
             localVariableConfig
@@ -142,26 +143,25 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * To obtain the request config of the operation createAssociatedCompany
      *
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param email Owner&#39;s email address (used for login).
-     * @param password Initial password for the new account (min 8 characters).
-     * @param name Legal business name.
-     * @param rnc Company RNC (9 digits) or personal cedula (11 digits).
+     * @param email 
+     * @param password 
+     * @param name 
+     * @param rnc 
      * @param phone 
      * @param address 
      * @param city 
      * @param country 
+     * @param printerType 
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category Business category or industry. (optional)
-     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     * @param printerType  (optional)
-     * @param logo Company logo image file (multipart upload). (optional)
+     * @param category  (optional)
+     * @param monthlySalesRange  (optional)
+     * @param logo  (optional)
      * @return RequestConfig
      */
-    fun createAssociatedCompanyRequestConfig(xTenantId: java.util.UUID, email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, printerType: PrintFormat?, logo: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun createAssociatedCompanyRequestConfig(email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, printerType: PrintFormat, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, logo: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "email" to PartConfig(body = email, headers = mutableMapOf()),
             "password" to PartConfig(body = password, headers = mutableMapOf()),
@@ -181,7 +181,6 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
             "logo" to PartConfig(body = logo, headers = mutableMapOf()),)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
-        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
@@ -195,10 +194,230 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     }
 
     /**
+     * DELETE /associated-companies/{companyId}
+     * Delete associated company
+     * Permanently deletes an associated company. This action is irreversible.
+     * @param companyId 
+     * @return DeleteAssociatedCompany200Response
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun deleteAssociatedCompany(companyId: java.util.UUID) : DeleteAssociatedCompany200Response {
+        val localVarResponse = deleteAssociatedCompanyWithHttpInfo(companyId = companyId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as DeleteAssociatedCompany200Response
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * DELETE /associated-companies/{companyId}
+     * Delete associated company
+     * Permanently deletes an associated company. This action is irreversible.
+     * @param companyId 
+     * @return ApiResponse<DeleteAssociatedCompany200Response?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun deleteAssociatedCompanyWithHttpInfo(companyId: java.util.UUID) : ApiResponse<DeleteAssociatedCompany200Response?> {
+        val localVariableConfig = deleteAssociatedCompanyRequestConfig(companyId = companyId)
+
+        return request<Unit, DeleteAssociatedCompany200Response>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation deleteAssociatedCompany
+     *
+     * @param companyId 
+     * @return RequestConfig
+     */
+    fun deleteAssociatedCompanyRequestConfig(companyId: java.util.UUID) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.DELETE,
+            path = "/associated-companies/{companyId}".replace("{"+"companyId"+"}", encodeURIComponent(companyId.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /associated-companies/{companyId}/documents-metrics
+     * Get company document metrics
+     * 
+     * @param companyId 
+     * @return CompanyDocumentMetrics
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getCompanyDocumentMetrics(companyId: java.util.UUID) : CompanyDocumentMetrics {
+        val localVarResponse = getCompanyDocumentMetricsWithHttpInfo(companyId = companyId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompanyDocumentMetrics
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /associated-companies/{companyId}/documents-metrics
+     * Get company document metrics
+     * 
+     * @param companyId 
+     * @return ApiResponse<CompanyDocumentMetrics?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getCompanyDocumentMetricsWithHttpInfo(companyId: java.util.UUID) : ApiResponse<CompanyDocumentMetrics?> {
+        val localVariableConfig = getCompanyDocumentMetricsRequestConfig(companyId = companyId)
+
+        return request<Unit, CompanyDocumentMetrics>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getCompanyDocumentMetrics
+     *
+     * @param companyId 
+     * @return RequestConfig
+     */
+    fun getCompanyDocumentMetricsRequestConfig(companyId: java.util.UUID) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/associated-companies/{companyId}/documents-metrics".replace("{"+"companyId"+"}", encodeURIComponent(companyId.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /associated-companies/{companyId}/metrics
+     * Get company metrics
+     * 
+     * @param companyId 
+     * @return CompanyMetrics
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getCompanyMetrics(companyId: java.util.UUID) : CompanyMetrics {
+        val localVarResponse = getCompanyMetricsWithHttpInfo(companyId = companyId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompanyMetrics
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /associated-companies/{companyId}/metrics
+     * Get company metrics
+     * 
+     * @param companyId 
+     * @return ApiResponse<CompanyMetrics?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getCompanyMetricsWithHttpInfo(companyId: java.util.UUID) : ApiResponse<CompanyMetrics?> {
+        val localVariableConfig = getCompanyMetricsRequestConfig(companyId = companyId)
+
+        return request<Unit, CompanyMetrics>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getCompanyMetrics
+     *
+     * @param companyId 
+     * @return RequestConfig
+     */
+    fun getCompanyMetricsRequestConfig(companyId: java.util.UUID) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/associated-companies/{companyId}/metrics".replace("{"+"companyId"+"}", encodeURIComponent(companyId.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
      * GET /associated-companies
      * List associated companies / branches
-     * Returns all companies and branches linked to the current tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * 
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return kotlin.collections.List<AssociatedCompany>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -208,8 +427,8 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listAssociatedCompanies(xTenantId: java.util.UUID) : kotlin.collections.List<AssociatedCompany> {
-        val localVarResponse = listAssociatedCompaniesWithHttpInfo(xTenantId = xTenantId)
+    fun listAssociatedCompanies(page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : kotlin.collections.List<AssociatedCompany> {
+        val localVarResponse = listAssociatedCompaniesWithHttpInfo(page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<AssociatedCompany>
@@ -229,16 +448,17 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * GET /associated-companies
      * List associated companies / branches
-     * Returns all companies and branches linked to the current tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * 
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return ApiResponse<kotlin.collections.List<AssociatedCompany>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listAssociatedCompaniesWithHttpInfo(xTenantId: java.util.UUID) : ApiResponse<kotlin.collections.List<AssociatedCompany>?> {
-        val localVariableConfig = listAssociatedCompaniesRequestConfig(xTenantId = xTenantId)
+    fun listAssociatedCompaniesWithHttpInfo(page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<AssociatedCompany>?> {
+        val localVariableConfig = listAssociatedCompaniesRequestConfig(page = page, limit = limit)
 
         return request<Unit, kotlin.collections.List<AssociatedCompany>>(
             localVariableConfig
@@ -248,19 +468,124 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * To obtain the request config of the operation listAssociatedCompanies
      *
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listAssociatedCompaniesRequestConfig(xTenantId: java.util.UUID) : RequestConfig<Unit> {
+    fun listAssociatedCompaniesRequestConfig(page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (limit != null) {
+                    put("limit", listOf(limit.toString()))
+                }
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/associated-companies",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * PUT /associated-companies/{companyId}
+     * Update associated company
+     * 
+     * @param companyId 
+     * @param name  (optional)
+     * @param phone  (optional)
+     * @param website  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
+     * @param logo  (optional)
+     * @return CreateAssociatedCompany201Response
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updateAssociatedCompany(companyId: java.util.UUID, name: kotlin.String? = null, phone: kotlin.String? = null, website: java.net.URI? = null, city: kotlin.String? = null, country: kotlin.String? = null, logo: java.io.File? = null) : CreateAssociatedCompany201Response {
+        val localVarResponse = updateAssociatedCompanyWithHttpInfo(companyId = companyId, name = name, phone = phone, website = website, city = city, country = country, logo = logo)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CreateAssociatedCompany201Response
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * PUT /associated-companies/{companyId}
+     * Update associated company
+     * 
+     * @param companyId 
+     * @param name  (optional)
+     * @param phone  (optional)
+     * @param website  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
+     * @param logo  (optional)
+     * @return ApiResponse<CreateAssociatedCompany201Response?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateAssociatedCompanyWithHttpInfo(companyId: java.util.UUID, name: kotlin.String?, phone: kotlin.String?, website: java.net.URI?, city: kotlin.String?, country: kotlin.String?, logo: java.io.File?) : ApiResponse<CreateAssociatedCompany201Response?> {
+        val localVariableConfig = updateAssociatedCompanyRequestConfig(companyId = companyId, name = name, phone = phone, website = website, city = city, country = country, logo = logo)
+
+        return request<Map<String, PartConfig<*>>, CreateAssociatedCompany201Response>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation updateAssociatedCompany
+     *
+     * @param companyId 
+     * @param name  (optional)
+     * @param phone  (optional)
+     * @param website  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
+     * @param logo  (optional)
+     * @return RequestConfig
+     */
+    fun updateAssociatedCompanyRequestConfig(companyId: java.util.UUID, name: kotlin.String?, phone: kotlin.String?, website: java.net.URI?, city: kotlin.String?, country: kotlin.String?, logo: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
+        val localVariableBody = mapOf(
+            "name" to PartConfig(body = name, headers = mutableMapOf()),
+            "phone" to PartConfig(body = phone, headers = mutableMapOf()),
+            "website" to PartConfig(body = website, headers = mutableMapOf()),
+            "city" to PartConfig(body = city, headers = mutableMapOf()),
+            "country" to PartConfig(body = country, headers = mutableMapOf()),
+            "logo" to PartConfig(body = logo, headers = mutableMapOf()),)
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.PUT,
+            path = "/associated-companies/{companyId}".replace("{"+"companyId"+"}", encodeURIComponent(companyId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

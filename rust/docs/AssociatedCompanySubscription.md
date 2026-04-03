@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | Option<**String**> | Subscription status (e.g. \"active\", \"expired\"). | [optional]
+**status** | Option<**String**> |  | [optional]
 **expiration_date** | Option<**String**> |  | [optional]
 **plan** | Option<[**models::AssociatedCompanySubscriptionPlan**](AssociatedCompanySubscriptionPlan.md)> |  | [optional]
 

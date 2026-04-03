@@ -2,10 +2,10 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PrintFormat } from './PrintFormat';
+import {
+    PrintFormatFromJSON,
+    PrintFormatFromJSONTyped,
+    PrintFormatToJSON,
+    PrintFormatToJSONTyped,
+} from './PrintFormat';
 import type { AssociatedCompanySubscription } from './AssociatedCompanySubscription';
 import {
     AssociatedCompanySubscriptionFromJSON,
@@ -22,7 +29,7 @@ import {
 } from './AssociatedCompanySubscription';
 
 /**
- * A company or branch associated with the main tenant account.
+ * 
  * @export
  * @interface AssociatedCompany
  */
@@ -50,13 +57,13 @@ export interface AssociatedCompany {
      * @type {string}
      * @memberof AssociatedCompany
      */
-    phone?: string;
+    logoPath?: string | null;
     /**
      * 
-     * @type {string}
+     * @type {AssociatedCompanyTypeEnum}
      * @memberof AssociatedCompany
      */
-    address?: string;
+    type?: AssociatedCompanyTypeEnum;
     /**
      * 
      * @type {string}
@@ -74,19 +81,37 @@ export interface AssociatedCompany {
      * @type {string}
      * @memberof AssociatedCompany
      */
+    phone?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AssociatedCompany
+     */
+    address?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AssociatedCompany
+     */
     website?: string | null;
     /**
      * 
      * @type {string}
      * @memberof AssociatedCompany
      */
-    logoPath?: string | null;
+    category?: string | null;
     /**
-     * Whether this is the main account or an associated branch.
-     * @type {AssociatedCompanyTypeEnum}
+     * 
+     * @type {string}
      * @memberof AssociatedCompany
      */
-    type?: AssociatedCompanyTypeEnum;
+    monthlySalesRange?: string | null;
+    /**
+     * 
+     * @type {PrintFormat}
+     * @memberof AssociatedCompany
+     */
+    printerType?: PrintFormat;
     /**
      * 
      * @type {Date}
@@ -94,13 +119,13 @@ export interface AssociatedCompany {
      */
     createdAt?: Date;
     /**
-     * Number of e-CF documents issued in the current month.
+     * 
      * @type {number}
      * @memberof AssociatedCompany
      */
     docsIssuedThisMonth?: number;
     /**
-     * Purchased document quota consumed this month.
+     * 
      * @type {number}
      * @memberof AssociatedCompany
      */
@@ -116,7 +141,7 @@ export interface AssociatedCompany {
      * @type {AssociatedCompanySubscription}
      * @memberof AssociatedCompany
      */
-    subscription?: AssociatedCompanySubscription;
+    subscription?: AssociatedCompanySubscription | null;
 }
 
 
@@ -150,13 +175,16 @@ export function AssociatedCompanyFromJSONTyped(json: any, ignoreDiscriminator: b
         'id': json['id'] == null ? undefined : json['id'],
         'name': json['name'] == null ? undefined : json['name'],
         'rnc': json['rnc'] == null ? undefined : json['rnc'],
-        'phone': json['phone'] == null ? undefined : json['phone'],
-        'address': json['address'] == null ? undefined : json['address'],
-        'city': json['city'] == null ? undefined : json['city'],
-        'country': json['country'] == null ? undefined : json['country'],
-        'website': json['website'] == null ? undefined : json['website'],
         'logoPath': json['logoPath'] == null ? undefined : json['logoPath'],
         'type': json['type'] == null ? undefined : json['type'],
+        'city': json['city'] == null ? undefined : json['city'],
+        'country': json['country'] == null ? undefined : json['country'],
+        'phone': json['phone'] == null ? undefined : json['phone'],
+        'address': json['address'] == null ? undefined : json['address'],
+        'website': json['website'] == null ? undefined : json['website'],
+        'category': json['category'] == null ? undefined : json['category'],
+        'monthlySalesRange': json['monthlySalesRange'] == null ? undefined : json['monthlySalesRange'],
+        'printerType': json['printerType'] == null ? undefined : PrintFormatFromJSON(json['printerType']),
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
         'docsIssuedThisMonth': json['docsIssuedThisMonth'] == null ? undefined : json['docsIssuedThisMonth'],
         'purchasedDocsConsumedThisMonth': json['purchasedDocsConsumedThisMonth'] == null ? undefined : json['purchasedDocsConsumedThisMonth'],
@@ -179,13 +207,16 @@ export function AssociatedCompanyToJSONTyped(value?: AssociatedCompany | null, i
         'id': value['id'],
         'name': value['name'],
         'rnc': value['rnc'],
-        'phone': value['phone'],
-        'address': value['address'],
-        'city': value['city'],
-        'country': value['country'],
-        'website': value['website'],
         'logoPath': value['logoPath'],
         'type': value['type'],
+        'city': value['city'],
+        'country': value['country'],
+        'phone': value['phone'],
+        'address': value['address'],
+        'website': value['website'],
+        'category': value['category'],
+        'monthlySalesRange': value['monthlySalesRange'],
+        'printerType': PrintFormatToJSON(value['printerType']),
         'createdAt': value['createdAt'] == null ? value['createdAt'] : value['createdAt'].toISOString(),
         'docsIssuedThisMonth': value['docsIssuedThisMonth'],
         'purchasedDocsConsumedThisMonth': value['purchasedDocsConsumedThisMonth'],

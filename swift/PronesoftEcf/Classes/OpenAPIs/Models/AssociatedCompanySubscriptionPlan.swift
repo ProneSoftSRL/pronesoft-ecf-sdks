@@ -18,7 +18,6 @@ extension PronesoftEcfAPI {
 public struct AssociatedCompanySubscriptionPlan: Codable, JSONEncodable, Hashable {
 
     public var name: String?
-    /** Maximum documents allowed per month on this plan. */
     public var maxDocsPerMonth: Int?
 
     public init(name: String? = nil, maxDocsPerMonth: Int? = nil) {

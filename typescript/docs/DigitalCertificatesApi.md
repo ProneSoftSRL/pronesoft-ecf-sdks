@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**uploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12) |
+| [**uploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX) |
 
 
 
@@ -12,9 +12,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 > UploadCertificateResponse uploadCertificate(rnc, file, password)
 
-Upload digital certificate (P12)
+Upload digital certificate (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
 
 ### Example
 
@@ -22,11 +22,11 @@ Uploads the DGII-issued digital signing certificate for a company identified by 
 import {
   Configuration,
   DigitalCertificatesApi,
-} from '@pronesoft/ecf-sdk';
-import type { UploadCertificateRequest } from '@pronesoft/ecf-sdk';
+} from '@pronesoft-rd/ecf-sdk';
+import type { UploadCertificateRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -36,11 +36,11 @@ async function example() {
   const api = new DigitalCertificatesApi(config);
 
   const body = {
-    // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-    rnc: 130000001,
-    // Blob | The P12/PFX certificate file.
+    // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    rnc: 133190907,
+    // Blob | Certificate file in .p12 or .pfx format.
     file: BINARY_DATA_HERE,
-    // string | Password to unlock the P12 certificate.
+    // string | Password to unlock the certificate.
     password: password_example,
   } satisfies UploadCertificateRequest;
 
@@ -61,9 +61,9 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | `string` | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | [Defaults to `undefined`] |
-| **file** | `Blob` | The P12/PFX certificate file. | [Defaults to `undefined`] |
-| **password** | `string` | Password to unlock the P12 certificate. | [Defaults to `undefined`] |
+| **rnc** | `string` | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | [Defaults to `undefined`] |
+| **file** | `Blob` | Certificate file in .p12 or .pfx format. | [Defaults to `undefined`] |
+| **password** | `string` | Password to unlock the certificate. | [Defaults to `undefined`] |
 
 ### Return type
 
@@ -82,9 +82,11 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Certificate uploaded and registered successfully |  -  |
-| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **201** | Certificate uploaded successfully |  -  |
+| **400** | Validation error (400). Check the message field for details. |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **403** | The token does not have the required scope. |  -  |
+| **404** | Company RNC not found in the system. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

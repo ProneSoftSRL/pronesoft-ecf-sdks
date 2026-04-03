@@ -4,13 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**LineNumber** | **int32** | Reference line number this discount/surcharge applies to. | 
-**Type** | **string** | - &#x60;D&#x60;: Discount (Descuento) - &#x60;R&#x60;: Surcharge/Recargo (Recargo)  | 
-**ValueType** | **string** | Whether the amount is a fixed value (&#x60;$&#x60;) or a percentage (&#x60;%&#x60;). | 
-**Amount** | **float32** | Discount or surcharge amount. | 
-**Description** | Pointer to **string** | Description of the discount or surcharge. | [optional] 
-**PercentageValue** | Pointer to **float32** | Percentage value (when valueType is \&quot;%\&quot;). | [optional] 
-**AlternativeCurrencyAmount** | Pointer to **float32** | Equivalent amount in the alternative currency. | [optional] 
+**LineNumber** | **int32** |  | 
+**Type** | **string** | D&#x3D;Discount, R&#x3D;Surcharge | 
+**Norm1007Indicator** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to **string** |  | [optional] 
+**ValueType** | **string** |  | 
+**PercentageValue** | Pointer to **float32** |  | [optional] 
+**Amount** | **float32** |  | 
+**AlternativeCurrencyAmount** | Pointer to **float32** |  | [optional] 
 **BillingIndicator** | Pointer to [**BillingIndicator**](BillingIndicator.md) |  | [optional] 
 
 ## Methods
@@ -72,45 +73,30 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
-### GetValueType
+### GetNorm1007Indicator
 
-`func (o *DiscountOrSurcharge) GetValueType() string`
+`func (o *DiscountOrSurcharge) GetNorm1007Indicator() string`
 
-GetValueType returns the ValueType field if non-nil, zero value otherwise.
+GetNorm1007Indicator returns the Norm1007Indicator field if non-nil, zero value otherwise.
 
-### GetValueTypeOk
+### GetNorm1007IndicatorOk
 
-`func (o *DiscountOrSurcharge) GetValueTypeOk() (*string, bool)`
+`func (o *DiscountOrSurcharge) GetNorm1007IndicatorOk() (*string, bool)`
 
-GetValueTypeOk returns a tuple with the ValueType field if it's non-nil, zero value otherwise
+GetNorm1007IndicatorOk returns a tuple with the Norm1007Indicator field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetValueType
+### SetNorm1007Indicator
 
-`func (o *DiscountOrSurcharge) SetValueType(v string)`
+`func (o *DiscountOrSurcharge) SetNorm1007Indicator(v string)`
 
-SetValueType sets ValueType field to given value.
+SetNorm1007Indicator sets Norm1007Indicator field to given value.
 
+### HasNorm1007Indicator
 
-### GetAmount
+`func (o *DiscountOrSurcharge) HasNorm1007Indicator() bool`
 
-`func (o *DiscountOrSurcharge) GetAmount() float32`
-
-GetAmount returns the Amount field if non-nil, zero value otherwise.
-
-### GetAmountOk
-
-`func (o *DiscountOrSurcharge) GetAmountOk() (*float32, bool)`
-
-GetAmountOk returns a tuple with the Amount field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAmount
-
-`func (o *DiscountOrSurcharge) SetAmount(v float32)`
-
-SetAmount sets Amount field to given value.
-
+HasNorm1007Indicator returns a boolean if a field has been set.
 
 ### GetDescription
 
@@ -137,6 +123,26 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
+### GetValueType
+
+`func (o *DiscountOrSurcharge) GetValueType() string`
+
+GetValueType returns the ValueType field if non-nil, zero value otherwise.
+
+### GetValueTypeOk
+
+`func (o *DiscountOrSurcharge) GetValueTypeOk() (*string, bool)`
+
+GetValueTypeOk returns a tuple with the ValueType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetValueType
+
+`func (o *DiscountOrSurcharge) SetValueType(v string)`
+
+SetValueType sets ValueType field to given value.
+
+
 ### GetPercentageValue
 
 `func (o *DiscountOrSurcharge) GetPercentageValue() float32`
@@ -161,6 +167,26 @@ SetPercentageValue sets PercentageValue field to given value.
 `func (o *DiscountOrSurcharge) HasPercentageValue() bool`
 
 HasPercentageValue returns a boolean if a field has been set.
+
+### GetAmount
+
+`func (o *DiscountOrSurcharge) GetAmount() float32`
+
+GetAmount returns the Amount field if non-nil, zero value otherwise.
+
+### GetAmountOk
+
+`func (o *DiscountOrSurcharge) GetAmountOk() (*float32, bool)`
+
+GetAmountOk returns a tuple with the Amount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAmount
+
+`func (o *DiscountOrSurcharge) SetAmount(v float32)`
+
+SetAmount sets Amount field to given value.
+
 
 ### GetAlternativeCurrencyAmount
 

@@ -19,15 +19,18 @@ public struct ListTaxSequences200Response: Codable, JSONEncodable, Hashable {
 
     public var success: Bool?
     public var data: [TaxSequence]?
+    public var meta: PaginationMeta?
 
-    public init(success: Bool? = nil, data: [TaxSequence]? = nil) {
+    public init(success: Bool? = nil, data: [TaxSequence]? = nil, meta: PaginationMeta? = nil) {
         self.success = success
         self.data = data
+        self.meta = meta
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case success
         case data
+        case meta
     }
 
     // Encodable protocol methods
@@ -36,6 +39,7 @@ public struct ListTaxSequences200Response: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(success, forKey: .success)
         try container.encodeIfPresent(data, forKey: .data)
+        try container.encodeIfPresent(meta, forKey: .meta)
     }
 }
 

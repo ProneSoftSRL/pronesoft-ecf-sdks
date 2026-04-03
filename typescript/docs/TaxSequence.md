@@ -1,26 +1,41 @@
 
 # TaxSequence
 
-A registered fiscal number sequence for a given invoice type.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `id` | string
-`type` | [InvoiceType](InvoiceType.md)
-`nextNumber` | string
+`type` | [InvoiceTypeSequence](InvoiceTypeSequence.md)
+`startNumber` | string
+`endNumber` | string
+`currentNumber` | string
+`status` | string
+`totalNumbers` | number
+`usedNumbers` | number
+`availableNumbers` | number
+`createdAt` | Date
+`expiresAt` | Date
 
 ## Example
 
 ```typescript
-import type { TaxSequence } from '@pronesoft/ecf-sdk'
+import type { TaxSequence } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
+  "id": seq_sbx_1234567890,
   "type": null,
-  "nextNumber": E310000000001,
+  "startNumber": E32000000001,
+  "endNumber": E32000010000,
+  "currentNumber": E32000005250,
+  "status": null,
+  "totalNumbers": null,
+  "usedNumbers": null,
+  "availableNumbers": null,
+  "createdAt": null,
+  "expiresAt": null,
 } satisfies TaxSequence
 
 console.log(example)

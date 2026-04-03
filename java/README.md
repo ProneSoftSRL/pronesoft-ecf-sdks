@@ -1,84 +1,42 @@
 # ecf-sdk
 
 eCF-Pronesoft Integration API
-- API version: 0.0.1
-  - Build date: 2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]
+- API version: 1.1.0
+  - Build date: 2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Overview
 Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
-Dominican Republic through the Pronesoft platform, which handles all
-communication with the DGII on your behalf.
+Dominican Republic through the Pronesoft platform.
 
 ## Authentication — OAuth 2.0 Client Credentials
-This API uses the **OAuth 2.0 Client Credentials** flow. There is no
-user login — authentication is machine-to-machine using a
-`clientId` and `clientSecret` issued by the Pronesoft portal.
 
-### Step-by-step
-1. **Get credentials**:
-   - Sandbox: https://ecf.sandbox.pronesoft.com
-   - Production: https://ecf.pronesoft.com
-2. **Request a token** — call `POST /oauth/token` with your credentials.
-   The server returns an `accessToken` valid for `expiresIn` seconds.
-3. **Authorize requests** — include the token in every subsequent request:
-   ```
-   Authorization: Bearer <accessToken>
-   ```
-4. **Identify your tenant** — include your company/branch UUID in every
-   protected request:
-   ```
-   x-tenant-id: <your-tenant-uuid>
-   ```
-5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.
+### Steps
+1. Get credentials from the portal:
+   - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App
+   - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App
+2. Request a token via POST /oauth/token — valid for 24 hours (86400s).
+3. Use: Authorization: Bearer <accessToken> on every request.
+4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.
+
+### Multi-company delegation
+To act on behalf of an associated company (branch), add:
+  x-tenant-id: <business-uuid>
+Do NOT send x-tenant-id when acting as the main company.
+
+### Sandbox specifics
+- Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed.
+- Sequences are automatic — no need to create them manually.
+- The environment field in the document body MUST be TesteCF.
 
 ### Scopes
-| Category | Scope | Description |
-|---|---|---|
-| **Business** | `business:read` | Read company data |
-| | `business:create` | Create a new company |
-| | `business:update` | Update company data |
-| **Members** | `members:read` | View team members |
-| | `members:invite` | Invite new members |
-| | `members:revoke` | Revoke member access |
-| **Certificates** | `certificates:read` | View digital certificates |
-| | `certificates:upload` | Upload new certificates |
-| | `certificates:update` | Update existing certificates |
-| **Documents** | `documents:read` | List and view documents |
-| | `documents:create` | Create drafts or internal documents |
-| | `documents:send` | Submit e-CF to DGII |
-| | `documents:receive` | Receive e-CF from third parties |
-| | `documents:update` | Modify document metadata |
-| **Approvals** | `approvals:read` | View approval statuses |
-| | `approvals:commercial` | Perform commercial approvals/rejections |
-| **Sequences** | `sequences:read` | View NCF/e-NCF ranges |
-| | `sequences:create` | Request new sequences |
-| | `sequences:update` | Modify sequence configurations |
-| | `sequences:cancel` | Cancel unused sequences |
-| **Dashboard** | `business_info:read` | Access dashboard stats and metrics |
-| **Certification** | `certification:read` | View certification progress |
-| | `certification:write` | Run automated DGII certification tests |
-| **Reports** | `reports:read` | Generate and export reports (e.g. 606) |
-
-## Environments
-| Environment | Portal | API Host | Purpose |
-|---|---|---|---|
-| Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing |
-| Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |
-
-## Invoice Types (e-NCF)
-| Code | Name |
-|---|---|
-| `31` | Tax Credit Invoice (Factura de Crédito Fiscal) |
-| `32` | Consumer Invoice (Factura de Consumo) |
-| `33` | Debit Note (Nota de Débito) |
-| `34` | Credit Note (Nota de Crédito) |
-| `41` | Purchases (Compras) |
-| `43` | Minor Expenses (Gastos Menores) |
-| `44` | Special Regimes (Regímenes Especiales) |
-| `45` | Governmental (Gubernamentales) |
-| `46` | Exports (Exportaciones) |
-| `47` | Overseas Payments (Pagos al Exterior) |
+business:read, business:create, business:update,
+members:read, members:invite, members:revoke,
+certificates:read, certificates:upload, certificates:update,
+documents:read, documents:create, documents:send, documents:receive, documents:update,
+approvals:read, approvals:commercial,
+sequences:read, sequences:create, sequences:update, sequences:cancel,
+business_info:read, certification:read, certification:write, reports:read
 
 
   For more information, please visit [https://pronesoft.com](https://pronesoft.com)
@@ -116,7 +74,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.pronesoft</groupId>
   <artifactId>ecf-sdk</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -132,7 +90,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.pronesoft:ecf-sdk:0.0.1"
+     implementation "com.pronesoft:ecf-sdk:0.0.2"
   }
 ```
 
@@ -146,7 +104,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/ecf-sdk-0.0.1.jar`
+* `target/ecf-sdk-0.0.2.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -177,25 +135,24 @@ public class Example {
     bearerAuth.setBearerToken("BEARER TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
-    UUID xTenantId = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); // UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-    String email = "email_example"; // String | Owner's email address (used for login).
-    String password = "password_example"; // String | Initial password for the new account (min 8 characters).
-    String name = "name_example"; // String | Legal business name.
-    String rnc = "rnc_example"; // String | Company RNC (9 digits) or personal cedula (11 digits).
+    String email = "email_example"; // String | 
+    String password = "password_example"; // String | 
+    String name = "name_example"; // String | 
+    String rnc = "rnc_example"; // String | 
     String phone = "phone_example"; // String | 
     String address = "address_example"; // String | 
     String city = "city_example"; // String | 
     String country = "country_example"; // String | 
+    PrintFormat printerType = PrintFormat.fromValue("A4"); // PrintFormat | 
     String firstName = "firstName_example"; // String | 
     String lastName = "lastName_example"; // String | 
     String jobTitle = "jobTitle_example"; // String | 
     URI website = new URI(); // URI | 
-    String category = "category_example"; // String | Business category or industry.
-    String monthlySalesRange = "monthlySalesRange_example"; // String | Estimated monthly sales range (e.g. \\\"0-500000\\\").
-    PrintFormat printerType = PrintFormat.fromValue("A4"); // PrintFormat | 
-    File logo = new File("/path/to/file"); // File | Company logo image file (multipart upload).
+    String category = "category_example"; // String | 
+    String monthlySalesRange = "monthlySalesRange_example"; // String | 
+    File logo = new File("/path/to/file"); // File | 
     try {
-      CreateAssociatedCompany201Response result = apiInstance.createAssociatedCompany(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo);
+      CreateAssociatedCompany201Response result = apiInstance.createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AssociatedCompaniesApi#createAssociatedCompany");
@@ -215,16 +172,38 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AssociatedCompaniesApi* | [**createAssociatedCompany**](docs/AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create new associated company
+*AssociatedCompaniesApi* | [**createAssociatedCompany**](docs/AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create associated company / branch
+*AssociatedCompaniesApi* | [**deleteAssociatedCompany**](docs/AssociatedCompaniesApi.md#deleteAssociatedCompany) | **DELETE** /associated-companies/{companyId} | Delete associated company
+*AssociatedCompaniesApi* | [**getCompanyDocumentMetrics**](docs/AssociatedCompaniesApi.md#getCompanyDocumentMetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics
+*AssociatedCompaniesApi* | [**getCompanyMetrics**](docs/AssociatedCompaniesApi.md#getCompanyMetrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics
 *AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated companies / branches
-*AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token
-*DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12)
+*AssociatedCompaniesApi* | [**updateAssociatedCompany**](docs/AssociatedCompaniesApi.md#updateAssociatedCompany) | **PUT** /associated-companies/{companyId} | Update associated company
+*AuthenticationApi* | [**getAccessToken**](docs/AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token (OAuth 2.0)
+*AutomatedCertificationApi* | [**downloadCertification**](docs/AutomatedCertificationApi.md#downloadCertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP
+*AutomatedCertificationApi* | [**getCertificationStatus**](docs/AutomatedCertificationApi.md#getCertificationStatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status
+*AutomatedCertificationApi* | [**listCertificationNiches**](docs/AutomatedCertificationApi.md#listCertificationNiches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches
+*AutomatedCertificationApi* | [**startCertification**](docs/AutomatedCertificationApi.md#startCertification) | **POST** /dgii-ecf/automated-certification/start | Start certification process
+*CommercialApprovalsApi* | [**listApprovals**](docs/CommercialApprovalsApi.md#listApprovals) | **GET** /documents/approvals/all | List commercial approvals
+*DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
+*DocumentsReceivedApi* | [**getReceivedDocumentStats**](docs/DocumentsReceivedApi.md#getReceivedDocumentStats) | **GET** /documents/received/stats/summary | Get received documents statistics
+*DocumentsReceivedApi* | [**listReceivedDocuments**](docs/DocumentsReceivedApi.md#listReceivedDocuments) | **GET** /documents/received/all | List received documents
+*DocumentsSentApi* | [**downloadDocument**](docs/DocumentsSentApi.md#downloadDocument) | **GET** /documents/download | Download document XML
+*DocumentsSentApi* | [**getDocument**](docs/DocumentsSentApi.md#getDocument) | **GET** /documents/{id} | Get document details
+*DocumentsSentApi* | [**getDocumentStats**](docs/DocumentsSentApi.md#getDocumentStats) | **GET** /documents/stats/summary | Get document statistics
+*DocumentsSentApi* | [**listSentDocuments**](docs/DocumentsSentApi.md#listSentDocuments) | **GET** /documents/sent | List sent documents
+*ECfSubmissionApi* | [**getEcfHistory**](docs/ECfSubmissionApi.md#getEcfHistory) | **GET** /{environment}/ecf/responses/history | Get submission history (last 50 documents)
+*ECfSubmissionApi* | [**getEcfStats**](docs/ECfSubmissionApi.md#getEcfStats) | **GET** /{environment}/ecf/responses/stats | Get submission statistics (last 30 days)
+*ECfSubmissionApi* | [**getEcfStatus**](docs/ECfSubmissionApi.md#getEcfStatus) | **GET** /{environment}/ecf/status/{trackId} | Get document status by trackId
 *ECfSubmissionApi* | [**submitEcf**](docs/ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII
+*ReportsApi* | [**export606**](docs/ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases)
+*ReportsApi* | [**exportSentDocuments**](docs/ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Export sent documents report
 *TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Create new tax sequence
 *TaxSequencesApi* | [**getNextNumber**](docs/TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available fiscal number
 *TaxSequencesApi* | [**listTaxSequences**](docs/TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences
-*WebhookConfigurationApi* | [**createWebhook**](docs/WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook
-*WebhookConfigurationApi* | [**deleteWebhook**](docs/WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+*TaxSequencesApi* | [**updateTaxSequence**](docs/TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence
+*TaxSequencesApi* | [**voidTaxSequence**](docs/TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
+*WebhookConfigurationApi* | [**getWebhook**](docs/WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
+*WebhookConfigurationApi* | [**getWebhookStats**](docs/WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
 *WebhookConfigurationApi* | [**listWebhooks**](docs/WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations
 
 
@@ -233,40 +212,86 @@ Class | Method | HTTP request | Description
  - [AccountType](docs/AccountType.md)
  - [AdditionalInfo](docs/AdditionalInfo.md)
  - [AlternativeCurrency](docs/AlternativeCurrency.md)
+ - [ApprovalItem](docs/ApprovalItem.md)
+ - [ApprovalListResponse](docs/ApprovalListResponse.md)
  - [AssociatedCompany](docs/AssociatedCompany.md)
  - [AssociatedCompanySubscription](docs/AssociatedCompanySubscription.md)
  - [AssociatedCompanySubscriptionPlan](docs/AssociatedCompanySubscriptionPlan.md)
  - [BillingIndicator](docs/BillingIndicator.md)
  - [Buyer](docs/Buyer.md)
+ - [CertificationNiche](docs/CertificationNiche.md)
+ - [CertificationNicheNicheItemsInner](docs/CertificationNicheNicheItemsInner.md)
+ - [CertificationStatus](docs/CertificationStatus.md)
+ - [CompanyDocumentMetrics](docs/CompanyDocumentMetrics.md)
+ - [CompanyDocumentMetricsGroupByStatusInner](docs/CompanyDocumentMetricsGroupByStatusInner.md)
+ - [CompanyDocumentMetricsGroupByStatusInnerCount](docs/CompanyDocumentMetricsGroupByStatusInnerCount.md)
+ - [CompanyDocumentMetricsMainBusiness](docs/CompanyDocumentMetricsMainBusiness.md)
+ - [CompanyDocumentMetricsTotals](docs/CompanyDocumentMetricsTotals.md)
+ - [CompanyMetrics](docs/CompanyMetrics.md)
+ - [CompanyMetricsDocumentsStatus](docs/CompanyMetricsDocumentsStatus.md)
  - [CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
+ - [CreateTaxSequence201Response](docs/CreateTaxSequence201Response.md)
  - [CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
- - [CreateWebhookConfig](docs/CreateWebhookConfig.md)
+ - [DeleteAssociatedCompany200Response](docs/DeleteAssociatedCompany200Response.md)
  - [DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
+ - [DocumentStatsResponse](docs/DocumentStatsResponse.md)
+ - [DocumentStatus](docs/DocumentStatus.md)
+ - [EcfHistoryItem](docs/EcfHistoryItem.md)
+ - [EcfStatsResponse](docs/EcfStatsResponse.md)
+ - [EcfStatusResponse](docs/EcfStatusResponse.md)
+ - [EcfStatusResponseMensajesInner](docs/EcfStatusResponseMensajesInner.md)
  - [EcfSubmissionResponse](docs/EcfSubmissionResponse.md)
+ - [EcfSubmissionResponseDgiiResponse](docs/EcfSubmissionResponseDgiiResponse.md)
  - [ElectronicDocument](docs/ElectronicDocument.md)
  - [Environment](docs/Environment.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [GetNextNumber200Response](docs/GetNextNumber200Response.md)
  - [GetNextNumber200ResponseData](docs/GetNextNumber200ResponseData.md)
  - [InvoiceType](docs/InvoiceType.md)
+ - [InvoiceTypeSequence](docs/InvoiceTypeSequence.md)
  - [Item](docs/Item.md)
  - [ItemAdditionalTax](docs/ItemAdditionalTax.md)
+ - [ItemAlternativeCurrency](docs/ItemAlternativeCurrency.md)
+ - [ItemCodesInner](docs/ItemCodesInner.md)
+ - [ItemDiscountInner](docs/ItemDiscountInner.md)
+ - [ItemMiningInfo](docs/ItemMiningInfo.md)
  - [ListTaxSequences200Response](docs/ListTaxSequences200Response.md)
  - [OAuthTokenRequest](docs/OAuthTokenRequest.md)
  - [OAuthTokenResponse](docs/OAuthTokenResponse.md)
  - [Page](docs/Page.md)
+ - [PaginationMeta](docs/PaginationMeta.md)
+ - [PaymentForm](docs/PaymentForm.md)
  - [PaymentMethod](docs/PaymentMethod.md)
  - [PrintFormat](docs/PrintFormat.md)
+ - [ProcessingLog](docs/ProcessingLog.md)
+ - [RateLimitErrorResponse](docs/RateLimitErrorResponse.md)
+ - [ReceivedDocument](docs/ReceivedDocument.md)
+ - [ReceivedDocumentListResponse](docs/ReceivedDocumentListResponse.md)
+ - [ReceivedDocumentStatsResponse](docs/ReceivedDocumentStatsResponse.md)
  - [ReferenceInfo](docs/ReferenceInfo.md)
+ - [SentDocumentDetail](docs/SentDocumentDetail.md)
+ - [SentDocumentListResponse](docs/SentDocumentListResponse.md)
+ - [SentDocumentSummary](docs/SentDocumentSummary.md)
+ - [SentDocumentSummaryBusiness](docs/SentDocumentSummaryBusiness.md)
+ - [StartCertification200Response](docs/StartCertification200Response.md)
+ - [StartCertificationRequest](docs/StartCertificationRequest.md)
  - [Subquantity](docs/Subquantity.md)
  - [Subtotal](docs/Subtotal.md)
  - [TaxSequence](docs/TaxSequence.md)
+ - [TaxSequenceCreated](docs/TaxSequenceCreated.md)
  - [Totals](docs/Totals.md)
  - [Transport](docs/Transport.md)
+ - [UpdateTaxSequenceRequest](docs/UpdateTaxSequenceRequest.md)
  - [UploadCertificateResponse](docs/UploadCertificateResponse.md)
+ - [VoidTaxSequence200Response](docs/VoidTaxSequence200Response.md)
+ - [VoidTaxSequence200ResponseData](docs/VoidTaxSequence200ResponseData.md)
+ - [VoidTaxSequenceRequest](docs/VoidTaxSequenceRequest.md)
+ - [WebhookConfigDetail](docs/WebhookConfigDetail.md)
  - [WebhookConfigResponse](docs/WebhookConfigResponse.md)
  - [WebhookEventType](docs/WebhookEventType.md)
  - [WebhookNotificationPayload](docs/WebhookNotificationPayload.md)
+ - [WebhookStats](docs/WebhookStats.md)
+ - [WebhookStatsStats](docs/WebhookStatsStats.md)
 
 
 <a id="documentation-for-authorization"></a>
@@ -318,5 +343,5 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 
 ## Author
 
-contacto@pronesoft.com
+support@pronesoft.com
 

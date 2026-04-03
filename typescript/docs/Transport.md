@@ -1,32 +1,35 @@
 
 # Transport
 
-Transport/delivery information (required for certain invoice types).
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `driver` | string
+`document` | string
 `vehicleId` | string
 `licensePlate` | string
 `route` | string
-`departureDate` | Date
-`arrivalDate` | Date
+`zone` | string
+`deliveryNoteNumber` | string
+`destinationCountry` | string
 
 ## Example
 
 ```typescript
-import type { Transport } from '@pronesoft/ecf-sdk'
+import type { Transport } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "driver": null,
+  "document": null,
   "vehicleId": null,
   "licensePlate": null,
   "route": null,
-  "departureDate": null,
-  "arrivalDate": null,
+  "zone": null,
+  "deliveryNoteNumber": null,
+  "destinationCountry": null,
 } satisfies Transport
 
 console.log(example)

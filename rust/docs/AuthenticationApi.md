@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Get access token
+[**get_access_token**](AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Get access token (OAuth 2.0)
 
 
 
 ## get_access_token
 
 > models::OAuthTokenResponse get_access_token(o_auth_token_request)
-Get access token
+Get access token (OAuth 2.0)
 
-Authenticates using OAuth 2.0 **Client Credentials** flow. Returns a Bearer token to use in subsequent requests.  **This endpoint does NOT require an Authorization header.**  ``` POST /oauth/token Content-Type: application/json  {   \"clientId\": \"your-client-id\",   \"clientSecret\": \"your-client-secret\" } ```  Use the returned `accessToken` as: ``` Authorization: Bearer <accessToken> ``` 
+Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
 
 ### Parameters
 

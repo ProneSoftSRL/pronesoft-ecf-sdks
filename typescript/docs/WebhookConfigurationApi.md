@@ -4,19 +4,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createWebhook**](WebhookConfigurationApi.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook |
-| [**deleteWebhook**](WebhookConfigurationApi.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**getWebhook**](WebhookConfigurationApi.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
+| [**getWebhookStats**](WebhookConfigurationApi.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
 | [**listWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
 
 
-## createWebhook
+## getWebhook
 
-> WebhookConfigResponse createWebhook(rnc, createWebhookConfig)
+> WebhookConfigDetail getWebhook(rnc, webhookId)
 
-Register new webhook
-
-Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+Get webhook details
 
 ### Example
 
@@ -24,11 +22,11 @@ Registers a URL to receive real-time event notifications for the given RNC. You 
 import {
   Configuration,
   WebhookConfigurationApi,
-} from '@pronesoft/ecf-sdk';
-import type { CreateWebhookRequest } from '@pronesoft/ecf-sdk';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetWebhookRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -38,92 +36,14 @@ async function example() {
   const api = new WebhookConfigurationApi(config);
 
   const body = {
-    // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-    rnc: 130000001,
-    // CreateWebhookConfig
-    createWebhookConfig: {"url":"https://myapp.com/webhooks/ecf","eventTypes":["document.status_changed","sequence.depleted"],"description":"Main notification endpoint","secret":"my-super-secret-value-here"},
-  } satisfies CreateWebhookRequest;
-
-  try {
-    const data = await api.createWebhook(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **rnc** | `string` | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | [Defaults to `undefined`] |
-| **createWebhookConfig** | [CreateWebhookConfig](CreateWebhookConfig.md) |  | |
-
-### Return type
-
-[**WebhookConfigResponse**](WebhookConfigResponse.md)
-
-### Authorization
-
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **201** | Webhook registered successfully |  -  |
-| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## deleteWebhook
-
-> deleteWebhook(rnc, webhookId)
-
-Delete webhook configuration
-
-Removes a registered webhook by its ID.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  WebhookConfigurationApi,
-} from '@pronesoft/ecf-sdk';
-import type { DeleteWebhookRequest } from '@pronesoft/ecf-sdk';
-
-async function example() {
-  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
-  const config = new Configuration({ 
-    // To configure OAuth2 access token for authorization: oauth2 application
-    accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new WebhookConfigurationApi(config);
-
-  const body = {
-    // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-    rnc: 130000001,
-    // string | The unique ID of the webhook to delete.
+    // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    rnc: 133190907,
+    // string
     webhookId: webhookId_example,
-  } satisfies DeleteWebhookRequest;
+  } satisfies GetWebhookRequest;
 
   try {
-    const data = await api.deleteWebhook(body);
+    const data = await api.getWebhook(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -139,12 +59,12 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | `string` | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | [Defaults to `undefined`] |
-| **webhookId** | `string` | The unique ID of the webhook to delete. | [Defaults to `undefined`] |
+| **rnc** | `string` | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | [Defaults to `undefined`] |
+| **webhookId** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
 
-`void` (Empty response body)
+[**WebhookConfigDetail**](WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -159,9 +79,86 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook deleted successfully |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
-| **404** | Webhook not found |  -  |
+| **200** | Webhook details |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getWebhookStats
+
+> WebhookStats getWebhookStats(rnc, webhookId, period)
+
+Get webhook delivery statistics
+
+### Example
+
+```ts
+import {
+  Configuration,
+  WebhookConfigurationApi,
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetWebhookStatsRequest } from '@pronesoft-rd/ecf-sdk';
+
+async function example() {
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new WebhookConfigurationApi(config);
+
+  const body = {
+    // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    rnc: 133190907,
+    // string
+    webhookId: webhookId_example,
+    // 'today' | 'week' | 'month' | 'all' (optional)
+    period: period_example,
+  } satisfies GetWebhookStatsRequest;
+
+  try {
+    const data = await api.getWebhookStats(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **rnc** | `string` | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | [Defaults to `undefined`] |
+| **webhookId** | `string` |  | [Defaults to `undefined`] |
+| **period** | `today`, `week`, `month`, `all` |  | [Optional] [Defaults to `&#39;month&#39;`] [Enum: today, week, month, all] |
+
+### Return type
+
+[**WebhookStats**](WebhookStats.md)
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Webhook delivery statistics |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -172,7 +169,7 @@ example().catch(console.error);
 
 List webhook configurations
 
-Returns all registered webhooks for the given RNC.
+Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
 
 ### Example
 
@@ -180,11 +177,11 @@ Returns all registered webhooks for the given RNC.
 import {
   Configuration,
   WebhookConfigurationApi,
-} from '@pronesoft/ecf-sdk';
-import type { ListWebhooksRequest } from '@pronesoft/ecf-sdk';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListWebhooksRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -194,8 +191,8 @@ async function example() {
   const api = new WebhookConfigurationApi(config);
 
   const body = {
-    // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-    rnc: 130000001,
+    // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    rnc: 133190907,
   } satisfies ListWebhooksRequest;
 
   try {
@@ -215,7 +212,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | `string` | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | [Defaults to `undefined`] |
+| **rnc** | `string` | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | [Defaults to `undefined`] |
 
 ### Return type
 
@@ -235,7 +232,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List of webhook configurations |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

@@ -27,47 +27,81 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Information about the buyer/recipient of the document.
+ * 
  *
- * @param name Buyer's full legal name or business name.
- * @param taxId Buyer's RNC (9 digits) or cedula (11 digits). Required for type 31.
- * @param email Buyer's email address (for digital delivery of the e-CF).
- * @param address Buyer's physical address.
- * @param municipalityCode DGII municipality code of the buyer.
- * @param provinceCode DGII province code of the buyer.
- * @param deliveryAddress Delivery address (if different from billing address).
+ * @param name 
+ * @param taxId RNC (9 digits) or cedula (11 digits). Required for type 31.
+ * @param foreignId 
+ * @param contact 
+ * @param email 
+ * @param address 
+ * @param municipalityCode 
+ * @param provinceCode 
+ * @param deliveryDate 
+ * @param deliveryContact 
+ * @param deliveryAddress 
+ * @param additionalPhone 
+ * @param purchaseOrderDate 
+ * @param purchaseOrderNumber 
+ * @param internalCode 
+ * @param paymentResponsible 
+ * @param additionalInfo 
  */
 
 
 data class Buyer (
 
-    /* Buyer's full legal name or business name. */
     @SerializedName("name")
     val name: kotlin.String,
 
-    /* Buyer's RNC (9 digits) or cedula (11 digits). Required for type 31. */
+    /* RNC (9 digits) or cedula (11 digits). Required for type 31. */
     @SerializedName("taxId")
     val taxId: kotlin.String? = null,
 
-    /* Buyer's email address (for digital delivery of the e-CF). */
+    @SerializedName("foreignId")
+    val foreignId: kotlin.String? = null,
+
+    @SerializedName("contact")
+    val contact: kotlin.String? = null,
+
     @SerializedName("email")
     val email: kotlin.String? = null,
 
-    /* Buyer's physical address. */
     @SerializedName("address")
     val address: kotlin.String? = null,
 
-    /* DGII municipality code of the buyer. */
     @SerializedName("municipalityCode")
     val municipalityCode: kotlin.String? = null,
 
-    /* DGII province code of the buyer. */
     @SerializedName("provinceCode")
     val provinceCode: kotlin.String? = null,
 
-    /* Delivery address (if different from billing address). */
+    @SerializedName("deliveryDate")
+    val deliveryDate: java.time.OffsetDateTime? = null,
+
+    @SerializedName("deliveryContact")
+    val deliveryContact: kotlin.String? = null,
+
     @SerializedName("deliveryAddress")
-    val deliveryAddress: kotlin.String? = null
+    val deliveryAddress: kotlin.String? = null,
+
+    @SerializedName("additionalPhone")
+    val additionalPhone: kotlin.String? = null,
+
+    @SerializedName("purchaseOrderDate")
+    val purchaseOrderDate: java.time.OffsetDateTime? = null,
+
+    @SerializedName("purchaseOrderNumber")
+    val purchaseOrderNumber: kotlin.String? = null,
+
+    @SerializedName("internalCode")
+    val internalCode: kotlin.String? = null,
+
+    @SerializedName("paymentResponsible")
+    val paymentResponsible: kotlin.String? = null,
+
+    @SerializedName("additionalInfo")
+    val additionalInfo: kotlin.String? = null
 
 ) {
 

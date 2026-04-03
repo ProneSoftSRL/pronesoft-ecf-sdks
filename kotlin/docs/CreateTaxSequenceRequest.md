@@ -4,9 +4,12 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **type** | [**InvoiceType**](InvoiceType.md) |  |  |
-| **from** | **kotlin.Int** | First number in the sequence range. |  |
-| **to** | **kotlin.Int** | Last number in the sequence range. |  |
+| **type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  |  |
+| **from** | **kotlin.Int** |  |  |
+| **to** | **kotlin.Int** |  |  |
+| **quantity** | **kotlin.Int** |  |  [optional] |
+| **expiration** | [**java.time.LocalDate**](java.time.LocalDate.md) |  |  [optional] |
+| **environment** | [**Environment**](Environment.md) |  |  [optional] |
 
 
 

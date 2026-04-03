@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getAccessToken**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token |
+| [**getAccessToken**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token (OAuth 2.0) |
 
 
 <a id="getAccessToken"></a>
 # **getAccessToken**
 > OAuthTokenResponse getAccessToken(oauthTokenRequest)
 
-Get access token
+Get access token (OAuth 2.0)
 
-Authenticates using OAuth 2.0 **Client Credentials** flow. Returns a Bearer token to use in subsequent requests.  **This endpoint does NOT require an Authorization header.**  &#x60;&#x60;&#x60; POST /oauth/token Content-Type: application/json  {   \&quot;clientId\&quot;: \&quot;your-client-id\&quot;,   \&quot;clientSecret\&quot;: \&quot;your-client-secret\&quot; } &#x60;&#x60;&#x60;  Use the returned &#x60;accessToken&#x60; as: &#x60;&#x60;&#x60; Authorization: Bearer &lt;accessToken&gt; &#x60;&#x60;&#x60; 
+Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
 
 ### Example
 ```java
@@ -68,5 +68,5 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Token generated successfully |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 

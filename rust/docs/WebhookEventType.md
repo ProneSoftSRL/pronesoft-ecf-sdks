@@ -8,18 +8,19 @@
 | DocumentStatusChanged | document.status_changed |
 | DocumentValidationError | document.validation_error |
 | DocumentContingencyActivated | document.contingency_activated |
-| CommercialApproval | commercial.approval |
-| CertificateExpiring | certificate.expiring |
+| SequenceDepleted | sequence.depleted |
+| SequenceVoided | sequence.voided |
 | PlanUsageAlert | plan.usage_alert |
 | PlanPaymentFailed | plan.payment_failed |
 | BillingInvoiceReady | billing.invoice_ready |
-| SequenceDepleted | sequence.depleted |
-| SequenceVoided | sequence.voided |
 | BranchCreated | branch.created |
 | BranchStatusChanged | branch.status_changed |
+| SecurityNewLogin | security.new_login |
 | MemberInvited | member.invited |
 | MemberJoined | member.joined |
 | MemberRemoved | member.removed |
+| CertificateExpiring | certificate.expiring |
+| CommercialApproval | commercial.approval |
 | CertificationCompleted | certification.completed |
 
 

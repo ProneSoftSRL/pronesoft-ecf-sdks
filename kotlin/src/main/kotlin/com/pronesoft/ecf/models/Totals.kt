@@ -23,135 +23,110 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.ItemAdditionalTax
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * Document totals. `totalAmount` is required. Provide ITBIS breakdowns by rate when applicable. 
+ * 
  *
- * @param totalAmount Grand total of the document (required).
- * @param taxableAmount Total taxable base amount (all ITBIS rates combined).
- * @param taxableAmount1 Taxable base for 18% ITBIS rate.
- * @param taxableAmount2 Taxable base for 16% ITBIS rate.
- * @param taxableAmount3 Taxable base for 0% ITBIS rate.
- * @param exemptAmount Total amount exempt from ITBIS.
- * @param itbisRate1 ITBIS rate 1 (typically 0.18).
- * @param itbisRate2 ITBIS rate 2 (typically 0.16).
- * @param itbisRate3 ITBIS rate 3 (typically 0.00).
- * @param totalITBIS Total ITBIS tax (all rates combined).
- * @param itbis1 ITBIS amount at rate 1.
- * @param itbis2 ITBIS amount at rate 2.
- * @param itbis3 ITBIS amount at rate 3.
- * @param additionalTaxAmount Total of all additional taxes (ISC, IECS, etc.).
- * @param additionalTaxes Breakdown of additional taxes at document level.
- * @param nonBillableAmount Amount not subject to billing.
- * @param periodAmount Amount for the current billing period.
- * @param previousBalance Previous balance (for billing statements).
- * @param advancePaymentAmount Advance payment amount already received.
- * @param amountToPay Net amount due after advance payments and previous balance.
- * @param totalWithheldITBIS Total ITBIS withheld at source.
- * @param totalIncomeTaxWithholding Total income tax (ISR) withheld at source.
- * @param totalITBISPerception Total ITBIS perception collected.
- * @param totalISRPerception Total ISR perception collected.
+ * @param totalAmount 
+ * @param taxableAmount 
+ * @param taxableAmount1 
+ * @param taxableAmount2 
+ * @param taxableAmount3 
+ * @param exemptAmount 
+ * @param itbisRate1 
+ * @param itbisRate2 
+ * @param itbisRate3 
+ * @param totalITBIS 
+ * @param itbis1 
+ * @param itbis2 
+ * @param itbis3 
+ * @param additionalTaxAmount 
+ * @param additionalTaxes 
+ * @param nonBillableAmount 
+ * @param periodAmount 
+ * @param previousBalance 
+ * @param advancePaymentAmount 
+ * @param amountToPay 
+ * @param totalWithheldITBIS 
+ * @param totalIncomeTaxWithholding 
+ * @param totalITBISPerception 
+ * @param totalISRPerception 
  */
 
 
 data class Totals (
 
-    /* Grand total of the document (required). */
     @SerializedName("totalAmount")
     val totalAmount: java.math.BigDecimal,
 
-    /* Total taxable base amount (all ITBIS rates combined). */
     @SerializedName("taxableAmount")
     val taxableAmount: java.math.BigDecimal? = null,
 
-    /* Taxable base for 18% ITBIS rate. */
     @SerializedName("taxableAmount1")
     val taxableAmount1: java.math.BigDecimal? = null,
 
-    /* Taxable base for 16% ITBIS rate. */
     @SerializedName("taxableAmount2")
     val taxableAmount2: java.math.BigDecimal? = null,
 
-    /* Taxable base for 0% ITBIS rate. */
     @SerializedName("taxableAmount3")
     val taxableAmount3: java.math.BigDecimal? = null,
 
-    /* Total amount exempt from ITBIS. */
     @SerializedName("exemptAmount")
     val exemptAmount: java.math.BigDecimal? = null,
 
-    /* ITBIS rate 1 (typically 0.18). */
     @SerializedName("itbisRate1")
     val itbisRate1: java.math.BigDecimal? = null,
 
-    /* ITBIS rate 2 (typically 0.16). */
     @SerializedName("itbisRate2")
     val itbisRate2: java.math.BigDecimal? = null,
 
-    /* ITBIS rate 3 (typically 0.00). */
     @SerializedName("itbisRate3")
     val itbisRate3: java.math.BigDecimal? = null,
 
-    /* Total ITBIS tax (all rates combined). */
     @SerializedName("totalITBIS")
     val totalITBIS: java.math.BigDecimal? = null,
 
-    /* ITBIS amount at rate 1. */
     @SerializedName("itbis1")
     val itbis1: java.math.BigDecimal? = null,
 
-    /* ITBIS amount at rate 2. */
     @SerializedName("itbis2")
     val itbis2: java.math.BigDecimal? = null,
 
-    /* ITBIS amount at rate 3. */
     @SerializedName("itbis3")
     val itbis3: java.math.BigDecimal? = null,
 
-    /* Total of all additional taxes (ISC, IECS, etc.). */
     @SerializedName("additionalTaxAmount")
     val additionalTaxAmount: java.math.BigDecimal? = null,
 
-    /* Breakdown of additional taxes at document level. */
     @SerializedName("additionalTaxes")
-    val additionalTaxes: kotlin.collections.List<ItemAdditionalTax>? = null,
+    val additionalTaxes: kotlin.collections.List<kotlin.String>? = null,
 
-    /* Amount not subject to billing. */
     @SerializedName("nonBillableAmount")
     val nonBillableAmount: java.math.BigDecimal? = null,
 
-    /* Amount for the current billing period. */
     @SerializedName("periodAmount")
     val periodAmount: java.math.BigDecimal? = null,
 
-    /* Previous balance (for billing statements). */
     @SerializedName("previousBalance")
     val previousBalance: java.math.BigDecimal? = null,
 
-    /* Advance payment amount already received. */
     @SerializedName("advancePaymentAmount")
     val advancePaymentAmount: java.math.BigDecimal? = null,
 
-    /* Net amount due after advance payments and previous balance. */
     @SerializedName("amountToPay")
     val amountToPay: java.math.BigDecimal? = null,
 
-    /* Total ITBIS withheld at source. */
     @SerializedName("totalWithheldITBIS")
     val totalWithheldITBIS: java.math.BigDecimal? = null,
 
-    /* Total income tax (ISR) withheld at source. */
     @SerializedName("totalIncomeTaxWithholding")
     val totalIncomeTaxWithholding: java.math.BigDecimal? = null,
 
-    /* Total ITBIS perception collected. */
     @SerializedName("totalITBISPerception")
     val totalITBISPerception: java.math.BigDecimal? = null,
 
-    /* Total ISR perception collected. */
     @SerializedName("totalISRPerception")
     val totalISRPerception: java.math.BigDecimal? = null
 

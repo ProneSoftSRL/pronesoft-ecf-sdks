@@ -4,17 +4,19 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create new associated company |
+| [**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create associated company / branch |
+| [**delete_associated_company**](AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Delete associated company |
+| [**get_company_document_metrics**](AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics |
+| [**get_company_metrics**](AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics |
 | [**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated companies / branches |
+| [**update_associated_company**](AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Update associated company |
 
 
 ## create_associated_company
 
-> <CreateAssociatedCompany201Response> create_associated_company(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
+> <CreateAssociatedCompany201Response> create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, opts)
 
-Create new associated company
-
-Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
+Create associated company / branch
 
 ### Examples
 
@@ -31,29 +33,28 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-email = 'email_example' # String | Owner's email address (used for login).
-password = 'password_example' # String | Initial password for the new account (min 8 characters).
-name = 'name_example' # String | Legal business name.
-rnc = 'rnc_example' # String | Company RNC (9 digits) or personal cedula (11 digits).
+email = 'email_example' # String | 
+password = 'password_example' # String | 
+name = 'name_example' # String | 
+rnc = 'rnc_example' # String | 
 phone = 'phone_example' # String | 
 address = 'address_example' # String | 
 city = 'city_example' # String | 
 country = 'country_example' # String | 
+printer_type = PronesoftEcf::PrintFormat::A4 # PrintFormat | 
 opts = {
   first_name: 'first_name_example', # String | 
   last_name: 'last_name_example', # String | 
   job_title: 'job_title_example', # String | 
   website: 'website_example', # String | 
-  category: 'category_example', # String | Business category or industry.
-  monthly_sales_range: 'monthly_sales_range_example', # String | Estimated monthly sales range (e.g. \\\"0-500000\\\").
-  printer_type: PronesoftEcf::PrintFormat::A4, # PrintFormat | 
-  logo: File.new('/path/to/some/file') # File | Company logo image file (multipart upload).
+  category: 'category_example', # String | 
+  monthly_sales_range: 'monthly_sales_range_example', # String | 
+  logo: File.new('/path/to/some/file') # File | 
 }
 
 begin
-  # Create new associated company
-  result = api_instance.create_associated_company(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
+  # Create associated company / branch
+  result = api_instance.create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, opts)
   p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling AssociatedCompaniesApi->create_associated_company: #{e}"
@@ -64,12 +65,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<CreateAssociatedCompany201Response>, Integer, Hash)> create_associated_company_with_http_info(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
+> <Array(<CreateAssociatedCompany201Response>, Integer, Hash)> create_associated_company_with_http_info(email, password, name, rnc, phone, address, city, country, printer_type, opts)
 
 ```ruby
 begin
-  # Create new associated company
-  data, status_code, headers = api_instance.create_associated_company_with_http_info(x_tenant_id, email, password, name, rnc, phone, address, city, country, opts)
+  # Create associated company / branch
+  data, status_code, headers = api_instance.create_associated_company_with_http_info(email, password, name, rnc, phone, address, city, country, printer_type, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <CreateAssociatedCompany201Response>
@@ -82,23 +83,22 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
-| **email** | **String** | Owner&#39;s email address (used for login). |  |
-| **password** | **String** | Initial password for the new account (min 8 characters). |  |
-| **name** | **String** | Legal business name. |  |
-| **rnc** | **String** | Company RNC (9 digits) or personal cedula (11 digits). |  |
+| **email** | **String** |  |  |
+| **password** | **String** |  |  |
+| **name** | **String** |  |  |
+| **rnc** | **String** |  |  |
 | **phone** | **String** |  |  |
 | **address** | **String** |  |  |
 | **city** | **String** |  |  |
 | **country** | **String** |  |  |
+| **printer_type** | [**PrintFormat**](PrintFormat.md) |  |  |
 | **first_name** | **String** |  | [optional] |
 | **last_name** | **String** |  | [optional] |
 | **job_title** | **String** |  | [optional] |
 | **website** | **String** |  | [optional] |
-| **category** | **String** | Business category or industry. | [optional] |
-| **monthly_sales_range** | **String** | Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). | [optional] |
-| **printer_type** | [**PrintFormat**](PrintFormat.md) |  | [optional] |
-| **logo** | **File** | Company logo image file (multipart upload). | [optional] |
+| **category** | **String** |  | [optional] |
+| **monthly_sales_range** | **String** |  | [optional] |
+| **logo** | **File** |  | [optional] |
 
 ### Return type
 
@@ -114,13 +114,13 @@ end
 - **Accept**: application/json
 
 
-## list_associated_companies
+## delete_associated_company
 
-> <Array<AssociatedCompany>> list_associated_companies(x_tenant_id)
+> <DeleteAssociatedCompany200Response> delete_associated_company(company_id)
 
-List associated companies / branches
+Delete associated company
 
-Returns all companies and branches linked to the current tenant.
+Permanently deletes an associated company. This action is irreversible.
 
 ### Examples
 
@@ -137,11 +137,224 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+company_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+
+begin
+  # Delete associated company
+  result = api_instance.delete_associated_company(company_id)
+  p result
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling AssociatedCompaniesApi->delete_associated_company: #{e}"
+end
+```
+
+#### Using the delete_associated_company_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<DeleteAssociatedCompany200Response>, Integer, Hash)> delete_associated_company_with_http_info(company_id)
+
+```ruby
+begin
+  # Delete associated company
+  data, status_code, headers = api_instance.delete_associated_company_with_http_info(company_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <DeleteAssociatedCompany200Response>
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling AssociatedCompaniesApi->delete_associated_company_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **company_id** | **String** |  |  |
+
+### Return type
+
+[**DeleteAssociatedCompany200Response**](DeleteAssociatedCompany200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## get_company_document_metrics
+
+> <CompanyDocumentMetrics> get_company_document_metrics(company_id)
+
+Get company document metrics
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = PronesoftEcf::AssociatedCompaniesApi.new
+company_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+
+begin
+  # Get company document metrics
+  result = api_instance.get_company_document_metrics(company_id)
+  p result
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling AssociatedCompaniesApi->get_company_document_metrics: #{e}"
+end
+```
+
+#### Using the get_company_document_metrics_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<CompanyDocumentMetrics>, Integer, Hash)> get_company_document_metrics_with_http_info(company_id)
+
+```ruby
+begin
+  # Get company document metrics
+  data, status_code, headers = api_instance.get_company_document_metrics_with_http_info(company_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <CompanyDocumentMetrics>
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling AssociatedCompaniesApi->get_company_document_metrics_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **company_id** | **String** |  |  |
+
+### Return type
+
+[**CompanyDocumentMetrics**](CompanyDocumentMetrics.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## get_company_metrics
+
+> <CompanyMetrics> get_company_metrics(company_id)
+
+Get company metrics
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = PronesoftEcf::AssociatedCompaniesApi.new
+company_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+
+begin
+  # Get company metrics
+  result = api_instance.get_company_metrics(company_id)
+  p result
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling AssociatedCompaniesApi->get_company_metrics: #{e}"
+end
+```
+
+#### Using the get_company_metrics_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<CompanyMetrics>, Integer, Hash)> get_company_metrics_with_http_info(company_id)
+
+```ruby
+begin
+  # Get company metrics
+  data, status_code, headers = api_instance.get_company_metrics_with_http_info(company_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <CompanyMetrics>
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling AssociatedCompaniesApi->get_company_metrics_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **company_id** | **String** |  |  |
+
+### Return type
+
+[**CompanyMetrics**](CompanyMetrics.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## list_associated_companies
+
+> <Array<AssociatedCompany>> list_associated_companies(opts)
+
+List associated companies / branches
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = PronesoftEcf::AssociatedCompaniesApi.new
+opts = {
+  page: 56, # Integer | 
+  limit: 56 # Integer | 
+}
 
 begin
   # List associated companies / branches
-  result = api_instance.list_associated_companies(x_tenant_id)
+  result = api_instance.list_associated_companies(opts)
   p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling AssociatedCompaniesApi->list_associated_companies: #{e}"
@@ -152,12 +365,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<Array<AssociatedCompany>>, Integer, Hash)> list_associated_companies_with_http_info(x_tenant_id)
+> <Array(<Array<AssociatedCompany>>, Integer, Hash)> list_associated_companies_with_http_info(opts)
 
 ```ruby
 begin
   # List associated companies / branches
-  data, status_code, headers = api_instance.list_associated_companies_with_http_info(x_tenant_id)
+  data, status_code, headers = api_instance.list_associated_companies_with_http_info(opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <Array<AssociatedCompany>>
@@ -170,7 +383,8 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
+| **page** | **Integer** |  | [optional][default to 1] |
+| **limit** | **Integer** |  | [optional][default to 10] |
 
 ### Return type
 
@@ -183,5 +397,89 @@ end
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## update_associated_company
+
+> <CreateAssociatedCompany201Response> update_associated_company(company_id, opts)
+
+Update associated company
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = PronesoftEcf::AssociatedCompaniesApi.new
+company_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
+opts = {
+  name: 'name_example', # String | 
+  phone: 'phone_example', # String | 
+  website: 'website_example', # String | 
+  city: 'city_example', # String | 
+  country: 'country_example', # String | 
+  logo: File.new('/path/to/some/file') # File | 
+}
+
+begin
+  # Update associated company
+  result = api_instance.update_associated_company(company_id, opts)
+  p result
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling AssociatedCompaniesApi->update_associated_company: #{e}"
+end
+```
+
+#### Using the update_associated_company_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<CreateAssociatedCompany201Response>, Integer, Hash)> update_associated_company_with_http_info(company_id, opts)
+
+```ruby
+begin
+  # Update associated company
+  data, status_code, headers = api_instance.update_associated_company_with_http_info(company_id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <CreateAssociatedCompany201Response>
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling AssociatedCompaniesApi->update_associated_company_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **company_id** | **String** |  |  |
+| **name** | **String** |  | [optional] |
+| **phone** | **String** |  | [optional] |
+| **website** | **String** |  | [optional] |
+| **city** | **String** |  | [optional] |
+| **country** | **String** |  | [optional] |
+| **logo** | **File** |  | [optional] |
+
+### Return type
+
+[**CreateAssociatedCompany201Response**](CreateAssociatedCompany201Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: application/json
 

@@ -27,9 +27,10 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
-import com.pronesoft.ecf.models.CreateWebhookConfig
 import com.pronesoft.ecf.models.ErrorResponse
+import com.pronesoft.ecf.models.WebhookConfigDetail
 import com.pronesoft.ecf.models.WebhookConfigResponse
+import com.pronesoft.ecf.models.WebhookStats
 
 import com.google.gson.annotations.SerializedName
 
@@ -56,12 +57,12 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     }
 
     /**
-     * POST /{rnc}/webhooks
-     * Register new webhook
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param createWebhookConfig 
-     * @return WebhookConfigResponse
+     * GET /{rnc}/webhooks/{webhookId}
+     * Get webhook details
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param webhookId 
+     * @return WebhookConfigDetail
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -70,11 +71,11 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createWebhook(rnc: kotlin.String, createWebhookConfig: CreateWebhookConfig) : WebhookConfigResponse {
-        val localVarResponse = createWebhookWithHttpInfo(rnc = rnc, createWebhookConfig = createWebhookConfig)
+    fun getWebhook(rnc: kotlin.String, webhookId: kotlin.String) : WebhookConfigDetail {
+        val localVarResponse = getWebhookWithHttpInfo(rnc = rnc, webhookId = webhookId)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as WebhookConfigResponse
+            ResponseType.Success -> (localVarResponse as Success<*>).data as WebhookConfigDetail
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -89,42 +90,41 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     }
 
     /**
-     * POST /{rnc}/webhooks
-     * Register new webhook
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param createWebhookConfig 
-     * @return ApiResponse<WebhookConfigResponse?>
+     * GET /{rnc}/webhooks/{webhookId}
+     * Get webhook details
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param webhookId 
+     * @return ApiResponse<WebhookConfigDetail?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createWebhookWithHttpInfo(rnc: kotlin.String, createWebhookConfig: CreateWebhookConfig) : ApiResponse<WebhookConfigResponse?> {
-        val localVariableConfig = createWebhookRequestConfig(rnc = rnc, createWebhookConfig = createWebhookConfig)
+    fun getWebhookWithHttpInfo(rnc: kotlin.String, webhookId: kotlin.String) : ApiResponse<WebhookConfigDetail?> {
+        val localVariableConfig = getWebhookRequestConfig(rnc = rnc, webhookId = webhookId)
 
-        return request<CreateWebhookConfig, WebhookConfigResponse>(
+        return request<Unit, WebhookConfigDetail>(
             localVariableConfig
         )
     }
 
     /**
-     * To obtain the request config of the operation createWebhook
+     * To obtain the request config of the operation getWebhook
      *
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param createWebhookConfig 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param webhookId 
      * @return RequestConfig
      */
-    fun createWebhookRequestConfig(rnc: kotlin.String, createWebhookConfig: CreateWebhookConfig) : RequestConfig<CreateWebhookConfig> {
-        val localVariableBody = createWebhookConfig
+    fun getWebhookRequestConfig(rnc: kotlin.String, webhookId: kotlin.String) : RequestConfig<Unit> {
+        val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
-            method = RequestMethod.POST,
-            path = "/{rnc}/webhooks".replace("{"+"rnc"+"}", encodeURIComponent(rnc.toString())),
+            method = RequestMethod.GET,
+            path = "/{rnc}/webhooks/{webhookId}".replace("{"+"rnc"+"}", encodeURIComponent(rnc.toString())).replace("{"+"webhookId"+"}", encodeURIComponent(webhookId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -133,24 +133,45 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     }
 
     /**
-     * DELETE /{rnc}/webhooks/{webhookId}
-     * Delete webhook configuration
-     * Removes a registered webhook by its ID.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param webhookId The unique ID of the webhook to delete.
-     * @return void
+     * enum for parameter period
+     */
+     enum class PeriodGetWebhookStats(val value: kotlin.String) {
+         @SerializedName(value = "today") today("today"),
+         @SerializedName(value = "week") week("week"),
+         @SerializedName(value = "month") month("month"),
+         @SerializedName(value = "all") all("all");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /{rnc}/webhooks/{webhookId}/stats
+     * Get webhook delivery statistics
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param webhookId 
+     * @param period  (optional, default to Period.month)
+     * @return WebhookStats
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteWebhook(rnc: kotlin.String, webhookId: kotlin.String) : Unit {
-        val localVarResponse = deleteWebhookWithHttpInfo(rnc = rnc, webhookId = webhookId)
+    fun getWebhookStats(rnc: kotlin.String, webhookId: kotlin.String, period: PeriodGetWebhookStats? = PeriodGetWebhookStats.month) : WebhookStats {
+        val localVarResponse = getWebhookStatsWithHttpInfo(rnc = rnc, webhookId = webhookId, period = period)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as WebhookStats
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -165,40 +186,48 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     }
 
     /**
-     * DELETE /{rnc}/webhooks/{webhookId}
-     * Delete webhook configuration
-     * Removes a registered webhook by its ID.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param webhookId The unique ID of the webhook to delete.
-     * @return ApiResponse<Unit?>
+     * GET /{rnc}/webhooks/{webhookId}/stats
+     * Get webhook delivery statistics
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param webhookId 
+     * @param period  (optional, default to Period.month)
+     * @return ApiResponse<WebhookStats?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteWebhookWithHttpInfo(rnc: kotlin.String, webhookId: kotlin.String) : ApiResponse<Unit?> {
-        val localVariableConfig = deleteWebhookRequestConfig(rnc = rnc, webhookId = webhookId)
+    fun getWebhookStatsWithHttpInfo(rnc: kotlin.String, webhookId: kotlin.String, period: PeriodGetWebhookStats?) : ApiResponse<WebhookStats?> {
+        val localVariableConfig = getWebhookStatsRequestConfig(rnc = rnc, webhookId = webhookId, period = period)
 
-        return request<Unit, Unit>(
+        return request<Unit, WebhookStats>(
             localVariableConfig
         )
     }
 
     /**
-     * To obtain the request config of the operation deleteWebhook
+     * To obtain the request config of the operation getWebhookStats
      *
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param webhookId The unique ID of the webhook to delete.
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param webhookId 
+     * @param period  (optional, default to Period.month)
      * @return RequestConfig
      */
-    fun deleteWebhookRequestConfig(rnc: kotlin.String, webhookId: kotlin.String) : RequestConfig<Unit> {
+    fun getWebhookStatsRequestConfig(rnc: kotlin.String, webhookId: kotlin.String, period: PeriodGetWebhookStats?) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                if (period != null) {
+                    put("period", listOf(period.value))
+                }
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
-            method = RequestMethod.DELETE,
-            path = "/{rnc}/webhooks/{webhookId}".replace("{"+"rnc"+"}", encodeURIComponent(rnc.toString())).replace("{"+"webhookId"+"}", encodeURIComponent(webhookId.toString())),
+            method = RequestMethod.GET,
+            path = "/{rnc}/webhooks/{webhookId}/stats".replace("{"+"rnc"+"}", encodeURIComponent(rnc.toString())).replace("{"+"webhookId"+"}", encodeURIComponent(webhookId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -209,8 +238,8 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * GET /{rnc}/webhooks
      * List webhook configurations
-     * Returns all registered webhooks for the given RNC.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
      * @return kotlin.collections.List<WebhookConfigResponse>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -241,8 +270,8 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * GET /{rnc}/webhooks
      * List webhook configurations
-     * Returns all registered webhooks for the given RNC.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
      * @return ApiResponse<kotlin.collections.List<WebhookConfigResponse>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -260,7 +289,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * To obtain the request config of the operation listWebhooks
      *
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
      * @return RequestConfig
      */
     fun listWebhooksRequestConfig(rnc: kotlin.String) : RequestConfig<Unit> {

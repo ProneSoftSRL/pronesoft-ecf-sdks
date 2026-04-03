@@ -15,7 +15,7 @@ public typealias InvoiceType = PronesoftEcfAPI.InvoiceType
 
 extension PronesoftEcfAPI {
 
-/** e-NCF invoice type code as defined by the DGII: - &#x60;31&#x60;: Tax Credit Invoice (Factura de Crédito Fiscal) - &#x60;32&#x60;: Consumer Invoice (Factura de Consumo) - &#x60;33&#x60;: Debit Note (Nota de Débito) - &#x60;34&#x60;: Credit Note (Nota de Crédito) - &#x60;41&#x60;: Purchases (Compras) - &#x60;43&#x60;: Minor Expenses (Gastos Menores) - &#x60;44&#x60;: Special Regimes (Regímenes Especiales) - &#x60;45&#x60;: Governmental (Gubernamentales) - &#x60;46&#x60;: Exports (Exportaciones) - &#x60;47&#x60;: Overseas Payments (Pagos al Exterior)  */
+/** 31&#x3D;Factura Credito Fiscal, 32&#x3D;Factura Consumo, 33&#x3D;Nota Debito, 34&#x3D;Nota Credito, 41&#x3D;Compras, 43&#x3D;Gastos Menores, 44&#x3D;Regimenes Especiales, 45&#x3D;Gubernamental, 46&#x3D;Exportaciones, 47&#x3D;Pagos Exterior  */
 public enum InvoiceType: String, Codable, CaseIterable {
     case _31 = "31"
     case _32 = "32"

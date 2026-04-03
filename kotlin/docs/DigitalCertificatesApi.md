@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12) |
+| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX) |
 
 
 <a id="uploadCertificate"></a>
 # **uploadCertificate**
 > UploadCertificateResponse uploadCertificate(rnc, file, password)
 
-Upload digital certificate (P12)
+Upload digital certificate (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
 
 ### Example
 ```kotlin
@@ -22,9 +22,9 @@ Uploads the DGII-issued digital signing certificate for a company identified by 
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = DigitalCertificatesApi()
-val rnc : kotlin.String = 130000001 // kotlin.String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-val file : java.io.File = BINARY_DATA_HERE // java.io.File | The P12/PFX certificate file.
-val password : kotlin.String = password_example // kotlin.String | Password to unlock the P12 certificate.
+val rnc : kotlin.String = 133190907 // kotlin.String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+val file : java.io.File = BINARY_DATA_HERE // java.io.File | Certificate file in .p12 or .pfx format.
+val password : kotlin.String = password_example // kotlin.String | Password to unlock the certificate.
 try {
     val result : UploadCertificateResponse = apiInstance.uploadCertificate(rnc, file, password)
     println(result)
@@ -38,11 +38,11 @@ try {
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
-| **file** | **java.io.File**| The P12/PFX certificate file. | |
+| **rnc** | **kotlin.String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **file** | **java.io.File**| Certificate file in .p12 or .pfx format. | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **password** | **kotlin.String**| Password to unlock the P12 certificate. | |
+| **password** | **kotlin.String**| Password to unlock the certificate. | |
 
 ### Return type
 

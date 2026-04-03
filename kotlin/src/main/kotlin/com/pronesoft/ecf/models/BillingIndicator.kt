@@ -27,7 +27,7 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * ITBIS tax billing indicator for a line item: - `0`: Non-billable (No facturable) - `1`: 18% ITBIS rate - `2`: 16% ITBIS rate - `3`: 0% ITBIS rate - `4`: Exempt (Exento) 
+ * 0=Non-billable, 1=18% ITBIS, 2=16% ITBIS, 3=0% ITBIS, 4=Exempt
  *
  * Values: _0,_1,_2,_3,_4
  */

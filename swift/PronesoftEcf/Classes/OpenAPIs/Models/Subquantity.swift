@@ -15,15 +15,12 @@ public typealias Subquantity = PronesoftEcfAPI.Subquantity
 
 extension PronesoftEcfAPI {
 
-/** Sub-quantity for items measured in multiple units. */
 public struct Subquantity: Codable, JSONEncodable, Hashable {
 
-    /** Quantity in this unit of measure. */
     public var quantity: Double
-    /** DGII unit of measure code. */
-    public var unitCode: Double
+    public var unitCode: Int
 
-    public init(quantity: Double, unitCode: Double) {
+    public init(quantity: Double, unitCode: Int) {
         self.quantity = quantity
         self.unitCode = unitCode
     }

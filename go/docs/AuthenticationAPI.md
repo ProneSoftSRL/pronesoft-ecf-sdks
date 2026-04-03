@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetAccessToken**](AuthenticationAPI.md#GetAccessToken) | **Post** /oauth/token | Get access token
+[**GetAccessToken**](AuthenticationAPI.md#GetAccessToken) | **Post** /oauth/token | Get access token (OAuth 2.0)
 
 
 
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 > OAuthTokenResponse GetAccessToken(ctx).OAuthTokenRequest(oAuthTokenRequest).Execute()
 
-Get access token
+Get access token (OAuth 2.0)
 
 
 
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	oAuthTokenRequest := *openapiclient.NewOAuthTokenRequest("my-app-client-id", "my-super-secret-value") // OAuthTokenRequest | 
+	oAuthTokenRequest := *openapiclient.NewOAuthTokenRequest("app_live_TU_CLIENT_ID", "sk_live_TU_CLIENT_SECRET") // OAuthTokenRequest | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

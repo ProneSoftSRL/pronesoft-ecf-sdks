@@ -4,30 +4,28 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_webhook**](WebhookConfigurationApi.md#create_webhook) | **POST** /{rnc}/webhooks | Register new webhook
-[**delete_webhook**](WebhookConfigurationApi.md#delete_webhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+[**get_webhook**](WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
+[**get_webhook_stats**](WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
 [**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List webhook configurations
 
 
 
-## create_webhook
+## get_webhook
 
-> models::WebhookConfigResponse create_webhook(rnc, create_webhook_config)
-Register new webhook
-
-Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+> models::WebhookConfigDetail get_webhook(rnc, webhook_id)
+Get webhook details
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | [required] |
-**create_webhook_config** | [**CreateWebhookConfig**](CreateWebhookConfig.md) |  | [required] |
+**rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | [required] |
+**webhook_id** | **String** |  | [required] |
 
 ### Return type
 
-[**models::WebhookConfigResponse**](WebhookConfigResponse.md)
+[**models::WebhookConfigDetail**](WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -35,30 +33,29 @@ Name | Type | Description  | Required | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## delete_webhook
+## get_webhook_stats
 
-> delete_webhook(rnc, webhook_id)
-Delete webhook configuration
-
-Removes a registered webhook by its ID.
+> models::WebhookStats get_webhook_stats(rnc, webhook_id, period)
+Get webhook delivery statistics
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | [required] |
-**webhook_id** | **String** | The unique ID of the webhook to delete. | [required] |
+**rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | [required] |
+**webhook_id** | **String** |  | [required] |
+**period** | Option<**String**> |  |  |[default to month]
 
 ### Return type
 
- (empty response body)
+[**models::WebhookStats**](WebhookStats.md)
 
 ### Authorization
 
@@ -77,14 +74,14 @@ Name | Type | Description  | Required | Notes
 > Vec<models::WebhookConfigResponse> list_webhooks(rnc)
 List webhook configurations
 
-Returns all registered webhooks for the given RNC.
+Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | [required] |
+**rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | [required] |
 
 ### Return type
 

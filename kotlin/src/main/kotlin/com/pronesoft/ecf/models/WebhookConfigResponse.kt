@@ -28,39 +28,42 @@ import com.pronesoft.ecf.models.WebhookEventType
 import com.google.gson.annotations.SerializedName
 
 /**
- * A registered webhook configuration.
+ * 
  *
- * @param id Unique webhook identifier.
- * @param url The URL that receives webhook notifications.
- * @param eventTypes Events this webhook is subscribed to.
- * @param isActive Whether this webhook is currently active.
+ * @param id 
+ * @param url 
+ * @param description 
+ * @param eventTypes 
+ * @param isActive 
  * @param createdAt 
- * @param lastTriggeredAt When this webhook was last triggered. Null if never triggered.
+ * @param updatedAt 
+ * @param lastTriggeredAt 
  */
 
 
 data class WebhookConfigResponse (
 
-    /* Unique webhook identifier. */
     @SerializedName("id")
     val id: kotlin.String? = null,
 
-    /* The URL that receives webhook notifications. */
     @SerializedName("url")
     val url: java.net.URI? = null,
 
-    /* Events this webhook is subscribed to. */
+    @SerializedName("description")
+    val description: kotlin.String? = null,
+
     @SerializedName("eventTypes")
     val eventTypes: kotlin.collections.List<WebhookEventType>? = null,
 
-    /* Whether this webhook is currently active. */
     @SerializedName("isActive")
     val isActive: kotlin.Boolean? = null,
 
     @SerializedName("createdAt")
     val createdAt: java.time.OffsetDateTime? = null,
 
-    /* When this webhook was last triggered. Null if never triggered. */
+    @SerializedName("updatedAt")
+    val updatedAt: java.time.OffsetDateTime? = null,
+
     @SerializedName("lastTriggeredAt")
     val lastTriggeredAt: java.time.OffsetDateTime? = null
 

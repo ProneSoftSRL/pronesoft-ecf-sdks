@@ -8,16 +8,18 @@ Name | Type
 ------------ | -------------
 `success` | boolean
 `data` | [Array&lt;TaxSequence&gt;](TaxSequence.md)
+`meta` | [PaginationMeta](PaginationMeta.md)
 
 ## Example
 
 ```typescript
-import type { ListTaxSequences200Response } from '@pronesoft/ecf-sdk'
+import type { ListTaxSequences200Response } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "success": null,
   "data": null,
+  "meta": null,
 } satisfies ListTaxSequences200Response
 
 console.log(example)

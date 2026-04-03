@@ -4,18 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**create_webhook**](WebhookConfigurationApi.md#create_webhook) | **POST** /{rnc}/webhooks | Register new webhook |
-| [**delete_webhook**](WebhookConfigurationApi.md#delete_webhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**get_webhook**](WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
+| [**get_webhook_stats**](WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
 | [**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
 
-## create_webhook
+## get_webhook
 
-> <WebhookConfigResponse> create_webhook(rnc, create_webhook_config)
+> <WebhookConfigDetail> get_webhook(rnc, webhook_id)
 
-Register new webhook
-
-Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+Get webhook details
 
 ### Examples
 
@@ -32,33 +30,33 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = '130000001' # String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-create_webhook_config = PronesoftEcf::CreateWebhookConfig.new({url: 'https://myapp.com/webhooks/ecf', event_types: [PronesoftEcf::WebhookEventType::DOCUMENT_RECEIVED]}) # CreateWebhookConfig | 
+rnc = '133190907' # String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+webhook_id = 'webhook_id_example' # String | 
 
 begin
-  # Register new webhook
-  result = api_instance.create_webhook(rnc, create_webhook_config)
+  # Get webhook details
+  result = api_instance.get_webhook(rnc, webhook_id)
   p result
 rescue PronesoftEcf::ApiError => e
-  puts "Error when calling WebhookConfigurationApi->create_webhook: #{e}"
+  puts "Error when calling WebhookConfigurationApi->get_webhook: #{e}"
 end
 ```
 
-#### Using the create_webhook_with_http_info variant
+#### Using the get_webhook_with_http_info variant
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<WebhookConfigResponse>, Integer, Hash)> create_webhook_with_http_info(rnc, create_webhook_config)
+> <Array(<WebhookConfigDetail>, Integer, Hash)> get_webhook_with_http_info(rnc, webhook_id)
 
 ```ruby
 begin
-  # Register new webhook
-  data, status_code, headers = api_instance.create_webhook_with_http_info(rnc, create_webhook_config)
+  # Get webhook details
+  data, status_code, headers = api_instance.get_webhook_with_http_info(rnc, webhook_id)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => <WebhookConfigResponse>
+  p data # => <WebhookConfigDetail>
 rescue PronesoftEcf::ApiError => e
-  puts "Error when calling WebhookConfigurationApi->create_webhook_with_http_info: #{e}"
+  puts "Error when calling WebhookConfigurationApi->get_webhook_with_http_info: #{e}"
 end
 ```
 
@@ -66,12 +64,12 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
-| **create_webhook_config** | [**CreateWebhookConfig**](CreateWebhookConfig.md) |  |  |
+| **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **webhook_id** | **String** |  |  |
 
 ### Return type
 
-[**WebhookConfigResponse**](WebhookConfigResponse.md)
+[**WebhookConfigDetail**](WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -79,17 +77,15 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 
-## delete_webhook
+## get_webhook_stats
 
-> delete_webhook(rnc, webhook_id)
+> <WebhookStats> get_webhook_stats(rnc, webhook_id, opts)
 
-Delete webhook configuration
-
-Removes a registered webhook by its ID.
+Get webhook delivery statistics
 
 ### Examples
 
@@ -106,32 +102,36 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = '130000001' # String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-webhook_id = 'webhook_id_example' # String | The unique ID of the webhook to delete.
+rnc = '133190907' # String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+webhook_id = 'webhook_id_example' # String | 
+opts = {
+  period: 'today' # String | 
+}
 
 begin
-  # Delete webhook configuration
-  api_instance.delete_webhook(rnc, webhook_id)
+  # Get webhook delivery statistics
+  result = api_instance.get_webhook_stats(rnc, webhook_id, opts)
+  p result
 rescue PronesoftEcf::ApiError => e
-  puts "Error when calling WebhookConfigurationApi->delete_webhook: #{e}"
+  puts "Error when calling WebhookConfigurationApi->get_webhook_stats: #{e}"
 end
 ```
 
-#### Using the delete_webhook_with_http_info variant
+#### Using the get_webhook_stats_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> delete_webhook_with_http_info(rnc, webhook_id)
+> <Array(<WebhookStats>, Integer, Hash)> get_webhook_stats_with_http_info(rnc, webhook_id, opts)
 
 ```ruby
 begin
-  # Delete webhook configuration
-  data, status_code, headers = api_instance.delete_webhook_with_http_info(rnc, webhook_id)
+  # Get webhook delivery statistics
+  data, status_code, headers = api_instance.get_webhook_stats_with_http_info(rnc, webhook_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <WebhookStats>
 rescue PronesoftEcf::ApiError => e
-  puts "Error when calling WebhookConfigurationApi->delete_webhook_with_http_info: #{e}"
+  puts "Error when calling WebhookConfigurationApi->get_webhook_stats_with_http_info: #{e}"
 end
 ```
 
@@ -139,12 +139,13 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
-| **webhook_id** | **String** | The unique ID of the webhook to delete. |  |
+| **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **webhook_id** | **String** |  |  |
+| **period** | **String** |  | [optional][default to &#39;month&#39;] |
 
 ### Return type
 
-nil (empty response body)
+[**WebhookStats**](WebhookStats.md)
 
 ### Authorization
 
@@ -162,7 +163,7 @@ nil (empty response body)
 
 List webhook configurations
 
-Returns all registered webhooks for the given RNC.
+Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
 
 ### Examples
 
@@ -179,7 +180,7 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = '130000001' # String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+rnc = '133190907' # String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
 
 begin
   # List webhook configurations
@@ -212,7 +213,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
+| **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
 
 ### Return type
 

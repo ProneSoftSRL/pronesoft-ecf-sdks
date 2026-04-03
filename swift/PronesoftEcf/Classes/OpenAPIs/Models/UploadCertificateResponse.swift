@@ -15,14 +15,10 @@ public typealias UploadCertificateResponse = PronesoftEcfAPI.UploadCertificateRe
 
 extension PronesoftEcfAPI {
 
-/** Response after successfully uploading a digital certificate. */
 public struct UploadCertificateResponse: Codable, JSONEncodable, Hashable {
 
-    /** Confirmation message. */
     public var message: String?
-    /** Name of the certificate holder as registered with the DGII. */
     public var representative: String?
-    /** Certificate expiration date. Monitor this to avoid disruptions. */
     public var expirationDate: Date?
 
     public init(message: String? = nil, representative: String? = nil, expirationDate: Date? = nil) {

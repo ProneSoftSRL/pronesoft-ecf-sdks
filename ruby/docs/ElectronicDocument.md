@@ -4,33 +4,53 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **version** | **String** | Document schema version. Always \&quot;1.0\&quot;. | [default to &#39;1.0&#39;] |
+| **environment** | [**Environment**](Environment.md) |  | [optional] |
+| **version** | **Integer** | Always 1. | [default to 1] |
 | **invoice_type** | [**InvoiceType**](InvoiceType.md) |  |  |
-| **invoice_number** | **String** | e-NCF number (13 alphanumeric characters). Obtain from &#x60;GET /tax-sequences/next&#x60;.  |  |
-| **issue_date** | **Time** | Document issue date and time (ISO 8601). |  |
-| **expiration_date** | **Time** | Document expiration date (optional, for credit documents). | [optional] |
-| **income_type** | **String** | Income type code: - &#x60;01&#x60;: Operations Income - &#x60;02&#x60;: Financial Income - &#x60;03&#x60;: Extraordinary Income - &#x60;04&#x60;: Leasing Income - &#x60;05&#x60;: Income from Sales of Assets - &#x60;06&#x60;: Other Income  | [optional] |
-| **payment_type** | **String** | Payment condition: - &#x60;1&#x60;: Cash (Al Contado) - &#x60;2&#x60;: Credit (Crédito) - &#x60;3&#x60;: Mixed (Mixto)  | [optional] |
-| **payment_deadline** | **Time** | Payment due date (required when paymentType is \&quot;2\&quot; or \&quot;3\&quot;). | [optional] |
-| **payment_terms** | **String** | Payment terms description (e.g. \&quot;Net 30\&quot;). | [optional] |
+| **invoice_number** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  |
+| **issue_date** | **Time** |  |  |
+| **expiration_date** | **Time** |  | [optional] |
+| **credit_note_indicator** | **String** | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days | [optional] |
+| **deferred_sending_indicator** | **String** |  | [optional] |
+| **taxed_amount_indicator** | **String** |  | [optional] |
+| **income_type** | **String** | 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other | [optional] |
+| **payment_type** | **String** | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed | [optional] |
+| **payment_deadline** | **Time** |  | [optional] |
+| **payment_terms** | **String** |  | [optional] |
+| **payment_forms** | [**Array&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
 | **payment_account_type** | [**AccountType**](AccountType.md) |  | [optional] |
-| **payment_account_number** | **String** | Bank account number for payment reference. | [optional] |
-| **payment_bank** | **String** | Bank name for payment reference. | [optional] |
-| **credit_note_indicator** | **String** | For Credit Notes (type 34) only: - &#x60;0&#x60;: Affected invoice issued ≤ 30 days ago - &#x60;1&#x60;: Affected invoice issued &gt; 30 days ago  | [optional] |
-| **issuer_rnc** | **String** | RNC of the issuing company (overrides tenant default if provided). | [optional] |
-| **issuer_business_name** | **String** | Legal business name of the issuer. | [optional] |
-| **issuer_email** | **String** | Contact email of the issuer. | [optional] |
-| **issuer_phones** | **Array&lt;String&gt;** | Issuer phone numbers in format \&quot;809-555-1234\&quot;. | [optional] |
+| **payment_account_number** | **String** |  | [optional] |
+| **payment_bank** | **String** |  | [optional] |
+| **service_start_date** | **Time** |  | [optional] |
+| **service_end_date** | **Time** |  | [optional] |
+| **total_pages** | **Integer** |  | [optional] |
+| **issuer_rnc** | **String** | RNC of the issuing company. | [optional] |
+| **issuer_business_name** | **String** |  | [optional] |
+| **issuer_commercial_name** | **String** |  | [optional] |
+| **branch_name** | **String** |  | [optional] |
+| **issuer_address** | **String** |  | [optional] |
+| **municipality_code** | **String** |  | [optional] |
+| **province_code** | **String** |  | [optional] |
+| **issuer_phones** | **Array&lt;String&gt;** |  | [optional] |
+| **issuer_email** | **String** |  | [optional] |
+| **issuer_website** | **String** |  | [optional] |
+| **issuer_economic_activity** | **String** |  | [optional] |
+| **seller_code** | **String** |  | [optional] |
+| **internal_invoice_number** | **String** |  | [optional] |
+| **internal_order_number** | **Integer** |  | [optional] |
+| **sales_zone** | **String** |  | [optional] |
+| **sales_route** | **String** |  | [optional] |
+| **additional_issuer_info** | **String** |  | [optional] |
 | **buyer** | [**Buyer**](Buyer.md) |  | [optional] |
-| **items** | [**Array&lt;Item&gt;**](Item.md) | Line items of the document. At least 1 required. |  |
+| **items** | [**Array&lt;Item&gt;**](Item.md) |  |  |
 | **totals** | [**Totals**](Totals.md) |  |  |
 | **transport** | [**Transport**](Transport.md) |  | [optional] |
 | **additional_info** | [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] |
 | **alternative_currency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] |
 | **reference_info** | [**ReferenceInfo**](ReferenceInfo.md) |  | [optional] |
-| **subtotals** | [**Array&lt;Subtotal&gt;**](Subtotal.md) | Page/section subtotals (for multi-page documents). | [optional] |
-| **discounts_or_surcharges** | [**Array&lt;DiscountOrSurcharge&gt;**](DiscountOrSurcharge.md) | Document-level discounts or surcharges. | [optional] |
-| **pages** | [**Array&lt;Page&gt;**](Page.md) | Page breakdown for multi-page documents. | [optional] |
+| **subtotals** | [**Subtotal**](Subtotal.md) |  | [optional] |
+| **discounts_or_surcharges** | [**Array&lt;DiscountOrSurcharge&gt;**](DiscountOrSurcharge.md) |  | [optional] |
+| **pages** | [**Page**](Page.md) |  | [optional] |
 
 ## Example
 
@@ -38,23 +58,43 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::ElectronicDocument.new(
-  version: 1.0,
+  environment: null,
+  version: 1,
   invoice_type: null,
   invoice_number: E310000000001,
-  issue_date: 2024-01-15T10:30Z,
-  expiration_date: 2024-02-15T10:30Z,
+  issue_date: 2025-01-15T10:30Z,
+  expiration_date: null,
+  credit_note_indicator: null,
+  deferred_sending_indicator: null,
+  taxed_amount_indicator: null,
   income_type: null,
   payment_type: null,
   payment_deadline: null,
   payment_terms: null,
+  payment_forms: [{&quot;method&quot;:&quot;1&quot;,&quot;amount&quot;:11800.0}],
   payment_account_type: null,
   payment_account_number: null,
   payment_bank: null,
-  credit_note_indicator: null,
+  service_start_date: null,
+  service_end_date: null,
+  total_pages: null,
   issuer_rnc: null,
   issuer_business_name: null,
-  issuer_email: null,
+  issuer_commercial_name: null,
+  branch_name: null,
+  issuer_address: null,
+  municipality_code: null,
+  province_code: null,
   issuer_phones: null,
+  issuer_email: null,
+  issuer_website: null,
+  issuer_economic_activity: null,
+  seller_code: null,
+  internal_invoice_number: null,
+  internal_order_number: null,
+  sales_zone: null,
+  sales_route: null,
+  additional_issuer_info: null,
   buyer: null,
   items: null,
   totals: null,

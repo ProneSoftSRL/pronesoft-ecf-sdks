@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **string** | Subscription status (e.g. \&quot;active\&quot;, \&quot;expired\&quot;). | [optional]
+**status** | **string** |  | [optional]
 **expiration_date** | **\DateTime** |  | [optional]
 **plan** | [**\PronesoftEcf\Model\AssociatedCompanySubscriptionPlan**](AssociatedCompanySubscriptionPlan.md) |  | [optional]
 

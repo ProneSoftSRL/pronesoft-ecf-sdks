@@ -1,7 +1,7 @@
 
 # PaymentMethod
 
-Payment method code: - `1`: Cash (Efectivo) - `2`: Check (Cheque) - `3`: Debit/Credit Card (Tarjeta de Débito/Crédito) - `4`: Credit (Crédito) - `5`: Bank Transfer (Transferencia Bancaria) - `6`: Electronic Money (Dinero Electrónico) - `7`: Bond/Gift Card (Bono/Gift Card) - `8`: Other (Otro) 
+1=Cash, 2=Check, 3=Card, 4=Credit, 5=Transfer, 6=Electronic, 7=Bond, 8=Other
 
 ## Properties
 
@@ -11,7 +11,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { PaymentMethod } from '@pronesoft/ecf-sdk'
+import type { PaymentMethod } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

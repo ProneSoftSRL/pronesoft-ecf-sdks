@@ -2,10 +2,10 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Page-level breakdown for multi-page documents.
+ * 
  * @export
  * @interface Page
  */
@@ -24,25 +24,19 @@ export interface Page {
      * @type {number}
      * @memberof Page
      */
-    pageNumber: number;
-    /**
-     * First line item number on this page.
-     * @type {number}
-     * @memberof Page
-     */
-    lineFrom: number;
-    /**
-     * Last line item number on this page.
-     * @type {number}
-     * @memberof Page
-     */
-    lineTo: number;
+    pageNumber?: number;
     /**
      * 
      * @type {number}
      * @memberof Page
      */
-    subtotal?: number;
+    lineFrom?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Page
+     */
+    lineTo?: number;
     /**
      * 
      * @type {number}
@@ -67,6 +61,12 @@ export interface Page {
      * @memberof Page
      */
     taxableAmount3?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Page
+     */
+    exemptAmount?: number;
     /**
      * 
      * @type {number}
@@ -102,7 +102,7 @@ export interface Page {
      * @type {number}
      * @memberof Page
      */
-    exemptAmount?: number;
+    subtotal?: number;
     /**
      * 
      * @type {number}
@@ -115,9 +115,6 @@ export interface Page {
  * Check if a given object implements the Page interface.
  */
 export function instanceOfPage(value: object): value is Page {
-    if (!('pageNumber' in value) || value['pageNumber'] === undefined) return false;
-    if (!('lineFrom' in value) || value['lineFrom'] === undefined) return false;
-    if (!('lineTo' in value) || value['lineTo'] === undefined) return false;
     return true;
 }
 
@@ -131,20 +128,20 @@ export function PageFromJSONTyped(json: any, ignoreDiscriminator: boolean): Page
     }
     return {
         
-        'pageNumber': json['pageNumber'],
-        'lineFrom': json['lineFrom'],
-        'lineTo': json['lineTo'],
-        'subtotal': json['subtotal'] == null ? undefined : json['subtotal'],
+        'pageNumber': json['pageNumber'] == null ? undefined : json['pageNumber'],
+        'lineFrom': json['lineFrom'] == null ? undefined : json['lineFrom'],
+        'lineTo': json['lineTo'] == null ? undefined : json['lineTo'],
         'taxableAmount': json['taxableAmount'] == null ? undefined : json['taxableAmount'],
         'taxableAmount1': json['taxableAmount1'] == null ? undefined : json['taxableAmount1'],
         'taxableAmount2': json['taxableAmount2'] == null ? undefined : json['taxableAmount2'],
         'taxableAmount3': json['taxableAmount3'] == null ? undefined : json['taxableAmount3'],
+        'exemptAmount': json['exemptAmount'] == null ? undefined : json['exemptAmount'],
         'totalITBIS': json['totalITBIS'] == null ? undefined : json['totalITBIS'],
         'itbis1': json['itbis1'] == null ? undefined : json['itbis1'],
         'itbis2': json['itbis2'] == null ? undefined : json['itbis2'],
         'itbis3': json['itbis3'] == null ? undefined : json['itbis3'],
         'additionalTaxes': json['additionalTaxes'] == null ? undefined : json['additionalTaxes'],
-        'exemptAmount': json['exemptAmount'] == null ? undefined : json['exemptAmount'],
+        'subtotal': json['subtotal'] == null ? undefined : json['subtotal'],
         'nonBillableAmount': json['nonBillableAmount'] == null ? undefined : json['nonBillableAmount'],
     };
 }
@@ -163,17 +160,17 @@ export function PageToJSONTyped(value?: Page | null, ignoreDiscriminator: boolea
         'pageNumber': value['pageNumber'],
         'lineFrom': value['lineFrom'],
         'lineTo': value['lineTo'],
-        'subtotal': value['subtotal'],
         'taxableAmount': value['taxableAmount'],
         'taxableAmount1': value['taxableAmount1'],
         'taxableAmount2': value['taxableAmount2'],
         'taxableAmount3': value['taxableAmount3'],
+        'exemptAmount': value['exemptAmount'],
         'totalITBIS': value['totalITBIS'],
         'itbis1': value['itbis1'],
         'itbis2': value['itbis2'],
         'itbis3': value['itbis3'],
         'additionalTaxes': value['additionalTaxes'],
-        'exemptAmount': value['exemptAmount'],
+        'subtotal': value['subtotal'],
         'nonBillableAmount': value['nonBillableAmount'],
     };
 }

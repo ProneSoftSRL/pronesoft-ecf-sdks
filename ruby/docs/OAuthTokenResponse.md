@@ -4,9 +4,9 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **access_token** | **String** | JWT Bearer token. Pass as Authorization: Bearer &lt;accessToken&gt;. | [optional] |
-| **token_type** | **String** | Always \&quot;Bearer\&quot;. | [optional] |
-| **expires_in** | **Integer** | Token lifetime in seconds. Request a new token when it expires. | [optional] |
+| **access_token** | **String** |  | [optional] |
+| **token_type** | **String** |  | [optional] |
+| **expires_in** | **Integer** | Token lifetime in seconds (24 hours &#x3D; 86400). | [optional] |
 
 ## Example
 
@@ -14,9 +14,9 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::OAuthTokenResponse.new(
-  access_token: eyJhbGciOiJSUzI1NiJ9...,
+  access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...,
   token_type: Bearer,
-  expires_in: 3600
+  expires_in: 86400
 )
 ```
 

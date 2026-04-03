@@ -4,8 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | [**\PronesoftEcf\Model\InvoiceType**](InvoiceType.md) |  |
-**from** | **int** | First number in the sequence range. |
-**to** | **int** | Last number in the sequence range. |
+**type** | [**\PronesoftEcf\Model\InvoiceTypeSequence**](InvoiceTypeSequence.md) |  |
+**from** | **int** |  |
+**to** | **int** |  |
+**quantity** | **int** |  | [optional]
+**expiration** | **\DateTime** |  | [optional]
+**environment** | [**\PronesoftEcf\Model\Environment**](Environment.md) |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

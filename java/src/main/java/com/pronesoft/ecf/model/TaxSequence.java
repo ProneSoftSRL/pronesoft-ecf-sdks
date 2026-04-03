@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -19,8 +19,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.pronesoft.ecf.model.InvoiceType;
+import com.pronesoft.ecf.model.InvoiceTypeSequence;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
@@ -47,9 +48,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * A registered fiscal number sequence for a given invoice type.
+ * TaxSequence
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class TaxSequence {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -59,12 +60,108 @@ public class TaxSequence {
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
   @javax.annotation.Nullable
-  private InvoiceType type;
+  private InvoiceTypeSequence type;
 
-  public static final String SERIALIZED_NAME_NEXT_NUMBER = "nextNumber";
-  @SerializedName(SERIALIZED_NAME_NEXT_NUMBER)
+  public static final String SERIALIZED_NAME_START_NUMBER = "startNumber";
+  @SerializedName(SERIALIZED_NAME_START_NUMBER)
   @javax.annotation.Nullable
-  private String nextNumber;
+  private String startNumber;
+
+  public static final String SERIALIZED_NAME_END_NUMBER = "endNumber";
+  @SerializedName(SERIALIZED_NAME_END_NUMBER)
+  @javax.annotation.Nullable
+  private String endNumber;
+
+  public static final String SERIALIZED_NAME_CURRENT_NUMBER = "currentNumber";
+  @SerializedName(SERIALIZED_NAME_CURRENT_NUMBER)
+  @javax.annotation.Nullable
+  private String currentNumber;
+
+  /**
+   * Gets or Sets status
+   */
+  @JsonAdapter(StatusEnum.Adapter.class)
+  public enum StatusEnum {
+    ACTIVE("ACTIVE"),
+    
+    EXHAUSTED("EXHAUSTED"),
+    
+    EXPIRED("EXPIRED"),
+    
+    VOIDED("VOIDED");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<StatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return StatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
+  private StatusEnum status;
+
+  public static final String SERIALIZED_NAME_TOTAL_NUMBERS = "totalNumbers";
+  @SerializedName(SERIALIZED_NAME_TOTAL_NUMBERS)
+  @javax.annotation.Nullable
+  private Integer totalNumbers;
+
+  public static final String SERIALIZED_NAME_USED_NUMBERS = "usedNumbers";
+  @SerializedName(SERIALIZED_NAME_USED_NUMBERS)
+  @javax.annotation.Nullable
+  private Integer usedNumbers;
+
+  public static final String SERIALIZED_NAME_AVAILABLE_NUMBERS = "availableNumbers";
+  @SerializedName(SERIALIZED_NAME_AVAILABLE_NUMBERS)
+  @javax.annotation.Nullable
+  private Integer availableNumbers;
+
+  public static final String SERIALIZED_NAME_CREATED_AT = "createdAt";
+  @SerializedName(SERIALIZED_NAME_CREATED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime createdAt;
+
+  public static final String SERIALIZED_NAME_EXPIRES_AT = "expiresAt";
+  @SerializedName(SERIALIZED_NAME_EXPIRES_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime expiresAt;
 
   public TaxSequence() {
   }
@@ -75,7 +172,7 @@ public class TaxSequence {
   }
 
   /**
-   * Internal sequence identifier.
+   * Get id
    * @return id
    */
   @javax.annotation.Nullable
@@ -88,7 +185,7 @@ public class TaxSequence {
   }
 
 
-  public TaxSequence type(@javax.annotation.Nullable InvoiceType type) {
+  public TaxSequence type(@javax.annotation.Nullable InvoiceTypeSequence type) {
     this.type = type;
     return this;
   }
@@ -98,31 +195,183 @@ public class TaxSequence {
    * @return type
    */
   @javax.annotation.Nullable
-  public InvoiceType getType() {
+  public InvoiceTypeSequence getType() {
     return type;
   }
 
-  public void setType(@javax.annotation.Nullable InvoiceType type) {
+  public void setType(@javax.annotation.Nullable InvoiceTypeSequence type) {
     this.type = type;
   }
 
 
-  public TaxSequence nextNumber(@javax.annotation.Nullable String nextNumber) {
-    this.nextNumber = nextNumber;
+  public TaxSequence startNumber(@javax.annotation.Nullable String startNumber) {
+    this.startNumber = startNumber;
     return this;
   }
 
   /**
-   * Next available e-NCF number in this sequence.
-   * @return nextNumber
+   * Get startNumber
+   * @return startNumber
    */
   @javax.annotation.Nullable
-  public String getNextNumber() {
-    return nextNumber;
+  public String getStartNumber() {
+    return startNumber;
   }
 
-  public void setNextNumber(@javax.annotation.Nullable String nextNumber) {
-    this.nextNumber = nextNumber;
+  public void setStartNumber(@javax.annotation.Nullable String startNumber) {
+    this.startNumber = startNumber;
+  }
+
+
+  public TaxSequence endNumber(@javax.annotation.Nullable String endNumber) {
+    this.endNumber = endNumber;
+    return this;
+  }
+
+  /**
+   * Get endNumber
+   * @return endNumber
+   */
+  @javax.annotation.Nullable
+  public String getEndNumber() {
+    return endNumber;
+  }
+
+  public void setEndNumber(@javax.annotation.Nullable String endNumber) {
+    this.endNumber = endNumber;
+  }
+
+
+  public TaxSequence currentNumber(@javax.annotation.Nullable String currentNumber) {
+    this.currentNumber = currentNumber;
+    return this;
+  }
+
+  /**
+   * Get currentNumber
+   * @return currentNumber
+   */
+  @javax.annotation.Nullable
+  public String getCurrentNumber() {
+    return currentNumber;
+  }
+
+  public void setCurrentNumber(@javax.annotation.Nullable String currentNumber) {
+    this.currentNumber = currentNumber;
+  }
+
+
+  public TaxSequence status(@javax.annotation.Nullable StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Get status
+   * @return status
+   */
+  @javax.annotation.Nullable
+  public StatusEnum getStatus() {
+    return status;
+  }
+
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
+    this.status = status;
+  }
+
+
+  public TaxSequence totalNumbers(@javax.annotation.Nullable Integer totalNumbers) {
+    this.totalNumbers = totalNumbers;
+    return this;
+  }
+
+  /**
+   * Get totalNumbers
+   * @return totalNumbers
+   */
+  @javax.annotation.Nullable
+  public Integer getTotalNumbers() {
+    return totalNumbers;
+  }
+
+  public void setTotalNumbers(@javax.annotation.Nullable Integer totalNumbers) {
+    this.totalNumbers = totalNumbers;
+  }
+
+
+  public TaxSequence usedNumbers(@javax.annotation.Nullable Integer usedNumbers) {
+    this.usedNumbers = usedNumbers;
+    return this;
+  }
+
+  /**
+   * Get usedNumbers
+   * @return usedNumbers
+   */
+  @javax.annotation.Nullable
+  public Integer getUsedNumbers() {
+    return usedNumbers;
+  }
+
+  public void setUsedNumbers(@javax.annotation.Nullable Integer usedNumbers) {
+    this.usedNumbers = usedNumbers;
+  }
+
+
+  public TaxSequence availableNumbers(@javax.annotation.Nullable Integer availableNumbers) {
+    this.availableNumbers = availableNumbers;
+    return this;
+  }
+
+  /**
+   * Get availableNumbers
+   * @return availableNumbers
+   */
+  @javax.annotation.Nullable
+  public Integer getAvailableNumbers() {
+    return availableNumbers;
+  }
+
+  public void setAvailableNumbers(@javax.annotation.Nullable Integer availableNumbers) {
+    this.availableNumbers = availableNumbers;
+  }
+
+
+  public TaxSequence createdAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+    return this;
+  }
+
+  /**
+   * Get createdAt
+   * @return createdAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+
+  public TaxSequence expiresAt(@javax.annotation.Nullable OffsetDateTime expiresAt) {
+    this.expiresAt = expiresAt;
+    return this;
+  }
+
+  /**
+   * Get expiresAt
+   * @return expiresAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getExpiresAt() {
+    return expiresAt;
+  }
+
+  public void setExpiresAt(@javax.annotation.Nullable OffsetDateTime expiresAt) {
+    this.expiresAt = expiresAt;
   }
 
 
@@ -138,12 +387,20 @@ public class TaxSequence {
     TaxSequence taxSequence = (TaxSequence) o;
     return Objects.equals(this.id, taxSequence.id) &&
         Objects.equals(this.type, taxSequence.type) &&
-        Objects.equals(this.nextNumber, taxSequence.nextNumber);
+        Objects.equals(this.startNumber, taxSequence.startNumber) &&
+        Objects.equals(this.endNumber, taxSequence.endNumber) &&
+        Objects.equals(this.currentNumber, taxSequence.currentNumber) &&
+        Objects.equals(this.status, taxSequence.status) &&
+        Objects.equals(this.totalNumbers, taxSequence.totalNumbers) &&
+        Objects.equals(this.usedNumbers, taxSequence.usedNumbers) &&
+        Objects.equals(this.availableNumbers, taxSequence.availableNumbers) &&
+        Objects.equals(this.createdAt, taxSequence.createdAt) &&
+        Objects.equals(this.expiresAt, taxSequence.expiresAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, type, nextNumber);
+    return Objects.hash(id, type, startNumber, endNumber, currentNumber, status, totalNumbers, usedNumbers, availableNumbers, createdAt, expiresAt);
   }
 
   @Override
@@ -152,7 +409,15 @@ public class TaxSequence {
     sb.append("class TaxSequence {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    nextNumber: ").append(toIndentedString(nextNumber)).append("\n");
+    sb.append("    startNumber: ").append(toIndentedString(startNumber)).append("\n");
+    sb.append("    endNumber: ").append(toIndentedString(endNumber)).append("\n");
+    sb.append("    currentNumber: ").append(toIndentedString(currentNumber)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    totalNumbers: ").append(toIndentedString(totalNumbers)).append("\n");
+    sb.append("    usedNumbers: ").append(toIndentedString(usedNumbers)).append("\n");
+    sb.append("    availableNumbers: ").append(toIndentedString(availableNumbers)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -171,7 +436,7 @@ public class TaxSequence {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "type", "nextNumber"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "type", "startNumber", "endNumber", "currentNumber", "status", "totalNumbers", "usedNumbers", "availableNumbers", "createdAt", "expiresAt"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -203,10 +468,23 @@ public class TaxSequence {
       }
       // validate the optional field `type`
       if (jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) {
-        InvoiceType.validateJsonElement(jsonObj.get("type"));
+        InvoiceTypeSequence.validateJsonElement(jsonObj.get("type"));
       }
-      if ((jsonObj.get("nextNumber") != null && !jsonObj.get("nextNumber").isJsonNull()) && !jsonObj.get("nextNumber").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `nextNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("nextNumber").toString()));
+      if ((jsonObj.get("startNumber") != null && !jsonObj.get("startNumber").isJsonNull()) && !jsonObj.get("startNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `startNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("startNumber").toString()));
+      }
+      if ((jsonObj.get("endNumber") != null && !jsonObj.get("endNumber").isJsonNull()) && !jsonObj.get("endNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `endNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("endNumber").toString()));
+      }
+      if ((jsonObj.get("currentNumber") != null && !jsonObj.get("currentNumber").isJsonNull()) && !jsonObj.get("currentNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `currentNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("currentNumber").toString()));
+      }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
   }
 

@@ -16,16 +16,16 @@ extension PronesoftEcfAPI {
 open class WebhookConfigurationAPI {
 
     /**
-     Register new webhook
+     Get webhook details
      
-     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
-     - parameter createWebhookConfig: (body)  
+     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter webhookId: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createWebhook(rnc: String, createWebhookConfig: CreateWebhookConfig, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: WebhookConfigResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return createWebhookWithRequestBuilder(rnc: rnc, createWebhookConfig: createWebhookConfig).execute(apiResponseQueue) { result in
+    open class func getWebhook(rnc: String, webhookId: String, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: WebhookConfigDetail?, _ error: Error?) -> Void)) -> RequestTask {
+        return getWebhookWithRequestBuilder(rnc: rnc, webhookId: webhookId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -36,75 +36,19 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Register new webhook
-     - POST /{rnc}/webhooks
-     - Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+     Get webhook details
+     - GET /{rnc}/webhooks/{webhookId}
      - OAuth:
        - type: oauth2
        - name: oauth2
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
-     - parameter createWebhookConfig: (body)  
-     - returns: RequestBuilder<WebhookConfigResponse> 
+     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter webhookId: (path)  
+     - returns: RequestBuilder<WebhookConfigDetail> 
      */
-    open class func createWebhookWithRequestBuilder(rnc: String, createWebhookConfig: CreateWebhookConfig) -> RequestBuilder<WebhookConfigResponse> {
-        var localVariablePath = "/{rnc}/webhooks"
-        let rncPreEscape = "\(APIHelper.mapValueToPathItem(rnc))"
-        let rncPostEscape = rncPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{rnc}", with: rncPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createWebhookConfig)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<WebhookConfigResponse>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete webhook configuration
-     
-     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
-     - parameter webhookId: (path) The unique ID of the webhook to delete. 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func deleteWebhook(rnc: String, webhookId: String, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return deleteWebhookWithRequestBuilder(rnc: rnc, webhookId: webhookId).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Delete webhook configuration
-     - DELETE /{rnc}/webhooks/{webhookId}
-     - Removes a registered webhook by its ID.
-     - OAuth:
-       - type: oauth2
-       - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
-     - parameter webhookId: (path) The unique ID of the webhook to delete. 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteWebhookWithRequestBuilder(rnc: String, webhookId: String) -> RequestBuilder<Void> {
+    open class func getWebhookWithRequestBuilder(rnc: String, webhookId: String) -> RequestBuilder<WebhookConfigDetail> {
         var localVariablePath = "/{rnc}/webhooks/{webhookId}"
         let rncPreEscape = "\(APIHelper.mapValueToPathItem(rnc))"
         let rncPostEscape = rncPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -123,15 +67,87 @@ open class WebhookConfigurationAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PronesoftEcfAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<WebhookConfigDetail>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     * enum for parameter period
+     */
+    public enum Period_getWebhookStats: String, CaseIterable {
+        case today = "today"
+        case week = "week"
+        case month = "month"
+        case all = "all"
+    }
+
+    /**
+     Get webhook delivery statistics
+     
+     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter webhookId: (path)  
+     - parameter period: (query)  (optional, default to .month)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getWebhookStats(rnc: String, webhookId: String, period: Period_getWebhookStats? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: WebhookStats?, _ error: Error?) -> Void)) -> RequestTask {
+        return getWebhookStatsWithRequestBuilder(rnc: rnc, webhookId: webhookId, period: period).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get webhook delivery statistics
+     - GET /{rnc}/webhooks/{webhookId}/stats
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter webhookId: (path)  
+     - parameter period: (query)  (optional, default to .month)
+     - returns: RequestBuilder<WebhookStats> 
+     */
+    open class func getWebhookStatsWithRequestBuilder(rnc: String, webhookId: String, period: Period_getWebhookStats? = nil) -> RequestBuilder<WebhookStats> {
+        var localVariablePath = "/{rnc}/webhooks/{webhookId}/stats"
+        let rncPreEscape = "\(APIHelper.mapValueToPathItem(rnc))"
+        let rncPostEscape = rncPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{rnc}", with: rncPostEscape, options: .literal, range: nil)
+        let webhookIdPreEscape = "\(APIHelper.mapValueToPathItem(webhookId))"
+        let webhookIdPostEscape = webhookIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{webhookId}", with: webhookIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "period": (wrappedValue: period?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<WebhookStats>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 
     /**
      List webhook configurations
      
-     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
+     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -150,14 +166,14 @@ open class WebhookConfigurationAPI {
     /**
      List webhook configurations
      - GET /{rnc}/webhooks
-     - Returns all registered webhooks for the given RNC.
+     - Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
      - OAuth:
        - type: oauth2
        - name: oauth2
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
+     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
      - returns: RequestBuilder<[WebhookConfigResponse]> 
      */
     open class func listWebhooksWithRequestBuilder(rnc: String) -> RequestBuilder<[WebhookConfigResponse]> {

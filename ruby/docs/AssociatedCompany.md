@@ -7,16 +7,19 @@
 | **id** | **String** |  | [optional] |
 | **name** | **String** |  | [optional] |
 | **rnc** | **String** |  | [optional] |
-| **phone** | **String** |  | [optional] |
-| **address** | **String** |  | [optional] |
+| **logo_path** | **String** |  | [optional] |
+| **type** | **String** |  | [optional] |
 | **city** | **String** |  | [optional] |
 | **country** | **String** |  | [optional] |
+| **phone** | **String** |  | [optional] |
+| **address** | **String** |  | [optional] |
 | **website** | **String** |  | [optional] |
-| **logo_path** | **String** |  | [optional] |
-| **type** | **String** | Whether this is the main account or an associated branch. | [optional] |
+| **category** | **String** |  | [optional] |
+| **monthly_sales_range** | **String** |  | [optional] |
+| **printer_type** | [**PrintFormat**](PrintFormat.md) |  | [optional] |
 | **created_at** | **Time** |  | [optional] |
-| **docs_issued_this_month** | **Integer** | Number of e-CF documents issued in the current month. | [optional] |
-| **purchased_docs_consumed_this_month** | **Integer** | Purchased document quota consumed this month. | [optional] |
+| **docs_issued_this_month** | **Integer** |  | [optional] |
+| **purchased_docs_consumed_this_month** | **Integer** |  | [optional] |
 | **owner_email** | **String** |  | [optional] |
 | **subscription** | [**AssociatedCompanySubscription**](AssociatedCompanySubscription.md) |  | [optional] |
 
@@ -29,13 +32,16 @@ instance = PronesoftEcf::AssociatedCompany.new(
   id: null,
   name: null,
   rnc: null,
-  phone: null,
-  address: null,
-  city: null,
-  country: null,
-  website: null,
   logo_path: null,
   type: null,
+  city: null,
+  country: null,
+  phone: null,
+  address: null,
+  website: null,
+  category: null,
+  monthly_sales_range: null,
+  printer_type: null,
   created_at: null,
   docs_issued_this_month: null,
   purchased_docs_consumed_this_month: null,

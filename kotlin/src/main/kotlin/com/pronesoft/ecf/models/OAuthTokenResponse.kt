@@ -27,25 +27,23 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Successful token response. Use `accessToken` as a Bearer token in the `Authorization` header of all subsequent requests. 
+ * Bearer token valid for 24 hours (86400 seconds).
  *
- * @param accessToken JWT Bearer token. Pass as Authorization: Bearer <accessToken>.
- * @param tokenType Always \"Bearer\".
- * @param expiresIn Token lifetime in seconds. Request a new token when it expires.
+ * @param accessToken 
+ * @param tokenType 
+ * @param expiresIn Token lifetime in seconds (24 hours = 86400).
  */
 
 
 data class OAuthTokenResponse (
 
-    /* JWT Bearer token. Pass as Authorization: Bearer <accessToken>. */
     @SerializedName("accessToken")
     val accessToken: kotlin.String? = null,
 
-    /* Always \"Bearer\". */
     @SerializedName("tokenType")
     val tokenType: kotlin.String? = null,
 
-    /* Token lifetime in seconds. Request a new token when it expires. */
+    /* Token lifetime in seconds (24 hours = 86400). */
     @SerializedName("expiresIn")
     val expiresIn: kotlin.Int? = null
 

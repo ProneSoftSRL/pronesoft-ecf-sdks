@@ -4,33 +4,60 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **version** | **kotlin.String** | Document schema version. Always \&quot;1.0\&quot;. |  |
+| **version** | **kotlin.Int** | Always 1. |  |
 | **invoiceType** | [**InvoiceType**](InvoiceType.md) |  |  |
-| **invoiceNumber** | **kotlin.String** | e-NCF number (13 alphanumeric characters). Obtain from &#x60;GET /tax-sequences/next&#x60;.  |  |
-| **issueDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) | Document issue date and time (ISO 8601). |  |
-| **items** | [**kotlin.collections.List&lt;Item&gt;**](Item.md) | Line items of the document. At least 1 required. |  |
+| **invoiceNumber** | **kotlin.String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  |
+| **issueDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
+| **paymentForms** | [**kotlin.collections.List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
+| **items** | [**kotlin.collections.List&lt;Item&gt;**](Item.md) |  |  |
 | **totals** | [**Totals**](Totals.md) |  |  |
-| **expirationDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) | Document expiration date (optional, for credit documents). |  [optional] |
-| **incomeType** | [**inline**](#IncomeType) | Income type code: - &#x60;01&#x60;: Operations Income - &#x60;02&#x60;: Financial Income - &#x60;03&#x60;: Extraordinary Income - &#x60;04&#x60;: Leasing Income - &#x60;05&#x60;: Income from Sales of Assets - &#x60;06&#x60;: Other Income  |  [optional] |
-| **paymentType** | [**inline**](#PaymentType) | Payment condition: - &#x60;1&#x60;: Cash (Al Contado) - &#x60;2&#x60;: Credit (Crédito) - &#x60;3&#x60;: Mixed (Mixto)  |  [optional] |
-| **paymentDeadline** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) | Payment due date (required when paymentType is \&quot;2\&quot; or \&quot;3\&quot;). |  [optional] |
-| **paymentTerms** | **kotlin.String** | Payment terms description (e.g. \&quot;Net 30\&quot;). |  [optional] |
+| **environment** | [**Environment**](Environment.md) |  |  [optional] |
+| **expirationDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
+| **creditNoteIndicator** | [**inline**](#CreditNoteIndicator) | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days |  [optional] |
+| **deferredSendingIndicator** | **kotlin.String** |  |  [optional] |
+| **taxedAmountIndicator** | **kotlin.String** |  |  [optional] |
+| **incomeType** | [**inline**](#IncomeType) | 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other |  [optional] |
+| **paymentType** | [**inline**](#PaymentType) | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed |  [optional] |
+| **paymentDeadline** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
+| **paymentTerms** | **kotlin.String** |  |  [optional] |
 | **paymentAccountType** | [**AccountType**](AccountType.md) |  |  [optional] |
-| **paymentAccountNumber** | **kotlin.String** | Bank account number for payment reference. |  [optional] |
-| **paymentBank** | **kotlin.String** | Bank name for payment reference. |  [optional] |
-| **creditNoteIndicator** | [**inline**](#CreditNoteIndicator) | For Credit Notes (type 34) only: - &#x60;0&#x60;: Affected invoice issued ≤ 30 days ago - &#x60;1&#x60;: Affected invoice issued &gt; 30 days ago  |  [optional] |
-| **issuerRNC** | **kotlin.String** | RNC of the issuing company (overrides tenant default if provided). |  [optional] |
-| **issuerBusinessName** | **kotlin.String** | Legal business name of the issuer. |  [optional] |
-| **issuerEmail** | **kotlin.String** | Contact email of the issuer. |  [optional] |
-| **issuerPhones** | **kotlin.collections.List&lt;kotlin.String&gt;** | Issuer phone numbers in format \&quot;809-555-1234\&quot;. |  [optional] |
+| **paymentAccountNumber** | **kotlin.String** |  |  [optional] |
+| **paymentBank** | **kotlin.String** |  |  [optional] |
+| **serviceStartDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
+| **serviceEndDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
+| **totalPages** | **kotlin.Int** |  |  [optional] |
+| **issuerRNC** | **kotlin.String** | RNC of the issuing company. |  [optional] |
+| **issuerBusinessName** | **kotlin.String** |  |  [optional] |
+| **issuerCommercialName** | **kotlin.String** |  |  [optional] |
+| **branchName** | **kotlin.String** |  |  [optional] |
+| **issuerAddress** | **kotlin.String** |  |  [optional] |
+| **municipalityCode** | **kotlin.String** |  |  [optional] |
+| **provinceCode** | **kotlin.String** |  |  [optional] |
+| **issuerPhones** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
+| **issuerEmail** | **kotlin.String** |  |  [optional] |
+| **issuerWebsite** | [**java.net.URI**](java.net.URI.md) |  |  [optional] |
+| **issuerEconomicActivity** | **kotlin.String** |  |  [optional] |
+| **sellerCode** | **kotlin.String** |  |  [optional] |
+| **internalInvoiceNumber** | **kotlin.String** |  |  [optional] |
+| **internalOrderNumber** | **kotlin.Int** |  |  [optional] |
+| **salesZone** | **kotlin.String** |  |  [optional] |
+| **salesRoute** | **kotlin.String** |  |  [optional] |
+| **additionalIssuerInfo** | **kotlin.String** |  |  [optional] |
 | **buyer** | [**Buyer**](Buyer.md) |  |  [optional] |
 | **transport** | [**Transport**](Transport.md) |  |  [optional] |
 | **additionalInfo** | [**AdditionalInfo**](AdditionalInfo.md) |  |  [optional] |
 | **alternativeCurrency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  |  [optional] |
 | **referenceInfo** | [**ReferenceInfo**](ReferenceInfo.md) |  |  [optional] |
-| **subtotals** | [**kotlin.collections.List&lt;Subtotal&gt;**](Subtotal.md) | Page/section subtotals (for multi-page documents). |  [optional] |
-| **discountsOrSurcharges** | [**kotlin.collections.List&lt;DiscountOrSurcharge&gt;**](DiscountOrSurcharge.md) | Document-level discounts or surcharges. |  [optional] |
-| **pages** | [**kotlin.collections.List&lt;Page&gt;**](Page.md) | Page breakdown for multi-page documents. |  [optional] |
+| **subtotals** | [**Subtotal**](Subtotal.md) |  |  [optional] |
+| **discountsOrSurcharges** | [**kotlin.collections.List&lt;DiscountOrSurcharge&gt;**](DiscountOrSurcharge.md) |  |  [optional] |
+| **pages** | [**Page**](Page.md) |  |  [optional] |
+
+
+<a id="CreditNoteIndicator"></a>
+## Enum: creditNoteIndicator
+| Name | Value |
+| ---- | ----- |
+| creditNoteIndicator | 0, 1 |
 
 
 <a id="IncomeType"></a>
@@ -45,13 +72,6 @@
 | Name | Value |
 | ---- | ----- |
 | paymentType | 1, 2, 3 |
-
-
-<a id="CreditNoteIndicator"></a>
-## Enum: creditNoteIndicator
-| Name | Value |
-| ---- | ----- |
-| creditNoteIndicator | 0, 1 |
 
 
 

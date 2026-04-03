@@ -3,17 +3,33 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**lineNumber** | **Int** | Sequential line number (1-based). Auto-assigned if omitted. | [optional] 
-**name** | **String** | Product or service name. | 
-**type** | **String** | Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio)  | 
+**lineNumber** | **Int** |  | [optional] 
+**codes** | [ItemCodesInner] |  | [optional] 
+**name** | **String** |  | 
+**description** | **String** |  | [optional] 
+**type** | **String** | 1&#x3D;Product, 2&#x3D;Service | 
 **billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
-**quantity** | **String** | Quantity (as string to support decimals with precision). | 
-**unitPrice** | **String** | Unit price (as string to support decimals with precision). | 
-**amount** | **Double** | Total line amount (quantity × unitPrice, before discounts). | 
-**discountAmount** | **Double** | Discount amount applied to this line item. | [optional] 
-**additionalTaxes** | [ItemAdditionalTax] | Additional taxes (e.g. ISC, IECS) for this line item. | [optional] 
-**subquantities** | [Subquantity] | Sub-quantities (for items with multiple units of measure). | [optional] 
-**alcoholDegree** | **Double** | Alcohol degree (required for alcoholic beverages subject to ISC). | [optional] 
+**withholdingAgentIndicator** | **Int** |  | [optional] 
+**withheldITBISAmount** | **Double** |  | [optional] 
+**withheldISRAmount** | **Double** |  | [optional] 
+**quantity** | **String** |  | 
+**unitOfMeasure** | **Int** |  | [optional] 
+**referenceQuantity** | **Double** |  | [optional] 
+**referenceUnit** | **Int** |  | [optional] 
+**referenceUnitPrice** | **Double** |  | [optional] 
+**subquantities** | [Subquantity] |  | [optional] 
+**alcoholDegree** | **Double** |  | [optional] 
+**manufacturingDate** | **Date** |  | [optional] 
+**expirationDate** | **Date** |  | [optional] 
+**miningInfo** | [**ItemMiningInfo**](ItemMiningInfo.md) |  | [optional] 
+**unitPrice** | **String** |  | 
+**discountAmount** | **Double** |  | [optional] 
+**discount** | [ItemDiscountInner] |  | [optional] 
+**surchargeAmount** | **Double** |  | [optional] 
+**surcharge** | [ItemDiscountInner] |  | [optional] 
+**additionalTaxes** | [ItemAdditionalTax] |  | [optional] 
+**alternativeCurrency** | [**ItemAlternativeCurrency**](ItemAlternativeCurrency.md) |  | [optional] 
+**amount** | **Double** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

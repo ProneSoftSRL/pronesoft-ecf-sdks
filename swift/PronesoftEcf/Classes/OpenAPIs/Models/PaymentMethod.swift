@@ -15,7 +15,7 @@ public typealias PaymentMethod = PronesoftEcfAPI.PaymentMethod
 
 extension PronesoftEcfAPI {
 
-/** Payment method code: - &#x60;1&#x60;: Cash (Efectivo) - &#x60;2&#x60;: Check (Cheque) - &#x60;3&#x60;: Debit/Credit Card (Tarjeta de Débito/Crédito) - &#x60;4&#x60;: Credit (Crédito) - &#x60;5&#x60;: Bank Transfer (Transferencia Bancaria) - &#x60;6&#x60;: Electronic Money (Dinero Electrónico) - &#x60;7&#x60;: Bond/Gift Card (Bono/Gift Card) - &#x60;8&#x60;: Other (Otro)  */
+/** 1&#x3D;Cash, 2&#x3D;Check, 3&#x3D;Card, 4&#x3D;Credit, 5&#x3D;Transfer, 6&#x3D;Electronic, 7&#x3D;Bond, 8&#x3D;Other */
 public enum PaymentMethod: String, Codable, CaseIterable {
     case _1 = "1"
     case _2 = "2"

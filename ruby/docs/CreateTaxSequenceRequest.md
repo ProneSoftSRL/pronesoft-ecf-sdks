@@ -4,9 +4,12 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **type** | [**InvoiceType**](InvoiceType.md) |  |  |
-| **from** | **Integer** | First number in the sequence range. |  |
-| **to** | **Integer** | Last number in the sequence range. |  |
+| **type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  |  |
+| **from** | **Integer** |  |  |
+| **to** | **Integer** |  |  |
+| **quantity** | **Integer** |  | [optional] |
+| **expiration** | **Date** |  | [optional] |
+| **environment** | [**Environment**](Environment.md) |  | [optional] |
 
 ## Example
 
@@ -16,7 +19,10 @@ require 'pronesoft_ecf'
 instance = PronesoftEcf::CreateTaxSequenceRequest.new(
   type: null,
   from: 1,
-  to: 500
+  to: 10000,
+  quantity: 10000,
+  expiration: Tue Dec 30 20:00:00 AST 2025,
+  environment: null
 )
 ```
 

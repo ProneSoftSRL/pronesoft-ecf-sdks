@@ -27,20 +27,18 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Credentials for OAuth 2.0 Client Credentials authentication.  Obtain `clientId` and `clientSecret` from the Pronesoft portal: - Sandbox: https://ecf.sandbox.pronesoft.com - Production: https://ecf.pronesoft.com 
+ * Credentials for OAuth 2.0. Get from Pronesoft portal.
  *
- * @param clientId Your application's client ID from the Pronesoft portal.
- * @param clientSecret Your application's client secret. Keep this confidential.
+ * @param clientId 
+ * @param clientSecret 
  */
 
 
 data class OAuthTokenRequest (
 
-    /* Your application's client ID from the Pronesoft portal. */
     @SerializedName("clientId")
     val clientId: kotlin.String,
 
-    /* Your application's client secret. Keep this confidential. */
     @SerializedName("clientSecret")
     val clientSecret: kotlin.String
 

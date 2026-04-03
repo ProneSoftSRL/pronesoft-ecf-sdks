@@ -1,7 +1,6 @@
 
 # UploadCertificateResponse
 
-Response after successfully uploading a digital certificate.
 
 ## Properties
 
@@ -14,11 +13,11 @@ Name | Type
 ## Example
 
 ```typescript
-import type { UploadCertificateResponse } from '@pronesoft/ecf-sdk'
+import type { UploadCertificateResponse } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "message": Certificate uploaded successfully,
+  "message": Certificado subido correctamente,
   "representative": null,
   "expirationDate": null,
 } satisfies UploadCertificateResponse

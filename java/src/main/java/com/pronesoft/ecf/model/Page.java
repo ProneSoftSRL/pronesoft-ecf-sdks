@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -47,29 +47,24 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Page-level breakdown for multi-page documents.
+ * Page
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Page {
   public static final String SERIALIZED_NAME_PAGE_NUMBER = "pageNumber";
   @SerializedName(SERIALIZED_NAME_PAGE_NUMBER)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private Integer pageNumber;
 
   public static final String SERIALIZED_NAME_LINE_FROM = "lineFrom";
   @SerializedName(SERIALIZED_NAME_LINE_FROM)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private Integer lineFrom;
 
   public static final String SERIALIZED_NAME_LINE_TO = "lineTo";
   @SerializedName(SERIALIZED_NAME_LINE_TO)
-  @javax.annotation.Nonnull
-  private Integer lineTo;
-
-  public static final String SERIALIZED_NAME_SUBTOTAL = "subtotal";
-  @SerializedName(SERIALIZED_NAME_SUBTOTAL)
   @javax.annotation.Nullable
-  private BigDecimal subtotal;
+  private Integer lineTo;
 
   public static final String SERIALIZED_NAME_TAXABLE_AMOUNT = "taxableAmount";
   @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT)
@@ -90,6 +85,11 @@ public class Page {
   @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT3)
   @javax.annotation.Nullable
   private BigDecimal taxableAmount3;
+
+  public static final String SERIALIZED_NAME_EXEMPT_AMOUNT = "exemptAmount";
+  @SerializedName(SERIALIZED_NAME_EXEMPT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal exemptAmount;
 
   public static final String SERIALIZED_NAME_TOTAL_I_T_B_I_S = "totalITBIS";
   @SerializedName(SERIALIZED_NAME_TOTAL_I_T_B_I_S)
@@ -116,10 +116,10 @@ public class Page {
   @javax.annotation.Nullable
   private BigDecimal additionalTaxes;
 
-  public static final String SERIALIZED_NAME_EXEMPT_AMOUNT = "exemptAmount";
-  @SerializedName(SERIALIZED_NAME_EXEMPT_AMOUNT)
+  public static final String SERIALIZED_NAME_SUBTOTAL = "subtotal";
+  @SerializedName(SERIALIZED_NAME_SUBTOTAL)
   @javax.annotation.Nullable
-  private BigDecimal exemptAmount;
+  private BigDecimal subtotal;
 
   public static final String SERIALIZED_NAME_NON_BILLABLE_AMOUNT = "nonBillableAmount";
   @SerializedName(SERIALIZED_NAME_NON_BILLABLE_AMOUNT)
@@ -129,7 +129,7 @@ public class Page {
   public Page() {
   }
 
-  public Page pageNumber(@javax.annotation.Nonnull Integer pageNumber) {
+  public Page pageNumber(@javax.annotation.Nullable Integer pageNumber) {
     this.pageNumber = pageNumber;
     return this;
   }
@@ -138,70 +138,51 @@ public class Page {
    * Get pageNumber
    * @return pageNumber
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Integer getPageNumber() {
     return pageNumber;
   }
 
-  public void setPageNumber(@javax.annotation.Nonnull Integer pageNumber) {
+  public void setPageNumber(@javax.annotation.Nullable Integer pageNumber) {
     this.pageNumber = pageNumber;
   }
 
 
-  public Page lineFrom(@javax.annotation.Nonnull Integer lineFrom) {
+  public Page lineFrom(@javax.annotation.Nullable Integer lineFrom) {
     this.lineFrom = lineFrom;
     return this;
   }
 
   /**
-   * First line item number on this page.
+   * Get lineFrom
    * @return lineFrom
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Integer getLineFrom() {
     return lineFrom;
   }
 
-  public void setLineFrom(@javax.annotation.Nonnull Integer lineFrom) {
+  public void setLineFrom(@javax.annotation.Nullable Integer lineFrom) {
     this.lineFrom = lineFrom;
   }
 
 
-  public Page lineTo(@javax.annotation.Nonnull Integer lineTo) {
+  public Page lineTo(@javax.annotation.Nullable Integer lineTo) {
     this.lineTo = lineTo;
     return this;
   }
 
   /**
-   * Last line item number on this page.
+   * Get lineTo
    * @return lineTo
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Integer getLineTo() {
     return lineTo;
   }
 
-  public void setLineTo(@javax.annotation.Nonnull Integer lineTo) {
+  public void setLineTo(@javax.annotation.Nullable Integer lineTo) {
     this.lineTo = lineTo;
-  }
-
-
-  public Page subtotal(@javax.annotation.Nullable BigDecimal subtotal) {
-    this.subtotal = subtotal;
-    return this;
-  }
-
-  /**
-   * Get subtotal
-   * @return subtotal
-   */
-  @javax.annotation.Nullable
-  public BigDecimal getSubtotal() {
-    return subtotal;
-  }
-
-  public void setSubtotal(@javax.annotation.Nullable BigDecimal subtotal) {
-    this.subtotal = subtotal;
   }
 
 
@@ -278,6 +259,25 @@ public class Page {
 
   public void setTaxableAmount3(@javax.annotation.Nullable BigDecimal taxableAmount3) {
     this.taxableAmount3 = taxableAmount3;
+  }
+
+
+  public Page exemptAmount(@javax.annotation.Nullable BigDecimal exemptAmount) {
+    this.exemptAmount = exemptAmount;
+    return this;
+  }
+
+  /**
+   * Get exemptAmount
+   * @return exemptAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getExemptAmount() {
+    return exemptAmount;
+  }
+
+  public void setExemptAmount(@javax.annotation.Nullable BigDecimal exemptAmount) {
+    this.exemptAmount = exemptAmount;
   }
 
 
@@ -376,22 +376,22 @@ public class Page {
   }
 
 
-  public Page exemptAmount(@javax.annotation.Nullable BigDecimal exemptAmount) {
-    this.exemptAmount = exemptAmount;
+  public Page subtotal(@javax.annotation.Nullable BigDecimal subtotal) {
+    this.subtotal = subtotal;
     return this;
   }
 
   /**
-   * Get exemptAmount
-   * @return exemptAmount
+   * Get subtotal
+   * @return subtotal
    */
   @javax.annotation.Nullable
-  public BigDecimal getExemptAmount() {
-    return exemptAmount;
+  public BigDecimal getSubtotal() {
+    return subtotal;
   }
 
-  public void setExemptAmount(@javax.annotation.Nullable BigDecimal exemptAmount) {
-    this.exemptAmount = exemptAmount;
+  public void setSubtotal(@javax.annotation.Nullable BigDecimal subtotal) {
+    this.subtotal = subtotal;
   }
 
 
@@ -427,23 +427,23 @@ public class Page {
     return Objects.equals(this.pageNumber, page.pageNumber) &&
         Objects.equals(this.lineFrom, page.lineFrom) &&
         Objects.equals(this.lineTo, page.lineTo) &&
-        Objects.equals(this.subtotal, page.subtotal) &&
         Objects.equals(this.taxableAmount, page.taxableAmount) &&
         Objects.equals(this.taxableAmount1, page.taxableAmount1) &&
         Objects.equals(this.taxableAmount2, page.taxableAmount2) &&
         Objects.equals(this.taxableAmount3, page.taxableAmount3) &&
+        Objects.equals(this.exemptAmount, page.exemptAmount) &&
         Objects.equals(this.totalITBIS, page.totalITBIS) &&
         Objects.equals(this.itbis1, page.itbis1) &&
         Objects.equals(this.itbis2, page.itbis2) &&
         Objects.equals(this.itbis3, page.itbis3) &&
         Objects.equals(this.additionalTaxes, page.additionalTaxes) &&
-        Objects.equals(this.exemptAmount, page.exemptAmount) &&
+        Objects.equals(this.subtotal, page.subtotal) &&
         Objects.equals(this.nonBillableAmount, page.nonBillableAmount);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(pageNumber, lineFrom, lineTo, subtotal, taxableAmount, taxableAmount1, taxableAmount2, taxableAmount3, totalITBIS, itbis1, itbis2, itbis3, additionalTaxes, exemptAmount, nonBillableAmount);
+    return Objects.hash(pageNumber, lineFrom, lineTo, taxableAmount, taxableAmount1, taxableAmount2, taxableAmount3, exemptAmount, totalITBIS, itbis1, itbis2, itbis3, additionalTaxes, subtotal, nonBillableAmount);
   }
 
   @Override
@@ -453,17 +453,17 @@ public class Page {
     sb.append("    pageNumber: ").append(toIndentedString(pageNumber)).append("\n");
     sb.append("    lineFrom: ").append(toIndentedString(lineFrom)).append("\n");
     sb.append("    lineTo: ").append(toIndentedString(lineTo)).append("\n");
-    sb.append("    subtotal: ").append(toIndentedString(subtotal)).append("\n");
     sb.append("    taxableAmount: ").append(toIndentedString(taxableAmount)).append("\n");
     sb.append("    taxableAmount1: ").append(toIndentedString(taxableAmount1)).append("\n");
     sb.append("    taxableAmount2: ").append(toIndentedString(taxableAmount2)).append("\n");
     sb.append("    taxableAmount3: ").append(toIndentedString(taxableAmount3)).append("\n");
+    sb.append("    exemptAmount: ").append(toIndentedString(exemptAmount)).append("\n");
     sb.append("    totalITBIS: ").append(toIndentedString(totalITBIS)).append("\n");
     sb.append("    itbis1: ").append(toIndentedString(itbis1)).append("\n");
     sb.append("    itbis2: ").append(toIndentedString(itbis2)).append("\n");
     sb.append("    itbis3: ").append(toIndentedString(itbis3)).append("\n");
     sb.append("    additionalTaxes: ").append(toIndentedString(additionalTaxes)).append("\n");
-    sb.append("    exemptAmount: ").append(toIndentedString(exemptAmount)).append("\n");
+    sb.append("    subtotal: ").append(toIndentedString(subtotal)).append("\n");
     sb.append("    nonBillableAmount: ").append(toIndentedString(nonBillableAmount)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -483,10 +483,10 @@ public class Page {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("pageNumber", "lineFrom", "lineTo", "subtotal", "taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxes", "exemptAmount", "nonBillableAmount"));
+    openapiFields = new HashSet<String>(Arrays.asList("pageNumber", "lineFrom", "lineTo", "taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "exemptAmount", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxes", "subtotal", "nonBillableAmount"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("pageNumber", "lineFrom", "lineTo"));
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -507,13 +507,6 @@ public class Page {
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!Page.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `Page` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
-        }
-      }
-
-      // check to make sure all required properties/fields are present in the JSON string
-      for (String requiredField : Page.openapiRequiredFields) {
-        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();

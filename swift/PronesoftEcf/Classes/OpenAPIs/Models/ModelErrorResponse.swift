@@ -15,25 +15,24 @@ public typealias ModelErrorResponse = PronesoftEcfAPI.ModelErrorResponse
 
 extension PronesoftEcfAPI {
 
-/** Standard error response returned by all endpoints on failure. */
 public struct ModelErrorResponse: Codable, JSONEncodable, Hashable {
 
-    /** HTTP status code. */
     public var statusCode: Int?
-    /** Human-readable error description. */
     public var message: String?
-    /** When the error occurred. */
+    public var error: String?
     public var timestamp: Date?
 
-    public init(statusCode: Int? = nil, message: String? = nil, timestamp: Date? = nil) {
+    public init(statusCode: Int? = nil, message: String? = nil, error: String? = nil, timestamp: Date? = nil) {
         self.statusCode = statusCode
         self.message = message
+        self.error = error
         self.timestamp = timestamp
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case statusCode
         case message
+        case error
         case timestamp
     }
 
@@ -43,6 +42,7 @@ public struct ModelErrorResponse: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(statusCode, forKey: .statusCode)
         try container.encodeIfPresent(message, forKey: .message)
+        try container.encodeIfPresent(error, forKey: .error)
         try container.encodeIfPresent(timestamp, forKey: .timestamp)
     }
 }

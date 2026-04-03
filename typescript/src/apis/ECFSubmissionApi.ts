@@ -2,10 +2,10 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -15,12 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
+  EcfHistoryItem,
+  EcfStatsResponse,
+  EcfStatusResponse,
   EcfSubmissionResponse,
   ElectronicDocument,
   Environment,
   ErrorResponse,
+  RateLimitErrorResponse,
 } from '../models/index';
 import {
+    EcfHistoryItemFromJSON,
+    EcfHistoryItemToJSON,
+    EcfStatsResponseFromJSON,
+    EcfStatsResponseToJSON,
+    EcfStatusResponseFromJSON,
+    EcfStatusResponseToJSON,
     EcfSubmissionResponseFromJSON,
     EcfSubmissionResponseToJSON,
     ElectronicDocumentFromJSON,
@@ -29,12 +39,30 @@ import {
     EnvironmentToJSON,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
+    RateLimitErrorResponseFromJSON,
+    RateLimitErrorResponseToJSON,
 } from '../models/index';
 
+export interface GetEcfHistoryRequest {
+    environment: Environment;
+    xTenantId?: string;
+}
+
+export interface GetEcfStatsRequest {
+    environment: Environment;
+    xTenantId?: string;
+}
+
+export interface GetEcfStatusRequest {
+    environment: Environment;
+    trackId: string;
+    xTenantId?: string;
+}
+
 export interface SubmitEcfRequest {
-    xTenantId: string;
     environment: Environment;
     electronicDocument: ElectronicDocument;
+    xTenantId?: string;
 }
 
 /**
@@ -45,21 +73,98 @@ export interface SubmitEcfRequest {
  */
 export interface ECFSubmissionApiInterface {
     /**
+     * Creates request options for getEcfHistory without sending the request
+     * @param {Environment} environment 
+     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @throws {RequiredError}
+     * @memberof ECFSubmissionApiInterface
+     */
+    getEcfHistoryRequestOpts(requestParameters: GetEcfHistoryRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Get submission history (last 50 documents)
+     * @param {Environment} environment 
+     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ECFSubmissionApiInterface
+     */
+    getEcfHistoryRaw(requestParameters: GetEcfHistoryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EcfHistoryItem>>>;
+
+    /**
+     * Get submission history (last 50 documents)
+     */
+    getEcfHistory(requestParameters: GetEcfHistoryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<EcfHistoryItem>>;
+
+    /**
+     * Creates request options for getEcfStats without sending the request
+     * @param {Environment} environment 
+     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @throws {RequiredError}
+     * @memberof ECFSubmissionApiInterface
+     */
+    getEcfStatsRequestOpts(requestParameters: GetEcfStatsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Get submission statistics (last 30 days)
+     * @param {Environment} environment 
+     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ECFSubmissionApiInterface
+     */
+    getEcfStatsRaw(requestParameters: GetEcfStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EcfStatsResponse>>;
+
+    /**
+     * Get submission statistics (last 30 days)
+     */
+    getEcfStats(requestParameters: GetEcfStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EcfStatsResponse>;
+
+    /**
+     * Creates request options for getEcfStatus without sending the request
+     * @param {Environment} environment 
+     * @param {string} trackId 
+     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @throws {RequiredError}
+     * @memberof ECFSubmissionApiInterface
+     */
+    getEcfStatusRequestOpts(requestParameters: GetEcfStatusRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Get document status by trackId
+     * @param {Environment} environment 
+     * @param {string} trackId 
+     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ECFSubmissionApiInterface
+     */
+    getEcfStatusRaw(requestParameters: GetEcfStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EcfStatusResponse>>;
+
+    /**
+     * Get document status by trackId
+     */
+    getEcfStatus(requestParameters: GetEcfStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EcfStatusResponse>;
+
+    /**
      * Creates request options for submitEcf without sending the request
-     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param {Environment} environment Target submission environment.
+     * @param {Environment} environment 
      * @param {ElectronicDocument} electronicDocument 
+     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
      * @throws {RequiredError}
      * @memberof ECFSubmissionApiInterface
      */
     submitEcfRequestOpts(requestParameters: SubmitEcfRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the `ElectronicDocument` payload. 2. Call this endpoint with the target `environment` in the path. 3. Receive a `documentId` and `trackId` in the response. 4. Listen for the `document.status_changed` webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | `TesteCF` | Functional tests (no DGII interaction) | | `CerteCF` | DGII certification environment | | `eCF` | Production — real documents | 
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
      * @summary Submit e-CF document to DGII
-     * @param {string} xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param {Environment} environment Target submission environment.
+     * @param {Environment} environment 
      * @param {ElectronicDocument} electronicDocument 
+     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ECFSubmissionApiInterface
@@ -67,7 +172,7 @@ export interface ECFSubmissionApiInterface {
     submitEcfRaw(requestParameters: SubmitEcfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EcfSubmissionResponse>>;
 
     /**
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the `ElectronicDocument` payload. 2. Call this endpoint with the target `environment` in the path. 3. Receive a `documentId` and `trackId` in the response. 4. Listen for the `document.status_changed` webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | `TesteCF` | Functional tests (no DGII interaction) | | `CerteCF` | DGII certification environment | | `eCF` | Production — real documents | 
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
      * Submit e-CF document to DGII
      */
     submitEcf(requestParameters: SubmitEcfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EcfSubmissionResponse>;
@@ -80,16 +185,203 @@ export interface ECFSubmissionApiInterface {
 export class ECFSubmissionApi extends runtime.BaseAPI implements ECFSubmissionApiInterface {
 
     /**
-     * Creates request options for submitEcf without sending the request
+     * Creates request options for getEcfHistory without sending the request
      */
-    async submitEcfRequestOpts(requestParameters: SubmitEcfRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['xTenantId'] == null) {
+    async getEcfHistoryRequestOpts(requestParameters: GetEcfHistoryRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['environment'] == null) {
             throw new runtime.RequiredError(
-                'xTenantId',
-                'Required parameter "xTenantId" was null or undefined when calling submitEcf().'
+                'environment',
+                'Required parameter "environment" was null or undefined when calling getEcfHistory().'
             );
         }
 
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/{environment}/ecf/responses/history`;
+        urlPath = urlPath.replace(`{${"environment"}}`, encodeURIComponent(String(requestParameters['environment'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get submission history (last 50 documents)
+     */
+    async getEcfHistoryRaw(requestParameters: GetEcfHistoryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EcfHistoryItem>>> {
+        const requestOptions = await this.getEcfHistoryRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EcfHistoryItemFromJSON));
+    }
+
+    /**
+     * Get submission history (last 50 documents)
+     */
+    async getEcfHistory(requestParameters: GetEcfHistoryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<EcfHistoryItem>> {
+        const response = await this.getEcfHistoryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getEcfStats without sending the request
+     */
+    async getEcfStatsRequestOpts(requestParameters: GetEcfStatsRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['environment'] == null) {
+            throw new runtime.RequiredError(
+                'environment',
+                'Required parameter "environment" was null or undefined when calling getEcfStats().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/{environment}/ecf/responses/stats`;
+        urlPath = urlPath.replace(`{${"environment"}}`, encodeURIComponent(String(requestParameters['environment'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get submission statistics (last 30 days)
+     */
+    async getEcfStatsRaw(requestParameters: GetEcfStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EcfStatsResponse>> {
+        const requestOptions = await this.getEcfStatsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EcfStatsResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get submission statistics (last 30 days)
+     */
+    async getEcfStats(requestParameters: GetEcfStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EcfStatsResponse> {
+        const response = await this.getEcfStatsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getEcfStatus without sending the request
+     */
+    async getEcfStatusRequestOpts(requestParameters: GetEcfStatusRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['environment'] == null) {
+            throw new runtime.RequiredError(
+                'environment',
+                'Required parameter "environment" was null or undefined when calling getEcfStatus().'
+            );
+        }
+
+        if (requestParameters['trackId'] == null) {
+            throw new runtime.RequiredError(
+                'trackId',
+                'Required parameter "trackId" was null or undefined when calling getEcfStatus().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/{environment}/ecf/status/{trackId}`;
+        urlPath = urlPath.replace(`{${"environment"}}`, encodeURIComponent(String(requestParameters['environment'])));
+        urlPath = urlPath.replace(`{${"trackId"}}`, encodeURIComponent(String(requestParameters['trackId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get document status by trackId
+     */
+    async getEcfStatusRaw(requestParameters: GetEcfStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EcfStatusResponse>> {
+        const requestOptions = await this.getEcfStatusRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EcfStatusResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get document status by trackId
+     */
+    async getEcfStatus(requestParameters: GetEcfStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EcfStatusResponse> {
+        const response = await this.getEcfStatusRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for submitEcf without sending the request
+     */
+    async submitEcfRequestOpts(requestParameters: SubmitEcfRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['environment'] == null) {
             throw new runtime.RequiredError(
                 'environment',
@@ -141,7 +433,7 @@ export class ECFSubmissionApi extends runtime.BaseAPI implements ECFSubmissionAp
     }
 
     /**
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the `ElectronicDocument` payload. 2. Call this endpoint with the target `environment` in the path. 3. Receive a `documentId` and `trackId` in the response. 4. Listen for the `document.status_changed` webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | `TesteCF` | Functional tests (no DGII interaction) | | `CerteCF` | DGII certification environment | | `eCF` | Production — real documents | 
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
      * Submit e-CF document to DGII
      */
     async submitEcfRaw(requestParameters: SubmitEcfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EcfSubmissionResponse>> {
@@ -152,7 +444,7 @@ export class ECFSubmissionApi extends runtime.BaseAPI implements ECFSubmissionAp
     }
 
     /**
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the `ElectronicDocument` payload. 2. Call this endpoint with the target `environment` in the path. 3. Receive a `documentId` and `trackId` in the response. 4. Listen for the `document.status_changed` webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | `TesteCF` | Functional tests (no DGII interaction) | | `CerteCF` | DGII certification environment | | `eCF` | Production — real documents | 
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
      * Submit e-CF document to DGII
      */
     async submitEcf(requestParameters: SubmitEcfRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EcfSubmissionResponse> {

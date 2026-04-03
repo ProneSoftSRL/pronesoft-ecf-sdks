@@ -15,9 +15,13 @@ public typealias ElectronicDocument = PronesoftEcfAPI.ElectronicDocument
 
 extension PronesoftEcfAPI {
 
-/** The main e-CF document payload. Build this object and submit it to &#x60;POST /{environment}/ecf/submit&#x60;.  **Required fields:** &#x60;version&#x60;, &#x60;invoiceType&#x60;, &#x60;invoiceNumber&#x60;, &#x60;issueDate&#x60;, &#x60;items&#x60;, &#x60;totals&#x60;.  Use &#x60;GET /tax-sequences/next&#x60; to obtain the correct &#x60;invoiceNumber&#x60;.  */
+/** Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required.  */
 public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
 
+    public enum CreditNoteIndicator: String, Codable, CaseIterable {
+        case _0 = "0"
+        case _1 = "1"
+    }
     public enum IncomeType: String, Codable, CaseIterable {
         case _01 = "01"
         case _02 = "02"
@@ -31,84 +35,105 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         case _2 = "2"
         case _3 = "3"
     }
-    public enum CreditNoteIndicator: String, Codable, CaseIterable {
-        case _0 = "0"
-        case _1 = "1"
-    }
-    public static let versionRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^1\\.0$/")
-    public static let invoiceNumberRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9]{13}$/")
     public static let paymentTermsRule = StringRule(minLength: nil, maxLength: 15, pattern: nil)
     public static let paymentAccountNumberRule = StringRule(minLength: nil, maxLength: 28, pattern: nil)
     public static let paymentBankRule = StringRule(minLength: nil, maxLength: 75, pattern: nil)
-    public static let issuerRNCRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^([0-9]{9}|[0-9]{11})$/")
     public static let issuerBusinessNameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
     public static let issuerPhonesRule = ArrayRule(minItems: nil, maxItems: 3, uniqueItems: false)
     public static let itemsRule = ArrayRule(minItems: 1, maxItems: 1000, uniqueItems: false)
-    /** Document schema version. Always \"1.0\". */
-    public var version: String = "1.0"
+    public var environment: Environment?
+    /** Always 1. */
+    public var version: Int = 1
     public var invoiceType: InvoiceType
-    /** e-NCF number (13 alphanumeric characters). Obtain from `GET /tax-sequences/next`.  */
+    /** e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). */
     public var invoiceNumber: String
-    /** Document issue date and time (ISO 8601). */
     public var issueDate: Date
-    /** Document expiration date (optional, for credit documents). */
     public var expirationDate: Date?
-    /** Income type code: - `01`: Operations Income - `02`: Financial Income - `03`: Extraordinary Income - `04`: Leasing Income - `05`: Income from Sales of Assets - `06`: Other Income  */
-    public var incomeType: IncomeType?
-    /** Payment condition: - `1`: Cash (Al Contado) - `2`: Credit (Crédito) - `3`: Mixed (Mixto)  */
-    public var paymentType: PaymentType?
-    /** Payment due date (required when paymentType is \"2\" or \"3\"). */
-    public var paymentDeadline: Date?
-    /** Payment terms description (e.g. \"Net 30\"). */
-    public var paymentTerms: String?
-    public var paymentAccountType: AccountType?
-    /** Bank account number for payment reference. */
-    public var paymentAccountNumber: String?
-    /** Bank name for payment reference. */
-    public var paymentBank: String?
-    /** For Credit Notes (type 34) only: - `0`: Affected invoice issued ≤ 30 days ago - `1`: Affected invoice issued > 30 days ago  */
+    /** Credit Notes only: 0=affected invoice <=30 days, 1=>30 days */
     public var creditNoteIndicator: CreditNoteIndicator?
-    /** RNC of the issuing company (overrides tenant default if provided). */
+    public var deferredSendingIndicator: String?
+    public var taxedAmountIndicator: String?
+    /** 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other */
+    public var incomeType: IncomeType?
+    /** 1=Cash, 2=Credit, 3=Mixed */
+    public var paymentType: PaymentType?
+    public var paymentDeadline: Date?
+    public var paymentTerms: String?
+    /** Payment breakdown. Required. */
+    public var paymentForms: [PaymentForm]
+    public var paymentAccountType: AccountType?
+    public var paymentAccountNumber: String?
+    public var paymentBank: String?
+    public var serviceStartDate: Date?
+    public var serviceEndDate: Date?
+    public var totalPages: Int?
+    /** RNC of the issuing company. */
     public var issuerRNC: String?
-    /** Legal business name of the issuer. */
     public var issuerBusinessName: String?
-    /** Contact email of the issuer. */
-    public var issuerEmail: String?
-    /** Issuer phone numbers in format \"809-555-1234\". */
+    public var issuerCommercialName: String?
+    public var branchName: String?
+    public var issuerAddress: String?
+    public var municipalityCode: String?
+    public var provinceCode: String?
     public var issuerPhones: [String]?
+    public var issuerEmail: String?
+    public var issuerWebsite: String?
+    public var issuerEconomicActivity: String?
+    public var sellerCode: String?
+    public var internalInvoiceNumber: String?
+    public var internalOrderNumber: Int?
+    public var salesZone: String?
+    public var salesRoute: String?
+    public var additionalIssuerInfo: String?
     public var buyer: Buyer?
-    /** Line items of the document. At least 1 required. */
     public var items: [Item]
     public var totals: Totals
     public var transport: Transport?
     public var additionalInfo: AdditionalInfo?
     public var alternativeCurrency: AlternativeCurrency?
     public var referenceInfo: ReferenceInfo?
-    /** Page/section subtotals (for multi-page documents). */
-    public var subtotals: [Subtotal]?
-    /** Document-level discounts or surcharges. */
+    public var subtotals: Subtotal?
     public var discountsOrSurcharges: [DiscountOrSurcharge]?
-    /** Page breakdown for multi-page documents. */
-    public var pages: [Page]?
+    public var pages: Page?
 
-    public init(version: String = "1.0", invoiceType: InvoiceType, invoiceNumber: String, issueDate: Date, expirationDate: Date? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerEmail: String? = nil, issuerPhones: [String]? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: [Subtotal]? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: [Page]? = nil) {
+    public init(environment: Environment? = nil, version: Int = 1, invoiceType: InvoiceType, invoiceNumber: String, issueDate: Date, expirationDate: Date? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, deferredSendingIndicator: String? = nil, taxedAmountIndicator: String? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentForms: [PaymentForm], paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, serviceStartDate: Date? = nil, serviceEndDate: Date? = nil, totalPages: Int? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerCommercialName: String? = nil, branchName: String? = nil, issuerAddress: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, issuerPhones: [String]? = nil, issuerEmail: String? = nil, issuerWebsite: String? = nil, issuerEconomicActivity: String? = nil, sellerCode: String? = nil, internalInvoiceNumber: String? = nil, internalOrderNumber: Int? = nil, salesZone: String? = nil, salesRoute: String? = nil, additionalIssuerInfo: String? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: Subtotal? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: Page? = nil) {
+        self.environment = environment
         self.version = version
         self.invoiceType = invoiceType
         self.invoiceNumber = invoiceNumber
         self.issueDate = issueDate
         self.expirationDate = expirationDate
+        self.creditNoteIndicator = creditNoteIndicator
+        self.deferredSendingIndicator = deferredSendingIndicator
+        self.taxedAmountIndicator = taxedAmountIndicator
         self.incomeType = incomeType
         self.paymentType = paymentType
         self.paymentDeadline = paymentDeadline
         self.paymentTerms = paymentTerms
+        self.paymentForms = paymentForms
         self.paymentAccountType = paymentAccountType
         self.paymentAccountNumber = paymentAccountNumber
         self.paymentBank = paymentBank
-        self.creditNoteIndicator = creditNoteIndicator
+        self.serviceStartDate = serviceStartDate
+        self.serviceEndDate = serviceEndDate
+        self.totalPages = totalPages
         self.issuerRNC = issuerRNC
         self.issuerBusinessName = issuerBusinessName
-        self.issuerEmail = issuerEmail
+        self.issuerCommercialName = issuerCommercialName
+        self.branchName = branchName
+        self.issuerAddress = issuerAddress
+        self.municipalityCode = municipalityCode
+        self.provinceCode = provinceCode
         self.issuerPhones = issuerPhones
+        self.issuerEmail = issuerEmail
+        self.issuerWebsite = issuerWebsite
+        self.issuerEconomicActivity = issuerEconomicActivity
+        self.sellerCode = sellerCode
+        self.internalInvoiceNumber = internalInvoiceNumber
+        self.internalOrderNumber = internalOrderNumber
+        self.salesZone = salesZone
+        self.salesRoute = salesRoute
+        self.additionalIssuerInfo = additionalIssuerInfo
         self.buyer = buyer
         self.items = items
         self.totals = totals
@@ -122,23 +147,43 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case environment
         case version
         case invoiceType
         case invoiceNumber
         case issueDate
         case expirationDate
+        case creditNoteIndicator
+        case deferredSendingIndicator
+        case taxedAmountIndicator
         case incomeType
         case paymentType
         case paymentDeadline
         case paymentTerms
+        case paymentForms
         case paymentAccountType
         case paymentAccountNumber
         case paymentBank
-        case creditNoteIndicator
+        case serviceStartDate
+        case serviceEndDate
+        case totalPages
         case issuerRNC
         case issuerBusinessName
-        case issuerEmail
+        case issuerCommercialName
+        case branchName
+        case issuerAddress
+        case municipalityCode
+        case provinceCode
         case issuerPhones
+        case issuerEmail
+        case issuerWebsite
+        case issuerEconomicActivity
+        case sellerCode
+        case internalInvoiceNumber
+        case internalOrderNumber
+        case salesZone
+        case salesRoute
+        case additionalIssuerInfo
         case buyer
         case items
         case totals
@@ -155,23 +200,43 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(environment, forKey: .environment)
         try container.encode(version, forKey: .version)
         try container.encode(invoiceType, forKey: .invoiceType)
         try container.encode(invoiceNumber, forKey: .invoiceNumber)
         try container.encode(issueDate, forKey: .issueDate)
         try container.encodeIfPresent(expirationDate, forKey: .expirationDate)
+        try container.encodeIfPresent(creditNoteIndicator, forKey: .creditNoteIndicator)
+        try container.encodeIfPresent(deferredSendingIndicator, forKey: .deferredSendingIndicator)
+        try container.encodeIfPresent(taxedAmountIndicator, forKey: .taxedAmountIndicator)
         try container.encodeIfPresent(incomeType, forKey: .incomeType)
         try container.encodeIfPresent(paymentType, forKey: .paymentType)
         try container.encodeIfPresent(paymentDeadline, forKey: .paymentDeadline)
         try container.encodeIfPresent(paymentTerms, forKey: .paymentTerms)
+        try container.encode(paymentForms, forKey: .paymentForms)
         try container.encodeIfPresent(paymentAccountType, forKey: .paymentAccountType)
         try container.encodeIfPresent(paymentAccountNumber, forKey: .paymentAccountNumber)
         try container.encodeIfPresent(paymentBank, forKey: .paymentBank)
-        try container.encodeIfPresent(creditNoteIndicator, forKey: .creditNoteIndicator)
+        try container.encodeIfPresent(serviceStartDate, forKey: .serviceStartDate)
+        try container.encodeIfPresent(serviceEndDate, forKey: .serviceEndDate)
+        try container.encodeIfPresent(totalPages, forKey: .totalPages)
         try container.encodeIfPresent(issuerRNC, forKey: .issuerRNC)
         try container.encodeIfPresent(issuerBusinessName, forKey: .issuerBusinessName)
-        try container.encodeIfPresent(issuerEmail, forKey: .issuerEmail)
+        try container.encodeIfPresent(issuerCommercialName, forKey: .issuerCommercialName)
+        try container.encodeIfPresent(branchName, forKey: .branchName)
+        try container.encodeIfPresent(issuerAddress, forKey: .issuerAddress)
+        try container.encodeIfPresent(municipalityCode, forKey: .municipalityCode)
+        try container.encodeIfPresent(provinceCode, forKey: .provinceCode)
         try container.encodeIfPresent(issuerPhones, forKey: .issuerPhones)
+        try container.encodeIfPresent(issuerEmail, forKey: .issuerEmail)
+        try container.encodeIfPresent(issuerWebsite, forKey: .issuerWebsite)
+        try container.encodeIfPresent(issuerEconomicActivity, forKey: .issuerEconomicActivity)
+        try container.encodeIfPresent(sellerCode, forKey: .sellerCode)
+        try container.encodeIfPresent(internalInvoiceNumber, forKey: .internalInvoiceNumber)
+        try container.encodeIfPresent(internalOrderNumber, forKey: .internalOrderNumber)
+        try container.encodeIfPresent(salesZone, forKey: .salesZone)
+        try container.encodeIfPresent(salesRoute, forKey: .salesRoute)
+        try container.encodeIfPresent(additionalIssuerInfo, forKey: .additionalIssuerInfo)
         try container.encodeIfPresent(buyer, forKey: .buyer)
         try container.encode(items, forKey: .items)
         try container.encode(totals, forKey: .totals)

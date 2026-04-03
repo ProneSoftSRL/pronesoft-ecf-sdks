@@ -30,7 +30,7 @@ import com.google.gson.annotations.SerializedName
  * 
  *
  * @param name 
- * @param maxDocsPerMonth Maximum documents allowed per month on this plan.
+ * @param maxDocsPerMonth 
  */
 
 
@@ -39,7 +39,6 @@ data class AssociatedCompanySubscriptionPlan (
     @SerializedName("name")
     val name: kotlin.String? = null,
 
-    /* Maximum documents allowed per month on this plan. */
     @SerializedName("maxDocsPerMonth")
     val maxDocsPerMonth: kotlin.Int? = null
 

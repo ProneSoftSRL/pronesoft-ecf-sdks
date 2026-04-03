@@ -1,12 +1,12 @@
 # PronesoftEcf\AuthenticationApi
 
-OAuth 2.0 token endpoint. Call this first to get your &#x60;accessToken&#x60;. No &#x60;Authorization&#x60; header is needed for this endpoint.
+OAuth 2.0 token endpoint. No Authorization header needed here. Tokens are valid for 24 hours.
 
 All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if the operation defines another base path.
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**getAccessToken()**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token |
+| [**getAccessToken()**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token (OAuth 2.0) |
 
 
 ## `getAccessToken()`
@@ -15,9 +15,9 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 getAccessToken($o_auth_token_request): \PronesoftEcf\Model\OAuthTokenResponse
 ```
 
-Get access token
+Get access token (OAuth 2.0)
 
-Authenticates using OAuth 2.0 **Client Credentials** flow. Returns a Bearer token to use in subsequent requests.  **This endpoint does NOT require an Authorization header.**  ``` POST /oauth/token Content-Type: application/json  {   \"clientId\": \"your-client-id\",   \"clientSecret\": \"your-client-secret\" } ```  Use the returned `accessToken` as: ``` Authorization: Bearer <accessToken> ```
+Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed.
 
 ### Example
 
@@ -32,7 +32,7 @@ $apiInstance = new PronesoftEcf\Api\AuthenticationApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$o_auth_token_request = {"clientId":"my-client-id","clientSecret":"my-super-secret"}; // \PronesoftEcf\Model\OAuthTokenRequest
+$o_auth_token_request = {"clientId":"app_live_TU_CLIENT_ID","clientSecret":"sk_live_TU_CLIENT_SECRET"}; // \PronesoftEcf\Model\OAuthTokenRequest
 
 try {
     $result = $apiInstance->getAccessToken($o_auth_token_request);

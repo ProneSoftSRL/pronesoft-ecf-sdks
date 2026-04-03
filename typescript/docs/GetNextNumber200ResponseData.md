@@ -7,17 +7,19 @@
 Name | Type
 ------------ | -------------
 `nextNumber` | string
+`sequenceId` | string
 `remainingNumbers` | number
 
 ## Example
 
 ```typescript
-import type { GetNextNumber200ResponseData } from '@pronesoft/ecf-sdk'
+import type { GetNextNumber200ResponseData } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "nextNumber": E310000000001,
-  "remainingNumbers": 499,
+  "nextNumber": E32000005251,
+  "sequenceId": seq_live_1234567890,
+  "remainingNumbers": 4750,
 } satisfies GetNextNumber200ResponseData
 
 console.log(example)

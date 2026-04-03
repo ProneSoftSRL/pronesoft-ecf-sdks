@@ -1,28 +1,43 @@
 
 # AdditionalInfo
 
-Additional shipping/logistics information.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
+`shipmentDate` | string
+`shipmentNumber` | string
+`containerNumber` | string
+`referenceNumber` | string
 `grossWeight` | number
+`netWeight` | number
+`grossWeightUnit` | number
+`netWeightUnit` | number
 `packageQuantity` | number
-`containerId` | string
-`sealId` | string
+`packageUnit` | number
+`packageVolume` | number
+`volumeUnit` | number
 
 ## Example
 
 ```typescript
-import type { AdditionalInfo } from '@pronesoft/ecf-sdk'
+import type { AdditionalInfo } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "shipmentDate": null,
+  "shipmentNumber": null,
+  "containerNumber": null,
+  "referenceNumber": null,
   "grossWeight": null,
+  "netWeight": null,
+  "grossWeightUnit": null,
+  "netWeightUnit": null,
   "packageQuantity": null,
-  "containerId": null,
-  "sealId": null,
+  "packageUnit": null,
+  "packageVolume": null,
+  "volumeUnit": null,
 } satisfies AdditionalInfo
 
 console.log(example)

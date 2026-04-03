@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.pronesoft.ecf.model.AssociatedCompanySubscription;
+import com.pronesoft.ecf.model.PrintFormat;
 import java.io.IOException;
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -51,9 +52,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * A company or branch associated with the main tenant account.
+ * AssociatedCompany
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class AssociatedCompany {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -70,38 +71,13 @@ public class AssociatedCompany {
   @javax.annotation.Nullable
   private String rnc;
 
-  public static final String SERIALIZED_NAME_PHONE = "phone";
-  @SerializedName(SERIALIZED_NAME_PHONE)
-  @javax.annotation.Nullable
-  private String phone;
-
-  public static final String SERIALIZED_NAME_ADDRESS = "address";
-  @SerializedName(SERIALIZED_NAME_ADDRESS)
-  @javax.annotation.Nullable
-  private String address;
-
-  public static final String SERIALIZED_NAME_CITY = "city";
-  @SerializedName(SERIALIZED_NAME_CITY)
-  @javax.annotation.Nullable
-  private String city;
-
-  public static final String SERIALIZED_NAME_COUNTRY = "country";
-  @SerializedName(SERIALIZED_NAME_COUNTRY)
-  @javax.annotation.Nullable
-  private String country;
-
-  public static final String SERIALIZED_NAME_WEBSITE = "website";
-  @SerializedName(SERIALIZED_NAME_WEBSITE)
-  @javax.annotation.Nullable
-  private URI website;
-
   public static final String SERIALIZED_NAME_LOGO_PATH = "logoPath";
   @SerializedName(SERIALIZED_NAME_LOGO_PATH)
   @javax.annotation.Nullable
   private String logoPath;
 
   /**
-   * Whether this is the main account or an associated branch.
+   * Gets or Sets type
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
@@ -156,6 +132,46 @@ public class AssociatedCompany {
   @SerializedName(SERIALIZED_NAME_TYPE)
   @javax.annotation.Nullable
   private TypeEnum type;
+
+  public static final String SERIALIZED_NAME_CITY = "city";
+  @SerializedName(SERIALIZED_NAME_CITY)
+  @javax.annotation.Nullable
+  private String city;
+
+  public static final String SERIALIZED_NAME_COUNTRY = "country";
+  @SerializedName(SERIALIZED_NAME_COUNTRY)
+  @javax.annotation.Nullable
+  private String country;
+
+  public static final String SERIALIZED_NAME_PHONE = "phone";
+  @SerializedName(SERIALIZED_NAME_PHONE)
+  @javax.annotation.Nullable
+  private String phone;
+
+  public static final String SERIALIZED_NAME_ADDRESS = "address";
+  @SerializedName(SERIALIZED_NAME_ADDRESS)
+  @javax.annotation.Nullable
+  private String address;
+
+  public static final String SERIALIZED_NAME_WEBSITE = "website";
+  @SerializedName(SERIALIZED_NAME_WEBSITE)
+  @javax.annotation.Nullable
+  private URI website;
+
+  public static final String SERIALIZED_NAME_CATEGORY = "category";
+  @SerializedName(SERIALIZED_NAME_CATEGORY)
+  @javax.annotation.Nullable
+  private String category;
+
+  public static final String SERIALIZED_NAME_MONTHLY_SALES_RANGE = "monthlySalesRange";
+  @SerializedName(SERIALIZED_NAME_MONTHLY_SALES_RANGE)
+  @javax.annotation.Nullable
+  private String monthlySalesRange;
+
+  public static final String SERIALIZED_NAME_PRINTER_TYPE = "printerType";
+  @SerializedName(SERIALIZED_NAME_PRINTER_TYPE)
+  @javax.annotation.Nullable
+  private PrintFormat printerType;
 
   public static final String SERIALIZED_NAME_CREATED_AT = "createdAt";
   @SerializedName(SERIALIZED_NAME_CREATED_AT)
@@ -242,41 +258,41 @@ public class AssociatedCompany {
   }
 
 
-  public AssociatedCompany phone(@javax.annotation.Nullable String phone) {
-    this.phone = phone;
+  public AssociatedCompany logoPath(@javax.annotation.Nullable String logoPath) {
+    this.logoPath = logoPath;
     return this;
   }
 
   /**
-   * Get phone
-   * @return phone
+   * Get logoPath
+   * @return logoPath
    */
   @javax.annotation.Nullable
-  public String getPhone() {
-    return phone;
+  public String getLogoPath() {
+    return logoPath;
   }
 
-  public void setPhone(@javax.annotation.Nullable String phone) {
-    this.phone = phone;
+  public void setLogoPath(@javax.annotation.Nullable String logoPath) {
+    this.logoPath = logoPath;
   }
 
 
-  public AssociatedCompany address(@javax.annotation.Nullable String address) {
-    this.address = address;
+  public AssociatedCompany type(@javax.annotation.Nullable TypeEnum type) {
+    this.type = type;
     return this;
   }
 
   /**
-   * Get address
-   * @return address
+   * Get type
+   * @return type
    */
   @javax.annotation.Nullable
-  public String getAddress() {
-    return address;
+  public TypeEnum getType() {
+    return type;
   }
 
-  public void setAddress(@javax.annotation.Nullable String address) {
-    this.address = address;
+  public void setType(@javax.annotation.Nullable TypeEnum type) {
+    this.type = type;
   }
 
 
@@ -318,6 +334,44 @@ public class AssociatedCompany {
   }
 
 
+  public AssociatedCompany phone(@javax.annotation.Nullable String phone) {
+    this.phone = phone;
+    return this;
+  }
+
+  /**
+   * Get phone
+   * @return phone
+   */
+  @javax.annotation.Nullable
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(@javax.annotation.Nullable String phone) {
+    this.phone = phone;
+  }
+
+
+  public AssociatedCompany address(@javax.annotation.Nullable String address) {
+    this.address = address;
+    return this;
+  }
+
+  /**
+   * Get address
+   * @return address
+   */
+  @javax.annotation.Nullable
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(@javax.annotation.Nullable String address) {
+    this.address = address;
+  }
+
+
   public AssociatedCompany website(@javax.annotation.Nullable URI website) {
     this.website = website;
     return this;
@@ -337,41 +391,60 @@ public class AssociatedCompany {
   }
 
 
-  public AssociatedCompany logoPath(@javax.annotation.Nullable String logoPath) {
-    this.logoPath = logoPath;
+  public AssociatedCompany category(@javax.annotation.Nullable String category) {
+    this.category = category;
     return this;
   }
 
   /**
-   * Get logoPath
-   * @return logoPath
+   * Get category
+   * @return category
    */
   @javax.annotation.Nullable
-  public String getLogoPath() {
-    return logoPath;
+  public String getCategory() {
+    return category;
   }
 
-  public void setLogoPath(@javax.annotation.Nullable String logoPath) {
-    this.logoPath = logoPath;
+  public void setCategory(@javax.annotation.Nullable String category) {
+    this.category = category;
   }
 
 
-  public AssociatedCompany type(@javax.annotation.Nullable TypeEnum type) {
-    this.type = type;
+  public AssociatedCompany monthlySalesRange(@javax.annotation.Nullable String monthlySalesRange) {
+    this.monthlySalesRange = monthlySalesRange;
     return this;
   }
 
   /**
-   * Whether this is the main account or an associated branch.
-   * @return type
+   * Get monthlySalesRange
+   * @return monthlySalesRange
    */
   @javax.annotation.Nullable
-  public TypeEnum getType() {
-    return type;
+  public String getMonthlySalesRange() {
+    return monthlySalesRange;
   }
 
-  public void setType(@javax.annotation.Nullable TypeEnum type) {
-    this.type = type;
+  public void setMonthlySalesRange(@javax.annotation.Nullable String monthlySalesRange) {
+    this.monthlySalesRange = monthlySalesRange;
+  }
+
+
+  public AssociatedCompany printerType(@javax.annotation.Nullable PrintFormat printerType) {
+    this.printerType = printerType;
+    return this;
+  }
+
+  /**
+   * Get printerType
+   * @return printerType
+   */
+  @javax.annotation.Nullable
+  public PrintFormat getPrinterType() {
+    return printerType;
+  }
+
+  public void setPrinterType(@javax.annotation.Nullable PrintFormat printerType) {
+    this.printerType = printerType;
   }
 
 
@@ -400,7 +473,7 @@ public class AssociatedCompany {
   }
 
   /**
-   * Number of e-CF documents issued in the current month.
+   * Get docsIssuedThisMonth
    * @return docsIssuedThisMonth
    */
   @javax.annotation.Nullable
@@ -419,7 +492,7 @@ public class AssociatedCompany {
   }
 
   /**
-   * Purchased document quota consumed this month.
+   * Get purchasedDocsConsumedThisMonth
    * @return purchasedDocsConsumedThisMonth
    */
   @javax.annotation.Nullable
@@ -483,13 +556,16 @@ public class AssociatedCompany {
     return Objects.equals(this.id, associatedCompany.id) &&
         Objects.equals(this.name, associatedCompany.name) &&
         Objects.equals(this.rnc, associatedCompany.rnc) &&
-        Objects.equals(this.phone, associatedCompany.phone) &&
-        Objects.equals(this.address, associatedCompany.address) &&
-        Objects.equals(this.city, associatedCompany.city) &&
-        Objects.equals(this.country, associatedCompany.country) &&
-        Objects.equals(this.website, associatedCompany.website) &&
         Objects.equals(this.logoPath, associatedCompany.logoPath) &&
         Objects.equals(this.type, associatedCompany.type) &&
+        Objects.equals(this.city, associatedCompany.city) &&
+        Objects.equals(this.country, associatedCompany.country) &&
+        Objects.equals(this.phone, associatedCompany.phone) &&
+        Objects.equals(this.address, associatedCompany.address) &&
+        Objects.equals(this.website, associatedCompany.website) &&
+        Objects.equals(this.category, associatedCompany.category) &&
+        Objects.equals(this.monthlySalesRange, associatedCompany.monthlySalesRange) &&
+        Objects.equals(this.printerType, associatedCompany.printerType) &&
         Objects.equals(this.createdAt, associatedCompany.createdAt) &&
         Objects.equals(this.docsIssuedThisMonth, associatedCompany.docsIssuedThisMonth) &&
         Objects.equals(this.purchasedDocsConsumedThisMonth, associatedCompany.purchasedDocsConsumedThisMonth) &&
@@ -503,7 +579,7 @@ public class AssociatedCompany {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, rnc, phone, address, city, country, website, logoPath, type, createdAt, docsIssuedThisMonth, purchasedDocsConsumedThisMonth, ownerEmail, subscription);
+    return Objects.hash(id, name, rnc, logoPath, type, city, country, phone, address, website, category, monthlySalesRange, printerType, createdAt, docsIssuedThisMonth, purchasedDocsConsumedThisMonth, ownerEmail, subscription);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -520,13 +596,16 @@ public class AssociatedCompany {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    rnc: ").append(toIndentedString(rnc)).append("\n");
-    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
-    sb.append("    address: ").append(toIndentedString(address)).append("\n");
-    sb.append("    city: ").append(toIndentedString(city)).append("\n");
-    sb.append("    country: ").append(toIndentedString(country)).append("\n");
-    sb.append("    website: ").append(toIndentedString(website)).append("\n");
     sb.append("    logoPath: ").append(toIndentedString(logoPath)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    city: ").append(toIndentedString(city)).append("\n");
+    sb.append("    country: ").append(toIndentedString(country)).append("\n");
+    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+    sb.append("    address: ").append(toIndentedString(address)).append("\n");
+    sb.append("    website: ").append(toIndentedString(website)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    monthlySalesRange: ").append(toIndentedString(monthlySalesRange)).append("\n");
+    sb.append("    printerType: ").append(toIndentedString(printerType)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    docsIssuedThisMonth: ").append(toIndentedString(docsIssuedThisMonth)).append("\n");
     sb.append("    purchasedDocsConsumedThisMonth: ").append(toIndentedString(purchasedDocsConsumedThisMonth)).append("\n");
@@ -550,7 +629,7 @@ public class AssociatedCompany {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "name", "rnc", "phone", "address", "city", "country", "website", "logoPath", "type", "createdAt", "docsIssuedThisMonth", "purchasedDocsConsumedThisMonth", "ownerEmail", "subscription"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "name", "rnc", "logoPath", "type", "city", "country", "phone", "address", "website", "category", "monthlySalesRange", "printerType", "createdAt", "docsIssuedThisMonth", "purchasedDocsConsumedThisMonth", "ownerEmail", "subscription"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -586,21 +665,6 @@ public class AssociatedCompany {
       if ((jsonObj.get("rnc") != null && !jsonObj.get("rnc").isJsonNull()) && !jsonObj.get("rnc").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `rnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("rnc").toString()));
       }
-      if ((jsonObj.get("phone") != null && !jsonObj.get("phone").isJsonNull()) && !jsonObj.get("phone").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("phone").toString()));
-      }
-      if ((jsonObj.get("address") != null && !jsonObj.get("address").isJsonNull()) && !jsonObj.get("address").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `address` to be a primitive type in the JSON string but got `%s`", jsonObj.get("address").toString()));
-      }
-      if ((jsonObj.get("city") != null && !jsonObj.get("city").isJsonNull()) && !jsonObj.get("city").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `city` to be a primitive type in the JSON string but got `%s`", jsonObj.get("city").toString()));
-      }
-      if ((jsonObj.get("country") != null && !jsonObj.get("country").isJsonNull()) && !jsonObj.get("country").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `country` to be a primitive type in the JSON string but got `%s`", jsonObj.get("country").toString()));
-      }
-      if ((jsonObj.get("website") != null && !jsonObj.get("website").isJsonNull()) && !jsonObj.get("website").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `website` to be a primitive type in the JSON string but got `%s`", jsonObj.get("website").toString()));
-      }
       if ((jsonObj.get("logoPath") != null && !jsonObj.get("logoPath").isJsonNull()) && !jsonObj.get("logoPath").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `logoPath` to be a primitive type in the JSON string but got `%s`", jsonObj.get("logoPath").toString()));
       }
@@ -610,6 +674,31 @@ public class AssociatedCompany {
       // validate the optional field `type`
       if (jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) {
         TypeEnum.validateJsonElement(jsonObj.get("type"));
+      }
+      if ((jsonObj.get("city") != null && !jsonObj.get("city").isJsonNull()) && !jsonObj.get("city").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `city` to be a primitive type in the JSON string but got `%s`", jsonObj.get("city").toString()));
+      }
+      if ((jsonObj.get("country") != null && !jsonObj.get("country").isJsonNull()) && !jsonObj.get("country").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `country` to be a primitive type in the JSON string but got `%s`", jsonObj.get("country").toString()));
+      }
+      if ((jsonObj.get("phone") != null && !jsonObj.get("phone").isJsonNull()) && !jsonObj.get("phone").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("phone").toString()));
+      }
+      if ((jsonObj.get("address") != null && !jsonObj.get("address").isJsonNull()) && !jsonObj.get("address").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `address` to be a primitive type in the JSON string but got `%s`", jsonObj.get("address").toString()));
+      }
+      if ((jsonObj.get("website") != null && !jsonObj.get("website").isJsonNull()) && !jsonObj.get("website").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `website` to be a primitive type in the JSON string but got `%s`", jsonObj.get("website").toString()));
+      }
+      if ((jsonObj.get("category") != null && !jsonObj.get("category").isJsonNull()) && !jsonObj.get("category").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `category` to be a primitive type in the JSON string but got `%s`", jsonObj.get("category").toString()));
+      }
+      if ((jsonObj.get("monthlySalesRange") != null && !jsonObj.get("monthlySalesRange").isJsonNull()) && !jsonObj.get("monthlySalesRange").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `monthlySalesRange` to be a primitive type in the JSON string but got `%s`", jsonObj.get("monthlySalesRange").toString()));
+      }
+      // validate the optional field `printerType`
+      if (jsonObj.get("printerType") != null && !jsonObj.get("printerType").isJsonNull()) {
+        PrintFormat.validateJsonElement(jsonObj.get("printerType"));
       }
       if ((jsonObj.get("ownerEmail") != null && !jsonObj.get("ownerEmail").isJsonNull()) && !jsonObj.get("ownerEmail").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `ownerEmail` to be a primitive type in the JSON string but got `%s`", jsonObj.get("ownerEmail").toString()));

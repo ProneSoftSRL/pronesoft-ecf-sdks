@@ -27,12 +27,16 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import com.pronesoft.ecf.models.CreateTaxSequence201Response
 import com.pronesoft.ecf.models.CreateTaxSequenceRequest
 import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.ErrorResponse
 import com.pronesoft.ecf.models.GetNextNumber200Response
-import com.pronesoft.ecf.models.InvoiceType
+import com.pronesoft.ecf.models.InvoiceTypeSequence
 import com.pronesoft.ecf.models.ListTaxSequences200Response
+import com.pronesoft.ecf.models.UpdateTaxSequenceRequest
+import com.pronesoft.ecf.models.VoidTaxSequence200Response
+import com.pronesoft.ecf.models.VoidTaxSequenceRequest
 
 import com.google.gson.annotations.SerializedName
 
@@ -61,22 +65,23 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * POST /tax-sequences
      * Create new tax sequence
-     * Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * 
      * @param createTaxSequenceRequest 
-     * @return void
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return CreateTaxSequence201Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createTaxSequence(xTenantId: java.util.UUID, createTaxSequenceRequest: CreateTaxSequenceRequest) : Unit {
-        val localVarResponse = createTaxSequenceWithHttpInfo(xTenantId = xTenantId, createTaxSequenceRequest = createTaxSequenceRequest)
+    fun createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: java.util.UUID? = null) : CreateTaxSequence201Response {
+        val localVarResponse = createTaxSequenceWithHttpInfo(createTaxSequenceRequest = createTaxSequenceRequest, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CreateTaxSequence201Response
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -93,18 +98,19 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * POST /tax-sequences
      * Create new tax sequence
-     * Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
+     * 
      * @param createTaxSequenceRequest 
-     * @return ApiResponse<Unit?>
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse<CreateTaxSequence201Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createTaxSequenceWithHttpInfo(xTenantId: java.util.UUID, createTaxSequenceRequest: CreateTaxSequenceRequest) : ApiResponse<Unit?> {
-        val localVariableConfig = createTaxSequenceRequestConfig(xTenantId = xTenantId, createTaxSequenceRequest = createTaxSequenceRequest)
+    fun createTaxSequenceWithHttpInfo(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: java.util.UUID?) : ApiResponse<CreateTaxSequence201Response?> {
+        val localVariableConfig = createTaxSequenceRequestConfig(createTaxSequenceRequest = createTaxSequenceRequest, xTenantId = xTenantId)
 
-        return request<CreateTaxSequenceRequest, Unit>(
+        return request<CreateTaxSequenceRequest, CreateTaxSequence201Response>(
             localVariableConfig
         )
     }
@@ -112,15 +118,15 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation createTaxSequence
      *
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
      * @param createTaxSequenceRequest 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return RequestConfig
      */
-    fun createTaxSequenceRequestConfig(xTenantId: java.util.UUID, createTaxSequenceRequest: CreateTaxSequenceRequest) : RequestConfig<CreateTaxSequenceRequest> {
+    fun createTaxSequenceRequestConfig(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<CreateTaxSequenceRequest> {
         val localVariableBody = createTaxSequenceRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 
@@ -137,10 +143,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * GET /tax-sequences/next
      * Get next available fiscal number
-     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
-     * @param environment Target environment for the sequence.
+     * Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+     * @param type 
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return GetNextNumber200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -150,8 +156,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getNextNumber(xTenantId: java.util.UUID, type: InvoiceType, environment: Environment) : GetNextNumber200Response {
-        val localVarResponse = getNextNumberWithHttpInfo(xTenantId = xTenantId, type = type, environment = environment)
+    fun getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: java.util.UUID? = null) : GetNextNumber200Response {
+        val localVarResponse = getNextNumberWithHttpInfo(type = type, environment = environment, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GetNextNumber200Response
@@ -171,18 +177,18 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * GET /tax-sequences/next
      * Get next available fiscal number
-     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
-     * @param environment Target environment for the sequence.
+     * Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+     * @param type 
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return ApiResponse<GetNextNumber200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getNextNumberWithHttpInfo(xTenantId: java.util.UUID, type: InvoiceType, environment: Environment) : ApiResponse<GetNextNumber200Response?> {
-        val localVariableConfig = getNextNumberRequestConfig(xTenantId = xTenantId, type = type, environment = environment)
+    fun getNextNumberWithHttpInfo(type: InvoiceTypeSequence, environment: Environment, xTenantId: java.util.UUID?) : ApiResponse<GetNextNumber200Response?> {
+        val localVariableConfig = getNextNumberRequestConfig(type = type, environment = environment, xTenantId = xTenantId)
 
         return request<Unit, GetNextNumber200Response>(
             localVariableConfig
@@ -192,12 +198,12 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation getNextNumber
      *
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice).
-     * @param environment Target environment for the sequence.
+     * @param type 
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return RequestConfig
      */
-    fun getNextNumberRequestConfig(xTenantId: java.util.UUID, type: InvoiceType, environment: Environment) : RequestConfig<Unit> {
+    fun getNextNumberRequestConfig(type: InvoiceTypeSequence, environment: Environment, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -205,7 +211,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
                 put("environment", listOf(environment.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
@@ -221,9 +227,11 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * GET /tax-sequences
      * List tax sequences
-     * Returns all fiscal number sequences registered for the tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     * 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param type  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return ListTaxSequences200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -233,8 +241,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listTaxSequences(xTenantId: java.util.UUID, type: InvoiceType? = null) : ListTaxSequences200Response {
-        val localVarResponse = listTaxSequencesWithHttpInfo(xTenantId = xTenantId, type = type)
+    fun listTaxSequences(xTenantId: java.util.UUID? = null, type: InvoiceTypeSequence? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ListTaxSequences200Response {
+        val localVarResponse = listTaxSequencesWithHttpInfo(xTenantId = xTenantId, type = type, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ListTaxSequences200Response
@@ -254,17 +262,19 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * GET /tax-sequences
      * List tax sequences
-     * Returns all fiscal number sequences registered for the tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     * 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param type  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return ApiResponse<ListTaxSequences200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listTaxSequencesWithHttpInfo(xTenantId: java.util.UUID, type: InvoiceType?) : ApiResponse<ListTaxSequences200Response?> {
-        val localVariableConfig = listTaxSequencesRequestConfig(xTenantId = xTenantId, type = type)
+    fun listTaxSequencesWithHttpInfo(xTenantId: java.util.UUID?, type: InvoiceTypeSequence?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ListTaxSequences200Response?> {
+        val localVariableConfig = listTaxSequencesRequestConfig(xTenantId = xTenantId, type = type, page = page, limit = limit)
 
         return request<Unit, ListTaxSequences200Response>(
             localVariableConfig
@@ -274,25 +284,190 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation listTaxSequences
      *
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param type  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listTaxSequencesRequestConfig(xTenantId: java.util.UUID, type: InvoiceType?) : RequestConfig<Unit> {
+    fun listTaxSequencesRequestConfig(xTenantId: java.util.UUID?, type: InvoiceTypeSequence?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (type != null) {
                     put("type", listOf(type.toString()))
                 }
+                if (page != null) {
+                    put("page", listOf(page.toString()))
+                }
+                if (limit != null) {
+                    put("limit", listOf(limit.toString()))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/tax-sequences",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * PATCH /tax-sequences/{sequenceId}
+     * Update tax sequence
+     * 
+     * @param sequenceId 
+     * @param updateTaxSequenceRequest 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return void
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updateTaxSequence(sequenceId: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID? = null) : Unit {
+        val localVarResponse = updateTaxSequenceWithHttpInfo(sequenceId = sequenceId, updateTaxSequenceRequest = updateTaxSequenceRequest, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * PATCH /tax-sequences/{sequenceId}
+     * Update tax sequence
+     * 
+     * @param sequenceId 
+     * @param updateTaxSequenceRequest 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse<Unit?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateTaxSequenceWithHttpInfo(sequenceId: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : ApiResponse<Unit?> {
+        val localVariableConfig = updateTaxSequenceRequestConfig(sequenceId = sequenceId, updateTaxSequenceRequest = updateTaxSequenceRequest, xTenantId = xTenantId)
+
+        return request<UpdateTaxSequenceRequest, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation updateTaxSequence
+     *
+     * @param sequenceId 
+     * @param updateTaxSequenceRequest 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return RequestConfig
+     */
+    fun updateTaxSequenceRequestConfig(sequenceId: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<UpdateTaxSequenceRequest> {
+        val localVariableBody = updateTaxSequenceRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.PATCH,
+            path = "/tax-sequences/{sequenceId}".replace("{"+"sequenceId"+"}", encodeURIComponent(sequenceId.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /tax-sequences/void
+     * Void a range of fiscal numbers
+     * Cancels unused fiscal numbers and notifies DGII.
+     * @param voidTaxSequenceRequest 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return VoidTaxSequence200Response
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: java.util.UUID? = null) : VoidTaxSequence200Response {
+        val localVarResponse = voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest = voidTaxSequenceRequest, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as VoidTaxSequence200Response
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /tax-sequences/void
+     * Void a range of fiscal numbers
+     * Cancels unused fiscal numbers and notifies DGII.
+     * @param voidTaxSequenceRequest 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse<VoidTaxSequence200Response?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: java.util.UUID?) : ApiResponse<VoidTaxSequence200Response?> {
+        val localVariableConfig = voidTaxSequenceRequestConfig(voidTaxSequenceRequest = voidTaxSequenceRequest, xTenantId = xTenantId)
+
+        return request<VoidTaxSequenceRequest, VoidTaxSequence200Response>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation voidTaxSequence
+     *
+     * @param voidTaxSequenceRequest 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return RequestConfig
+     */
+    fun voidTaxSequenceRequestConfig(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<VoidTaxSequenceRequest> {
+        val localVariableBody = voidTaxSequenceRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/tax-sequences/void",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

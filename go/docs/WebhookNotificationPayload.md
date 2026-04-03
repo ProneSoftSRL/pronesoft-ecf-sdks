@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | Unique notification identifier (use for deduplication). | 
+**Id** | **string** | Unique notification ID (evt_xxx format). Use for deduplication. | 
 **Event** | [**WebhookEventType**](WebhookEventType.md) |  | 
-**Timestamp** | **time.Time** | When the event occurred (ISO 8601). | 
-**BusinessRnc** | **string** | RNC of the company that triggered the event. | 
-**Data** | **map[string]interface{}** | Event-specific data payload. | 
+**Timestamp** | **time.Time** |  | 
+**BusinessRnc** | **string** |  | 
+**Data** | **map[string]interface{}** |  | 
 
 ## Methods
 

@@ -6,20 +6,18 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createWebhook()**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook |
-| [**deleteWebhook()**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**getWebhook()**](WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
+| [**getWebhookStats()**](WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
 | [**listWebhooks()**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
 
-## `createWebhook()`
+## `getWebhook()`
 
 ```php
-createWebhook($rnc, $create_webhook_config): \PronesoftEcf\Model\WebhookConfigResponse
+getWebhook($rnc, $webhook_id): \PronesoftEcf\Model\WebhookConfigDetail
 ```
 
-Register new webhook
-
-Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end.
+Get webhook details
 
 ### Example
 
@@ -41,14 +39,14 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 130000001; // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).
-$create_webhook_config = {"url":"https://myapp.com/webhooks/ecf","eventTypes":["document.status_changed","sequence.depleted"],"description":"Main notification endpoint","secret":"my-super-secret-value-here"}; // \PronesoftEcf\Model\CreateWebhookConfig
+$rnc = 133190907; // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+$webhook_id = 'webhook_id_example'; // string
 
 try {
-    $result = $apiInstance->createWebhook($rnc, $create_webhook_config);
+    $result = $apiInstance->getWebhook($rnc, $webhook_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling WebhookConfigurationApi->createWebhook: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling WebhookConfigurationApi->getWebhook: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -56,12 +54,12 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). | |
-| **create_webhook_config** | [**\PronesoftEcf\Model\CreateWebhookConfig**](../Model/CreateWebhookConfig.md)|  | |
+| **rnc** | **string**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **webhook_id** | **string**|  | |
 
 ### Return type
 
-[**\PronesoftEcf\Model\WebhookConfigResponse**](../Model/WebhookConfigResponse.md)
+[**\PronesoftEcf\Model\WebhookConfigDetail**](../Model/WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -69,22 +67,20 @@ try {
 
 ### HTTP request headers
 
-- **Content-Type**: `application/json`
+- **Content-Type**: Not defined
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `deleteWebhook()`
+## `getWebhookStats()`
 
 ```php
-deleteWebhook($rnc, $webhook_id)
+getWebhookStats($rnc, $webhook_id, $period): \PronesoftEcf\Model\WebhookStats
 ```
 
-Delete webhook configuration
-
-Removes a registered webhook by its ID.
+Get webhook delivery statistics
 
 ### Example
 
@@ -106,13 +102,15 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 130000001; // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).
-$webhook_id = 'webhook_id_example'; // string | The unique ID of the webhook to delete.
+$rnc = 133190907; // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+$webhook_id = 'webhook_id_example'; // string
+$period = 'month'; // string
 
 try {
-    $apiInstance->deleteWebhook($rnc, $webhook_id);
+    $result = $apiInstance->getWebhookStats($rnc, $webhook_id, $period);
+    print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling WebhookConfigurationApi->deleteWebhook: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling WebhookConfigurationApi->getWebhookStats: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -120,12 +118,13 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). | |
-| **webhook_id** | **string**| The unique ID of the webhook to delete. | |
+| **rnc** | **string**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **webhook_id** | **string**|  | |
+| **period** | **string**|  | [optional] [default to &#39;month&#39;] |
 
 ### Return type
 
-void (empty response body)
+[**\PronesoftEcf\Model\WebhookStats**](../Model/WebhookStats.md)
 
 ### Authorization
 
@@ -148,7 +147,7 @@ listWebhooks($rnc): \PronesoftEcf\Model\WebhookConfigResponse[]
 
 List webhook configurations
 
-Returns all registered webhooks for the given RNC.
+Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
 
 ### Example
 
@@ -170,7 +169,7 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 130000001; // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).
+$rnc = 133190907; // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
 
 try {
     $result = $apiInstance->listWebhooks($rnc);
@@ -184,7 +183,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). | |
+| **rnc** | **string**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
 
 ### Return type
 

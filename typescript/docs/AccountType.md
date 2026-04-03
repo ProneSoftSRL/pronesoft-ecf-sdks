@@ -1,7 +1,7 @@
 
 # AccountType
 
-Bank account type: - `CT`: Current account (Cuenta Corriente) - `AH`: Savings account (Cuenta de Ahorros) - `OT`: Other 
+CT=Current account, AH=Savings, OT=Other
 
 ## Properties
 
@@ -11,7 +11,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { AccountType } from '@pronesoft/ecf-sdk'
+import type { AccountType } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

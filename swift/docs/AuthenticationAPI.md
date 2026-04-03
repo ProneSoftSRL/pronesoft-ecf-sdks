@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getAccessToken**](AuthenticationAPI.md#getaccesstoken) | **POST** /oauth/token | Get access token
+[**getAccessToken**](AuthenticationAPI.md#getaccesstoken) | **POST** /oauth/token | Get access token (OAuth 2.0)
 
 
 # **getAccessToken**
@@ -12,9 +12,9 @@ Method | HTTP request | Description
     open class func getAccessToken(oAuthTokenRequest: OAuthTokenRequest, completion: @escaping (_ data: OAuthTokenResponse?, _ error: Error?) -> Void)
 ```
 
-Get access token
+Get access token (OAuth 2.0)
 
-Authenticates using OAuth 2.0 **Client Credentials** flow. Returns a Bearer token to use in subsequent requests.  **This endpoint does NOT require an Authorization header.**  ``` POST /oauth/token Content-Type: application/json  {   \"clientId\": \"your-client-id\",   \"clientSecret\": \"your-client-secret\" } ```  Use the returned `accessToken` as: ``` Authorization: Bearer <accessToken> ``` 
+Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
 
 ### Example
 ```swift
@@ -23,7 +23,7 @@ import PronesoftEcf
 
 let oAuthTokenRequest = OAuthTokenRequest(clientId: "clientId_example", clientSecret: "clientSecret_example") // OAuthTokenRequest | 
 
-// Get access token
+// Get access token (OAuth 2.0)
 AuthenticationAPI.getAccessToken(oAuthTokenRequest: oAuthTokenRequest) { (response, error) in
     guard error == nil else {
         print(error)

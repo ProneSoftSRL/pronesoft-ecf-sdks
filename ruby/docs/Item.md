@@ -4,17 +4,33 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **line_number** | **Integer** | Sequential line number (1-based). Auto-assigned if omitted. | [optional] |
-| **name** | **String** | Product or service name. |  |
-| **type** | **String** | Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio)  |  |
+| **line_number** | **Integer** |  | [optional] |
+| **codes** | [**Array&lt;ItemCodesInner&gt;**](ItemCodesInner.md) |  | [optional] |
+| **name** | **String** |  |  |
+| **description** | **String** |  | [optional] |
+| **type** | **String** | 1&#x3D;Product, 2&#x3D;Service |  |
 | **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  |  |
-| **quantity** | **String** | Quantity (as string to support decimals with precision). |  |
-| **unit_price** | **String** | Unit price (as string to support decimals with precision). |  |
-| **amount** | **Float** | Total line amount (quantity × unitPrice, before discounts). |  |
-| **discount_amount** | **Float** | Discount amount applied to this line item. | [optional] |
-| **additional_taxes** | [**Array&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) | Additional taxes (e.g. ISC, IECS) for this line item. | [optional] |
-| **subquantities** | [**Array&lt;Subquantity&gt;**](Subquantity.md) | Sub-quantities (for items with multiple units of measure). | [optional] |
-| **alcohol_degree** | **Float** | Alcohol degree (required for alcoholic beverages subject to ISC). | [optional] |
+| **withholding_agent_indicator** | **Integer** |  | [optional] |
+| **withheld_itbis_amount** | **Float** |  | [optional] |
+| **withheld_isr_amount** | **Float** |  | [optional] |
+| **quantity** | **String** |  |  |
+| **unit_of_measure** | **Integer** |  | [optional] |
+| **reference_quantity** | **Float** |  | [optional] |
+| **reference_unit** | **Integer** |  | [optional] |
+| **reference_unit_price** | **Float** |  | [optional] |
+| **subquantities** | [**Array&lt;Subquantity&gt;**](Subquantity.md) |  | [optional] |
+| **alcohol_degree** | **Float** |  | [optional] |
+| **manufacturing_date** | **Time** |  | [optional] |
+| **expiration_date** | **Time** |  | [optional] |
+| **mining_info** | [**ItemMiningInfo**](ItemMiningInfo.md) |  | [optional] |
+| **unit_price** | **String** |  |  |
+| **discount_amount** | **Float** |  | [optional] |
+| **discount** | [**Array&lt;ItemDiscountInner&gt;**](ItemDiscountInner.md) |  | [optional] |
+| **surcharge_amount** | **Float** |  | [optional] |
+| **surcharge** | [**Array&lt;ItemDiscountInner&gt;**](ItemDiscountInner.md) |  | [optional] |
+| **additional_taxes** | [**Array&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) |  | [optional] |
+| **alternative_currency** | [**ItemAlternativeCurrency**](ItemAlternativeCurrency.md) |  | [optional] |
+| **amount** | **Float** |  |  |
 
 ## Example
 
@@ -23,16 +39,32 @@ require 'pronesoft_ecf'
 
 instance = PronesoftEcf::Item.new(
   line_number: 1,
-  name: Consulting Services,
+  codes: null,
+  name: Servicio profesional,
+  description: null,
   type: null,
   billing_indicator: null,
-  quantity: 2.5,
-  unit_price: 1500.00,
-  amount: 3750.0,
-  discount_amount: 0.0,
-  additional_taxes: null,
+  withholding_agent_indicator: null,
+  withheld_itbis_amount: null,
+  withheld_isr_amount: null,
+  quantity: 1,
+  unit_of_measure: null,
+  reference_quantity: null,
+  reference_unit: null,
+  reference_unit_price: null,
   subquantities: null,
-  alcohol_degree: null
+  alcohol_degree: null,
+  manufacturing_date: null,
+  expiration_date: null,
+  mining_info: null,
+  unit_price: 10000.00,
+  discount_amount: null,
+  discount: null,
+  surcharge_amount: null,
+  surcharge: null,
+  additional_taxes: null,
+  alternative_currency: null,
+  amount: 10000.0
 )
 ```
 

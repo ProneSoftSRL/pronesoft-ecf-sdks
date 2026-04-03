@@ -1,7 +1,7 @@
 
 # OAuthTokenResponse
 
-Successful token response. Use `accessToken` as a Bearer token in the `Authorization` header of all subsequent requests. 
+Bearer token valid for 24 hours (86400 seconds).
 
 ## Properties
 
@@ -14,13 +14,13 @@ Name | Type
 ## Example
 
 ```typescript
-import type { OAuthTokenResponse } from '@pronesoft/ecf-sdk'
+import type { OAuthTokenResponse } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "accessToken": eyJhbGciOiJSUzI1NiJ9...,
+  "accessToken": eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...,
   "tokenType": Bearer,
-  "expiresIn": 3600,
+  "expiresIn": 86400,
 } satisfies OAuthTokenResponse
 
 console.log(example)

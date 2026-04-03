@@ -4,11 +4,11 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **id** | **String** | Unique notification identifier (use for deduplication). |  |
+| **id** | **String** | Unique notification ID (evt_xxx format). Use for deduplication. |  |
 | **event** | [**WebhookEventType**](WebhookEventType.md) |  |  |
-| **timestamp** | **Time** | When the event occurred (ISO 8601). |  |
-| **business_rnc** | **String** | RNC of the company that triggered the event. |  |
-| **data** | **Object** | Event-specific data payload. |  |
+| **timestamp** | **Time** |  |  |
+| **business_rnc** | **String** |  |  |
+| **data** | **Object** |  |  |
 
 ## Example
 
@@ -16,7 +16,7 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::WebhookNotificationPayload.new(
-  id: null,
+  id: evt_1234567890abcdef,
   event: null,
   timestamp: null,
   business_rnc: null,

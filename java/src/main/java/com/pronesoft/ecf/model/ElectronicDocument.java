@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -24,14 +24,17 @@ import com.pronesoft.ecf.model.AdditionalInfo;
 import com.pronesoft.ecf.model.AlternativeCurrency;
 import com.pronesoft.ecf.model.Buyer;
 import com.pronesoft.ecf.model.DiscountOrSurcharge;
+import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.InvoiceType;
 import com.pronesoft.ecf.model.Item;
 import com.pronesoft.ecf.model.Page;
+import com.pronesoft.ecf.model.PaymentForm;
 import com.pronesoft.ecf.model.ReferenceInfo;
 import com.pronesoft.ecf.model.Subtotal;
 import com.pronesoft.ecf.model.Totals;
 import com.pronesoft.ecf.model.Transport;
 import java.io.IOException;
+import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,14 +64,19 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * The main e-CF document payload. Build this object and submit it to &#x60;POST /{environment}/ecf/submit&#x60;.  **Required fields:** &#x60;version&#x60;, &#x60;invoiceType&#x60;, &#x60;invoiceNumber&#x60;, &#x60;issueDate&#x60;, &#x60;items&#x60;, &#x60;totals&#x60;.  Use &#x60;GET /tax-sequences/next&#x60; to obtain the correct &#x60;invoiceNumber&#x60;. 
+ * Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ElectronicDocument {
+  public static final String SERIALIZED_NAME_ENVIRONMENT = "environment";
+  @SerializedName(SERIALIZED_NAME_ENVIRONMENT)
+  @javax.annotation.Nullable
+  private Environment environment;
+
   public static final String SERIALIZED_NAME_VERSION = "version";
   @SerializedName(SERIALIZED_NAME_VERSION)
   @javax.annotation.Nonnull
-  private String version = "1.0";
+  private Integer version = 1;
 
   public static final String SERIALIZED_NAME_INVOICE_TYPE = "invoiceType";
   @SerializedName(SERIALIZED_NAME_INVOICE_TYPE)
@@ -91,7 +99,74 @@ public class ElectronicDocument {
   private OffsetDateTime expirationDate;
 
   /**
-   * Income type code: - &#x60;01&#x60;: Operations Income - &#x60;02&#x60;: Financial Income - &#x60;03&#x60;: Extraordinary Income - &#x60;04&#x60;: Leasing Income - &#x60;05&#x60;: Income from Sales of Assets - &#x60;06&#x60;: Other Income 
+   * Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days
+   */
+  @JsonAdapter(CreditNoteIndicatorEnum.Adapter.class)
+  public enum CreditNoteIndicatorEnum {
+    _0("0"),
+    
+    _1("1");
+
+    private String value;
+
+    CreditNoteIndicatorEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static CreditNoteIndicatorEnum fromValue(String value) {
+      for (CreditNoteIndicatorEnum b : CreditNoteIndicatorEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<CreditNoteIndicatorEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final CreditNoteIndicatorEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public CreditNoteIndicatorEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return CreditNoteIndicatorEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      CreditNoteIndicatorEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_CREDIT_NOTE_INDICATOR = "creditNoteIndicator";
+  @SerializedName(SERIALIZED_NAME_CREDIT_NOTE_INDICATOR)
+  @javax.annotation.Nullable
+  private CreditNoteIndicatorEnum creditNoteIndicator;
+
+  public static final String SERIALIZED_NAME_DEFERRED_SENDING_INDICATOR = "deferredSendingIndicator";
+  @SerializedName(SERIALIZED_NAME_DEFERRED_SENDING_INDICATOR)
+  @javax.annotation.Nullable
+  private String deferredSendingIndicator;
+
+  public static final String SERIALIZED_NAME_TAXED_AMOUNT_INDICATOR = "taxedAmountIndicator";
+  @SerializedName(SERIALIZED_NAME_TAXED_AMOUNT_INDICATOR)
+  @javax.annotation.Nullable
+  private String taxedAmountIndicator;
+
+  /**
+   * 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other
    */
   @JsonAdapter(IncomeTypeEnum.Adapter.class)
   public enum IncomeTypeEnum {
@@ -156,7 +231,7 @@ public class ElectronicDocument {
   private IncomeTypeEnum incomeType;
 
   /**
-   * Payment condition: - &#x60;1&#x60;: Cash (Al Contado) - &#x60;2&#x60;: Credit (Crédito) - &#x60;3&#x60;: Mixed (Mixto) 
+   * 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed
    */
   @JsonAdapter(PaymentTypeEnum.Adapter.class)
   public enum PaymentTypeEnum {
@@ -224,6 +299,11 @@ public class ElectronicDocument {
   @javax.annotation.Nullable
   private String paymentTerms;
 
+  public static final String SERIALIZED_NAME_PAYMENT_FORMS = "paymentForms";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_FORMS)
+  @javax.annotation.Nonnull
+  private List<PaymentForm> paymentForms = new ArrayList<>();
+
   public static final String SERIALIZED_NAME_PAYMENT_ACCOUNT_TYPE = "paymentAccountType";
   @SerializedName(SERIALIZED_NAME_PAYMENT_ACCOUNT_TYPE)
   @javax.annotation.Nullable
@@ -239,62 +319,20 @@ public class ElectronicDocument {
   @javax.annotation.Nullable
   private String paymentBank;
 
-  /**
-   * For Credit Notes (type 34) only: - &#x60;0&#x60;: Affected invoice issued ≤ 30 days ago - &#x60;1&#x60;: Affected invoice issued &gt; 30 days ago 
-   */
-  @JsonAdapter(CreditNoteIndicatorEnum.Adapter.class)
-  public enum CreditNoteIndicatorEnum {
-    _0("0"),
-    
-    _1("1");
-
-    private String value;
-
-    CreditNoteIndicatorEnum(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static CreditNoteIndicatorEnum fromValue(String value) {
-      for (CreditNoteIndicatorEnum b : CreditNoteIndicatorEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-
-    public static class Adapter extends TypeAdapter<CreditNoteIndicatorEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final CreditNoteIndicatorEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public CreditNoteIndicatorEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return CreditNoteIndicatorEnum.fromValue(value);
-      }
-    }
-
-    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      String value = jsonElement.getAsString();
-      CreditNoteIndicatorEnum.fromValue(value);
-    }
-  }
-
-  public static final String SERIALIZED_NAME_CREDIT_NOTE_INDICATOR = "creditNoteIndicator";
-  @SerializedName(SERIALIZED_NAME_CREDIT_NOTE_INDICATOR)
+  public static final String SERIALIZED_NAME_SERVICE_START_DATE = "serviceStartDate";
+  @SerializedName(SERIALIZED_NAME_SERVICE_START_DATE)
   @javax.annotation.Nullable
-  private CreditNoteIndicatorEnum creditNoteIndicator;
+  private OffsetDateTime serviceStartDate;
+
+  public static final String SERIALIZED_NAME_SERVICE_END_DATE = "serviceEndDate";
+  @SerializedName(SERIALIZED_NAME_SERVICE_END_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime serviceEndDate;
+
+  public static final String SERIALIZED_NAME_TOTAL_PAGES = "totalPages";
+  @SerializedName(SERIALIZED_NAME_TOTAL_PAGES)
+  @javax.annotation.Nullable
+  private Integer totalPages;
 
   public static final String SERIALIZED_NAME_ISSUER_R_N_C = "issuerRNC";
   @SerializedName(SERIALIZED_NAME_ISSUER_R_N_C)
@@ -306,15 +344,80 @@ public class ElectronicDocument {
   @javax.annotation.Nullable
   private String issuerBusinessName;
 
-  public static final String SERIALIZED_NAME_ISSUER_EMAIL = "issuerEmail";
-  @SerializedName(SERIALIZED_NAME_ISSUER_EMAIL)
+  public static final String SERIALIZED_NAME_ISSUER_COMMERCIAL_NAME = "issuerCommercialName";
+  @SerializedName(SERIALIZED_NAME_ISSUER_COMMERCIAL_NAME)
   @javax.annotation.Nullable
-  private String issuerEmail;
+  private String issuerCommercialName;
+
+  public static final String SERIALIZED_NAME_BRANCH_NAME = "branchName";
+  @SerializedName(SERIALIZED_NAME_BRANCH_NAME)
+  @javax.annotation.Nullable
+  private String branchName;
+
+  public static final String SERIALIZED_NAME_ISSUER_ADDRESS = "issuerAddress";
+  @SerializedName(SERIALIZED_NAME_ISSUER_ADDRESS)
+  @javax.annotation.Nullable
+  private String issuerAddress;
+
+  public static final String SERIALIZED_NAME_MUNICIPALITY_CODE = "municipalityCode";
+  @SerializedName(SERIALIZED_NAME_MUNICIPALITY_CODE)
+  @javax.annotation.Nullable
+  private String municipalityCode;
+
+  public static final String SERIALIZED_NAME_PROVINCE_CODE = "provinceCode";
+  @SerializedName(SERIALIZED_NAME_PROVINCE_CODE)
+  @javax.annotation.Nullable
+  private String provinceCode;
 
   public static final String SERIALIZED_NAME_ISSUER_PHONES = "issuerPhones";
   @SerializedName(SERIALIZED_NAME_ISSUER_PHONES)
   @javax.annotation.Nullable
   private List<String> issuerPhones = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_ISSUER_EMAIL = "issuerEmail";
+  @SerializedName(SERIALIZED_NAME_ISSUER_EMAIL)
+  @javax.annotation.Nullable
+  private String issuerEmail;
+
+  public static final String SERIALIZED_NAME_ISSUER_WEBSITE = "issuerWebsite";
+  @SerializedName(SERIALIZED_NAME_ISSUER_WEBSITE)
+  @javax.annotation.Nullable
+  private URI issuerWebsite;
+
+  public static final String SERIALIZED_NAME_ISSUER_ECONOMIC_ACTIVITY = "issuerEconomicActivity";
+  @SerializedName(SERIALIZED_NAME_ISSUER_ECONOMIC_ACTIVITY)
+  @javax.annotation.Nullable
+  private String issuerEconomicActivity;
+
+  public static final String SERIALIZED_NAME_SELLER_CODE = "sellerCode";
+  @SerializedName(SERIALIZED_NAME_SELLER_CODE)
+  @javax.annotation.Nullable
+  private String sellerCode;
+
+  public static final String SERIALIZED_NAME_INTERNAL_INVOICE_NUMBER = "internalInvoiceNumber";
+  @SerializedName(SERIALIZED_NAME_INTERNAL_INVOICE_NUMBER)
+  @javax.annotation.Nullable
+  private String internalInvoiceNumber;
+
+  public static final String SERIALIZED_NAME_INTERNAL_ORDER_NUMBER = "internalOrderNumber";
+  @SerializedName(SERIALIZED_NAME_INTERNAL_ORDER_NUMBER)
+  @javax.annotation.Nullable
+  private Integer internalOrderNumber;
+
+  public static final String SERIALIZED_NAME_SALES_ZONE = "salesZone";
+  @SerializedName(SERIALIZED_NAME_SALES_ZONE)
+  @javax.annotation.Nullable
+  private String salesZone;
+
+  public static final String SERIALIZED_NAME_SALES_ROUTE = "salesRoute";
+  @SerializedName(SERIALIZED_NAME_SALES_ROUTE)
+  @javax.annotation.Nullable
+  private String salesRoute;
+
+  public static final String SERIALIZED_NAME_ADDITIONAL_ISSUER_INFO = "additionalIssuerInfo";
+  @SerializedName(SERIALIZED_NAME_ADDITIONAL_ISSUER_INFO)
+  @javax.annotation.Nullable
+  private String additionalIssuerInfo;
 
   public static final String SERIALIZED_NAME_BUYER = "buyer";
   @SerializedName(SERIALIZED_NAME_BUYER)
@@ -354,7 +457,7 @@ public class ElectronicDocument {
   public static final String SERIALIZED_NAME_SUBTOTALS = "subtotals";
   @SerializedName(SERIALIZED_NAME_SUBTOTALS)
   @javax.annotation.Nullable
-  private List<Subtotal> subtotals = new ArrayList<>();
+  private Subtotal subtotals;
 
   public static final String SERIALIZED_NAME_DISCOUNTS_OR_SURCHARGES = "discountsOrSurcharges";
   @SerializedName(SERIALIZED_NAME_DISCOUNTS_OR_SURCHARGES)
@@ -364,26 +467,45 @@ public class ElectronicDocument {
   public static final String SERIALIZED_NAME_PAGES = "pages";
   @SerializedName(SERIALIZED_NAME_PAGES)
   @javax.annotation.Nullable
-  private List<Page> pages = new ArrayList<>();
+  private Page pages;
 
   public ElectronicDocument() {
   }
 
-  public ElectronicDocument version(@javax.annotation.Nonnull String version) {
+  public ElectronicDocument environment(@javax.annotation.Nullable Environment environment) {
+    this.environment = environment;
+    return this;
+  }
+
+  /**
+   * Get environment
+   * @return environment
+   */
+  @javax.annotation.Nullable
+  public Environment getEnvironment() {
+    return environment;
+  }
+
+  public void setEnvironment(@javax.annotation.Nullable Environment environment) {
+    this.environment = environment;
+  }
+
+
+  public ElectronicDocument version(@javax.annotation.Nonnull Integer version) {
     this.version = version;
     return this;
   }
 
   /**
-   * Document schema version. Always \&quot;1.0\&quot;.
+   * Always 1.
    * @return version
    */
   @javax.annotation.Nonnull
-  public String getVersion() {
+  public Integer getVersion() {
     return version;
   }
 
-  public void setVersion(@javax.annotation.Nonnull String version) {
+  public void setVersion(@javax.annotation.Nonnull Integer version) {
     this.version = version;
   }
 
@@ -413,7 +535,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * e-NCF number (13 alphanumeric characters). Obtain from &#x60;GET /tax-sequences/next&#x60;. 
+   * e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
    * @return invoiceNumber
    */
   @javax.annotation.Nonnull
@@ -432,7 +554,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Document issue date and time (ISO 8601).
+   * Get issueDate
    * @return issueDate
    */
   @javax.annotation.Nonnull
@@ -451,7 +573,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Document expiration date (optional, for credit documents).
+   * Get expirationDate
    * @return expirationDate
    */
   @javax.annotation.Nullable
@@ -464,13 +586,70 @@ public class ElectronicDocument {
   }
 
 
+  public ElectronicDocument creditNoteIndicator(@javax.annotation.Nullable CreditNoteIndicatorEnum creditNoteIndicator) {
+    this.creditNoteIndicator = creditNoteIndicator;
+    return this;
+  }
+
+  /**
+   * Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days
+   * @return creditNoteIndicator
+   */
+  @javax.annotation.Nullable
+  public CreditNoteIndicatorEnum getCreditNoteIndicator() {
+    return creditNoteIndicator;
+  }
+
+  public void setCreditNoteIndicator(@javax.annotation.Nullable CreditNoteIndicatorEnum creditNoteIndicator) {
+    this.creditNoteIndicator = creditNoteIndicator;
+  }
+
+
+  public ElectronicDocument deferredSendingIndicator(@javax.annotation.Nullable String deferredSendingIndicator) {
+    this.deferredSendingIndicator = deferredSendingIndicator;
+    return this;
+  }
+
+  /**
+   * Get deferredSendingIndicator
+   * @return deferredSendingIndicator
+   */
+  @javax.annotation.Nullable
+  public String getDeferredSendingIndicator() {
+    return deferredSendingIndicator;
+  }
+
+  public void setDeferredSendingIndicator(@javax.annotation.Nullable String deferredSendingIndicator) {
+    this.deferredSendingIndicator = deferredSendingIndicator;
+  }
+
+
+  public ElectronicDocument taxedAmountIndicator(@javax.annotation.Nullable String taxedAmountIndicator) {
+    this.taxedAmountIndicator = taxedAmountIndicator;
+    return this;
+  }
+
+  /**
+   * Get taxedAmountIndicator
+   * @return taxedAmountIndicator
+   */
+  @javax.annotation.Nullable
+  public String getTaxedAmountIndicator() {
+    return taxedAmountIndicator;
+  }
+
+  public void setTaxedAmountIndicator(@javax.annotation.Nullable String taxedAmountIndicator) {
+    this.taxedAmountIndicator = taxedAmountIndicator;
+  }
+
+
   public ElectronicDocument incomeType(@javax.annotation.Nullable IncomeTypeEnum incomeType) {
     this.incomeType = incomeType;
     return this;
   }
 
   /**
-   * Income type code: - &#x60;01&#x60;: Operations Income - &#x60;02&#x60;: Financial Income - &#x60;03&#x60;: Extraordinary Income - &#x60;04&#x60;: Leasing Income - &#x60;05&#x60;: Income from Sales of Assets - &#x60;06&#x60;: Other Income 
+   * 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other
    * @return incomeType
    */
   @javax.annotation.Nullable
@@ -489,7 +668,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Payment condition: - &#x60;1&#x60;: Cash (Al Contado) - &#x60;2&#x60;: Credit (Crédito) - &#x60;3&#x60;: Mixed (Mixto) 
+   * 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed
    * @return paymentType
    */
   @javax.annotation.Nullable
@@ -508,7 +687,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Payment due date (required when paymentType is \&quot;2\&quot; or \&quot;3\&quot;).
+   * Get paymentDeadline
    * @return paymentDeadline
    */
   @javax.annotation.Nullable
@@ -527,7 +706,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Payment terms description (e.g. \&quot;Net 30\&quot;).
+   * Get paymentTerms
    * @return paymentTerms
    */
   @javax.annotation.Nullable
@@ -537,6 +716,33 @@ public class ElectronicDocument {
 
   public void setPaymentTerms(@javax.annotation.Nullable String paymentTerms) {
     this.paymentTerms = paymentTerms;
+  }
+
+
+  public ElectronicDocument paymentForms(@javax.annotation.Nonnull List<PaymentForm> paymentForms) {
+    this.paymentForms = paymentForms;
+    return this;
+  }
+
+  public ElectronicDocument addPaymentFormsItem(PaymentForm paymentFormsItem) {
+    if (this.paymentForms == null) {
+      this.paymentForms = new ArrayList<>();
+    }
+    this.paymentForms.add(paymentFormsItem);
+    return this;
+  }
+
+  /**
+   * Payment breakdown. Required.
+   * @return paymentForms
+   */
+  @javax.annotation.Nonnull
+  public List<PaymentForm> getPaymentForms() {
+    return paymentForms;
+  }
+
+  public void setPaymentForms(@javax.annotation.Nonnull List<PaymentForm> paymentForms) {
+    this.paymentForms = paymentForms;
   }
 
 
@@ -565,7 +771,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Bank account number for payment reference.
+   * Get paymentAccountNumber
    * @return paymentAccountNumber
    */
   @javax.annotation.Nullable
@@ -584,7 +790,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Bank name for payment reference.
+   * Get paymentBank
    * @return paymentBank
    */
   @javax.annotation.Nullable
@@ -597,22 +803,60 @@ public class ElectronicDocument {
   }
 
 
-  public ElectronicDocument creditNoteIndicator(@javax.annotation.Nullable CreditNoteIndicatorEnum creditNoteIndicator) {
-    this.creditNoteIndicator = creditNoteIndicator;
+  public ElectronicDocument serviceStartDate(@javax.annotation.Nullable OffsetDateTime serviceStartDate) {
+    this.serviceStartDate = serviceStartDate;
     return this;
   }
 
   /**
-   * For Credit Notes (type 34) only: - &#x60;0&#x60;: Affected invoice issued ≤ 30 days ago - &#x60;1&#x60;: Affected invoice issued &gt; 30 days ago 
-   * @return creditNoteIndicator
+   * Get serviceStartDate
+   * @return serviceStartDate
    */
   @javax.annotation.Nullable
-  public CreditNoteIndicatorEnum getCreditNoteIndicator() {
-    return creditNoteIndicator;
+  public OffsetDateTime getServiceStartDate() {
+    return serviceStartDate;
   }
 
-  public void setCreditNoteIndicator(@javax.annotation.Nullable CreditNoteIndicatorEnum creditNoteIndicator) {
-    this.creditNoteIndicator = creditNoteIndicator;
+  public void setServiceStartDate(@javax.annotation.Nullable OffsetDateTime serviceStartDate) {
+    this.serviceStartDate = serviceStartDate;
+  }
+
+
+  public ElectronicDocument serviceEndDate(@javax.annotation.Nullable OffsetDateTime serviceEndDate) {
+    this.serviceEndDate = serviceEndDate;
+    return this;
+  }
+
+  /**
+   * Get serviceEndDate
+   * @return serviceEndDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getServiceEndDate() {
+    return serviceEndDate;
+  }
+
+  public void setServiceEndDate(@javax.annotation.Nullable OffsetDateTime serviceEndDate) {
+    this.serviceEndDate = serviceEndDate;
+  }
+
+
+  public ElectronicDocument totalPages(@javax.annotation.Nullable Integer totalPages) {
+    this.totalPages = totalPages;
+    return this;
+  }
+
+  /**
+   * Get totalPages
+   * @return totalPages
+   */
+  @javax.annotation.Nullable
+  public Integer getTotalPages() {
+    return totalPages;
+  }
+
+  public void setTotalPages(@javax.annotation.Nullable Integer totalPages) {
+    this.totalPages = totalPages;
   }
 
 
@@ -622,7 +866,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * RNC of the issuing company (overrides tenant default if provided).
+   * RNC of the issuing company.
    * @return issuerRNC
    */
   @javax.annotation.Nullable
@@ -641,7 +885,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Legal business name of the issuer.
+   * Get issuerBusinessName
    * @return issuerBusinessName
    */
   @javax.annotation.Nullable
@@ -654,22 +898,98 @@ public class ElectronicDocument {
   }
 
 
-  public ElectronicDocument issuerEmail(@javax.annotation.Nullable String issuerEmail) {
-    this.issuerEmail = issuerEmail;
+  public ElectronicDocument issuerCommercialName(@javax.annotation.Nullable String issuerCommercialName) {
+    this.issuerCommercialName = issuerCommercialName;
     return this;
   }
 
   /**
-   * Contact email of the issuer.
-   * @return issuerEmail
+   * Get issuerCommercialName
+   * @return issuerCommercialName
    */
   @javax.annotation.Nullable
-  public String getIssuerEmail() {
-    return issuerEmail;
+  public String getIssuerCommercialName() {
+    return issuerCommercialName;
   }
 
-  public void setIssuerEmail(@javax.annotation.Nullable String issuerEmail) {
-    this.issuerEmail = issuerEmail;
+  public void setIssuerCommercialName(@javax.annotation.Nullable String issuerCommercialName) {
+    this.issuerCommercialName = issuerCommercialName;
+  }
+
+
+  public ElectronicDocument branchName(@javax.annotation.Nullable String branchName) {
+    this.branchName = branchName;
+    return this;
+  }
+
+  /**
+   * Get branchName
+   * @return branchName
+   */
+  @javax.annotation.Nullable
+  public String getBranchName() {
+    return branchName;
+  }
+
+  public void setBranchName(@javax.annotation.Nullable String branchName) {
+    this.branchName = branchName;
+  }
+
+
+  public ElectronicDocument issuerAddress(@javax.annotation.Nullable String issuerAddress) {
+    this.issuerAddress = issuerAddress;
+    return this;
+  }
+
+  /**
+   * Get issuerAddress
+   * @return issuerAddress
+   */
+  @javax.annotation.Nullable
+  public String getIssuerAddress() {
+    return issuerAddress;
+  }
+
+  public void setIssuerAddress(@javax.annotation.Nullable String issuerAddress) {
+    this.issuerAddress = issuerAddress;
+  }
+
+
+  public ElectronicDocument municipalityCode(@javax.annotation.Nullable String municipalityCode) {
+    this.municipalityCode = municipalityCode;
+    return this;
+  }
+
+  /**
+   * Get municipalityCode
+   * @return municipalityCode
+   */
+  @javax.annotation.Nullable
+  public String getMunicipalityCode() {
+    return municipalityCode;
+  }
+
+  public void setMunicipalityCode(@javax.annotation.Nullable String municipalityCode) {
+    this.municipalityCode = municipalityCode;
+  }
+
+
+  public ElectronicDocument provinceCode(@javax.annotation.Nullable String provinceCode) {
+    this.provinceCode = provinceCode;
+    return this;
+  }
+
+  /**
+   * Get provinceCode
+   * @return provinceCode
+   */
+  @javax.annotation.Nullable
+  public String getProvinceCode() {
+    return provinceCode;
+  }
+
+  public void setProvinceCode(@javax.annotation.Nullable String provinceCode) {
+    this.provinceCode = provinceCode;
   }
 
 
@@ -687,7 +1007,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Issuer phone numbers in format \&quot;809-555-1234\&quot;.
+   * Get issuerPhones
    * @return issuerPhones
    */
   @javax.annotation.Nullable
@@ -697,6 +1017,177 @@ public class ElectronicDocument {
 
   public void setIssuerPhones(@javax.annotation.Nullable List<String> issuerPhones) {
     this.issuerPhones = issuerPhones;
+  }
+
+
+  public ElectronicDocument issuerEmail(@javax.annotation.Nullable String issuerEmail) {
+    this.issuerEmail = issuerEmail;
+    return this;
+  }
+
+  /**
+   * Get issuerEmail
+   * @return issuerEmail
+   */
+  @javax.annotation.Nullable
+  public String getIssuerEmail() {
+    return issuerEmail;
+  }
+
+  public void setIssuerEmail(@javax.annotation.Nullable String issuerEmail) {
+    this.issuerEmail = issuerEmail;
+  }
+
+
+  public ElectronicDocument issuerWebsite(@javax.annotation.Nullable URI issuerWebsite) {
+    this.issuerWebsite = issuerWebsite;
+    return this;
+  }
+
+  /**
+   * Get issuerWebsite
+   * @return issuerWebsite
+   */
+  @javax.annotation.Nullable
+  public URI getIssuerWebsite() {
+    return issuerWebsite;
+  }
+
+  public void setIssuerWebsite(@javax.annotation.Nullable URI issuerWebsite) {
+    this.issuerWebsite = issuerWebsite;
+  }
+
+
+  public ElectronicDocument issuerEconomicActivity(@javax.annotation.Nullable String issuerEconomicActivity) {
+    this.issuerEconomicActivity = issuerEconomicActivity;
+    return this;
+  }
+
+  /**
+   * Get issuerEconomicActivity
+   * @return issuerEconomicActivity
+   */
+  @javax.annotation.Nullable
+  public String getIssuerEconomicActivity() {
+    return issuerEconomicActivity;
+  }
+
+  public void setIssuerEconomicActivity(@javax.annotation.Nullable String issuerEconomicActivity) {
+    this.issuerEconomicActivity = issuerEconomicActivity;
+  }
+
+
+  public ElectronicDocument sellerCode(@javax.annotation.Nullable String sellerCode) {
+    this.sellerCode = sellerCode;
+    return this;
+  }
+
+  /**
+   * Get sellerCode
+   * @return sellerCode
+   */
+  @javax.annotation.Nullable
+  public String getSellerCode() {
+    return sellerCode;
+  }
+
+  public void setSellerCode(@javax.annotation.Nullable String sellerCode) {
+    this.sellerCode = sellerCode;
+  }
+
+
+  public ElectronicDocument internalInvoiceNumber(@javax.annotation.Nullable String internalInvoiceNumber) {
+    this.internalInvoiceNumber = internalInvoiceNumber;
+    return this;
+  }
+
+  /**
+   * Get internalInvoiceNumber
+   * @return internalInvoiceNumber
+   */
+  @javax.annotation.Nullable
+  public String getInternalInvoiceNumber() {
+    return internalInvoiceNumber;
+  }
+
+  public void setInternalInvoiceNumber(@javax.annotation.Nullable String internalInvoiceNumber) {
+    this.internalInvoiceNumber = internalInvoiceNumber;
+  }
+
+
+  public ElectronicDocument internalOrderNumber(@javax.annotation.Nullable Integer internalOrderNumber) {
+    this.internalOrderNumber = internalOrderNumber;
+    return this;
+  }
+
+  /**
+   * Get internalOrderNumber
+   * @return internalOrderNumber
+   */
+  @javax.annotation.Nullable
+  public Integer getInternalOrderNumber() {
+    return internalOrderNumber;
+  }
+
+  public void setInternalOrderNumber(@javax.annotation.Nullable Integer internalOrderNumber) {
+    this.internalOrderNumber = internalOrderNumber;
+  }
+
+
+  public ElectronicDocument salesZone(@javax.annotation.Nullable String salesZone) {
+    this.salesZone = salesZone;
+    return this;
+  }
+
+  /**
+   * Get salesZone
+   * @return salesZone
+   */
+  @javax.annotation.Nullable
+  public String getSalesZone() {
+    return salesZone;
+  }
+
+  public void setSalesZone(@javax.annotation.Nullable String salesZone) {
+    this.salesZone = salesZone;
+  }
+
+
+  public ElectronicDocument salesRoute(@javax.annotation.Nullable String salesRoute) {
+    this.salesRoute = salesRoute;
+    return this;
+  }
+
+  /**
+   * Get salesRoute
+   * @return salesRoute
+   */
+  @javax.annotation.Nullable
+  public String getSalesRoute() {
+    return salesRoute;
+  }
+
+  public void setSalesRoute(@javax.annotation.Nullable String salesRoute) {
+    this.salesRoute = salesRoute;
+  }
+
+
+  public ElectronicDocument additionalIssuerInfo(@javax.annotation.Nullable String additionalIssuerInfo) {
+    this.additionalIssuerInfo = additionalIssuerInfo;
+    return this;
+  }
+
+  /**
+   * Get additionalIssuerInfo
+   * @return additionalIssuerInfo
+   */
+  @javax.annotation.Nullable
+  public String getAdditionalIssuerInfo() {
+    return additionalIssuerInfo;
+  }
+
+  public void setAdditionalIssuerInfo(@javax.annotation.Nullable String additionalIssuerInfo) {
+    this.additionalIssuerInfo = additionalIssuerInfo;
   }
 
 
@@ -733,7 +1224,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Line items of the document. At least 1 required.
+   * Get items
    * @return items
    */
   @javax.annotation.Nonnull
@@ -841,29 +1332,21 @@ public class ElectronicDocument {
   }
 
 
-  public ElectronicDocument subtotals(@javax.annotation.Nullable List<Subtotal> subtotals) {
+  public ElectronicDocument subtotals(@javax.annotation.Nullable Subtotal subtotals) {
     this.subtotals = subtotals;
     return this;
   }
 
-  public ElectronicDocument addSubtotalsItem(Subtotal subtotalsItem) {
-    if (this.subtotals == null) {
-      this.subtotals = new ArrayList<>();
-    }
-    this.subtotals.add(subtotalsItem);
-    return this;
-  }
-
   /**
-   * Page/section subtotals (for multi-page documents).
+   * Get subtotals
    * @return subtotals
    */
   @javax.annotation.Nullable
-  public List<Subtotal> getSubtotals() {
+  public Subtotal getSubtotals() {
     return subtotals;
   }
 
-  public void setSubtotals(@javax.annotation.Nullable List<Subtotal> subtotals) {
+  public void setSubtotals(@javax.annotation.Nullable Subtotal subtotals) {
     this.subtotals = subtotals;
   }
 
@@ -882,7 +1365,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Document-level discounts or surcharges.
+   * Get discountsOrSurcharges
    * @return discountsOrSurcharges
    */
   @javax.annotation.Nullable
@@ -895,29 +1378,21 @@ public class ElectronicDocument {
   }
 
 
-  public ElectronicDocument pages(@javax.annotation.Nullable List<Page> pages) {
+  public ElectronicDocument pages(@javax.annotation.Nullable Page pages) {
     this.pages = pages;
     return this;
   }
 
-  public ElectronicDocument addPagesItem(Page pagesItem) {
-    if (this.pages == null) {
-      this.pages = new ArrayList<>();
-    }
-    this.pages.add(pagesItem);
-    return this;
-  }
-
   /**
-   * Page breakdown for multi-page documents.
+   * Get pages
    * @return pages
    */
   @javax.annotation.Nullable
-  public List<Page> getPages() {
+  public Page getPages() {
     return pages;
   }
 
-  public void setPages(@javax.annotation.Nullable List<Page> pages) {
+  public void setPages(@javax.annotation.Nullable Page pages) {
     this.pages = pages;
   }
 
@@ -932,23 +1407,43 @@ public class ElectronicDocument {
       return false;
     }
     ElectronicDocument electronicDocument = (ElectronicDocument) o;
-    return Objects.equals(this.version, electronicDocument.version) &&
+    return Objects.equals(this.environment, electronicDocument.environment) &&
+        Objects.equals(this.version, electronicDocument.version) &&
         Objects.equals(this.invoiceType, electronicDocument.invoiceType) &&
         Objects.equals(this.invoiceNumber, electronicDocument.invoiceNumber) &&
         Objects.equals(this.issueDate, electronicDocument.issueDate) &&
         Objects.equals(this.expirationDate, electronicDocument.expirationDate) &&
+        Objects.equals(this.creditNoteIndicator, electronicDocument.creditNoteIndicator) &&
+        Objects.equals(this.deferredSendingIndicator, electronicDocument.deferredSendingIndicator) &&
+        Objects.equals(this.taxedAmountIndicator, electronicDocument.taxedAmountIndicator) &&
         Objects.equals(this.incomeType, electronicDocument.incomeType) &&
         Objects.equals(this.paymentType, electronicDocument.paymentType) &&
         Objects.equals(this.paymentDeadline, electronicDocument.paymentDeadline) &&
         Objects.equals(this.paymentTerms, electronicDocument.paymentTerms) &&
+        Objects.equals(this.paymentForms, electronicDocument.paymentForms) &&
         Objects.equals(this.paymentAccountType, electronicDocument.paymentAccountType) &&
         Objects.equals(this.paymentAccountNumber, electronicDocument.paymentAccountNumber) &&
         Objects.equals(this.paymentBank, electronicDocument.paymentBank) &&
-        Objects.equals(this.creditNoteIndicator, electronicDocument.creditNoteIndicator) &&
+        Objects.equals(this.serviceStartDate, electronicDocument.serviceStartDate) &&
+        Objects.equals(this.serviceEndDate, electronicDocument.serviceEndDate) &&
+        Objects.equals(this.totalPages, electronicDocument.totalPages) &&
         Objects.equals(this.issuerRNC, electronicDocument.issuerRNC) &&
         Objects.equals(this.issuerBusinessName, electronicDocument.issuerBusinessName) &&
-        Objects.equals(this.issuerEmail, electronicDocument.issuerEmail) &&
+        Objects.equals(this.issuerCommercialName, electronicDocument.issuerCommercialName) &&
+        Objects.equals(this.branchName, electronicDocument.branchName) &&
+        Objects.equals(this.issuerAddress, electronicDocument.issuerAddress) &&
+        Objects.equals(this.municipalityCode, electronicDocument.municipalityCode) &&
+        Objects.equals(this.provinceCode, electronicDocument.provinceCode) &&
         Objects.equals(this.issuerPhones, electronicDocument.issuerPhones) &&
+        Objects.equals(this.issuerEmail, electronicDocument.issuerEmail) &&
+        Objects.equals(this.issuerWebsite, electronicDocument.issuerWebsite) &&
+        Objects.equals(this.issuerEconomicActivity, electronicDocument.issuerEconomicActivity) &&
+        Objects.equals(this.sellerCode, electronicDocument.sellerCode) &&
+        Objects.equals(this.internalInvoiceNumber, electronicDocument.internalInvoiceNumber) &&
+        Objects.equals(this.internalOrderNumber, electronicDocument.internalOrderNumber) &&
+        Objects.equals(this.salesZone, electronicDocument.salesZone) &&
+        Objects.equals(this.salesRoute, electronicDocument.salesRoute) &&
+        Objects.equals(this.additionalIssuerInfo, electronicDocument.additionalIssuerInfo) &&
         Objects.equals(this.buyer, electronicDocument.buyer) &&
         Objects.equals(this.items, electronicDocument.items) &&
         Objects.equals(this.totals, electronicDocument.totals) &&
@@ -963,30 +1458,50 @@ public class ElectronicDocument {
 
   @Override
   public int hashCode() {
-    return Objects.hash(version, invoiceType, invoiceNumber, issueDate, expirationDate, incomeType, paymentType, paymentDeadline, paymentTerms, paymentAccountType, paymentAccountNumber, paymentBank, creditNoteIndicator, issuerRNC, issuerBusinessName, issuerEmail, issuerPhones, buyer, items, totals, transport, additionalInfo, alternativeCurrency, referenceInfo, subtotals, discountsOrSurcharges, pages);
+    return Objects.hash(environment, version, invoiceType, invoiceNumber, issueDate, expirationDate, creditNoteIndicator, deferredSendingIndicator, taxedAmountIndicator, incomeType, paymentType, paymentDeadline, paymentTerms, paymentForms, paymentAccountType, paymentAccountNumber, paymentBank, serviceStartDate, serviceEndDate, totalPages, issuerRNC, issuerBusinessName, issuerCommercialName, branchName, issuerAddress, municipalityCode, provinceCode, issuerPhones, issuerEmail, issuerWebsite, issuerEconomicActivity, sellerCode, internalInvoiceNumber, internalOrderNumber, salesZone, salesRoute, additionalIssuerInfo, buyer, items, totals, transport, additionalInfo, alternativeCurrency, referenceInfo, subtotals, discountsOrSurcharges, pages);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ElectronicDocument {\n");
+    sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    invoiceType: ").append(toIndentedString(invoiceType)).append("\n");
     sb.append("    invoiceNumber: ").append(toIndentedString(invoiceNumber)).append("\n");
     sb.append("    issueDate: ").append(toIndentedString(issueDate)).append("\n");
     sb.append("    expirationDate: ").append(toIndentedString(expirationDate)).append("\n");
+    sb.append("    creditNoteIndicator: ").append(toIndentedString(creditNoteIndicator)).append("\n");
+    sb.append("    deferredSendingIndicator: ").append(toIndentedString(deferredSendingIndicator)).append("\n");
+    sb.append("    taxedAmountIndicator: ").append(toIndentedString(taxedAmountIndicator)).append("\n");
     sb.append("    incomeType: ").append(toIndentedString(incomeType)).append("\n");
     sb.append("    paymentType: ").append(toIndentedString(paymentType)).append("\n");
     sb.append("    paymentDeadline: ").append(toIndentedString(paymentDeadline)).append("\n");
     sb.append("    paymentTerms: ").append(toIndentedString(paymentTerms)).append("\n");
+    sb.append("    paymentForms: ").append(toIndentedString(paymentForms)).append("\n");
     sb.append("    paymentAccountType: ").append(toIndentedString(paymentAccountType)).append("\n");
     sb.append("    paymentAccountNumber: ").append(toIndentedString(paymentAccountNumber)).append("\n");
     sb.append("    paymentBank: ").append(toIndentedString(paymentBank)).append("\n");
-    sb.append("    creditNoteIndicator: ").append(toIndentedString(creditNoteIndicator)).append("\n");
+    sb.append("    serviceStartDate: ").append(toIndentedString(serviceStartDate)).append("\n");
+    sb.append("    serviceEndDate: ").append(toIndentedString(serviceEndDate)).append("\n");
+    sb.append("    totalPages: ").append(toIndentedString(totalPages)).append("\n");
     sb.append("    issuerRNC: ").append(toIndentedString(issuerRNC)).append("\n");
     sb.append("    issuerBusinessName: ").append(toIndentedString(issuerBusinessName)).append("\n");
-    sb.append("    issuerEmail: ").append(toIndentedString(issuerEmail)).append("\n");
+    sb.append("    issuerCommercialName: ").append(toIndentedString(issuerCommercialName)).append("\n");
+    sb.append("    branchName: ").append(toIndentedString(branchName)).append("\n");
+    sb.append("    issuerAddress: ").append(toIndentedString(issuerAddress)).append("\n");
+    sb.append("    municipalityCode: ").append(toIndentedString(municipalityCode)).append("\n");
+    sb.append("    provinceCode: ").append(toIndentedString(provinceCode)).append("\n");
     sb.append("    issuerPhones: ").append(toIndentedString(issuerPhones)).append("\n");
+    sb.append("    issuerEmail: ").append(toIndentedString(issuerEmail)).append("\n");
+    sb.append("    issuerWebsite: ").append(toIndentedString(issuerWebsite)).append("\n");
+    sb.append("    issuerEconomicActivity: ").append(toIndentedString(issuerEconomicActivity)).append("\n");
+    sb.append("    sellerCode: ").append(toIndentedString(sellerCode)).append("\n");
+    sb.append("    internalInvoiceNumber: ").append(toIndentedString(internalInvoiceNumber)).append("\n");
+    sb.append("    internalOrderNumber: ").append(toIndentedString(internalOrderNumber)).append("\n");
+    sb.append("    salesZone: ").append(toIndentedString(salesZone)).append("\n");
+    sb.append("    salesRoute: ").append(toIndentedString(salesRoute)).append("\n");
+    sb.append("    additionalIssuerInfo: ").append(toIndentedString(additionalIssuerInfo)).append("\n");
     sb.append("    buyer: ").append(toIndentedString(buyer)).append("\n");
     sb.append("    items: ").append(toIndentedString(items)).append("\n");
     sb.append("    totals: ").append(toIndentedString(totals)).append("\n");
@@ -1015,10 +1530,10 @@ public class ElectronicDocument {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "issueDate", "expirationDate", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "creditNoteIndicator", "issuerRNC", "issuerBusinessName", "issuerEmail", "issuerPhones", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"));
+    openapiFields = new HashSet<String>(Arrays.asList("environment", "version", "invoiceType", "invoiceNumber", "issueDate", "expirationDate", "creditNoteIndicator", "deferredSendingIndicator", "taxedAmountIndicator", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentForms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "serviceStartDate", "serviceEndDate", "totalPages", "issuerRNC", "issuerBusinessName", "issuerCommercialName", "branchName", "issuerAddress", "municipalityCode", "provinceCode", "issuerPhones", "issuerEmail", "issuerWebsite", "issuerEconomicActivity", "sellerCode", "internalInvoiceNumber", "internalOrderNumber", "salesZone", "salesRoute", "additionalIssuerInfo", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "issueDate", "items", "totals"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "issueDate", "paymentForms", "items", "totals"));
   }
 
   /**
@@ -1049,13 +1564,27 @@ public class ElectronicDocument {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (!jsonObj.get("version").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `version` to be a primitive type in the JSON string but got `%s`", jsonObj.get("version").toString()));
+      // validate the optional field `environment`
+      if (jsonObj.get("environment") != null && !jsonObj.get("environment").isJsonNull()) {
+        Environment.validateJsonElement(jsonObj.get("environment"));
       }
       // validate the required field `invoiceType`
       InvoiceType.validateJsonElement(jsonObj.get("invoiceType"));
       if (!jsonObj.get("invoiceNumber").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `invoiceNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("invoiceNumber").toString()));
+      }
+      if ((jsonObj.get("creditNoteIndicator") != null && !jsonObj.get("creditNoteIndicator").isJsonNull()) && !jsonObj.get("creditNoteIndicator").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `creditNoteIndicator` to be a primitive type in the JSON string but got `%s`", jsonObj.get("creditNoteIndicator").toString()));
+      }
+      // validate the optional field `creditNoteIndicator`
+      if (jsonObj.get("creditNoteIndicator") != null && !jsonObj.get("creditNoteIndicator").isJsonNull()) {
+        CreditNoteIndicatorEnum.validateJsonElement(jsonObj.get("creditNoteIndicator"));
+      }
+      if ((jsonObj.get("deferredSendingIndicator") != null && !jsonObj.get("deferredSendingIndicator").isJsonNull()) && !jsonObj.get("deferredSendingIndicator").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `deferredSendingIndicator` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deferredSendingIndicator").toString()));
+      }
+      if ((jsonObj.get("taxedAmountIndicator") != null && !jsonObj.get("taxedAmountIndicator").isJsonNull()) && !jsonObj.get("taxedAmountIndicator").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `taxedAmountIndicator` to be a primitive type in the JSON string but got `%s`", jsonObj.get("taxedAmountIndicator").toString()));
       }
       if ((jsonObj.get("incomeType") != null && !jsonObj.get("incomeType").isJsonNull()) && !jsonObj.get("incomeType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `incomeType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("incomeType").toString()));
@@ -1074,6 +1603,16 @@ public class ElectronicDocument {
       if ((jsonObj.get("paymentTerms") != null && !jsonObj.get("paymentTerms").isJsonNull()) && !jsonObj.get("paymentTerms").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentTerms` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentTerms").toString()));
       }
+      if (jsonObj.get("paymentForms") != null) {
+        if (!jsonObj.get("paymentForms").isJsonArray()) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentForms` to be an array in the JSON string but got `%s`", jsonObj.get("paymentForms").toString()));
+        }
+        JsonArray jsonArraypaymentForms = jsonObj.getAsJsonArray("paymentForms");
+        // validate the required field `paymentForms` (array)
+        for (int i = 0; i < jsonArraypaymentForms.size(); i++) {
+          PaymentForm.validateJsonElement(jsonArraypaymentForms.get(i));
+        }
+      }
       // validate the optional field `paymentAccountType`
       if (jsonObj.get("paymentAccountType") != null && !jsonObj.get("paymentAccountType").isJsonNull()) {
         AccountType.validateJsonElement(jsonObj.get("paymentAccountType"));
@@ -1084,25 +1623,54 @@ public class ElectronicDocument {
       if ((jsonObj.get("paymentBank") != null && !jsonObj.get("paymentBank").isJsonNull()) && !jsonObj.get("paymentBank").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentBank` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentBank").toString()));
       }
-      if ((jsonObj.get("creditNoteIndicator") != null && !jsonObj.get("creditNoteIndicator").isJsonNull()) && !jsonObj.get("creditNoteIndicator").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `creditNoteIndicator` to be a primitive type in the JSON string but got `%s`", jsonObj.get("creditNoteIndicator").toString()));
-      }
-      // validate the optional field `creditNoteIndicator`
-      if (jsonObj.get("creditNoteIndicator") != null && !jsonObj.get("creditNoteIndicator").isJsonNull()) {
-        CreditNoteIndicatorEnum.validateJsonElement(jsonObj.get("creditNoteIndicator"));
-      }
       if ((jsonObj.get("issuerRNC") != null && !jsonObj.get("issuerRNC").isJsonNull()) && !jsonObj.get("issuerRNC").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerRNC` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerRNC").toString()));
       }
       if ((jsonObj.get("issuerBusinessName") != null && !jsonObj.get("issuerBusinessName").isJsonNull()) && !jsonObj.get("issuerBusinessName").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerBusinessName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerBusinessName").toString()));
       }
-      if ((jsonObj.get("issuerEmail") != null && !jsonObj.get("issuerEmail").isJsonNull()) && !jsonObj.get("issuerEmail").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerEmail` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerEmail").toString()));
+      if ((jsonObj.get("issuerCommercialName") != null && !jsonObj.get("issuerCommercialName").isJsonNull()) && !jsonObj.get("issuerCommercialName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerCommercialName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerCommercialName").toString()));
+      }
+      if ((jsonObj.get("branchName") != null && !jsonObj.get("branchName").isJsonNull()) && !jsonObj.get("branchName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `branchName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("branchName").toString()));
+      }
+      if ((jsonObj.get("issuerAddress") != null && !jsonObj.get("issuerAddress").isJsonNull()) && !jsonObj.get("issuerAddress").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerAddress` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerAddress").toString()));
+      }
+      if ((jsonObj.get("municipalityCode") != null && !jsonObj.get("municipalityCode").isJsonNull()) && !jsonObj.get("municipalityCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `municipalityCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("municipalityCode").toString()));
+      }
+      if ((jsonObj.get("provinceCode") != null && !jsonObj.get("provinceCode").isJsonNull()) && !jsonObj.get("provinceCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `provinceCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("provinceCode").toString()));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("issuerPhones") != null && !jsonObj.get("issuerPhones").isJsonNull() && !jsonObj.get("issuerPhones").isJsonArray()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerPhones` to be an array in the JSON string but got `%s`", jsonObj.get("issuerPhones").toString()));
+      }
+      if ((jsonObj.get("issuerEmail") != null && !jsonObj.get("issuerEmail").isJsonNull()) && !jsonObj.get("issuerEmail").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerEmail` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerEmail").toString()));
+      }
+      if ((jsonObj.get("issuerWebsite") != null && !jsonObj.get("issuerWebsite").isJsonNull()) && !jsonObj.get("issuerWebsite").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerWebsite` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerWebsite").toString()));
+      }
+      if ((jsonObj.get("issuerEconomicActivity") != null && !jsonObj.get("issuerEconomicActivity").isJsonNull()) && !jsonObj.get("issuerEconomicActivity").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerEconomicActivity` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerEconomicActivity").toString()));
+      }
+      if ((jsonObj.get("sellerCode") != null && !jsonObj.get("sellerCode").isJsonNull()) && !jsonObj.get("sellerCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `sellerCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sellerCode").toString()));
+      }
+      if ((jsonObj.get("internalInvoiceNumber") != null && !jsonObj.get("internalInvoiceNumber").isJsonNull()) && !jsonObj.get("internalInvoiceNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `internalInvoiceNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("internalInvoiceNumber").toString()));
+      }
+      if ((jsonObj.get("salesZone") != null && !jsonObj.get("salesZone").isJsonNull()) && !jsonObj.get("salesZone").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `salesZone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("salesZone").toString()));
+      }
+      if ((jsonObj.get("salesRoute") != null && !jsonObj.get("salesRoute").isJsonNull()) && !jsonObj.get("salesRoute").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `salesRoute` to be a primitive type in the JSON string but got `%s`", jsonObj.get("salesRoute").toString()));
+      }
+      if ((jsonObj.get("additionalIssuerInfo") != null && !jsonObj.get("additionalIssuerInfo").isJsonNull()) && !jsonObj.get("additionalIssuerInfo").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `additionalIssuerInfo` to be a primitive type in the JSON string but got `%s`", jsonObj.get("additionalIssuerInfo").toString()));
       }
       // validate the optional field `buyer`
       if (jsonObj.get("buyer") != null && !jsonObj.get("buyer").isJsonNull()) {
@@ -1136,19 +1704,9 @@ public class ElectronicDocument {
       if (jsonObj.get("referenceInfo") != null && !jsonObj.get("referenceInfo").isJsonNull()) {
         ReferenceInfo.validateJsonElement(jsonObj.get("referenceInfo"));
       }
+      // validate the optional field `subtotals`
       if (jsonObj.get("subtotals") != null && !jsonObj.get("subtotals").isJsonNull()) {
-        JsonArray jsonArraysubtotals = jsonObj.getAsJsonArray("subtotals");
-        if (jsonArraysubtotals != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("subtotals").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `subtotals` to be an array in the JSON string but got `%s`", jsonObj.get("subtotals").toString()));
-          }
-
-          // validate the optional field `subtotals` (array)
-          for (int i = 0; i < jsonArraysubtotals.size(); i++) {
-            Subtotal.validateJsonElement(jsonArraysubtotals.get(i));
-          };
-        }
+        Subtotal.validateJsonElement(jsonObj.get("subtotals"));
       }
       if (jsonObj.get("discountsOrSurcharges") != null && !jsonObj.get("discountsOrSurcharges").isJsonNull()) {
         JsonArray jsonArraydiscountsOrSurcharges = jsonObj.getAsJsonArray("discountsOrSurcharges");
@@ -1164,19 +1722,9 @@ public class ElectronicDocument {
           };
         }
       }
+      // validate the optional field `pages`
       if (jsonObj.get("pages") != null && !jsonObj.get("pages").isJsonNull()) {
-        JsonArray jsonArraypages = jsonObj.getAsJsonArray("pages");
-        if (jsonArraypages != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("pages").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `pages` to be an array in the JSON string but got `%s`", jsonObj.get("pages").toString()));
-          }
-
-          // validate the optional field `pages` (array)
-          for (int i = 0; i < jsonArraypages.size(); i++) {
-            Page.validateJsonElement(jsonArraypages.get(i));
-          };
-        }
+        Page.validateJsonElement(jsonObj.get("pages"));
       }
   }
 

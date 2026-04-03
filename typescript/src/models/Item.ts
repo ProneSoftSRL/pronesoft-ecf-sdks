@@ -2,10 +2,10 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { ItemDiscountInner } from './ItemDiscountInner';
+import {
+    ItemDiscountInnerFromJSON,
+    ItemDiscountInnerFromJSONTyped,
+    ItemDiscountInnerToJSON,
+    ItemDiscountInnerToJSONTyped,
+} from './ItemDiscountInner';
 import type { BillingIndicator } from './BillingIndicator';
 import {
     BillingIndicatorFromJSON,
@@ -27,6 +34,13 @@ import {
     ItemAdditionalTaxToJSON,
     ItemAdditionalTaxToJSONTyped,
 } from './ItemAdditionalTax';
+import type { ItemCodesInner } from './ItemCodesInner';
+import {
+    ItemCodesInnerFromJSON,
+    ItemCodesInnerFromJSONTyped,
+    ItemCodesInnerToJSON,
+    ItemCodesInnerToJSONTyped,
+} from './ItemCodesInner';
 import type { Subquantity } from './Subquantity';
 import {
     SubquantityFromJSON,
@@ -34,30 +48,53 @@ import {
     SubquantityToJSON,
     SubquantityToJSONTyped,
 } from './Subquantity';
+import type { ItemAlternativeCurrency } from './ItemAlternativeCurrency';
+import {
+    ItemAlternativeCurrencyFromJSON,
+    ItemAlternativeCurrencyFromJSONTyped,
+    ItemAlternativeCurrencyToJSON,
+    ItemAlternativeCurrencyToJSONTyped,
+} from './ItemAlternativeCurrency';
+import type { ItemMiningInfo } from './ItemMiningInfo';
+import {
+    ItemMiningInfoFromJSON,
+    ItemMiningInfoFromJSONTyped,
+    ItemMiningInfoToJSON,
+    ItemMiningInfoToJSONTyped,
+} from './ItemMiningInfo';
 
 /**
- * A single line item in the electronic document.
+ * 
  * @export
  * @interface Item
  */
 export interface Item {
     /**
-     * Sequential line number (1-based). Auto-assigned if omitted.
+     * 
      * @type {number}
      * @memberof Item
      */
     lineNumber?: number;
     /**
-     * Product or service name.
+     * 
+     * @type {Array<ItemCodesInner>}
+     * @memberof Item
+     */
+    codes?: Array<ItemCodesInner>;
+    /**
+     * 
      * @type {string}
      * @memberof Item
      */
     name: string;
     /**
-     * Item type:
-     * - `1`: Product (Bien)
-     * - `2`: Service (Servicio)
      * 
+     * @type {string}
+     * @memberof Item
+     */
+    description?: string;
+    /**
+     * 1=Product, 2=Service
      * @type {ItemTypeEnum}
      * @memberof Item
      */
@@ -69,47 +106,131 @@ export interface Item {
      */
     billingIndicator: BillingIndicator;
     /**
-     * Quantity (as string to support decimals with precision).
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    withholdingAgentIndicator?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    withheldITBISAmount?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    withheldISRAmount?: number;
+    /**
+     * 
      * @type {string}
      * @memberof Item
      */
     quantity: string;
     /**
-     * Unit price (as string to support decimals with precision).
-     * @type {string}
-     * @memberof Item
-     */
-    unitPrice: string;
-    /**
-     * Total line amount (quantity × unitPrice, before discounts).
+     * 
      * @type {number}
      * @memberof Item
      */
-    amount: number;
+    unitOfMeasure?: number;
     /**
-     * Discount amount applied to this line item.
+     * 
      * @type {number}
      * @memberof Item
      */
-    discountAmount?: number;
+    referenceQuantity?: number;
     /**
-     * Additional taxes (e.g. ISC, IECS) for this line item.
-     * @type {Array<ItemAdditionalTax>}
+     * 
+     * @type {number}
      * @memberof Item
      */
-    additionalTaxes?: Array<ItemAdditionalTax>;
+    referenceUnit?: number;
     /**
-     * Sub-quantities (for items with multiple units of measure).
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    referenceUnitPrice?: number;
+    /**
+     * 
      * @type {Array<Subquantity>}
      * @memberof Item
      */
     subquantities?: Array<Subquantity>;
     /**
-     * Alcohol degree (required for alcoholic beverages subject to ISC).
+     * 
      * @type {number}
      * @memberof Item
      */
     alcoholDegree?: number;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Item
+     */
+    manufacturingDate?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Item
+     */
+    expirationDate?: Date;
+    /**
+     * 
+     * @type {ItemMiningInfo}
+     * @memberof Item
+     */
+    miningInfo?: ItemMiningInfo;
+    /**
+     * 
+     * @type {string}
+     * @memberof Item
+     */
+    unitPrice: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    discountAmount?: number;
+    /**
+     * 
+     * @type {Array<ItemDiscountInner>}
+     * @memberof Item
+     */
+    discount?: Array<ItemDiscountInner>;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    surchargeAmount?: number;
+    /**
+     * 
+     * @type {Array<ItemDiscountInner>}
+     * @memberof Item
+     */
+    surcharge?: Array<ItemDiscountInner>;
+    /**
+     * 
+     * @type {Array<ItemAdditionalTax>}
+     * @memberof Item
+     */
+    additionalTaxes?: Array<ItemAdditionalTax>;
+    /**
+     * 
+     * @type {ItemAlternativeCurrency}
+     * @memberof Item
+     */
+    alternativeCurrency?: ItemAlternativeCurrency;
+    /**
+     * 
+     * @type {number}
+     * @memberof Item
+     */
+    amount: number;
 }
 
 
@@ -147,16 +268,32 @@ export function ItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): Item
     return {
         
         'lineNumber': json['lineNumber'] == null ? undefined : json['lineNumber'],
+        'codes': json['codes'] == null ? undefined : ((json['codes'] as Array<any>).map(ItemCodesInnerFromJSON)),
         'name': json['name'],
+        'description': json['description'] == null ? undefined : json['description'],
         'type': json['type'],
         'billingIndicator': BillingIndicatorFromJSON(json['billingIndicator']),
+        'withholdingAgentIndicator': json['withholdingAgentIndicator'] == null ? undefined : json['withholdingAgentIndicator'],
+        'withheldITBISAmount': json['withheldITBISAmount'] == null ? undefined : json['withheldITBISAmount'],
+        'withheldISRAmount': json['withheldISRAmount'] == null ? undefined : json['withheldISRAmount'],
         'quantity': json['quantity'],
-        'unitPrice': json['unitPrice'],
-        'amount': json['amount'],
-        'discountAmount': json['discountAmount'] == null ? undefined : json['discountAmount'],
-        'additionalTaxes': json['additionalTaxes'] == null ? undefined : ((json['additionalTaxes'] as Array<any>).map(ItemAdditionalTaxFromJSON)),
+        'unitOfMeasure': json['unitOfMeasure'] == null ? undefined : json['unitOfMeasure'],
+        'referenceQuantity': json['referenceQuantity'] == null ? undefined : json['referenceQuantity'],
+        'referenceUnit': json['referenceUnit'] == null ? undefined : json['referenceUnit'],
+        'referenceUnitPrice': json['referenceUnitPrice'] == null ? undefined : json['referenceUnitPrice'],
         'subquantities': json['subquantities'] == null ? undefined : ((json['subquantities'] as Array<any>).map(SubquantityFromJSON)),
         'alcoholDegree': json['alcoholDegree'] == null ? undefined : json['alcoholDegree'],
+        'manufacturingDate': json['manufacturingDate'] == null ? undefined : (new Date(json['manufacturingDate'])),
+        'expirationDate': json['expirationDate'] == null ? undefined : (new Date(json['expirationDate'])),
+        'miningInfo': json['miningInfo'] == null ? undefined : ItemMiningInfoFromJSON(json['miningInfo']),
+        'unitPrice': json['unitPrice'],
+        'discountAmount': json['discountAmount'] == null ? undefined : json['discountAmount'],
+        'discount': json['discount'] == null ? undefined : ((json['discount'] as Array<any>).map(ItemDiscountInnerFromJSON)),
+        'surchargeAmount': json['surchargeAmount'] == null ? undefined : json['surchargeAmount'],
+        'surcharge': json['surcharge'] == null ? undefined : ((json['surcharge'] as Array<any>).map(ItemDiscountInnerFromJSON)),
+        'additionalTaxes': json['additionalTaxes'] == null ? undefined : ((json['additionalTaxes'] as Array<any>).map(ItemAdditionalTaxFromJSON)),
+        'alternativeCurrency': json['alternativeCurrency'] == null ? undefined : ItemAlternativeCurrencyFromJSON(json['alternativeCurrency']),
+        'amount': json['amount'],
     };
 }
 
@@ -172,16 +309,32 @@ export function ItemToJSONTyped(value?: Item | null, ignoreDiscriminator: boolea
     return {
         
         'lineNumber': value['lineNumber'],
+        'codes': value['codes'] == null ? undefined : ((value['codes'] as Array<any>).map(ItemCodesInnerToJSON)),
         'name': value['name'],
+        'description': value['description'],
         'type': value['type'],
         'billingIndicator': BillingIndicatorToJSON(value['billingIndicator']),
+        'withholdingAgentIndicator': value['withholdingAgentIndicator'],
+        'withheldITBISAmount': value['withheldITBISAmount'],
+        'withheldISRAmount': value['withheldISRAmount'],
         'quantity': value['quantity'],
-        'unitPrice': value['unitPrice'],
-        'amount': value['amount'],
-        'discountAmount': value['discountAmount'],
-        'additionalTaxes': value['additionalTaxes'] == null ? undefined : ((value['additionalTaxes'] as Array<any>).map(ItemAdditionalTaxToJSON)),
+        'unitOfMeasure': value['unitOfMeasure'],
+        'referenceQuantity': value['referenceQuantity'],
+        'referenceUnit': value['referenceUnit'],
+        'referenceUnitPrice': value['referenceUnitPrice'],
         'subquantities': value['subquantities'] == null ? undefined : ((value['subquantities'] as Array<any>).map(SubquantityToJSON)),
         'alcoholDegree': value['alcoholDegree'],
+        'manufacturingDate': value['manufacturingDate'] == null ? value['manufacturingDate'] : value['manufacturingDate'].toISOString(),
+        'expirationDate': value['expirationDate'] == null ? value['expirationDate'] : value['expirationDate'].toISOString(),
+        'miningInfo': ItemMiningInfoToJSON(value['miningInfo']),
+        'unitPrice': value['unitPrice'],
+        'discountAmount': value['discountAmount'],
+        'discount': value['discount'] == null ? undefined : ((value['discount'] as Array<any>).map(ItemDiscountInnerToJSON)),
+        'surchargeAmount': value['surchargeAmount'],
+        'surcharge': value['surcharge'] == null ? undefined : ((value['surcharge'] as Array<any>).map(ItemDiscountInnerToJSON)),
+        'additionalTaxes': value['additionalTaxes'] == null ? undefined : ((value['additionalTaxes'] as Array<any>).map(ItemAdditionalTaxToJSON)),
+        'alternativeCurrency': ItemAlternativeCurrencyToJSON(value['alternativeCurrency']),
+        'amount': value['amount'],
     };
 }
 

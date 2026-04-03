@@ -1,21 +1,36 @@
 # Pronesoft.Ecf.Sdk.Model.Item
-A single line item in the electronic document.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**LineNumber** | **int** | Sequential line number (1-based). Auto-assigned if omitted. | [optional] 
-**Name** | **string** | Product or service name. | 
-**Type** | **string** | Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio)  | 
+**LineNumber** | **int** |  | [optional] 
+**Codes** | [**List&lt;ItemCodesInner&gt;**](ItemCodesInner.md) |  | [optional] 
+**Name** | **string** |  | 
+**Description** | **string** |  | [optional] 
+**Type** | **string** | 1&#x3D;Product, 2&#x3D;Service | 
 **BillingIndicator** | **BillingIndicator** |  | 
-**Quantity** | **string** | Quantity (as string to support decimals with precision). | 
-**UnitPrice** | **string** | Unit price (as string to support decimals with precision). | 
-**Amount** | **decimal** | Total line amount (quantity × unitPrice, before discounts). | 
-**DiscountAmount** | **decimal** | Discount amount applied to this line item. | [optional] 
-**AdditionalTaxes** | [**List&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) | Additional taxes (e.g. ISC, IECS) for this line item. | [optional] 
-**Subquantities** | [**List&lt;Subquantity&gt;**](Subquantity.md) | Sub-quantities (for items with multiple units of measure). | [optional] 
-**AlcoholDegree** | **decimal** | Alcohol degree (required for alcoholic beverages subject to ISC). | [optional] 
+**WithholdingAgentIndicator** | **int** |  | [optional] 
+**WithheldITBISAmount** | **decimal** |  | [optional] 
+**WithheldISRAmount** | **decimal** |  | [optional] 
+**Quantity** | **string** |  | 
+**UnitOfMeasure** | **int** |  | [optional] 
+**ReferenceQuantity** | **decimal** |  | [optional] 
+**ReferenceUnit** | **int** |  | [optional] 
+**ReferenceUnitPrice** | **decimal** |  | [optional] 
+**Subquantities** | [**List&lt;Subquantity&gt;**](Subquantity.md) |  | [optional] 
+**AlcoholDegree** | **decimal** |  | [optional] 
+**ManufacturingDate** | **DateTime** |  | [optional] 
+**ExpirationDate** | **DateTime** |  | [optional] 
+**MiningInfo** | [**ItemMiningInfo**](ItemMiningInfo.md) |  | [optional] 
+**UnitPrice** | **string** |  | 
+**DiscountAmount** | **decimal** |  | [optional] 
+**Discount** | [**List&lt;ItemDiscountInner&gt;**](ItemDiscountInner.md) |  | [optional] 
+**SurchargeAmount** | **decimal** |  | [optional] 
+**Surcharge** | [**List&lt;ItemDiscountInner&gt;**](ItemDiscountInner.md) |  | [optional] 
+**AdditionalTaxes** | [**List&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) |  | [optional] 
+**AlternativeCurrency** | [**ItemAlternativeCurrency**](ItemAlternativeCurrency.md) |  | [optional] 
+**Amount** | **decimal** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

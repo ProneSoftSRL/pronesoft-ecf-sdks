@@ -2,15 +2,15 @@
 
 # OAuthTokenResponse
 
-Successful token response. Use `accessToken` as a Bearer token in the `Authorization` header of all subsequent requests. 
+Bearer token valid for 24 hours (86400 seconds).
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**accessToken** | **String** | JWT Bearer token. Pass as Authorization: Bearer &lt;accessToken&gt;. |  [optional] |
-|**tokenType** | **String** | Always \&quot;Bearer\&quot;. |  [optional] |
-|**expiresIn** | **Integer** | Token lifetime in seconds. Request a new token when it expires. |  [optional] |
+|**accessToken** | **String** |  |  [optional] |
+|**tokenType** | **String** |  |  [optional] |
+|**expiresIn** | **Integer** | Token lifetime in seconds (24 hours &#x3D; 86400). |  [optional] |
 
 
 

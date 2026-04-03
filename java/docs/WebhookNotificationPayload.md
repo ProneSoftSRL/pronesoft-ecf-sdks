@@ -2,17 +2,17 @@
 
 # WebhookNotificationPayload
 
-Payload sent to your registered webhook URL when an event occurs. Verify authenticity using HMAC-SHA256 with your webhook `secret`. 
+Payload sent to your webhook URL when an event occurs. Validate using header X-Webhook-Signature: sha256=<hmac>. Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp. 
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **UUID** | Unique notification identifier (use for deduplication). |  |
+|**id** | **String** | Unique notification ID (evt_xxx format). Use for deduplication. |  |
 |**event** | **WebhookEventType** |  |  |
-|**timestamp** | **OffsetDateTime** | When the event occurred (ISO 8601). |  |
-|**businessRnc** | **String** | RNC of the company that triggered the event. |  |
-|**data** | **Object** | Event-specific data payload. |  |
+|**timestamp** | **OffsetDateTime** |  |  |
+|**businessRnc** | **String** |  |  |
+|**data** | **Object** |  |  |
 
 
 

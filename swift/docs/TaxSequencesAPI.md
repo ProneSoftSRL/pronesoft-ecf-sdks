@@ -7,27 +7,27 @@ Method | HTTP request | Description
 [**createTaxSequence**](TaxSequencesAPI.md#createtaxsequence) | **POST** /tax-sequences | Create new tax sequence
 [**getNextNumber**](TaxSequencesAPI.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number
 [**listTaxSequences**](TaxSequencesAPI.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences
+[**updateTaxSequence**](TaxSequencesAPI.md#updatetaxsequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence
+[**voidTaxSequence**](TaxSequencesAPI.md#voidtaxsequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
 
 
 # **createTaxSequence**
 ```swift
-    open class func createTaxSequence(xTenantId: UUID, createTaxSequenceRequest: CreateTaxSequenceRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: CreateTaxSequence201Response?, _ error: Error?) -> Void)
 ```
 
 Create new tax sequence
-
-Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-let createTaxSequenceRequest = CreateTaxSequenceRequest(type: InvoiceType(), from: 123, to: 123) // CreateTaxSequenceRequest | 
+let createTaxSequenceRequest = CreateTaxSequenceRequest(type: InvoiceTypeSequence(), from: 123, to: 123, quantity: 123, expiration: Date(), environment: Environment()) // CreateTaxSequenceRequest | 
+let xTenantId = 987 // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
 
 // Create new tax sequence
-TaxSequencesAPI.createTaxSequence(xTenantId: xTenantId, createTaxSequenceRequest: createTaxSequenceRequest) { (response, error) in
+TaxSequencesAPI.createTaxSequence(createTaxSequenceRequest: createTaxSequenceRequest, xTenantId: xTenantId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -43,12 +43,12 @@ TaxSequencesAPI.createTaxSequence(xTenantId: xTenantId, createTaxSequenceRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
  **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  | 
+ **xTenantId** | **UUID** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
 
 ### Return type
 
-Void (empty response body)
+[**CreateTaxSequence201Response**](CreateTaxSequence201Response.md)
 
 ### Authorization
 
@@ -63,24 +63,24 @@ Void (empty response body)
 
 # **getNextNumber**
 ```swift
-    open class func getNextNumber(xTenantId: UUID, type: InvoiceType, environment: Environment, completion: @escaping (_ data: GetNextNumber200Response?, _ error: Error?) -> Void)
+    open class func getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: UUID? = nil, completion: @escaping (_ data: GetNextNumber200Response?, _ error: Error?) -> Void)
 ```
 
 Get next available fiscal number
 
-Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
+Returns the next e-NCF number. Use this as invoiceNumber when submitting.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-let type = InvoiceType() // InvoiceType | Invoice type code (e.g. \"31\" for Tax Credit Invoice).
-let environment = Environment() // Environment | Target environment for the sequence.
+let type = InvoiceTypeSequence() // InvoiceTypeSequence | 
+let environment = Environment() // Environment | 
+let xTenantId = 987 // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
 
 // Get next available fiscal number
-TaxSequencesAPI.getNextNumber(xTenantId: xTenantId, type: type, environment: environment) { (response, error) in
+TaxSequencesAPI.getNextNumber(type: type, environment: environment, xTenantId: xTenantId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -96,9 +96,9 @@ TaxSequencesAPI.getNextNumber(xTenantId: xTenantId, type: type, environment: env
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
- **type** | [**InvoiceType**](.md) | Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). | 
- **environment** | [**Environment**](.md) | Target environment for the sequence. | 
+ **type** | [**InvoiceTypeSequence**](.md) |  | 
+ **environment** | [**Environment**](.md) |  | 
+ **xTenantId** | **UUID** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
 
 ### Return type
 
@@ -117,23 +117,23 @@ Name | Type | Description  | Notes
 
 # **listTaxSequences**
 ```swift
-    open class func listTaxSequences(xTenantId: UUID, type: InvoiceType? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
+    open class func listTaxSequences(xTenantId: UUID? = nil, type: InvoiceTypeSequence? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
 ```
 
 List tax sequences
-
-Returns all fiscal number sequences registered for the tenant.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-let type = InvoiceType() // InvoiceType | Filter by invoice type (e.g. \"31\" for Tax Credit). (optional)
+let xTenantId = 987 // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+let type = InvoiceTypeSequence() // InvoiceTypeSequence |  (optional)
+let page = 987 // Int |  (optional) (default to 1)
+let limit = 987 // Int |  (optional) (default to 10)
 
 // List tax sequences
-TaxSequencesAPI.listTaxSequences(xTenantId: xTenantId, type: type) { (response, error) in
+TaxSequencesAPI.listTaxSequences(xTenantId: xTenantId, type: type, page: page, limit: limit) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -149,8 +149,10 @@ TaxSequencesAPI.listTaxSequences(xTenantId: xTenantId, type: type) { (response, 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | 
- **type** | [**InvoiceType**](.md) | Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). | [optional] 
+ **xTenantId** | **UUID** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+ **type** | [**InvoiceTypeSequence**](.md) |  | [optional] 
+ **page** | **Int** |  | [optional] [default to 1]
+ **limit** | **Int** |  | [optional] [default to 10]
 
 ### Return type
 
@@ -163,6 +165,110 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateTaxSequence**
+```swift
+    open class func updateTaxSequence(sequenceId: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+```
+
+Update tax sequence
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PronesoftEcf
+
+let sequenceId = "sequenceId_example" // String | 
+let updateTaxSequenceRequest = UpdateTaxSequenceRequest(type: InvoiceTypeSequence(), from: 123, to: 123, quantity: 123, expiration: Date(), environment: Environment()) // UpdateTaxSequenceRequest | 
+let xTenantId = 987 // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+
+// Update tax sequence
+TaxSequencesAPI.updateTaxSequence(sequenceId: sequenceId, updateTaxSequenceRequest: updateTaxSequenceRequest, xTenantId: xTenantId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sequenceId** | **String** |  | 
+ **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  | 
+ **xTenantId** | **UUID** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+
+### Return type
+
+Void (empty response body)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **voidTaxSequence**
+```swift
+    open class func voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: VoidTaxSequence200Response?, _ error: Error?) -> Void)
+```
+
+Void a range of fiscal numbers
+
+Cancels unused fiscal numbers and notifies DGII.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PronesoftEcf
+
+let voidTaxSequenceRequest = VoidTaxSequenceRequest(sequenceId: "sequenceId_example", startNumber: "startNumber_example", endNumber: "endNumber_example", reason: "reason_example") // VoidTaxSequenceRequest | 
+let xTenantId = 987 // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+
+// Void a range of fiscal numbers
+TaxSequencesAPI.voidTaxSequence(voidTaxSequenceRequest: voidTaxSequenceRequest, xTenantId: xTenantId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **voidTaxSequenceRequest** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md) |  | 
+ **xTenantId** | **UUID** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+
+### Return type
+
+[**VoidTaxSequence200Response**](VoidTaxSequence200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

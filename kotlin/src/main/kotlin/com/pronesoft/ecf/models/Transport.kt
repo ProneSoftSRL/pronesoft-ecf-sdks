@@ -27,42 +27,44 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Transport/delivery information (required for certain invoice types).
+ * 
  *
- * @param driver Driver's full name.
- * @param vehicleId Vehicle identification number.
- * @param licensePlate Vehicle license plate.
- * @param route Delivery route description.
- * @param departureDate Departure date and time.
- * @param arrivalDate Estimated arrival date and time.
+ * @param driver 
+ * @param document 
+ * @param vehicleId 
+ * @param licensePlate 
+ * @param route 
+ * @param zone 
+ * @param deliveryNoteNumber 
+ * @param destinationCountry 
  */
 
 
 data class Transport (
 
-    /* Driver's full name. */
     @SerializedName("driver")
     val driver: kotlin.String? = null,
 
-    /* Vehicle identification number. */
+    @SerializedName("document")
+    val document: kotlin.String? = null,
+
     @SerializedName("vehicleId")
     val vehicleId: kotlin.String? = null,
 
-    /* Vehicle license plate. */
     @SerializedName("licensePlate")
     val licensePlate: kotlin.String? = null,
 
-    /* Delivery route description. */
     @SerializedName("route")
     val route: kotlin.String? = null,
 
-    /* Departure date and time. */
-    @SerializedName("departureDate")
-    val departureDate: java.time.OffsetDateTime? = null,
+    @SerializedName("zone")
+    val zone: kotlin.String? = null,
 
-    /* Estimated arrival date and time. */
-    @SerializedName("arrivalDate")
-    val arrivalDate: java.time.OffsetDateTime? = null
+    @SerializedName("deliveryNoteNumber")
+    val deliveryNoteNumber: kotlin.String? = null,
+
+    @SerializedName("destinationCountry")
+    val destinationCountry: kotlin.String? = null
 
 ) {
 

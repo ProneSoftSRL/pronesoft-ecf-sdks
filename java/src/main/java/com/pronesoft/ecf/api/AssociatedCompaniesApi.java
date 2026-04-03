@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -28,7 +28,10 @@ import java.io.IOException;
 
 
 import com.pronesoft.ecf.model.AssociatedCompany;
+import com.pronesoft.ecf.model.CompanyDocumentMetrics;
+import com.pronesoft.ecf.model.CompanyMetrics;
 import com.pronesoft.ecf.model.CreateAssociatedCompany201Response;
+import com.pronesoft.ecf.model.DeleteAssociatedCompany200Response;
 import com.pronesoft.ecf.model.ErrorResponse;
 import java.io.File;
 import com.pronesoft.ecf.model.PrintFormat;
@@ -80,23 +83,22 @@ public class AssociatedCompaniesApi {
 
     /**
      * Build call for createAssociatedCompany
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param email Owner&#39;s email address (used for login). (required)
-     * @param password Initial password for the new account (min 8 characters). (required)
-     * @param name Legal business name. (required)
-     * @param rnc Company RNC (9 digits) or personal cedula (11 digits). (required)
+     * @param email  (required)
+     * @param password  (required)
+     * @param name  (required)
+     * @param rnc  (required)
      * @param phone  (required)
      * @param address  (required)
      * @param city  (required)
      * @param country  (required)
+     * @param printerType  (required)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category Business category or industry. (optional)
-     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     * @param printerType  (optional)
-     * @param logo Company logo image file (multipart upload). (optional)
+     * @param category  (optional)
+     * @param monthlySalesRange  (optional)
+     * @param logo  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -104,12 +106,12 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Associated company created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Company created successfully </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createAssociatedCompanyCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createAssociatedCompanyCall(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -214,22 +216,12 @@ public class AssociatedCompaniesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        if (xTenantId != null) {
-            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
-        }
-
-
         String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createAssociatedCompanyValidateBeforeCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'xTenantId' is set
-        if (xTenantId == null) {
-            throw new ApiException("Missing the required parameter 'xTenantId' when calling createAssociatedCompany(Async)");
-        }
-
+    private okhttp3.Call createAssociatedCompanyValidateBeforeCall(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'email' is set
         if (email == null) {
             throw new ApiException("Missing the required parameter 'email' when calling createAssociatedCompany(Async)");
@@ -270,103 +262,105 @@ public class AssociatedCompaniesApi {
             throw new ApiException("Missing the required parameter 'country' when calling createAssociatedCompany(Async)");
         }
 
-        return createAssociatedCompanyCall(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo, _callback);
+        // verify the required parameter 'printerType' is set
+        if (printerType == null) {
+            throw new ApiException("Missing the required parameter 'printerType' when calling createAssociatedCompany(Async)");
+        }
+
+        return createAssociatedCompanyCall(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo, _callback);
 
     }
 
     /**
-     * Create new associated company
-     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param email Owner&#39;s email address (used for login). (required)
-     * @param password Initial password for the new account (min 8 characters). (required)
-     * @param name Legal business name. (required)
-     * @param rnc Company RNC (9 digits) or personal cedula (11 digits). (required)
+     * Create associated company / branch
+     * 
+     * @param email  (required)
+     * @param password  (required)
+     * @param name  (required)
+     * @param rnc  (required)
      * @param phone  (required)
      * @param address  (required)
      * @param city  (required)
      * @param country  (required)
+     * @param printerType  (required)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category Business category or industry. (optional)
-     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     * @param printerType  (optional)
-     * @param logo Company logo image file (multipart upload). (optional)
+     * @param category  (optional)
+     * @param monthlySalesRange  (optional)
+     * @param logo  (optional)
      * @return CreateAssociatedCompany201Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Associated company created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Company created successfully </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public CreateAssociatedCompany201Response createAssociatedCompany(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo) throws ApiException {
-        ApiResponse<CreateAssociatedCompany201Response> localVarResp = createAssociatedCompanyWithHttpInfo(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo);
+    public CreateAssociatedCompany201Response createAssociatedCompany(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo) throws ApiException {
+        ApiResponse<CreateAssociatedCompany201Response> localVarResp = createAssociatedCompanyWithHttpInfo(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
         return localVarResp.getData();
     }
 
     /**
-     * Create new associated company
-     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param email Owner&#39;s email address (used for login). (required)
-     * @param password Initial password for the new account (min 8 characters). (required)
-     * @param name Legal business name. (required)
-     * @param rnc Company RNC (9 digits) or personal cedula (11 digits). (required)
+     * Create associated company / branch
+     * 
+     * @param email  (required)
+     * @param password  (required)
+     * @param name  (required)
+     * @param rnc  (required)
      * @param phone  (required)
      * @param address  (required)
      * @param city  (required)
      * @param country  (required)
+     * @param printerType  (required)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category Business category or industry. (optional)
-     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     * @param printerType  (optional)
-     * @param logo Company logo image file (multipart upload). (optional)
+     * @param category  (optional)
+     * @param monthlySalesRange  (optional)
+     * @param logo  (optional)
      * @return ApiResponse&lt;CreateAssociatedCompany201Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Associated company created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Company created successfully </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<CreateAssociatedCompany201Response> createAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo) throws ApiException {
-        okhttp3.Call localVarCall = createAssociatedCompanyValidateBeforeCall(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo, null);
+    public ApiResponse<CreateAssociatedCompany201Response> createAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo) throws ApiException {
+        okhttp3.Call localVarCall = createAssociatedCompanyValidateBeforeCall(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo, null);
         Type localVarReturnType = new TypeToken<CreateAssociatedCompany201Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Create new associated company (asynchronously)
-     * Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param email Owner&#39;s email address (used for login). (required)
-     * @param password Initial password for the new account (min 8 characters). (required)
-     * @param name Legal business name. (required)
-     * @param rnc Company RNC (9 digits) or personal cedula (11 digits). (required)
+     * Create associated company / branch (asynchronously)
+     * 
+     * @param email  (required)
+     * @param password  (required)
+     * @param name  (required)
+     * @param rnc  (required)
      * @param phone  (required)
      * @param address  (required)
      * @param city  (required)
      * @param country  (required)
+     * @param printerType  (required)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
      * @param website  (optional)
-     * @param category Business category or industry. (optional)
-     * @param monthlySalesRange Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     * @param printerType  (optional)
-     * @param logo Company logo image file (multipart upload). (optional)
+     * @param category  (optional)
+     * @param monthlySalesRange  (optional)
+     * @param logo  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -374,21 +368,21 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Associated company created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Company created successfully </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createAssociatedCompanyAsync(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo, final ApiCallback<CreateAssociatedCompany201Response> _callback) throws ApiException {
+    public okhttp3.Call createAssociatedCompanyAsync(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo, final ApiCallback<CreateAssociatedCompany201Response> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createAssociatedCompanyValidateBeforeCall(xTenantId, email, password, name, rnc, phone, address, city, country, firstName, lastName, jobTitle, website, category, monthlySalesRange, printerType, logo, _callback);
+        okhttp3.Call localVarCall = createAssociatedCompanyValidateBeforeCall(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo, _callback);
         Type localVarReturnType = new TypeToken<CreateAssociatedCompany201Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
-     * Build call for listAssociatedCompanies
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
+     * Build call for deleteAssociatedCompany
+     * @param companyId  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -396,11 +390,405 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> List of associated companies </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Company deleted successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listAssociatedCompaniesCall(@javax.annotation.Nonnull UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteAssociatedCompanyCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/associated-companies/{companyId}"
+            .replace("{" + "companyId" + "}", localVarApiClient.escapeString(companyId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call deleteAssociatedCompanyValidateBeforeCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'companyId' is set
+        if (companyId == null) {
+            throw new ApiException("Missing the required parameter 'companyId' when calling deleteAssociatedCompany(Async)");
+        }
+
+        return deleteAssociatedCompanyCall(companyId, _callback);
+
+    }
+
+    /**
+     * Delete associated company
+     * Permanently deletes an associated company. This action is irreversible.
+     * @param companyId  (required)
+     * @return DeleteAssociatedCompany200Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company deleted successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public DeleteAssociatedCompany200Response deleteAssociatedCompany(@javax.annotation.Nonnull UUID companyId) throws ApiException {
+        ApiResponse<DeleteAssociatedCompany200Response> localVarResp = deleteAssociatedCompanyWithHttpInfo(companyId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Delete associated company
+     * Permanently deletes an associated company. This action is irreversible.
+     * @param companyId  (required)
+     * @return ApiResponse&lt;DeleteAssociatedCompany200Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company deleted successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<DeleteAssociatedCompany200Response> deleteAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull UUID companyId) throws ApiException {
+        okhttp3.Call localVarCall = deleteAssociatedCompanyValidateBeforeCall(companyId, null);
+        Type localVarReturnType = new TypeToken<DeleteAssociatedCompany200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Delete associated company (asynchronously)
+     * Permanently deletes an associated company. This action is irreversible.
+     * @param companyId  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company deleted successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call deleteAssociatedCompanyAsync(@javax.annotation.Nonnull UUID companyId, final ApiCallback<DeleteAssociatedCompany200Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = deleteAssociatedCompanyValidateBeforeCall(companyId, _callback);
+        Type localVarReturnType = new TypeToken<DeleteAssociatedCompany200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for getCompanyDocumentMetrics
+     * @param companyId  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document metrics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getCompanyDocumentMetricsCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/associated-companies/{companyId}/documents-metrics"
+            .replace("{" + "companyId" + "}", localVarApiClient.escapeString(companyId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getCompanyDocumentMetricsValidateBeforeCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'companyId' is set
+        if (companyId == null) {
+            throw new ApiException("Missing the required parameter 'companyId' when calling getCompanyDocumentMetrics(Async)");
+        }
+
+        return getCompanyDocumentMetricsCall(companyId, _callback);
+
+    }
+
+    /**
+     * Get company document metrics
+     * 
+     * @param companyId  (required)
+     * @return CompanyDocumentMetrics
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document metrics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public CompanyDocumentMetrics getCompanyDocumentMetrics(@javax.annotation.Nonnull UUID companyId) throws ApiException {
+        ApiResponse<CompanyDocumentMetrics> localVarResp = getCompanyDocumentMetricsWithHttpInfo(companyId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get company document metrics
+     * 
+     * @param companyId  (required)
+     * @return ApiResponse&lt;CompanyDocumentMetrics&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document metrics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<CompanyDocumentMetrics> getCompanyDocumentMetricsWithHttpInfo(@javax.annotation.Nonnull UUID companyId) throws ApiException {
+        okhttp3.Call localVarCall = getCompanyDocumentMetricsValidateBeforeCall(companyId, null);
+        Type localVarReturnType = new TypeToken<CompanyDocumentMetrics>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get company document metrics (asynchronously)
+     * 
+     * @param companyId  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Document metrics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getCompanyDocumentMetricsAsync(@javax.annotation.Nonnull UUID companyId, final ApiCallback<CompanyDocumentMetrics> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getCompanyDocumentMetricsValidateBeforeCall(companyId, _callback);
+        Type localVarReturnType = new TypeToken<CompanyDocumentMetrics>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for getCompanyMetrics
+     * @param companyId  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company metrics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getCompanyMetricsCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/associated-companies/{companyId}/metrics"
+            .replace("{" + "companyId" + "}", localVarApiClient.escapeString(companyId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getCompanyMetricsValidateBeforeCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'companyId' is set
+        if (companyId == null) {
+            throw new ApiException("Missing the required parameter 'companyId' when calling getCompanyMetrics(Async)");
+        }
+
+        return getCompanyMetricsCall(companyId, _callback);
+
+    }
+
+    /**
+     * Get company metrics
+     * 
+     * @param companyId  (required)
+     * @return CompanyMetrics
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company metrics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public CompanyMetrics getCompanyMetrics(@javax.annotation.Nonnull UUID companyId) throws ApiException {
+        ApiResponse<CompanyMetrics> localVarResp = getCompanyMetricsWithHttpInfo(companyId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get company metrics
+     * 
+     * @param companyId  (required)
+     * @return ApiResponse&lt;CompanyMetrics&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company metrics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<CompanyMetrics> getCompanyMetricsWithHttpInfo(@javax.annotation.Nonnull UUID companyId) throws ApiException {
+        okhttp3.Call localVarCall = getCompanyMetricsValidateBeforeCall(companyId, null);
+        Type localVarReturnType = new TypeToken<CompanyMetrics>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get company metrics (asynchronously)
+     * 
+     * @param companyId  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company metrics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getCompanyMetricsAsync(@javax.annotation.Nonnull UUID companyId, final ApiCallback<CompanyMetrics> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getCompanyMetricsValidateBeforeCall(companyId, _callback);
+        Type localVarReturnType = new TypeToken<CompanyMetrics>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for listAssociatedCompanies
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Array of associated companies </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call listAssociatedCompaniesCall(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -425,6 +813,14 @@ public class AssociatedCompaniesApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+        if (page != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
+        }
+
+        if (limit != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("limit", limit));
+        }
+
         final String[] localVarAccepts = {
             "application/json"
         };
@@ -440,69 +836,62 @@ public class AssociatedCompaniesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        if (xTenantId != null) {
-            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
-        }
-
-
         String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listAssociatedCompaniesValidateBeforeCall(@javax.annotation.Nonnull UUID xTenantId, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'xTenantId' is set
-        if (xTenantId == null) {
-            throw new ApiException("Missing the required parameter 'xTenantId' when calling listAssociatedCompanies(Async)");
-        }
-
-        return listAssociatedCompaniesCall(xTenantId, _callback);
+    private okhttp3.Call listAssociatedCompaniesValidateBeforeCall(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+        return listAssociatedCompaniesCall(page, limit, _callback);
 
     }
 
     /**
      * List associated companies / branches
-     * Returns all companies and branches linked to the current tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
+     * 
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return List&lt;AssociatedCompany&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> List of associated companies </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Array of associated companies </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public List<AssociatedCompany> listAssociatedCompanies(@javax.annotation.Nonnull UUID xTenantId) throws ApiException {
-        ApiResponse<List<AssociatedCompany>> localVarResp = listAssociatedCompaniesWithHttpInfo(xTenantId);
+    public List<AssociatedCompany> listAssociatedCompanies(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+        ApiResponse<List<AssociatedCompany>> localVarResp = listAssociatedCompaniesWithHttpInfo(page, limit);
         return localVarResp.getData();
     }
 
     /**
      * List associated companies / branches
-     * Returns all companies and branches linked to the current tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
+     * 
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return ApiResponse&lt;List&lt;AssociatedCompany&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> List of associated companies </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Array of associated companies </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<List<AssociatedCompany>> listAssociatedCompaniesWithHttpInfo(@javax.annotation.Nonnull UUID xTenantId) throws ApiException {
-        okhttp3.Call localVarCall = listAssociatedCompaniesValidateBeforeCall(xTenantId, null);
+    public ApiResponse<List<AssociatedCompany>> listAssociatedCompaniesWithHttpInfo(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+        okhttp3.Call localVarCall = listAssociatedCompaniesValidateBeforeCall(page, limit, null);
         Type localVarReturnType = new TypeToken<List<AssociatedCompany>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * List associated companies / branches (asynchronously)
-     * Returns all companies and branches linked to the current tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
+     * 
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -510,14 +899,194 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> List of associated companies </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Array of associated companies </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listAssociatedCompaniesAsync(@javax.annotation.Nonnull UUID xTenantId, final ApiCallback<List<AssociatedCompany>> _callback) throws ApiException {
+    public okhttp3.Call listAssociatedCompaniesAsync(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<List<AssociatedCompany>> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listAssociatedCompaniesValidateBeforeCall(xTenantId, _callback);
+        okhttp3.Call localVarCall = listAssociatedCompaniesValidateBeforeCall(page, limit, _callback);
         Type localVarReturnType = new TypeToken<List<AssociatedCompany>>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for updateAssociatedCompany
+     * @param companyId  (required)
+     * @param name  (optional)
+     * @param phone  (optional)
+     * @param website  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
+     * @param logo  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company updated successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call updateAssociatedCompanyCall(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/associated-companies/{companyId}"
+            .replace("{" + "companyId" + "}", localVarApiClient.escapeString(companyId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (name != null) {
+            localVarFormParams.put("name", name);
+        }
+
+        if (phone != null) {
+            localVarFormParams.put("phone", phone);
+        }
+
+        if (website != null) {
+            localVarFormParams.put("website", website);
+        }
+
+        if (city != null) {
+            localVarFormParams.put("city", city);
+        }
+
+        if (country != null) {
+            localVarFormParams.put("country", country);
+        }
+
+        if (logo != null) {
+            localVarFormParams.put("logo", logo);
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "multipart/form-data"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call updateAssociatedCompanyValidateBeforeCall(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'companyId' is set
+        if (companyId == null) {
+            throw new ApiException("Missing the required parameter 'companyId' when calling updateAssociatedCompany(Async)");
+        }
+
+        return updateAssociatedCompanyCall(companyId, name, phone, website, city, country, logo, _callback);
+
+    }
+
+    /**
+     * Update associated company
+     * 
+     * @param companyId  (required)
+     * @param name  (optional)
+     * @param phone  (optional)
+     * @param website  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
+     * @param logo  (optional)
+     * @return CreateAssociatedCompany201Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company updated successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public CreateAssociatedCompany201Response updateAssociatedCompany(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo) throws ApiException {
+        ApiResponse<CreateAssociatedCompany201Response> localVarResp = updateAssociatedCompanyWithHttpInfo(companyId, name, phone, website, city, country, logo);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Update associated company
+     * 
+     * @param companyId  (required)
+     * @param name  (optional)
+     * @param phone  (optional)
+     * @param website  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
+     * @param logo  (optional)
+     * @return ApiResponse&lt;CreateAssociatedCompany201Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company updated successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<CreateAssociatedCompany201Response> updateAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo) throws ApiException {
+        okhttp3.Call localVarCall = updateAssociatedCompanyValidateBeforeCall(companyId, name, phone, website, city, country, logo, null);
+        Type localVarReturnType = new TypeToken<CreateAssociatedCompany201Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Update associated company (asynchronously)
+     * 
+     * @param companyId  (required)
+     * @param name  (optional)
+     * @param phone  (optional)
+     * @param website  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
+     * @param logo  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Company updated successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call updateAssociatedCompanyAsync(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo, final ApiCallback<CreateAssociatedCompany201Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = updateAssociatedCompanyValidateBeforeCall(companyId, name, phone, website, city, country, logo, _callback);
+        Type localVarReturnType = new TypeToken<CreateAssociatedCompany201Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

@@ -1,5 +1,5 @@
 # Pronesoft.Ecf.Sdk.Model.ModelEnvironment
-Target environment for e-CF submission. - `TesteCF`: Functional tests, no real DGII interaction. - `CerteCF`: DGII certification environment. - `eCF`: Production — issues real legal documents. 
+TesteCF=testing no DGII, CerteCF=official certification, eCF=production
 
 ## Properties
 

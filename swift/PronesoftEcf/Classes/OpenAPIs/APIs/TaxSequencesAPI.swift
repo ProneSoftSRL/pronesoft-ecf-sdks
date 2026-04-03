@@ -18,17 +18,17 @@ open class TaxSequencesAPI {
     /**
      Create new tax sequence
      
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
      - parameter createTaxSequenceRequest: (body)  
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createTaxSequence(xTenantId: UUID, createTaxSequenceRequest: CreateTaxSequenceRequest, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return createTaxSequenceWithRequestBuilder(xTenantId: xTenantId, createTaxSequenceRequest: createTaxSequenceRequest).execute(apiResponseQueue) { result in
+    open class func createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CreateTaxSequence201Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return createTaxSequenceWithRequestBuilder(createTaxSequenceRequest: createTaxSequenceRequest, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
-            case .success:
-                completion((), nil)
+            case let .success(response):
+                completion(response.body, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -38,18 +38,17 @@ open class TaxSequencesAPI {
     /**
      Create new tax sequence
      - POST /tax-sequences
-     - Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
      - OAuth:
        - type: oauth2
        - name: oauth2
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
      - parameter createTaxSequenceRequest: (body)  
-     - returns: RequestBuilder<Void> 
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - returns: RequestBuilder<CreateTaxSequence201Response> 
      */
-    open class func createTaxSequenceWithRequestBuilder(xTenantId: UUID, createTaxSequenceRequest: CreateTaxSequenceRequest) -> RequestBuilder<Void> {
+    open class func createTaxSequenceWithRequestBuilder(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<CreateTaxSequence201Response> {
         let localVariablePath = "/tax-sequences"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createTaxSequenceRequest)
@@ -58,12 +57,12 @@ open class TaxSequencesAPI {
 
         let localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "application/json",
-            "x-tenant-id": xTenantId.encodeToJSON(),
+            "x-tenant-id": xTenantId?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PronesoftEcfAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CreateTaxSequence201Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -71,15 +70,15 @@ open class TaxSequencesAPI {
     /**
      Get next available fiscal number
      
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
-     - parameter type: (query) Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). 
-     - parameter environment: (query) Target environment for the sequence. 
+     - parameter type: (query)  
+     - parameter environment: (query)  
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getNextNumber(xTenantId: UUID, type: InvoiceType, environment: Environment, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: GetNextNumber200Response?, _ error: Error?) -> Void)) -> RequestTask {
-        return getNextNumberWithRequestBuilder(xTenantId: xTenantId, type: type, environment: environment).execute(apiResponseQueue) { result in
+    open class func getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: GetNextNumber200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getNextNumberWithRequestBuilder(type: type, environment: environment, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -92,19 +91,19 @@ open class TaxSequencesAPI {
     /**
      Get next available fiscal number
      - GET /tax-sequences/next
-     - Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
+     - Returns the next e-NCF number. Use this as invoiceNumber when submitting.
      - OAuth:
        - type: oauth2
        - name: oauth2
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
-     - parameter type: (query) Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). 
-     - parameter environment: (query) Target environment for the sequence. 
+     - parameter type: (query)  
+     - parameter environment: (query)  
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      - returns: RequestBuilder<GetNextNumber200Response> 
      */
-    open class func getNextNumberWithRequestBuilder(xTenantId: UUID, type: InvoiceType, environment: Environment) -> RequestBuilder<GetNextNumber200Response> {
+    open class func getNextNumberWithRequestBuilder(type: InvoiceTypeSequence, environment: Environment, xTenantId: UUID? = nil) -> RequestBuilder<GetNextNumber200Response> {
         let localVariablePath = "/tax-sequences/next"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -116,7 +115,7 @@ open class TaxSequencesAPI {
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            "x-tenant-id": xTenantId.encodeToJSON(),
+            "x-tenant-id": xTenantId?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -129,14 +128,16 @@ open class TaxSequencesAPI {
     /**
      List tax sequences
      
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
-     - parameter type: (query) Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter type: (query)  (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter limit: (query)  (optional, default to 10)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listTaxSequences(xTenantId: UUID, type: InvoiceType? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)) -> RequestTask {
-        return listTaxSequencesWithRequestBuilder(xTenantId: xTenantId, type: type).execute(apiResponseQueue) { result in
+    open class func listTaxSequences(xTenantId: UUID? = nil, type: InvoiceTypeSequence? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return listTaxSequencesWithRequestBuilder(xTenantId: xTenantId, type: type, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -149,18 +150,19 @@ open class TaxSequencesAPI {
     /**
      List tax sequences
      - GET /tax-sequences
-     - Returns all fiscal number sequences registered for the tenant.
      - OAuth:
        - type: oauth2
        - name: oauth2
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
-     - parameter type: (query) Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter type: (query)  (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<ListTaxSequences200Response> 
      */
-    open class func listTaxSequencesWithRequestBuilder(xTenantId: UUID, type: InvoiceType? = nil) -> RequestBuilder<ListTaxSequences200Response> {
+    open class func listTaxSequencesWithRequestBuilder(xTenantId: UUID? = nil, type: InvoiceTypeSequence? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ListTaxSequences200Response> {
         let localVariablePath = "/tax-sequences"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -168,10 +170,12 @@ open class TaxSequencesAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
+            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            "x-tenant-id": xTenantId.encodeToJSON(),
+            "x-tenant-id": xTenantId?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -179,6 +183,116 @@ open class TaxSequencesAPI {
         let localVariableRequestBuilder: RequestBuilder<ListTaxSequences200Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Update tax sequence
+     
+     - parameter sequenceId: (path)  
+     - parameter updateTaxSequenceRequest: (body)  
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func updateTaxSequence(sequenceId: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+        return updateTaxSequenceWithRequestBuilder(sequenceId: sequenceId, updateTaxSequenceRequest: updateTaxSequenceRequest, xTenantId: xTenantId).execute(apiResponseQueue) { result in
+            switch result {
+            case .success:
+                completion((), nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Update tax sequence
+     - PATCH /tax-sequences/{sequenceId}
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter sequenceId: (path)  
+     - parameter updateTaxSequenceRequest: (body)  
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - returns: RequestBuilder<Void> 
+     */
+    open class func updateTaxSequenceWithRequestBuilder(sequenceId: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<Void> {
+        var localVariablePath = "/tax-sequences/{sequenceId}"
+        let sequenceIdPreEscape = "\(APIHelper.mapValueToPathItem(sequenceId))"
+        let sequenceIdPostEscape = sequenceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{sequenceId}", with: sequenceIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updateTaxSequenceRequest)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PronesoftEcfAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Void a range of fiscal numbers
+     
+     - parameter voidTaxSequenceRequest: (body)  
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: VoidTaxSequence200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return voidTaxSequenceWithRequestBuilder(voidTaxSequenceRequest: voidTaxSequenceRequest, xTenantId: xTenantId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Void a range of fiscal numbers
+     - POST /tax-sequences/void
+     - Cancels unused fiscal numbers and notifies DGII.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter voidTaxSequenceRequest: (body)  
+     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - returns: RequestBuilder<VoidTaxSequence200Response> 
+     */
+    open class func voidTaxSequenceWithRequestBuilder(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<VoidTaxSequence200Response> {
+        let localVariablePath = "/tax-sequences/void"
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: voidTaxSequenceRequest)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VoidTaxSequence200Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 }
 }

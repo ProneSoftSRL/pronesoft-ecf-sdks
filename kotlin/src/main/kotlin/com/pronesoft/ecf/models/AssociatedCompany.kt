@@ -24,25 +24,29 @@
 package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.AssociatedCompanySubscription
+import com.pronesoft.ecf.models.PrintFormat
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * A company or branch associated with the main tenant account.
+ * 
  *
  * @param id 
  * @param name 
  * @param rnc 
- * @param phone 
- * @param address 
+ * @param logoPath 
+ * @param type 
  * @param city 
  * @param country 
+ * @param phone 
+ * @param address 
  * @param website 
- * @param logoPath 
- * @param type Whether this is the main account or an associated branch.
+ * @param category 
+ * @param monthlySalesRange 
+ * @param printerType 
  * @param createdAt 
- * @param docsIssuedThisMonth Number of e-CF documents issued in the current month.
- * @param purchasedDocsConsumedThisMonth Purchased document quota consumed this month.
+ * @param docsIssuedThisMonth 
+ * @param purchasedDocsConsumedThisMonth 
  * @param ownerEmail 
  * @param subscription 
  */
@@ -59,11 +63,11 @@ data class AssociatedCompany (
     @SerializedName("rnc")
     val rnc: kotlin.String? = null,
 
-    @SerializedName("phone")
-    val phone: kotlin.String? = null,
+    @SerializedName("logoPath")
+    val logoPath: kotlin.String? = null,
 
-    @SerializedName("address")
-    val address: kotlin.String? = null,
+    @SerializedName("type")
+    val type: AssociatedCompany.Type? = null,
 
     @SerializedName("city")
     val city: kotlin.String? = null,
@@ -71,24 +75,30 @@ data class AssociatedCompany (
     @SerializedName("country")
     val country: kotlin.String? = null,
 
+    @SerializedName("phone")
+    val phone: kotlin.String? = null,
+
+    @SerializedName("address")
+    val address: kotlin.String? = null,
+
     @SerializedName("website")
     val website: java.net.URI? = null,
 
-    @SerializedName("logoPath")
-    val logoPath: kotlin.String? = null,
+    @SerializedName("category")
+    val category: kotlin.String? = null,
 
-    /* Whether this is the main account or an associated branch. */
-    @SerializedName("type")
-    val type: AssociatedCompany.Type? = null,
+    @SerializedName("monthlySalesRange")
+    val monthlySalesRange: kotlin.String? = null,
+
+    @SerializedName("printerType")
+    val printerType: PrintFormat? = null,
 
     @SerializedName("createdAt")
     val createdAt: java.time.OffsetDateTime? = null,
 
-    /* Number of e-CF documents issued in the current month. */
     @SerializedName("docsIssuedThisMonth")
     val docsIssuedThisMonth: kotlin.Int? = null,
 
-    /* Purchased document quota consumed this month. */
     @SerializedName("purchasedDocsConsumedThisMonth")
     val purchasedDocsConsumedThisMonth: kotlin.Int? = null,
 
@@ -101,7 +111,7 @@ data class AssociatedCompany (
 ) {
 
     /**
-     * Whether this is the main account or an associated branch.
+     * 
      *
      * Values: MAIN,ASSOCIATED
      */

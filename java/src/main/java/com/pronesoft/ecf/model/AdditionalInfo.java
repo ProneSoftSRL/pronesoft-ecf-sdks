@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -47,32 +47,148 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Additional shipping/logistics information.
+ * AdditionalInfo
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class AdditionalInfo {
+  public static final String SERIALIZED_NAME_SHIPMENT_DATE = "shipmentDate";
+  @SerializedName(SERIALIZED_NAME_SHIPMENT_DATE)
+  @javax.annotation.Nullable
+  private String shipmentDate;
+
+  public static final String SERIALIZED_NAME_SHIPMENT_NUMBER = "shipmentNumber";
+  @SerializedName(SERIALIZED_NAME_SHIPMENT_NUMBER)
+  @javax.annotation.Nullable
+  private String shipmentNumber;
+
+  public static final String SERIALIZED_NAME_CONTAINER_NUMBER = "containerNumber";
+  @SerializedName(SERIALIZED_NAME_CONTAINER_NUMBER)
+  @javax.annotation.Nullable
+  private String containerNumber;
+
+  public static final String SERIALIZED_NAME_REFERENCE_NUMBER = "referenceNumber";
+  @SerializedName(SERIALIZED_NAME_REFERENCE_NUMBER)
+  @javax.annotation.Nullable
+  private String referenceNumber;
+
   public static final String SERIALIZED_NAME_GROSS_WEIGHT = "grossWeight";
   @SerializedName(SERIALIZED_NAME_GROSS_WEIGHT)
   @javax.annotation.Nullable
   private BigDecimal grossWeight;
+
+  public static final String SERIALIZED_NAME_NET_WEIGHT = "netWeight";
+  @SerializedName(SERIALIZED_NAME_NET_WEIGHT)
+  @javax.annotation.Nullable
+  private BigDecimal netWeight;
+
+  public static final String SERIALIZED_NAME_GROSS_WEIGHT_UNIT = "grossWeightUnit";
+  @SerializedName(SERIALIZED_NAME_GROSS_WEIGHT_UNIT)
+  @javax.annotation.Nullable
+  private Integer grossWeightUnit;
+
+  public static final String SERIALIZED_NAME_NET_WEIGHT_UNIT = "netWeightUnit";
+  @SerializedName(SERIALIZED_NAME_NET_WEIGHT_UNIT)
+  @javax.annotation.Nullable
+  private Integer netWeightUnit;
 
   public static final String SERIALIZED_NAME_PACKAGE_QUANTITY = "packageQuantity";
   @SerializedName(SERIALIZED_NAME_PACKAGE_QUANTITY)
   @javax.annotation.Nullable
   private BigDecimal packageQuantity;
 
-  public static final String SERIALIZED_NAME_CONTAINER_ID = "containerId";
-  @SerializedName(SERIALIZED_NAME_CONTAINER_ID)
+  public static final String SERIALIZED_NAME_PACKAGE_UNIT = "packageUnit";
+  @SerializedName(SERIALIZED_NAME_PACKAGE_UNIT)
   @javax.annotation.Nullable
-  private String containerId;
+  private Integer packageUnit;
 
-  public static final String SERIALIZED_NAME_SEAL_ID = "sealId";
-  @SerializedName(SERIALIZED_NAME_SEAL_ID)
+  public static final String SERIALIZED_NAME_PACKAGE_VOLUME = "packageVolume";
+  @SerializedName(SERIALIZED_NAME_PACKAGE_VOLUME)
   @javax.annotation.Nullable
-  private String sealId;
+  private BigDecimal packageVolume;
+
+  public static final String SERIALIZED_NAME_VOLUME_UNIT = "volumeUnit";
+  @SerializedName(SERIALIZED_NAME_VOLUME_UNIT)
+  @javax.annotation.Nullable
+  private Integer volumeUnit;
 
   public AdditionalInfo() {
   }
+
+  public AdditionalInfo shipmentDate(@javax.annotation.Nullable String shipmentDate) {
+    this.shipmentDate = shipmentDate;
+    return this;
+  }
+
+  /**
+   * Get shipmentDate
+   * @return shipmentDate
+   */
+  @javax.annotation.Nullable
+  public String getShipmentDate() {
+    return shipmentDate;
+  }
+
+  public void setShipmentDate(@javax.annotation.Nullable String shipmentDate) {
+    this.shipmentDate = shipmentDate;
+  }
+
+
+  public AdditionalInfo shipmentNumber(@javax.annotation.Nullable String shipmentNumber) {
+    this.shipmentNumber = shipmentNumber;
+    return this;
+  }
+
+  /**
+   * Get shipmentNumber
+   * @return shipmentNumber
+   */
+  @javax.annotation.Nullable
+  public String getShipmentNumber() {
+    return shipmentNumber;
+  }
+
+  public void setShipmentNumber(@javax.annotation.Nullable String shipmentNumber) {
+    this.shipmentNumber = shipmentNumber;
+  }
+
+
+  public AdditionalInfo containerNumber(@javax.annotation.Nullable String containerNumber) {
+    this.containerNumber = containerNumber;
+    return this;
+  }
+
+  /**
+   * Get containerNumber
+   * @return containerNumber
+   */
+  @javax.annotation.Nullable
+  public String getContainerNumber() {
+    return containerNumber;
+  }
+
+  public void setContainerNumber(@javax.annotation.Nullable String containerNumber) {
+    this.containerNumber = containerNumber;
+  }
+
+
+  public AdditionalInfo referenceNumber(@javax.annotation.Nullable String referenceNumber) {
+    this.referenceNumber = referenceNumber;
+    return this;
+  }
+
+  /**
+   * Get referenceNumber
+   * @return referenceNumber
+   */
+  @javax.annotation.Nullable
+  public String getReferenceNumber() {
+    return referenceNumber;
+  }
+
+  public void setReferenceNumber(@javax.annotation.Nullable String referenceNumber) {
+    this.referenceNumber = referenceNumber;
+  }
+
 
   public AdditionalInfo grossWeight(@javax.annotation.Nullable BigDecimal grossWeight) {
     this.grossWeight = grossWeight;
@@ -80,7 +196,7 @@ public class AdditionalInfo {
   }
 
   /**
-   * Gross weight of the shipment (in kg).
+   * Get grossWeight
    * @return grossWeight
    */
   @javax.annotation.Nullable
@@ -93,13 +209,70 @@ public class AdditionalInfo {
   }
 
 
+  public AdditionalInfo netWeight(@javax.annotation.Nullable BigDecimal netWeight) {
+    this.netWeight = netWeight;
+    return this;
+  }
+
+  /**
+   * Get netWeight
+   * @return netWeight
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getNetWeight() {
+    return netWeight;
+  }
+
+  public void setNetWeight(@javax.annotation.Nullable BigDecimal netWeight) {
+    this.netWeight = netWeight;
+  }
+
+
+  public AdditionalInfo grossWeightUnit(@javax.annotation.Nullable Integer grossWeightUnit) {
+    this.grossWeightUnit = grossWeightUnit;
+    return this;
+  }
+
+  /**
+   * Get grossWeightUnit
+   * @return grossWeightUnit
+   */
+  @javax.annotation.Nullable
+  public Integer getGrossWeightUnit() {
+    return grossWeightUnit;
+  }
+
+  public void setGrossWeightUnit(@javax.annotation.Nullable Integer grossWeightUnit) {
+    this.grossWeightUnit = grossWeightUnit;
+  }
+
+
+  public AdditionalInfo netWeightUnit(@javax.annotation.Nullable Integer netWeightUnit) {
+    this.netWeightUnit = netWeightUnit;
+    return this;
+  }
+
+  /**
+   * Get netWeightUnit
+   * @return netWeightUnit
+   */
+  @javax.annotation.Nullable
+  public Integer getNetWeightUnit() {
+    return netWeightUnit;
+  }
+
+  public void setNetWeightUnit(@javax.annotation.Nullable Integer netWeightUnit) {
+    this.netWeightUnit = netWeightUnit;
+  }
+
+
   public AdditionalInfo packageQuantity(@javax.annotation.Nullable BigDecimal packageQuantity) {
     this.packageQuantity = packageQuantity;
     return this;
   }
 
   /**
-   * Number of packages.
+   * Get packageQuantity
    * @return packageQuantity
    */
   @javax.annotation.Nullable
@@ -112,41 +285,60 @@ public class AdditionalInfo {
   }
 
 
-  public AdditionalInfo containerId(@javax.annotation.Nullable String containerId) {
-    this.containerId = containerId;
+  public AdditionalInfo packageUnit(@javax.annotation.Nullable Integer packageUnit) {
+    this.packageUnit = packageUnit;
     return this;
   }
 
   /**
-   * Container identifier (for imports/exports).
-   * @return containerId
+   * Get packageUnit
+   * @return packageUnit
    */
   @javax.annotation.Nullable
-  public String getContainerId() {
-    return containerId;
+  public Integer getPackageUnit() {
+    return packageUnit;
   }
 
-  public void setContainerId(@javax.annotation.Nullable String containerId) {
-    this.containerId = containerId;
+  public void setPackageUnit(@javax.annotation.Nullable Integer packageUnit) {
+    this.packageUnit = packageUnit;
   }
 
 
-  public AdditionalInfo sealId(@javax.annotation.Nullable String sealId) {
-    this.sealId = sealId;
+  public AdditionalInfo packageVolume(@javax.annotation.Nullable BigDecimal packageVolume) {
+    this.packageVolume = packageVolume;
     return this;
   }
 
   /**
-   * Seal/precinto identifier.
-   * @return sealId
+   * Get packageVolume
+   * @return packageVolume
    */
   @javax.annotation.Nullable
-  public String getSealId() {
-    return sealId;
+  public BigDecimal getPackageVolume() {
+    return packageVolume;
   }
 
-  public void setSealId(@javax.annotation.Nullable String sealId) {
-    this.sealId = sealId;
+  public void setPackageVolume(@javax.annotation.Nullable BigDecimal packageVolume) {
+    this.packageVolume = packageVolume;
+  }
+
+
+  public AdditionalInfo volumeUnit(@javax.annotation.Nullable Integer volumeUnit) {
+    this.volumeUnit = volumeUnit;
+    return this;
+  }
+
+  /**
+   * Get volumeUnit
+   * @return volumeUnit
+   */
+  @javax.annotation.Nullable
+  public Integer getVolumeUnit() {
+    return volumeUnit;
+  }
+
+  public void setVolumeUnit(@javax.annotation.Nullable Integer volumeUnit) {
+    this.volumeUnit = volumeUnit;
   }
 
 
@@ -160,25 +352,41 @@ public class AdditionalInfo {
       return false;
     }
     AdditionalInfo additionalInfo = (AdditionalInfo) o;
-    return Objects.equals(this.grossWeight, additionalInfo.grossWeight) &&
+    return Objects.equals(this.shipmentDate, additionalInfo.shipmentDate) &&
+        Objects.equals(this.shipmentNumber, additionalInfo.shipmentNumber) &&
+        Objects.equals(this.containerNumber, additionalInfo.containerNumber) &&
+        Objects.equals(this.referenceNumber, additionalInfo.referenceNumber) &&
+        Objects.equals(this.grossWeight, additionalInfo.grossWeight) &&
+        Objects.equals(this.netWeight, additionalInfo.netWeight) &&
+        Objects.equals(this.grossWeightUnit, additionalInfo.grossWeightUnit) &&
+        Objects.equals(this.netWeightUnit, additionalInfo.netWeightUnit) &&
         Objects.equals(this.packageQuantity, additionalInfo.packageQuantity) &&
-        Objects.equals(this.containerId, additionalInfo.containerId) &&
-        Objects.equals(this.sealId, additionalInfo.sealId);
+        Objects.equals(this.packageUnit, additionalInfo.packageUnit) &&
+        Objects.equals(this.packageVolume, additionalInfo.packageVolume) &&
+        Objects.equals(this.volumeUnit, additionalInfo.volumeUnit);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(grossWeight, packageQuantity, containerId, sealId);
+    return Objects.hash(shipmentDate, shipmentNumber, containerNumber, referenceNumber, grossWeight, netWeight, grossWeightUnit, netWeightUnit, packageQuantity, packageUnit, packageVolume, volumeUnit);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalInfo {\n");
+    sb.append("    shipmentDate: ").append(toIndentedString(shipmentDate)).append("\n");
+    sb.append("    shipmentNumber: ").append(toIndentedString(shipmentNumber)).append("\n");
+    sb.append("    containerNumber: ").append(toIndentedString(containerNumber)).append("\n");
+    sb.append("    referenceNumber: ").append(toIndentedString(referenceNumber)).append("\n");
     sb.append("    grossWeight: ").append(toIndentedString(grossWeight)).append("\n");
+    sb.append("    netWeight: ").append(toIndentedString(netWeight)).append("\n");
+    sb.append("    grossWeightUnit: ").append(toIndentedString(grossWeightUnit)).append("\n");
+    sb.append("    netWeightUnit: ").append(toIndentedString(netWeightUnit)).append("\n");
     sb.append("    packageQuantity: ").append(toIndentedString(packageQuantity)).append("\n");
-    sb.append("    containerId: ").append(toIndentedString(containerId)).append("\n");
-    sb.append("    sealId: ").append(toIndentedString(sealId)).append("\n");
+    sb.append("    packageUnit: ").append(toIndentedString(packageUnit)).append("\n");
+    sb.append("    packageVolume: ").append(toIndentedString(packageVolume)).append("\n");
+    sb.append("    volumeUnit: ").append(toIndentedString(volumeUnit)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -197,7 +405,7 @@ public class AdditionalInfo {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("grossWeight", "packageQuantity", "containerId", "sealId"));
+    openapiFields = new HashSet<String>(Arrays.asList("shipmentDate", "shipmentNumber", "containerNumber", "referenceNumber", "grossWeight", "netWeight", "grossWeightUnit", "netWeightUnit", "packageQuantity", "packageUnit", "packageVolume", "volumeUnit"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -224,11 +432,17 @@ public class AdditionalInfo {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if ((jsonObj.get("containerId") != null && !jsonObj.get("containerId").isJsonNull()) && !jsonObj.get("containerId").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `containerId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("containerId").toString()));
+      if ((jsonObj.get("shipmentDate") != null && !jsonObj.get("shipmentDate").isJsonNull()) && !jsonObj.get("shipmentDate").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `shipmentDate` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shipmentDate").toString()));
       }
-      if ((jsonObj.get("sealId") != null && !jsonObj.get("sealId").isJsonNull()) && !jsonObj.get("sealId").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `sealId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sealId").toString()));
+      if ((jsonObj.get("shipmentNumber") != null && !jsonObj.get("shipmentNumber").isJsonNull()) && !jsonObj.get("shipmentNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `shipmentNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("shipmentNumber").toString()));
+      }
+      if ((jsonObj.get("containerNumber") != null && !jsonObj.get("containerNumber").isJsonNull()) && !jsonObj.get("containerNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `containerNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("containerNumber").toString()));
+      }
+      if ((jsonObj.get("referenceNumber") != null && !jsonObj.get("referenceNumber").isJsonNull()) && !jsonObj.get("referenceNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `referenceNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("referenceNumber").toString()));
       }
   }
 

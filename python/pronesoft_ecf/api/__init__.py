@@ -3,7 +3,12 @@
 # import apis into api package
 from pronesoft_ecf.api.associated_companies_api import AssociatedCompaniesApi
 from pronesoft_ecf.api.authentication_api import AuthenticationApi
+from pronesoft_ecf.api.automated_certification_api import AutomatedCertificationApi
+from pronesoft_ecf.api.commercial_approvals_api import CommercialApprovalsApi
 from pronesoft_ecf.api.digital_certificates_api import DigitalCertificatesApi
+from pronesoft_ecf.api.documents_received_api import DocumentsReceivedApi
+from pronesoft_ecf.api.documents_sent_api import DocumentsSentApi
+from pronesoft_ecf.api.reports_api import ReportsApi
 from pronesoft_ecf.api.tax_sequences_api import TaxSequencesApi
 from pronesoft_ecf.api.webhook_configuration_api import WebhookConfigurationApi
 from pronesoft_ecf.api.ecf_submission_api import ECFSubmissionApi

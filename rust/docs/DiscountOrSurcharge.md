@@ -4,13 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**line_number** | **i32** | Reference line number this discount/surcharge applies to. | 
-**r#type** | **Type** | - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo)  (enum: D, R) | 
-**value_type** | **ValueType** | Whether the amount is a fixed value (`$`) or a percentage (`%`). (enum: $, %) | 
-**amount** | **f64** | Discount or surcharge amount. | 
-**description** | Option<**String**> | Description of the discount or surcharge. | [optional]
-**percentage_value** | Option<**f64**> | Percentage value (when valueType is \"%\"). | [optional]
-**alternative_currency_amount** | Option<**f64**> | Equivalent amount in the alternative currency. | [optional]
+**line_number** | **i32** |  | 
+**r#type** | **Type** | D=Discount, R=Surcharge (enum: D, R) | 
+**norm1007_indicator** | Option<**Norm1007Indicator**> |  (enum: 0, 1) | [optional]
+**description** | Option<**String**> |  | [optional]
+**value_type** | **ValueType** |  (enum: $, %) | 
+**percentage_value** | Option<**f64**> |  | [optional]
+**amount** | **f64** |  | 
+**alternative_currency_amount** | Option<**f64**> |  | [optional]
 **billing_indicator** | Option<[**models::BillingIndicator**](BillingIndicator.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

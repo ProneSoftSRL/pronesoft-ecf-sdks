@@ -15,7 +15,6 @@ public typealias PrintFormat = PronesoftEcfAPI.PrintFormat
 
 extension PronesoftEcfAPI {
 
-/** Printer/receipt format: - &#x60;A4&#x60;: Standard A4 paper - &#x60;thermal_80&#x60;: 80mm thermal printer - &#x60;thermal_58&#x60;: 58mm thermal printer  */
 public enum PrintFormat: String, Codable, CaseIterable {
     case a4 = "A4"
     case thermal80 = "thermal_80"

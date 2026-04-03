@@ -1,16 +1,25 @@
 # EcfSubmissionResponse
 
-Response returned after successfully submitting an e-CF document.
+Response after submitting an e-CF. HTTP 200 even when rejected. Check the success field and dgiiResponse.estado for actual result. 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**success** | **bool** | Whether the document was accepted by the platform. | 
-**document_id** | **UUID** | Pronesoft internal document identifier. | 
-**encf** | **str** | The e-NCF number assigned to the document. | [optional] 
-**track_id** | **str** | DGII tracking ID for status polling. | [optional] 
-**message** | **str** | Human-readable status message. | [optional] 
+**success** | **bool** |  | 
+**document_id** | **UUID** |  | [optional] 
+**dgii_response** | [**EcfSubmissionResponseDgiiResponse**](EcfSubmissionResponseDgiiResponse.md) |  | [optional] 
+**qr_url** | **str** |  | [optional] 
+**signature_time** | **datetime** |  | [optional] 
+**security_code** | **str** |  | [optional] 
+**encf** | **str** |  | [optional] 
+**document_type** | **str** |  | [optional] 
+**print_url** | **str** |  | [optional] 
+**auth_type** | **str** |  | [optional] 
+**timestamp** | **datetime** |  | [optional] 
+**message** | **str** |  | [optional] 
+**contingency_mode** | **bool** |  | [optional] 
+**estimated_process_time** | **str** |  | [optional] 
 
 ## Example
 

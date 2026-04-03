@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -21,7 +21,9 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,9 +49,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Alternative currency information for documents issued in a currency other than Dominican Peso (DOP). 
+ * AlternativeCurrency
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class AlternativeCurrency {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -60,6 +62,66 @@ public class AlternativeCurrency {
   @SerializedName(SERIALIZED_NAME_EXCHANGE_RATE)
   @javax.annotation.Nonnull
   private BigDecimal exchangeRate;
+
+  public static final String SERIALIZED_NAME_TAXABLE_AMOUNT = "taxableAmount";
+  @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal taxableAmount;
+
+  public static final String SERIALIZED_NAME_TAXABLE_AMOUNT1 = "taxableAmount1";
+  @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT1)
+  @javax.annotation.Nullable
+  private BigDecimal taxableAmount1;
+
+  public static final String SERIALIZED_NAME_TAXABLE_AMOUNT2 = "taxableAmount2";
+  @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT2)
+  @javax.annotation.Nullable
+  private BigDecimal taxableAmount2;
+
+  public static final String SERIALIZED_NAME_TAXABLE_AMOUNT3 = "taxableAmount3";
+  @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT3)
+  @javax.annotation.Nullable
+  private BigDecimal taxableAmount3;
+
+  public static final String SERIALIZED_NAME_EXEMPT_AMOUNT = "exemptAmount";
+  @SerializedName(SERIALIZED_NAME_EXEMPT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal exemptAmount;
+
+  public static final String SERIALIZED_NAME_TOTAL_I_T_B_I_S = "totalITBIS";
+  @SerializedName(SERIALIZED_NAME_TOTAL_I_T_B_I_S)
+  @javax.annotation.Nullable
+  private BigDecimal totalITBIS;
+
+  public static final String SERIALIZED_NAME_ITBIS1 = "itbis1";
+  @SerializedName(SERIALIZED_NAME_ITBIS1)
+  @javax.annotation.Nullable
+  private BigDecimal itbis1;
+
+  public static final String SERIALIZED_NAME_ITBIS2 = "itbis2";
+  @SerializedName(SERIALIZED_NAME_ITBIS2)
+  @javax.annotation.Nullable
+  private BigDecimal itbis2;
+
+  public static final String SERIALIZED_NAME_ITBIS3 = "itbis3";
+  @SerializedName(SERIALIZED_NAME_ITBIS3)
+  @javax.annotation.Nullable
+  private BigDecimal itbis3;
+
+  public static final String SERIALIZED_NAME_ADDITIONAL_TAX_AMOUNT = "additionalTaxAmount";
+  @SerializedName(SERIALIZED_NAME_ADDITIONAL_TAX_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal additionalTaxAmount;
+
+  public static final String SERIALIZED_NAME_ADDITIONAL_TAXES = "additionalTaxes";
+  @SerializedName(SERIALIZED_NAME_ADDITIONAL_TAXES)
+  @javax.annotation.Nullable
+  private List<String> additionalTaxes = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_NON_BILLABLE_AMOUNT = "nonBillableAmount";
+  @SerializedName(SERIALIZED_NAME_NON_BILLABLE_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal nonBillableAmount;
 
   public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "totalAmount";
   @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)
@@ -75,7 +137,7 @@ public class AlternativeCurrency {
   }
 
   /**
-   * ISO 4217 currency code (e.g. \&quot;USD\&quot;, \&quot;EUR\&quot;).
+   * Get code
    * @return code
    */
   @javax.annotation.Nonnull
@@ -94,7 +156,7 @@ public class AlternativeCurrency {
   }
 
   /**
-   * Exchange rate to Dominican Peso at time of issuance.
+   * Get exchangeRate
    * @return exchangeRate
    */
   @javax.annotation.Nonnull
@@ -107,13 +169,249 @@ public class AlternativeCurrency {
   }
 
 
+  public AlternativeCurrency taxableAmount(@javax.annotation.Nullable BigDecimal taxableAmount) {
+    this.taxableAmount = taxableAmount;
+    return this;
+  }
+
+  /**
+   * Get taxableAmount
+   * @return taxableAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTaxableAmount() {
+    return taxableAmount;
+  }
+
+  public void setTaxableAmount(@javax.annotation.Nullable BigDecimal taxableAmount) {
+    this.taxableAmount = taxableAmount;
+  }
+
+
+  public AlternativeCurrency taxableAmount1(@javax.annotation.Nullable BigDecimal taxableAmount1) {
+    this.taxableAmount1 = taxableAmount1;
+    return this;
+  }
+
+  /**
+   * Get taxableAmount1
+   * @return taxableAmount1
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTaxableAmount1() {
+    return taxableAmount1;
+  }
+
+  public void setTaxableAmount1(@javax.annotation.Nullable BigDecimal taxableAmount1) {
+    this.taxableAmount1 = taxableAmount1;
+  }
+
+
+  public AlternativeCurrency taxableAmount2(@javax.annotation.Nullable BigDecimal taxableAmount2) {
+    this.taxableAmount2 = taxableAmount2;
+    return this;
+  }
+
+  /**
+   * Get taxableAmount2
+   * @return taxableAmount2
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTaxableAmount2() {
+    return taxableAmount2;
+  }
+
+  public void setTaxableAmount2(@javax.annotation.Nullable BigDecimal taxableAmount2) {
+    this.taxableAmount2 = taxableAmount2;
+  }
+
+
+  public AlternativeCurrency taxableAmount3(@javax.annotation.Nullable BigDecimal taxableAmount3) {
+    this.taxableAmount3 = taxableAmount3;
+    return this;
+  }
+
+  /**
+   * Get taxableAmount3
+   * @return taxableAmount3
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTaxableAmount3() {
+    return taxableAmount3;
+  }
+
+  public void setTaxableAmount3(@javax.annotation.Nullable BigDecimal taxableAmount3) {
+    this.taxableAmount3 = taxableAmount3;
+  }
+
+
+  public AlternativeCurrency exemptAmount(@javax.annotation.Nullable BigDecimal exemptAmount) {
+    this.exemptAmount = exemptAmount;
+    return this;
+  }
+
+  /**
+   * Get exemptAmount
+   * @return exemptAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getExemptAmount() {
+    return exemptAmount;
+  }
+
+  public void setExemptAmount(@javax.annotation.Nullable BigDecimal exemptAmount) {
+    this.exemptAmount = exemptAmount;
+  }
+
+
+  public AlternativeCurrency totalITBIS(@javax.annotation.Nullable BigDecimal totalITBIS) {
+    this.totalITBIS = totalITBIS;
+    return this;
+  }
+
+  /**
+   * Get totalITBIS
+   * @return totalITBIS
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTotalITBIS() {
+    return totalITBIS;
+  }
+
+  public void setTotalITBIS(@javax.annotation.Nullable BigDecimal totalITBIS) {
+    this.totalITBIS = totalITBIS;
+  }
+
+
+  public AlternativeCurrency itbis1(@javax.annotation.Nullable BigDecimal itbis1) {
+    this.itbis1 = itbis1;
+    return this;
+  }
+
+  /**
+   * Get itbis1
+   * @return itbis1
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbis1() {
+    return itbis1;
+  }
+
+  public void setItbis1(@javax.annotation.Nullable BigDecimal itbis1) {
+    this.itbis1 = itbis1;
+  }
+
+
+  public AlternativeCurrency itbis2(@javax.annotation.Nullable BigDecimal itbis2) {
+    this.itbis2 = itbis2;
+    return this;
+  }
+
+  /**
+   * Get itbis2
+   * @return itbis2
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbis2() {
+    return itbis2;
+  }
+
+  public void setItbis2(@javax.annotation.Nullable BigDecimal itbis2) {
+    this.itbis2 = itbis2;
+  }
+
+
+  public AlternativeCurrency itbis3(@javax.annotation.Nullable BigDecimal itbis3) {
+    this.itbis3 = itbis3;
+    return this;
+  }
+
+  /**
+   * Get itbis3
+   * @return itbis3
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getItbis3() {
+    return itbis3;
+  }
+
+  public void setItbis3(@javax.annotation.Nullable BigDecimal itbis3) {
+    this.itbis3 = itbis3;
+  }
+
+
+  public AlternativeCurrency additionalTaxAmount(@javax.annotation.Nullable BigDecimal additionalTaxAmount) {
+    this.additionalTaxAmount = additionalTaxAmount;
+    return this;
+  }
+
+  /**
+   * Get additionalTaxAmount
+   * @return additionalTaxAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getAdditionalTaxAmount() {
+    return additionalTaxAmount;
+  }
+
+  public void setAdditionalTaxAmount(@javax.annotation.Nullable BigDecimal additionalTaxAmount) {
+    this.additionalTaxAmount = additionalTaxAmount;
+  }
+
+
+  public AlternativeCurrency additionalTaxes(@javax.annotation.Nullable List<String> additionalTaxes) {
+    this.additionalTaxes = additionalTaxes;
+    return this;
+  }
+
+  public AlternativeCurrency addAdditionalTaxesItem(String additionalTaxesItem) {
+    if (this.additionalTaxes == null) {
+      this.additionalTaxes = new ArrayList<>();
+    }
+    this.additionalTaxes.add(additionalTaxesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalTaxes
+   * @return additionalTaxes
+   */
+  @javax.annotation.Nullable
+  public List<String> getAdditionalTaxes() {
+    return additionalTaxes;
+  }
+
+  public void setAdditionalTaxes(@javax.annotation.Nullable List<String> additionalTaxes) {
+    this.additionalTaxes = additionalTaxes;
+  }
+
+
+  public AlternativeCurrency nonBillableAmount(@javax.annotation.Nullable BigDecimal nonBillableAmount) {
+    this.nonBillableAmount = nonBillableAmount;
+    return this;
+  }
+
+  /**
+   * Get nonBillableAmount
+   * @return nonBillableAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getNonBillableAmount() {
+    return nonBillableAmount;
+  }
+
+  public void setNonBillableAmount(@javax.annotation.Nullable BigDecimal nonBillableAmount) {
+    this.nonBillableAmount = nonBillableAmount;
+  }
+
+
   public AlternativeCurrency totalAmount(@javax.annotation.Nullable BigDecimal totalAmount) {
     this.totalAmount = totalAmount;
     return this;
   }
 
   /**
-   * Total document amount in the alternative currency.
+   * Get totalAmount
    * @return totalAmount
    */
   @javax.annotation.Nullable
@@ -138,12 +436,24 @@ public class AlternativeCurrency {
     AlternativeCurrency alternativeCurrency = (AlternativeCurrency) o;
     return Objects.equals(this.code, alternativeCurrency.code) &&
         Objects.equals(this.exchangeRate, alternativeCurrency.exchangeRate) &&
+        Objects.equals(this.taxableAmount, alternativeCurrency.taxableAmount) &&
+        Objects.equals(this.taxableAmount1, alternativeCurrency.taxableAmount1) &&
+        Objects.equals(this.taxableAmount2, alternativeCurrency.taxableAmount2) &&
+        Objects.equals(this.taxableAmount3, alternativeCurrency.taxableAmount3) &&
+        Objects.equals(this.exemptAmount, alternativeCurrency.exemptAmount) &&
+        Objects.equals(this.totalITBIS, alternativeCurrency.totalITBIS) &&
+        Objects.equals(this.itbis1, alternativeCurrency.itbis1) &&
+        Objects.equals(this.itbis2, alternativeCurrency.itbis2) &&
+        Objects.equals(this.itbis3, alternativeCurrency.itbis3) &&
+        Objects.equals(this.additionalTaxAmount, alternativeCurrency.additionalTaxAmount) &&
+        Objects.equals(this.additionalTaxes, alternativeCurrency.additionalTaxes) &&
+        Objects.equals(this.nonBillableAmount, alternativeCurrency.nonBillableAmount) &&
         Objects.equals(this.totalAmount, alternativeCurrency.totalAmount);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, exchangeRate, totalAmount);
+    return Objects.hash(code, exchangeRate, taxableAmount, taxableAmount1, taxableAmount2, taxableAmount3, exemptAmount, totalITBIS, itbis1, itbis2, itbis3, additionalTaxAmount, additionalTaxes, nonBillableAmount, totalAmount);
   }
 
   @Override
@@ -152,6 +462,18 @@ public class AlternativeCurrency {
     sb.append("class AlternativeCurrency {\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    exchangeRate: ").append(toIndentedString(exchangeRate)).append("\n");
+    sb.append("    taxableAmount: ").append(toIndentedString(taxableAmount)).append("\n");
+    sb.append("    taxableAmount1: ").append(toIndentedString(taxableAmount1)).append("\n");
+    sb.append("    taxableAmount2: ").append(toIndentedString(taxableAmount2)).append("\n");
+    sb.append("    taxableAmount3: ").append(toIndentedString(taxableAmount3)).append("\n");
+    sb.append("    exemptAmount: ").append(toIndentedString(exemptAmount)).append("\n");
+    sb.append("    totalITBIS: ").append(toIndentedString(totalITBIS)).append("\n");
+    sb.append("    itbis1: ").append(toIndentedString(itbis1)).append("\n");
+    sb.append("    itbis2: ").append(toIndentedString(itbis2)).append("\n");
+    sb.append("    itbis3: ").append(toIndentedString(itbis3)).append("\n");
+    sb.append("    additionalTaxAmount: ").append(toIndentedString(additionalTaxAmount)).append("\n");
+    sb.append("    additionalTaxes: ").append(toIndentedString(additionalTaxes)).append("\n");
+    sb.append("    nonBillableAmount: ").append(toIndentedString(nonBillableAmount)).append("\n");
     sb.append("    totalAmount: ").append(toIndentedString(totalAmount)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -171,7 +493,7 @@ public class AlternativeCurrency {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("code", "exchangeRate", "totalAmount"));
+    openapiFields = new HashSet<String>(Arrays.asList("code", "exchangeRate", "taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "exemptAmount", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxAmount", "additionalTaxes", "nonBillableAmount", "totalAmount"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("code", "exchangeRate"));
@@ -207,6 +529,10 @@ public class AlternativeCurrency {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if (!jsonObj.get("code").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `code` to be a primitive type in the JSON string but got `%s`", jsonObj.get("code").toString()));
+      }
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("additionalTaxes") != null && !jsonObj.get("additionalTaxes").isJsonNull() && !jsonObj.get("additionalTaxes").isJsonArray()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `additionalTaxes` to be an array in the JSON string but got `%s`", jsonObj.get("additionalTaxes").toString()));
       }
   }
 

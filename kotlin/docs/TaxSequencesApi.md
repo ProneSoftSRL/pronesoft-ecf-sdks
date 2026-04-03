@@ -7,15 +7,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | [**createTaxSequence**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Create new tax sequence |
 | [**getNextNumber**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**listTaxSequences**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences |
+| [**updateTaxSequence**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**voidTaxSequence**](TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 
 <a id="createTaxSequence"></a>
 # **createTaxSequence**
-> createTaxSequence(xTenantId, createTaxSequenceRequest)
+> CreateTaxSequence201Response createTaxSequence(createTaxSequenceRequest, xTenantId)
 
 Create new tax sequence
-
-Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
 
 ### Example
 ```kotlin
@@ -24,10 +24,11 @@ Registers a new block of fiscal numbers for a given invoice type. The &#x60;from
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = TaxSequencesApi()
-val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-val createTaxSequenceRequest : CreateTaxSequenceRequest = {"type":"31","from":1,"to":500} // CreateTaxSequenceRequest | 
+val createTaxSequenceRequest : CreateTaxSequenceRequest = {"type":"E32","from":1,"to":10000,"quantity":10000,"expiration":"2025-12-31","environment":"TesteCF"} // CreateTaxSequenceRequest | 
+val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
 try {
-    apiInstance.createTaxSequence(xTenantId, createTaxSequenceRequest)
+    val result : CreateTaxSequence201Response = apiInstance.createTaxSequence(createTaxSequenceRequest, xTenantId)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling TaxSequencesApi#createTaxSequence")
     e.printStackTrace()
@@ -38,14 +39,14 @@ try {
 ```
 
 ### Parameters
-| **xTenantId** | **java.util.UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | |
+| **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | |
+| **xTenantId** | **java.util.UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 
 ### Return type
 
-null (empty response body)
+[**CreateTaxSequence201Response**](CreateTaxSequence201Response.md)
 
 ### Authorization
 
@@ -62,11 +63,11 @@ Configure bearerAuth:
 
 <a id="getNextNumber"></a>
 # **getNextNumber**
-> GetNextNumber200Response getNextNumber(xTenantId, type, environment)
+> GetNextNumber200Response getNextNumber(type, environment, xTenantId)
 
 Get next available fiscal number
 
-Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
+Returns the next e-NCF number. Use this as invoiceNumber when submitting.
 
 ### Example
 ```kotlin
@@ -75,11 +76,11 @@ Returns the next available e-NCF number for a given invoice type and environment
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = TaxSequencesApi()
-val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-val type : InvoiceType =  // InvoiceType | Invoice type code (e.g. \"31\" for Tax Credit Invoice).
-val environment : Environment =  // Environment | Target environment for the sequence.
+val type : InvoiceTypeSequence =  // InvoiceTypeSequence | 
+val environment : Environment =  // Environment | 
+val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
 try {
-    val result : GetNextNumber200Response = apiInstance.getNextNumber(xTenantId, type, environment)
+    val result : GetNextNumber200Response = apiInstance.getNextNumber(type, environment, xTenantId)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling TaxSequencesApi#getNextNumber")
@@ -91,11 +92,11 @@ try {
 ```
 
 ### Parameters
-| **xTenantId** | **java.util.UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | |
-| **type** | [**InvoiceType**](.md)| Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). | [enum: 31, 32, 33, 34, 41, 43, 44, 45, 46, 47] |
+| **type** | [**InvoiceTypeSequence**](.md)|  | [enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
+| **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **environment** | [**Environment**](.md)| Target environment for the sequence. | [enum: TesteCF, CerteCF, eCF] |
+| **xTenantId** | **java.util.UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 
 ### Return type
 
@@ -116,11 +117,9 @@ Configure bearerAuth:
 
 <a id="listTaxSequences"></a>
 # **listTaxSequences**
-> ListTaxSequences200Response listTaxSequences(xTenantId, type)
+> ListTaxSequences200Response listTaxSequences(xTenantId, type, page, limit)
 
 List tax sequences
-
-Returns all fiscal number sequences registered for the tenant.
 
 ### Example
 ```kotlin
@@ -129,10 +128,12 @@ Returns all fiscal number sequences registered for the tenant.
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = TaxSequencesApi()
-val xTenantId : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-val type : InvoiceType =  // InvoiceType | Filter by invoice type (e.g. \"31\" for Tax Credit).
+val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+val type : InvoiceTypeSequence =  // InvoiceTypeSequence | 
+val page : kotlin.Int = 56 // kotlin.Int | 
+val limit : kotlin.Int = 56 // kotlin.Int | 
 try {
-    val result : ListTaxSequences200Response = apiInstance.listTaxSequences(xTenantId, type)
+    val result : ListTaxSequences200Response = apiInstance.listTaxSequences(xTenantId, type, page, limit)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling TaxSequencesApi#listTaxSequences")
@@ -144,10 +145,12 @@ try {
 ```
 
 ### Parameters
-| **xTenantId** | **java.util.UUID**| UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | |
+| **xTenantId** | **java.util.UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+| **type** | [**InvoiceTypeSequence**](.md)|  | [optional] [enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
+| **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **type** | [**InvoiceType**](.md)| Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). | [optional] [enum: 31, 32, 33, 34, 41, 43, 44, 45, 46, 47] |
+| **limit** | **kotlin.Int**|  | [optional] [default to 10] |
 
 ### Return type
 
@@ -164,5 +167,108 @@ Configure bearerAuth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="updateTaxSequence"></a>
+# **updateTaxSequence**
+> updateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId)
+
+Update tax sequence
+
+### Example
+```kotlin
+// Import classes:
+//import com.pronesoft.ecf.infrastructure.*
+//import com.pronesoft.ecf.models.*
+
+val apiInstance = TaxSequencesApi()
+val sequenceId : kotlin.String = sequenceId_example // kotlin.String | 
+val updateTaxSequenceRequest : UpdateTaxSequenceRequest =  // UpdateTaxSequenceRequest | 
+val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+try {
+    apiInstance.updateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId)
+} catch (e: ClientException) {
+    println("4xx response calling TaxSequencesApi#updateTaxSequence")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling TaxSequencesApi#updateTaxSequence")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **sequenceId** | **kotlin.String**|  | |
+| **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md)|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **xTenantId** | **java.util.UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+
+Configure oauth2:
+    ApiClient.accessToken = ""
+Configure bearerAuth:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a id="voidTaxSequence"></a>
+# **voidTaxSequence**
+> VoidTaxSequence200Response voidTaxSequence(voidTaxSequenceRequest, xTenantId)
+
+Void a range of fiscal numbers
+
+Cancels unused fiscal numbers and notifies DGII.
+
+### Example
+```kotlin
+// Import classes:
+//import com.pronesoft.ecf.infrastructure.*
+//import com.pronesoft.ecf.models.*
+
+val apiInstance = TaxSequencesApi()
+val voidTaxSequenceRequest : VoidTaxSequenceRequest =  // VoidTaxSequenceRequest | 
+val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+try {
+    val result : VoidTaxSequence200Response = apiInstance.voidTaxSequence(voidTaxSequenceRequest, xTenantId)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling TaxSequencesApi#voidTaxSequence")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling TaxSequencesApi#voidTaxSequence")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **voidTaxSequenceRequest** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md)|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **xTenantId** | **java.util.UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+
+### Return type
+
+[**VoidTaxSequence200Response**](VoidTaxSequence200Response.md)
+
+### Authorization
+
+
+Configure oauth2:
+    ApiClient.accessToken = ""
+Configure bearerAuth:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 

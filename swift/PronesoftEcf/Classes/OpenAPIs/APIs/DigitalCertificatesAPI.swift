@@ -16,11 +16,11 @@ extension PronesoftEcfAPI {
 open class DigitalCertificatesAPI {
 
     /**
-     Upload digital certificate (P12)
+     Upload digital certificate (P12/PFX)
      
-     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
-     - parameter file: (form) The P12/PFX certificate file. 
-     - parameter password: (form) Password to unlock the P12 certificate. 
+     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter file: (form) Certificate file in .p12 or .pfx format. 
+     - parameter password: (form) Password to unlock the certificate. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -37,18 +37,18 @@ open class DigitalCertificatesAPI {
     }
 
     /**
-     Upload digital certificate (P12)
+     Upload digital certificate (P12/PFX)
      - POST /{rnc}/certificates
-     - Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+     - Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
      - OAuth:
        - type: oauth2
        - name: oauth2
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter rnc: (path) RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  
-     - parameter file: (form) The P12/PFX certificate file. 
-     - parameter password: (form) Password to unlock the P12 certificate. 
+     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter file: (form) Certificate file in .p12 or .pfx format. 
+     - parameter password: (form) Password to unlock the certificate. 
      - returns: RequestBuilder<UploadCertificateResponse> 
      */
     open class func uploadCertificateWithRequestBuilder(rnc: String, file: URL, password: String) -> RequestBuilder<UploadCertificateResponse> {

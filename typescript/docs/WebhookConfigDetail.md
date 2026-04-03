@@ -1,0 +1,50 @@
+
+# WebhookConfigDetail
+
+
+## Properties
+
+Name | Type
+------------ | -------------
+`id` | string
+`url` | string
+`description` | string
+`eventTypes` | [Array&lt;WebhookEventType&gt;](WebhookEventType.md)
+`isActive` | boolean
+`createdAt` | Date
+`updatedAt` | Date
+`lastTriggeredAt` | Date
+`deliveries` | number
+
+## Example
+
+```typescript
+import type { WebhookConfigDetail } from '@pronesoft-rd/ecf-sdk'
+
+// TODO: Update the object below with actual values
+const example = {
+  "id": webhook_sbx_1234567890abcdef,
+  "url": null,
+  "description": null,
+  "eventTypes": null,
+  "isActive": null,
+  "createdAt": null,
+  "updatedAt": null,
+  "lastTriggeredAt": null,
+  "deliveries": null,
+} satisfies WebhookConfigDetail
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as WebhookConfigDetail
+console.log(exampleParsed)
+```
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

@@ -1,7 +1,7 @@
 
 # OAuthTokenRequest
 
-Credentials for OAuth 2.0 Client Credentials authentication.  Obtain `clientId` and `clientSecret` from the Pronesoft portal: - Sandbox: https://ecf.sandbox.pronesoft.com - Production: https://ecf.pronesoft.com 
+Credentials for OAuth 2.0. Get from Pronesoft portal.
 
 ## Properties
 
@@ -13,12 +13,12 @@ Name | Type
 ## Example
 
 ```typescript
-import type { OAuthTokenRequest } from '@pronesoft/ecf-sdk'
+import type { OAuthTokenRequest } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "clientId": my-app-client-id,
-  "clientSecret": my-super-secret-value,
+  "clientId": app_live_TU_CLIENT_ID,
+  "clientSecret": sk_live_TU_CLIENT_SECRET,
 } satisfies OAuthTokenRequest
 
 console.log(example)

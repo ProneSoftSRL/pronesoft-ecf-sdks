@@ -4,12 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **string** | Unique webhook identifier. | [optional] 
-**Url** | Pointer to **string** | The URL that receives webhook notifications. | [optional] 
-**EventTypes** | Pointer to [**[]WebhookEventType**](WebhookEventType.md) | Events this webhook is subscribed to. | [optional] 
-**IsActive** | Pointer to **bool** | Whether this webhook is currently active. | [optional] 
+**Id** | Pointer to **string** |  | [optional] 
+**Url** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to **string** |  | [optional] 
+**EventTypes** | Pointer to [**[]WebhookEventType**](WebhookEventType.md) |  | [optional] 
+**IsActive** | Pointer to **bool** |  | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**LastTriggeredAt** | Pointer to **NullableTime** | When this webhook was last triggered. Null if never triggered. | [optional] 
+**UpdatedAt** | Pointer to **time.Time** |  | [optional] 
+**LastTriggeredAt** | Pointer to **NullableTime** |  | [optional] 
 
 ## Methods
 
@@ -79,6 +81,31 @@ SetUrl sets Url field to given value.
 `func (o *WebhookConfigResponse) HasUrl() bool`
 
 HasUrl returns a boolean if a field has been set.
+
+### GetDescription
+
+`func (o *WebhookConfigResponse) GetDescription() string`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *WebhookConfigResponse) GetDescriptionOk() (*string, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *WebhookConfigResponse) SetDescription(v string)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *WebhookConfigResponse) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
 
 ### GetEventTypes
 
@@ -154,6 +181,31 @@ SetCreatedAt sets CreatedAt field to given value.
 `func (o *WebhookConfigResponse) HasCreatedAt() bool`
 
 HasCreatedAt returns a boolean if a field has been set.
+
+### GetUpdatedAt
+
+`func (o *WebhookConfigResponse) GetUpdatedAt() time.Time`
+
+GetUpdatedAt returns the UpdatedAt field if non-nil, zero value otherwise.
+
+### GetUpdatedAtOk
+
+`func (o *WebhookConfigResponse) GetUpdatedAtOk() (*time.Time, bool)`
+
+GetUpdatedAtOk returns a tuple with the UpdatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUpdatedAt
+
+`func (o *WebhookConfigResponse) SetUpdatedAt(v time.Time)`
+
+SetUpdatedAt sets UpdatedAt field to given value.
+
+### HasUpdatedAt
+
+`func (o *WebhookConfigResponse) HasUpdatedAt() bool`
+
+HasUpdatedAt returns a boolean if a field has been set.
 
 ### GetLastTriggeredAt
 

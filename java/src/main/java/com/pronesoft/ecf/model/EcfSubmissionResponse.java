@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -19,7 +19,10 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.pronesoft.ecf.model.EcfSubmissionResponseDgiiResponse;
 import java.io.IOException;
+import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -47,9 +50,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Response returned after successfully submitting an e-CF document.
+ * Response after submitting an e-CF. HTTP 200 even when rejected. Check the success field and dgiiResponse.estado for actual result. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class EcfSubmissionResponse {
   public static final String SERIALIZED_NAME_SUCCESS = "success";
   @SerializedName(SERIALIZED_NAME_SUCCESS)
@@ -58,23 +61,68 @@ public class EcfSubmissionResponse {
 
   public static final String SERIALIZED_NAME_DOCUMENT_ID = "documentId";
   @SerializedName(SERIALIZED_NAME_DOCUMENT_ID)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private UUID documentId;
+
+  public static final String SERIALIZED_NAME_DGII_RESPONSE = "dgiiResponse";
+  @SerializedName(SERIALIZED_NAME_DGII_RESPONSE)
+  @javax.annotation.Nullable
+  private EcfSubmissionResponseDgiiResponse dgiiResponse;
+
+  public static final String SERIALIZED_NAME_QR_URL = "qrUrl";
+  @SerializedName(SERIALIZED_NAME_QR_URL)
+  @javax.annotation.Nullable
+  private URI qrUrl;
+
+  public static final String SERIALIZED_NAME_SIGNATURE_TIME = "signatureTime";
+  @SerializedName(SERIALIZED_NAME_SIGNATURE_TIME)
+  @javax.annotation.Nullable
+  private OffsetDateTime signatureTime;
+
+  public static final String SERIALIZED_NAME_SECURITY_CODE = "securityCode";
+  @SerializedName(SERIALIZED_NAME_SECURITY_CODE)
+  @javax.annotation.Nullable
+  private String securityCode;
 
   public static final String SERIALIZED_NAME_ENCF = "encf";
   @SerializedName(SERIALIZED_NAME_ENCF)
   @javax.annotation.Nullable
   private String encf;
 
-  public static final String SERIALIZED_NAME_TRACK_ID = "trackId";
-  @SerializedName(SERIALIZED_NAME_TRACK_ID)
+  public static final String SERIALIZED_NAME_DOCUMENT_TYPE = "documentType";
+  @SerializedName(SERIALIZED_NAME_DOCUMENT_TYPE)
   @javax.annotation.Nullable
-  private String trackId;
+  private String documentType;
+
+  public static final String SERIALIZED_NAME_PRINT_URL = "printUrl";
+  @SerializedName(SERIALIZED_NAME_PRINT_URL)
+  @javax.annotation.Nullable
+  private URI printUrl;
+
+  public static final String SERIALIZED_NAME_AUTH_TYPE = "authType";
+  @SerializedName(SERIALIZED_NAME_AUTH_TYPE)
+  @javax.annotation.Nullable
+  private String authType;
+
+  public static final String SERIALIZED_NAME_TIMESTAMP = "timestamp";
+  @SerializedName(SERIALIZED_NAME_TIMESTAMP)
+  @javax.annotation.Nullable
+  private OffsetDateTime timestamp;
 
   public static final String SERIALIZED_NAME_MESSAGE = "message";
   @SerializedName(SERIALIZED_NAME_MESSAGE)
   @javax.annotation.Nullable
   private String message;
+
+  public static final String SERIALIZED_NAME_CONTINGENCY_MODE = "contingencyMode";
+  @SerializedName(SERIALIZED_NAME_CONTINGENCY_MODE)
+  @javax.annotation.Nullable
+  private Boolean contingencyMode;
+
+  public static final String SERIALIZED_NAME_ESTIMATED_PROCESS_TIME = "estimatedProcessTime";
+  @SerializedName(SERIALIZED_NAME_ESTIMATED_PROCESS_TIME)
+  @javax.annotation.Nullable
+  private String estimatedProcessTime;
 
   public EcfSubmissionResponse() {
   }
@@ -85,7 +133,7 @@ public class EcfSubmissionResponse {
   }
 
   /**
-   * Whether the document was accepted by the platform.
+   * Get success
    * @return success
    */
   @javax.annotation.Nonnull
@@ -98,22 +146,98 @@ public class EcfSubmissionResponse {
   }
 
 
-  public EcfSubmissionResponse documentId(@javax.annotation.Nonnull UUID documentId) {
+  public EcfSubmissionResponse documentId(@javax.annotation.Nullable UUID documentId) {
     this.documentId = documentId;
     return this;
   }
 
   /**
-   * Pronesoft internal document identifier.
+   * Get documentId
    * @return documentId
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public UUID getDocumentId() {
     return documentId;
   }
 
-  public void setDocumentId(@javax.annotation.Nonnull UUID documentId) {
+  public void setDocumentId(@javax.annotation.Nullable UUID documentId) {
     this.documentId = documentId;
+  }
+
+
+  public EcfSubmissionResponse dgiiResponse(@javax.annotation.Nullable EcfSubmissionResponseDgiiResponse dgiiResponse) {
+    this.dgiiResponse = dgiiResponse;
+    return this;
+  }
+
+  /**
+   * Get dgiiResponse
+   * @return dgiiResponse
+   */
+  @javax.annotation.Nullable
+  public EcfSubmissionResponseDgiiResponse getDgiiResponse() {
+    return dgiiResponse;
+  }
+
+  public void setDgiiResponse(@javax.annotation.Nullable EcfSubmissionResponseDgiiResponse dgiiResponse) {
+    this.dgiiResponse = dgiiResponse;
+  }
+
+
+  public EcfSubmissionResponse qrUrl(@javax.annotation.Nullable URI qrUrl) {
+    this.qrUrl = qrUrl;
+    return this;
+  }
+
+  /**
+   * Get qrUrl
+   * @return qrUrl
+   */
+  @javax.annotation.Nullable
+  public URI getQrUrl() {
+    return qrUrl;
+  }
+
+  public void setQrUrl(@javax.annotation.Nullable URI qrUrl) {
+    this.qrUrl = qrUrl;
+  }
+
+
+  public EcfSubmissionResponse signatureTime(@javax.annotation.Nullable OffsetDateTime signatureTime) {
+    this.signatureTime = signatureTime;
+    return this;
+  }
+
+  /**
+   * Get signatureTime
+   * @return signatureTime
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getSignatureTime() {
+    return signatureTime;
+  }
+
+  public void setSignatureTime(@javax.annotation.Nullable OffsetDateTime signatureTime) {
+    this.signatureTime = signatureTime;
+  }
+
+
+  public EcfSubmissionResponse securityCode(@javax.annotation.Nullable String securityCode) {
+    this.securityCode = securityCode;
+    return this;
+  }
+
+  /**
+   * Get securityCode
+   * @return securityCode
+   */
+  @javax.annotation.Nullable
+  public String getSecurityCode() {
+    return securityCode;
+  }
+
+  public void setSecurityCode(@javax.annotation.Nullable String securityCode) {
+    this.securityCode = securityCode;
   }
 
 
@@ -123,7 +247,7 @@ public class EcfSubmissionResponse {
   }
 
   /**
-   * The e-NCF number assigned to the document.
+   * Get encf
    * @return encf
    */
   @javax.annotation.Nullable
@@ -136,22 +260,79 @@ public class EcfSubmissionResponse {
   }
 
 
-  public EcfSubmissionResponse trackId(@javax.annotation.Nullable String trackId) {
-    this.trackId = trackId;
+  public EcfSubmissionResponse documentType(@javax.annotation.Nullable String documentType) {
+    this.documentType = documentType;
     return this;
   }
 
   /**
-   * DGII tracking ID for status polling.
-   * @return trackId
+   * Get documentType
+   * @return documentType
    */
   @javax.annotation.Nullable
-  public String getTrackId() {
-    return trackId;
+  public String getDocumentType() {
+    return documentType;
   }
 
-  public void setTrackId(@javax.annotation.Nullable String trackId) {
-    this.trackId = trackId;
+  public void setDocumentType(@javax.annotation.Nullable String documentType) {
+    this.documentType = documentType;
+  }
+
+
+  public EcfSubmissionResponse printUrl(@javax.annotation.Nullable URI printUrl) {
+    this.printUrl = printUrl;
+    return this;
+  }
+
+  /**
+   * Get printUrl
+   * @return printUrl
+   */
+  @javax.annotation.Nullable
+  public URI getPrintUrl() {
+    return printUrl;
+  }
+
+  public void setPrintUrl(@javax.annotation.Nullable URI printUrl) {
+    this.printUrl = printUrl;
+  }
+
+
+  public EcfSubmissionResponse authType(@javax.annotation.Nullable String authType) {
+    this.authType = authType;
+    return this;
+  }
+
+  /**
+   * Get authType
+   * @return authType
+   */
+  @javax.annotation.Nullable
+  public String getAuthType() {
+    return authType;
+  }
+
+  public void setAuthType(@javax.annotation.Nullable String authType) {
+    this.authType = authType;
+  }
+
+
+  public EcfSubmissionResponse timestamp(@javax.annotation.Nullable OffsetDateTime timestamp) {
+    this.timestamp = timestamp;
+    return this;
+  }
+
+  /**
+   * Get timestamp
+   * @return timestamp
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(@javax.annotation.Nullable OffsetDateTime timestamp) {
+    this.timestamp = timestamp;
   }
 
 
@@ -161,7 +342,7 @@ public class EcfSubmissionResponse {
   }
 
   /**
-   * Human-readable status message.
+   * Get message
    * @return message
    */
   @javax.annotation.Nullable
@@ -171,6 +352,44 @@ public class EcfSubmissionResponse {
 
   public void setMessage(@javax.annotation.Nullable String message) {
     this.message = message;
+  }
+
+
+  public EcfSubmissionResponse contingencyMode(@javax.annotation.Nullable Boolean contingencyMode) {
+    this.contingencyMode = contingencyMode;
+    return this;
+  }
+
+  /**
+   * Get contingencyMode
+   * @return contingencyMode
+   */
+  @javax.annotation.Nullable
+  public Boolean getContingencyMode() {
+    return contingencyMode;
+  }
+
+  public void setContingencyMode(@javax.annotation.Nullable Boolean contingencyMode) {
+    this.contingencyMode = contingencyMode;
+  }
+
+
+  public EcfSubmissionResponse estimatedProcessTime(@javax.annotation.Nullable String estimatedProcessTime) {
+    this.estimatedProcessTime = estimatedProcessTime;
+    return this;
+  }
+
+  /**
+   * Get estimatedProcessTime
+   * @return estimatedProcessTime
+   */
+  @javax.annotation.Nullable
+  public String getEstimatedProcessTime() {
+    return estimatedProcessTime;
+  }
+
+  public void setEstimatedProcessTime(@javax.annotation.Nullable String estimatedProcessTime) {
+    this.estimatedProcessTime = estimatedProcessTime;
   }
 
 
@@ -186,14 +405,23 @@ public class EcfSubmissionResponse {
     EcfSubmissionResponse ecfSubmissionResponse = (EcfSubmissionResponse) o;
     return Objects.equals(this.success, ecfSubmissionResponse.success) &&
         Objects.equals(this.documentId, ecfSubmissionResponse.documentId) &&
+        Objects.equals(this.dgiiResponse, ecfSubmissionResponse.dgiiResponse) &&
+        Objects.equals(this.qrUrl, ecfSubmissionResponse.qrUrl) &&
+        Objects.equals(this.signatureTime, ecfSubmissionResponse.signatureTime) &&
+        Objects.equals(this.securityCode, ecfSubmissionResponse.securityCode) &&
         Objects.equals(this.encf, ecfSubmissionResponse.encf) &&
-        Objects.equals(this.trackId, ecfSubmissionResponse.trackId) &&
-        Objects.equals(this.message, ecfSubmissionResponse.message);
+        Objects.equals(this.documentType, ecfSubmissionResponse.documentType) &&
+        Objects.equals(this.printUrl, ecfSubmissionResponse.printUrl) &&
+        Objects.equals(this.authType, ecfSubmissionResponse.authType) &&
+        Objects.equals(this.timestamp, ecfSubmissionResponse.timestamp) &&
+        Objects.equals(this.message, ecfSubmissionResponse.message) &&
+        Objects.equals(this.contingencyMode, ecfSubmissionResponse.contingencyMode) &&
+        Objects.equals(this.estimatedProcessTime, ecfSubmissionResponse.estimatedProcessTime);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(success, documentId, encf, trackId, message);
+    return Objects.hash(success, documentId, dgiiResponse, qrUrl, signatureTime, securityCode, encf, documentType, printUrl, authType, timestamp, message, contingencyMode, estimatedProcessTime);
   }
 
   @Override
@@ -202,9 +430,18 @@ public class EcfSubmissionResponse {
     sb.append("class EcfSubmissionResponse {\n");
     sb.append("    success: ").append(toIndentedString(success)).append("\n");
     sb.append("    documentId: ").append(toIndentedString(documentId)).append("\n");
+    sb.append("    dgiiResponse: ").append(toIndentedString(dgiiResponse)).append("\n");
+    sb.append("    qrUrl: ").append(toIndentedString(qrUrl)).append("\n");
+    sb.append("    signatureTime: ").append(toIndentedString(signatureTime)).append("\n");
+    sb.append("    securityCode: ").append(toIndentedString(securityCode)).append("\n");
     sb.append("    encf: ").append(toIndentedString(encf)).append("\n");
-    sb.append("    trackId: ").append(toIndentedString(trackId)).append("\n");
+    sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
+    sb.append("    printUrl: ").append(toIndentedString(printUrl)).append("\n");
+    sb.append("    authType: ").append(toIndentedString(authType)).append("\n");
+    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    contingencyMode: ").append(toIndentedString(contingencyMode)).append("\n");
+    sb.append("    estimatedProcessTime: ").append(toIndentedString(estimatedProcessTime)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -223,10 +460,10 @@ public class EcfSubmissionResponse {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("success", "documentId", "encf", "trackId", "message"));
+    openapiFields = new HashSet<String>(Arrays.asList("success", "documentId", "dgiiResponse", "qrUrl", "signatureTime", "securityCode", "encf", "documentType", "printUrl", "authType", "timestamp", "message", "contingencyMode", "estimatedProcessTime"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("success", "documentId"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("success"));
   }
 
   /**
@@ -257,17 +494,36 @@ public class EcfSubmissionResponse {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (!jsonObj.get("documentId").isJsonPrimitive()) {
+      if ((jsonObj.get("documentId") != null && !jsonObj.get("documentId").isJsonNull()) && !jsonObj.get("documentId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentId").toString()));
+      }
+      // validate the optional field `dgiiResponse`
+      if (jsonObj.get("dgiiResponse") != null && !jsonObj.get("dgiiResponse").isJsonNull()) {
+        EcfSubmissionResponseDgiiResponse.validateJsonElement(jsonObj.get("dgiiResponse"));
+      }
+      if ((jsonObj.get("qrUrl") != null && !jsonObj.get("qrUrl").isJsonNull()) && !jsonObj.get("qrUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `qrUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("qrUrl").toString()));
+      }
+      if ((jsonObj.get("securityCode") != null && !jsonObj.get("securityCode").isJsonNull()) && !jsonObj.get("securityCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `securityCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("securityCode").toString()));
       }
       if ((jsonObj.get("encf") != null && !jsonObj.get("encf").isJsonNull()) && !jsonObj.get("encf").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `encf` to be a primitive type in the JSON string but got `%s`", jsonObj.get("encf").toString()));
       }
-      if ((jsonObj.get("trackId") != null && !jsonObj.get("trackId").isJsonNull()) && !jsonObj.get("trackId").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `trackId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("trackId").toString()));
+      if ((jsonObj.get("documentType") != null && !jsonObj.get("documentType").isJsonNull()) && !jsonObj.get("documentType").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentType").toString()));
+      }
+      if ((jsonObj.get("printUrl") != null && !jsonObj.get("printUrl").isJsonNull()) && !jsonObj.get("printUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `printUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("printUrl").toString()));
+      }
+      if ((jsonObj.get("authType") != null && !jsonObj.get("authType").isJsonNull()) && !jsonObj.get("authType").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `authType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("authType").toString()));
       }
       if ((jsonObj.get("message") != null && !jsonObj.get("message").isJsonNull()) && !jsonObj.get("message").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
+      }
+      if ((jsonObj.get("estimatedProcessTime") != null && !jsonObj.get("estimatedProcessTime").isJsonNull()) && !jsonObj.get("estimatedProcessTime").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `estimatedProcessTime` to be a primitive type in the JSON string but got `%s`", jsonObj.get("estimatedProcessTime").toString()));
       }
   }
 

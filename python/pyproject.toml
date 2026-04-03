@@ -1,9 +1,9 @@
 [project]
 name = "pronesoft_ecf"
-version = "0.0.1"
+version = "0.0.2"
 description = "eCF-Pronesoft Integration API"
 authors = [
-  {name = "Pronesoft SRL Support",email = "contacto@pronesoft.com"},
+  {name = "Pronesoft SRL Support",email = "support@pronesoft.com"},
 ]
 license = { text = "Proprietary" }
 readme = "README.md"

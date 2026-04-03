@@ -1,7 +1,6 @@
 
 # ItemAdditionalTax
 
-An additional tax applied to a line item (e.g. ISC, IECS).
 
 ## Properties
 
@@ -13,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ItemAdditionalTax } from '@pronesoft/ecf-sdk'
+import type { ItemAdditionalTax } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

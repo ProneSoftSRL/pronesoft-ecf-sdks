@@ -27,22 +27,22 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Page-level breakdown for multi-page documents.
+ * 
  *
  * @param pageNumber 
- * @param lineFrom First line item number on this page.
- * @param lineTo Last line item number on this page.
- * @param subtotal 
+ * @param lineFrom 
+ * @param lineTo 
  * @param taxableAmount 
  * @param taxableAmount1 
  * @param taxableAmount2 
  * @param taxableAmount3 
+ * @param exemptAmount 
  * @param totalITBIS 
  * @param itbis1 
  * @param itbis2 
  * @param itbis3 
  * @param additionalTaxes 
- * @param exemptAmount 
+ * @param subtotal 
  * @param nonBillableAmount 
  */
 
@@ -50,18 +50,13 @@ import com.google.gson.annotations.SerializedName
 data class Page (
 
     @SerializedName("pageNumber")
-    val pageNumber: kotlin.Int,
+    val pageNumber: kotlin.Int? = null,
 
-    /* First line item number on this page. */
     @SerializedName("lineFrom")
-    val lineFrom: kotlin.Int,
+    val lineFrom: kotlin.Int? = null,
 
-    /* Last line item number on this page. */
     @SerializedName("lineTo")
-    val lineTo: kotlin.Int,
-
-    @SerializedName("subtotal")
-    val subtotal: java.math.BigDecimal? = null,
+    val lineTo: kotlin.Int? = null,
 
     @SerializedName("taxableAmount")
     val taxableAmount: java.math.BigDecimal? = null,
@@ -74,6 +69,9 @@ data class Page (
 
     @SerializedName("taxableAmount3")
     val taxableAmount3: java.math.BigDecimal? = null,
+
+    @SerializedName("exemptAmount")
+    val exemptAmount: java.math.BigDecimal? = null,
 
     @SerializedName("totalITBIS")
     val totalITBIS: java.math.BigDecimal? = null,
@@ -90,8 +88,8 @@ data class Page (
     @SerializedName("additionalTaxes")
     val additionalTaxes: java.math.BigDecimal? = null,
 
-    @SerializedName("exemptAmount")
-    val exemptAmount: java.math.BigDecimal? = null,
+    @SerializedName("subtotal")
+    val subtotal: java.math.BigDecimal? = null,
 
     @SerializedName("nonBillableAmount")
     val nonBillableAmount: java.math.BigDecimal? = null

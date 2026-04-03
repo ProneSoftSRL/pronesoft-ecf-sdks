@@ -15,40 +15,67 @@ public typealias AdditionalInfo = PronesoftEcfAPI.AdditionalInfo
 
 extension PronesoftEcfAPI {
 
-/** Additional shipping/logistics information. */
 public struct AdditionalInfo: Codable, JSONEncodable, Hashable {
 
-    /** Gross weight of the shipment (in kg). */
+    public var shipmentDate: String?
+    public var shipmentNumber: String?
+    public var containerNumber: String?
+    public var referenceNumber: String?
     public var grossWeight: Double?
-    /** Number of packages. */
+    public var netWeight: Double?
+    public var grossWeightUnit: Int?
+    public var netWeightUnit: Int?
     public var packageQuantity: Double?
-    /** Container identifier (for imports/exports). */
-    public var containerId: String?
-    /** Seal/precinto identifier. */
-    public var sealId: String?
+    public var packageUnit: Int?
+    public var packageVolume: Double?
+    public var volumeUnit: Int?
 
-    public init(grossWeight: Double? = nil, packageQuantity: Double? = nil, containerId: String? = nil, sealId: String? = nil) {
+    public init(shipmentDate: String? = nil, shipmentNumber: String? = nil, containerNumber: String? = nil, referenceNumber: String? = nil, grossWeight: Double? = nil, netWeight: Double? = nil, grossWeightUnit: Int? = nil, netWeightUnit: Int? = nil, packageQuantity: Double? = nil, packageUnit: Int? = nil, packageVolume: Double? = nil, volumeUnit: Int? = nil) {
+        self.shipmentDate = shipmentDate
+        self.shipmentNumber = shipmentNumber
+        self.containerNumber = containerNumber
+        self.referenceNumber = referenceNumber
         self.grossWeight = grossWeight
+        self.netWeight = netWeight
+        self.grossWeightUnit = grossWeightUnit
+        self.netWeightUnit = netWeightUnit
         self.packageQuantity = packageQuantity
-        self.containerId = containerId
-        self.sealId = sealId
+        self.packageUnit = packageUnit
+        self.packageVolume = packageVolume
+        self.volumeUnit = volumeUnit
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case shipmentDate
+        case shipmentNumber
+        case containerNumber
+        case referenceNumber
         case grossWeight
+        case netWeight
+        case grossWeightUnit
+        case netWeightUnit
         case packageQuantity
-        case containerId
-        case sealId
+        case packageUnit
+        case packageVolume
+        case volumeUnit
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(shipmentDate, forKey: .shipmentDate)
+        try container.encodeIfPresent(shipmentNumber, forKey: .shipmentNumber)
+        try container.encodeIfPresent(containerNumber, forKey: .containerNumber)
+        try container.encodeIfPresent(referenceNumber, forKey: .referenceNumber)
         try container.encodeIfPresent(grossWeight, forKey: .grossWeight)
+        try container.encodeIfPresent(netWeight, forKey: .netWeight)
+        try container.encodeIfPresent(grossWeightUnit, forKey: .grossWeightUnit)
+        try container.encodeIfPresent(netWeightUnit, forKey: .netWeightUnit)
         try container.encodeIfPresent(packageQuantity, forKey: .packageQuantity)
-        try container.encodeIfPresent(containerId, forKey: .containerId)
-        try container.encodeIfPresent(sealId, forKey: .sealId)
+        try container.encodeIfPresent(packageUnit, forKey: .packageUnit)
+        try container.encodeIfPresent(packageVolume, forKey: .packageVolume)
+        try container.encodeIfPresent(volumeUnit, forKey: .volumeUnit)
     }
 }
 

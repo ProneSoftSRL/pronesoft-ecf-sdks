@@ -27,25 +27,22 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Response after successfully uploading a digital certificate.
+ * 
  *
- * @param message Confirmation message.
- * @param representative Name of the certificate holder as registered with the DGII.
- * @param expirationDate Certificate expiration date. Monitor this to avoid disruptions.
+ * @param message 
+ * @param representative 
+ * @param expirationDate 
  */
 
 
 data class UploadCertificateResponse (
 
-    /* Confirmation message. */
     @SerializedName("message")
     val message: kotlin.String? = null,
 
-    /* Name of the certificate holder as registered with the DGII. */
     @SerializedName("representative")
     val representative: kotlin.String? = null,
 
-    /* Certificate expiration date. Monitor this to avoid disruptions. */
     @SerializedName("expirationDate")
     val expirationDate: java.time.OffsetDateTime? = null
 

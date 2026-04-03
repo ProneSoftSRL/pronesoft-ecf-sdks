@@ -27,7 +27,7 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Printer/receipt format: - `A4`: Standard A4 paper - `thermal_80`: 80mm thermal printer - `thermal_58`: 58mm thermal printer 
+ * 
  *
  * Values: A4,thermal_80,thermal_58
  */

@@ -1,29 +1,49 @@
 
 # ElectronicDocument
 
-The main e-CF document payload. Build this object and submit it to `POST /{environment}/ecf/submit`.  **Required fields:** `version`, `invoiceType`, `invoiceNumber`, `issueDate`, `items`, `totals`.  Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`. 
+Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`version` | string
+`environment` | [Environment](Environment.md)
+`version` | number
 `invoiceType` | [InvoiceType](InvoiceType.md)
 `invoiceNumber` | string
 `issueDate` | Date
 `expirationDate` | Date
+`creditNoteIndicator` | string
+`deferredSendingIndicator` | string
+`taxedAmountIndicator` | string
 `incomeType` | string
 `paymentType` | string
 `paymentDeadline` | Date
 `paymentTerms` | string
+`paymentForms` | [Array&lt;PaymentForm&gt;](PaymentForm.md)
 `paymentAccountType` | [AccountType](AccountType.md)
 `paymentAccountNumber` | string
 `paymentBank` | string
-`creditNoteIndicator` | string
+`serviceStartDate` | Date
+`serviceEndDate` | Date
+`totalPages` | number
 `issuerRNC` | string
 `issuerBusinessName` | string
-`issuerEmail` | string
+`issuerCommercialName` | string
+`branchName` | string
+`issuerAddress` | string
+`municipalityCode` | string
+`provinceCode` | string
 `issuerPhones` | Array&lt;string&gt;
+`issuerEmail` | string
+`issuerWebsite` | string
+`issuerEconomicActivity` | string
+`sellerCode` | string
+`internalInvoiceNumber` | string
+`internalOrderNumber` | number
+`salesZone` | string
+`salesRoute` | string
+`additionalIssuerInfo` | string
 `buyer` | [Buyer](Buyer.md)
 `items` | [Array&lt;Item&gt;](Item.md)
 `totals` | [Totals](Totals.md)
@@ -31,34 +51,54 @@ Name | Type
 `additionalInfo` | [AdditionalInfo](AdditionalInfo.md)
 `alternativeCurrency` | [AlternativeCurrency](AlternativeCurrency.md)
 `referenceInfo` | [ReferenceInfo](ReferenceInfo.md)
-`subtotals` | [Array&lt;Subtotal&gt;](Subtotal.md)
+`subtotals` | [Subtotal](Subtotal.md)
 `discountsOrSurcharges` | [Array&lt;DiscountOrSurcharge&gt;](DiscountOrSurcharge.md)
-`pages` | [Array&lt;Page&gt;](Page.md)
+`pages` | [Page](Page.md)
 
 ## Example
 
 ```typescript
-import type { ElectronicDocument } from '@pronesoft/ecf-sdk'
+import type { ElectronicDocument } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "version": 1.0,
+  "environment": null,
+  "version": 1,
   "invoiceType": null,
   "invoiceNumber": E310000000001,
-  "issueDate": 2024-01-15T10:30Z,
-  "expirationDate": 2024-02-15T10:30Z,
+  "issueDate": 2025-01-15T10:30Z,
+  "expirationDate": null,
+  "creditNoteIndicator": null,
+  "deferredSendingIndicator": null,
+  "taxedAmountIndicator": null,
   "incomeType": null,
   "paymentType": null,
   "paymentDeadline": null,
   "paymentTerms": null,
+  "paymentForms": [{"method":"1","amount":11800.0}],
   "paymentAccountType": null,
   "paymentAccountNumber": null,
   "paymentBank": null,
-  "creditNoteIndicator": null,
+  "serviceStartDate": null,
+  "serviceEndDate": null,
+  "totalPages": null,
   "issuerRNC": null,
   "issuerBusinessName": null,
-  "issuerEmail": null,
+  "issuerCommercialName": null,
+  "branchName": null,
+  "issuerAddress": null,
+  "municipalityCode": null,
+  "provinceCode": null,
   "issuerPhones": null,
+  "issuerEmail": null,
+  "issuerWebsite": null,
+  "issuerEconomicActivity": null,
+  "sellerCode": null,
+  "internalInvoiceNumber": null,
+  "internalOrderNumber": null,
+  "salesZone": null,
+  "salesRoute": null,
+  "additionalIssuerInfo": null,
   "buyer": null,
   "items": null,
   "totals": null,

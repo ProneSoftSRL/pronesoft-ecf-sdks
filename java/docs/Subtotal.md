@@ -2,15 +2,14 @@
 
 # Subtotal
 
-Subtotal for a page or section within a multi-page document.
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**number** | **Integer** | Page or section number. |  |
-|**amount** | **BigDecimal** | Subtotal amount for this section. |  |
+|**number** | **Integer** |  |  [optional] |
 |**description** | **String** |  |  [optional] |
+|**order** | **Integer** |  |  [optional] |
 |**taxableAmount** | **BigDecimal** |  |  [optional] |
 |**taxableAmount1** | **BigDecimal** |  |  [optional] |
 |**taxableAmount2** | **BigDecimal** |  |  [optional] |
@@ -21,7 +20,8 @@ Subtotal for a page or section within a multi-page document.
 |**itbis3** | **BigDecimal** |  |  [optional] |
 |**additionalTaxes** | **BigDecimal** |  |  [optional] |
 |**exemptAmount** | **BigDecimal** |  |  [optional] |
-|**lines** | **Integer** | Number of line items included in this subtotal. |  [optional] |
+|**amount** | **BigDecimal** |  |  [optional] |
+|**lines** | **Integer** |  |  [optional] |
 
 
 

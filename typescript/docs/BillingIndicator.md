@@ -1,7 +1,7 @@
 
 # BillingIndicator
 
-ITBIS tax billing indicator for a line item: - `0`: Non-billable (No facturable) - `1`: 18% ITBIS rate - `2`: 16% ITBIS rate - `3`: 0% ITBIS rate - `4`: Exempt (Exento) 
+0=Non-billable, 1=18% ITBIS, 2=16% ITBIS, 3=0% ITBIS, 4=Exempt
 
 ## Properties
 
@@ -11,7 +11,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { BillingIndicator } from '@pronesoft/ecf-sdk'
+import type { BillingIndicator } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

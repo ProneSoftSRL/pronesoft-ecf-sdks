@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -27,13 +27,17 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.pronesoft.ecf.model.CreateTaxSequence201Response;
 import com.pronesoft.ecf.model.CreateTaxSequenceRequest;
 import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.ErrorResponse;
 import com.pronesoft.ecf.model.GetNextNumber200Response;
-import com.pronesoft.ecf.model.InvoiceType;
+import com.pronesoft.ecf.model.InvoiceTypeSequence;
 import com.pronesoft.ecf.model.ListTaxSequences200Response;
 import java.util.UUID;
+import com.pronesoft.ecf.model.UpdateTaxSequenceRequest;
+import com.pronesoft.ecf.model.VoidTaxSequence200Response;
+import com.pronesoft.ecf.model.VoidTaxSequenceRequest;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -80,8 +84,8 @@ public class TaxSequencesApi {
 
     /**
      * Build call for createTaxSequence
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
      * @param createTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -90,11 +94,11 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> Sequence created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createTaxSequenceCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createTaxSequenceCall(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -145,66 +149,64 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'xTenantId' is set
-        if (xTenantId == null) {
-            throw new ApiException("Missing the required parameter 'xTenantId' when calling createTaxSequence(Async)");
-        }
-
+    private okhttp3.Call createTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'createTaxSequenceRequest' is set
         if (createTaxSequenceRequest == null) {
             throw new ApiException("Missing the required parameter 'createTaxSequenceRequest' when calling createTaxSequence(Async)");
         }
 
-        return createTaxSequenceCall(xTenantId, createTaxSequenceRequest, _callback);
+        return createTaxSequenceCall(createTaxSequenceRequest, xTenantId, _callback);
 
     }
 
     /**
      * Create new tax sequence
-     * Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
+     * 
      * @param createTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return CreateTaxSequence201Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> Sequence created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public void createTaxSequence(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest) throws ApiException {
-        createTaxSequenceWithHttpInfo(xTenantId, createTaxSequenceRequest);
+    public CreateTaxSequence201Response createTaxSequence(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<CreateTaxSequence201Response> localVarResp = createTaxSequenceWithHttpInfo(createTaxSequenceRequest, xTenantId);
+        return localVarResp.getData();
     }
 
     /**
      * Create new tax sequence
-     * Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
+     * 
      * @param createTaxSequenceRequest  (required)
-     * @return ApiResponse&lt;Void&gt;
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse&lt;CreateTaxSequence201Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> Sequence created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createTaxSequenceWithHttpInfo(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest) throws ApiException {
-        okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(xTenantId, createTaxSequenceRequest, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<CreateTaxSequence201Response> createTaxSequenceWithHttpInfo(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(createTaxSequenceRequest, xTenantId, null);
+        Type localVarReturnType = new TypeToken<CreateTaxSequence201Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Create new tax sequence (asynchronously)
-     * Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
+     * 
      * @param createTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -213,21 +215,22 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> Sequence created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createTaxSequenceAsync(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createTaxSequenceAsync(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<CreateTaxSequence201Response> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(xTenantId, createTaxSequenceRequest, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(createTaxSequenceRequest, xTenantId, _callback);
+        Type localVarReturnType = new TypeToken<CreateTaxSequence201Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for getNextNumber
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). (required)
-     * @param environment Target environment for the sequence. (required)
+     * @param type  (required)
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -236,10 +239,10 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Next available e-NCF number </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getNextNumberCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull InvoiceType type, @javax.annotation.Nonnull Environment environment, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getNextNumberCall(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -297,12 +300,7 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getNextNumberValidateBeforeCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull InvoiceType type, @javax.annotation.Nonnull Environment environment, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'xTenantId' is set
-        if (xTenantId == null) {
-            throw new ApiException("Missing the required parameter 'xTenantId' when calling getNextNumber(Async)");
-        }
-
+    private okhttp3.Call getNextNumberValidateBeforeCall(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'type' is set
         if (type == null) {
             throw new ApiException("Missing the required parameter 'type' when calling getNextNumber(Async)");
@@ -313,16 +311,16 @@ public class TaxSequencesApi {
             throw new ApiException("Missing the required parameter 'environment' when calling getNextNumber(Async)");
         }
 
-        return getNextNumberCall(xTenantId, type, environment, _callback);
+        return getNextNumberCall(type, environment, xTenantId, _callback);
 
     }
 
     /**
      * Get next available fiscal number
-     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). (required)
-     * @param environment Target environment for the sequence. (required)
+     * Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+     * @param type  (required)
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return GetNextNumber200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -330,20 +328,20 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Next available e-NCF number </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public GetNextNumber200Response getNextNumber(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull InvoiceType type, @javax.annotation.Nonnull Environment environment) throws ApiException {
-        ApiResponse<GetNextNumber200Response> localVarResp = getNextNumberWithHttpInfo(xTenantId, type, environment);
+    public GetNextNumber200Response getNextNumber(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<GetNextNumber200Response> localVarResp = getNextNumberWithHttpInfo(type, environment, xTenantId);
         return localVarResp.getData();
     }
 
     /**
      * Get next available fiscal number
-     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). (required)
-     * @param environment Target environment for the sequence. (required)
+     * Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+     * @param type  (required)
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return ApiResponse&lt;GetNextNumber200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -351,21 +349,21 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Next available e-NCF number </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<GetNextNumber200Response> getNextNumberWithHttpInfo(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull InvoiceType type, @javax.annotation.Nonnull Environment environment) throws ApiException {
-        okhttp3.Call localVarCall = getNextNumberValidateBeforeCall(xTenantId, type, environment, null);
+    public ApiResponse<GetNextNumber200Response> getNextNumberWithHttpInfo(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = getNextNumberValidateBeforeCall(type, environment, xTenantId, null);
         Type localVarReturnType = new TypeToken<GetNextNumber200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Get next available fiscal number (asynchronously)
-     * Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param type Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). (required)
-     * @param environment Target environment for the sequence. (required)
+     * Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+     * @param type  (required)
+     * @param environment  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -374,20 +372,22 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> Next available e-NCF number </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getNextNumberAsync(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nonnull InvoiceType type, @javax.annotation.Nonnull Environment environment, final ApiCallback<GetNextNumber200Response> _callback) throws ApiException {
+    public okhttp3.Call getNextNumberAsync(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<GetNextNumber200Response> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getNextNumberValidateBeforeCall(xTenantId, type, environment, _callback);
+        okhttp3.Call localVarCall = getNextNumberValidateBeforeCall(type, environment, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<GetNextNumber200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for listTaxSequences
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param type  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -396,10 +396,10 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> List of tax sequences </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listTaxSequencesCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nullable InvoiceType type, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listTaxSequencesCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -428,6 +428,14 @@ public class TaxSequencesApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("type", type));
         }
 
+        if (page != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("page", page));
+        }
+
+        if (limit != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("limit", limit));
+        }
+
         final String[] localVarAccepts = {
             "application/json"
         };
@@ -453,21 +461,18 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listTaxSequencesValidateBeforeCall(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nullable InvoiceType type, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'xTenantId' is set
-        if (xTenantId == null) {
-            throw new ApiException("Missing the required parameter 'xTenantId' when calling listTaxSequences(Async)");
-        }
-
-        return listTaxSequencesCall(xTenantId, type, _callback);
+    private okhttp3.Call listTaxSequencesValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+        return listTaxSequencesCall(xTenantId, type, page, limit, _callback);
 
     }
 
     /**
      * List tax sequences
-     * Returns all fiscal number sequences registered for the tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     * 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param type  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return ListTaxSequences200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -475,19 +480,21 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> List of tax sequences </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ListTaxSequences200Response listTaxSequences(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nullable InvoiceType type) throws ApiException {
-        ApiResponse<ListTaxSequences200Response> localVarResp = listTaxSequencesWithHttpInfo(xTenantId, type);
+    public ListTaxSequences200Response listTaxSequences(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+        ApiResponse<ListTaxSequences200Response> localVarResp = listTaxSequencesWithHttpInfo(xTenantId, type, page, limit);
         return localVarResp.getData();
     }
 
     /**
      * List tax sequences
-     * Returns all fiscal number sequences registered for the tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     * 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param type  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return ApiResponse&lt;ListTaxSequences200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -495,20 +502,22 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> List of tax sequences </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ListTaxSequences200Response> listTaxSequencesWithHttpInfo(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nullable InvoiceType type) throws ApiException {
-        okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, null);
+    public ApiResponse<ListTaxSequences200Response> listTaxSequencesWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+        okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, page, limit, null);
         Type localVarReturnType = new TypeToken<ListTaxSequences200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * List tax sequences (asynchronously)
-     * Returns all fiscal number sequences registered for the tenant.
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  (required)
-     * @param type Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). (optional)
+     * 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param type  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -517,13 +526,299 @@ public class TaxSequencesApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> List of tax sequences </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listTaxSequencesAsync(@javax.annotation.Nonnull UUID xTenantId, @javax.annotation.Nullable InvoiceType type, final ApiCallback<ListTaxSequences200Response> _callback) throws ApiException {
+    public okhttp3.Call listTaxSequencesAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ListTaxSequences200Response> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, _callback);
+        okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, page, limit, _callback);
         Type localVarReturnType = new TypeToken<ListTaxSequences200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for updateTaxSequence
+     * @param sequenceId  (required)
+     * @param updateTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Sequence updated successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call updateTaxSequenceCall(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = updateTaxSequenceRequest;
+
+        // create path and map variables
+        String localVarPath = "/tax-sequences/{sequenceId}"
+            .replace("{" + "sequenceId" + "}", localVarApiClient.escapeString(sequenceId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xTenantId != null) {
+            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call updateTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'sequenceId' is set
+        if (sequenceId == null) {
+            throw new ApiException("Missing the required parameter 'sequenceId' when calling updateTaxSequence(Async)");
+        }
+
+        // verify the required parameter 'updateTaxSequenceRequest' is set
+        if (updateTaxSequenceRequest == null) {
+            throw new ApiException("Missing the required parameter 'updateTaxSequenceRequest' when calling updateTaxSequence(Async)");
+        }
+
+        return updateTaxSequenceCall(sequenceId, updateTaxSequenceRequest, xTenantId, _callback);
+
+    }
+
+    /**
+     * Update tax sequence
+     * 
+     * @param sequenceId  (required)
+     * @param updateTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Sequence updated successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public void updateTaxSequence(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        updateTaxSequenceWithHttpInfo(sequenceId, updateTaxSequenceRequest, xTenantId);
+    }
+
+    /**
+     * Update tax sequence
+     * 
+     * @param sequenceId  (required)
+     * @param updateTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Sequence updated successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> updateTaxSequenceWithHttpInfo(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = updateTaxSequenceValidateBeforeCall(sequenceId, updateTaxSequenceRequest, xTenantId, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * Update tax sequence (asynchronously)
+     * 
+     * @param sequenceId  (required)
+     * @param updateTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Sequence updated successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call updateTaxSequenceAsync(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = updateTaxSequenceValidateBeforeCall(sequenceId, updateTaxSequenceRequest, xTenantId, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for voidTaxSequence
+     * @param voidTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Numbers voided successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call voidTaxSequenceCall(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = voidTaxSequenceRequest;
+
+        // create path and map variables
+        String localVarPath = "/tax-sequences/void";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xTenantId != null) {
+            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call voidTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'voidTaxSequenceRequest' is set
+        if (voidTaxSequenceRequest == null) {
+            throw new ApiException("Missing the required parameter 'voidTaxSequenceRequest' when calling voidTaxSequence(Async)");
+        }
+
+        return voidTaxSequenceCall(voidTaxSequenceRequest, xTenantId, _callback);
+
+    }
+
+    /**
+     * Void a range of fiscal numbers
+     * Cancels unused fiscal numbers and notifies DGII.
+     * @param voidTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return VoidTaxSequence200Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Numbers voided successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public VoidTaxSequence200Response voidTaxSequence(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<VoidTaxSequence200Response> localVarResp = voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest, xTenantId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Void a range of fiscal numbers
+     * Cancels unused fiscal numbers and notifies DGII.
+     * @param voidTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse&lt;VoidTaxSequence200Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Numbers voided successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<VoidTaxSequence200Response> voidTaxSequenceWithHttpInfo(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = voidTaxSequenceValidateBeforeCall(voidTaxSequenceRequest, xTenantId, null);
+        Type localVarReturnType = new TypeToken<VoidTaxSequence200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Void a range of fiscal numbers (asynchronously)
+     * Cancels unused fiscal numbers and notifies DGII.
+     * @param voidTaxSequenceRequest  (required)
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Numbers voided successfully </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call voidTaxSequenceAsync(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<VoidTaxSequence200Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = voidTaxSequenceValidateBeforeCall(voidTaxSequenceRequest, xTenantId, _callback);
+        Type localVarReturnType = new TypeToken<VoidTaxSequence200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

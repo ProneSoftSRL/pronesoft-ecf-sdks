@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**UploadCertificate**](DigitalCertificatesAPI.md#UploadCertificate) | **Post** /{rnc}/certificates | Upload digital certificate (P12)
+[**UploadCertificate**](DigitalCertificatesAPI.md#UploadCertificate) | **Post** /{rnc}/certificates | Upload digital certificate (P12/PFX)
 
 
 
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 > UploadCertificateResponse UploadCertificate(ctx, rnc).File(file).Password(password).Execute()
 
-Upload digital certificate (P12)
+Upload digital certificate (P12/PFX)
 
 
 
@@ -29,9 +29,9 @@ import (
 )
 
 func main() {
-	rnc := "130000001" // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-	file := os.NewFile(1234, "some_file") // *os.File | The P12/PFX certificate file.
-	password := "password_example" // string | Password to unlock the P12 certificate.
+	rnc := "133190907" // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+	file := os.NewFile(1234, "some_file") // *os.File | Certificate file in .p12 or .pfx format.
+	password := "password_example" // string | Password to unlock the certificate.
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
+**rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
 
 ### Other Parameters
 
@@ -61,8 +61,8 @@ Other parameters are passed through a pointer to a apiUploadCertificateRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **file** | ***os.File** | The P12/PFX certificate file. | 
- **password** | **string** | Password to unlock the P12 certificate. | 
+ **file** | ***os.File** | Certificate file in .p12 or .pfx format. | 
+ **password** | **string** | Password to unlock the certificate. | 
 
 ### Return type
 

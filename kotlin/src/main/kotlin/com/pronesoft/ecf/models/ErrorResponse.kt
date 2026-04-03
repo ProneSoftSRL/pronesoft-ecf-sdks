@@ -27,25 +27,26 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Standard error response returned by all endpoints on failure.
+ * 
  *
- * @param statusCode HTTP status code.
- * @param message Human-readable error description.
- * @param timestamp When the error occurred.
+ * @param statusCode 
+ * @param message 
+ * @param error 
+ * @param timestamp 
  */
 
 
 data class ErrorResponse (
 
-    /* HTTP status code. */
     @SerializedName("statusCode")
     val statusCode: kotlin.Int? = null,
 
-    /* Human-readable error description. */
     @SerializedName("message")
     val message: kotlin.String? = null,
 
-    /* When the error occurred. */
+    @SerializedName("error")
+    val error: kotlin.String? = null,
+
     @SerializedName("timestamp")
     val timestamp: java.time.OffsetDateTime? = null
 

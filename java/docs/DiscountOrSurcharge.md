@@ -2,19 +2,19 @@
 
 # DiscountOrSurcharge
 
-A document-level discount or surcharge.
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**lineNumber** | **Integer** | Reference line number this discount/surcharge applies to. |  |
-|**type** | [**TypeEnum**](#TypeEnum) | - &#x60;D&#x60;: Discount (Descuento) - &#x60;R&#x60;: Surcharge/Recargo (Recargo)  |  |
-|**valueType** | [**ValueTypeEnum**](#ValueTypeEnum) | Whether the amount is a fixed value (&#x60;$&#x60;) or a percentage (&#x60;%&#x60;). |  |
-|**amount** | **BigDecimal** | Discount or surcharge amount. |  |
-|**description** | **String** | Description of the discount or surcharge. |  [optional] |
-|**percentageValue** | **BigDecimal** | Percentage value (when valueType is \&quot;%\&quot;). |  [optional] |
-|**alternativeCurrencyAmount** | **BigDecimal** | Equivalent amount in the alternative currency. |  [optional] |
+|**lineNumber** | **Integer** |  |  |
+|**type** | [**TypeEnum**](#TypeEnum) | D&#x3D;Discount, R&#x3D;Surcharge |  |
+|**norm1007Indicator** | [**Norm1007IndicatorEnum**](#Norm1007IndicatorEnum) |  |  [optional] |
+|**description** | **String** |  |  [optional] |
+|**valueType** | [**ValueTypeEnum**](#ValueTypeEnum) |  |  |
+|**percentageValue** | **BigDecimal** |  |  [optional] |
+|**amount** | **BigDecimal** |  |  |
+|**alternativeCurrencyAmount** | **BigDecimal** |  |  [optional] |
 |**billingIndicator** | **BillingIndicator** |  |  [optional] |
 
 
@@ -25,6 +25,15 @@ A document-level discount or surcharge.
 |---- | -----|
 | D | &quot;D&quot; |
 | R | &quot;R&quot; |
+
+
+
+## Enum: Norm1007IndicatorEnum
+
+| Name | Value |
+|---- | -----|
+| _0 | &quot;0&quot; |
+| _1 | &quot;1&quot; |
 
 
 

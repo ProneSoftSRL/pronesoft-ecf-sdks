@@ -1,14 +1,13 @@
 # UploadCertificateResponse
 
-Response after successfully uploading a digital certificate.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**message** | **str** | Confirmation message. | [optional] 
-**representative** | **str** | Name of the certificate holder as registered with the DGII. | [optional] 
-**expiration_date** | **datetime** | Certificate expiration date. Monitor this to avoid disruptions. | [optional] 
+**message** | **str** |  | [optional] 
+**representative** | **str** |  | [optional] 
+**expiration_date** | **datetime** |  | [optional] 
 
 ## Example
 

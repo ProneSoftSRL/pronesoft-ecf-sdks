@@ -15,38 +15,37 @@ public typealias Transport = PronesoftEcfAPI.Transport
 
 extension PronesoftEcfAPI {
 
-/** Transport/delivery information (required for certain invoice types). */
 public struct Transport: Codable, JSONEncodable, Hashable {
 
-    /** Driver's full name. */
     public var driver: String?
-    /** Vehicle identification number. */
+    public var document: String?
     public var vehicleId: String?
-    /** Vehicle license plate. */
     public var licensePlate: String?
-    /** Delivery route description. */
     public var route: String?
-    /** Departure date and time. */
-    public var departureDate: Date?
-    /** Estimated arrival date and time. */
-    public var arrivalDate: Date?
+    public var zone: String?
+    public var deliveryNoteNumber: String?
+    public var destinationCountry: String?
 
-    public init(driver: String? = nil, vehicleId: String? = nil, licensePlate: String? = nil, route: String? = nil, departureDate: Date? = nil, arrivalDate: Date? = nil) {
+    public init(driver: String? = nil, document: String? = nil, vehicleId: String? = nil, licensePlate: String? = nil, route: String? = nil, zone: String? = nil, deliveryNoteNumber: String? = nil, destinationCountry: String? = nil) {
         self.driver = driver
+        self.document = document
         self.vehicleId = vehicleId
         self.licensePlate = licensePlate
         self.route = route
-        self.departureDate = departureDate
-        self.arrivalDate = arrivalDate
+        self.zone = zone
+        self.deliveryNoteNumber = deliveryNoteNumber
+        self.destinationCountry = destinationCountry
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case driver
+        case document
         case vehicleId
         case licensePlate
         case route
-        case departureDate
-        case arrivalDate
+        case zone
+        case deliveryNoteNumber
+        case destinationCountry
     }
 
     // Encodable protocol methods
@@ -54,11 +53,13 @@ public struct Transport: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(driver, forKey: .driver)
+        try container.encodeIfPresent(document, forKey: .document)
         try container.encodeIfPresent(vehicleId, forKey: .vehicleId)
         try container.encodeIfPresent(licensePlate, forKey: .licensePlate)
         try container.encodeIfPresent(route, forKey: .route)
-        try container.encodeIfPresent(departureDate, forKey: .departureDate)
-        try container.encodeIfPresent(arrivalDate, forKey: .arrivalDate)
+        try container.encodeIfPresent(zone, forKey: .zone)
+        try container.encodeIfPresent(deliveryNoteNumber, forKey: .deliveryNoteNumber)
+        try container.encodeIfPresent(destinationCountry, forKey: .destinationCountry)
     }
 }
 

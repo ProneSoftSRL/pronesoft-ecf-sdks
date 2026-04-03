@@ -27,10 +27,14 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import com.pronesoft.ecf.models.EcfHistoryItem
+import com.pronesoft.ecf.models.EcfStatsResponse
+import com.pronesoft.ecf.models.EcfStatusResponse
 import com.pronesoft.ecf.models.EcfSubmissionResponse
 import com.pronesoft.ecf.models.ElectronicDocument
 import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.ErrorResponse
+import com.pronesoft.ecf.models.RateLimitErrorResponse
 
 import com.google.gson.annotations.SerializedName
 
@@ -57,12 +61,246 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
     }
 
     /**
+     * GET /{environment}/ecf/responses/history
+     * Get submission history (last 50 documents)
+     * 
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return kotlin.collections.List<EcfHistoryItem>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getEcfHistory(environment: Environment, xTenantId: java.util.UUID? = null) : kotlin.collections.List<EcfHistoryItem> {
+        val localVarResponse = getEcfHistoryWithHttpInfo(environment = environment, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<EcfHistoryItem>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /{environment}/ecf/responses/history
+     * Get submission history (last 50 documents)
+     * 
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse<kotlin.collections.List<EcfHistoryItem>?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getEcfHistoryWithHttpInfo(environment: Environment, xTenantId: java.util.UUID?) : ApiResponse<kotlin.collections.List<EcfHistoryItem>?> {
+        val localVariableConfig = getEcfHistoryRequestConfig(environment = environment, xTenantId = xTenantId)
+
+        return request<Unit, kotlin.collections.List<EcfHistoryItem>>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getEcfHistory
+     *
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return RequestConfig
+     */
+    fun getEcfHistoryRequestConfig(environment: Environment, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/{environment}/ecf/responses/history".replace("{"+"environment"+"}", encodeURIComponent(environment.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /{environment}/ecf/responses/stats
+     * Get submission statistics (last 30 days)
+     * 
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return EcfStatsResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getEcfStats(environment: Environment, xTenantId: java.util.UUID? = null) : EcfStatsResponse {
+        val localVarResponse = getEcfStatsWithHttpInfo(environment = environment, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as EcfStatsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /{environment}/ecf/responses/stats
+     * Get submission statistics (last 30 days)
+     * 
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse<EcfStatsResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getEcfStatsWithHttpInfo(environment: Environment, xTenantId: java.util.UUID?) : ApiResponse<EcfStatsResponse?> {
+        val localVariableConfig = getEcfStatsRequestConfig(environment = environment, xTenantId = xTenantId)
+
+        return request<Unit, EcfStatsResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getEcfStats
+     *
+     * @param environment 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return RequestConfig
+     */
+    fun getEcfStatsRequestConfig(environment: Environment, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/{environment}/ecf/responses/stats".replace("{"+"environment"+"}", encodeURIComponent(environment.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /{environment}/ecf/status/{trackId}
+     * Get document status by trackId
+     * 
+     * @param environment 
+     * @param trackId 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return EcfStatusResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getEcfStatus(environment: Environment, trackId: kotlin.String, xTenantId: java.util.UUID? = null) : EcfStatusResponse {
+        val localVarResponse = getEcfStatusWithHttpInfo(environment = environment, trackId = trackId, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as EcfStatusResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /{environment}/ecf/status/{trackId}
+     * Get document status by trackId
+     * 
+     * @param environment 
+     * @param trackId 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return ApiResponse<EcfStatusResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getEcfStatusWithHttpInfo(environment: Environment, trackId: kotlin.String, xTenantId: java.util.UUID?) : ApiResponse<EcfStatusResponse?> {
+        val localVariableConfig = getEcfStatusRequestConfig(environment = environment, trackId = trackId, xTenantId = xTenantId)
+
+        return request<Unit, EcfStatusResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getEcfStatus
+     *
+     * @param environment 
+     * @param trackId 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @return RequestConfig
+     */
+    fun getEcfStatusRequestConfig(environment: Environment, trackId: kotlin.String, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/{environment}/ecf/status/{trackId}".replace("{"+"environment"+"}", encodeURIComponent(environment.toString())).replace("{"+"trackId"+"}", encodeURIComponent(trackId.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
      * POST /{environment}/ecf/submit
      * Submit e-CF document to DGII
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the &#x60;ElectronicDocument&#x60; payload. 2. Call this endpoint with the target &#x60;environment&#x60; in the path. 3. Receive a &#x60;documentId&#x60; and &#x60;trackId&#x60; in the response. 4. Listen for the &#x60;document.status_changed&#x60; webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | &#x60;TesteCF&#x60; | Functional tests (no DGII interaction) | | &#x60;CerteCF&#x60; | DGII certification environment | | &#x60;eCF&#x60; | Production — real documents | 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param environment Target submission environment.
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+     * @param environment 
      * @param electronicDocument 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return EcfSubmissionResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -72,8 +310,8 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun submitEcf(xTenantId: java.util.UUID, environment: Environment, electronicDocument: ElectronicDocument) : EcfSubmissionResponse {
-        val localVarResponse = submitEcfWithHttpInfo(xTenantId = xTenantId, environment = environment, electronicDocument = electronicDocument)
+    fun submitEcf(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: java.util.UUID? = null) : EcfSubmissionResponse {
+        val localVarResponse = submitEcfWithHttpInfo(environment = environment, electronicDocument = electronicDocument, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as EcfSubmissionResponse
@@ -93,18 +331,18 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * POST /{environment}/ecf/submit
      * Submit e-CF document to DGII
-     * Submits an electronic tax document to the DGII via the Pronesoft platform. Pronesoft handles XML signing, DGII authentication, and status polling on your behalf.  ### Flow 1. Build the &#x60;ElectronicDocument&#x60; payload. 2. Call this endpoint with the target &#x60;environment&#x60; in the path. 3. Receive a &#x60;documentId&#x60; and &#x60;trackId&#x60; in the response. 4. Listen for the &#x60;document.status_changed&#x60; webhook event, or poll    the DGII track ID to confirm final approval.  ### Path parameter: environment | Value | Description | |---|---| | &#x60;TesteCF&#x60; | Functional tests (no DGII interaction) | | &#x60;CerteCF&#x60; | DGII certification environment | | &#x60;eCF&#x60; | Production — real documents | 
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param environment Target submission environment.
+     * Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+     * @param environment 
      * @param electronicDocument 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return ApiResponse<EcfSubmissionResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun submitEcfWithHttpInfo(xTenantId: java.util.UUID, environment: Environment, electronicDocument: ElectronicDocument) : ApiResponse<EcfSubmissionResponse?> {
-        val localVariableConfig = submitEcfRequestConfig(xTenantId = xTenantId, environment = environment, electronicDocument = electronicDocument)
+    fun submitEcfWithHttpInfo(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: java.util.UUID?) : ApiResponse<EcfSubmissionResponse?> {
+        val localVariableConfig = submitEcfRequestConfig(environment = environment, electronicDocument = electronicDocument, xTenantId = xTenantId)
 
         return request<ElectronicDocument, EcfSubmissionResponse>(
             localVariableConfig
@@ -114,16 +352,16 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * To obtain the request config of the operation submitEcf
      *
-     * @param xTenantId UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-     * @param environment Target submission environment.
+     * @param environment 
      * @param electronicDocument 
+     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return RequestConfig
      */
-    fun submitEcfRequestConfig(xTenantId: java.util.UUID, environment: Environment, electronicDocument: ElectronicDocument) : RequestConfig<ElectronicDocument> {
+    fun submitEcfRequestConfig(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: java.util.UUID?) : RequestConfig<ElectronicDocument> {
         val localVariableBody = electronicDocument
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        xTenantId.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 

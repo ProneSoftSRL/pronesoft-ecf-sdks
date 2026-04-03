@@ -15,60 +15,35 @@ public typealias Totals = PronesoftEcfAPI.Totals
 
 extension PronesoftEcfAPI {
 
-/** Document totals. &#x60;totalAmount&#x60; is required. Provide ITBIS breakdowns by rate when applicable.  */
 public struct Totals: Codable, JSONEncodable, Hashable {
 
     public static let additionalTaxesRule = ArrayRule(minItems: nil, maxItems: 20, uniqueItems: false)
-    /** Total taxable base amount (all ITBIS rates combined). */
     public var taxableAmount: Double?
-    /** Taxable base for 18% ITBIS rate. */
     public var taxableAmount1: Double?
-    /** Taxable base for 16% ITBIS rate. */
     public var taxableAmount2: Double?
-    /** Taxable base for 0% ITBIS rate. */
     public var taxableAmount3: Double?
-    /** Total amount exempt from ITBIS. */
     public var exemptAmount: Double?
-    /** ITBIS rate 1 (typically 0.18). */
     public var itbisRate1: Double?
-    /** ITBIS rate 2 (typically 0.16). */
     public var itbisRate2: Double?
-    /** ITBIS rate 3 (typically 0.00). */
     public var itbisRate3: Double?
-    /** Total ITBIS tax (all rates combined). */
     public var totalITBIS: Double?
-    /** ITBIS amount at rate 1. */
     public var itbis1: Double?
-    /** ITBIS amount at rate 2. */
     public var itbis2: Double?
-    /** ITBIS amount at rate 3. */
     public var itbis3: Double?
-    /** Total of all additional taxes (ISC, IECS, etc.). */
     public var additionalTaxAmount: Double?
-    /** Breakdown of additional taxes at document level. */
-    public var additionalTaxes: [ItemAdditionalTax]?
-    /** Grand total of the document (required). */
+    public var additionalTaxes: [String]?
     public var totalAmount: Double
-    /** Amount not subject to billing. */
     public var nonBillableAmount: Double?
-    /** Amount for the current billing period. */
     public var periodAmount: Double?
-    /** Previous balance (for billing statements). */
     public var previousBalance: Double?
-    /** Advance payment amount already received. */
     public var advancePaymentAmount: Double?
-    /** Net amount due after advance payments and previous balance. */
     public var amountToPay: Double?
-    /** Total ITBIS withheld at source. */
     public var totalWithheldITBIS: Double?
-    /** Total income tax (ISR) withheld at source. */
     public var totalIncomeTaxWithholding: Double?
-    /** Total ITBIS perception collected. */
     public var totalITBISPerception: Double?
-    /** Total ISR perception collected. */
     public var totalISRPerception: Double?
 
-    public init(taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, exemptAmount: Double? = nil, itbisRate1: Double? = nil, itbisRate2: Double? = nil, itbisRate3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxAmount: Double? = nil, additionalTaxes: [ItemAdditionalTax]? = nil, totalAmount: Double, nonBillableAmount: Double? = nil, periodAmount: Double? = nil, previousBalance: Double? = nil, advancePaymentAmount: Double? = nil, amountToPay: Double? = nil, totalWithheldITBIS: Double? = nil, totalIncomeTaxWithholding: Double? = nil, totalITBISPerception: Double? = nil, totalISRPerception: Double? = nil) {
+    public init(taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, exemptAmount: Double? = nil, itbisRate1: Double? = nil, itbisRate2: Double? = nil, itbisRate3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxAmount: Double? = nil, additionalTaxes: [String]? = nil, totalAmount: Double, nonBillableAmount: Double? = nil, periodAmount: Double? = nil, previousBalance: Double? = nil, advancePaymentAmount: Double? = nil, amountToPay: Double? = nil, totalWithheldITBIS: Double? = nil, totalIncomeTaxWithholding: Double? = nil, totalITBISPerception: Double? = nil, totalISRPerception: Double? = nil) {
         self.taxableAmount = taxableAmount
         self.taxableAmount1 = taxableAmount1
         self.taxableAmount2 = taxableAmount2

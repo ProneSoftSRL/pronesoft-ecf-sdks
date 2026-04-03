@@ -4,19 +4,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateWebhook**](WebhookConfigurationAPI.md#CreateWebhook) | **Post** /{rnc}/webhooks | Register new webhook
-[**DeleteWebhook**](WebhookConfigurationAPI.md#DeleteWebhook) | **Delete** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+[**GetWebhook**](WebhookConfigurationAPI.md#GetWebhook) | **Get** /{rnc}/webhooks/{webhookId} | Get webhook details
+[**GetWebhookStats**](WebhookConfigurationAPI.md#GetWebhookStats) | **Get** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
 [**ListWebhooks**](WebhookConfigurationAPI.md#ListWebhooks) | **Get** /{rnc}/webhooks | List webhook configurations
 
 
 
-## CreateWebhook
+## GetWebhook
 
-> WebhookConfigResponse CreateWebhook(ctx, rnc).CreateWebhookConfig(createWebhookConfig).Execute()
+> WebhookConfigDetail GetWebhook(ctx, rnc, webhookId).Execute()
 
-Register new webhook
-
-
+Get webhook details
 
 ### Example
 
@@ -31,18 +29,18 @@ import (
 )
 
 func main() {
-	rnc := "130000001" // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-	createWebhookConfig := *openapiclient.NewCreateWebhookConfig("https://myapp.com/webhooks/ecf", []openapiclient.WebhookEventType{openapiclient.WebhookEventType("document.received")}) // CreateWebhookConfig | 
+	rnc := "133190907" // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+	webhookId := "webhookId_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WebhookConfigurationAPI.CreateWebhook(context.Background(), rnc).CreateWebhookConfig(createWebhookConfig).Execute()
+	resp, r, err := apiClient.WebhookConfigurationAPI.GetWebhook(context.Background(), rnc, webhookId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `WebhookConfigurationAPI.CreateWebhook``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `WebhookConfigurationAPI.GetWebhook``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateWebhook`: WebhookConfigResponse
-	fmt.Fprintf(os.Stdout, "Response from `WebhookConfigurationAPI.CreateWebhook`: %v\n", resp)
+	// response from `GetWebhook`: WebhookConfigDetail
+	fmt.Fprintf(os.Stdout, "Response from `WebhookConfigurationAPI.GetWebhook`: %v\n", resp)
 }
 ```
 
@@ -52,21 +50,22 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
+**rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+**webhookId** | **string** |  | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateWebhookRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetWebhookRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **createWebhookConfig** | [**CreateWebhookConfig**](CreateWebhookConfig.md) |  | 
+
 
 ### Return type
 
-[**WebhookConfigResponse**](WebhookConfigResponse.md)
+[**WebhookConfigDetail**](WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -74,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -82,13 +81,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DeleteWebhook
+## GetWebhookStats
 
-> DeleteWebhook(ctx, rnc, webhookId).Execute()
+> WebhookStats GetWebhookStats(ctx, rnc, webhookId).Period(period).Execute()
 
-Delete webhook configuration
-
-
+Get webhook delivery statistics
 
 ### Example
 
@@ -103,16 +100,19 @@ import (
 )
 
 func main() {
-	rnc := "130000001" // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-	webhookId := "webhookId_example" // string | The unique ID of the webhook to delete.
+	rnc := "133190907" // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+	webhookId := "webhookId_example" // string | 
+	period := "period_example" // string |  (optional) (default to "month")
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.WebhookConfigurationAPI.DeleteWebhook(context.Background(), rnc, webhookId).Execute()
+	resp, r, err := apiClient.WebhookConfigurationAPI.GetWebhookStats(context.Background(), rnc, webhookId).Period(period).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `WebhookConfigurationAPI.DeleteWebhook``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `WebhookConfigurationAPI.GetWebhookStats``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetWebhookStats`: WebhookStats
+	fmt.Fprintf(os.Stdout, "Response from `WebhookConfigurationAPI.GetWebhookStats`: %v\n", resp)
 }
 ```
 
@@ -122,22 +122,23 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
-**webhookId** | **string** | The unique ID of the webhook to delete. | 
+**rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+**webhookId** | **string** |  | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteWebhookRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetWebhookStatsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+ **period** | **string** |  | [default to &quot;month&quot;]
 
 ### Return type
 
- (empty response body)
+[**WebhookStats**](WebhookStats.md)
 
 ### Authorization
 
@@ -174,7 +175,7 @@ import (
 )
 
 func main() {
-	rnc := "130000001" // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+	rnc := "133190907" // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -194,7 +195,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
+**rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
 
 ### Other Parameters
 

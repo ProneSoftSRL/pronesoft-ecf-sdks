@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
@@ -46,19 +47,29 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Information about the buyer/recipient of the document.
+ * Buyer
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Buyer {
   public static final String SERIALIZED_NAME_TAX_ID = "taxId";
   @SerializedName(SERIALIZED_NAME_TAX_ID)
   @javax.annotation.Nullable
   private String taxId;
 
+  public static final String SERIALIZED_NAME_FOREIGN_ID = "foreignId";
+  @SerializedName(SERIALIZED_NAME_FOREIGN_ID)
+  @javax.annotation.Nullable
+  private String foreignId;
+
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   @javax.annotation.Nonnull
   private String name;
+
+  public static final String SERIALIZED_NAME_CONTACT = "contact";
+  @SerializedName(SERIALIZED_NAME_CONTACT)
+  @javax.annotation.Nullable
+  private String contact;
 
   public static final String SERIALIZED_NAME_EMAIL = "email";
   @SerializedName(SERIALIZED_NAME_EMAIL)
@@ -80,10 +91,50 @@ public class Buyer {
   @javax.annotation.Nullable
   private String provinceCode;
 
+  public static final String SERIALIZED_NAME_DELIVERY_DATE = "deliveryDate";
+  @SerializedName(SERIALIZED_NAME_DELIVERY_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime deliveryDate;
+
+  public static final String SERIALIZED_NAME_DELIVERY_CONTACT = "deliveryContact";
+  @SerializedName(SERIALIZED_NAME_DELIVERY_CONTACT)
+  @javax.annotation.Nullable
+  private String deliveryContact;
+
   public static final String SERIALIZED_NAME_DELIVERY_ADDRESS = "deliveryAddress";
   @SerializedName(SERIALIZED_NAME_DELIVERY_ADDRESS)
   @javax.annotation.Nullable
   private String deliveryAddress;
+
+  public static final String SERIALIZED_NAME_ADDITIONAL_PHONE = "additionalPhone";
+  @SerializedName(SERIALIZED_NAME_ADDITIONAL_PHONE)
+  @javax.annotation.Nullable
+  private String additionalPhone;
+
+  public static final String SERIALIZED_NAME_PURCHASE_ORDER_DATE = "purchaseOrderDate";
+  @SerializedName(SERIALIZED_NAME_PURCHASE_ORDER_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime purchaseOrderDate;
+
+  public static final String SERIALIZED_NAME_PURCHASE_ORDER_NUMBER = "purchaseOrderNumber";
+  @SerializedName(SERIALIZED_NAME_PURCHASE_ORDER_NUMBER)
+  @javax.annotation.Nullable
+  private String purchaseOrderNumber;
+
+  public static final String SERIALIZED_NAME_INTERNAL_CODE = "internalCode";
+  @SerializedName(SERIALIZED_NAME_INTERNAL_CODE)
+  @javax.annotation.Nullable
+  private String internalCode;
+
+  public static final String SERIALIZED_NAME_PAYMENT_RESPONSIBLE = "paymentResponsible";
+  @SerializedName(SERIALIZED_NAME_PAYMENT_RESPONSIBLE)
+  @javax.annotation.Nullable
+  private String paymentResponsible;
+
+  public static final String SERIALIZED_NAME_ADDITIONAL_INFO = "additionalInfo";
+  @SerializedName(SERIALIZED_NAME_ADDITIONAL_INFO)
+  @javax.annotation.Nullable
+  private String additionalInfo;
 
   public Buyer() {
   }
@@ -94,7 +145,7 @@ public class Buyer {
   }
 
   /**
-   * Buyer&#39;s RNC (9 digits) or cedula (11 digits). Required for type 31.
+   * RNC (9 digits) or cedula (11 digits). Required for type 31.
    * @return taxId
    */
   @javax.annotation.Nullable
@@ -107,13 +158,32 @@ public class Buyer {
   }
 
 
+  public Buyer foreignId(@javax.annotation.Nullable String foreignId) {
+    this.foreignId = foreignId;
+    return this;
+  }
+
+  /**
+   * Get foreignId
+   * @return foreignId
+   */
+  @javax.annotation.Nullable
+  public String getForeignId() {
+    return foreignId;
+  }
+
+  public void setForeignId(@javax.annotation.Nullable String foreignId) {
+    this.foreignId = foreignId;
+  }
+
+
   public Buyer name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * Buyer&#39;s full legal name or business name.
+   * Get name
    * @return name
    */
   @javax.annotation.Nonnull
@@ -126,13 +196,32 @@ public class Buyer {
   }
 
 
+  public Buyer contact(@javax.annotation.Nullable String contact) {
+    this.contact = contact;
+    return this;
+  }
+
+  /**
+   * Get contact
+   * @return contact
+   */
+  @javax.annotation.Nullable
+  public String getContact() {
+    return contact;
+  }
+
+  public void setContact(@javax.annotation.Nullable String contact) {
+    this.contact = contact;
+  }
+
+
   public Buyer email(@javax.annotation.Nullable String email) {
     this.email = email;
     return this;
   }
 
   /**
-   * Buyer&#39;s email address (for digital delivery of the e-CF).
+   * Get email
    * @return email
    */
   @javax.annotation.Nullable
@@ -151,7 +240,7 @@ public class Buyer {
   }
 
   /**
-   * Buyer&#39;s physical address.
+   * Get address
    * @return address
    */
   @javax.annotation.Nullable
@@ -170,7 +259,7 @@ public class Buyer {
   }
 
   /**
-   * DGII municipality code of the buyer.
+   * Get municipalityCode
    * @return municipalityCode
    */
   @javax.annotation.Nullable
@@ -189,7 +278,7 @@ public class Buyer {
   }
 
   /**
-   * DGII province code of the buyer.
+   * Get provinceCode
    * @return provinceCode
    */
   @javax.annotation.Nullable
@@ -202,13 +291,51 @@ public class Buyer {
   }
 
 
+  public Buyer deliveryDate(@javax.annotation.Nullable OffsetDateTime deliveryDate) {
+    this.deliveryDate = deliveryDate;
+    return this;
+  }
+
+  /**
+   * Get deliveryDate
+   * @return deliveryDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getDeliveryDate() {
+    return deliveryDate;
+  }
+
+  public void setDeliveryDate(@javax.annotation.Nullable OffsetDateTime deliveryDate) {
+    this.deliveryDate = deliveryDate;
+  }
+
+
+  public Buyer deliveryContact(@javax.annotation.Nullable String deliveryContact) {
+    this.deliveryContact = deliveryContact;
+    return this;
+  }
+
+  /**
+   * Get deliveryContact
+   * @return deliveryContact
+   */
+  @javax.annotation.Nullable
+  public String getDeliveryContact() {
+    return deliveryContact;
+  }
+
+  public void setDeliveryContact(@javax.annotation.Nullable String deliveryContact) {
+    this.deliveryContact = deliveryContact;
+  }
+
+
   public Buyer deliveryAddress(@javax.annotation.Nullable String deliveryAddress) {
     this.deliveryAddress = deliveryAddress;
     return this;
   }
 
   /**
-   * Delivery address (if different from billing address).
+   * Get deliveryAddress
    * @return deliveryAddress
    */
   @javax.annotation.Nullable
@@ -218,6 +345,120 @@ public class Buyer {
 
   public void setDeliveryAddress(@javax.annotation.Nullable String deliveryAddress) {
     this.deliveryAddress = deliveryAddress;
+  }
+
+
+  public Buyer additionalPhone(@javax.annotation.Nullable String additionalPhone) {
+    this.additionalPhone = additionalPhone;
+    return this;
+  }
+
+  /**
+   * Get additionalPhone
+   * @return additionalPhone
+   */
+  @javax.annotation.Nullable
+  public String getAdditionalPhone() {
+    return additionalPhone;
+  }
+
+  public void setAdditionalPhone(@javax.annotation.Nullable String additionalPhone) {
+    this.additionalPhone = additionalPhone;
+  }
+
+
+  public Buyer purchaseOrderDate(@javax.annotation.Nullable OffsetDateTime purchaseOrderDate) {
+    this.purchaseOrderDate = purchaseOrderDate;
+    return this;
+  }
+
+  /**
+   * Get purchaseOrderDate
+   * @return purchaseOrderDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getPurchaseOrderDate() {
+    return purchaseOrderDate;
+  }
+
+  public void setPurchaseOrderDate(@javax.annotation.Nullable OffsetDateTime purchaseOrderDate) {
+    this.purchaseOrderDate = purchaseOrderDate;
+  }
+
+
+  public Buyer purchaseOrderNumber(@javax.annotation.Nullable String purchaseOrderNumber) {
+    this.purchaseOrderNumber = purchaseOrderNumber;
+    return this;
+  }
+
+  /**
+   * Get purchaseOrderNumber
+   * @return purchaseOrderNumber
+   */
+  @javax.annotation.Nullable
+  public String getPurchaseOrderNumber() {
+    return purchaseOrderNumber;
+  }
+
+  public void setPurchaseOrderNumber(@javax.annotation.Nullable String purchaseOrderNumber) {
+    this.purchaseOrderNumber = purchaseOrderNumber;
+  }
+
+
+  public Buyer internalCode(@javax.annotation.Nullable String internalCode) {
+    this.internalCode = internalCode;
+    return this;
+  }
+
+  /**
+   * Get internalCode
+   * @return internalCode
+   */
+  @javax.annotation.Nullable
+  public String getInternalCode() {
+    return internalCode;
+  }
+
+  public void setInternalCode(@javax.annotation.Nullable String internalCode) {
+    this.internalCode = internalCode;
+  }
+
+
+  public Buyer paymentResponsible(@javax.annotation.Nullable String paymentResponsible) {
+    this.paymentResponsible = paymentResponsible;
+    return this;
+  }
+
+  /**
+   * Get paymentResponsible
+   * @return paymentResponsible
+   */
+  @javax.annotation.Nullable
+  public String getPaymentResponsible() {
+    return paymentResponsible;
+  }
+
+  public void setPaymentResponsible(@javax.annotation.Nullable String paymentResponsible) {
+    this.paymentResponsible = paymentResponsible;
+  }
+
+
+  public Buyer additionalInfo(@javax.annotation.Nullable String additionalInfo) {
+    this.additionalInfo = additionalInfo;
+    return this;
+  }
+
+  /**
+   * Get additionalInfo
+   * @return additionalInfo
+   */
+  @javax.annotation.Nullable
+  public String getAdditionalInfo() {
+    return additionalInfo;
+  }
+
+  public void setAdditionalInfo(@javax.annotation.Nullable String additionalInfo) {
+    this.additionalInfo = additionalInfo;
   }
 
 
@@ -232,17 +473,27 @@ public class Buyer {
     }
     Buyer buyer = (Buyer) o;
     return Objects.equals(this.taxId, buyer.taxId) &&
+        Objects.equals(this.foreignId, buyer.foreignId) &&
         Objects.equals(this.name, buyer.name) &&
+        Objects.equals(this.contact, buyer.contact) &&
         Objects.equals(this.email, buyer.email) &&
         Objects.equals(this.address, buyer.address) &&
         Objects.equals(this.municipalityCode, buyer.municipalityCode) &&
         Objects.equals(this.provinceCode, buyer.provinceCode) &&
-        Objects.equals(this.deliveryAddress, buyer.deliveryAddress);
+        Objects.equals(this.deliveryDate, buyer.deliveryDate) &&
+        Objects.equals(this.deliveryContact, buyer.deliveryContact) &&
+        Objects.equals(this.deliveryAddress, buyer.deliveryAddress) &&
+        Objects.equals(this.additionalPhone, buyer.additionalPhone) &&
+        Objects.equals(this.purchaseOrderDate, buyer.purchaseOrderDate) &&
+        Objects.equals(this.purchaseOrderNumber, buyer.purchaseOrderNumber) &&
+        Objects.equals(this.internalCode, buyer.internalCode) &&
+        Objects.equals(this.paymentResponsible, buyer.paymentResponsible) &&
+        Objects.equals(this.additionalInfo, buyer.additionalInfo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(taxId, name, email, address, municipalityCode, provinceCode, deliveryAddress);
+    return Objects.hash(taxId, foreignId, name, contact, email, address, municipalityCode, provinceCode, deliveryDate, deliveryContact, deliveryAddress, additionalPhone, purchaseOrderDate, purchaseOrderNumber, internalCode, paymentResponsible, additionalInfo);
   }
 
   @Override
@@ -250,12 +501,22 @@ public class Buyer {
     StringBuilder sb = new StringBuilder();
     sb.append("class Buyer {\n");
     sb.append("    taxId: ").append(toIndentedString(taxId)).append("\n");
+    sb.append("    foreignId: ").append(toIndentedString(foreignId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    contact: ").append(toIndentedString(contact)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    municipalityCode: ").append(toIndentedString(municipalityCode)).append("\n");
     sb.append("    provinceCode: ").append(toIndentedString(provinceCode)).append("\n");
+    sb.append("    deliveryDate: ").append(toIndentedString(deliveryDate)).append("\n");
+    sb.append("    deliveryContact: ").append(toIndentedString(deliveryContact)).append("\n");
     sb.append("    deliveryAddress: ").append(toIndentedString(deliveryAddress)).append("\n");
+    sb.append("    additionalPhone: ").append(toIndentedString(additionalPhone)).append("\n");
+    sb.append("    purchaseOrderDate: ").append(toIndentedString(purchaseOrderDate)).append("\n");
+    sb.append("    purchaseOrderNumber: ").append(toIndentedString(purchaseOrderNumber)).append("\n");
+    sb.append("    internalCode: ").append(toIndentedString(internalCode)).append("\n");
+    sb.append("    paymentResponsible: ").append(toIndentedString(paymentResponsible)).append("\n");
+    sb.append("    additionalInfo: ").append(toIndentedString(additionalInfo)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -274,7 +535,7 @@ public class Buyer {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("taxId", "name", "email", "address", "municipalityCode", "provinceCode", "deliveryAddress"));
+    openapiFields = new HashSet<String>(Arrays.asList("taxId", "foreignId", "name", "contact", "email", "address", "municipalityCode", "provinceCode", "deliveryDate", "deliveryContact", "deliveryAddress", "additionalPhone", "purchaseOrderDate", "purchaseOrderNumber", "internalCode", "paymentResponsible", "additionalInfo"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("name"));
@@ -311,8 +572,14 @@ public class Buyer {
       if ((jsonObj.get("taxId") != null && !jsonObj.get("taxId").isJsonNull()) && !jsonObj.get("taxId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `taxId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("taxId").toString()));
       }
+      if ((jsonObj.get("foreignId") != null && !jsonObj.get("foreignId").isJsonNull()) && !jsonObj.get("foreignId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `foreignId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("foreignId").toString()));
+      }
       if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+      }
+      if ((jsonObj.get("contact") != null && !jsonObj.get("contact").isJsonNull()) && !jsonObj.get("contact").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `contact` to be a primitive type in the JSON string but got `%s`", jsonObj.get("contact").toString()));
       }
       if ((jsonObj.get("email") != null && !jsonObj.get("email").isJsonNull()) && !jsonObj.get("email").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `email` to be a primitive type in the JSON string but got `%s`", jsonObj.get("email").toString()));
@@ -326,8 +593,26 @@ public class Buyer {
       if ((jsonObj.get("provinceCode") != null && !jsonObj.get("provinceCode").isJsonNull()) && !jsonObj.get("provinceCode").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `provinceCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("provinceCode").toString()));
       }
+      if ((jsonObj.get("deliveryContact") != null && !jsonObj.get("deliveryContact").isJsonNull()) && !jsonObj.get("deliveryContact").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `deliveryContact` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryContact").toString()));
+      }
       if ((jsonObj.get("deliveryAddress") != null && !jsonObj.get("deliveryAddress").isJsonNull()) && !jsonObj.get("deliveryAddress").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `deliveryAddress` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryAddress").toString()));
+      }
+      if ((jsonObj.get("additionalPhone") != null && !jsonObj.get("additionalPhone").isJsonNull()) && !jsonObj.get("additionalPhone").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `additionalPhone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("additionalPhone").toString()));
+      }
+      if ((jsonObj.get("purchaseOrderNumber") != null && !jsonObj.get("purchaseOrderNumber").isJsonNull()) && !jsonObj.get("purchaseOrderNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `purchaseOrderNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("purchaseOrderNumber").toString()));
+      }
+      if ((jsonObj.get("internalCode") != null && !jsonObj.get("internalCode").isJsonNull()) && !jsonObj.get("internalCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `internalCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("internalCode").toString()));
+      }
+      if ((jsonObj.get("paymentResponsible") != null && !jsonObj.get("paymentResponsible").isJsonNull()) && !jsonObj.get("paymentResponsible").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentResponsible` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentResponsible").toString()));
+      }
+      if ((jsonObj.get("additionalInfo") != null && !jsonObj.get("additionalInfo").isJsonNull()) && !jsonObj.get("additionalInfo").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `additionalInfo` to be a primitive type in the JSON string but got `%s`", jsonObj.get("additionalInfo").toString()));
       }
   }
 

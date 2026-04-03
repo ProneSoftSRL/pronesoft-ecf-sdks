@@ -1,14 +1,25 @@
 # AlternativeCurrency
 
-Alternative currency information for documents issued in a currency other than Dominican Peso (DOP). 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**code** | **str** | ISO 4217 currency code (e.g. \&quot;USD\&quot;, \&quot;EUR\&quot;). | 
-**exchange_rate** | **float** | Exchange rate to Dominican Peso at time of issuance. | 
-**total_amount** | **float** | Total document amount in the alternative currency. | [optional] 
+**code** | **str** |  | 
+**exchange_rate** | **float** |  | 
+**taxable_amount** | **float** |  | [optional] 
+**taxable_amount1** | **float** |  | [optional] 
+**taxable_amount2** | **float** |  | [optional] 
+**taxable_amount3** | **float** |  | [optional] 
+**exempt_amount** | **float** |  | [optional] 
+**total_itbis** | **float** |  | [optional] 
+**itbis1** | **float** |  | [optional] 
+**itbis2** | **float** |  | [optional] 
+**itbis3** | **float** |  | [optional] 
+**additional_tax_amount** | **float** |  | [optional] 
+**additional_taxes** | **List[str]** |  | [optional] 
+**non_billable_amount** | **float** |  | [optional] 
+**total_amount** | **float** |  | [optional] 
 
 ## Example
 

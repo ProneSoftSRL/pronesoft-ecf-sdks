@@ -27,11 +27,11 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Subtotal for a page or section within a multi-page document.
+ * 
  *
- * @param number Page or section number.
- * @param amount Subtotal amount for this section.
+ * @param number 
  * @param description 
+ * @param order 
  * @param taxableAmount 
  * @param taxableAmount1 
  * @param taxableAmount2 
@@ -42,22 +42,21 @@ import com.google.gson.annotations.SerializedName
  * @param itbis3 
  * @param additionalTaxes 
  * @param exemptAmount 
- * @param lines Number of line items included in this subtotal.
+ * @param amount 
+ * @param lines 
  */
 
 
 data class Subtotal (
 
-    /* Page or section number. */
     @SerializedName("number")
-    val number: kotlin.Int,
-
-    /* Subtotal amount for this section. */
-    @SerializedName("amount")
-    val amount: java.math.BigDecimal,
+    val number: kotlin.Int? = null,
 
     @SerializedName("description")
     val description: kotlin.String? = null,
+
+    @SerializedName("order")
+    val order: kotlin.Int? = null,
 
     @SerializedName("taxableAmount")
     val taxableAmount: java.math.BigDecimal? = null,
@@ -89,7 +88,9 @@ data class Subtotal (
     @SerializedName("exemptAmount")
     val exemptAmount: java.math.BigDecimal? = null,
 
-    /* Number of line items included in this subtotal. */
+    @SerializedName("amount")
+    val amount: java.math.BigDecimal? = null,
+
     @SerializedName("lines")
     val lines: kotlin.Int? = null
 

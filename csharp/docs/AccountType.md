@@ -1,5 +1,5 @@
 # Pronesoft.Ecf.Sdk.Model.AccountType
-Bank account type: - `CT`: Current account (Cuenta Corriente) - `AH`: Savings account (Cuenta de Ahorros) - `OT`: Other 
+CT=Current account, AH=Savings, OT=Other
 
 ## Properties
 

@@ -15,36 +15,36 @@ public typealias WebhookConfigResponse = PronesoftEcfAPI.WebhookConfigResponse
 
 extension PronesoftEcfAPI {
 
-/** A registered webhook configuration. */
 public struct WebhookConfigResponse: Codable, JSONEncodable, Hashable {
 
-    /** Unique webhook identifier. */
     public var id: String?
-    /** The URL that receives webhook notifications. */
     public var url: String?
-    /** Events this webhook is subscribed to. */
+    public var description: String?
     public var eventTypes: [WebhookEventType]?
-    /** Whether this webhook is currently active. */
     public var isActive: Bool?
     public var createdAt: Date?
-    /** When this webhook was last triggered. Null if never triggered. */
+    public var updatedAt: Date?
     public var lastTriggeredAt: Date?
 
-    public init(id: String? = nil, url: String? = nil, eventTypes: [WebhookEventType]? = nil, isActive: Bool? = nil, createdAt: Date? = nil, lastTriggeredAt: Date? = nil) {
+    public init(id: String? = nil, url: String? = nil, description: String? = nil, eventTypes: [WebhookEventType]? = nil, isActive: Bool? = nil, createdAt: Date? = nil, updatedAt: Date? = nil, lastTriggeredAt: Date? = nil) {
         self.id = id
         self.url = url
+        self.description = description
         self.eventTypes = eventTypes
         self.isActive = isActive
         self.createdAt = createdAt
+        self.updatedAt = updatedAt
         self.lastTriggeredAt = lastTriggeredAt
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case url
+        case description
         case eventTypes
         case isActive
         case createdAt
+        case updatedAt
         case lastTriggeredAt
     }
 
@@ -54,9 +54,11 @@ public struct WebhookConfigResponse: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(eventTypes, forKey: .eventTypes)
         try container.encodeIfPresent(isActive, forKey: .isActive)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(lastTriggeredAt, forKey: .lastTriggeredAt)
     }
 }

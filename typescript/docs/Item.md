@@ -1,42 +1,73 @@
 
 # Item
 
-A single line item in the electronic document.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `lineNumber` | number
+`codes` | [Array&lt;ItemCodesInner&gt;](ItemCodesInner.md)
 `name` | string
+`description` | string
 `type` | string
 `billingIndicator` | [BillingIndicator](BillingIndicator.md)
+`withholdingAgentIndicator` | number
+`withheldITBISAmount` | number
+`withheldISRAmount` | number
 `quantity` | string
-`unitPrice` | string
-`amount` | number
-`discountAmount` | number
-`additionalTaxes` | [Array&lt;ItemAdditionalTax&gt;](ItemAdditionalTax.md)
+`unitOfMeasure` | number
+`referenceQuantity` | number
+`referenceUnit` | number
+`referenceUnitPrice` | number
 `subquantities` | [Array&lt;Subquantity&gt;](Subquantity.md)
 `alcoholDegree` | number
+`manufacturingDate` | Date
+`expirationDate` | Date
+`miningInfo` | [ItemMiningInfo](ItemMiningInfo.md)
+`unitPrice` | string
+`discountAmount` | number
+`discount` | [Array&lt;ItemDiscountInner&gt;](ItemDiscountInner.md)
+`surchargeAmount` | number
+`surcharge` | [Array&lt;ItemDiscountInner&gt;](ItemDiscountInner.md)
+`additionalTaxes` | [Array&lt;ItemAdditionalTax&gt;](ItemAdditionalTax.md)
+`alternativeCurrency` | [ItemAlternativeCurrency](ItemAlternativeCurrency.md)
+`amount` | number
 
 ## Example
 
 ```typescript
-import type { Item } from '@pronesoft/ecf-sdk'
+import type { Item } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "lineNumber": 1,
-  "name": Consulting Services,
+  "codes": null,
+  "name": Servicio profesional,
+  "description": null,
   "type": null,
   "billingIndicator": null,
-  "quantity": 2.5,
-  "unitPrice": 1500.00,
-  "amount": 3750.0,
-  "discountAmount": 0.0,
-  "additionalTaxes": null,
+  "withholdingAgentIndicator": null,
+  "withheldITBISAmount": null,
+  "withheldISRAmount": null,
+  "quantity": 1,
+  "unitOfMeasure": null,
+  "referenceQuantity": null,
+  "referenceUnit": null,
+  "referenceUnitPrice": null,
   "subquantities": null,
   "alcoholDegree": null,
+  "manufacturingDate": null,
+  "expirationDate": null,
+  "miningInfo": null,
+  "unitPrice": 10000.00,
+  "discountAmount": null,
+  "discount": null,
+  "surchargeAmount": null,
+  "surcharge": null,
+  "additionalTaxes": null,
+  "alternativeCurrency": null,
+  "amount": 10000.0,
 } satisfies Item
 
 console.log(example)

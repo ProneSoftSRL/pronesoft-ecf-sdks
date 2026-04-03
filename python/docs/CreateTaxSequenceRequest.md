@@ -1,14 +1,16 @@
 # CreateTaxSequenceRequest
 
-Request to register a new block of fiscal numbers. The `from` and `to` values define the numeric range (inclusive). 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | [**InvoiceType**](InvoiceType.md) |  | 
-**var_from** | **int** | First number in the sequence range. | 
-**to** | **int** | Last number in the sequence range. | 
+**type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
+**var_from** | **int** |  | 
+**to** | **int** |  | 
+**quantity** | **int** |  | [optional] 
+**expiration** | **date** |  | [optional] 
+**environment** | [**Environment**](Environment.md) |  | [optional] 
 
 ## Example
 

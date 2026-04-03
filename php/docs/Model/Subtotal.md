@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**number** | **int** | Page or section number. |
-**amount** | **float** | Subtotal amount for this section. |
+**number** | **int** |  | [optional]
 **description** | **string** |  | [optional]
+**order** | **int** |  | [optional]
 **taxable_amount** | **float** |  | [optional]
 **taxable_amount1** | **float** |  | [optional]
 **taxable_amount2** | **float** |  | [optional]
@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **itbis3** | **float** |  | [optional]
 **additional_taxes** | **float** |  | [optional]
 **exempt_amount** | **float** |  | [optional]
-**lines** | **int** | Number of line items included in this subtotal. | [optional]
+**amount** | **float** |  | [optional]
+**lines** | **int** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

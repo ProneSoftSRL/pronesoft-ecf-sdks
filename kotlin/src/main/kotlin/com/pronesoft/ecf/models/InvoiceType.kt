@@ -27,7 +27,7 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * e-NCF invoice type code as defined by the DGII: - `31`: Tax Credit Invoice (Factura de Crédito Fiscal) - `32`: Consumer Invoice (Factura de Consumo) - `33`: Debit Note (Nota de Débito) - `34`: Credit Note (Nota de Crédito) - `41`: Purchases (Compras) - `43`: Minor Expenses (Gastos Menores) - `44`: Special Regimes (Regímenes Especiales) - `45`: Governmental (Gubernamentales) - `46`: Exports (Exportaciones) - `47`: Overseas Payments (Pagos al Exterior) 
+ * 31=Factura Credito Fiscal, 32=Factura Consumo, 33=Nota Debito, 34=Nota Credito, 41=Compras, 43=Gastos Menores, 44=Regimenes Especiales, 45=Gubernamental, 46=Exportaciones, 47=Pagos Exterior 
  *
  * Values: _31,_32,_33,_34,_41,_43,_44,_45,_46,_47
  */

@@ -15,44 +15,45 @@ public typealias AssociatedCompany = PronesoftEcfAPI.AssociatedCompany
 
 extension PronesoftEcfAPI {
 
-/** A company or branch associated with the main tenant account. */
 public struct AssociatedCompany: Codable, JSONEncodable, Hashable {
 
     public enum ModelType: String, Codable, CaseIterable {
         case main = "MAIN"
         case associated = "ASSOCIATED"
     }
-    public static let rncRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^([0-9]{9}|[0-9]{11})$/")
     public var id: UUID?
     public var name: String?
     public var rnc: String?
-    public var phone: String?
-    public var address: String?
+    public var logoPath: String?
+    public var type: ModelType?
     public var city: String?
     public var country: String?
+    public var phone: String?
+    public var address: String?
     public var website: String?
-    public var logoPath: String?
-    /** Whether this is the main account or an associated branch. */
-    public var type: ModelType?
+    public var category: String?
+    public var monthlySalesRange: String?
+    public var printerType: PrintFormat?
     public var createdAt: Date?
-    /** Number of e-CF documents issued in the current month. */
     public var docsIssuedThisMonth: Int?
-    /** Purchased document quota consumed this month. */
     public var purchasedDocsConsumedThisMonth: Int?
     public var ownerEmail: String?
     public var subscription: AssociatedCompanySubscription?
 
-    public init(id: UUID? = nil, name: String? = nil, rnc: String? = nil, phone: String? = nil, address: String? = nil, city: String? = nil, country: String? = nil, website: String? = nil, logoPath: String? = nil, type: ModelType? = nil, createdAt: Date? = nil, docsIssuedThisMonth: Int? = nil, purchasedDocsConsumedThisMonth: Int? = nil, ownerEmail: String? = nil, subscription: AssociatedCompanySubscription? = nil) {
+    public init(id: UUID? = nil, name: String? = nil, rnc: String? = nil, logoPath: String? = nil, type: ModelType? = nil, city: String? = nil, country: String? = nil, phone: String? = nil, address: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, printerType: PrintFormat? = nil, createdAt: Date? = nil, docsIssuedThisMonth: Int? = nil, purchasedDocsConsumedThisMonth: Int? = nil, ownerEmail: String? = nil, subscription: AssociatedCompanySubscription? = nil) {
         self.id = id
         self.name = name
         self.rnc = rnc
-        self.phone = phone
-        self.address = address
-        self.city = city
-        self.country = country
-        self.website = website
         self.logoPath = logoPath
         self.type = type
+        self.city = city
+        self.country = country
+        self.phone = phone
+        self.address = address
+        self.website = website
+        self.category = category
+        self.monthlySalesRange = monthlySalesRange
+        self.printerType = printerType
         self.createdAt = createdAt
         self.docsIssuedThisMonth = docsIssuedThisMonth
         self.purchasedDocsConsumedThisMonth = purchasedDocsConsumedThisMonth
@@ -64,13 +65,16 @@ public struct AssociatedCompany: Codable, JSONEncodable, Hashable {
         case id
         case name
         case rnc
-        case phone
-        case address
-        case city
-        case country
-        case website
         case logoPath
         case type
+        case city
+        case country
+        case phone
+        case address
+        case website
+        case category
+        case monthlySalesRange
+        case printerType
         case createdAt
         case docsIssuedThisMonth
         case purchasedDocsConsumedThisMonth
@@ -85,13 +89,16 @@ public struct AssociatedCompany: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(rnc, forKey: .rnc)
-        try container.encodeIfPresent(phone, forKey: .phone)
-        try container.encodeIfPresent(address, forKey: .address)
-        try container.encodeIfPresent(city, forKey: .city)
-        try container.encodeIfPresent(country, forKey: .country)
-        try container.encodeIfPresent(website, forKey: .website)
         try container.encodeIfPresent(logoPath, forKey: .logoPath)
         try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(city, forKey: .city)
+        try container.encodeIfPresent(country, forKey: .country)
+        try container.encodeIfPresent(phone, forKey: .phone)
+        try container.encodeIfPresent(address, forKey: .address)
+        try container.encodeIfPresent(website, forKey: .website)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encodeIfPresent(monthlySalesRange, forKey: .monthlySalesRange)
+        try container.encodeIfPresent(printerType, forKey: .printerType)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(docsIssuedThisMonth, forKey: .docsIssuedThisMonth)
         try container.encodeIfPresent(purchasedDocsConsumedThisMonth, forKey: .purchasedDocsConsumedThisMonth)

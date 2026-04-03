@@ -27,32 +27,60 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Additional shipping/logistics information.
+ * 
  *
- * @param grossWeight Gross weight of the shipment (in kg).
- * @param packageQuantity Number of packages.
- * @param containerId Container identifier (for imports/exports).
- * @param sealId Seal/precinto identifier.
+ * @param shipmentDate 
+ * @param shipmentNumber 
+ * @param containerNumber 
+ * @param referenceNumber 
+ * @param grossWeight 
+ * @param netWeight 
+ * @param grossWeightUnit 
+ * @param netWeightUnit 
+ * @param packageQuantity 
+ * @param packageUnit 
+ * @param packageVolume 
+ * @param volumeUnit 
  */
 
 
 data class AdditionalInfo (
 
-    /* Gross weight of the shipment (in kg). */
+    @SerializedName("shipmentDate")
+    val shipmentDate: kotlin.String? = null,
+
+    @SerializedName("shipmentNumber")
+    val shipmentNumber: kotlin.String? = null,
+
+    @SerializedName("containerNumber")
+    val containerNumber: kotlin.String? = null,
+
+    @SerializedName("referenceNumber")
+    val referenceNumber: kotlin.String? = null,
+
     @SerializedName("grossWeight")
     val grossWeight: java.math.BigDecimal? = null,
 
-    /* Number of packages. */
+    @SerializedName("netWeight")
+    val netWeight: java.math.BigDecimal? = null,
+
+    @SerializedName("grossWeightUnit")
+    val grossWeightUnit: kotlin.Int? = null,
+
+    @SerializedName("netWeightUnit")
+    val netWeightUnit: kotlin.Int? = null,
+
     @SerializedName("packageQuantity")
     val packageQuantity: java.math.BigDecimal? = null,
 
-    /* Container identifier (for imports/exports). */
-    @SerializedName("containerId")
-    val containerId: kotlin.String? = null,
+    @SerializedName("packageUnit")
+    val packageUnit: kotlin.Int? = null,
 
-    /* Seal/precinto identifier. */
-    @SerializedName("sealId")
-    val sealId: kotlin.String? = null
+    @SerializedName("packageVolume")
+    val packageVolume: java.math.BigDecimal? = null,
+
+    @SerializedName("volumeUnit")
+    val volumeUnit: kotlin.Int? = null
 
 ) {
 

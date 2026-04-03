@@ -4,30 +4,30 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**TaxableAmount** | Pointer to **float32** | Total taxable base amount (all ITBIS rates combined). | [optional] 
-**TaxableAmount1** | Pointer to **float32** | Taxable base for 18% ITBIS rate. | [optional] 
-**TaxableAmount2** | Pointer to **float32** | Taxable base for 16% ITBIS rate. | [optional] 
-**TaxableAmount3** | Pointer to **float32** | Taxable base for 0% ITBIS rate. | [optional] 
-**ExemptAmount** | Pointer to **float32** | Total amount exempt from ITBIS. | [optional] 
-**ItbisRate1** | Pointer to **float32** | ITBIS rate 1 (typically 0.18). | [optional] 
-**ItbisRate2** | Pointer to **float32** | ITBIS rate 2 (typically 0.16). | [optional] 
-**ItbisRate3** | Pointer to **float32** | ITBIS rate 3 (typically 0.00). | [optional] 
-**TotalITBIS** | Pointer to **float32** | Total ITBIS tax (all rates combined). | [optional] 
-**Itbis1** | Pointer to **float32** | ITBIS amount at rate 1. | [optional] 
-**Itbis2** | Pointer to **float32** | ITBIS amount at rate 2. | [optional] 
-**Itbis3** | Pointer to **float32** | ITBIS amount at rate 3. | [optional] 
-**AdditionalTaxAmount** | Pointer to **float32** | Total of all additional taxes (ISC, IECS, etc.). | [optional] 
-**AdditionalTaxes** | Pointer to [**[]ItemAdditionalTax**](ItemAdditionalTax.md) | Breakdown of additional taxes at document level. | [optional] 
-**TotalAmount** | **float32** | Grand total of the document (required). | 
-**NonBillableAmount** | Pointer to **float32** | Amount not subject to billing. | [optional] 
-**PeriodAmount** | Pointer to **float32** | Amount for the current billing period. | [optional] 
-**PreviousBalance** | Pointer to **float32** | Previous balance (for billing statements). | [optional] 
-**AdvancePaymentAmount** | Pointer to **float32** | Advance payment amount already received. | [optional] 
-**AmountToPay** | Pointer to **float32** | Net amount due after advance payments and previous balance. | [optional] 
-**TotalWithheldITBIS** | Pointer to **float32** | Total ITBIS withheld at source. | [optional] 
-**TotalIncomeTaxWithholding** | Pointer to **float32** | Total income tax (ISR) withheld at source. | [optional] 
-**TotalITBISPerception** | Pointer to **float32** | Total ITBIS perception collected. | [optional] 
-**TotalISRPerception** | Pointer to **float32** | Total ISR perception collected. | [optional] 
+**TaxableAmount** | Pointer to **float32** |  | [optional] 
+**TaxableAmount1** | Pointer to **float32** |  | [optional] 
+**TaxableAmount2** | Pointer to **float32** |  | [optional] 
+**TaxableAmount3** | Pointer to **float32** |  | [optional] 
+**ExemptAmount** | Pointer to **float32** |  | [optional] 
+**ItbisRate1** | Pointer to **float32** |  | [optional] 
+**ItbisRate2** | Pointer to **float32** |  | [optional] 
+**ItbisRate3** | Pointer to **float32** |  | [optional] 
+**TotalITBIS** | Pointer to **float32** |  | [optional] 
+**Itbis1** | Pointer to **float32** |  | [optional] 
+**Itbis2** | Pointer to **float32** |  | [optional] 
+**Itbis3** | Pointer to **float32** |  | [optional] 
+**AdditionalTaxAmount** | Pointer to **float32** |  | [optional] 
+**AdditionalTaxes** | Pointer to **[]string** |  | [optional] 
+**TotalAmount** | **float32** |  | 
+**NonBillableAmount** | Pointer to **float32** |  | [optional] 
+**PeriodAmount** | Pointer to **float32** |  | [optional] 
+**PreviousBalance** | Pointer to **float32** |  | [optional] 
+**AdvancePaymentAmount** | Pointer to **float32** |  | [optional] 
+**AmountToPay** | Pointer to **float32** |  | [optional] 
+**TotalWithheldITBIS** | Pointer to **float32** |  | [optional] 
+**TotalIncomeTaxWithholding** | Pointer to **float32** |  | [optional] 
+**TotalITBISPerception** | Pointer to **float32** |  | [optional] 
+**TotalISRPerception** | Pointer to **float32** |  | [optional] 
 
 ## Methods
 
@@ -375,20 +375,20 @@ HasAdditionalTaxAmount returns a boolean if a field has been set.
 
 ### GetAdditionalTaxes
 
-`func (o *Totals) GetAdditionalTaxes() []ItemAdditionalTax`
+`func (o *Totals) GetAdditionalTaxes() []string`
 
 GetAdditionalTaxes returns the AdditionalTaxes field if non-nil, zero value otherwise.
 
 ### GetAdditionalTaxesOk
 
-`func (o *Totals) GetAdditionalTaxesOk() (*[]ItemAdditionalTax, bool)`
+`func (o *Totals) GetAdditionalTaxesOk() (*[]string, bool)`
 
 GetAdditionalTaxesOk returns a tuple with the AdditionalTaxes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAdditionalTaxes
 
-`func (o *Totals) SetAdditionalTaxes(v []ItemAdditionalTax)`
+`func (o *Totals) SetAdditionalTaxes(v []string)`
 
 SetAdditionalTaxes sets AdditionalTaxes field to given value.
 

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**code** | **string** | Tax code as defined by the DGII (e.g. \&quot;ISC\&quot;, \&quot;IECS\&quot;). |
-**amount** | **float** | Tax amount. |
+**code** | **string** | DGII tax code (e.g. ISC, IECS) |
+**amount** | **float** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

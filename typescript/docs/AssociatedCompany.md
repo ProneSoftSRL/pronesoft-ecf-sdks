@@ -1,7 +1,6 @@
 
 # AssociatedCompany
 
-A company or branch associated with the main tenant account.
 
 ## Properties
 
@@ -10,13 +9,16 @@ Name | Type
 `id` | string
 `name` | string
 `rnc` | string
-`phone` | string
-`address` | string
-`city` | string
-`country` | string
-`website` | string
 `logoPath` | string
 `type` | string
+`city` | string
+`country` | string
+`phone` | string
+`address` | string
+`website` | string
+`category` | string
+`monthlySalesRange` | string
+`printerType` | [PrintFormat](PrintFormat.md)
 `createdAt` | Date
 `docsIssuedThisMonth` | number
 `purchasedDocsConsumedThisMonth` | number
@@ -26,20 +28,23 @@ Name | Type
 ## Example
 
 ```typescript
-import type { AssociatedCompany } from '@pronesoft/ecf-sdk'
+import type { AssociatedCompany } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
   "name": null,
   "rnc": null,
-  "phone": null,
-  "address": null,
-  "city": null,
-  "country": null,
-  "website": null,
   "logoPath": null,
   "type": null,
+  "city": null,
+  "country": null,
+  "phone": null,
+  "address": null,
+  "website": null,
+  "category": null,
+  "monthlySalesRange": null,
+  "printerType": null,
   "createdAt": null,
   "docsIssuedThisMonth": null,
   "purchasedDocsConsumedThisMonth": null,

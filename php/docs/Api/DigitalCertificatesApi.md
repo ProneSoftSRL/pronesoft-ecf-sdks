@@ -6,7 +6,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**uploadCertificate()**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12) |
+| [**uploadCertificate()**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX) |
 
 
 ## `uploadCertificate()`
@@ -15,9 +15,9 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 uploadCertificate($rnc, $file, $password): \PronesoftEcf\Model\UploadCertificateResponse
 ```
 
-Upload digital certificate (P12)
+Upload digital certificate (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents.
+Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate.
 
 ### Example
 
@@ -39,9 +39,9 @@ $apiInstance = new PronesoftEcf\Api\DigitalCertificatesApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 130000001; // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).
-$file = '/path/to/file.txt'; // \SplFileObject | The P12/PFX certificate file.
-$password = 'password_example'; // string | Password to unlock the P12 certificate.
+$rnc = 133190907; // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+$file = '/path/to/file.txt'; // \SplFileObject | Certificate file in .p12 or .pfx format.
+$password = 'password_example'; // string | Password to unlock the certificate.
 
 try {
     $result = $apiInstance->uploadCertificate($rnc, $file, $password);
@@ -55,9 +55,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). | |
-| **file** | **\SplFileObject****\SplFileObject**| The P12/PFX certificate file. | |
-| **password** | **string**| Password to unlock the P12 certificate. | |
+| **rnc** | **string**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **file** | **\SplFileObject****\SplFileObject**| Certificate file in .p12 or .pfx format. | |
+| **password** | **string**| Password to unlock the certificate. | |
 
 ### Return type
 

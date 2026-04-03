@@ -4,8 +4,8 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **quantity** | **Float** | Quantity in this unit of measure. |  |
-| **unit_code** | **Float** | DGII unit of measure code. |  |
+| **quantity** | **Float** |  |  |
+| **unit_code** | **Integer** |  |  |
 
 ## Example
 

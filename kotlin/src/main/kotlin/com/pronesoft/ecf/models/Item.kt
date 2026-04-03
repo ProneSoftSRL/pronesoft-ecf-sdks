@@ -25,76 +25,135 @@ package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.BillingIndicator
 import com.pronesoft.ecf.models.ItemAdditionalTax
+import com.pronesoft.ecf.models.ItemAlternativeCurrency
+import com.pronesoft.ecf.models.ItemCodesInner
+import com.pronesoft.ecf.models.ItemDiscountInner
+import com.pronesoft.ecf.models.ItemMiningInfo
 import com.pronesoft.ecf.models.Subquantity
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * A single line item in the electronic document.
+ * 
  *
- * @param name Product or service name.
- * @param type Item type: - `1`: Product (Bien) - `2`: Service (Servicio) 
+ * @param name 
+ * @param type 1=Product, 2=Service
  * @param billingIndicator 
- * @param quantity Quantity (as string to support decimals with precision).
- * @param unitPrice Unit price (as string to support decimals with precision).
- * @param amount Total line amount (quantity × unitPrice, before discounts).
- * @param lineNumber Sequential line number (1-based). Auto-assigned if omitted.
- * @param discountAmount Discount amount applied to this line item.
- * @param additionalTaxes Additional taxes (e.g. ISC, IECS) for this line item.
- * @param subquantities Sub-quantities (for items with multiple units of measure).
- * @param alcoholDegree Alcohol degree (required for alcoholic beverages subject to ISC).
+ * @param quantity 
+ * @param unitPrice 
+ * @param amount 
+ * @param lineNumber 
+ * @param codes 
+ * @param description 
+ * @param withholdingAgentIndicator 
+ * @param withheldITBISAmount 
+ * @param withheldISRAmount 
+ * @param unitOfMeasure 
+ * @param referenceQuantity 
+ * @param referenceUnit 
+ * @param referenceUnitPrice 
+ * @param subquantities 
+ * @param alcoholDegree 
+ * @param manufacturingDate 
+ * @param expirationDate 
+ * @param miningInfo 
+ * @param discountAmount 
+ * @param discount 
+ * @param surchargeAmount 
+ * @param surcharge 
+ * @param additionalTaxes 
+ * @param alternativeCurrency 
  */
 
 
 data class Item (
 
-    /* Product or service name. */
     @SerializedName("name")
     val name: kotlin.String,
 
-    /* Item type: - `1`: Product (Bien) - `2`: Service (Servicio)  */
+    /* 1=Product, 2=Service */
     @SerializedName("type")
     val type: Item.Type,
 
     @SerializedName("billingIndicator")
     val billingIndicator: BillingIndicator,
 
-    /* Quantity (as string to support decimals with precision). */
     @SerializedName("quantity")
     val quantity: kotlin.String,
 
-    /* Unit price (as string to support decimals with precision). */
     @SerializedName("unitPrice")
     val unitPrice: kotlin.String,
 
-    /* Total line amount (quantity × unitPrice, before discounts). */
     @SerializedName("amount")
     val amount: java.math.BigDecimal,
 
-    /* Sequential line number (1-based). Auto-assigned if omitted. */
     @SerializedName("lineNumber")
     val lineNumber: kotlin.Int? = null,
 
-    /* Discount amount applied to this line item. */
-    @SerializedName("discountAmount")
-    val discountAmount: java.math.BigDecimal? = null,
+    @SerializedName("codes")
+    val codes: kotlin.collections.List<ItemCodesInner>? = null,
 
-    /* Additional taxes (e.g. ISC, IECS) for this line item. */
-    @SerializedName("additionalTaxes")
-    val additionalTaxes: kotlin.collections.List<ItemAdditionalTax>? = null,
+    @SerializedName("description")
+    val description: kotlin.String? = null,
 
-    /* Sub-quantities (for items with multiple units of measure). */
+    @SerializedName("withholdingAgentIndicator")
+    val withholdingAgentIndicator: kotlin.Int? = null,
+
+    @SerializedName("withheldITBISAmount")
+    val withheldITBISAmount: java.math.BigDecimal? = null,
+
+    @SerializedName("withheldISRAmount")
+    val withheldISRAmount: java.math.BigDecimal? = null,
+
+    @SerializedName("unitOfMeasure")
+    val unitOfMeasure: kotlin.Int? = null,
+
+    @SerializedName("referenceQuantity")
+    val referenceQuantity: java.math.BigDecimal? = null,
+
+    @SerializedName("referenceUnit")
+    val referenceUnit: kotlin.Int? = null,
+
+    @SerializedName("referenceUnitPrice")
+    val referenceUnitPrice: java.math.BigDecimal? = null,
+
     @SerializedName("subquantities")
     val subquantities: kotlin.collections.List<Subquantity>? = null,
 
-    /* Alcohol degree (required for alcoholic beverages subject to ISC). */
     @SerializedName("alcoholDegree")
-    val alcoholDegree: java.math.BigDecimal? = null
+    val alcoholDegree: java.math.BigDecimal? = null,
+
+    @SerializedName("manufacturingDate")
+    val manufacturingDate: java.time.OffsetDateTime? = null,
+
+    @SerializedName("expirationDate")
+    val expirationDate: java.time.OffsetDateTime? = null,
+
+    @SerializedName("miningInfo")
+    val miningInfo: ItemMiningInfo? = null,
+
+    @SerializedName("discountAmount")
+    val discountAmount: java.math.BigDecimal? = null,
+
+    @SerializedName("discount")
+    val discount: kotlin.collections.List<ItemDiscountInner>? = null,
+
+    @SerializedName("surchargeAmount")
+    val surchargeAmount: java.math.BigDecimal? = null,
+
+    @SerializedName("surcharge")
+    val surcharge: kotlin.collections.List<ItemDiscountInner>? = null,
+
+    @SerializedName("additionalTaxes")
+    val additionalTaxes: kotlin.collections.List<ItemAdditionalTax>? = null,
+
+    @SerializedName("alternativeCurrency")
+    val alternativeCurrency: ItemAlternativeCurrency? = null
 
 ) {
 
     /**
-     * Item type: - `1`: Product (Bien) - `2`: Service (Servicio) 
+     * 1=Product, 2=Service
      *
      * Values: _1,_2
      */

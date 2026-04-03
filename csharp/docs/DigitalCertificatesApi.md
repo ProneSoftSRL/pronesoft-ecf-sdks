@@ -4,15 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**UploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12) |
+| [**UploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX) |
 
 <a id="uploadcertificate"></a>
 # **UploadCertificate**
 > UploadCertificateResponse UploadCertificate (string rnc, FileParameter file, string password)
 
-Upload digital certificate (P12)
+Upload digital certificate (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company identified by its RNC. The certificate must be in P12/PFX format.  This is required before submitting any e-CF documents. 
+Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
 
 ### Example
 ```csharp
@@ -40,13 +40,13 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DigitalCertificatesApi(httpClient, config, httpClientHandler);
-            var rnc = 130000001;  // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | The P12/PFX certificate file.
-            var password = "password_example";  // string | Password to unlock the P12 certificate.
+            var rnc = 133190907;  // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | Certificate file in .p12 or .pfx format.
+            var password = "password_example";  // string | Password to unlock the certificate.
 
             try
             {
-                // Upload digital certificate (P12)
+                // Upload digital certificate (P12/PFX)
                 UploadCertificateResponse result = apiInstance.UploadCertificate(rnc, file, password);
                 Debug.WriteLine(result);
             }
@@ -67,7 +67,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Upload digital certificate (P12)
+    // Upload digital certificate (P12/PFX)
     ApiResponse<UploadCertificateResponse> response = apiInstance.UploadCertificateWithHttpInfo(rnc, file, password);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -85,9 +85,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
-| **file** | **FileParameter****FileParameter** | The P12/PFX certificate file. |  |
-| **password** | **string** | Password to unlock the P12 certificate. |  |
+| **rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **file** | **FileParameter****FileParameter** | Certificate file in .p12 or .pfx format. |  |
+| **password** | **string** | Password to unlock the certificate. |  |
 
 ### Return type
 
@@ -106,9 +106,11 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Certificate uploaded and registered successfully |  -  |
-| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **201** | Certificate uploaded successfully |  -  |
+| **400** | Validation error (400). Check the message field for details. |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **403** | The token does not have the required scope. |  -  |
+| **404** | Company RNC not found in the system. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

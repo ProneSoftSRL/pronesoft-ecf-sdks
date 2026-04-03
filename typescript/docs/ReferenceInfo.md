@@ -1,7 +1,7 @@
 
 # ReferenceInfo
 
-Reference to a previously issued document. Required for: - Credit Notes (type 34) — references the original invoice - Debit Notes (type 33) — references the original invoice 
+Reference to previously issued document (for credit/debit notes).
 
 ## Properties
 
@@ -16,7 +16,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ReferenceInfo } from '@pronesoft/ecf-sdk'
+import type { ReferenceInfo } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

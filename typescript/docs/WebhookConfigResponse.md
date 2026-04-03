@@ -1,7 +1,6 @@
 
 # WebhookConfigResponse
 
-A registered webhook configuration.
 
 ## Properties
 
@@ -9,23 +8,27 @@ Name | Type
 ------------ | -------------
 `id` | string
 `url` | string
+`description` | string
 `eventTypes` | [Array&lt;WebhookEventType&gt;](WebhookEventType.md)
 `isActive` | boolean
 `createdAt` | Date
+`updatedAt` | Date
 `lastTriggeredAt` | Date
 
 ## Example
 
 ```typescript
-import type { WebhookConfigResponse } from '@pronesoft/ecf-sdk'
+import type { WebhookConfigResponse } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
+  "id": webhook_sbx_1234567890abcdef,
   "url": null,
+  "description": null,
   "eventTypes": null,
   "isActive": null,
   "createdAt": null,
+  "updatedAt": null,
   "lastTriggeredAt": null,
 } satisfies WebhookConfigResponse
 

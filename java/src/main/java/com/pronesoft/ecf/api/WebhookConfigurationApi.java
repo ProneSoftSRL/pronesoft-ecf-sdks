@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -27,9 +27,10 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import com.pronesoft.ecf.model.CreateWebhookConfig;
 import com.pronesoft.ecf.model.ErrorResponse;
+import com.pronesoft.ecf.model.WebhookConfigDetail;
 import com.pronesoft.ecf.model.WebhookConfigResponse;
+import com.pronesoft.ecf.model.WebhookStats;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -75,9 +76,9 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * Build call for createWebhook
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
-     * @param createWebhookConfig  (required)
+     * Build call for getWebhook
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param webhookId  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -85,157 +86,11 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Webhook registered successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Webhook details </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createWebhookCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull CreateWebhookConfig createWebhookConfig, final ApiCallback _callback) throws ApiException {
-        String basePath = null;
-        // Operation Servers
-        String[] localBasePaths = new String[] {  };
-
-        // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
-        } else {
-            basePath = null;
-        }
-
-        Object localVarPostBody = createWebhookConfig;
-
-        // create path and map variables
-        String localVarPath = "/{rnc}/webhooks"
-            .replace("{" + "rnc" + "}", localVarApiClient.escapeString(rnc.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) {
-            localVarHeaderParams.put("Accept", localVarAccept);
-        }
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarContentType != null) {
-            localVarHeaderParams.put("Content-Type", localVarContentType);
-        }
-
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private okhttp3.Call createWebhookValidateBeforeCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull CreateWebhookConfig createWebhookConfig, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'rnc' is set
-        if (rnc == null) {
-            throw new ApiException("Missing the required parameter 'rnc' when calling createWebhook(Async)");
-        }
-
-        // verify the required parameter 'createWebhookConfig' is set
-        if (createWebhookConfig == null) {
-            throw new ApiException("Missing the required parameter 'createWebhookConfig' when calling createWebhook(Async)");
-        }
-
-        return createWebhookCall(rnc, createWebhookConfig, _callback);
-
-    }
-
-    /**
-     * Register new webhook
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
-     * @param createWebhookConfig  (required)
-     * @return WebhookConfigResponse
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Webhook registered successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
-     </table>
-     */
-    public WebhookConfigResponse createWebhook(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull CreateWebhookConfig createWebhookConfig) throws ApiException {
-        ApiResponse<WebhookConfigResponse> localVarResp = createWebhookWithHttpInfo(rnc, createWebhookConfig);
-        return localVarResp.getData();
-    }
-
-    /**
-     * Register new webhook
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
-     * @param createWebhookConfig  (required)
-     * @return ApiResponse&lt;WebhookConfigResponse&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Webhook registered successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
-     </table>
-     */
-    public ApiResponse<WebhookConfigResponse> createWebhookWithHttpInfo(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull CreateWebhookConfig createWebhookConfig) throws ApiException {
-        okhttp3.Call localVarCall = createWebhookValidateBeforeCall(rnc, createWebhookConfig, null);
-        Type localVarReturnType = new TypeToken<WebhookConfigResponse>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
-    }
-
-    /**
-     * Register new webhook (asynchronously)
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
-     * @param createWebhookConfig  (required)
-     * @param _callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Webhook registered successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call createWebhookAsync(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull CreateWebhookConfig createWebhookConfig, final ApiCallback<WebhookConfigResponse> _callback) throws ApiException {
-
-        okhttp3.Call localVarCall = createWebhookValidateBeforeCall(rnc, createWebhookConfig, _callback);
-        Type localVarReturnType = new TypeToken<WebhookConfigResponse>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
-        return localVarCall;
-    }
-    /**
-     * Build call for deleteWebhook
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
-     * @param webhookId The unique ID of the webhook to delete. (required)
-     * @param _callback Callback for upload/download progress
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook deleted successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Webhook not found </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call deleteWebhookCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getWebhookCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -278,70 +133,71 @@ public class WebhookConfigurationApi {
         }
 
         String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
-        return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteWebhookValidateBeforeCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getWebhookValidateBeforeCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'rnc' is set
         if (rnc == null) {
-            throw new ApiException("Missing the required parameter 'rnc' when calling deleteWebhook(Async)");
+            throw new ApiException("Missing the required parameter 'rnc' when calling getWebhook(Async)");
         }
 
         // verify the required parameter 'webhookId' is set
         if (webhookId == null) {
-            throw new ApiException("Missing the required parameter 'webhookId' when calling deleteWebhook(Async)");
+            throw new ApiException("Missing the required parameter 'webhookId' when calling getWebhook(Async)");
         }
 
-        return deleteWebhookCall(rnc, webhookId, _callback);
+        return getWebhookCall(rnc, webhookId, _callback);
 
     }
 
     /**
-     * Delete webhook configuration
-     * Removes a registered webhook by its ID.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
-     * @param webhookId The unique ID of the webhook to delete. (required)
+     * Get webhook details
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param webhookId  (required)
+     * @return WebhookConfigDetail
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook deleted successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Webhook not found </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Webhook details </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public void deleteWebhook(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId) throws ApiException {
-        deleteWebhookWithHttpInfo(rnc, webhookId);
+    public WebhookConfigDetail getWebhook(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId) throws ApiException {
+        ApiResponse<WebhookConfigDetail> localVarResp = getWebhookWithHttpInfo(rnc, webhookId);
+        return localVarResp.getData();
     }
 
     /**
-     * Delete webhook configuration
-     * Removes a registered webhook by its ID.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
-     * @param webhookId The unique ID of the webhook to delete. (required)
-     * @return ApiResponse&lt;Void&gt;
+     * Get webhook details
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param webhookId  (required)
+     * @return ApiResponse&lt;WebhookConfigDetail&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook deleted successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Webhook not found </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Webhook details </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deleteWebhookWithHttpInfo(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId) throws ApiException {
-        okhttp3.Call localVarCall = deleteWebhookValidateBeforeCall(rnc, webhookId, null);
-        return localVarApiClient.execute(localVarCall);
+    public ApiResponse<WebhookConfigDetail> getWebhookWithHttpInfo(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId) throws ApiException {
+        okhttp3.Call localVarCall = getWebhookValidateBeforeCall(rnc, webhookId, null);
+        Type localVarReturnType = new TypeToken<WebhookConfigDetail>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
-     * Delete webhook configuration (asynchronously)
-     * Removes a registered webhook by its ID.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
-     * @param webhookId The unique ID of the webhook to delete. (required)
+     * Get webhook details (asynchronously)
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param webhookId  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -349,20 +205,169 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook deleted successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Webhook not found </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Webhook details </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteWebhookAsync(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call getWebhookAsync(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, final ApiCallback<WebhookConfigDetail> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = deleteWebhookValidateBeforeCall(rnc, webhookId, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        okhttp3.Call localVarCall = getWebhookValidateBeforeCall(rnc, webhookId, _callback);
+        Type localVarReturnType = new TypeToken<WebhookConfigDetail>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for getWebhookStats
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param webhookId  (required)
+     * @param period  (optional, default to month)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Webhook delivery statistics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getWebhookStatsCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/{rnc}/webhooks/{webhookId}/stats"
+            .replace("{" + "rnc" + "}", localVarApiClient.escapeString(rnc.toString()))
+            .replace("{" + "webhookId" + "}", localVarApiClient.escapeString(webhookId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (period != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("period", period));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getWebhookStatsValidateBeforeCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'rnc' is set
+        if (rnc == null) {
+            throw new ApiException("Missing the required parameter 'rnc' when calling getWebhookStats(Async)");
+        }
+
+        // verify the required parameter 'webhookId' is set
+        if (webhookId == null) {
+            throw new ApiException("Missing the required parameter 'webhookId' when calling getWebhookStats(Async)");
+        }
+
+        return getWebhookStatsCall(rnc, webhookId, period, _callback);
+
+    }
+
+    /**
+     * Get webhook delivery statistics
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param webhookId  (required)
+     * @param period  (optional, default to month)
+     * @return WebhookStats
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Webhook delivery statistics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public WebhookStats getWebhookStats(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period) throws ApiException {
+        ApiResponse<WebhookStats> localVarResp = getWebhookStatsWithHttpInfo(rnc, webhookId, period);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get webhook delivery statistics
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param webhookId  (required)
+     * @param period  (optional, default to month)
+     * @return ApiResponse&lt;WebhookStats&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Webhook delivery statistics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<WebhookStats> getWebhookStatsWithHttpInfo(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period) throws ApiException {
+        okhttp3.Call localVarCall = getWebhookStatsValidateBeforeCall(rnc, webhookId, period, null);
+        Type localVarReturnType = new TypeToken<WebhookStats>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get webhook delivery statistics (asynchronously)
+     * 
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param webhookId  (required)
+     * @param period  (optional, default to month)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Webhook delivery statistics </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getWebhookStatsAsync(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period, final ApiCallback<WebhookStats> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getWebhookStatsValidateBeforeCall(rnc, webhookId, period, _callback);
+        Type localVarReturnType = new TypeToken<WebhookStats>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for listWebhooks
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -371,7 +376,7 @@ public class WebhookConfigurationApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> List of webhook configurations </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call listWebhooksCall(@javax.annotation.Nonnull String rnc, final ApiCallback _callback) throws ApiException {
@@ -432,8 +437,8 @@ public class WebhookConfigurationApi {
 
     /**
      * List webhook configurations
-     * Returns all registered webhooks for the given RNC.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
      * @return List&lt;WebhookConfigResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -441,7 +446,7 @@ public class WebhookConfigurationApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> List of webhook configurations </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
     public List<WebhookConfigResponse> listWebhooks(@javax.annotation.Nonnull String rnc) throws ApiException {
@@ -451,8 +456,8 @@ public class WebhookConfigurationApi {
 
     /**
      * List webhook configurations
-     * Returns all registered webhooks for the given RNC.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
      * @return ApiResponse&lt;List&lt;WebhookConfigResponse&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -460,7 +465,7 @@ public class WebhookConfigurationApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> List of webhook configurations </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<List<WebhookConfigResponse>> listWebhooksWithHttpInfo(@javax.annotation.Nonnull String rnc) throws ApiException {
@@ -471,8 +476,8 @@ public class WebhookConfigurationApi {
 
     /**
      * List webhook configurations (asynchronously)
-     * Returns all registered webhooks for the given RNC.
-     * @param rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  (required)
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -481,7 +486,7 @@ public class WebhookConfigurationApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> List of webhook configurations </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call listWebhooksAsync(@javax.annotation.Nonnull String rnc, final ApiCallback<List<WebhookConfigResponse>> _callback) throws ApiException {

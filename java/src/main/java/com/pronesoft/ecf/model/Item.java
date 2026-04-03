@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -21,9 +21,14 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.pronesoft.ecf.model.BillingIndicator;
 import com.pronesoft.ecf.model.ItemAdditionalTax;
+import com.pronesoft.ecf.model.ItemAlternativeCurrency;
+import com.pronesoft.ecf.model.ItemCodesInner;
+import com.pronesoft.ecf.model.ItemDiscountInner;
+import com.pronesoft.ecf.model.ItemMiningInfo;
 import com.pronesoft.ecf.model.Subquantity;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,22 +57,32 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * A single line item in the electronic document.
+ * Item
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Item {
   public static final String SERIALIZED_NAME_LINE_NUMBER = "lineNumber";
   @SerializedName(SERIALIZED_NAME_LINE_NUMBER)
   @javax.annotation.Nullable
   private Integer lineNumber;
 
+  public static final String SERIALIZED_NAME_CODES = "codes";
+  @SerializedName(SERIALIZED_NAME_CODES)
+  @javax.annotation.Nullable
+  private List<ItemCodesInner> codes = new ArrayList<>();
+
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   @javax.annotation.Nonnull
   private String name;
 
+  public static final String SERIALIZED_NAME_DESCRIPTION = "description";
+  @SerializedName(SERIALIZED_NAME_DESCRIPTION)
+  @javax.annotation.Nullable
+  private String description;
+
   /**
-   * Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio) 
+   * 1&#x3D;Product, 2&#x3D;Service
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
@@ -128,30 +143,45 @@ public class Item {
   @javax.annotation.Nonnull
   private BillingIndicator billingIndicator;
 
+  public static final String SERIALIZED_NAME_WITHHOLDING_AGENT_INDICATOR = "withholdingAgentIndicator";
+  @SerializedName(SERIALIZED_NAME_WITHHOLDING_AGENT_INDICATOR)
+  @javax.annotation.Nullable
+  private Integer withholdingAgentIndicator;
+
+  public static final String SERIALIZED_NAME_WITHHELD_I_T_B_I_S_AMOUNT = "withheldITBISAmount";
+  @SerializedName(SERIALIZED_NAME_WITHHELD_I_T_B_I_S_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal withheldITBISAmount;
+
+  public static final String SERIALIZED_NAME_WITHHELD_I_S_R_AMOUNT = "withheldISRAmount";
+  @SerializedName(SERIALIZED_NAME_WITHHELD_I_S_R_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal withheldISRAmount;
+
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
   @SerializedName(SERIALIZED_NAME_QUANTITY)
   @javax.annotation.Nonnull
   private String quantity;
 
-  public static final String SERIALIZED_NAME_UNIT_PRICE = "unitPrice";
-  @SerializedName(SERIALIZED_NAME_UNIT_PRICE)
-  @javax.annotation.Nonnull
-  private String unitPrice;
-
-  public static final String SERIALIZED_NAME_AMOUNT = "amount";
-  @SerializedName(SERIALIZED_NAME_AMOUNT)
-  @javax.annotation.Nonnull
-  private BigDecimal amount;
-
-  public static final String SERIALIZED_NAME_DISCOUNT_AMOUNT = "discountAmount";
-  @SerializedName(SERIALIZED_NAME_DISCOUNT_AMOUNT)
+  public static final String SERIALIZED_NAME_UNIT_OF_MEASURE = "unitOfMeasure";
+  @SerializedName(SERIALIZED_NAME_UNIT_OF_MEASURE)
   @javax.annotation.Nullable
-  private BigDecimal discountAmount;
+  private Integer unitOfMeasure;
 
-  public static final String SERIALIZED_NAME_ADDITIONAL_TAXES = "additionalTaxes";
-  @SerializedName(SERIALIZED_NAME_ADDITIONAL_TAXES)
+  public static final String SERIALIZED_NAME_REFERENCE_QUANTITY = "referenceQuantity";
+  @SerializedName(SERIALIZED_NAME_REFERENCE_QUANTITY)
   @javax.annotation.Nullable
-  private List<ItemAdditionalTax> additionalTaxes = new ArrayList<>();
+  private BigDecimal referenceQuantity;
+
+  public static final String SERIALIZED_NAME_REFERENCE_UNIT = "referenceUnit";
+  @SerializedName(SERIALIZED_NAME_REFERENCE_UNIT)
+  @javax.annotation.Nullable
+  private Integer referenceUnit;
+
+  public static final String SERIALIZED_NAME_REFERENCE_UNIT_PRICE = "referenceUnitPrice";
+  @SerializedName(SERIALIZED_NAME_REFERENCE_UNIT_PRICE)
+  @javax.annotation.Nullable
+  private BigDecimal referenceUnitPrice;
 
   public static final String SERIALIZED_NAME_SUBQUANTITIES = "subquantities";
   @SerializedName(SERIALIZED_NAME_SUBQUANTITIES)
@@ -163,6 +193,61 @@ public class Item {
   @javax.annotation.Nullable
   private BigDecimal alcoholDegree;
 
+  public static final String SERIALIZED_NAME_MANUFACTURING_DATE = "manufacturingDate";
+  @SerializedName(SERIALIZED_NAME_MANUFACTURING_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime manufacturingDate;
+
+  public static final String SERIALIZED_NAME_EXPIRATION_DATE = "expirationDate";
+  @SerializedName(SERIALIZED_NAME_EXPIRATION_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime expirationDate;
+
+  public static final String SERIALIZED_NAME_MINING_INFO = "miningInfo";
+  @SerializedName(SERIALIZED_NAME_MINING_INFO)
+  @javax.annotation.Nullable
+  private ItemMiningInfo miningInfo;
+
+  public static final String SERIALIZED_NAME_UNIT_PRICE = "unitPrice";
+  @SerializedName(SERIALIZED_NAME_UNIT_PRICE)
+  @javax.annotation.Nonnull
+  private String unitPrice;
+
+  public static final String SERIALIZED_NAME_DISCOUNT_AMOUNT = "discountAmount";
+  @SerializedName(SERIALIZED_NAME_DISCOUNT_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal discountAmount;
+
+  public static final String SERIALIZED_NAME_DISCOUNT = "discount";
+  @SerializedName(SERIALIZED_NAME_DISCOUNT)
+  @javax.annotation.Nullable
+  private List<ItemDiscountInner> discount = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_SURCHARGE_AMOUNT = "surchargeAmount";
+  @SerializedName(SERIALIZED_NAME_SURCHARGE_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal surchargeAmount;
+
+  public static final String SERIALIZED_NAME_SURCHARGE = "surcharge";
+  @SerializedName(SERIALIZED_NAME_SURCHARGE)
+  @javax.annotation.Nullable
+  private List<ItemDiscountInner> surcharge = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_ADDITIONAL_TAXES = "additionalTaxes";
+  @SerializedName(SERIALIZED_NAME_ADDITIONAL_TAXES)
+  @javax.annotation.Nullable
+  private List<ItemAdditionalTax> additionalTaxes = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_ALTERNATIVE_CURRENCY = "alternativeCurrency";
+  @SerializedName(SERIALIZED_NAME_ALTERNATIVE_CURRENCY)
+  @javax.annotation.Nullable
+  private ItemAlternativeCurrency alternativeCurrency;
+
+  public static final String SERIALIZED_NAME_AMOUNT = "amount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT)
+  @javax.annotation.Nonnull
+  private BigDecimal amount;
+
   public Item() {
   }
 
@@ -172,7 +257,7 @@ public class Item {
   }
 
   /**
-   * Sequential line number (1-based). Auto-assigned if omitted.
+   * Get lineNumber
    * @return lineNumber
    */
   @javax.annotation.Nullable
@@ -185,13 +270,40 @@ public class Item {
   }
 
 
+  public Item codes(@javax.annotation.Nullable List<ItemCodesInner> codes) {
+    this.codes = codes;
+    return this;
+  }
+
+  public Item addCodesItem(ItemCodesInner codesItem) {
+    if (this.codes == null) {
+      this.codes = new ArrayList<>();
+    }
+    this.codes.add(codesItem);
+    return this;
+  }
+
+  /**
+   * Get codes
+   * @return codes
+   */
+  @javax.annotation.Nullable
+  public List<ItemCodesInner> getCodes() {
+    return codes;
+  }
+
+  public void setCodes(@javax.annotation.Nullable List<ItemCodesInner> codes) {
+    this.codes = codes;
+  }
+
+
   public Item name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * Product or service name.
+   * Get name
    * @return name
    */
   @javax.annotation.Nonnull
@@ -204,13 +316,32 @@ public class Item {
   }
 
 
+  public Item description(@javax.annotation.Nullable String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Get description
+   * @return description
+   */
+  @javax.annotation.Nullable
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(@javax.annotation.Nullable String description) {
+    this.description = description;
+  }
+
+
   public Item type(@javax.annotation.Nonnull TypeEnum type) {
     this.type = type;
     return this;
   }
 
   /**
-   * Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio) 
+   * 1&#x3D;Product, 2&#x3D;Service
    * @return type
    */
   @javax.annotation.Nonnull
@@ -242,13 +373,70 @@ public class Item {
   }
 
 
+  public Item withholdingAgentIndicator(@javax.annotation.Nullable Integer withholdingAgentIndicator) {
+    this.withholdingAgentIndicator = withholdingAgentIndicator;
+    return this;
+  }
+
+  /**
+   * Get withholdingAgentIndicator
+   * @return withholdingAgentIndicator
+   */
+  @javax.annotation.Nullable
+  public Integer getWithholdingAgentIndicator() {
+    return withholdingAgentIndicator;
+  }
+
+  public void setWithholdingAgentIndicator(@javax.annotation.Nullable Integer withholdingAgentIndicator) {
+    this.withholdingAgentIndicator = withholdingAgentIndicator;
+  }
+
+
+  public Item withheldITBISAmount(@javax.annotation.Nullable BigDecimal withheldITBISAmount) {
+    this.withheldITBISAmount = withheldITBISAmount;
+    return this;
+  }
+
+  /**
+   * Get withheldITBISAmount
+   * @return withheldITBISAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getWithheldITBISAmount() {
+    return withheldITBISAmount;
+  }
+
+  public void setWithheldITBISAmount(@javax.annotation.Nullable BigDecimal withheldITBISAmount) {
+    this.withheldITBISAmount = withheldITBISAmount;
+  }
+
+
+  public Item withheldISRAmount(@javax.annotation.Nullable BigDecimal withheldISRAmount) {
+    this.withheldISRAmount = withheldISRAmount;
+    return this;
+  }
+
+  /**
+   * Get withheldISRAmount
+   * @return withheldISRAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getWithheldISRAmount() {
+    return withheldISRAmount;
+  }
+
+  public void setWithheldISRAmount(@javax.annotation.Nullable BigDecimal withheldISRAmount) {
+    this.withheldISRAmount = withheldISRAmount;
+  }
+
+
   public Item quantity(@javax.annotation.Nonnull String quantity) {
     this.quantity = quantity;
     return this;
   }
 
   /**
-   * Quantity (as string to support decimals with precision).
+   * Get quantity
    * @return quantity
    */
   @javax.annotation.Nonnull
@@ -261,87 +449,79 @@ public class Item {
   }
 
 
-  public Item unitPrice(@javax.annotation.Nonnull String unitPrice) {
-    this.unitPrice = unitPrice;
+  public Item unitOfMeasure(@javax.annotation.Nullable Integer unitOfMeasure) {
+    this.unitOfMeasure = unitOfMeasure;
     return this;
   }
 
   /**
-   * Unit price (as string to support decimals with precision).
-   * @return unitPrice
-   */
-  @javax.annotation.Nonnull
-  public String getUnitPrice() {
-    return unitPrice;
-  }
-
-  public void setUnitPrice(@javax.annotation.Nonnull String unitPrice) {
-    this.unitPrice = unitPrice;
-  }
-
-
-  public Item amount(@javax.annotation.Nonnull BigDecimal amount) {
-    this.amount = amount;
-    return this;
-  }
-
-  /**
-   * Total line amount (quantity × unitPrice, before discounts).
-   * @return amount
-   */
-  @javax.annotation.Nonnull
-  public BigDecimal getAmount() {
-    return amount;
-  }
-
-  public void setAmount(@javax.annotation.Nonnull BigDecimal amount) {
-    this.amount = amount;
-  }
-
-
-  public Item discountAmount(@javax.annotation.Nullable BigDecimal discountAmount) {
-    this.discountAmount = discountAmount;
-    return this;
-  }
-
-  /**
-   * Discount amount applied to this line item.
-   * @return discountAmount
+   * Get unitOfMeasure
+   * @return unitOfMeasure
    */
   @javax.annotation.Nullable
-  public BigDecimal getDiscountAmount() {
-    return discountAmount;
+  public Integer getUnitOfMeasure() {
+    return unitOfMeasure;
   }
 
-  public void setDiscountAmount(@javax.annotation.Nullable BigDecimal discountAmount) {
-    this.discountAmount = discountAmount;
+  public void setUnitOfMeasure(@javax.annotation.Nullable Integer unitOfMeasure) {
+    this.unitOfMeasure = unitOfMeasure;
   }
 
 
-  public Item additionalTaxes(@javax.annotation.Nullable List<ItemAdditionalTax> additionalTaxes) {
-    this.additionalTaxes = additionalTaxes;
-    return this;
-  }
-
-  public Item addAdditionalTaxesItem(ItemAdditionalTax additionalTaxesItem) {
-    if (this.additionalTaxes == null) {
-      this.additionalTaxes = new ArrayList<>();
-    }
-    this.additionalTaxes.add(additionalTaxesItem);
+  public Item referenceQuantity(@javax.annotation.Nullable BigDecimal referenceQuantity) {
+    this.referenceQuantity = referenceQuantity;
     return this;
   }
 
   /**
-   * Additional taxes (e.g. ISC, IECS) for this line item.
-   * @return additionalTaxes
+   * Get referenceQuantity
+   * @return referenceQuantity
    */
   @javax.annotation.Nullable
-  public List<ItemAdditionalTax> getAdditionalTaxes() {
-    return additionalTaxes;
+  public BigDecimal getReferenceQuantity() {
+    return referenceQuantity;
   }
 
-  public void setAdditionalTaxes(@javax.annotation.Nullable List<ItemAdditionalTax> additionalTaxes) {
-    this.additionalTaxes = additionalTaxes;
+  public void setReferenceQuantity(@javax.annotation.Nullable BigDecimal referenceQuantity) {
+    this.referenceQuantity = referenceQuantity;
+  }
+
+
+  public Item referenceUnit(@javax.annotation.Nullable Integer referenceUnit) {
+    this.referenceUnit = referenceUnit;
+    return this;
+  }
+
+  /**
+   * Get referenceUnit
+   * @return referenceUnit
+   */
+  @javax.annotation.Nullable
+  public Integer getReferenceUnit() {
+    return referenceUnit;
+  }
+
+  public void setReferenceUnit(@javax.annotation.Nullable Integer referenceUnit) {
+    this.referenceUnit = referenceUnit;
+  }
+
+
+  public Item referenceUnitPrice(@javax.annotation.Nullable BigDecimal referenceUnitPrice) {
+    this.referenceUnitPrice = referenceUnitPrice;
+    return this;
+  }
+
+  /**
+   * Get referenceUnitPrice
+   * @return referenceUnitPrice
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getReferenceUnitPrice() {
+    return referenceUnitPrice;
+  }
+
+  public void setReferenceUnitPrice(@javax.annotation.Nullable BigDecimal referenceUnitPrice) {
+    this.referenceUnitPrice = referenceUnitPrice;
   }
 
 
@@ -359,7 +539,7 @@ public class Item {
   }
 
   /**
-   * Sub-quantities (for items with multiple units of measure).
+   * Get subquantities
    * @return subquantities
    */
   @javax.annotation.Nullable
@@ -378,7 +558,7 @@ public class Item {
   }
 
   /**
-   * Alcohol degree (required for alcoholic beverages subject to ISC).
+   * Get alcoholDegree
    * @return alcoholDegree
    */
   @javax.annotation.Nullable
@@ -388,6 +568,239 @@ public class Item {
 
   public void setAlcoholDegree(@javax.annotation.Nullable BigDecimal alcoholDegree) {
     this.alcoholDegree = alcoholDegree;
+  }
+
+
+  public Item manufacturingDate(@javax.annotation.Nullable OffsetDateTime manufacturingDate) {
+    this.manufacturingDate = manufacturingDate;
+    return this;
+  }
+
+  /**
+   * Get manufacturingDate
+   * @return manufacturingDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getManufacturingDate() {
+    return manufacturingDate;
+  }
+
+  public void setManufacturingDate(@javax.annotation.Nullable OffsetDateTime manufacturingDate) {
+    this.manufacturingDate = manufacturingDate;
+  }
+
+
+  public Item expirationDate(@javax.annotation.Nullable OffsetDateTime expirationDate) {
+    this.expirationDate = expirationDate;
+    return this;
+  }
+
+  /**
+   * Get expirationDate
+   * @return expirationDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getExpirationDate() {
+    return expirationDate;
+  }
+
+  public void setExpirationDate(@javax.annotation.Nullable OffsetDateTime expirationDate) {
+    this.expirationDate = expirationDate;
+  }
+
+
+  public Item miningInfo(@javax.annotation.Nullable ItemMiningInfo miningInfo) {
+    this.miningInfo = miningInfo;
+    return this;
+  }
+
+  /**
+   * Get miningInfo
+   * @return miningInfo
+   */
+  @javax.annotation.Nullable
+  public ItemMiningInfo getMiningInfo() {
+    return miningInfo;
+  }
+
+  public void setMiningInfo(@javax.annotation.Nullable ItemMiningInfo miningInfo) {
+    this.miningInfo = miningInfo;
+  }
+
+
+  public Item unitPrice(@javax.annotation.Nonnull String unitPrice) {
+    this.unitPrice = unitPrice;
+    return this;
+  }
+
+  /**
+   * Get unitPrice
+   * @return unitPrice
+   */
+  @javax.annotation.Nonnull
+  public String getUnitPrice() {
+    return unitPrice;
+  }
+
+  public void setUnitPrice(@javax.annotation.Nonnull String unitPrice) {
+    this.unitPrice = unitPrice;
+  }
+
+
+  public Item discountAmount(@javax.annotation.Nullable BigDecimal discountAmount) {
+    this.discountAmount = discountAmount;
+    return this;
+  }
+
+  /**
+   * Get discountAmount
+   * @return discountAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getDiscountAmount() {
+    return discountAmount;
+  }
+
+  public void setDiscountAmount(@javax.annotation.Nullable BigDecimal discountAmount) {
+    this.discountAmount = discountAmount;
+  }
+
+
+  public Item discount(@javax.annotation.Nullable List<ItemDiscountInner> discount) {
+    this.discount = discount;
+    return this;
+  }
+
+  public Item addDiscountItem(ItemDiscountInner discountItem) {
+    if (this.discount == null) {
+      this.discount = new ArrayList<>();
+    }
+    this.discount.add(discountItem);
+    return this;
+  }
+
+  /**
+   * Get discount
+   * @return discount
+   */
+  @javax.annotation.Nullable
+  public List<ItemDiscountInner> getDiscount() {
+    return discount;
+  }
+
+  public void setDiscount(@javax.annotation.Nullable List<ItemDiscountInner> discount) {
+    this.discount = discount;
+  }
+
+
+  public Item surchargeAmount(@javax.annotation.Nullable BigDecimal surchargeAmount) {
+    this.surchargeAmount = surchargeAmount;
+    return this;
+  }
+
+  /**
+   * Get surchargeAmount
+   * @return surchargeAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getSurchargeAmount() {
+    return surchargeAmount;
+  }
+
+  public void setSurchargeAmount(@javax.annotation.Nullable BigDecimal surchargeAmount) {
+    this.surchargeAmount = surchargeAmount;
+  }
+
+
+  public Item surcharge(@javax.annotation.Nullable List<ItemDiscountInner> surcharge) {
+    this.surcharge = surcharge;
+    return this;
+  }
+
+  public Item addSurchargeItem(ItemDiscountInner surchargeItem) {
+    if (this.surcharge == null) {
+      this.surcharge = new ArrayList<>();
+    }
+    this.surcharge.add(surchargeItem);
+    return this;
+  }
+
+  /**
+   * Get surcharge
+   * @return surcharge
+   */
+  @javax.annotation.Nullable
+  public List<ItemDiscountInner> getSurcharge() {
+    return surcharge;
+  }
+
+  public void setSurcharge(@javax.annotation.Nullable List<ItemDiscountInner> surcharge) {
+    this.surcharge = surcharge;
+  }
+
+
+  public Item additionalTaxes(@javax.annotation.Nullable List<ItemAdditionalTax> additionalTaxes) {
+    this.additionalTaxes = additionalTaxes;
+    return this;
+  }
+
+  public Item addAdditionalTaxesItem(ItemAdditionalTax additionalTaxesItem) {
+    if (this.additionalTaxes == null) {
+      this.additionalTaxes = new ArrayList<>();
+    }
+    this.additionalTaxes.add(additionalTaxesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalTaxes
+   * @return additionalTaxes
+   */
+  @javax.annotation.Nullable
+  public List<ItemAdditionalTax> getAdditionalTaxes() {
+    return additionalTaxes;
+  }
+
+  public void setAdditionalTaxes(@javax.annotation.Nullable List<ItemAdditionalTax> additionalTaxes) {
+    this.additionalTaxes = additionalTaxes;
+  }
+
+
+  public Item alternativeCurrency(@javax.annotation.Nullable ItemAlternativeCurrency alternativeCurrency) {
+    this.alternativeCurrency = alternativeCurrency;
+    return this;
+  }
+
+  /**
+   * Get alternativeCurrency
+   * @return alternativeCurrency
+   */
+  @javax.annotation.Nullable
+  public ItemAlternativeCurrency getAlternativeCurrency() {
+    return alternativeCurrency;
+  }
+
+  public void setAlternativeCurrency(@javax.annotation.Nullable ItemAlternativeCurrency alternativeCurrency) {
+    this.alternativeCurrency = alternativeCurrency;
+  }
+
+
+  public Item amount(@javax.annotation.Nonnull BigDecimal amount) {
+    this.amount = amount;
+    return this;
+  }
+
+  /**
+   * Get amount
+   * @return amount
+   */
+  @javax.annotation.Nonnull
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public void setAmount(@javax.annotation.Nonnull BigDecimal amount) {
+    this.amount = amount;
   }
 
 
@@ -402,21 +815,37 @@ public class Item {
     }
     Item item = (Item) o;
     return Objects.equals(this.lineNumber, item.lineNumber) &&
+        Objects.equals(this.codes, item.codes) &&
         Objects.equals(this.name, item.name) &&
+        Objects.equals(this.description, item.description) &&
         Objects.equals(this.type, item.type) &&
         Objects.equals(this.billingIndicator, item.billingIndicator) &&
+        Objects.equals(this.withholdingAgentIndicator, item.withholdingAgentIndicator) &&
+        Objects.equals(this.withheldITBISAmount, item.withheldITBISAmount) &&
+        Objects.equals(this.withheldISRAmount, item.withheldISRAmount) &&
         Objects.equals(this.quantity, item.quantity) &&
-        Objects.equals(this.unitPrice, item.unitPrice) &&
-        Objects.equals(this.amount, item.amount) &&
-        Objects.equals(this.discountAmount, item.discountAmount) &&
-        Objects.equals(this.additionalTaxes, item.additionalTaxes) &&
+        Objects.equals(this.unitOfMeasure, item.unitOfMeasure) &&
+        Objects.equals(this.referenceQuantity, item.referenceQuantity) &&
+        Objects.equals(this.referenceUnit, item.referenceUnit) &&
+        Objects.equals(this.referenceUnitPrice, item.referenceUnitPrice) &&
         Objects.equals(this.subquantities, item.subquantities) &&
-        Objects.equals(this.alcoholDegree, item.alcoholDegree);
+        Objects.equals(this.alcoholDegree, item.alcoholDegree) &&
+        Objects.equals(this.manufacturingDate, item.manufacturingDate) &&
+        Objects.equals(this.expirationDate, item.expirationDate) &&
+        Objects.equals(this.miningInfo, item.miningInfo) &&
+        Objects.equals(this.unitPrice, item.unitPrice) &&
+        Objects.equals(this.discountAmount, item.discountAmount) &&
+        Objects.equals(this.discount, item.discount) &&
+        Objects.equals(this.surchargeAmount, item.surchargeAmount) &&
+        Objects.equals(this.surcharge, item.surcharge) &&
+        Objects.equals(this.additionalTaxes, item.additionalTaxes) &&
+        Objects.equals(this.alternativeCurrency, item.alternativeCurrency) &&
+        Objects.equals(this.amount, item.amount);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lineNumber, name, type, billingIndicator, quantity, unitPrice, amount, discountAmount, additionalTaxes, subquantities, alcoholDegree);
+    return Objects.hash(lineNumber, codes, name, description, type, billingIndicator, withholdingAgentIndicator, withheldITBISAmount, withheldISRAmount, quantity, unitOfMeasure, referenceQuantity, referenceUnit, referenceUnitPrice, subquantities, alcoholDegree, manufacturingDate, expirationDate, miningInfo, unitPrice, discountAmount, discount, surchargeAmount, surcharge, additionalTaxes, alternativeCurrency, amount);
   }
 
   @Override
@@ -424,16 +853,32 @@ public class Item {
     StringBuilder sb = new StringBuilder();
     sb.append("class Item {\n");
     sb.append("    lineNumber: ").append(toIndentedString(lineNumber)).append("\n");
+    sb.append("    codes: ").append(toIndentedString(codes)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    billingIndicator: ").append(toIndentedString(billingIndicator)).append("\n");
+    sb.append("    withholdingAgentIndicator: ").append(toIndentedString(withholdingAgentIndicator)).append("\n");
+    sb.append("    withheldITBISAmount: ").append(toIndentedString(withheldITBISAmount)).append("\n");
+    sb.append("    withheldISRAmount: ").append(toIndentedString(withheldISRAmount)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
-    sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
-    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
-    sb.append("    discountAmount: ").append(toIndentedString(discountAmount)).append("\n");
-    sb.append("    additionalTaxes: ").append(toIndentedString(additionalTaxes)).append("\n");
+    sb.append("    unitOfMeasure: ").append(toIndentedString(unitOfMeasure)).append("\n");
+    sb.append("    referenceQuantity: ").append(toIndentedString(referenceQuantity)).append("\n");
+    sb.append("    referenceUnit: ").append(toIndentedString(referenceUnit)).append("\n");
+    sb.append("    referenceUnitPrice: ").append(toIndentedString(referenceUnitPrice)).append("\n");
     sb.append("    subquantities: ").append(toIndentedString(subquantities)).append("\n");
     sb.append("    alcoholDegree: ").append(toIndentedString(alcoholDegree)).append("\n");
+    sb.append("    manufacturingDate: ").append(toIndentedString(manufacturingDate)).append("\n");
+    sb.append("    expirationDate: ").append(toIndentedString(expirationDate)).append("\n");
+    sb.append("    miningInfo: ").append(toIndentedString(miningInfo)).append("\n");
+    sb.append("    unitPrice: ").append(toIndentedString(unitPrice)).append("\n");
+    sb.append("    discountAmount: ").append(toIndentedString(discountAmount)).append("\n");
+    sb.append("    discount: ").append(toIndentedString(discount)).append("\n");
+    sb.append("    surchargeAmount: ").append(toIndentedString(surchargeAmount)).append("\n");
+    sb.append("    surcharge: ").append(toIndentedString(surcharge)).append("\n");
+    sb.append("    additionalTaxes: ").append(toIndentedString(additionalTaxes)).append("\n");
+    sb.append("    alternativeCurrency: ").append(toIndentedString(alternativeCurrency)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -452,7 +897,7 @@ public class Item {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("lineNumber", "name", "type", "billingIndicator", "quantity", "unitPrice", "amount", "discountAmount", "additionalTaxes", "subquantities", "alcoholDegree"));
+    openapiFields = new HashSet<String>(Arrays.asList("lineNumber", "codes", "name", "description", "type", "billingIndicator", "withholdingAgentIndicator", "withheldITBISAmount", "withheldISRAmount", "quantity", "unitOfMeasure", "referenceQuantity", "referenceUnit", "referenceUnitPrice", "subquantities", "alcoholDegree", "manufacturingDate", "expirationDate", "miningInfo", "unitPrice", "discountAmount", "discount", "surchargeAmount", "surcharge", "additionalTaxes", "alternativeCurrency", "amount"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("name", "type", "billingIndicator", "quantity", "unitPrice", "amount"));
@@ -486,8 +931,25 @@ public class Item {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if (jsonObj.get("codes") != null && !jsonObj.get("codes").isJsonNull()) {
+        JsonArray jsonArraycodes = jsonObj.getAsJsonArray("codes");
+        if (jsonArraycodes != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("codes").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `codes` to be an array in the JSON string but got `%s`", jsonObj.get("codes").toString()));
+          }
+
+          // validate the optional field `codes` (array)
+          for (int i = 0; i < jsonArraycodes.size(); i++) {
+            ItemCodesInner.validateJsonElement(jsonArraycodes.get(i));
+          };
+        }
+      }
       if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+      }
+      if ((jsonObj.get("description") != null && !jsonObj.get("description").isJsonNull()) && !jsonObj.get("description").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `description` to be a primitive type in the JSON string but got `%s`", jsonObj.get("description").toString()));
       }
       if (!jsonObj.get("type").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
@@ -499,8 +961,54 @@ public class Item {
       if (!jsonObj.get("quantity").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `quantity` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quantity").toString()));
       }
+      if (jsonObj.get("subquantities") != null && !jsonObj.get("subquantities").isJsonNull()) {
+        JsonArray jsonArraysubquantities = jsonObj.getAsJsonArray("subquantities");
+        if (jsonArraysubquantities != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("subquantities").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `subquantities` to be an array in the JSON string but got `%s`", jsonObj.get("subquantities").toString()));
+          }
+
+          // validate the optional field `subquantities` (array)
+          for (int i = 0; i < jsonArraysubquantities.size(); i++) {
+            Subquantity.validateJsonElement(jsonArraysubquantities.get(i));
+          };
+        }
+      }
+      // validate the optional field `miningInfo`
+      if (jsonObj.get("miningInfo") != null && !jsonObj.get("miningInfo").isJsonNull()) {
+        ItemMiningInfo.validateJsonElement(jsonObj.get("miningInfo"));
+      }
       if (!jsonObj.get("unitPrice").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `unitPrice` to be a primitive type in the JSON string but got `%s`", jsonObj.get("unitPrice").toString()));
+      }
+      if (jsonObj.get("discount") != null && !jsonObj.get("discount").isJsonNull()) {
+        JsonArray jsonArraydiscount = jsonObj.getAsJsonArray("discount");
+        if (jsonArraydiscount != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("discount").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `discount` to be an array in the JSON string but got `%s`", jsonObj.get("discount").toString()));
+          }
+
+          // validate the optional field `discount` (array)
+          for (int i = 0; i < jsonArraydiscount.size(); i++) {
+            ItemDiscountInner.validateJsonElement(jsonArraydiscount.get(i));
+          };
+        }
+      }
+      if (jsonObj.get("surcharge") != null && !jsonObj.get("surcharge").isJsonNull()) {
+        JsonArray jsonArraysurcharge = jsonObj.getAsJsonArray("surcharge");
+        if (jsonArraysurcharge != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("surcharge").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `surcharge` to be an array in the JSON string but got `%s`", jsonObj.get("surcharge").toString()));
+          }
+
+          // validate the optional field `surcharge` (array)
+          for (int i = 0; i < jsonArraysurcharge.size(); i++) {
+            ItemDiscountInner.validateJsonElement(jsonArraysurcharge.get(i));
+          };
+        }
       }
       if (jsonObj.get("additionalTaxes") != null && !jsonObj.get("additionalTaxes").isJsonNull()) {
         JsonArray jsonArrayadditionalTaxes = jsonObj.getAsJsonArray("additionalTaxes");
@@ -516,19 +1024,9 @@ public class Item {
           };
         }
       }
-      if (jsonObj.get("subquantities") != null && !jsonObj.get("subquantities").isJsonNull()) {
-        JsonArray jsonArraysubquantities = jsonObj.getAsJsonArray("subquantities");
-        if (jsonArraysubquantities != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("subquantities").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `subquantities` to be an array in the JSON string but got `%s`", jsonObj.get("subquantities").toString()));
-          }
-
-          // validate the optional field `subquantities` (array)
-          for (int i = 0; i < jsonArraysubquantities.size(); i++) {
-            Subquantity.validateJsonElement(jsonArraysubquantities.get(i));
-          };
-        }
+      // validate the optional field `alternativeCurrency`
+      if (jsonObj.get("alternativeCurrency") != null && !jsonObj.get("alternativeCurrency").isJsonNull()) {
+        ItemAlternativeCurrency.validateJsonElement(jsonObj.get("alternativeCurrency"));
       }
   }
 

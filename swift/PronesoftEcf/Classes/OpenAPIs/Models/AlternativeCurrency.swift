@@ -15,26 +15,58 @@ public typealias AlternativeCurrency = PronesoftEcfAPI.AlternativeCurrency
 
 extension PronesoftEcfAPI {
 
-/** Alternative currency information for documents issued in a currency other than Dominican Peso (DOP).  */
 public struct AlternativeCurrency: Codable, JSONEncodable, Hashable {
 
     public static let codeRule = StringRule(minLength: nil, maxLength: 3, pattern: nil)
-    /** ISO 4217 currency code (e.g. \"USD\", \"EUR\"). */
     public var code: String
-    /** Exchange rate to Dominican Peso at time of issuance. */
     public var exchangeRate: Double
-    /** Total document amount in the alternative currency. */
+    public var taxableAmount: Double?
+    public var taxableAmount1: Double?
+    public var taxableAmount2: Double?
+    public var taxableAmount3: Double?
+    public var exemptAmount: Double?
+    public var totalITBIS: Double?
+    public var itbis1: Double?
+    public var itbis2: Double?
+    public var itbis3: Double?
+    public var additionalTaxAmount: Double?
+    public var additionalTaxes: [String]?
+    public var nonBillableAmount: Double?
     public var totalAmount: Double?
 
-    public init(code: String, exchangeRate: Double, totalAmount: Double? = nil) {
+    public init(code: String, exchangeRate: Double, taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, exemptAmount: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxAmount: Double? = nil, additionalTaxes: [String]? = nil, nonBillableAmount: Double? = nil, totalAmount: Double? = nil) {
         self.code = code
         self.exchangeRate = exchangeRate
+        self.taxableAmount = taxableAmount
+        self.taxableAmount1 = taxableAmount1
+        self.taxableAmount2 = taxableAmount2
+        self.taxableAmount3 = taxableAmount3
+        self.exemptAmount = exemptAmount
+        self.totalITBIS = totalITBIS
+        self.itbis1 = itbis1
+        self.itbis2 = itbis2
+        self.itbis3 = itbis3
+        self.additionalTaxAmount = additionalTaxAmount
+        self.additionalTaxes = additionalTaxes
+        self.nonBillableAmount = nonBillableAmount
         self.totalAmount = totalAmount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case exchangeRate
+        case taxableAmount
+        case taxableAmount1
+        case taxableAmount2
+        case taxableAmount3
+        case exemptAmount
+        case totalITBIS
+        case itbis1
+        case itbis2
+        case itbis3
+        case additionalTaxAmount
+        case additionalTaxes
+        case nonBillableAmount
         case totalAmount
     }
 
@@ -44,6 +76,18 @@ public struct AlternativeCurrency: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
         try container.encode(exchangeRate, forKey: .exchangeRate)
+        try container.encodeIfPresent(taxableAmount, forKey: .taxableAmount)
+        try container.encodeIfPresent(taxableAmount1, forKey: .taxableAmount1)
+        try container.encodeIfPresent(taxableAmount2, forKey: .taxableAmount2)
+        try container.encodeIfPresent(taxableAmount3, forKey: .taxableAmount3)
+        try container.encodeIfPresent(exemptAmount, forKey: .exemptAmount)
+        try container.encodeIfPresent(totalITBIS, forKey: .totalITBIS)
+        try container.encodeIfPresent(itbis1, forKey: .itbis1)
+        try container.encodeIfPresent(itbis2, forKey: .itbis2)
+        try container.encodeIfPresent(itbis3, forKey: .itbis3)
+        try container.encodeIfPresent(additionalTaxAmount, forKey: .additionalTaxAmount)
+        try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
+        try container.encodeIfPresent(nonBillableAmount, forKey: .nonBillableAmount)
         try container.encodeIfPresent(totalAmount, forKey: .totalAmount)
     }
 }

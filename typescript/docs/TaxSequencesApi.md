@@ -7,16 +7,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | [**createTaxSequence**](TaxSequencesApi.md#createtaxsequenceoperation) | **POST** /tax-sequences | Create new tax sequence |
 | [**getNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**listTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences |
+| [**updateTaxSequence**](TaxSequencesApi.md#updatetaxsequenceoperation) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**voidTaxSequence**](TaxSequencesApi.md#voidtaxsequenceoperation) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 
 
 ## createTaxSequence
 
-> createTaxSequence(xTenantId, createTaxSequenceRequest)
+> CreateTaxSequence201Response createTaxSequence(createTaxSequenceRequest, xTenantId)
 
 Create new tax sequence
-
-Registers a new block of fiscal numbers for a given invoice type. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range of the sequence. 
 
 ### Example
 
@@ -24,11 +24,11 @@ Registers a new block of fiscal numbers for a given invoice type. The &#x60;from
 import {
   Configuration,
   TaxSequencesApi,
-} from '@pronesoft/ecf-sdk';
-import type { CreateTaxSequenceOperationRequest } from '@pronesoft/ecf-sdk';
+} from '@pronesoft-rd/ecf-sdk';
+import type { CreateTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -38,10 +38,10 @@ async function example() {
   const api = new TaxSequencesApi(config);
 
   const body = {
-    // string | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-    xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
     // CreateTaxSequenceRequest
-    createTaxSequenceRequest: {"type":"31","from":1,"to":500},
+    createTaxSequenceRequest: {"type":"E32","from":1,"to":10000,"quantity":10000,"expiration":"2025-12-31","environment":"TesteCF"},
+    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies CreateTaxSequenceOperationRequest;
 
   try {
@@ -61,12 +61,12 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | [Defaults to `undefined`] |
 | **createTaxSequenceRequest** | [CreateTaxSequenceRequest](CreateTaxSequenceRequest.md) |  | |
+| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-`void` (Empty response body)
+[**CreateTaxSequence201Response**](CreateTaxSequence201Response.md)
 
 ### Authorization
 
@@ -82,19 +82,19 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **201** | Sequence created successfully |  -  |
-| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **400** | Validation error (400). Check the message field for details. |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getNextNumber
 
-> GetNextNumber200Response getNextNumber(xTenantId, type, environment)
+> GetNextNumber200Response getNextNumber(type, environment, xTenantId)
 
 Get next available fiscal number
 
-Returns the next available e-NCF number for a given invoice type and environment. Use this number as the &#x60;invoiceNumber&#x60; when submitting a document. 
+Returns the next e-NCF number. Use this as invoiceNumber when submitting.
 
 ### Example
 
@@ -102,11 +102,11 @@ Returns the next available e-NCF number for a given invoice type and environment
 import {
   Configuration,
   TaxSequencesApi,
-} from '@pronesoft/ecf-sdk';
-import type { GetNextNumberRequest } from '@pronesoft/ecf-sdk';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetNextNumberRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -116,12 +116,12 @@ async function example() {
   const api = new TaxSequencesApi(config);
 
   const body = {
-    // string | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-    xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // InvoiceType | Invoice type code (e.g. \"31\" for Tax Credit Invoice).
+    // InvoiceTypeSequence
     type: ...,
-    // Environment | Target environment for the sequence.
+    // Environment
     environment: ...,
+    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies GetNextNumberRequest;
 
   try {
@@ -141,9 +141,9 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | [Defaults to `undefined`] |
-| **type** | `InvoiceType` | Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). | [Defaults to `undefined`] [Enum: 31, 32, 33, 34, 41, 43, 44, 45, 46, 47] |
-| **environment** | `Environment` | Target environment for the sequence. | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
+| **type** | `InvoiceTypeSequence` |  | [Defaults to `undefined`] [Enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
+| **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
+| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -163,18 +163,16 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Next available e-NCF number |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listTaxSequences
 
-> ListTaxSequences200Response listTaxSequences(xTenantId, type)
+> ListTaxSequences200Response listTaxSequences(xTenantId, type, page, limit)
 
 List tax sequences
-
-Returns all fiscal number sequences registered for the tenant.
 
 ### Example
 
@@ -182,11 +180,11 @@ Returns all fiscal number sequences registered for the tenant.
 import {
   Configuration,
   TaxSequencesApi,
-} from '@pronesoft/ecf-sdk';
-import type { ListTaxSequencesRequest } from '@pronesoft/ecf-sdk';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListTaxSequencesRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft/ecf-sdk SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -196,10 +194,14 @@ async function example() {
   const api = new TaxSequencesApi(config);
 
   const body = {
-    // string | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-    xTenantId: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // InvoiceType | Filter by invoice type (e.g. \"31\" for Tax Credit). (optional)
+    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
+    // InvoiceTypeSequence (optional)
     type: ...,
+    // number (optional)
+    page: 56,
+    // number (optional)
+    limit: 56,
   } satisfies ListTaxSequencesRequest;
 
   try {
@@ -219,8 +221,10 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  | [Defaults to `undefined`] |
-| **type** | `InvoiceType` | Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). | [Optional] [Defaults to `undefined`] [Enum: 31, 32, 33, 34, 41, 43, 44, 45, 46, 47] |
+| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **type** | `InvoiceTypeSequence` |  | [Optional] [Defaults to `undefined`] [Enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
+| **page** | `number` |  | [Optional] [Defaults to `1`] |
+| **limit** | `number` |  | [Optional] [Defaults to `10`] |
 
 ### Return type
 
@@ -240,7 +244,162 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List of tax sequences |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## updateTaxSequence
+
+> updateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId)
+
+Update tax sequence
+
+### Example
+
+```ts
+import {
+  Configuration,
+  TaxSequencesApi,
+} from '@pronesoft-rd/ecf-sdk';
+import type { UpdateTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
+
+async function example() {
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new TaxSequencesApi(config);
+
+  const body = {
+    // string
+    sequenceId: sequenceId_example,
+    // UpdateTaxSequenceRequest
+    updateTaxSequenceRequest: ...,
+    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
+  } satisfies UpdateTaxSequenceOperationRequest;
+
+  try {
+    const data = await api.updateTaxSequence(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **sequenceId** | `string` |  | [Defaults to `undefined`] |
+| **updateTaxSequenceRequest** | [UpdateTaxSequenceRequest](UpdateTaxSequenceRequest.md) |  | |
+| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+`void` (Empty response body)
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Sequence updated successfully |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## voidTaxSequence
+
+> VoidTaxSequence200Response voidTaxSequence(voidTaxSequenceRequest, xTenantId)
+
+Void a range of fiscal numbers
+
+Cancels unused fiscal numbers and notifies DGII.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  TaxSequencesApi,
+} from '@pronesoft-rd/ecf-sdk';
+import type { VoidTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
+
+async function example() {
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new TaxSequencesApi(config);
+
+  const body = {
+    // VoidTaxSequenceRequest
+    voidTaxSequenceRequest: ...,
+    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
+  } satisfies VoidTaxSequenceOperationRequest;
+
+  try {
+    const data = await api.voidTaxSequence(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **voidTaxSequenceRequest** | [VoidTaxSequenceRequest](VoidTaxSequenceRequest.md) |  | |
+| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**VoidTaxSequence200Response**](VoidTaxSequence200Response.md)
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Numbers voided successfully |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

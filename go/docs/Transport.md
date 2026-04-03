@@ -4,12 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Driver** | Pointer to **string** | Driver&#39;s full name. | [optional] 
-**VehicleId** | Pointer to **string** | Vehicle identification number. | [optional] 
-**LicensePlate** | Pointer to **string** | Vehicle license plate. | [optional] 
-**Route** | Pointer to **string** | Delivery route description. | [optional] 
-**DepartureDate** | Pointer to **time.Time** | Departure date and time. | [optional] 
-**ArrivalDate** | Pointer to **time.Time** | Estimated arrival date and time. | [optional] 
+**Driver** | Pointer to **string** |  | [optional] 
+**Document** | Pointer to **string** |  | [optional] 
+**VehicleId** | Pointer to **string** |  | [optional] 
+**LicensePlate** | Pointer to **string** |  | [optional] 
+**Route** | Pointer to **string** |  | [optional] 
+**Zone** | Pointer to **string** |  | [optional] 
+**DeliveryNoteNumber** | Pointer to **string** |  | [optional] 
+**DestinationCountry** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -54,6 +56,31 @@ SetDriver sets Driver field to given value.
 `func (o *Transport) HasDriver() bool`
 
 HasDriver returns a boolean if a field has been set.
+
+### GetDocument
+
+`func (o *Transport) GetDocument() string`
+
+GetDocument returns the Document field if non-nil, zero value otherwise.
+
+### GetDocumentOk
+
+`func (o *Transport) GetDocumentOk() (*string, bool)`
+
+GetDocumentOk returns a tuple with the Document field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDocument
+
+`func (o *Transport) SetDocument(v string)`
+
+SetDocument sets Document field to given value.
+
+### HasDocument
+
+`func (o *Transport) HasDocument() bool`
+
+HasDocument returns a boolean if a field has been set.
 
 ### GetVehicleId
 
@@ -130,55 +157,80 @@ SetRoute sets Route field to given value.
 
 HasRoute returns a boolean if a field has been set.
 
-### GetDepartureDate
+### GetZone
 
-`func (o *Transport) GetDepartureDate() time.Time`
+`func (o *Transport) GetZone() string`
 
-GetDepartureDate returns the DepartureDate field if non-nil, zero value otherwise.
+GetZone returns the Zone field if non-nil, zero value otherwise.
 
-### GetDepartureDateOk
+### GetZoneOk
 
-`func (o *Transport) GetDepartureDateOk() (*time.Time, bool)`
+`func (o *Transport) GetZoneOk() (*string, bool)`
 
-GetDepartureDateOk returns a tuple with the DepartureDate field if it's non-nil, zero value otherwise
+GetZoneOk returns a tuple with the Zone field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDepartureDate
+### SetZone
 
-`func (o *Transport) SetDepartureDate(v time.Time)`
+`func (o *Transport) SetZone(v string)`
 
-SetDepartureDate sets DepartureDate field to given value.
+SetZone sets Zone field to given value.
 
-### HasDepartureDate
+### HasZone
 
-`func (o *Transport) HasDepartureDate() bool`
+`func (o *Transport) HasZone() bool`
 
-HasDepartureDate returns a boolean if a field has been set.
+HasZone returns a boolean if a field has been set.
 
-### GetArrivalDate
+### GetDeliveryNoteNumber
 
-`func (o *Transport) GetArrivalDate() time.Time`
+`func (o *Transport) GetDeliveryNoteNumber() string`
 
-GetArrivalDate returns the ArrivalDate field if non-nil, zero value otherwise.
+GetDeliveryNoteNumber returns the DeliveryNoteNumber field if non-nil, zero value otherwise.
 
-### GetArrivalDateOk
+### GetDeliveryNoteNumberOk
 
-`func (o *Transport) GetArrivalDateOk() (*time.Time, bool)`
+`func (o *Transport) GetDeliveryNoteNumberOk() (*string, bool)`
 
-GetArrivalDateOk returns a tuple with the ArrivalDate field if it's non-nil, zero value otherwise
+GetDeliveryNoteNumberOk returns a tuple with the DeliveryNoteNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetArrivalDate
+### SetDeliveryNoteNumber
 
-`func (o *Transport) SetArrivalDate(v time.Time)`
+`func (o *Transport) SetDeliveryNoteNumber(v string)`
 
-SetArrivalDate sets ArrivalDate field to given value.
+SetDeliveryNoteNumber sets DeliveryNoteNumber field to given value.
 
-### HasArrivalDate
+### HasDeliveryNoteNumber
 
-`func (o *Transport) HasArrivalDate() bool`
+`func (o *Transport) HasDeliveryNoteNumber() bool`
 
-HasArrivalDate returns a boolean if a field has been set.
+HasDeliveryNoteNumber returns a boolean if a field has been set.
+
+### GetDestinationCountry
+
+`func (o *Transport) GetDestinationCountry() string`
+
+GetDestinationCountry returns the DestinationCountry field if non-nil, zero value otherwise.
+
+### GetDestinationCountryOk
+
+`func (o *Transport) GetDestinationCountryOk() (*string, bool)`
+
+GetDestinationCountryOk returns a tuple with the DestinationCountry field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDestinationCountry
+
+`func (o *Transport) SetDestinationCountry(v string)`
+
+SetDestinationCountry sets DestinationCountry field to given value.
+
+### HasDestinationCountry
+
+`func (o *Transport) HasDestinationCountry() bool`
+
+HasDestinationCountry returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

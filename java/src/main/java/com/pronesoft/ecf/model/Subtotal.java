@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -47,24 +47,24 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Subtotal for a page or section within a multi-page document.
+ * Subtotal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Subtotal {
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private Integer number;
-
-  public static final String SERIALIZED_NAME_AMOUNT = "amount";
-  @SerializedName(SERIALIZED_NAME_AMOUNT)
-  @javax.annotation.Nonnull
-  private BigDecimal amount;
 
   public static final String SERIALIZED_NAME_DESCRIPTION = "description";
   @SerializedName(SERIALIZED_NAME_DESCRIPTION)
   @javax.annotation.Nullable
   private String description;
+
+  public static final String SERIALIZED_NAME_ORDER = "order";
+  @SerializedName(SERIALIZED_NAME_ORDER)
+  @javax.annotation.Nullable
+  private Integer order;
 
   public static final String SERIALIZED_NAME_TAXABLE_AMOUNT = "taxableAmount";
   @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT)
@@ -116,6 +116,11 @@ public class Subtotal {
   @javax.annotation.Nullable
   private BigDecimal exemptAmount;
 
+  public static final String SERIALIZED_NAME_AMOUNT = "amount";
+  @SerializedName(SERIALIZED_NAME_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal amount;
+
   public static final String SERIALIZED_NAME_LINES = "lines";
   @SerializedName(SERIALIZED_NAME_LINES)
   @javax.annotation.Nullable
@@ -124,41 +129,22 @@ public class Subtotal {
   public Subtotal() {
   }
 
-  public Subtotal number(@javax.annotation.Nonnull Integer number) {
+  public Subtotal number(@javax.annotation.Nullable Integer number) {
     this.number = number;
     return this;
   }
 
   /**
-   * Page or section number.
+   * Get number
    * @return number
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Integer getNumber() {
     return number;
   }
 
-  public void setNumber(@javax.annotation.Nonnull Integer number) {
+  public void setNumber(@javax.annotation.Nullable Integer number) {
     this.number = number;
-  }
-
-
-  public Subtotal amount(@javax.annotation.Nonnull BigDecimal amount) {
-    this.amount = amount;
-    return this;
-  }
-
-  /**
-   * Subtotal amount for this section.
-   * @return amount
-   */
-  @javax.annotation.Nonnull
-  public BigDecimal getAmount() {
-    return amount;
-  }
-
-  public void setAmount(@javax.annotation.Nonnull BigDecimal amount) {
-    this.amount = amount;
   }
 
 
@@ -178,6 +164,25 @@ public class Subtotal {
 
   public void setDescription(@javax.annotation.Nullable String description) {
     this.description = description;
+  }
+
+
+  public Subtotal order(@javax.annotation.Nullable Integer order) {
+    this.order = order;
+    return this;
+  }
+
+  /**
+   * Get order
+   * @return order
+   */
+  @javax.annotation.Nullable
+  public Integer getOrder() {
+    return order;
+  }
+
+  public void setOrder(@javax.annotation.Nullable Integer order) {
+    this.order = order;
   }
 
 
@@ -371,13 +376,32 @@ public class Subtotal {
   }
 
 
+  public Subtotal amount(@javax.annotation.Nullable BigDecimal amount) {
+    this.amount = amount;
+    return this;
+  }
+
+  /**
+   * Get amount
+   * @return amount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
+  public void setAmount(@javax.annotation.Nullable BigDecimal amount) {
+    this.amount = amount;
+  }
+
+
   public Subtotal lines(@javax.annotation.Nullable Integer lines) {
     this.lines = lines;
     return this;
   }
 
   /**
-   * Number of line items included in this subtotal.
+   * Get lines
    * @return lines
    */
   @javax.annotation.Nullable
@@ -401,8 +425,8 @@ public class Subtotal {
     }
     Subtotal subtotal = (Subtotal) o;
     return Objects.equals(this.number, subtotal.number) &&
-        Objects.equals(this.amount, subtotal.amount) &&
         Objects.equals(this.description, subtotal.description) &&
+        Objects.equals(this.order, subtotal.order) &&
         Objects.equals(this.taxableAmount, subtotal.taxableAmount) &&
         Objects.equals(this.taxableAmount1, subtotal.taxableAmount1) &&
         Objects.equals(this.taxableAmount2, subtotal.taxableAmount2) &&
@@ -413,12 +437,13 @@ public class Subtotal {
         Objects.equals(this.itbis3, subtotal.itbis3) &&
         Objects.equals(this.additionalTaxes, subtotal.additionalTaxes) &&
         Objects.equals(this.exemptAmount, subtotal.exemptAmount) &&
+        Objects.equals(this.amount, subtotal.amount) &&
         Objects.equals(this.lines, subtotal.lines);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(number, amount, description, taxableAmount, taxableAmount1, taxableAmount2, taxableAmount3, totalITBIS, itbis1, itbis2, itbis3, additionalTaxes, exemptAmount, lines);
+    return Objects.hash(number, description, order, taxableAmount, taxableAmount1, taxableAmount2, taxableAmount3, totalITBIS, itbis1, itbis2, itbis3, additionalTaxes, exemptAmount, amount, lines);
   }
 
   @Override
@@ -426,8 +451,8 @@ public class Subtotal {
     StringBuilder sb = new StringBuilder();
     sb.append("class Subtotal {\n");
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
-    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    order: ").append(toIndentedString(order)).append("\n");
     sb.append("    taxableAmount: ").append(toIndentedString(taxableAmount)).append("\n");
     sb.append("    taxableAmount1: ").append(toIndentedString(taxableAmount1)).append("\n");
     sb.append("    taxableAmount2: ").append(toIndentedString(taxableAmount2)).append("\n");
@@ -438,6 +463,7 @@ public class Subtotal {
     sb.append("    itbis3: ").append(toIndentedString(itbis3)).append("\n");
     sb.append("    additionalTaxes: ").append(toIndentedString(additionalTaxes)).append("\n");
     sb.append("    exemptAmount: ").append(toIndentedString(exemptAmount)).append("\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    lines: ").append(toIndentedString(lines)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -457,10 +483,10 @@ public class Subtotal {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("number", "amount", "description", "taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxes", "exemptAmount", "lines"));
+    openapiFields = new HashSet<String>(Arrays.asList("number", "description", "order", "taxableAmount", "taxableAmount1", "taxableAmount2", "taxableAmount3", "totalITBIS", "itbis1", "itbis2", "itbis3", "additionalTaxes", "exemptAmount", "amount", "lines"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("number", "amount"));
+    openapiRequiredFields = new HashSet<String>(0);
   }
 
   /**
@@ -481,13 +507,6 @@ public class Subtotal {
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!Subtotal.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `Subtotal` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
-        }
-      }
-
-      // check to make sure all required properties/fields are present in the JSON string
-      for (String requiredField : Subtotal.openapiRequiredFields) {
-        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();

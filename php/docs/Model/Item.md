@@ -4,16 +4,32 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**line_number** | **int** | Sequential line number (1-based). Auto-assigned if omitted. | [optional]
-**name** | **string** | Product or service name. |
-**type** | **string** | Item type: - &#x60;1&#x60;: Product (Bien) - &#x60;2&#x60;: Service (Servicio) |
+**line_number** | **int** |  | [optional]
+**codes** | [**\PronesoftEcf\Model\ItemCodesInner[]**](ItemCodesInner.md) |  | [optional]
+**name** | **string** |  |
+**description** | **string** |  | [optional]
+**type** | **string** | 1&#x3D;Product, 2&#x3D;Service |
 **billing_indicator** | [**\PronesoftEcf\Model\BillingIndicator**](BillingIndicator.md) |  |
-**quantity** | **string** | Quantity (as string to support decimals with precision). |
-**unit_price** | **string** | Unit price (as string to support decimals with precision). |
-**amount** | **float** | Total line amount (quantity × unitPrice, before discounts). |
-**discount_amount** | **float** | Discount amount applied to this line item. | [optional]
-**additional_taxes** | [**\PronesoftEcf\Model\ItemAdditionalTax[]**](ItemAdditionalTax.md) | Additional taxes (e.g. ISC, IECS) for this line item. | [optional]
-**subquantities** | [**\PronesoftEcf\Model\Subquantity[]**](Subquantity.md) | Sub-quantities (for items with multiple units of measure). | [optional]
-**alcohol_degree** | **float** | Alcohol degree (required for alcoholic beverages subject to ISC). | [optional]
+**withholding_agent_indicator** | **int** |  | [optional]
+**withheld_itbis_amount** | **float** |  | [optional]
+**withheld_isr_amount** | **float** |  | [optional]
+**quantity** | **string** |  |
+**unit_of_measure** | **int** |  | [optional]
+**reference_quantity** | **float** |  | [optional]
+**reference_unit** | **int** |  | [optional]
+**reference_unit_price** | **float** |  | [optional]
+**subquantities** | [**\PronesoftEcf\Model\Subquantity[]**](Subquantity.md) |  | [optional]
+**alcohol_degree** | **float** |  | [optional]
+**manufacturing_date** | **\DateTime** |  | [optional]
+**expiration_date** | **\DateTime** |  | [optional]
+**mining_info** | [**\PronesoftEcf\Model\ItemMiningInfo**](ItemMiningInfo.md) |  | [optional]
+**unit_price** | **string** |  |
+**discount_amount** | **float** |  | [optional]
+**discount** | [**\PronesoftEcf\Model\ItemDiscountInner[]**](ItemDiscountInner.md) |  | [optional]
+**surcharge_amount** | **float** |  | [optional]
+**surcharge** | [**\PronesoftEcf\Model\ItemDiscountInner[]**](ItemDiscountInner.md) |  | [optional]
+**additional_taxes** | [**\PronesoftEcf\Model\ItemAdditionalTax[]**](ItemAdditionalTax.md) |  | [optional]
+**alternative_currency** | [**\PronesoftEcf\Model\ItemAlternativeCurrency**](ItemAlternativeCurrency.md) |  | [optional]
+**amount** | **float** |  |
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

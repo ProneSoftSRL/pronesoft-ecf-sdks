@@ -1,17 +1,18 @@
 # WebhookConfigResponse
 
-A registered webhook configuration.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | Unique webhook identifier. | [optional] 
-**url** | **str** | The URL that receives webhook notifications. | [optional] 
-**event_types** | [**List[WebhookEventType]**](WebhookEventType.md) | Events this webhook is subscribed to. | [optional] 
-**is_active** | **bool** | Whether this webhook is currently active. | [optional] 
+**id** | **str** |  | [optional] 
+**url** | **str** |  | [optional] 
+**description** | **str** |  | [optional] 
+**event_types** | [**List[WebhookEventType]**](WebhookEventType.md) |  | [optional] 
+**is_active** | **bool** |  | [optional] 
 **created_at** | **datetime** |  | [optional] 
-**last_triggered_at** | **datetime** | When this webhook was last triggered. Null if never triggered. | [optional] 
+**updated_at** | **datetime** |  | [optional] 
+**last_triggered_at** | **datetime** |  | [optional] 
 
 ## Example
 

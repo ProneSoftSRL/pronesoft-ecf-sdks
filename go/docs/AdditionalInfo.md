@@ -4,10 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**GrossWeight** | Pointer to **float32** | Gross weight of the shipment (in kg). | [optional] 
-**PackageQuantity** | Pointer to **float32** | Number of packages. | [optional] 
-**ContainerId** | Pointer to **string** | Container identifier (for imports/exports). | [optional] 
-**SealId** | Pointer to **string** | Seal/precinto identifier. | [optional] 
+**ShipmentDate** | Pointer to **string** |  | [optional] 
+**ShipmentNumber** | Pointer to **string** |  | [optional] 
+**ContainerNumber** | Pointer to **string** |  | [optional] 
+**ReferenceNumber** | Pointer to **string** |  | [optional] 
+**GrossWeight** | Pointer to **float32** |  | [optional] 
+**NetWeight** | Pointer to **float32** |  | [optional] 
+**GrossWeightUnit** | Pointer to **int32** |  | [optional] 
+**NetWeightUnit** | Pointer to **int32** |  | [optional] 
+**PackageQuantity** | Pointer to **float32** |  | [optional] 
+**PackageUnit** | Pointer to **int32** |  | [optional] 
+**PackageVolume** | Pointer to **float32** |  | [optional] 
+**VolumeUnit** | Pointer to **int32** |  | [optional] 
 
 ## Methods
 
@@ -27,6 +35,106 @@ will change when the set of required properties is changed
 NewAdditionalInfoWithDefaults instantiates a new AdditionalInfo object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetShipmentDate
+
+`func (o *AdditionalInfo) GetShipmentDate() string`
+
+GetShipmentDate returns the ShipmentDate field if non-nil, zero value otherwise.
+
+### GetShipmentDateOk
+
+`func (o *AdditionalInfo) GetShipmentDateOk() (*string, bool)`
+
+GetShipmentDateOk returns a tuple with the ShipmentDate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetShipmentDate
+
+`func (o *AdditionalInfo) SetShipmentDate(v string)`
+
+SetShipmentDate sets ShipmentDate field to given value.
+
+### HasShipmentDate
+
+`func (o *AdditionalInfo) HasShipmentDate() bool`
+
+HasShipmentDate returns a boolean if a field has been set.
+
+### GetShipmentNumber
+
+`func (o *AdditionalInfo) GetShipmentNumber() string`
+
+GetShipmentNumber returns the ShipmentNumber field if non-nil, zero value otherwise.
+
+### GetShipmentNumberOk
+
+`func (o *AdditionalInfo) GetShipmentNumberOk() (*string, bool)`
+
+GetShipmentNumberOk returns a tuple with the ShipmentNumber field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetShipmentNumber
+
+`func (o *AdditionalInfo) SetShipmentNumber(v string)`
+
+SetShipmentNumber sets ShipmentNumber field to given value.
+
+### HasShipmentNumber
+
+`func (o *AdditionalInfo) HasShipmentNumber() bool`
+
+HasShipmentNumber returns a boolean if a field has been set.
+
+### GetContainerNumber
+
+`func (o *AdditionalInfo) GetContainerNumber() string`
+
+GetContainerNumber returns the ContainerNumber field if non-nil, zero value otherwise.
+
+### GetContainerNumberOk
+
+`func (o *AdditionalInfo) GetContainerNumberOk() (*string, bool)`
+
+GetContainerNumberOk returns a tuple with the ContainerNumber field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContainerNumber
+
+`func (o *AdditionalInfo) SetContainerNumber(v string)`
+
+SetContainerNumber sets ContainerNumber field to given value.
+
+### HasContainerNumber
+
+`func (o *AdditionalInfo) HasContainerNumber() bool`
+
+HasContainerNumber returns a boolean if a field has been set.
+
+### GetReferenceNumber
+
+`func (o *AdditionalInfo) GetReferenceNumber() string`
+
+GetReferenceNumber returns the ReferenceNumber field if non-nil, zero value otherwise.
+
+### GetReferenceNumberOk
+
+`func (o *AdditionalInfo) GetReferenceNumberOk() (*string, bool)`
+
+GetReferenceNumberOk returns a tuple with the ReferenceNumber field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReferenceNumber
+
+`func (o *AdditionalInfo) SetReferenceNumber(v string)`
+
+SetReferenceNumber sets ReferenceNumber field to given value.
+
+### HasReferenceNumber
+
+`func (o *AdditionalInfo) HasReferenceNumber() bool`
+
+HasReferenceNumber returns a boolean if a field has been set.
 
 ### GetGrossWeight
 
@@ -53,6 +161,81 @@ SetGrossWeight sets GrossWeight field to given value.
 
 HasGrossWeight returns a boolean if a field has been set.
 
+### GetNetWeight
+
+`func (o *AdditionalInfo) GetNetWeight() float32`
+
+GetNetWeight returns the NetWeight field if non-nil, zero value otherwise.
+
+### GetNetWeightOk
+
+`func (o *AdditionalInfo) GetNetWeightOk() (*float32, bool)`
+
+GetNetWeightOk returns a tuple with the NetWeight field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNetWeight
+
+`func (o *AdditionalInfo) SetNetWeight(v float32)`
+
+SetNetWeight sets NetWeight field to given value.
+
+### HasNetWeight
+
+`func (o *AdditionalInfo) HasNetWeight() bool`
+
+HasNetWeight returns a boolean if a field has been set.
+
+### GetGrossWeightUnit
+
+`func (o *AdditionalInfo) GetGrossWeightUnit() int32`
+
+GetGrossWeightUnit returns the GrossWeightUnit field if non-nil, zero value otherwise.
+
+### GetGrossWeightUnitOk
+
+`func (o *AdditionalInfo) GetGrossWeightUnitOk() (*int32, bool)`
+
+GetGrossWeightUnitOk returns a tuple with the GrossWeightUnit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetGrossWeightUnit
+
+`func (o *AdditionalInfo) SetGrossWeightUnit(v int32)`
+
+SetGrossWeightUnit sets GrossWeightUnit field to given value.
+
+### HasGrossWeightUnit
+
+`func (o *AdditionalInfo) HasGrossWeightUnit() bool`
+
+HasGrossWeightUnit returns a boolean if a field has been set.
+
+### GetNetWeightUnit
+
+`func (o *AdditionalInfo) GetNetWeightUnit() int32`
+
+GetNetWeightUnit returns the NetWeightUnit field if non-nil, zero value otherwise.
+
+### GetNetWeightUnitOk
+
+`func (o *AdditionalInfo) GetNetWeightUnitOk() (*int32, bool)`
+
+GetNetWeightUnitOk returns a tuple with the NetWeightUnit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNetWeightUnit
+
+`func (o *AdditionalInfo) SetNetWeightUnit(v int32)`
+
+SetNetWeightUnit sets NetWeightUnit field to given value.
+
+### HasNetWeightUnit
+
+`func (o *AdditionalInfo) HasNetWeightUnit() bool`
+
+HasNetWeightUnit returns a boolean if a field has been set.
+
 ### GetPackageQuantity
 
 `func (o *AdditionalInfo) GetPackageQuantity() float32`
@@ -78,55 +261,80 @@ SetPackageQuantity sets PackageQuantity field to given value.
 
 HasPackageQuantity returns a boolean if a field has been set.
 
-### GetContainerId
+### GetPackageUnit
 
-`func (o *AdditionalInfo) GetContainerId() string`
+`func (o *AdditionalInfo) GetPackageUnit() int32`
 
-GetContainerId returns the ContainerId field if non-nil, zero value otherwise.
+GetPackageUnit returns the PackageUnit field if non-nil, zero value otherwise.
 
-### GetContainerIdOk
+### GetPackageUnitOk
 
-`func (o *AdditionalInfo) GetContainerIdOk() (*string, bool)`
+`func (o *AdditionalInfo) GetPackageUnitOk() (*int32, bool)`
 
-GetContainerIdOk returns a tuple with the ContainerId field if it's non-nil, zero value otherwise
+GetPackageUnitOk returns a tuple with the PackageUnit field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetContainerId
+### SetPackageUnit
 
-`func (o *AdditionalInfo) SetContainerId(v string)`
+`func (o *AdditionalInfo) SetPackageUnit(v int32)`
 
-SetContainerId sets ContainerId field to given value.
+SetPackageUnit sets PackageUnit field to given value.
 
-### HasContainerId
+### HasPackageUnit
 
-`func (o *AdditionalInfo) HasContainerId() bool`
+`func (o *AdditionalInfo) HasPackageUnit() bool`
 
-HasContainerId returns a boolean if a field has been set.
+HasPackageUnit returns a boolean if a field has been set.
 
-### GetSealId
+### GetPackageVolume
 
-`func (o *AdditionalInfo) GetSealId() string`
+`func (o *AdditionalInfo) GetPackageVolume() float32`
 
-GetSealId returns the SealId field if non-nil, zero value otherwise.
+GetPackageVolume returns the PackageVolume field if non-nil, zero value otherwise.
 
-### GetSealIdOk
+### GetPackageVolumeOk
 
-`func (o *AdditionalInfo) GetSealIdOk() (*string, bool)`
+`func (o *AdditionalInfo) GetPackageVolumeOk() (*float32, bool)`
 
-GetSealIdOk returns a tuple with the SealId field if it's non-nil, zero value otherwise
+GetPackageVolumeOk returns a tuple with the PackageVolume field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSealId
+### SetPackageVolume
 
-`func (o *AdditionalInfo) SetSealId(v string)`
+`func (o *AdditionalInfo) SetPackageVolume(v float32)`
 
-SetSealId sets SealId field to given value.
+SetPackageVolume sets PackageVolume field to given value.
 
-### HasSealId
+### HasPackageVolume
 
-`func (o *AdditionalInfo) HasSealId() bool`
+`func (o *AdditionalInfo) HasPackageVolume() bool`
 
-HasSealId returns a boolean if a field has been set.
+HasPackageVolume returns a boolean if a field has been set.
+
+### GetVolumeUnit
+
+`func (o *AdditionalInfo) GetVolumeUnit() int32`
+
+GetVolumeUnit returns the VolumeUnit field if non-nil, zero value otherwise.
+
+### GetVolumeUnitOk
+
+`func (o *AdditionalInfo) GetVolumeUnitOk() (*int32, bool)`
+
+GetVolumeUnitOk returns a tuple with the VolumeUnit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVolumeUnit
+
+`func (o *AdditionalInfo) SetVolumeUnit(v int32)`
+
+SetVolumeUnit sets VolumeUnit field to given value.
+
+### HasVolumeUnit
+
+`func (o *AdditionalInfo) HasVolumeUnit() bool`
+
+HasVolumeUnit returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

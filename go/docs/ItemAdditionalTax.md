@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **string** | Tax code as defined by the DGII (e.g. \&quot;ISC\&quot;, \&quot;IECS\&quot;). | 
-**Amount** | **float32** | Tax amount. | 
+**Code** | **string** | DGII tax code (e.g. ISC, IECS) | 
+**Amount** | Pointer to **float32** |  | [optional] 
 
 ## Methods
 
 ### NewItemAdditionalTax
 
-`func NewItemAdditionalTax(code string, amount float32, ) *ItemAdditionalTax`
+`func NewItemAdditionalTax(code string, ) *ItemAdditionalTax`
 
 NewItemAdditionalTax instantiates a new ItemAdditionalTax object
 This constructor will assign default values to properties that have it defined,
@@ -65,6 +65,11 @@ and a boolean to check if the value has been set.
 
 SetAmount sets Amount field to given value.
 
+### HasAmount
+
+`func (o *ItemAdditionalTax) HasAmount() bool`
+
+HasAmount returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

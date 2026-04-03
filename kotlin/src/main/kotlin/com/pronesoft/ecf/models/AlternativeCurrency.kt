@@ -27,25 +27,70 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Alternative currency information for documents issued in a currency other than Dominican Peso (DOP). 
+ * 
  *
- * @param code ISO 4217 currency code (e.g. \"USD\", \"EUR\").
- * @param exchangeRate Exchange rate to Dominican Peso at time of issuance.
- * @param totalAmount Total document amount in the alternative currency.
+ * @param code 
+ * @param exchangeRate 
+ * @param taxableAmount 
+ * @param taxableAmount1 
+ * @param taxableAmount2 
+ * @param taxableAmount3 
+ * @param exemptAmount 
+ * @param totalITBIS 
+ * @param itbis1 
+ * @param itbis2 
+ * @param itbis3 
+ * @param additionalTaxAmount 
+ * @param additionalTaxes 
+ * @param nonBillableAmount 
+ * @param totalAmount 
  */
 
 
 data class AlternativeCurrency (
 
-    /* ISO 4217 currency code (e.g. \"USD\", \"EUR\"). */
     @SerializedName("code")
     val code: kotlin.String,
 
-    /* Exchange rate to Dominican Peso at time of issuance. */
     @SerializedName("exchangeRate")
     val exchangeRate: java.math.BigDecimal,
 
-    /* Total document amount in the alternative currency. */
+    @SerializedName("taxableAmount")
+    val taxableAmount: java.math.BigDecimal? = null,
+
+    @SerializedName("taxableAmount1")
+    val taxableAmount1: java.math.BigDecimal? = null,
+
+    @SerializedName("taxableAmount2")
+    val taxableAmount2: java.math.BigDecimal? = null,
+
+    @SerializedName("taxableAmount3")
+    val taxableAmount3: java.math.BigDecimal? = null,
+
+    @SerializedName("exemptAmount")
+    val exemptAmount: java.math.BigDecimal? = null,
+
+    @SerializedName("totalITBIS")
+    val totalITBIS: java.math.BigDecimal? = null,
+
+    @SerializedName("itbis1")
+    val itbis1: java.math.BigDecimal? = null,
+
+    @SerializedName("itbis2")
+    val itbis2: java.math.BigDecimal? = null,
+
+    @SerializedName("itbis3")
+    val itbis3: java.math.BigDecimal? = null,
+
+    @SerializedName("additionalTaxAmount")
+    val additionalTaxAmount: java.math.BigDecimal? = null,
+
+    @SerializedName("additionalTaxes")
+    val additionalTaxes: kotlin.collections.List<kotlin.String>? = null,
+
+    @SerializedName("nonBillableAmount")
+    val nonBillableAmount: java.math.BigDecimal? = null,
+
     @SerializedName("totalAmount")
     val totalAmount: java.math.BigDecimal? = null
 

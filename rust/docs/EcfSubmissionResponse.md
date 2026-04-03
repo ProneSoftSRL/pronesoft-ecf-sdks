@@ -4,11 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**success** | **bool** | Whether the document was accepted by the platform. | 
-**document_id** | **uuid::Uuid** | Pronesoft internal document identifier. | 
-**encf** | Option<**String**> | The e-NCF number assigned to the document. | [optional]
-**track_id** | Option<**String**> | DGII tracking ID for status polling. | [optional]
-**message** | Option<**String**> | Human-readable status message. | [optional]
+**success** | **bool** |  | 
+**document_id** | Option<**uuid::Uuid**> |  | [optional]
+**dgii_response** | Option<[**models::EcfSubmissionResponseDgiiResponse**](EcfSubmissionResponseDgiiResponse.md)> |  | [optional]
+**qr_url** | Option<**String**> |  | [optional]
+**signature_time** | Option<**String**> |  | [optional]
+**security_code** | Option<**String**> |  | [optional]
+**encf** | Option<**String**> |  | [optional]
+**document_type** | Option<**String**> |  | [optional]
+**print_url** | Option<**String**> |  | [optional]
+**auth_type** | Option<**String**> |  | [optional]
+**timestamp** | Option<**String**> |  | [optional]
+**message** | Option<**String**> |  | [optional]
+**contingency_mode** | Option<**bool**> |  | [optional]
+**estimated_process_time** | Option<**String**> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -1,7 +1,7 @@
 
 # EcfSubmissionResponse
 
-Response returned after successfully submitting an e-CF document.
+Response after submitting an e-CF. HTTP 200 even when rejected. Check the success field and dgiiResponse.estado for actual result. 
 
 ## Properties
 
@@ -9,22 +9,40 @@ Name | Type
 ------------ | -------------
 `success` | boolean
 `documentId` | string
+`dgiiResponse` | [EcfSubmissionResponseDgiiResponse](EcfSubmissionResponseDgiiResponse.md)
+`qrUrl` | string
+`signatureTime` | Date
+`securityCode` | string
 `encf` | string
-`trackId` | string
+`documentType` | string
+`printUrl` | string
+`authType` | string
+`timestamp` | Date
 `message` | string
+`contingencyMode` | boolean
+`estimatedProcessTime` | string
 
 ## Example
 
 ```typescript
-import type { EcfSubmissionResponse } from '@pronesoft/ecf-sdk'
+import type { EcfSubmissionResponse } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "success": null,
   "documentId": null,
+  "dgiiResponse": null,
+  "qrUrl": null,
+  "signatureTime": null,
+  "securityCode": A1B2C3,
   "encf": E310000000001,
-  "trackId": TRK-20240101-0001,
+  "documentType": E31,
+  "printUrl": null,
+  "authType": api_key,
+  "timestamp": null,
   "message": null,
+  "contingencyMode": null,
+  "estimatedProcessTime": null,
 } satisfies EcfSubmissionResponse
 
 console.log(example)

@@ -16,31 +16,30 @@ extension PronesoftEcfAPI {
 open class AssociatedCompaniesAPI {
 
     /**
-     Create new associated company
+     Create associated company / branch
      
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
-     - parameter email: (form) Owner&#39;s email address (used for login). 
-     - parameter password: (form) Initial password for the new account (min 8 characters). 
-     - parameter name: (form) Legal business name. 
-     - parameter rnc: (form) Company RNC (9 digits) or personal cedula (11 digits). 
+     - parameter email: (form)  
+     - parameter password: (form)  
+     - parameter name: (form)  
+     - parameter rnc: (form)  
      - parameter phone: (form)  
      - parameter address: (form)  
      - parameter city: (form)  
      - parameter country: (form)  
+     - parameter printerType: (form)  
      - parameter firstName: (form)  (optional)
      - parameter lastName: (form)  (optional)
      - parameter jobTitle: (form)  (optional)
      - parameter website: (form)  (optional)
-     - parameter category: (form) Business category or industry. (optional)
-     - parameter monthlySalesRange: (form) Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     - parameter printerType: (form)  (optional)
-     - parameter logo: (form) Company logo image file (multipart upload). (optional)
+     - parameter category: (form)  (optional)
+     - parameter monthlySalesRange: (form)  (optional)
+     - parameter logo: (form)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createAssociatedCompany(xTenantId: UUID, email: String, password: String, name: String, rnc: String, phone: String, address: String, city: String, country: String, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, printerType: PrintFormat? = nil, logo: URL? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CreateAssociatedCompany201Response?, _ error: Error?) -> Void)) -> RequestTask {
-        return createAssociatedCompanyWithRequestBuilder(xTenantId: xTenantId, email: email, password: password, name: name, rnc: rnc, phone: phone, address: address, city: city, country: country, firstName: firstName, lastName: lastName, jobTitle: jobTitle, website: website, category: category, monthlySalesRange: monthlySalesRange, printerType: printerType, logo: logo).execute(apiResponseQueue) { result in
+    open class func createAssociatedCompany(email: String, password: String, name: String, rnc: String, phone: String, address: String, city: String, country: String, printerType: PrintFormat, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, logo: URL? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CreateAssociatedCompany201Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return createAssociatedCompanyWithRequestBuilder(email: email, password: password, name: name, rnc: rnc, phone: phone, address: address, city: city, country: country, printerType: printerType, firstName: firstName, lastName: lastName, jobTitle: jobTitle, website: website, category: category, monthlySalesRange: monthlySalesRange, logo: logo).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -51,35 +50,33 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Create new associated company
+     Create associated company / branch
      - POST /associated-companies
-     - Registers a new branch or associated company under the current tenant account. Accepts multipart/form-data to support logo upload. 
      - OAuth:
        - type: oauth2
        - name: oauth2
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
-     - parameter email: (form) Owner&#39;s email address (used for login). 
-     - parameter password: (form) Initial password for the new account (min 8 characters). 
-     - parameter name: (form) Legal business name. 
-     - parameter rnc: (form) Company RNC (9 digits) or personal cedula (11 digits). 
+     - parameter email: (form)  
+     - parameter password: (form)  
+     - parameter name: (form)  
+     - parameter rnc: (form)  
      - parameter phone: (form)  
      - parameter address: (form)  
      - parameter city: (form)  
      - parameter country: (form)  
+     - parameter printerType: (form)  
      - parameter firstName: (form)  (optional)
      - parameter lastName: (form)  (optional)
      - parameter jobTitle: (form)  (optional)
      - parameter website: (form)  (optional)
-     - parameter category: (form) Business category or industry. (optional)
-     - parameter monthlySalesRange: (form) Estimated monthly sales range (e.g. \\\&quot;0-500000\\\&quot;). (optional)
-     - parameter printerType: (form)  (optional)
-     - parameter logo: (form) Company logo image file (multipart upload). (optional)
+     - parameter category: (form)  (optional)
+     - parameter monthlySalesRange: (form)  (optional)
+     - parameter logo: (form)  (optional)
      - returns: RequestBuilder<CreateAssociatedCompany201Response> 
      */
-    open class func createAssociatedCompanyWithRequestBuilder(xTenantId: UUID, email: String, password: String, name: String, rnc: String, phone: String, address: String, city: String, country: String, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, printerType: PrintFormat? = nil, logo: URL? = nil) -> RequestBuilder<CreateAssociatedCompany201Response> {
+    open class func createAssociatedCompanyWithRequestBuilder(email: String, password: String, name: String, rnc: String, phone: String, address: String, city: String, country: String, printerType: PrintFormat, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, logo: URL? = nil) -> RequestBuilder<CreateAssociatedCompany201Response> {
         let localVariablePath = "/associated-companies"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
@@ -97,7 +94,7 @@ open class AssociatedCompaniesAPI {
             "website": website?.encodeToJSON(),
             "category": category?.encodeToJSON(),
             "monthlySalesRange": monthlySalesRange?.encodeToJSON(),
-            "printerType": printerType?.encodeToJSON(),
+            "printerType": printerType.encodeToJSON(),
             "logo": logo?.encodeToJSON(),
         ]
 
@@ -108,7 +105,6 @@ open class AssociatedCompaniesAPI {
 
         let localVariableNillableHeaders: [String: Any?] = [
             "Content-Type": "multipart/form-data",
-            "x-tenant-id": xTenantId.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -119,15 +115,173 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     List associated companies / branches
+     Delete associated company
      
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter companyId: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listAssociatedCompanies(xTenantId: UUID, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: [AssociatedCompany]?, _ error: Error?) -> Void)) -> RequestTask {
-        return listAssociatedCompaniesWithRequestBuilder(xTenantId: xTenantId).execute(apiResponseQueue) { result in
+    open class func deleteAssociatedCompany(companyId: UUID, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: DeleteAssociatedCompany200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return deleteAssociatedCompanyWithRequestBuilder(companyId: companyId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Delete associated company
+     - DELETE /associated-companies/{companyId}
+     - Permanently deletes an associated company. This action is irreversible.
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter companyId: (path)  
+     - returns: RequestBuilder<DeleteAssociatedCompany200Response> 
+     */
+    open class func deleteAssociatedCompanyWithRequestBuilder(companyId: UUID) -> RequestBuilder<DeleteAssociatedCompany200Response> {
+        var localVariablePath = "/associated-companies/{companyId}"
+        let companyIdPreEscape = "\(APIHelper.mapValueToPathItem(companyId))"
+        let companyIdPostEscape = companyIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{companyId}", with: companyIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DeleteAssociatedCompany200Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Get company document metrics
+     
+     - parameter companyId: (path)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getCompanyDocumentMetrics(companyId: UUID, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CompanyDocumentMetrics?, _ error: Error?) -> Void)) -> RequestTask {
+        return getCompanyDocumentMetricsWithRequestBuilder(companyId: companyId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get company document metrics
+     - GET /associated-companies/{companyId}/documents-metrics
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter companyId: (path)  
+     - returns: RequestBuilder<CompanyDocumentMetrics> 
+     */
+    open class func getCompanyDocumentMetricsWithRequestBuilder(companyId: UUID) -> RequestBuilder<CompanyDocumentMetrics> {
+        var localVariablePath = "/associated-companies/{companyId}/documents-metrics"
+        let companyIdPreEscape = "\(APIHelper.mapValueToPathItem(companyId))"
+        let companyIdPostEscape = companyIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{companyId}", with: companyIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CompanyDocumentMetrics>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Get company metrics
+     
+     - parameter companyId: (path)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getCompanyMetrics(companyId: UUID, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CompanyMetrics?, _ error: Error?) -> Void)) -> RequestTask {
+        return getCompanyMetricsWithRequestBuilder(companyId: companyId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get company metrics
+     - GET /associated-companies/{companyId}/metrics
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter companyId: (path)  
+     - returns: RequestBuilder<CompanyMetrics> 
+     */
+    open class func getCompanyMetricsWithRequestBuilder(companyId: UUID) -> RequestBuilder<CompanyMetrics> {
+        var localVariablePath = "/associated-companies/{companyId}/metrics"
+        let companyIdPreEscape = "\(APIHelper.mapValueToPathItem(companyId))"
+        let companyIdPostEscape = companyIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{companyId}", with: companyIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CompanyMetrics>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     List associated companies / branches
+     
+     - parameter page: (query)  (optional, default to 1)
+     - parameter limit: (query)  (optional, default to 10)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func listAssociatedCompanies(page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: [AssociatedCompany]?, _ error: Error?) -> Void)) -> RequestTask {
+        return listAssociatedCompaniesWithRequestBuilder(page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -140,25 +294,29 @@ open class AssociatedCompaniesAPI {
     /**
      List associated companies / branches
      - GET /associated-companies
-     - Returns all companies and branches linked to the current tenant.
      - OAuth:
        - type: oauth2
        - name: oauth2
      - Bearer Token:
        - type: http
        - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  
+     - parameter page: (query)  (optional, default to 1)
+     - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<[AssociatedCompany]> 
      */
-    open class func listAssociatedCompaniesWithRequestBuilder(xTenantId: UUID) -> RequestBuilder<[AssociatedCompany]> {
+    open class func listAssociatedCompaniesWithRequestBuilder(page: Int? = nil, limit: Int? = nil) -> RequestBuilder<[AssociatedCompany]> {
         let localVariablePath = "/associated-companies"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            "x-tenant-id": xTenantId.encodeToJSON(),
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -166,6 +324,80 @@ open class AssociatedCompaniesAPI {
         let localVariableRequestBuilder: RequestBuilder<[AssociatedCompany]>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Update associated company
+     
+     - parameter companyId: (path)  
+     - parameter name: (form)  (optional)
+     - parameter phone: (form)  (optional)
+     - parameter website: (form)  (optional)
+     - parameter city: (form)  (optional)
+     - parameter country: (form)  (optional)
+     - parameter logo: (form)  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func updateAssociatedCompany(companyId: UUID, name: String? = nil, phone: String? = nil, website: String? = nil, city: String? = nil, country: String? = nil, logo: URL? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CreateAssociatedCompany201Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return updateAssociatedCompanyWithRequestBuilder(companyId: companyId, name: name, phone: phone, website: website, city: city, country: country, logo: logo).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Update associated company
+     - PUT /associated-companies/{companyId}
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter companyId: (path)  
+     - parameter name: (form)  (optional)
+     - parameter phone: (form)  (optional)
+     - parameter website: (form)  (optional)
+     - parameter city: (form)  (optional)
+     - parameter country: (form)  (optional)
+     - parameter logo: (form)  (optional)
+     - returns: RequestBuilder<CreateAssociatedCompany201Response> 
+     */
+    open class func updateAssociatedCompanyWithRequestBuilder(companyId: UUID, name: String? = nil, phone: String? = nil, website: String? = nil, city: String? = nil, country: String? = nil, logo: URL? = nil) -> RequestBuilder<CreateAssociatedCompany201Response> {
+        var localVariablePath = "/associated-companies/{companyId}"
+        let companyIdPreEscape = "\(APIHelper.mapValueToPathItem(companyId))"
+        let companyIdPostEscape = companyIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{companyId}", with: companyIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableFormParams: [String: Any?] = [
+            "name": name?.encodeToJSON(),
+            "phone": phone?.encodeToJSON(),
+            "website": website?.encodeToJSON(),
+            "city": city?.encodeToJSON(),
+            "country": country?.encodeToJSON(),
+            "logo": logo?.encodeToJSON(),
+        ]
+
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "multipart/form-data",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CreateAssociatedCompany201Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 }
 }

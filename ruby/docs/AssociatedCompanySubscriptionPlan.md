@@ -5,7 +5,7 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **name** | **String** |  | [optional] |
-| **max_docs_per_month** | **Integer** | Maximum documents allowed per month on this plan. | [optional] |
+| **max_docs_per_month** | **Integer** |  | [optional] |
 
 ## Example
 

@@ -4,9 +4,9 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **message** | **String** | Confirmation message. | [optional] |
-| **representative** | **String** | Name of the certificate holder as registered with the DGII. | [optional] |
-| **expiration_date** | **Time** | Certificate expiration date. Monitor this to avoid disruptions. | [optional] |
+| **message** | **String** |  | [optional] |
+| **representative** | **String** |  | [optional] |
+| **expiration_date** | **Time** |  | [optional] |
 
 ## Example
 
@@ -14,7 +14,7 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::UploadCertificateResponse.new(
-  message: Certificate uploaded successfully,
+  message: Certificado subido correctamente,
   representative: null,
   expiration_date: null
 )

@@ -4,18 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createWebhook**](WebhookConfigurationApi.md#createWebhook) | **POST** /{rnc}/webhooks | Register new webhook |
-| [**deleteWebhook**](WebhookConfigurationApi.md#deleteWebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**getWebhook**](WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
+| [**getWebhookStats**](WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
 | [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
 
-<a id="createWebhook"></a>
-# **createWebhook**
-> WebhookConfigResponse createWebhook(rnc, createWebhookConfig)
+<a id="getWebhook"></a>
+# **getWebhook**
+> WebhookConfigDetail getWebhook(rnc, webhookId)
 
-Register new webhook
-
-Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more &#x60;WebhookEventType&#x60; values.  Optionally provide a &#x60;secret&#x60; (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+Get webhook details
 
 ### Example
 ```kotlin
@@ -24,29 +22,29 @@ Registers a URL to receive real-time event notifications for the given RNC. You 
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = 130000001 // kotlin.String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-val createWebhookConfig : CreateWebhookConfig = {"url":"https://myapp.com/webhooks/ecf","eventTypes":["document.status_changed","sequence.depleted"],"description":"Main notification endpoint","secret":"my-super-secret-value-here"} // CreateWebhookConfig | 
+val rnc : kotlin.String = 133190907 // kotlin.String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+val webhookId : kotlin.String = webhookId_example // kotlin.String | 
 try {
-    val result : WebhookConfigResponse = apiInstance.createWebhook(rnc, createWebhookConfig)
+    val result : WebhookConfigDetail = apiInstance.getWebhook(rnc, webhookId)
     println(result)
 } catch (e: ClientException) {
-    println("4xx response calling WebhookConfigurationApi#createWebhook")
+    println("4xx response calling WebhookConfigurationApi#getWebhook")
     e.printStackTrace()
 } catch (e: ServerException) {
-    println("5xx response calling WebhookConfigurationApi#createWebhook")
+    println("5xx response calling WebhookConfigurationApi#getWebhook")
     e.printStackTrace()
 }
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
+| **rnc** | **kotlin.String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **createWebhookConfig** | [**CreateWebhookConfig**](CreateWebhookConfig.md)|  | |
+| **webhookId** | **kotlin.String**|  | |
 
 ### Return type
 
-[**WebhookConfigResponse**](WebhookConfigResponse.md)
+[**WebhookConfigDetail**](WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -58,16 +56,14 @@ Configure bearerAuth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
-<a id="deleteWebhook"></a>
-# **deleteWebhook**
-> deleteWebhook(rnc, webhookId)
+<a id="getWebhookStats"></a>
+# **getWebhookStats**
+> WebhookStats getWebhookStats(rnc, webhookId, period)
 
-Delete webhook configuration
-
-Removes a registered webhook by its ID.
+Get webhook delivery statistics
 
 ### Example
 ```kotlin
@@ -76,28 +72,31 @@ Removes a registered webhook by its ID.
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = 130000001 // kotlin.String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-val webhookId : kotlin.String = webhookId_example // kotlin.String | The unique ID of the webhook to delete.
+val rnc : kotlin.String = 133190907 // kotlin.String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+val webhookId : kotlin.String = webhookId_example // kotlin.String | 
+val period : kotlin.String = period_example // kotlin.String | 
 try {
-    apiInstance.deleteWebhook(rnc, webhookId)
+    val result : WebhookStats = apiInstance.getWebhookStats(rnc, webhookId, period)
+    println(result)
 } catch (e: ClientException) {
-    println("4xx response calling WebhookConfigurationApi#deleteWebhook")
+    println("4xx response calling WebhookConfigurationApi#getWebhookStats")
     e.printStackTrace()
 } catch (e: ServerException) {
-    println("5xx response calling WebhookConfigurationApi#deleteWebhook")
+    println("5xx response calling WebhookConfigurationApi#getWebhookStats")
     e.printStackTrace()
 }
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
+| **rnc** | **kotlin.String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **webhookId** | **kotlin.String**|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **webhookId** | **kotlin.String**| The unique ID of the webhook to delete. | |
+| **period** | **kotlin.String**|  | [optional] [default to Period.month] [enum: today, week, month, all] |
 
 ### Return type
 
-null (empty response body)
+[**WebhookStats**](WebhookStats.md)
 
 ### Authorization
 
@@ -118,7 +117,7 @@ Configure bearerAuth:
 
 List webhook configurations
 
-Returns all registered webhooks for the given RNC.
+Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
 
 ### Example
 ```kotlin
@@ -127,7 +126,7 @@ Returns all registered webhooks for the given RNC.
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = 130000001 // kotlin.String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+val rnc : kotlin.String = 133190907 // kotlin.String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
 try {
     val result : kotlin.collections.List<WebhookConfigResponse> = apiInstance.listWebhooks(rnc)
     println(result)
@@ -143,7 +142,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **kotlin.String**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | |
+| **rnc** | **kotlin.String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
 
 ### Return type
 

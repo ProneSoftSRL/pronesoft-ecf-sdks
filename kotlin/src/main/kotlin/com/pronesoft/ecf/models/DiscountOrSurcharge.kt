@@ -28,46 +28,44 @@ import com.pronesoft.ecf.models.BillingIndicator
 import com.google.gson.annotations.SerializedName
 
 /**
- * A document-level discount or surcharge.
+ * 
  *
- * @param lineNumber Reference line number this discount/surcharge applies to.
- * @param type - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo) 
- * @param valueType Whether the amount is a fixed value (`$`) or a percentage (`%`).
- * @param amount Discount or surcharge amount.
- * @param description Description of the discount or surcharge.
- * @param percentageValue Percentage value (when valueType is \"%\").
- * @param alternativeCurrencyAmount Equivalent amount in the alternative currency.
+ * @param lineNumber 
+ * @param type D=Discount, R=Surcharge
+ * @param valueType 
+ * @param amount 
+ * @param norm1007Indicator 
+ * @param description 
+ * @param percentageValue 
+ * @param alternativeCurrencyAmount 
  * @param billingIndicator 
  */
 
 
 data class DiscountOrSurcharge (
 
-    /* Reference line number this discount/surcharge applies to. */
     @SerializedName("lineNumber")
     val lineNumber: kotlin.Int,
 
-    /* - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo)  */
+    /* D=Discount, R=Surcharge */
     @SerializedName("type")
     val type: DiscountOrSurcharge.Type,
 
-    /* Whether the amount is a fixed value (`$`) or a percentage (`%`). */
     @SerializedName("valueType")
     val valueType: DiscountOrSurcharge.ValueType,
 
-    /* Discount or surcharge amount. */
     @SerializedName("amount")
     val amount: java.math.BigDecimal,
 
-    /* Description of the discount or surcharge. */
+    @SerializedName("norm1007Indicator")
+    val norm1007Indicator: DiscountOrSurcharge.Norm1007Indicator? = null,
+
     @SerializedName("description")
     val description: kotlin.String? = null,
 
-    /* Percentage value (when valueType is \"%\"). */
     @SerializedName("percentageValue")
     val percentageValue: java.math.BigDecimal? = null,
 
-    /* Equivalent amount in the alternative currency. */
     @SerializedName("alternativeCurrencyAmount")
     val alternativeCurrencyAmount: java.math.BigDecimal? = null,
 
@@ -77,7 +75,7 @@ data class DiscountOrSurcharge (
 ) {
 
     /**
-     * - `D`: Discount (Descuento) - `R`: Surcharge/Recargo (Recargo) 
+     * D=Discount, R=Surcharge
      *
      * Values: D,R
      */
@@ -86,13 +84,22 @@ data class DiscountOrSurcharge (
         @SerializedName(value = "R") R("R");
     }
     /**
-     * Whether the amount is a fixed value (`$`) or a percentage (`%`).
+     * 
      *
      * Values: Dollar,Percent
      */
     enum class ValueType(val value: kotlin.String) {
         @SerializedName(value = "$") Dollar("$"),
         @SerializedName(value = "%") Percent("%");
+    }
+    /**
+     * 
+     *
+     * Values: _0,_1
+     */
+    enum class Norm1007Indicator(val value: kotlin.String) {
+        @SerializedName(value = "0") _0("0"),
+        @SerializedName(value = "1") _1("1");
     }
 
 }

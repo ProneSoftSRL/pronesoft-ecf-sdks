@@ -1,9 +1,9 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -19,7 +19,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.pronesoft.ecf.model.ItemAdditionalTax;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -50,9 +49,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Document totals. &#x60;totalAmount&#x60; is required. Provide ITBIS breakdowns by rate when applicable. 
+ * Totals
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-02T20:26:32.083485046-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Totals {
   public static final String SERIALIZED_NAME_TAXABLE_AMOUNT = "taxableAmount";
   @SerializedName(SERIALIZED_NAME_TAXABLE_AMOUNT)
@@ -122,7 +121,7 @@ public class Totals {
   public static final String SERIALIZED_NAME_ADDITIONAL_TAXES = "additionalTaxes";
   @SerializedName(SERIALIZED_NAME_ADDITIONAL_TAXES)
   @javax.annotation.Nullable
-  private List<ItemAdditionalTax> additionalTaxes = new ArrayList<>();
+  private List<String> additionalTaxes = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "totalAmount";
   @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)
@@ -183,7 +182,7 @@ public class Totals {
   }
 
   /**
-   * Total taxable base amount (all ITBIS rates combined).
+   * Get taxableAmount
    * @return taxableAmount
    */
   @javax.annotation.Nullable
@@ -202,7 +201,7 @@ public class Totals {
   }
 
   /**
-   * Taxable base for 18% ITBIS rate.
+   * Get taxableAmount1
    * @return taxableAmount1
    */
   @javax.annotation.Nullable
@@ -221,7 +220,7 @@ public class Totals {
   }
 
   /**
-   * Taxable base for 16% ITBIS rate.
+   * Get taxableAmount2
    * @return taxableAmount2
    */
   @javax.annotation.Nullable
@@ -240,7 +239,7 @@ public class Totals {
   }
 
   /**
-   * Taxable base for 0% ITBIS rate.
+   * Get taxableAmount3
    * @return taxableAmount3
    */
   @javax.annotation.Nullable
@@ -259,7 +258,7 @@ public class Totals {
   }
 
   /**
-   * Total amount exempt from ITBIS.
+   * Get exemptAmount
    * @return exemptAmount
    */
   @javax.annotation.Nullable
@@ -278,7 +277,7 @@ public class Totals {
   }
 
   /**
-   * ITBIS rate 1 (typically 0.18).
+   * Get itbisRate1
    * @return itbisRate1
    */
   @javax.annotation.Nullable
@@ -297,7 +296,7 @@ public class Totals {
   }
 
   /**
-   * ITBIS rate 2 (typically 0.16).
+   * Get itbisRate2
    * @return itbisRate2
    */
   @javax.annotation.Nullable
@@ -316,7 +315,7 @@ public class Totals {
   }
 
   /**
-   * ITBIS rate 3 (typically 0.00).
+   * Get itbisRate3
    * @return itbisRate3
    */
   @javax.annotation.Nullable
@@ -335,7 +334,7 @@ public class Totals {
   }
 
   /**
-   * Total ITBIS tax (all rates combined).
+   * Get totalITBIS
    * @return totalITBIS
    */
   @javax.annotation.Nullable
@@ -354,7 +353,7 @@ public class Totals {
   }
 
   /**
-   * ITBIS amount at rate 1.
+   * Get itbis1
    * @return itbis1
    */
   @javax.annotation.Nullable
@@ -373,7 +372,7 @@ public class Totals {
   }
 
   /**
-   * ITBIS amount at rate 2.
+   * Get itbis2
    * @return itbis2
    */
   @javax.annotation.Nullable
@@ -392,7 +391,7 @@ public class Totals {
   }
 
   /**
-   * ITBIS amount at rate 3.
+   * Get itbis3
    * @return itbis3
    */
   @javax.annotation.Nullable
@@ -411,7 +410,7 @@ public class Totals {
   }
 
   /**
-   * Total of all additional taxes (ISC, IECS, etc.).
+   * Get additionalTaxAmount
    * @return additionalTaxAmount
    */
   @javax.annotation.Nullable
@@ -424,12 +423,12 @@ public class Totals {
   }
 
 
-  public Totals additionalTaxes(@javax.annotation.Nullable List<ItemAdditionalTax> additionalTaxes) {
+  public Totals additionalTaxes(@javax.annotation.Nullable List<String> additionalTaxes) {
     this.additionalTaxes = additionalTaxes;
     return this;
   }
 
-  public Totals addAdditionalTaxesItem(ItemAdditionalTax additionalTaxesItem) {
+  public Totals addAdditionalTaxesItem(String additionalTaxesItem) {
     if (this.additionalTaxes == null) {
       this.additionalTaxes = new ArrayList<>();
     }
@@ -438,15 +437,15 @@ public class Totals {
   }
 
   /**
-   * Breakdown of additional taxes at document level.
+   * Get additionalTaxes
    * @return additionalTaxes
    */
   @javax.annotation.Nullable
-  public List<ItemAdditionalTax> getAdditionalTaxes() {
+  public List<String> getAdditionalTaxes() {
     return additionalTaxes;
   }
 
-  public void setAdditionalTaxes(@javax.annotation.Nullable List<ItemAdditionalTax> additionalTaxes) {
+  public void setAdditionalTaxes(@javax.annotation.Nullable List<String> additionalTaxes) {
     this.additionalTaxes = additionalTaxes;
   }
 
@@ -457,7 +456,7 @@ public class Totals {
   }
 
   /**
-   * Grand total of the document (required).
+   * Get totalAmount
    * @return totalAmount
    */
   @javax.annotation.Nonnull
@@ -476,7 +475,7 @@ public class Totals {
   }
 
   /**
-   * Amount not subject to billing.
+   * Get nonBillableAmount
    * @return nonBillableAmount
    */
   @javax.annotation.Nullable
@@ -495,7 +494,7 @@ public class Totals {
   }
 
   /**
-   * Amount for the current billing period.
+   * Get periodAmount
    * @return periodAmount
    */
   @javax.annotation.Nullable
@@ -514,7 +513,7 @@ public class Totals {
   }
 
   /**
-   * Previous balance (for billing statements).
+   * Get previousBalance
    * @return previousBalance
    */
   @javax.annotation.Nullable
@@ -533,7 +532,7 @@ public class Totals {
   }
 
   /**
-   * Advance payment amount already received.
+   * Get advancePaymentAmount
    * @return advancePaymentAmount
    */
   @javax.annotation.Nullable
@@ -552,7 +551,7 @@ public class Totals {
   }
 
   /**
-   * Net amount due after advance payments and previous balance.
+   * Get amountToPay
    * @return amountToPay
    */
   @javax.annotation.Nullable
@@ -571,7 +570,7 @@ public class Totals {
   }
 
   /**
-   * Total ITBIS withheld at source.
+   * Get totalWithheldITBIS
    * @return totalWithheldITBIS
    */
   @javax.annotation.Nullable
@@ -590,7 +589,7 @@ public class Totals {
   }
 
   /**
-   * Total income tax (ISR) withheld at source.
+   * Get totalIncomeTaxWithholding
    * @return totalIncomeTaxWithholding
    */
   @javax.annotation.Nullable
@@ -609,7 +608,7 @@ public class Totals {
   }
 
   /**
-   * Total ITBIS perception collected.
+   * Get totalITBISPerception
    * @return totalITBISPerception
    */
   @javax.annotation.Nullable
@@ -628,7 +627,7 @@ public class Totals {
   }
 
   /**
-   * Total ISR perception collected.
+   * Get totalISRPerception
    * @return totalISRPerception
    */
   @javax.annotation.Nullable
@@ -762,19 +761,9 @@ public class Totals {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (jsonObj.get("additionalTaxes") != null && !jsonObj.get("additionalTaxes").isJsonNull()) {
-        JsonArray jsonArrayadditionalTaxes = jsonObj.getAsJsonArray("additionalTaxes");
-        if (jsonArrayadditionalTaxes != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("additionalTaxes").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `additionalTaxes` to be an array in the JSON string but got `%s`", jsonObj.get("additionalTaxes").toString()));
-          }
-
-          // validate the optional field `additionalTaxes` (array)
-          for (int i = 0; i < jsonArrayadditionalTaxes.size(); i++) {
-            ItemAdditionalTax.validateJsonElement(jsonArrayadditionalTaxes.get(i));
-          };
-        }
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("additionalTaxes") != null && !jsonObj.get("additionalTaxes").isJsonNull() && !jsonObj.get("additionalTaxes").isJsonArray()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `additionalTaxes` to be an array in the JSON string but got `%s`", jsonObj.get("additionalTaxes").toString()));
       }
   }
 

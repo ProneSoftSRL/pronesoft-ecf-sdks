@@ -15,45 +15,67 @@ public typealias Buyer = PronesoftEcfAPI.Buyer
 
 extension PronesoftEcfAPI {
 
-/** Information about the buyer/recipient of the document. */
 public struct Buyer: Codable, JSONEncodable, Hashable {
 
-    public static let taxIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^([0-9]{9}|[0-9]{11})$/")
     public static let nameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
     public static let addressRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
-    /** Buyer's RNC (9 digits) or cedula (11 digits). Required for type 31. */
+    /** RNC (9 digits) or cedula (11 digits). Required for type 31. */
     public var taxId: String?
-    /** Buyer's full legal name or business name. */
+    public var foreignId: String?
     public var name: String
-    /** Buyer's email address (for digital delivery of the e-CF). */
+    public var contact: String?
     public var email: String?
-    /** Buyer's physical address. */
     public var address: String?
-    /** DGII municipality code of the buyer. */
     public var municipalityCode: String?
-    /** DGII province code of the buyer. */
     public var provinceCode: String?
-    /** Delivery address (if different from billing address). */
+    public var deliveryDate: Date?
+    public var deliveryContact: String?
     public var deliveryAddress: String?
+    public var additionalPhone: String?
+    public var purchaseOrderDate: Date?
+    public var purchaseOrderNumber: String?
+    public var internalCode: String?
+    public var paymentResponsible: String?
+    public var additionalInfo: String?
 
-    public init(taxId: String? = nil, name: String, email: String? = nil, address: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, deliveryAddress: String? = nil) {
+    public init(taxId: String? = nil, foreignId: String? = nil, name: String, contact: String? = nil, email: String? = nil, address: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, deliveryDate: Date? = nil, deliveryContact: String? = nil, deliveryAddress: String? = nil, additionalPhone: String? = nil, purchaseOrderDate: Date? = nil, purchaseOrderNumber: String? = nil, internalCode: String? = nil, paymentResponsible: String? = nil, additionalInfo: String? = nil) {
         self.taxId = taxId
+        self.foreignId = foreignId
         self.name = name
+        self.contact = contact
         self.email = email
         self.address = address
         self.municipalityCode = municipalityCode
         self.provinceCode = provinceCode
+        self.deliveryDate = deliveryDate
+        self.deliveryContact = deliveryContact
         self.deliveryAddress = deliveryAddress
+        self.additionalPhone = additionalPhone
+        self.purchaseOrderDate = purchaseOrderDate
+        self.purchaseOrderNumber = purchaseOrderNumber
+        self.internalCode = internalCode
+        self.paymentResponsible = paymentResponsible
+        self.additionalInfo = additionalInfo
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taxId
+        case foreignId
         case name
+        case contact
         case email
         case address
         case municipalityCode
         case provinceCode
+        case deliveryDate
+        case deliveryContact
         case deliveryAddress
+        case additionalPhone
+        case purchaseOrderDate
+        case purchaseOrderNumber
+        case internalCode
+        case paymentResponsible
+        case additionalInfo
     }
 
     // Encodable protocol methods
@@ -61,12 +83,22 @@ public struct Buyer: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(taxId, forKey: .taxId)
+        try container.encodeIfPresent(foreignId, forKey: .foreignId)
         try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(contact, forKey: .contact)
         try container.encodeIfPresent(email, forKey: .email)
         try container.encodeIfPresent(address, forKey: .address)
         try container.encodeIfPresent(municipalityCode, forKey: .municipalityCode)
         try container.encodeIfPresent(provinceCode, forKey: .provinceCode)
+        try container.encodeIfPresent(deliveryDate, forKey: .deliveryDate)
+        try container.encodeIfPresent(deliveryContact, forKey: .deliveryContact)
         try container.encodeIfPresent(deliveryAddress, forKey: .deliveryAddress)
+        try container.encodeIfPresent(additionalPhone, forKey: .additionalPhone)
+        try container.encodeIfPresent(purchaseOrderDate, forKey: .purchaseOrderDate)
+        try container.encodeIfPresent(purchaseOrderNumber, forKey: .purchaseOrderNumber)
+        try container.encodeIfPresent(internalCode, forKey: .internalCode)
+        try container.encodeIfPresent(paymentResponsible, forKey: .paymentResponsible)
+        try container.encodeIfPresent(additionalInfo, forKey: .additionalInfo)
     }
 }
 

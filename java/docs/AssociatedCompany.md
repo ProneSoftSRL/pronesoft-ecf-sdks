@@ -2,7 +2,6 @@
 
 # AssociatedCompany
 
-A company or branch associated with the main tenant account.
 
 ## Properties
 
@@ -11,16 +10,19 @@ A company or branch associated with the main tenant account.
 |**id** | **UUID** |  |  [optional] |
 |**name** | **String** |  |  [optional] |
 |**rnc** | **String** |  |  [optional] |
-|**phone** | **String** |  |  [optional] |
-|**address** | **String** |  |  [optional] |
+|**logoPath** | **String** |  |  [optional] |
+|**type** | [**TypeEnum**](#TypeEnum) |  |  [optional] |
 |**city** | **String** |  |  [optional] |
 |**country** | **String** |  |  [optional] |
+|**phone** | **String** |  |  [optional] |
+|**address** | **String** |  |  [optional] |
 |**website** | **URI** |  |  [optional] |
-|**logoPath** | **String** |  |  [optional] |
-|**type** | [**TypeEnum**](#TypeEnum) | Whether this is the main account or an associated branch. |  [optional] |
+|**category** | **String** |  |  [optional] |
+|**monthlySalesRange** | **String** |  |  [optional] |
+|**printerType** | **PrintFormat** |  |  [optional] |
 |**createdAt** | **OffsetDateTime** |  |  [optional] |
-|**docsIssuedThisMonth** | **Integer** | Number of e-CF documents issued in the current month. |  [optional] |
-|**purchasedDocsConsumedThisMonth** | **Integer** | Purchased document quota consumed this month. |  [optional] |
+|**docsIssuedThisMonth** | **Integer** |  |  [optional] |
+|**purchasedDocsConsumedThisMonth** | **Integer** |  |  [optional] |
 |**ownerEmail** | **String** |  |  [optional] |
 |**subscription** | [**AssociatedCompanySubscription**](AssociatedCompanySubscription.md) |  |  [optional] |
 

@@ -30,7 +30,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 
  *
- * @param status Subscription status (e.g. \"active\", \"expired\").
+ * @param status 
  * @param expirationDate 
  * @param plan 
  */
@@ -38,7 +38,6 @@ import com.google.gson.annotations.SerializedName
 
 data class AssociatedCompanySubscription (
 
-    /* Subscription status (e.g. \"active\", \"expired\"). */
     @SerializedName("status")
     val status: kotlin.String? = null,
 

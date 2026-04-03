@@ -4,10 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**gross_weight** | Option<**f64**> | Gross weight of the shipment (in kg). | [optional]
-**package_quantity** | Option<**f64**> | Number of packages. | [optional]
-**container_id** | Option<**String**> | Container identifier (for imports/exports). | [optional]
-**seal_id** | Option<**String**> | Seal/precinto identifier. | [optional]
+**shipment_date** | Option<**String**> |  | [optional]
+**shipment_number** | Option<**String**> |  | [optional]
+**container_number** | Option<**String**> |  | [optional]
+**reference_number** | Option<**String**> |  | [optional]
+**gross_weight** | Option<**f64**> |  | [optional]
+**net_weight** | Option<**f64**> |  | [optional]
+**gross_weight_unit** | Option<**i32**> |  | [optional]
+**net_weight_unit** | Option<**i32**> |  | [optional]
+**package_quantity** | Option<**f64**> |  | [optional]
+**package_unit** | Option<**i32**> |  | [optional]
+**package_volume** | Option<**f64**> |  | [optional]
+**volume_unit** | Option<**i32**> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

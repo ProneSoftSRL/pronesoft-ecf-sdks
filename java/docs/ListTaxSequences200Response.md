@@ -9,6 +9,7 @@
 |------------ | ------------- | ------------- | -------------|
 |**success** | **Boolean** |  |  [optional] |
 |**data** | [**List&lt;TaxSequence&gt;**](TaxSequence.md) |  |  [optional] |
+|**meta** | [**PaginationMeta**](PaginationMeta.md) |  |  [optional] |
 
 
 

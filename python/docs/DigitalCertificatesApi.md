@@ -4,18 +4,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12)
+[**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
 
 
 # **upload_certificate**
 > UploadCertificateResponse upload_certificate(rnc, file, password)
 
-Upload digital certificate (P12)
+Upload digital certificate (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company
-identified by its RNC. The certificate must be in P12/PFX format.
-
-This is required before submitting any e-CF documents.
+Uploads the DGII-issued digital signing certificate for a company.
+Stored encrypted with AES-256-CBC. No download endpoint exists.
+Sandbox tip: SBX-prefixed RNCs do not require a certificate.
 
 
 ### Example
@@ -51,12 +50,12 @@ configuration = pronesoft_ecf.Configuration(
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.DigitalCertificatesApi(api_client)
-    rnc = '130000001' # str | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-    file = None # bytes | The P12/PFX certificate file.
-    password = 'password_example' # str | Password to unlock the P12 certificate.
+    rnc = '133190907' # str | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    file = None # bytes | Certificate file in .p12 or .pfx format.
+    password = 'password_example' # str | Password to unlock the certificate.
 
     try:
-        # Upload digital certificate (P12)
+        # Upload digital certificate (P12/PFX)
         api_response = api_instance.upload_certificate(rnc, file, password)
         print("The response of DigitalCertificatesApi->upload_certificate:\n")
         pprint(api_response)
@@ -71,9 +70,9 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **str**| RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
- **file** | **bytes**| The P12/PFX certificate file. | 
- **password** | **str**| Password to unlock the P12 certificate. | 
+ **rnc** | **str**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+ **file** | **bytes**| Certificate file in .p12 or .pfx format. | 
+ **password** | **str**| Password to unlock the certificate. | 
 
 ### Return type
 
@@ -92,9 +91,11 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Certificate uploaded and registered successfully |  -  |
-**400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
-**401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+**201** | Certificate uploaded successfully |  -  |
+**400** | Validation error (400). Check the message field for details. |  -  |
+**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**403** | The token does not have the required scope. |  -  |
+**404** | Company RNC not found in the system. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

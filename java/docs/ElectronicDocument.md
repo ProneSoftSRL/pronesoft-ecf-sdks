@@ -2,39 +2,68 @@
 
 # ElectronicDocument
 
-The main e-CF document payload. Build this object and submit it to `POST /{environment}/ecf/submit`.  **Required fields:** `version`, `invoiceType`, `invoiceNumber`, `issueDate`, `items`, `totals`.  Use `GET /tax-sequences/next` to obtain the correct `invoiceNumber`. 
+Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**version** | **String** | Document schema version. Always \&quot;1.0\&quot;. |  |
+|**environment** | **Environment** |  |  [optional] |
+|**version** | **Integer** | Always 1. |  |
 |**invoiceType** | **InvoiceType** |  |  |
-|**invoiceNumber** | **String** | e-NCF number (13 alphanumeric characters). Obtain from &#x60;GET /tax-sequences/next&#x60;.  |  |
-|**issueDate** | **OffsetDateTime** | Document issue date and time (ISO 8601). |  |
-|**expirationDate** | **OffsetDateTime** | Document expiration date (optional, for credit documents). |  [optional] |
-|**incomeType** | [**IncomeTypeEnum**](#IncomeTypeEnum) | Income type code: - &#x60;01&#x60;: Operations Income - &#x60;02&#x60;: Financial Income - &#x60;03&#x60;: Extraordinary Income - &#x60;04&#x60;: Leasing Income - &#x60;05&#x60;: Income from Sales of Assets - &#x60;06&#x60;: Other Income  |  [optional] |
-|**paymentType** | [**PaymentTypeEnum**](#PaymentTypeEnum) | Payment condition: - &#x60;1&#x60;: Cash (Al Contado) - &#x60;2&#x60;: Credit (Crédito) - &#x60;3&#x60;: Mixed (Mixto)  |  [optional] |
-|**paymentDeadline** | **OffsetDateTime** | Payment due date (required when paymentType is \&quot;2\&quot; or \&quot;3\&quot;). |  [optional] |
-|**paymentTerms** | **String** | Payment terms description (e.g. \&quot;Net 30\&quot;). |  [optional] |
+|**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  |
+|**issueDate** | **OffsetDateTime** |  |  |
+|**expirationDate** | **OffsetDateTime** |  |  [optional] |
+|**creditNoteIndicator** | [**CreditNoteIndicatorEnum**](#CreditNoteIndicatorEnum) | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days |  [optional] |
+|**deferredSendingIndicator** | **String** |  |  [optional] |
+|**taxedAmountIndicator** | **String** |  |  [optional] |
+|**incomeType** | [**IncomeTypeEnum**](#IncomeTypeEnum) | 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other |  [optional] |
+|**paymentType** | [**PaymentTypeEnum**](#PaymentTypeEnum) | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed |  [optional] |
+|**paymentDeadline** | **OffsetDateTime** |  |  [optional] |
+|**paymentTerms** | **String** |  |  [optional] |
+|**paymentForms** | [**List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
 |**paymentAccountType** | **AccountType** |  |  [optional] |
-|**paymentAccountNumber** | **String** | Bank account number for payment reference. |  [optional] |
-|**paymentBank** | **String** | Bank name for payment reference. |  [optional] |
-|**creditNoteIndicator** | [**CreditNoteIndicatorEnum**](#CreditNoteIndicatorEnum) | For Credit Notes (type 34) only: - &#x60;0&#x60;: Affected invoice issued ≤ 30 days ago - &#x60;1&#x60;: Affected invoice issued &gt; 30 days ago  |  [optional] |
-|**issuerRNC** | **String** | RNC of the issuing company (overrides tenant default if provided). |  [optional] |
-|**issuerBusinessName** | **String** | Legal business name of the issuer. |  [optional] |
-|**issuerEmail** | **String** | Contact email of the issuer. |  [optional] |
-|**issuerPhones** | **List&lt;String&gt;** | Issuer phone numbers in format \&quot;809-555-1234\&quot;. |  [optional] |
+|**paymentAccountNumber** | **String** |  |  [optional] |
+|**paymentBank** | **String** |  |  [optional] |
+|**serviceStartDate** | **OffsetDateTime** |  |  [optional] |
+|**serviceEndDate** | **OffsetDateTime** |  |  [optional] |
+|**totalPages** | **Integer** |  |  [optional] |
+|**issuerRNC** | **String** | RNC of the issuing company. |  [optional] |
+|**issuerBusinessName** | **String** |  |  [optional] |
+|**issuerCommercialName** | **String** |  |  [optional] |
+|**branchName** | **String** |  |  [optional] |
+|**issuerAddress** | **String** |  |  [optional] |
+|**municipalityCode** | **String** |  |  [optional] |
+|**provinceCode** | **String** |  |  [optional] |
+|**issuerPhones** | **List&lt;String&gt;** |  |  [optional] |
+|**issuerEmail** | **String** |  |  [optional] |
+|**issuerWebsite** | **URI** |  |  [optional] |
+|**issuerEconomicActivity** | **String** |  |  [optional] |
+|**sellerCode** | **String** |  |  [optional] |
+|**internalInvoiceNumber** | **String** |  |  [optional] |
+|**internalOrderNumber** | **Integer** |  |  [optional] |
+|**salesZone** | **String** |  |  [optional] |
+|**salesRoute** | **String** |  |  [optional] |
+|**additionalIssuerInfo** | **String** |  |  [optional] |
 |**buyer** | [**Buyer**](Buyer.md) |  |  [optional] |
-|**items** | [**List&lt;Item&gt;**](Item.md) | Line items of the document. At least 1 required. |  |
+|**items** | [**List&lt;Item&gt;**](Item.md) |  |  |
 |**totals** | [**Totals**](Totals.md) |  |  |
 |**transport** | [**Transport**](Transport.md) |  |  [optional] |
 |**additionalInfo** | [**AdditionalInfo**](AdditionalInfo.md) |  |  [optional] |
 |**alternativeCurrency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  |  [optional] |
 |**referenceInfo** | [**ReferenceInfo**](ReferenceInfo.md) |  |  [optional] |
-|**subtotals** | [**List&lt;Subtotal&gt;**](Subtotal.md) | Page/section subtotals (for multi-page documents). |  [optional] |
-|**discountsOrSurcharges** | [**List&lt;DiscountOrSurcharge&gt;**](DiscountOrSurcharge.md) | Document-level discounts or surcharges. |  [optional] |
-|**pages** | [**List&lt;Page&gt;**](Page.md) | Page breakdown for multi-page documents. |  [optional] |
+|**subtotals** | [**Subtotal**](Subtotal.md) |  |  [optional] |
+|**discountsOrSurcharges** | [**List&lt;DiscountOrSurcharge&gt;**](DiscountOrSurcharge.md) |  |  [optional] |
+|**pages** | [**Page**](Page.md) |  |  [optional] |
+
+
+
+## Enum: CreditNoteIndicatorEnum
+
+| Name | Value |
+|---- | -----|
+| _0 | &quot;0&quot; |
+| _1 | &quot;1&quot; |
 
 
 
@@ -58,15 +87,6 @@ The main e-CF document payload. Build this object and submit it to `POST /{envir
 | _1 | &quot;1&quot; |
 | _2 | &quot;2&quot; |
 | _3 | &quot;3&quot; |
-
-
-
-## Enum: CreditNoteIndicatorEnum
-
-| Name | Value |
-|---- | -----|
-| _0 | &quot;0&quot; |
-| _1 | &quot;1&quot; |
 
 
 

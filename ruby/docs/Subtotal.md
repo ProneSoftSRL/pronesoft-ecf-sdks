@@ -4,9 +4,9 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **number** | **Integer** | Page or section number. |  |
-| **amount** | **Float** | Subtotal amount for this section. |  |
+| **number** | **Integer** |  | [optional] |
 | **description** | **String** |  | [optional] |
+| **order** | **Integer** |  | [optional] |
 | **taxable_amount** | **Float** |  | [optional] |
 | **taxable_amount1** | **Float** |  | [optional] |
 | **taxable_amount2** | **Float** |  | [optional] |
@@ -17,7 +17,8 @@
 | **itbis3** | **Float** |  | [optional] |
 | **additional_taxes** | **Float** |  | [optional] |
 | **exempt_amount** | **Float** |  | [optional] |
-| **lines** | **Integer** | Number of line items included in this subtotal. | [optional] |
+| **amount** | **Float** |  | [optional] |
+| **lines** | **Integer** |  | [optional] |
 
 ## Example
 
@@ -26,8 +27,8 @@ require 'pronesoft_ecf'
 
 instance = PronesoftEcf::Subtotal.new(
   number: null,
-  amount: null,
   description: null,
+  order: null,
   taxable_amount: null,
   taxable_amount1: null,
   taxable_amount2: null,
@@ -38,6 +39,7 @@ instance = PronesoftEcf::Subtotal.new(
   itbis3: null,
   additional_taxes: null,
   exempt_amount: null,
+  amount: null,
   lines: null
 )
 ```

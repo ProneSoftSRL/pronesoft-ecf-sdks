@@ -1,14 +1,13 @@
 # Subtotal
 
-Subtotal for a page or section within a multi-page document.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**number** | **int** | Page or section number. | 
-**amount** | **float** | Subtotal amount for this section. | 
+**number** | **int** |  | [optional] 
 **description** | **str** |  | [optional] 
+**order** | **int** |  | [optional] 
 **taxable_amount** | **float** |  | [optional] 
 **taxable_amount1** | **float** |  | [optional] 
 **taxable_amount2** | **float** |  | [optional] 
@@ -19,7 +18,8 @@ Name | Type | Description | Notes
 **itbis3** | **float** |  | [optional] 
 **additional_taxes** | **float** |  | [optional] 
 **exempt_amount** | **float** |  | [optional] 
-**lines** | **int** | Number of line items included in this subtotal. | [optional] 
+**amount** | **float** |  | [optional] 
+**lines** | **int** |  | [optional] 
 
 ## Example
 

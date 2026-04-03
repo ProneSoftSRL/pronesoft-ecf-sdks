@@ -113,8 +113,13 @@ impl From<&str> for ContentType {
 
 pub mod associated_companies_api;
 pub mod authentication_api;
+pub mod automated_certification_api;
+pub mod commercial_approvals_api;
 pub mod digital_certificates_api;
+pub mod documents_received_api;
+pub mod documents_sent_api;
 pub mod ecf_submission_api;
+pub mod reports_api;
 pub mod tax_sequences_api;
 pub mod webhook_configuration_api;
 

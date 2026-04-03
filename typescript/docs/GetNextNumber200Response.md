@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { GetNextNumber200Response } from '@pronesoft/ecf-sdk'
+import type { GetNextNumber200Response } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

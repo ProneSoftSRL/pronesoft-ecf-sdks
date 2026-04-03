@@ -4,17 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**CreateWebhook**](WebhookConfigurationApi.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook |
-| [**DeleteWebhook**](WebhookConfigurationApi.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
+| [**GetWebhook**](WebhookConfigurationApi.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
+| [**GetWebhookStats**](WebhookConfigurationApi.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
 | [**ListWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
 
-<a id="createwebhook"></a>
-# **CreateWebhook**
-> WebhookConfigResponse CreateWebhook (string rnc, CreateWebhookConfig createWebhookConfig)
+<a id="getwebhook"></a>
+# **GetWebhook**
+> WebhookConfigDetail GetWebhook (string rnc, string webhookId)
 
-Register new webhook
-
-Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+Get webhook details
 
 ### Example
 ```csharp
@@ -27,7 +25,7 @@ using Pronesoft.Ecf.Sdk.Model;
 
 namespace Example
 {
-    public class CreateWebhookExample
+    public class GetWebhookExample
     {
         public static void Main()
         {
@@ -42,18 +40,18 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new WebhookConfigurationApi(httpClient, config, httpClientHandler);
-            var rnc = 130000001;  // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-            var createWebhookConfig = new CreateWebhookConfig(); // CreateWebhookConfig | 
+            var rnc = 133190907;  // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+            var webhookId = "webhookId_example";  // string | 
 
             try
             {
-                // Register new webhook
-                WebhookConfigResponse result = apiInstance.CreateWebhook(rnc, createWebhookConfig);
+                // Get webhook details
+                WebhookConfigDetail result = apiInstance.GetWebhook(rnc, webhookId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling WebhookConfigurationApi.CreateWebhook: " + e.Message);
+                Debug.Print("Exception when calling WebhookConfigurationApi.GetWebhook: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -62,21 +60,21 @@ namespace Example
 }
 ```
 
-#### Using the CreateWebhookWithHttpInfo variant
+#### Using the GetWebhookWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
-    // Register new webhook
-    ApiResponse<WebhookConfigResponse> response = apiInstance.CreateWebhookWithHttpInfo(rnc, createWebhookConfig);
+    // Get webhook details
+    ApiResponse<WebhookConfigDetail> response = apiInstance.GetWebhookWithHttpInfo(rnc, webhookId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling WebhookConfigurationApi.CreateWebhookWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling WebhookConfigurationApi.GetWebhookWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -86,112 +84,12 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
-| **createWebhookConfig** | [**CreateWebhookConfig**](CreateWebhookConfig.md) |  |  |
+| **rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **webhookId** | **string** |  |  |
 
 ### Return type
 
-[**WebhookConfigResponse**](WebhookConfigResponse.md)
-
-### Authorization
-
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **201** | Webhook registered successfully |  -  |
-| **400** | Validation error (400 Bad Request). The request body or parameters did not pass validation. Check the &#x60;message&#x60; field for details.  |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a id="deletewebhook"></a>
-# **DeleteWebhook**
-> void DeleteWebhook (string rnc, string webhookId)
-
-Delete webhook configuration
-
-Removes a registered webhook by its ID.
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using Pronesoft.Ecf.Sdk.Api;
-using Pronesoft.Ecf.Sdk.Client;
-using Pronesoft.Ecf.Sdk.Model;
-
-namespace Example
-{
-    public class DeleteWebhookExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
-            // Configure OAuth2 access token for authorization: oauth2
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new WebhookConfigurationApi(httpClient, config, httpClientHandler);
-            var rnc = 130000001;  // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-            var webhookId = "webhookId_example";  // string | The unique ID of the webhook to delete.
-
-            try
-            {
-                // Delete webhook configuration
-                apiInstance.DeleteWebhook(rnc, webhookId);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling WebhookConfigurationApi.DeleteWebhook: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the DeleteWebhookWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Delete webhook configuration
-    apiInstance.DeleteWebhookWithHttpInfo(rnc, webhookId);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling WebhookConfigurationApi.DeleteWebhookWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
-
-### Parameters
-
-| Name | Type | Description | Notes |
-|------|------|-------------|-------|
-| **rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
-| **webhookId** | **string** | The unique ID of the webhook to delete. |  |
-
-### Return type
-
-void (empty response body)
+[**WebhookConfigDetail**](WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -206,9 +104,111 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook deleted successfully |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
-| **404** | Webhook not found |  -  |
+| **200** | Webhook details |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getwebhookstats"></a>
+# **GetWebhookStats**
+> WebhookStats GetWebhookStats (string rnc, string webhookId, string? period = null)
+
+Get webhook delivery statistics
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Pronesoft.Ecf.Sdk.Api;
+using Pronesoft.Ecf.Sdk.Client;
+using Pronesoft.Ecf.Sdk.Model;
+
+namespace Example
+{
+    public class GetWebhookStatsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
+            // Configure OAuth2 access token for authorization: oauth2
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+            // Configure Bearer token for authorization: bearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new WebhookConfigurationApi(httpClient, config, httpClientHandler);
+            var rnc = 133190907;  // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+            var webhookId = "webhookId_example";  // string | 
+            var period = "today";  // string? |  (optional)  (default to month)
+
+            try
+            {
+                // Get webhook delivery statistics
+                WebhookStats result = apiInstance.GetWebhookStats(rnc, webhookId, period);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling WebhookConfigurationApi.GetWebhookStats: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetWebhookStatsWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Get webhook delivery statistics
+    ApiResponse<WebhookStats> response = apiInstance.GetWebhookStatsWithHttpInfo(rnc, webhookId, period);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling WebhookConfigurationApi.GetWebhookStatsWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **webhookId** | **string** |  |  |
+| **period** | **string?** |  | [optional] [default to month] |
+
+### Return type
+
+[**WebhookStats**](WebhookStats.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Webhook delivery statistics |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -218,7 +218,7 @@ void (empty response body)
 
 List webhook configurations
 
-Returns all registered webhooks for the given RNC.
+Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
 
 ### Example
 ```csharp
@@ -246,7 +246,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new WebhookConfigurationApi(httpClient, config, httpClientHandler);
-            var rnc = 130000001;  // string | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+            var rnc = 133190907;  // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
 
             try
             {
@@ -289,7 +289,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  |  |
+| **rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
 
 ### Return type
 
@@ -309,7 +309,7 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | List of webhook configurations |  -  |
-| **401** | Authorization error. The token is missing, expired, or invalid. Call &#x60;POST /oauth/token&#x60; to get a new token.  |  -  |
+| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

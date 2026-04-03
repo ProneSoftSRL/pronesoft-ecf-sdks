@@ -2,10 +2,10 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform, which handles all communication with the DGII on your behalf.  ## Authentication — OAuth 2.0 Client Credentials This API uses the **OAuth 2.0 Client Credentials** flow. There is no user login — authentication is machine-to-machine using a `clientId` and `clientSecret` issued by the Pronesoft portal.  ### Step-by-step 1. **Get credentials**:    - Sandbox: https://ecf.sandbox.pronesoft.com    - Production: https://ecf.pronesoft.com 2. **Request a token** — call `POST /oauth/token` with your credentials.    The server returns an `accessToken` valid for `expiresIn` seconds. 3. **Authorize requests** — include the token in every subsequent request:    ```    Authorization: Bearer <accessToken>    ``` 4. **Identify your tenant** — include your company/branch UUID in every    protected request:    ```    x-tenant-id: <your-tenant-uuid>    ``` 5. **Refresh** — when the token expires, simply call `POST /oauth/token` again.  ### Scopes | Category | Scope | Description | |---|---|---| | **Business** | `business:read` | Read company data | | | `business:create` | Create a new company | | | `business:update` | Update company data | | **Members** | `members:read` | View team members | | | `members:invite` | Invite new members | | | `members:revoke` | Revoke member access | | **Certificates** | `certificates:read` | View digital certificates | | | `certificates:upload` | Upload new certificates | | | `certificates:update` | Update existing certificates | | **Documents** | `documents:read` | List and view documents | | | `documents:create` | Create drafts or internal documents | | | `documents:send` | Submit e-CF to DGII | | | `documents:receive` | Receive e-CF from third parties | | | `documents:update` | Modify document metadata | | **Approvals** | `approvals:read` | View approval statuses | | | `approvals:commercial` | Perform commercial approvals/rejections | | **Sequences** | `sequences:read` | View NCF/e-NCF ranges | | | `sequences:create` | Request new sequences | | | `sequences:update` | Modify sequence configurations | | | `sequences:cancel` | Cancel unused sequences | | **Dashboard** | `business_info:read` | Access dashboard stats and metrics | | **Certification** | `certification:read` | View certification progress | | | `certification:write` | Run automated DGII certification tests | | **Reports** | `reports:read` | Generate and export reports (e.g. 606) |  ## Environments | Environment | Portal | API Host | Purpose | |---|---|---|---| | Sandbox | https://ecf.sandbox.pronesoft.com | `api.ecf.sandbox.pronesoft.com` | Development & testing | | Production | https://ecf.pronesoft.com | `api.ecf.pronesoft.com` | Live e-CF issuance |  ## Invoice Types (e-NCF) | Code | Name | |---|---| | `31` | Tax Credit Invoice (Factura de Crédito Fiscal) | | `32` | Consumer Invoice (Factura de Consumo) | | `33` | Debit Note (Nota de Débito) | | `34` | Credit Note (Nota de Crédito) | | `41` | Purchases (Compras) | | `43` | Minor Expenses (Gastos Menores) | | `44` | Special Regimes (Regímenes Especiales) | | `45` | Governmental (Gubernamentales) | | `46` | Exports (Exportaciones) | | `47` | Overseas Payments (Pagos al Exterior) | 
+ * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
- * The version of the OpenAPI document: 0.0.1
- * Contact: contacto@pronesoft.com
+ * The version of the OpenAPI document: 1.1.0
+ * Contact: support@pronesoft.com
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
@@ -15,27 +15,31 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreateWebhookConfig,
   ErrorResponse,
+  WebhookConfigDetail,
   WebhookConfigResponse,
+  WebhookStats,
 } from '../models/index';
 import {
-    CreateWebhookConfigFromJSON,
-    CreateWebhookConfigToJSON,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
+    WebhookConfigDetailFromJSON,
+    WebhookConfigDetailToJSON,
     WebhookConfigResponseFromJSON,
     WebhookConfigResponseToJSON,
+    WebhookStatsFromJSON,
+    WebhookStatsToJSON,
 } from '../models/index';
 
-export interface CreateWebhookRequest {
-    rnc: string;
-    createWebhookConfig: CreateWebhookConfig;
-}
-
-export interface DeleteWebhookRequest {
+export interface GetWebhookRequest {
     rnc: string;
     webhookId: string;
+}
+
+export interface GetWebhookStatsRequest {
+    rnc: string;
+    webhookId: string;
+    period?: GetWebhookStatsPeriodEnum;
 }
 
 export interface ListWebhooksRequest {
@@ -50,69 +54,69 @@ export interface ListWebhooksRequest {
  */
 export interface WebhookConfigurationApiInterface {
     /**
-     * Creates request options for createWebhook without sending the request
-     * @param {string} rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param {CreateWebhookConfig} createWebhookConfig 
+     * Creates request options for getWebhook without sending the request
+     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param {string} webhookId 
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
      */
-    createWebhookRequestOpts(requestParameters: CreateWebhookRequest): Promise<runtime.RequestOpts>;
+    getWebhookRequestOpts(requestParameters: GetWebhookRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * @summary Register new webhook
-     * @param {string} rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param {CreateWebhookConfig} createWebhookConfig 
+     * 
+     * @summary Get webhook details
+     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param {string} webhookId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
      */
-    createWebhookRaw(requestParameters: CreateWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookConfigResponse>>;
+    getWebhookRaw(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookConfigDetail>>;
 
     /**
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * Register new webhook
+     * Get webhook details
      */
-    createWebhook(requestParameters: CreateWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookConfigResponse>;
+    getWebhook(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookConfigDetail>;
 
     /**
-     * Creates request options for deleteWebhook without sending the request
-     * @param {string} rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param {string} webhookId The unique ID of the webhook to delete.
+     * Creates request options for getWebhookStats without sending the request
+     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param {string} webhookId 
+     * @param {'today' | 'week' | 'month' | 'all'} [period] 
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
      */
-    deleteWebhookRequestOpts(requestParameters: DeleteWebhookRequest): Promise<runtime.RequestOpts>;
+    getWebhookStatsRequestOpts(requestParameters: GetWebhookStatsRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Removes a registered webhook by its ID.
-     * @summary Delete webhook configuration
-     * @param {string} rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-     * @param {string} webhookId The unique ID of the webhook to delete.
+     * 
+     * @summary Get webhook delivery statistics
+     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param {string} webhookId 
+     * @param {'today' | 'week' | 'month' | 'all'} [period] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
      */
-    deleteWebhookRaw(requestParameters: DeleteWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
+    getWebhookStatsRaw(requestParameters: GetWebhookStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookStats>>;
 
     /**
-     * Removes a registered webhook by its ID.
-     * Delete webhook configuration
+     * Get webhook delivery statistics
      */
-    deleteWebhook(requestParameters: DeleteWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+    getWebhookStats(requestParameters: GetWebhookStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookStats>;
 
     /**
      * Creates request options for listWebhooks without sending the request
-     * @param {string} rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
      */
     listWebhooksRequestOpts(requestParameters: ListWebhooksRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Returns all registered webhooks for the given RNC.
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
      * @summary List webhook configurations
-     * @param {string} rnc RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
@@ -120,7 +124,7 @@ export interface WebhookConfigurationApiInterface {
     listWebhooksRaw(requestParameters: ListWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WebhookConfigResponse>>>;
 
     /**
-     * Returns all registered webhooks for the given RNC.
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
      * List webhook configurations
      */
     listWebhooks(requestParameters: ListWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WebhookConfigResponse>>;
@@ -133,90 +137,20 @@ export interface WebhookConfigurationApiInterface {
 export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookConfigurationApiInterface {
 
     /**
-     * Creates request options for createWebhook without sending the request
+     * Creates request options for getWebhook without sending the request
      */
-    async createWebhookRequestOpts(requestParameters: CreateWebhookRequest): Promise<runtime.RequestOpts> {
+    async getWebhookRequestOpts(requestParameters: GetWebhookRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['rnc'] == null) {
             throw new runtime.RequiredError(
                 'rnc',
-                'Required parameter "rnc" was null or undefined when calling createWebhook().'
-            );
-        }
-
-        if (requestParameters['createWebhookConfig'] == null) {
-            throw new runtime.RequiredError(
-                'createWebhookConfig',
-                'Required parameter "createWebhookConfig" was null or undefined when calling createWebhook().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:update"]);
-        }
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/{rnc}/webhooks`;
-        urlPath = urlPath.replace(`{${"rnc"}}`, encodeURIComponent(String(requestParameters['rnc'])));
-
-        return {
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CreateWebhookConfigToJSON(requestParameters['createWebhookConfig']),
-        };
-    }
-
-    /**
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * Register new webhook
-     */
-    async createWebhookRaw(requestParameters: CreateWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookConfigResponse>> {
-        const requestOptions = await this.createWebhookRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => WebhookConfigResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
-     * Register new webhook
-     */
-    async createWebhook(requestParameters: CreateWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookConfigResponse> {
-        const response = await this.createWebhookRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for deleteWebhook without sending the request
-     */
-    async deleteWebhookRequestOpts(requestParameters: DeleteWebhookRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['rnc'] == null) {
-            throw new runtime.RequiredError(
-                'rnc',
-                'Required parameter "rnc" was null or undefined when calling deleteWebhook().'
+                'Required parameter "rnc" was null or undefined when calling getWebhook().'
             );
         }
 
         if (requestParameters['webhookId'] == null) {
             throw new runtime.RequiredError(
                 'webhookId',
-                'Required parameter "webhookId" was null or undefined when calling deleteWebhook().'
+                'Required parameter "webhookId" was null or undefined when calling getWebhook().'
             );
         }
 
@@ -226,7 +160,7 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
-            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:update"]);
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
         }
 
         if (this.configuration && this.configuration.accessToken) {
@@ -244,29 +178,98 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
 
         return {
             path: urlPath,
-            method: 'DELETE',
+            method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         };
     }
 
     /**
-     * Removes a registered webhook by its ID.
-     * Delete webhook configuration
+     * Get webhook details
      */
-    async deleteWebhookRaw(requestParameters: DeleteWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.deleteWebhookRequestOpts(requestParameters);
+    async getWebhookRaw(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookConfigDetail>> {
+        const requestOptions = await this.getWebhookRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => WebhookConfigDetailFromJSON(jsonValue));
     }
 
     /**
-     * Removes a registered webhook by its ID.
-     * Delete webhook configuration
+     * Get webhook details
      */
-    async deleteWebhook(requestParameters: DeleteWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.deleteWebhookRaw(requestParameters, initOverrides);
+    async getWebhook(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookConfigDetail> {
+        const response = await this.getWebhookRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getWebhookStats without sending the request
+     */
+    async getWebhookStatsRequestOpts(requestParameters: GetWebhookStatsRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['rnc'] == null) {
+            throw new runtime.RequiredError(
+                'rnc',
+                'Required parameter "rnc" was null or undefined when calling getWebhookStats().'
+            );
+        }
+
+        if (requestParameters['webhookId'] == null) {
+            throw new runtime.RequiredError(
+                'webhookId',
+                'Required parameter "webhookId" was null or undefined when calling getWebhookStats().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['period'] != null) {
+            queryParameters['period'] = requestParameters['period'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/{rnc}/webhooks/{webhookId}/stats`;
+        urlPath = urlPath.replace(`{${"rnc"}}`, encodeURIComponent(String(requestParameters['rnc'])));
+        urlPath = urlPath.replace(`{${"webhookId"}}`, encodeURIComponent(String(requestParameters['webhookId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get webhook delivery statistics
+     */
+    async getWebhookStatsRaw(requestParameters: GetWebhookStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookStats>> {
+        const requestOptions = await this.getWebhookStatsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => WebhookStatsFromJSON(jsonValue));
+    }
+
+    /**
+     * Get webhook delivery statistics
+     */
+    async getWebhookStats(requestParameters: GetWebhookStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookStats> {
+        const response = await this.getWebhookStatsRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -310,7 +313,7 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
     /**
-     * Returns all registered webhooks for the given RNC.
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
      * List webhook configurations
      */
     async listWebhooksRaw(requestParameters: ListWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WebhookConfigResponse>>> {
@@ -321,7 +324,7 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
     /**
-     * Returns all registered webhooks for the given RNC.
+     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
      * List webhook configurations
      */
     async listWebhooks(requestParameters: ListWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WebhookConfigResponse>> {
@@ -330,3 +333,14 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
 }
+
+/**
+ * @export
+ */
+export const GetWebhookStatsPeriodEnum = {
+    Today: 'today',
+    Week: 'week',
+    Month: 'month',
+    All: 'all'
+} as const;
+export type GetWebhookStatsPeriodEnum = typeof GetWebhookStatsPeriodEnum[keyof typeof GetWebhookStatsPeriodEnum];

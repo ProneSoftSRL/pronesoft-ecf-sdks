@@ -15,14 +15,11 @@ public typealias Subtotal = PronesoftEcfAPI.Subtotal
 
 extension PronesoftEcfAPI {
 
-/** Subtotal for a page or section within a multi-page document. */
 public struct Subtotal: Codable, JSONEncodable, Hashable {
 
-    /** Page or section number. */
-    public var number: Int
-    /** Subtotal amount for this section. */
-    public var amount: Double
+    public var number: Int?
     public var description: String?
+    public var order: Int?
     public var taxableAmount: Double?
     public var taxableAmount1: Double?
     public var taxableAmount2: Double?
@@ -33,13 +30,13 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
     public var itbis3: Double?
     public var additionalTaxes: Double?
     public var exemptAmount: Double?
-    /** Number of line items included in this subtotal. */
+    public var amount: Double?
     public var lines: Int?
 
-    public init(number: Int, amount: Double, description: String? = nil, taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxes: Double? = nil, exemptAmount: Double? = nil, lines: Int? = nil) {
+    public init(number: Int? = nil, description: String? = nil, order: Int? = nil, taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxes: Double? = nil, exemptAmount: Double? = nil, amount: Double? = nil, lines: Int? = nil) {
         self.number = number
-        self.amount = amount
         self.description = description
+        self.order = order
         self.taxableAmount = taxableAmount
         self.taxableAmount1 = taxableAmount1
         self.taxableAmount2 = taxableAmount2
@@ -50,13 +47,14 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
         self.itbis3 = itbis3
         self.additionalTaxes = additionalTaxes
         self.exemptAmount = exemptAmount
+        self.amount = amount
         self.lines = lines
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case number
-        case amount
         case description
+        case order
         case taxableAmount
         case taxableAmount1
         case taxableAmount2
@@ -67,6 +65,7 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
         case itbis3
         case additionalTaxes
         case exemptAmount
+        case amount
         case lines
     }
 
@@ -74,9 +73,9 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(number, forKey: .number)
-        try container.encode(amount, forKey: .amount)
+        try container.encodeIfPresent(number, forKey: .number)
         try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(order, forKey: .order)
         try container.encodeIfPresent(taxableAmount, forKey: .taxableAmount)
         try container.encodeIfPresent(taxableAmount1, forKey: .taxableAmount1)
         try container.encodeIfPresent(taxableAmount2, forKey: .taxableAmount2)
@@ -87,6 +86,7 @@ public struct Subtotal: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(itbis3, forKey: .itbis3)
         try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
         try container.encodeIfPresent(exemptAmount, forKey: .exemptAmount)
+        try container.encodeIfPresent(amount, forKey: .amount)
         try container.encodeIfPresent(lines, forKey: .lines)
     }
 }

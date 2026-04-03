@@ -1,6 +1,5 @@
 # WebhookEventType
 
-Type of event that triggers a webhook notification.
 
 ## Enum
 
@@ -12,9 +11,9 @@ Type of event that triggers a webhook notification.
 
 * `DOCUMENT_DOT_CONTINGENCY_ACTIVATED` (value: `'document.contingency_activated'`)
 
-* `COMMERCIAL_DOT_APPROVAL` (value: `'commercial.approval'`)
+* `SEQUENCE_DOT_DEPLETED` (value: `'sequence.depleted'`)
 
-* `CERTIFICATE_DOT_EXPIRING` (value: `'certificate.expiring'`)
+* `SEQUENCE_DOT_VOIDED` (value: `'sequence.voided'`)
 
 * `PLAN_DOT_USAGE_ALERT` (value: `'plan.usage_alert'`)
 
@@ -22,19 +21,21 @@ Type of event that triggers a webhook notification.
 
 * `BILLING_DOT_INVOICE_READY` (value: `'billing.invoice_ready'`)
 
-* `SEQUENCE_DOT_DEPLETED` (value: `'sequence.depleted'`)
-
-* `SEQUENCE_DOT_VOIDED` (value: `'sequence.voided'`)
-
 * `BRANCH_DOT_CREATED` (value: `'branch.created'`)
 
 * `BRANCH_DOT_STATUS_CHANGED` (value: `'branch.status_changed'`)
+
+* `SECURITY_DOT_NEW_LOGIN` (value: `'security.new_login'`)
 
 * `MEMBER_DOT_INVITED` (value: `'member.invited'`)
 
 * `MEMBER_DOT_JOINED` (value: `'member.joined'`)
 
 * `MEMBER_DOT_REMOVED` (value: `'member.removed'`)
+
+* `CERTIFICATE_DOT_EXPIRING` (value: `'certificate.expiring'`)
+
+* `COMMERCIAL_DOT_APPROVAL` (value: `'commercial.approval'`)
 
 * `CERTIFICATION_DOT_COMPLETED` (value: `'certification.completed'`)
 

@@ -16,7 +16,7 @@ extension PronesoftEcfAPI {
 open class AuthenticationAPI {
 
     /**
-     Get access token
+     Get access token (OAuth 2.0)
      
      - parameter oAuthTokenRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -35,9 +35,9 @@ open class AuthenticationAPI {
     }
 
     /**
-     Get access token
+     Get access token (OAuth 2.0)
      - POST /oauth/token
-     - Authenticates using OAuth 2.0 **Client Credentials** flow. Returns a Bearer token to use in subsequent requests.  **This endpoint does NOT require an Authorization header.**  ``` POST /oauth/token Content-Type: application/json  {   \"clientId\": \"your-client-id\",   \"clientSecret\": \"your-client-secret\" } ```  Use the returned `accessToken` as: ``` Authorization: Bearer <accessToken> ``` 
+     - Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
      - parameter oAuthTokenRequest: (body)  
      - returns: RequestBuilder<OAuthTokenResponse> 
      */

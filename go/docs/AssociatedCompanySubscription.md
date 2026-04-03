@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Status** | Pointer to **string** | Subscription status (e.g. \&quot;active\&quot;, \&quot;expired\&quot;). | [optional] 
-**ExpirationDate** | Pointer to **time.Time** |  | [optional] 
+**Status** | Pointer to **string** |  | [optional] 
+**ExpirationDate** | Pointer to **NullableTime** |  | [optional] 
 **Plan** | Pointer to [**AssociatedCompanySubscriptionPlan**](AssociatedCompanySubscriptionPlan.md) |  | [optional] 
 
 ## Methods
@@ -77,6 +77,16 @@ SetExpirationDate sets ExpirationDate field to given value.
 
 HasExpirationDate returns a boolean if a field has been set.
 
+### SetExpirationDateNil
+
+`func (o *AssociatedCompanySubscription) SetExpirationDateNil(b bool)`
+
+ SetExpirationDateNil sets the value for ExpirationDate to be an explicit nil
+
+### UnsetExpirationDate
+`func (o *AssociatedCompanySubscription) UnsetExpirationDate()`
+
+UnsetExpirationDate ensures that no value is present for ExpirationDate, not even an explicit nil
 ### GetPlan
 
 `func (o *AssociatedCompanySubscription) GetPlan() AssociatedCompanySubscriptionPlan`

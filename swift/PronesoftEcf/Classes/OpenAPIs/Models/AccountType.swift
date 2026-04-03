@@ -15,7 +15,7 @@ public typealias AccountType = PronesoftEcfAPI.AccountType
 
 extension PronesoftEcfAPI {
 
-/** Bank account type: - &#x60;CT&#x60;: Current account (Cuenta Corriente) - &#x60;AH&#x60;: Savings account (Cuenta de Ahorros) - &#x60;OT&#x60;: Other  */
+/** CT&#x3D;Current account, AH&#x3D;Savings, OT&#x3D;Other */
 public enum AccountType: String, Codable, CaseIterable {
     case ct = "CT"
     case ah = "AH"

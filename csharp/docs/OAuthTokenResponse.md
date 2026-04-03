@@ -1,13 +1,13 @@
 # Pronesoft.Ecf.Sdk.Model.OAuthTokenResponse
-Successful token response. Use `accessToken` as a Bearer token in the `Authorization` header of all subsequent requests. 
+Bearer token valid for 24 hours (86400 seconds).
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AccessToken** | **string** | JWT Bearer token. Pass as Authorization: Bearer &lt;accessToken&gt;. | [optional] 
-**TokenType** | **string** | Always \&quot;Bearer\&quot;. | [optional] 
-**ExpiresIn** | **int** | Token lifetime in seconds. Request a new token when it expires. | [optional] 
+**AccessToken** | **string** |  | [optional] 
+**TokenType** | **string** |  | [optional] 
+**ExpiresIn** | **int** | Token lifetime in seconds (24 hours &#x3D; 86400). | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

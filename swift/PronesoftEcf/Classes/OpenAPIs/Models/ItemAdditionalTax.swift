@@ -15,15 +15,13 @@ public typealias ItemAdditionalTax = PronesoftEcfAPI.ItemAdditionalTax
 
 extension PronesoftEcfAPI {
 
-/** An additional tax applied to a line item (e.g. ISC, IECS). */
 public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
 
-    /** Tax code as defined by the DGII (e.g. \"ISC\", \"IECS\"). */
+    /** DGII tax code (e.g. ISC, IECS) */
     public var code: String
-    /** Tax amount. */
-    public var amount: Double
+    public var amount: Double?
 
-    public init(code: String, amount: Double) {
+    public init(code: String, amount: Double? = nil) {
         self.code = code
         self.amount = amount
     }
@@ -38,7 +36,7 @@ public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
-        try container.encode(amount, forKey: .amount)
+        try container.encodeIfPresent(amount, forKey: .amount)
     }
 }
 

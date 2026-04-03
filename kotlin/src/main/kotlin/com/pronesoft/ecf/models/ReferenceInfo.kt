@@ -27,42 +27,38 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Reference to a previously issued document. Required for: - Credit Notes (type 34) — references the original invoice - Debit Notes (type 33) — references the original invoice 
+ * Reference to previously issued document (for credit/debit notes).
  *
- * @param modifiedInvoiceNumber e-NCF number of the original document being referenced.
- * @param modificationCode Reason for the modification: - `1`: Price correction - `2`: Quantity correction - `3`: Return of goods - `4`: Tax correction - `5`: Other 
- * @param otherContributorRNC RNC of the other contributor (if different from issuer).
- * @param modifiedInvoiceDate Issue date of the original document.
- * @param modificationReason Free-text description of the modification reason.
+ * @param modifiedInvoiceNumber 
+ * @param modificationCode 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+ * @param otherContributorRNC 
+ * @param modifiedInvoiceDate 
+ * @param modificationReason 
  */
 
 
 data class ReferenceInfo (
 
-    /* e-NCF number of the original document being referenced. */
     @SerializedName("modifiedInvoiceNumber")
     val modifiedInvoiceNumber: kotlin.String,
 
-    /* Reason for the modification: - `1`: Price correction - `2`: Quantity correction - `3`: Return of goods - `4`: Tax correction - `5`: Other  */
+    /* 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other */
     @SerializedName("modificationCode")
     val modificationCode: ReferenceInfo.ModificationCode,
 
-    /* RNC of the other contributor (if different from issuer). */
     @SerializedName("otherContributorRNC")
     val otherContributorRNC: kotlin.String? = null,
 
-    /* Issue date of the original document. */
     @SerializedName("modifiedInvoiceDate")
-    val modifiedInvoiceDate: java.time.LocalDate? = null,
+    val modifiedInvoiceDate: java.time.OffsetDateTime? = null,
 
-    /* Free-text description of the modification reason. */
     @SerializedName("modificationReason")
     val modificationReason: kotlin.String? = null
 
 ) {
 
     /**
-     * Reason for the modification: - `1`: Price correction - `2`: Quantity correction - `3`: Return of goods - `4`: Tax correction - `5`: Other 
+     * 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
      *
      * Values: _1,_2,_3,_4,_5
      */

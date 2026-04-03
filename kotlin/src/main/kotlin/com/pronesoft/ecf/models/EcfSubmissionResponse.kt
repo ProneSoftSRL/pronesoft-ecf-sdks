@@ -23,41 +23,73 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.EcfSubmissionResponseDgiiResponse
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * Response returned after successfully submitting an e-CF document.
+ * Response after submitting an e-CF. HTTP 200 even when rejected. Check the success field and dgiiResponse.estado for actual result. 
  *
- * @param success Whether the document was accepted by the platform.
- * @param documentId Pronesoft internal document identifier.
- * @param encf The e-NCF number assigned to the document.
- * @param trackId DGII tracking ID for status polling.
- * @param message Human-readable status message.
+ * @param success 
+ * @param documentId 
+ * @param dgiiResponse 
+ * @param qrUrl 
+ * @param signatureTime 
+ * @param securityCode 
+ * @param encf 
+ * @param documentType 
+ * @param printUrl 
+ * @param authType 
+ * @param timestamp 
+ * @param message 
+ * @param contingencyMode 
+ * @param estimatedProcessTime 
  */
 
 
 data class EcfSubmissionResponse (
 
-    /* Whether the document was accepted by the platform. */
     @SerializedName("success")
     val success: kotlin.Boolean,
 
-    /* Pronesoft internal document identifier. */
     @SerializedName("documentId")
-    val documentId: java.util.UUID,
+    val documentId: java.util.UUID? = null,
 
-    /* The e-NCF number assigned to the document. */
+    @SerializedName("dgiiResponse")
+    val dgiiResponse: EcfSubmissionResponseDgiiResponse? = null,
+
+    @SerializedName("qrUrl")
+    val qrUrl: java.net.URI? = null,
+
+    @SerializedName("signatureTime")
+    val signatureTime: java.time.OffsetDateTime? = null,
+
+    @SerializedName("securityCode")
+    val securityCode: kotlin.String? = null,
+
     @SerializedName("encf")
     val encf: kotlin.String? = null,
 
-    /* DGII tracking ID for status polling. */
-    @SerializedName("trackId")
-    val trackId: kotlin.String? = null,
+    @SerializedName("documentType")
+    val documentType: kotlin.String? = null,
 
-    /* Human-readable status message. */
+    @SerializedName("printUrl")
+    val printUrl: java.net.URI? = null,
+
+    @SerializedName("authType")
+    val authType: kotlin.String? = null,
+
+    @SerializedName("timestamp")
+    val timestamp: java.time.OffsetDateTime? = null,
+
     @SerializedName("message")
-    val message: kotlin.String? = null
+    val message: kotlin.String? = null,
+
+    @SerializedName("contingencyMode")
+    val contingencyMode: kotlin.Boolean? = null,
+
+    @SerializedName("estimatedProcessTime")
+    val estimatedProcessTime: kotlin.String? = null
 
 ) {
 

@@ -27,7 +27,7 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Bank account type: - `CT`: Current account (Cuenta Corriente) - `AH`: Savings account (Cuenta de Ahorros) - `OT`: Other 
+ * CT=Current account, AH=Savings, OT=Other
  *
  * Values: CT,AH,OT
  */

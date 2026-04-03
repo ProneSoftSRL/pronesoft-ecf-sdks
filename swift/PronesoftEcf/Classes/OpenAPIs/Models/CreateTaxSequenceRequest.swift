@@ -15,25 +15,31 @@ public typealias CreateTaxSequenceRequest = PronesoftEcfAPI.CreateTaxSequenceReq
 
 extension PronesoftEcfAPI {
 
-/** Request to register a new block of fiscal numbers. The &#x60;from&#x60; and &#x60;to&#x60; values define the numeric range (inclusive).  */
 public struct CreateTaxSequenceRequest: Codable, JSONEncodable, Hashable {
 
-    public var type: InvoiceType
-    /** First number in the sequence range. */
+    public var type: InvoiceTypeSequence
     public var from: Int
-    /** Last number in the sequence range. */
     public var to: Int
+    public var quantity: Int?
+    public var expiration: Date?
+    public var environment: Environment?
 
-    public init(type: InvoiceType, from: Int, to: Int) {
+    public init(type: InvoiceTypeSequence, from: Int, to: Int, quantity: Int? = nil, expiration: Date? = nil, environment: Environment? = nil) {
         self.type = type
         self.from = from
         self.to = to
+        self.quantity = quantity
+        self.expiration = expiration
+        self.environment = environment
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case from
         case to
+        case quantity
+        case expiration
+        case environment
     }
 
     // Encodable protocol methods
@@ -43,6 +49,9 @@ public struct CreateTaxSequenceRequest: Codable, JSONEncodable, Hashable {
         try container.encode(type, forKey: .type)
         try container.encode(from, forKey: .from)
         try container.encode(to, forKey: .to)
+        try container.encodeIfPresent(quantity, forKey: .quantity)
+        try container.encodeIfPresent(expiration, forKey: .expiration)
+        try container.encodeIfPresent(environment, forKey: .environment)
     }
 }
 

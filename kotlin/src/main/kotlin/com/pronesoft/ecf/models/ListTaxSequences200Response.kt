@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.PaginationMeta
 import com.pronesoft.ecf.models.TaxSequence
 
 import com.google.gson.annotations.SerializedName
@@ -32,6 +33,7 @@ import com.google.gson.annotations.SerializedName
  *
  * @param success 
  * @param `data` 
+ * @param meta 
  */
 
 
@@ -41,7 +43,10 @@ data class ListTaxSequences200Response (
     val success: kotlin.Boolean? = null,
 
     @SerializedName("data")
-    val `data`: kotlin.collections.List<TaxSequence>? = null
+    val `data`: kotlin.collections.List<TaxSequence>? = null,
+
+    @SerializedName("meta")
+    val meta: PaginationMeta? = null
 
 ) {
 

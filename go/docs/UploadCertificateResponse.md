@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Message** | Pointer to **string** | Confirmation message. | [optional] 
-**Representative** | Pointer to **string** | Name of the certificate holder as registered with the DGII. | [optional] 
-**ExpirationDate** | Pointer to **time.Time** | Certificate expiration date. Monitor this to avoid disruptions. | [optional] 
+**Message** | Pointer to **string** |  | [optional] 
+**Representative** | Pointer to **string** |  | [optional] 
+**ExpirationDate** | Pointer to **time.Time** |  | [optional] 
 
 ## Methods
 

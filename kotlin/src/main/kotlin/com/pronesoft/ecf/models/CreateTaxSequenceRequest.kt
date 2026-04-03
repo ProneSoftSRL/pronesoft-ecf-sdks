@@ -23,31 +23,42 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.InvoiceType
+import com.pronesoft.ecf.models.Environment
+import com.pronesoft.ecf.models.InvoiceTypeSequence
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * Request to register a new block of fiscal numbers. The `from` and `to` values define the numeric range (inclusive). 
+ * 
  *
  * @param type 
- * @param from First number in the sequence range.
- * @param to Last number in the sequence range.
+ * @param from 
+ * @param to 
+ * @param quantity 
+ * @param expiration 
+ * @param environment 
  */
 
 
 data class CreateTaxSequenceRequest (
 
     @SerializedName("type")
-    val type: InvoiceType,
+    val type: InvoiceTypeSequence,
 
-    /* First number in the sequence range. */
     @SerializedName("from")
     val from: kotlin.Int,
 
-    /* Last number in the sequence range. */
     @SerializedName("to")
-    val to: kotlin.Int
+    val to: kotlin.Int,
+
+    @SerializedName("quantity")
+    val quantity: kotlin.Int? = null,
+
+    @SerializedName("expiration")
+    val expiration: java.time.LocalDate? = null,
+
+    @SerializedName("environment")
+    val environment: Environment? = null
 
 ) {
 

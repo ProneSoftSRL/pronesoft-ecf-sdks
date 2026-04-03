@@ -4,27 +4,27 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**PageNumber** | **int32** |  | 
-**LineFrom** | **int32** | First line item number on this page. | 
-**LineTo** | **int32** | Last line item number on this page. | 
-**Subtotal** | Pointer to **float32** |  | [optional] 
+**PageNumber** | Pointer to **int32** |  | [optional] 
+**LineFrom** | Pointer to **int32** |  | [optional] 
+**LineTo** | Pointer to **int32** |  | [optional] 
 **TaxableAmount** | Pointer to **float32** |  | [optional] 
 **TaxableAmount1** | Pointer to **float32** |  | [optional] 
 **TaxableAmount2** | Pointer to **float32** |  | [optional] 
 **TaxableAmount3** | Pointer to **float32** |  | [optional] 
+**ExemptAmount** | Pointer to **float32** |  | [optional] 
 **TotalITBIS** | Pointer to **float32** |  | [optional] 
 **Itbis1** | Pointer to **float32** |  | [optional] 
 **Itbis2** | Pointer to **float32** |  | [optional] 
 **Itbis3** | Pointer to **float32** |  | [optional] 
 **AdditionalTaxes** | Pointer to **float32** |  | [optional] 
-**ExemptAmount** | Pointer to **float32** |  | [optional] 
+**Subtotal** | Pointer to **float32** |  | [optional] 
 **NonBillableAmount** | Pointer to **float32** |  | [optional] 
 
 ## Methods
 
 ### NewPage
 
-`func NewPage(pageNumber int32, lineFrom int32, lineTo int32, ) *Page`
+`func NewPage() *Page`
 
 NewPage instantiates a new Page object
 This constructor will assign default values to properties that have it defined,
@@ -58,6 +58,11 @@ and a boolean to check if the value has been set.
 
 SetPageNumber sets PageNumber field to given value.
 
+### HasPageNumber
+
+`func (o *Page) HasPageNumber() bool`
+
+HasPageNumber returns a boolean if a field has been set.
 
 ### GetLineFrom
 
@@ -78,6 +83,11 @@ and a boolean to check if the value has been set.
 
 SetLineFrom sets LineFrom field to given value.
 
+### HasLineFrom
+
+`func (o *Page) HasLineFrom() bool`
+
+HasLineFrom returns a boolean if a field has been set.
 
 ### GetLineTo
 
@@ -98,31 +108,11 @@ and a boolean to check if the value has been set.
 
 SetLineTo sets LineTo field to given value.
 
+### HasLineTo
 
-### GetSubtotal
+`func (o *Page) HasLineTo() bool`
 
-`func (o *Page) GetSubtotal() float32`
-
-GetSubtotal returns the Subtotal field if non-nil, zero value otherwise.
-
-### GetSubtotalOk
-
-`func (o *Page) GetSubtotalOk() (*float32, bool)`
-
-GetSubtotalOk returns a tuple with the Subtotal field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSubtotal
-
-`func (o *Page) SetSubtotal(v float32)`
-
-SetSubtotal sets Subtotal field to given value.
-
-### HasSubtotal
-
-`func (o *Page) HasSubtotal() bool`
-
-HasSubtotal returns a boolean if a field has been set.
+HasLineTo returns a boolean if a field has been set.
 
 ### GetTaxableAmount
 
@@ -223,6 +213,31 @@ SetTaxableAmount3 sets TaxableAmount3 field to given value.
 `func (o *Page) HasTaxableAmount3() bool`
 
 HasTaxableAmount3 returns a boolean if a field has been set.
+
+### GetExemptAmount
+
+`func (o *Page) GetExemptAmount() float32`
+
+GetExemptAmount returns the ExemptAmount field if non-nil, zero value otherwise.
+
+### GetExemptAmountOk
+
+`func (o *Page) GetExemptAmountOk() (*float32, bool)`
+
+GetExemptAmountOk returns a tuple with the ExemptAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExemptAmount
+
+`func (o *Page) SetExemptAmount(v float32)`
+
+SetExemptAmount sets ExemptAmount field to given value.
+
+### HasExemptAmount
+
+`func (o *Page) HasExemptAmount() bool`
+
+HasExemptAmount returns a boolean if a field has been set.
 
 ### GetTotalITBIS
 
@@ -349,30 +364,30 @@ SetAdditionalTaxes sets AdditionalTaxes field to given value.
 
 HasAdditionalTaxes returns a boolean if a field has been set.
 
-### GetExemptAmount
+### GetSubtotal
 
-`func (o *Page) GetExemptAmount() float32`
+`func (o *Page) GetSubtotal() float32`
 
-GetExemptAmount returns the ExemptAmount field if non-nil, zero value otherwise.
+GetSubtotal returns the Subtotal field if non-nil, zero value otherwise.
 
-### GetExemptAmountOk
+### GetSubtotalOk
 
-`func (o *Page) GetExemptAmountOk() (*float32, bool)`
+`func (o *Page) GetSubtotalOk() (*float32, bool)`
 
-GetExemptAmountOk returns a tuple with the ExemptAmount field if it's non-nil, zero value otherwise
+GetSubtotalOk returns a tuple with the Subtotal field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetExemptAmount
+### SetSubtotal
 
-`func (o *Page) SetExemptAmount(v float32)`
+`func (o *Page) SetSubtotal(v float32)`
 
-SetExemptAmount sets ExemptAmount field to given value.
+SetSubtotal sets Subtotal field to given value.
 
-### HasExemptAmount
+### HasSubtotal
 
-`func (o *Page) HasExemptAmount() bool`
+`func (o *Page) HasSubtotal() bool`
 
-HasExemptAmount returns a boolean if a field has been set.
+HasSubtotal returns a boolean if a field has been set.
 
 ### GetNonBillableAmount
 

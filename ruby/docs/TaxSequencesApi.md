@@ -7,15 +7,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence |
 | [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences |
+| [**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 
 ## create_tax_sequence
 
-> create_tax_sequence(x_tenant_id, create_tax_sequence_request)
+> <CreateTaxSequence201Response> create_tax_sequence(create_tax_sequence_request, opts)
 
 Create new tax sequence
-
-Registers a new block of fiscal numbers for a given invoice type. The `from` and `to` values define the numeric range of the sequence. 
 
 ### Examples
 
@@ -32,12 +32,15 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceType::N31, from: 1, to: 500}) # CreateTaxSequenceRequest | 
+create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceTypeSequence::E31, from: 1, to: 10000}) # CreateTaxSequenceRequest | 
+opts = {
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+}
 
 begin
   # Create new tax sequence
-  api_instance.create_tax_sequence(x_tenant_id, create_tax_sequence_request)
+  result = api_instance.create_tax_sequence(create_tax_sequence_request, opts)
+  p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->create_tax_sequence: #{e}"
 end
@@ -45,17 +48,17 @@ end
 
 #### Using the create_tax_sequence_with_http_info variant
 
-This returns an Array which contains the response data (`nil` in this case), status code and headers.
+This returns an Array which contains the response data, status code and headers.
 
-> <Array(nil, Integer, Hash)> create_tax_sequence_with_http_info(x_tenant_id, create_tax_sequence_request)
+> <Array(<CreateTaxSequence201Response>, Integer, Hash)> create_tax_sequence_with_http_info(create_tax_sequence_request, opts)
 
 ```ruby
 begin
   # Create new tax sequence
-  data, status_code, headers = api_instance.create_tax_sequence_with_http_info(x_tenant_id, create_tax_sequence_request)
+  data, status_code, headers = api_instance.create_tax_sequence_with_http_info(create_tax_sequence_request, opts)
   p status_code # => 2xx
   p headers # => { ... }
-  p data # => nil
+  p data # => <CreateTaxSequence201Response>
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->create_tax_sequence_with_http_info: #{e}"
 end
@@ -65,12 +68,12 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
 | **create_tax_sequence_request** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  |  |
+| **x_tenant_id** | **String** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 
 ### Return type
 
-nil (empty response body)
+[**CreateTaxSequence201Response**](CreateTaxSequence201Response.md)
 
 ### Authorization
 
@@ -84,11 +87,11 @@ nil (empty response body)
 
 ## get_next_number
 
-> <GetNextNumber200Response> get_next_number(x_tenant_id, type, environment)
+> <GetNextNumber200Response> get_next_number(type, environment, opts)
 
 Get next available fiscal number
 
-Returns the next available e-NCF number for a given invoice type and environment. Use this number as the `invoiceNumber` when submitting a document. 
+Returns the next e-NCF number. Use this as invoiceNumber when submitting.
 
 ### Examples
 
@@ -105,13 +108,15 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
-type = PronesoftEcf::InvoiceType::N31 # InvoiceType | Invoice type code (e.g. \"31\" for Tax Credit Invoice).
-environment = PronesoftEcf::Environment::TESTE_CF # Environment | Target environment for the sequence.
+type = PronesoftEcf::InvoiceTypeSequence::E31 # InvoiceTypeSequence | 
+environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
+opts = {
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+}
 
 begin
   # Get next available fiscal number
-  result = api_instance.get_next_number(x_tenant_id, type, environment)
+  result = api_instance.get_next_number(type, environment, opts)
   p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->get_next_number: #{e}"
@@ -122,12 +127,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<GetNextNumber200Response>, Integer, Hash)> get_next_number_with_http_info(x_tenant_id, type, environment)
+> <Array(<GetNextNumber200Response>, Integer, Hash)> get_next_number_with_http_info(type, environment, opts)
 
 ```ruby
 begin
   # Get next available fiscal number
-  data, status_code, headers = api_instance.get_next_number_with_http_info(x_tenant_id, type, environment)
+  data, status_code, headers = api_instance.get_next_number_with_http_info(type, environment, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <GetNextNumber200Response>
@@ -140,9 +145,9 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
-| **type** | [**InvoiceType**](.md) | Invoice type code (e.g. \&quot;31\&quot; for Tax Credit Invoice). |  |
-| **environment** | [**Environment**](.md) | Target environment for the sequence. |  |
+| **type** | [**InvoiceTypeSequence**](.md) |  |  |
+| **environment** | [**Environment**](.md) |  |  |
+| **x_tenant_id** | **String** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 
 ### Return type
 
@@ -160,11 +165,9 @@ end
 
 ## list_tax_sequences
 
-> <ListTaxSequences200Response> list_tax_sequences(x_tenant_id, opts)
+> <ListTaxSequences200Response> list_tax_sequences(opts)
 
 List tax sequences
-
-Returns all fiscal number sequences registered for the tenant.
 
 ### Examples
 
@@ -181,14 +184,16 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-x_tenant_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup. 
 opts = {
-  type: PronesoftEcf::InvoiceType::N31 # InvoiceType | Filter by invoice type (e.g. \"31\" for Tax Credit).
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798', # String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  type: PronesoftEcf::InvoiceTypeSequence::E31, # InvoiceTypeSequence | 
+  page: 56, # Integer | 
+  limit: 56 # Integer | 
 }
 
 begin
   # List tax sequences
-  result = api_instance.list_tax_sequences(x_tenant_id, opts)
+  result = api_instance.list_tax_sequences(opts)
   p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->list_tax_sequences: #{e}"
@@ -199,12 +204,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<ListTaxSequences200Response>, Integer, Hash)> list_tax_sequences_with_http_info(x_tenant_id, opts)
+> <Array(<ListTaxSequences200Response>, Integer, Hash)> list_tax_sequences_with_http_info(opts)
 
 ```ruby
 begin
   # List tax sequences
-  data, status_code, headers = api_instance.list_tax_sequences_with_http_info(x_tenant_id, opts)
+  data, status_code, headers = api_instance.list_tax_sequences_with_http_info(opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <ListTaxSequences200Response>
@@ -217,8 +222,10 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** | UUID of the company or branch (tenant) making the request. Obtained from the Pronesoft portal after account setup.  |  |
-| **type** | [**InvoiceType**](.md) | Filter by invoice type (e.g. \&quot;31\&quot; for Tax Credit). | [optional] |
+| **x_tenant_id** | **String** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+| **type** | [**InvoiceTypeSequence**](.md) |  | [optional] |
+| **page** | **Integer** |  | [optional][default to 1] |
+| **limit** | **Integer** |  | [optional][default to 10] |
 
 ### Return type
 
@@ -231,5 +238,156 @@ end
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## update_tax_sequence
+
+> update_tax_sequence(sequence_id, update_tax_sequence_request, opts)
+
+Update tax sequence
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = PronesoftEcf::TaxSequencesApi.new
+sequence_id = 'sequence_id_example' # String | 
+update_tax_sequence_request = PronesoftEcf::UpdateTaxSequenceRequest.new # UpdateTaxSequenceRequest | 
+opts = {
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+}
+
+begin
+  # Update tax sequence
+  api_instance.update_tax_sequence(sequence_id, update_tax_sequence_request, opts)
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling TaxSequencesApi->update_tax_sequence: #{e}"
+end
+```
+
+#### Using the update_tax_sequence_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> update_tax_sequence_with_http_info(sequence_id, update_tax_sequence_request, opts)
+
+```ruby
+begin
+  # Update tax sequence
+  data, status_code, headers = api_instance.update_tax_sequence_with_http_info(sequence_id, update_tax_sequence_request, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling TaxSequencesApi->update_tax_sequence_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **sequence_id** | **String** |  |  |
+| **update_tax_sequence_request** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  |  |
+| **x_tenant_id** | **String** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## void_tax_sequence
+
+> <VoidTaxSequence200Response> void_tax_sequence(void_tax_sequence_request, opts)
+
+Void a range of fiscal numbers
+
+Cancels unused fiscal numbers and notifies DGII.
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+
+  # Configure Bearer authorization (JWT): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
+end
+
+api_instance = PronesoftEcf::TaxSequencesApi.new
+void_tax_sequence_request = PronesoftEcf::VoidTaxSequenceRequest.new({sequence_id: 'sequence_id_example', start_number: 'E32000005251', end_number: 'E32000005300', reason: 'reason_example'}) # VoidTaxSequenceRequest | 
+opts = {
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+}
+
+begin
+  # Void a range of fiscal numbers
+  result = api_instance.void_tax_sequence(void_tax_sequence_request, opts)
+  p result
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling TaxSequencesApi->void_tax_sequence: #{e}"
+end
+```
+
+#### Using the void_tax_sequence_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<VoidTaxSequence200Response>, Integer, Hash)> void_tax_sequence_with_http_info(void_tax_sequence_request, opts)
+
+```ruby
+begin
+  # Void a range of fiscal numbers
+  data, status_code, headers = api_instance.void_tax_sequence_with_http_info(void_tax_sequence_request, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <VoidTaxSequence200Response>
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling TaxSequencesApi->void_tax_sequence_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **void_tax_sequence_request** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md) |  |  |
+| **x_tenant_id** | **String** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+
+### Return type
+
+[**VoidTaxSequence200Response**](VoidTaxSequence200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 

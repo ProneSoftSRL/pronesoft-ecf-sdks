@@ -15,7 +15,7 @@ public typealias ReferenceInfo = PronesoftEcfAPI.ReferenceInfo
 
 extension PronesoftEcfAPI {
 
-/** Reference to a previously issued document. Required for: - Credit Notes (type 34) — references the original invoice - Debit Notes (type 33) — references the original invoice  */
+/** Reference to previously issued document (for credit/debit notes). */
 public struct ReferenceInfo: Codable, JSONEncodable, Hashable {
 
     public enum ModificationCode: String, Codable, CaseIterable {
@@ -25,15 +25,11 @@ public struct ReferenceInfo: Codable, JSONEncodable, Hashable {
         case _4 = "4"
         case _5 = "5"
     }
-    /** e-NCF number of the original document being referenced. */
     public var modifiedInvoiceNumber: String
-    /** RNC of the other contributor (if different from issuer). */
     public var otherContributorRNC: String?
-    /** Issue date of the original document. */
     public var modifiedInvoiceDate: Date?
-    /** Reason for the modification: - `1`: Price correction - `2`: Quantity correction - `3`: Return of goods - `4`: Tax correction - `5`: Other  */
+    /** 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other */
     public var modificationCode: ModificationCode
-    /** Free-text description of the modification reason. */
     public var modificationReason: String?
 
     public init(modifiedInvoiceNumber: String, otherContributorRNC: String? = nil, modifiedInvoiceDate: Date? = nil, modificationCode: ModificationCode, modificationReason: String? = nil) {

@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Number** | **int32** | Page or section number. | 
-**Amount** | **float32** | Subtotal amount for this section. | 
+**Number** | Pointer to **int32** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
+**Order** | Pointer to **int32** |  | [optional] 
 **TaxableAmount** | Pointer to **float32** |  | [optional] 
 **TaxableAmount1** | Pointer to **float32** |  | [optional] 
 **TaxableAmount2** | Pointer to **float32** |  | [optional] 
@@ -17,13 +17,14 @@ Name | Type | Description | Notes
 **Itbis3** | Pointer to **float32** |  | [optional] 
 **AdditionalTaxes** | Pointer to **float32** |  | [optional] 
 **ExemptAmount** | Pointer to **float32** |  | [optional] 
-**Lines** | Pointer to **int32** | Number of line items included in this subtotal. | [optional] 
+**Amount** | Pointer to **float32** |  | [optional] 
+**Lines** | Pointer to **int32** |  | [optional] 
 
 ## Methods
 
 ### NewSubtotal
 
-`func NewSubtotal(number int32, amount float32, ) *Subtotal`
+`func NewSubtotal() *Subtotal`
 
 NewSubtotal instantiates a new Subtotal object
 This constructor will assign default values to properties that have it defined,
@@ -57,26 +58,11 @@ and a boolean to check if the value has been set.
 
 SetNumber sets Number field to given value.
 
+### HasNumber
 
-### GetAmount
+`func (o *Subtotal) HasNumber() bool`
 
-`func (o *Subtotal) GetAmount() float32`
-
-GetAmount returns the Amount field if non-nil, zero value otherwise.
-
-### GetAmountOk
-
-`func (o *Subtotal) GetAmountOk() (*float32, bool)`
-
-GetAmountOk returns a tuple with the Amount field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAmount
-
-`func (o *Subtotal) SetAmount(v float32)`
-
-SetAmount sets Amount field to given value.
-
+HasNumber returns a boolean if a field has been set.
 
 ### GetDescription
 
@@ -102,6 +88,31 @@ SetDescription sets Description field to given value.
 `func (o *Subtotal) HasDescription() bool`
 
 HasDescription returns a boolean if a field has been set.
+
+### GetOrder
+
+`func (o *Subtotal) GetOrder() int32`
+
+GetOrder returns the Order field if non-nil, zero value otherwise.
+
+### GetOrderOk
+
+`func (o *Subtotal) GetOrderOk() (*int32, bool)`
+
+GetOrderOk returns a tuple with the Order field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOrder
+
+`func (o *Subtotal) SetOrder(v int32)`
+
+SetOrder sets Order field to given value.
+
+### HasOrder
+
+`func (o *Subtotal) HasOrder() bool`
+
+HasOrder returns a boolean if a field has been set.
 
 ### GetTaxableAmount
 
@@ -352,6 +363,31 @@ SetExemptAmount sets ExemptAmount field to given value.
 `func (o *Subtotal) HasExemptAmount() bool`
 
 HasExemptAmount returns a boolean if a field has been set.
+
+### GetAmount
+
+`func (o *Subtotal) GetAmount() float32`
+
+GetAmount returns the Amount field if non-nil, zero value otherwise.
+
+### GetAmountOk
+
+`func (o *Subtotal) GetAmountOk() (*float32, bool)`
+
+GetAmountOk returns a tuple with the Amount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAmount
+
+`func (o *Subtotal) SetAmount(v float32)`
+
+SetAmount sets Amount field to given value.
+
+### HasAmount
+
+`func (o *Subtotal) HasAmount() bool`
+
+HasAmount returns a boolean if a field has been set.
 
 ### GetLines
 

@@ -17,18 +17,19 @@ extension PronesoftEcfAPI {
 
 public struct GetNextNumber200ResponseData: Codable, JSONEncodable, Hashable {
 
-    /** The next available e-NCF number (13 characters). */
     public var nextNumber: String?
-    /** How many numbers are left in the current sequence. */
+    public var sequenceId: String?
     public var remainingNumbers: Int?
 
-    public init(nextNumber: String? = nil, remainingNumbers: Int? = nil) {
+    public init(nextNumber: String? = nil, sequenceId: String? = nil, remainingNumbers: Int? = nil) {
         self.nextNumber = nextNumber
+        self.sequenceId = sequenceId
         self.remainingNumbers = remainingNumbers
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case nextNumber
+        case sequenceId
         case remainingNumbers
     }
 
@@ -37,6 +38,7 @@ public struct GetNextNumber200ResponseData: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(nextNumber, forKey: .nextNumber)
+        try container.encodeIfPresent(sequenceId, forKey: .sequenceId)
         try container.encodeIfPresent(remainingNumbers, forKey: .remainingNumbers)
     }
 }

@@ -4,30 +4,28 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createWebhook**](WebhookConfigurationAPI.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook
-[**deleteWebhook**](WebhookConfigurationAPI.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration
+[**getWebhook**](WebhookConfigurationAPI.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
+[**getWebhookStats**](WebhookConfigurationAPI.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
 [**listWebhooks**](WebhookConfigurationAPI.md#listwebhooks) | **GET** /{rnc}/webhooks | List webhook configurations
 
 
-# **createWebhook**
+# **getWebhook**
 ```swift
-    open class func createWebhook(rnc: String, createWebhookConfig: CreateWebhookConfig, completion: @escaping (_ data: WebhookConfigResponse?, _ error: Error?) -> Void)
+    open class func getWebhook(rnc: String, webhookId: String, completion: @escaping (_ data: WebhookConfigDetail?, _ error: Error?) -> Void)
 ```
 
-Register new webhook
-
-Registers a URL to receive real-time event notifications for the given RNC. You can subscribe to one or more `WebhookEventType` values.  Optionally provide a `secret` (min 16 chars) — Pronesoft will sign webhook payloads with HMAC-SHA256 using this secret so you can verify authenticity on your end. 
+Get webhook details
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let rnc = "rnc_example" // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-let createWebhookConfig = CreateWebhookConfig(url: "url_example", eventTypes: [WebhookEventType()], description: "description_example", secret: "secret_example") // CreateWebhookConfig | 
+let rnc = "rnc_example" // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+let webhookId = "webhookId_example" // String | 
 
-// Register new webhook
-WebhookConfigurationAPI.createWebhook(rnc: rnc, createWebhookConfig: createWebhookConfig) { (response, error) in
+// Get webhook details
+WebhookConfigurationAPI.getWebhook(rnc: rnc, webhookId: webhookId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -43,12 +41,12 @@ WebhookConfigurationAPI.createWebhook(rnc: rnc, createWebhookConfig: createWebho
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
- **createWebhookConfig** | [**CreateWebhookConfig**](CreateWebhookConfig.md) |  | 
+ **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+ **webhookId** | **String** |  | 
 
 ### Return type
 
-[**WebhookConfigResponse**](WebhookConfigResponse.md)
+[**WebhookConfigDetail**](WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -56,30 +54,29 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteWebhook**
+# **getWebhookStats**
 ```swift
-    open class func deleteWebhook(rnc: String, webhookId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getWebhookStats(rnc: String, webhookId: String, period: Period_getWebhookStats? = nil, completion: @escaping (_ data: WebhookStats?, _ error: Error?) -> Void)
 ```
 
-Delete webhook configuration
-
-Removes a registered webhook by its ID.
+Get webhook delivery statistics
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let rnc = "rnc_example" // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
-let webhookId = "webhookId_example" // String | The unique ID of the webhook to delete.
+let rnc = "rnc_example" // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+let webhookId = "webhookId_example" // String | 
+let period = "period_example" // String |  (optional) (default to .month)
 
-// Delete webhook configuration
-WebhookConfigurationAPI.deleteWebhook(rnc: rnc, webhookId: webhookId) { (response, error) in
+// Get webhook delivery statistics
+WebhookConfigurationAPI.getWebhookStats(rnc: rnc, webhookId: webhookId, period: period) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -95,12 +92,13 @@ WebhookConfigurationAPI.deleteWebhook(rnc: rnc, webhookId: webhookId) { (respons
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
- **webhookId** | **String** | The unique ID of the webhook to delete. | 
+ **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+ **webhookId** | **String** |  | 
+ **period** | **String** |  | [optional] [default to .month]
 
 ### Return type
 
-Void (empty response body)
+[**WebhookStats**](WebhookStats.md)
 
 ### Authorization
 
@@ -120,14 +118,14 @@ Void (empty response body)
 
 List webhook configurations
 
-Returns all registered webhooks for the given RNC.
+Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let rnc = "rnc_example" // String | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física). 
+let rnc = "rnc_example" // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
 
 // List webhook configurations
 WebhookConfigurationAPI.listWebhooks(rnc: rnc) { (response, error) in
@@ -146,7 +144,7 @@ WebhookConfigurationAPI.listWebhooks(rnc: rnc) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String** | RNC (Registro Nacional del Contribuyente) of the company. Must be 9 digits (persona jurídica) or 11 digits (persona física).  | 
+ **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
 
 ### Return type
 

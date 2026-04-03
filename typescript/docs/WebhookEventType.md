@@ -1,7 +1,6 @@
 
 # WebhookEventType
 
-Type of event that triggers a webhook notification.
 
 ## Properties
 
@@ -11,7 +10,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { WebhookEventType } from '@pronesoft/ecf-sdk'
+import type { WebhookEventType } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
