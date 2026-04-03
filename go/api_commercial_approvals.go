@@ -30,8 +30,9 @@ type ApiListApprovalsRequest struct {
 	businessId *string
 	page *int32
 	limit *int32
-	status *string
+	ecf *string
 	documentType *string
+	status *int32
 	dateFrom *time.Time
 	dateTo *time.Time
 	minAmount *float32
@@ -56,13 +57,18 @@ func (r ApiListApprovalsRequest) Limit(limit int32) ApiListApprovalsRequest {
 	return r
 }
 
-func (r ApiListApprovalsRequest) Status(status string) ApiListApprovalsRequest {
-	r.status = &status
+func (r ApiListApprovalsRequest) Ecf(ecf string) ApiListApprovalsRequest {
+	r.ecf = &ecf
 	return r
 }
 
 func (r ApiListApprovalsRequest) DocumentType(documentType string) ApiListApprovalsRequest {
 	r.documentType = &documentType
+	return r
+}
+
+func (r ApiListApprovalsRequest) Status(status int32) ApiListApprovalsRequest {
+	r.status = &status
 	return r
 }
 
@@ -157,11 +163,14 @@ func (a *CommercialApprovalsAPIService) ListApprovalsExecute(r ApiListApprovalsR
 		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
 		r.limit = &defaultValue
 	}
-	if r.status != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
+	if r.ecf != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "ecf", r.ecf, "form", "")
 	}
 	if r.documentType != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "documentType", r.documentType, "form", "")
+	}
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
 	}
 	if r.dateFrom != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "dateFrom", r.dateFrom, "form", "")

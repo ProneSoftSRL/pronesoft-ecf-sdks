@@ -9,24 +9,32 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**uploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload Digital Certificate (P12)
+[**uploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
 
 
 # **uploadCertificate**
-> UploadCertificate201Response uploadCertificate(rnc, file, password)
+> UploadCertificateResponse uploadCertificate(rnc, file, password)
 
-Upload Digital Certificate (P12)
+Upload digital certificate (P12/PFX)
+
+Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
 
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
 // TODO Configure OAuth2 access token for authorization: oauth2
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = DigitalCertificatesApi();
-final rnc = rnc_example; // String | 
-final file = BINARY_DATA_HERE; // MultipartFile | 
-final password = password_example; // String | 
+final rnc = 133190907; // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+final file = BINARY_DATA_HERE; // MultipartFile | Certificate file in .p12 or .pfx format.
+final password = password_example; // String | Password to unlock the certificate.
 
 try {
     final result = api_instance.uploadCertificate(rnc, file, password);
@@ -40,17 +48,17 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String**|  | 
- **file** | **MultipartFile**|  | 
- **password** | **String**|  | 
+ **rnc** | **String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+ **file** | **MultipartFile**| Certificate file in .p12 or .pfx format. | 
+ **password** | **String**| Password to unlock the certificate. | 
 
 ### Return type
 
-[**UploadCertificate201Response**](UploadCertificate201Response.md)
+[**UploadCertificateResponse**](UploadCertificateResponse.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2)
+[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

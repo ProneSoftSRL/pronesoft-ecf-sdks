@@ -213,6 +213,13 @@ paths:
         style: form
       - explode: true
         in: query
+        name: environment
+        required: false
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: form
+      - explode: true
+        in: query
         name: page
         required: false
         schema:
@@ -254,6 +261,7 @@ paths:
       - Tax Sequences
       x-accepts:
       - application/json
+  /tax-sequences/create:
     post:
       operationId: createTaxSequence
       parameters:
@@ -374,7 +382,7 @@ paths:
       - Tax Sequences
       x-accepts:
       - application/json
-  /tax-sequences/{sequenceId}:
+  /tax-sequences/update:
     patch:
       operationId: updateTaxSequence
       parameters:
@@ -390,13 +398,13 @@ paths:
           format: uuid
           type: string
         style: simple
-      - explode: false
-        in: path
-        name: sequenceId
+      - explode: true
+        in: query
+        name: id
         required: true
         schema:
           type: string
-        style: simple
+        style: form
       requestBody:
         content:
           application/json:
@@ -984,14 +992,14 @@ paths:
         style: simple
       - explode: true
         in: query
-        name: encf
+        name: ecf
         required: false
         schema:
           type: string
         style: form
       - explode: true
         in: query
-        name: type
+        name: documentType
         required: false
         schema:
           type: string
@@ -1001,7 +1009,7 @@ paths:
         name: status
         required: false
         schema:
-          description: "1=Valid, 2=Contingency, 3=Rejected"
+          description: "1=Válido, 2=Anulado, 3=Pendiente"
           type: integer
         style: form
       - explode: true
@@ -1136,13 +1144,9 @@ paths:
         style: form
       - explode: true
         in: query
-        name: status
+        name: ecf
         required: false
         schema:
-          enum:
-          - PENDING
-          - APPROVED
-          - REJECTED
           type: string
         style: form
       - explode: true
@@ -1151,6 +1155,19 @@ paths:
         required: false
         schema:
           type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          description: "1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En Revisión"
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
         style: form
       - explode: true
         in: query
@@ -1929,6 +1946,27 @@ paths:
           - xlsx
           type: string
         style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: encf
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -2096,11 +2134,15 @@ components:
       - document.status_changed
       - document.validation_error
       - document.contingency_activated
-      - sequence.depleted
-      - sequence.voided
+      - commercial.approval
+      - certificate.expiring
+      - security.new_login
+      - security.api_key_rotated
       - plan.usage_alert
       - plan.payment_failed
       - billing.invoice_ready
+      - sequence.depleted
+      - sequence.voided
       - branch.created
       - branch.status_changed
       - security.new_login

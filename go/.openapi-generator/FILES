@@ -196,9 +196,4 @@ model_webhook_notification_payload.go
 model_webhook_stats.go
 model_webhook_stats_stats.go
 response.go
-test/api_automated_certification_test.go
-test/api_commercial_approvals_test.go
-test/api_documents_received_test.go
-test/api_documents_sent_test.go
-test/api_reports_test.go
 utils.go

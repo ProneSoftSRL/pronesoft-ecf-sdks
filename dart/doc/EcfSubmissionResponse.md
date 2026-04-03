@@ -9,10 +9,19 @@ import 'package:pronesoft_ecf/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **success** | **bool** |  | 
-**documentId** | **String** |  | 
+**documentId** | **String** |  | [optional] 
+**dgiiResponse** | [**EcfSubmissionResponseDgiiResponse**](EcfSubmissionResponseDgiiResponse.md) |  | [optional] 
+**qrUrl** | **String** |  | [optional] 
+**signatureTime** | [**DateTime**](DateTime.md) |  | [optional] 
+**securityCode** | **String** |  | [optional] 
 **encf** | **String** |  | [optional] 
-**trackId** | **String** |  | [optional] 
+**documentType** | **String** |  | [optional] 
+**printUrl** | **String** |  | [optional] 
+**authType** | **String** |  | [optional] 
+**timestamp** | [**DateTime**](DateTime.md) |  | [optional] 
 **message** | **String** |  | [optional] 
+**contingencyMode** | **bool** |  | [optional] 
+**estimatedProcessTime** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

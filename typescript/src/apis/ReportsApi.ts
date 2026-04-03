@@ -29,6 +29,9 @@ export interface Export606Request {
     from: Date;
     to: Date;
     format: Export606FormatEnum;
+    status?: string;
+    type?: string;
+    encf?: string;
 }
 
 export interface ExportSentDocumentsRequest {
@@ -53,6 +56,9 @@ export interface ReportsApiInterface {
      * @param {Date} from 
      * @param {Date} to 
      * @param {'txt' | 'xlsx'} format 
+     * @param {string} [status] 
+     * @param {string} [type] 
+     * @param {string} [encf] 
      * @throws {RequiredError}
      * @memberof ReportsApiInterface
      */
@@ -64,6 +70,9 @@ export interface ReportsApiInterface {
      * @param {Date} from 
      * @param {Date} to 
      * @param {'txt' | 'xlsx'} format 
+     * @param {string} [status] 
+     * @param {string} [type] 
+     * @param {string} [encf] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ReportsApiInterface
@@ -156,6 +165,18 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
 
         if (requestParameters['format'] != null) {
             queryParameters['format'] = requestParameters['format'];
+        }
+
+        if (requestParameters['status'] != null) {
+            queryParameters['status'] = requestParameters['status'];
+        }
+
+        if (requestParameters['type'] != null) {
+            queryParameters['type'] = requestParameters['type'];
+        }
+
+        if (requestParameters['encf'] != null) {
+            queryParameters['encf'] = requestParameters['encf'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

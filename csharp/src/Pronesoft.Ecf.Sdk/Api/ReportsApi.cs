@@ -38,8 +38,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="format"></param>
+        /// <param name="status"> (optional)</param>
+        /// <param name="type"> (optional)</param>
+        /// <param name="encf"> (optional)</param>
         /// <returns>string</returns>
-        string Export606(DateOnly from, DateOnly to, string format);
+        string Export606(DateOnly from, DateOnly to, string format, string? status = default, string? type = default, string? encf = default);
 
         /// <summary>
         /// Export Format 606 (Purchases)
@@ -51,8 +54,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="format"></param>
+        /// <param name="status"> (optional)</param>
+        /// <param name="type"> (optional)</param>
+        /// <param name="encf"> (optional)</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> Export606WithHttpInfo(DateOnly from, DateOnly to, string format);
+        ApiResponse<string> Export606WithHttpInfo(DateOnly from, DateOnly to, string format, string? status = default, string? type = default, string? encf = default);
         /// <summary>
         /// Export sent documents report
         /// </summary>
@@ -105,9 +111,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="format"></param>
+        /// <param name="status"> (optional)</param>
+        /// <param name="type"> (optional)</param>
+        /// <param name="encf"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> Export606Async(DateOnly from, DateOnly to, string format, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<string> Export606Async(DateOnly from, DateOnly to, string format, string? status = default, string? type = default, string? encf = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Export Format 606 (Purchases)
@@ -119,9 +128,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="format"></param>
+        /// <param name="status"> (optional)</param>
+        /// <param name="type"> (optional)</param>
+        /// <param name="encf"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> Export606WithHttpInfoAsync(DateOnly from, DateOnly to, string format, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<string>> Export606WithHttpInfoAsync(DateOnly from, DateOnly to, string format, string? status = default, string? type = default, string? encf = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Export sent documents report
         /// </summary>
@@ -377,10 +389,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="format"></param>
+        /// <param name="status"> (optional)</param>
+        /// <param name="type"> (optional)</param>
+        /// <param name="encf"> (optional)</param>
         /// <returns>string</returns>
-        public string Export606(DateOnly from, DateOnly to, string format)
+        public string Export606(DateOnly from, DateOnly to, string format, string? status = default, string? type = default, string? encf = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<string> localVarResponse = Export606WithHttpInfo(from, to, format);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<string> localVarResponse = Export606WithHttpInfo(from, to, format, status, type, encf);
             return localVarResponse.Data;
         }
 
@@ -391,8 +406,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="format"></param>
+        /// <param name="status"> (optional)</param>
+        /// <param name="type"> (optional)</param>
+        /// <param name="encf"> (optional)</param>
         /// <returns>ApiResponse of string</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<string> Export606WithHttpInfo(DateOnly from, DateOnly to, string format)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<string> Export606WithHttpInfo(DateOnly from, DateOnly to, string format, string? status = default, string? type = default, string? encf = default)
         {
             // verify the required parameter 'format' is set
             if (format == null)
@@ -419,6 +437,18 @@ namespace Pronesoft.Ecf.Sdk.Api
             localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "from", from));
             localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "to", to));
             localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "format", format));
+            if (status != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "status", status));
+            }
+            if (type != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "type", type));
+            }
+            if (encf != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "encf", encf));
+            }
 
             // authentication (oauth2) required
             // oauth required
@@ -452,11 +482,14 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="format"></param>
+        /// <param name="status"> (optional)</param>
+        /// <param name="type"> (optional)</param>
+        /// <param name="encf"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> Export606Async(DateOnly from, DateOnly to, string format, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<string> Export606Async(DateOnly from, DateOnly to, string format, string? status = default, string? type = default, string? encf = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<string> localVarResponse = await Export606WithHttpInfoAsync(from, to, format, cancellationToken).ConfigureAwait(false);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<string> localVarResponse = await Export606WithHttpInfoAsync(from, to, format, status, type, encf, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -467,9 +500,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="format"></param>
+        /// <param name="status"> (optional)</param>
+        /// <param name="type"> (optional)</param>
+        /// <param name="encf"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<string>> Export606WithHttpInfoAsync(DateOnly from, DateOnly to, string format, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<string>> Export606WithHttpInfoAsync(DateOnly from, DateOnly to, string format, string? status = default, string? type = default, string? encf = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'format' is set
             if (format == null)
@@ -498,6 +534,18 @@ namespace Pronesoft.Ecf.Sdk.Api
             localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "from", from));
             localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "to", to));
             localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "format", format));
+            if (status != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "status", status));
+            }
+            if (type != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "type", type));
+            }
+            if (encf != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "encf", encf));
+            }
 
             // authentication (oauth2) required
             // oauth required

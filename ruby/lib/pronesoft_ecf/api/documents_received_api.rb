@@ -80,8 +80,8 @@ module PronesoftEcf
     # List received documents
     # @param [Hash] opts the optional parameters
     # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    # @option opts [String] :encf 
-    # @option opts [String] :type 
+    # @option opts [String] :ecf 
+    # @option opts [String] :document_type 
     # @option opts [Integer] :status 
     # @option opts [Date] :date_from 
     # @option opts [Date] :date_to 
@@ -96,8 +96,8 @@ module PronesoftEcf
     # List received documents
     # @param [Hash] opts the optional parameters
     # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    # @option opts [String] :encf 
-    # @option opts [String] :type 
+    # @option opts [String] :ecf 
+    # @option opts [String] :document_type 
     # @option opts [Integer] :status 
     # @option opts [Date] :date_from 
     # @option opts [Date] :date_to 
@@ -113,8 +113,8 @@ module PronesoftEcf
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'encf'] = opts[:'encf'] if !opts[:'encf'].nil?
-      query_params[:'type'] = opts[:'type'] if !opts[:'type'].nil?
+      query_params[:'ecf'] = opts[:'ecf'] if !opts[:'ecf'].nil?
+      query_params[:'documentType'] = opts[:'document_type'] if !opts[:'document_type'].nil?
       query_params[:'status'] = opts[:'status'] if !opts[:'status'].nil?
       query_params[:'dateFrom'] = opts[:'date_from'] if !opts[:'date_from'].nil?
       query_params[:'dateTo'] = opts[:'date_to'] if !opts[:'date_to'].nil?

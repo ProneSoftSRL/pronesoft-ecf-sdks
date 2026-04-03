@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 # **export606**
 ```swift
-    open class func export606(from: Date, to: Date, format: Format_export606, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
+    open class func export606(from: Date, to: Date, format: Format_export606, status: String? = nil, type: String? = nil, encf: String? = nil, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
 ```
 
 Export Format 606 (Purchases)
@@ -25,9 +25,12 @@ import PronesoftEcf
 let from = Date() // Date | 
 let to = Date() // Date | 
 let format = "format_example" // String | 
+let status = "status_example" // String |  (optional)
+let type = "type_example" // String |  (optional)
+let encf = "encf_example" // String |  (optional)
 
 // Export Format 606 (Purchases)
-ReportsAPI.export606(from: from, to: to, format: format) { (response, error) in
+ReportsAPI.export606(from: from, to: to, format: format, status: status, type: type, encf: encf) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -46,6 +49,9 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | 
  **to** | **Date** |  | 
  **format** | **String** |  | 
+ **status** | **String** |  | [optional] 
+ **type** | **String** |  | [optional] 
+ **encf** | **String** |  | [optional] 
 
 ### Return type
 

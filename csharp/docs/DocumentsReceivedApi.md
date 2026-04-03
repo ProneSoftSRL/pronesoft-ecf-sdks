@@ -108,7 +108,7 @@ catch (ApiException e)
 
 <a id="listreceiveddocuments"></a>
 # **ListReceivedDocuments**
-> ReceivedDocumentListResponse ListReceivedDocuments (Guid? xTenantId = null, string? encf = null, string? type = null, int? status = null, DateOnly? dateFrom = null, DateOnly? dateTo = null, int? page = null, int? limit = null)
+> ReceivedDocumentListResponse ListReceivedDocuments (Guid? xTenantId = null, string? ecf = null, string? documentType = null, int? status = null, DateOnly? dateFrom = null, DateOnly? dateTo = null, int? page = null, int? limit = null)
 
 List received documents
 
@@ -139,8 +139,8 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
             var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
-            var encf = "encf_example";  // string? |  (optional) 
-            var type = "type_example";  // string? |  (optional) 
+            var ecf = "ecf_example";  // string? |  (optional) 
+            var documentType = "documentType_example";  // string? |  (optional) 
             var status = 56;  // int? |  (optional) 
             var dateFrom = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
             var dateTo = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
@@ -150,7 +150,7 @@ namespace Example
             try
             {
                 // List received documents
-                ReceivedDocumentListResponse result = apiInstance.ListReceivedDocuments(xTenantId, encf, type, status, dateFrom, dateTo, page, limit);
+                ReceivedDocumentListResponse result = apiInstance.ListReceivedDocuments(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -171,7 +171,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // List received documents
-    ApiResponse<ReceivedDocumentListResponse> response = apiInstance.ListReceivedDocumentsWithHttpInfo(xTenantId, encf, type, status, dateFrom, dateTo, page, limit);
+    ApiResponse<ReceivedDocumentListResponse> response = apiInstance.ListReceivedDocumentsWithHttpInfo(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -189,8 +189,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
-| **encf** | **string?** |  | [optional]  |
-| **type** | **string?** |  | [optional]  |
+| **ecf** | **string?** |  | [optional]  |
+| **documentType** | **string?** |  | [optional]  |
 | **status** | **int?** |  | [optional]  |
 | **dateFrom** | **DateOnly?** |  | [optional]  |
 | **dateTo** | **DateOnly?** |  | [optional]  |

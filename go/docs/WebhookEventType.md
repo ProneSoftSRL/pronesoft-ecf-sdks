@@ -11,9 +11,13 @@
 
 * `DOCUMENT_CONTINGENCY_ACTIVATED` (value: `"document.contingency_activated"`)
 
-* `SEQUENCE_DEPLETED` (value: `"sequence.depleted"`)
+* `COMMERCIAL_APPROVAL` (value: `"commercial.approval"`)
 
-* `SEQUENCE_VOIDED` (value: `"sequence.voided"`)
+* `CERTIFICATE_EXPIRING` (value: `"certificate.expiring"`)
+
+* `SECURITY_NEW_LOGIN` (value: `"security.new_login"`)
+
+* `SECURITY_API_KEY_ROTATED` (value: `"security.api_key_rotated"`)
 
 * `PLAN_USAGE_ALERT` (value: `"plan.usage_alert"`)
 
@@ -21,11 +25,15 @@
 
 * `BILLING_INVOICE_READY` (value: `"billing.invoice_ready"`)
 
+* `SEQUENCE_DEPLETED` (value: `"sequence.depleted"`)
+
+* `SEQUENCE_VOIDED` (value: `"sequence.voided"`)
+
 * `BRANCH_CREATED` (value: `"branch.created"`)
 
 * `BRANCH_STATUS_CHANGED` (value: `"branch.status_changed"`)
 
-* `SECURITY_NEW_LOGIN` (value: `"security.new_login"`)
+* `SECURITY_NEW_LOGIN2` (value: `"security.new_login"`)
 
 * `MEMBER_INVITED` (value: `"member.invited"`)
 
@@ -33,9 +41,9 @@
 
 * `MEMBER_REMOVED` (value: `"member.removed"`)
 
-* `CERTIFICATE_EXPIRING` (value: `"certificate.expiring"`)
+* `CERTIFICATE_EXPIRING2` (value: `"certificate.expiring"`)
 
-* `COMMERCIAL_APPROVAL` (value: `"commercial.approval"`)
+* `COMMERCIAL_APPROVAL2` (value: `"commercial.approval"`)
 
 * `CERTIFICATION_COMPLETED` (value: `"certification.completed"`)
 

@@ -17,6 +17,8 @@ Method | HTTP request | Description
 
 Get access token (OAuth 2.0)
 
+Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
+
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';

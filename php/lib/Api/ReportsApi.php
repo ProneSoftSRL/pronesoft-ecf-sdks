@@ -137,15 +137,18 @@ class ReportsApi
      * @param  \DateTime $from from (required)
      * @param  \DateTime $to to (required)
      * @param  string $format format (required)
+     * @param  string|null $status status (optional)
+     * @param  string|null $type type (optional)
+     * @param  string|null $encf encf (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['export606'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return string|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function export606($from, $to, $format, string $contentType = self::contentTypes['export606'][0])
+    public function export606($from, $to, $format, $status = null, $type = null, $encf = null, string $contentType = self::contentTypes['export606'][0])
     {
-        list($response) = $this->export606WithHttpInfo($from, $to, $format, $contentType);
+        list($response) = $this->export606WithHttpInfo($from, $to, $format, $status, $type, $encf, $contentType);
         return $response;
     }
 
@@ -157,15 +160,18 @@ class ReportsApi
      * @param  \DateTime $from (required)
      * @param  \DateTime $to (required)
      * @param  string $format (required)
+     * @param  string|null $status (optional)
+     * @param  string|null $type (optional)
+     * @param  string|null $encf (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['export606'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of string|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function export606WithHttpInfo($from, $to, $format, string $contentType = self::contentTypes['export606'][0])
+    public function export606WithHttpInfo($from, $to, $format, $status = null, $type = null, $encf = null, string $contentType = self::contentTypes['export606'][0])
     {
-        $request = $this->export606Request($from, $to, $format, $contentType);
+        $request = $this->export606Request($from, $to, $format, $status, $type, $encf, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -286,14 +292,17 @@ class ReportsApi
      * @param  \DateTime $from (required)
      * @param  \DateTime $to (required)
      * @param  string $format (required)
+     * @param  string|null $status (optional)
+     * @param  string|null $type (optional)
+     * @param  string|null $encf (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['export606'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function export606Async($from, $to, $format, string $contentType = self::contentTypes['export606'][0])
+    public function export606Async($from, $to, $format, $status = null, $type = null, $encf = null, string $contentType = self::contentTypes['export606'][0])
     {
-        return $this->export606AsyncWithHttpInfo($from, $to, $format, $contentType)
+        return $this->export606AsyncWithHttpInfo($from, $to, $format, $status, $type, $encf, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -309,15 +318,18 @@ class ReportsApi
      * @param  \DateTime $from (required)
      * @param  \DateTime $to (required)
      * @param  string $format (required)
+     * @param  string|null $status (optional)
+     * @param  string|null $type (optional)
+     * @param  string|null $encf (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['export606'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function export606AsyncWithHttpInfo($from, $to, $format, string $contentType = self::contentTypes['export606'][0])
+    public function export606AsyncWithHttpInfo($from, $to, $format, $status = null, $type = null, $encf = null, string $contentType = self::contentTypes['export606'][0])
     {
         $returnType = 'string';
-        $request = $this->export606Request($from, $to, $format, $contentType);
+        $request = $this->export606Request($from, $to, $format, $status, $type, $encf, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -361,12 +373,15 @@ class ReportsApi
      * @param  \DateTime $from (required)
      * @param  \DateTime $to (required)
      * @param  string $format (required)
+     * @param  string|null $status (optional)
+     * @param  string|null $type (optional)
+     * @param  string|null $encf (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['export606'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function export606Request($from, $to, $format, string $contentType = self::contentTypes['export606'][0])
+    public function export606Request($from, $to, $format, $status = null, $type = null, $encf = null, string $contentType = self::contentTypes['export606'][0])
     {
 
         // verify the required parameter 'from' is set
@@ -389,6 +404,9 @@ class ReportsApi
                 'Missing the required parameter $format when calling export606'
             );
         }
+
+
+
 
 
         $resourcePath = '/dgii/606/export';
@@ -424,6 +442,33 @@ class ReportsApi
             'form', // style
             true, // explode
             true // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $status,
+            'status', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $type,
+            'type', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $encf,
+            'encf', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
         ) ?? []);
 
 

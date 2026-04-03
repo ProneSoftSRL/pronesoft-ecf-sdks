@@ -13,9 +13,9 @@ part of openapi.api;
 class Subtotal {
   /// Returns a new [Subtotal] instance.
   Subtotal({
-    required this.number,
-    required this.amount,
+    this.number,
     this.description,
+    this.order,
     this.taxableAmount,
     this.taxableAmount1,
     this.taxableAmount2,
@@ -26,12 +26,17 @@ class Subtotal {
     this.itbis3,
     this.additionalTaxes,
     this.exemptAmount,
+    this.amount,
     this.lines,
   });
 
-  int number;
-
-  num amount;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? number;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -40,6 +45,14 @@ class Subtotal {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? description;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? order;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -127,13 +140,21 @@ class Subtotal {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  num? amount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   int? lines;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Subtotal &&
     other.number == number &&
-    other.amount == amount &&
     other.description == description &&
+    other.order == order &&
     other.taxableAmount == taxableAmount &&
     other.taxableAmount1 == taxableAmount1 &&
     other.taxableAmount2 == taxableAmount2 &&
@@ -144,14 +165,15 @@ class Subtotal {
     other.itbis3 == itbis3 &&
     other.additionalTaxes == additionalTaxes &&
     other.exemptAmount == exemptAmount &&
+    other.amount == amount &&
     other.lines == lines;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (number.hashCode) +
-    (amount.hashCode) +
+    (number == null ? 0 : number!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
+    (order == null ? 0 : order!.hashCode) +
     (taxableAmount == null ? 0 : taxableAmount!.hashCode) +
     (taxableAmount1 == null ? 0 : taxableAmount1!.hashCode) +
     (taxableAmount2 == null ? 0 : taxableAmount2!.hashCode) +
@@ -162,19 +184,28 @@ class Subtotal {
     (itbis3 == null ? 0 : itbis3!.hashCode) +
     (additionalTaxes == null ? 0 : additionalTaxes!.hashCode) +
     (exemptAmount == null ? 0 : exemptAmount!.hashCode) +
+    (amount == null ? 0 : amount!.hashCode) +
     (lines == null ? 0 : lines!.hashCode);
 
   @override
-  String toString() => 'Subtotal[number=$number, amount=$amount, description=$description, taxableAmount=$taxableAmount, taxableAmount1=$taxableAmount1, taxableAmount2=$taxableAmount2, taxableAmount3=$taxableAmount3, totalITBIS=$totalITBIS, itbis1=$itbis1, itbis2=$itbis2, itbis3=$itbis3, additionalTaxes=$additionalTaxes, exemptAmount=$exemptAmount, lines=$lines]';
+  String toString() => 'Subtotal[number=$number, description=$description, order=$order, taxableAmount=$taxableAmount, taxableAmount1=$taxableAmount1, taxableAmount2=$taxableAmount2, taxableAmount3=$taxableAmount3, totalITBIS=$totalITBIS, itbis1=$itbis1, itbis2=$itbis2, itbis3=$itbis3, additionalTaxes=$additionalTaxes, exemptAmount=$exemptAmount, amount=$amount, lines=$lines]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.number != null) {
       json[r'number'] = this.number;
-      json[r'amount'] = this.amount;
+    } else {
+      json[r'number'] = null;
+    }
     if (this.description != null) {
       json[r'description'] = this.description;
     } else {
       json[r'description'] = null;
+    }
+    if (this.order != null) {
+      json[r'order'] = this.order;
+    } else {
+      json[r'order'] = null;
     }
     if (this.taxableAmount != null) {
       json[r'taxableAmount'] = this.taxableAmount;
@@ -226,6 +257,11 @@ class Subtotal {
     } else {
       json[r'exemptAmount'] = null;
     }
+    if (this.amount != null) {
+      json[r'amount'] = this.amount;
+    } else {
+      json[r'amount'] = null;
+    }
     if (this.lines != null) {
       json[r'lines'] = this.lines;
     } else {
@@ -245,17 +281,13 @@ class Subtotal {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        assert(json.containsKey(r'number'), 'Required key "Subtotal[number]" is missing from JSON.');
-        assert(json[r'number'] != null, 'Required key "Subtotal[number]" has a null value in JSON.');
-        assert(json.containsKey(r'amount'), 'Required key "Subtotal[amount]" is missing from JSON.');
-        assert(json[r'amount'] != null, 'Required key "Subtotal[amount]" has a null value in JSON.');
         return true;
       }());
 
       return Subtotal(
-        number: mapValueOfType<int>(json, r'number')!,
-        amount: num.parse('${json[r'amount']}'),
+        number: mapValueOfType<int>(json, r'number'),
         description: mapValueOfType<String>(json, r'description'),
+        order: mapValueOfType<int>(json, r'order'),
         taxableAmount: num.parse('${json[r'taxableAmount']}'),
         taxableAmount1: num.parse('${json[r'taxableAmount1']}'),
         taxableAmount2: num.parse('${json[r'taxableAmount2']}'),
@@ -266,6 +298,7 @@ class Subtotal {
         itbis3: num.parse('${json[r'itbis3']}'),
         additionalTaxes: num.parse('${json[r'additionalTaxes']}'),
         exemptAmount: num.parse('${json[r'exemptAmount']}'),
+        amount: num.parse('${json[r'amount']}'),
         lines: mapValueOfType<int>(json, r'lines'),
       );
     }
@@ -314,8 +347,6 @@ class Subtotal {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'number',
-    'amount',
   };
 }
 

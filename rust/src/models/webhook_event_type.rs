@@ -22,22 +22,30 @@ pub enum WebhookEventType {
     DocumentValidationError,
     #[serde(rename = "document.contingency_activated")]
     DocumentContingencyActivated,
-    #[serde(rename = "sequence.depleted")]
-    SequenceDepleted,
-    #[serde(rename = "sequence.voided")]
-    SequenceVoided,
+    #[serde(rename = "commercial.approval")]
+    CommercialApproval,
+    #[serde(rename = "certificate.expiring")]
+    CertificateExpiring,
+    #[serde(rename = "security.new_login")]
+    SecurityNewLogin,
+    #[serde(rename = "security.api_key_rotated")]
+    SecurityApiKeyRotated,
     #[serde(rename = "plan.usage_alert")]
     PlanUsageAlert,
     #[serde(rename = "plan.payment_failed")]
     PlanPaymentFailed,
     #[serde(rename = "billing.invoice_ready")]
     BillingInvoiceReady,
+    #[serde(rename = "sequence.depleted")]
+    SequenceDepleted,
+    #[serde(rename = "sequence.voided")]
+    SequenceVoided,
     #[serde(rename = "branch.created")]
     BranchCreated,
     #[serde(rename = "branch.status_changed")]
     BranchStatusChanged,
     #[serde(rename = "security.new_login")]
-    SecurityNewLogin,
+    SecurityNewLogin2,
     #[serde(rename = "member.invited")]
     MemberInvited,
     #[serde(rename = "member.joined")]
@@ -45,9 +53,9 @@ pub enum WebhookEventType {
     #[serde(rename = "member.removed")]
     MemberRemoved,
     #[serde(rename = "certificate.expiring")]
-    CertificateExpiring,
+    CertificateExpiring2,
     #[serde(rename = "commercial.approval")]
-    CommercialApproval,
+    CommercialApproval2,
     #[serde(rename = "certification.completed")]
     CertificationCompleted,
 
@@ -60,19 +68,23 @@ impl std::fmt::Display for WebhookEventType {
             Self::DocumentStatusChanged => write!(f, "document.status_changed"),
             Self::DocumentValidationError => write!(f, "document.validation_error"),
             Self::DocumentContingencyActivated => write!(f, "document.contingency_activated"),
-            Self::SequenceDepleted => write!(f, "sequence.depleted"),
-            Self::SequenceVoided => write!(f, "sequence.voided"),
+            Self::CommercialApproval => write!(f, "commercial.approval"),
+            Self::CertificateExpiring => write!(f, "certificate.expiring"),
+            Self::SecurityNewLogin => write!(f, "security.new_login"),
+            Self::SecurityApiKeyRotated => write!(f, "security.api_key_rotated"),
             Self::PlanUsageAlert => write!(f, "plan.usage_alert"),
             Self::PlanPaymentFailed => write!(f, "plan.payment_failed"),
             Self::BillingInvoiceReady => write!(f, "billing.invoice_ready"),
+            Self::SequenceDepleted => write!(f, "sequence.depleted"),
+            Self::SequenceVoided => write!(f, "sequence.voided"),
             Self::BranchCreated => write!(f, "branch.created"),
             Self::BranchStatusChanged => write!(f, "branch.status_changed"),
-            Self::SecurityNewLogin => write!(f, "security.new_login"),
+            Self::SecurityNewLogin2 => write!(f, "security.new_login"),
             Self::MemberInvited => write!(f, "member.invited"),
             Self::MemberJoined => write!(f, "member.joined"),
             Self::MemberRemoved => write!(f, "member.removed"),
-            Self::CertificateExpiring => write!(f, "certificate.expiring"),
-            Self::CommercialApproval => write!(f, "commercial.approval"),
+            Self::CertificateExpiring2 => write!(f, "certificate.expiring"),
+            Self::CommercialApproval2 => write!(f, "commercial.approval"),
             Self::CertificationCompleted => write!(f, "certification.completed"),
         }
     }

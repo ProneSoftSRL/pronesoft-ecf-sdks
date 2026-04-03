@@ -46,8 +46,9 @@ class CommercialApprovalsApi:
         business_id: StrictStr,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
-        status: Optional[StrictStr] = None,
+        ecf: Optional[StrictStr] = None,
         document_type: Optional[StrictStr] = None,
+        status: Optional[StrictInt] = None,
         date_from: Optional[datetime] = None,
         date_to: Optional[datetime] = None,
         min_amount: Optional[Union[StrictFloat, StrictInt]] = None,
@@ -77,10 +78,12 @@ class CommercialApprovalsApi:
         :type page: int
         :param limit:
         :type limit: int
-        :param status:
-        :type status: str
+        :param ecf:
+        :type ecf: str
         :param document_type:
         :type document_type: str
+        :param status:
+        :type status: int
         :param date_from:
         :type date_from: datetime
         :param date_to:
@@ -121,8 +124,9 @@ class CommercialApprovalsApi:
             business_id=business_id,
             page=page,
             limit=limit,
-            status=status,
+            ecf=ecf,
             document_type=document_type,
+            status=status,
             date_from=date_from,
             date_to=date_to,
             min_amount=min_amount,
@@ -157,8 +161,9 @@ class CommercialApprovalsApi:
         business_id: StrictStr,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
-        status: Optional[StrictStr] = None,
+        ecf: Optional[StrictStr] = None,
         document_type: Optional[StrictStr] = None,
+        status: Optional[StrictInt] = None,
         date_from: Optional[datetime] = None,
         date_to: Optional[datetime] = None,
         min_amount: Optional[Union[StrictFloat, StrictInt]] = None,
@@ -188,10 +193,12 @@ class CommercialApprovalsApi:
         :type page: int
         :param limit:
         :type limit: int
-        :param status:
-        :type status: str
+        :param ecf:
+        :type ecf: str
         :param document_type:
         :type document_type: str
+        :param status:
+        :type status: int
         :param date_from:
         :type date_from: datetime
         :param date_to:
@@ -232,8 +239,9 @@ class CommercialApprovalsApi:
             business_id=business_id,
             page=page,
             limit=limit,
-            status=status,
+            ecf=ecf,
             document_type=document_type,
+            status=status,
             date_from=date_from,
             date_to=date_to,
             min_amount=min_amount,
@@ -268,8 +276,9 @@ class CommercialApprovalsApi:
         business_id: StrictStr,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
-        status: Optional[StrictStr] = None,
+        ecf: Optional[StrictStr] = None,
         document_type: Optional[StrictStr] = None,
+        status: Optional[StrictInt] = None,
         date_from: Optional[datetime] = None,
         date_to: Optional[datetime] = None,
         min_amount: Optional[Union[StrictFloat, StrictInt]] = None,
@@ -299,10 +308,12 @@ class CommercialApprovalsApi:
         :type page: int
         :param limit:
         :type limit: int
-        :param status:
-        :type status: str
+        :param ecf:
+        :type ecf: str
         :param document_type:
         :type document_type: str
+        :param status:
+        :type status: int
         :param date_from:
         :type date_from: datetime
         :param date_to:
@@ -343,8 +354,9 @@ class CommercialApprovalsApi:
             business_id=business_id,
             page=page,
             limit=limit,
-            status=status,
+            ecf=ecf,
             document_type=document_type,
+            status=status,
             date_from=date_from,
             date_to=date_to,
             min_amount=min_amount,
@@ -374,8 +386,9 @@ class CommercialApprovalsApi:
         business_id,
         page,
         limit,
-        status,
+        ecf,
         document_type,
+        status,
         date_from,
         date_to,
         min_amount,
@@ -417,13 +430,17 @@ class CommercialApprovalsApi:
             
             _query_params.append(('limit', limit))
             
-        if status is not None:
+        if ecf is not None:
             
-            _query_params.append(('status', status))
+            _query_params.append(('ecf', ecf))
             
         if document_type is not None:
             
             _query_params.append(('documentType', document_type))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
             
         if date_from is not None:
             if isinstance(date_from, datetime):

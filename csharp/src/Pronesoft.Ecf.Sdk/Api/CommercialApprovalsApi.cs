@@ -35,8 +35,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="businessId"></param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
-        /// <param name="status"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
         /// <param name="documentType"> (optional)</param>
+        /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="minAmount"> (optional)</param>
@@ -45,7 +46,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="sortBy"> (optional)</param>
         /// <param name="sortOrder"> (optional)</param>
         /// <returns>ApprovalListResponse</returns>
-        ApprovalListResponse ListApprovals(string businessId, int? page = default, int? limit = default, string? status = default, string? documentType = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default);
+        ApprovalListResponse ListApprovals(string businessId, int? page = default, int? limit = default, string? ecf = default, string? documentType = default, int? status = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default);
 
         /// <summary>
         /// List commercial approvals
@@ -57,8 +58,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="businessId"></param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
-        /// <param name="status"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
         /// <param name="documentType"> (optional)</param>
+        /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="minAmount"> (optional)</param>
@@ -67,7 +69,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="sortBy"> (optional)</param>
         /// <param name="sortOrder"> (optional)</param>
         /// <returns>ApiResponse of ApprovalListResponse</returns>
-        ApiResponse<ApprovalListResponse> ListApprovalsWithHttpInfo(string businessId, int? page = default, int? limit = default, string? status = default, string? documentType = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default);
+        ApiResponse<ApprovalListResponse> ListApprovalsWithHttpInfo(string businessId, int? page = default, int? limit = default, string? ecf = default, string? documentType = default, int? status = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default);
         #endregion Synchronous Operations
     }
 
@@ -87,8 +89,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="businessId"></param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
-        /// <param name="status"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
         /// <param name="documentType"> (optional)</param>
+        /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="minAmount"> (optional)</param>
@@ -98,7 +101,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="sortOrder"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApprovalListResponse</returns>
-        System.Threading.Tasks.Task<ApprovalListResponse> ListApprovalsAsync(string businessId, int? page = default, int? limit = default, string? status = default, string? documentType = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApprovalListResponse> ListApprovalsAsync(string businessId, int? page = default, int? limit = default, string? ecf = default, string? documentType = default, int? status = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// List commercial approvals
@@ -110,8 +113,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="businessId"></param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
-        /// <param name="status"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
         /// <param name="documentType"> (optional)</param>
+        /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="minAmount"> (optional)</param>
@@ -121,7 +125,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="sortOrder"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApprovalListResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApprovalListResponse>> ListApprovalsWithHttpInfoAsync(string businessId, int? page = default, int? limit = default, string? status = default, string? documentType = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<ApprovalListResponse>> ListApprovalsWithHttpInfoAsync(string businessId, int? page = default, int? limit = default, string? ecf = default, string? documentType = default, int? status = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -342,8 +346,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="businessId"></param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
-        /// <param name="status"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
         /// <param name="documentType"> (optional)</param>
+        /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="minAmount"> (optional)</param>
@@ -352,9 +357,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="sortBy"> (optional)</param>
         /// <param name="sortOrder"> (optional)</param>
         /// <returns>ApprovalListResponse</returns>
-        public ApprovalListResponse ListApprovals(string businessId, int? page = default, int? limit = default, string? status = default, string? documentType = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default)
+        public ApprovalListResponse ListApprovals(string businessId, int? page = default, int? limit = default, string? ecf = default, string? documentType = default, int? status = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> localVarResponse = ListApprovalsWithHttpInfo(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> localVarResponse = ListApprovalsWithHttpInfo(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
             return localVarResponse.Data;
         }
 
@@ -365,8 +370,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="businessId"></param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
-        /// <param name="status"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
         /// <param name="documentType"> (optional)</param>
+        /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="minAmount"> (optional)</param>
@@ -375,7 +381,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="sortBy"> (optional)</param>
         /// <param name="sortOrder"> (optional)</param>
         /// <returns>ApiResponse of ApprovalListResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> ListApprovalsWithHttpInfo(string businessId, int? page = default, int? limit = default, string? status = default, string? documentType = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> ListApprovalsWithHttpInfo(string businessId, int? page = default, int? limit = default, string? ecf = default, string? documentType = default, int? status = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default)
         {
             // verify the required parameter 'businessId' is set
             if (businessId == null)
@@ -406,13 +412,17 @@ namespace Pronesoft.Ecf.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
             }
-            if (status != null)
+            if (ecf != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "status", status));
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "ecf", ecf));
             }
             if (documentType != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "documentType", documentType));
+            }
+            if (status != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "status", status));
             }
             if (dateFrom != null)
             {
@@ -475,8 +485,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="businessId"></param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
-        /// <param name="status"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
         /// <param name="documentType"> (optional)</param>
+        /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="minAmount"> (optional)</param>
@@ -486,9 +497,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="sortOrder"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApprovalListResponse</returns>
-        public async System.Threading.Tasks.Task<ApprovalListResponse> ListApprovalsAsync(string businessId, int? page = default, int? limit = default, string? status = default, string? documentType = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<ApprovalListResponse> ListApprovalsAsync(string businessId, int? page = default, int? limit = default, string? ecf = default, string? documentType = default, int? status = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> localVarResponse = await ListApprovalsWithHttpInfoAsync(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder, cancellationToken).ConfigureAwait(false);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> localVarResponse = await ListApprovalsWithHttpInfoAsync(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -499,8 +510,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="businessId"></param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
-        /// <param name="status"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
         /// <param name="documentType"> (optional)</param>
+        /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="minAmount"> (optional)</param>
@@ -510,7 +522,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="sortOrder"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApprovalListResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse>> ListApprovalsWithHttpInfoAsync(string businessId, int? page = default, int? limit = default, string? status = default, string? documentType = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse>> ListApprovalsWithHttpInfoAsync(string businessId, int? page = default, int? limit = default, string? ecf = default, string? documentType = default, int? status = default, DateTime? dateFrom = default, DateTime? dateTo = default, decimal? minAmount = default, decimal? maxAmount = default, string? search = default, string? sortBy = default, string? sortOrder = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'businessId' is set
             if (businessId == null)
@@ -543,13 +555,17 @@ namespace Pronesoft.Ecf.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "limit", limit));
             }
-            if (status != null)
+            if (ecf != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "status", status));
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "ecf", ecf));
             }
             if (documentType != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "documentType", documentType));
+            }
+            if (status != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "status", status));
             }
             if (dateFrom != null)
             {

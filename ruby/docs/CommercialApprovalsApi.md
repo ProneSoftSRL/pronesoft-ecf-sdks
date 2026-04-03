@@ -32,8 +32,9 @@ business_id = 'business_id_example' # String |
 opts = {
   page: 56, # Integer | 
   limit: 56, # Integer | 
-  status: 'PENDING', # String | 
+  ecf: 'ecf_example', # String | 
   document_type: 'document_type_example', # String | 
+  status: 1, # Integer | 
   date_from: Time.parse('2013-10-20T19:20:30+01:00'), # Time | 
   date_to: Time.parse('2013-10-20T19:20:30+01:00'), # Time | 
   min_amount: 8.14, # Float | 
@@ -77,8 +78,9 @@ end
 | **business_id** | **String** |  |  |
 | **page** | **Integer** |  | [optional][default to 1] |
 | **limit** | **Integer** |  | [optional][default to 20] |
-| **status** | **String** |  | [optional] |
+| **ecf** | **String** |  | [optional] |
 | **document_type** | **String** |  | [optional] |
+| **status** | **Integer** |  | [optional] |
 | **date_from** | **Time** |  | [optional] |
 | **date_to** | **Time** |  | [optional] |
 | **min_amount** | **Float** |  | [optional] |

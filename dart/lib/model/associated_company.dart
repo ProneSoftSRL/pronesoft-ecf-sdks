@@ -16,13 +16,16 @@ class AssociatedCompany {
     this.id,
     this.name,
     this.rnc,
-    this.phone,
-    this.address,
-    this.city,
-    this.country,
-    this.website,
     this.logoPath,
     this.type,
+    this.city,
+    this.country,
+    this.phone,
+    this.address,
+    this.website,
+    this.category,
+    this.monthlySalesRange,
+    this.printerType,
     this.createdAt,
     this.docsIssuedThisMonth,
     this.purchasedDocsConsumedThisMonth,
@@ -54,21 +57,9 @@ class AssociatedCompany {
   ///
   String? rnc;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? phone;
+  String? logoPath;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? address;
+  AssociatedCompanyTypeEnum? type;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -86,11 +77,35 @@ class AssociatedCompany {
   ///
   String? country;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? phone;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? address;
+
   String? website;
 
-  String? logoPath;
+  String? category;
 
-  AssociatedCompanyTypeEnum? type;
+  String? monthlySalesRange;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  PrintFormat? printerType;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -124,12 +139,6 @@ class AssociatedCompany {
   ///
   String? ownerEmail;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   AssociatedCompanySubscription? subscription;
 
   @override
@@ -137,13 +146,16 @@ class AssociatedCompany {
     other.id == id &&
     other.name == name &&
     other.rnc == rnc &&
-    other.phone == phone &&
-    other.address == address &&
-    other.city == city &&
-    other.country == country &&
-    other.website == website &&
     other.logoPath == logoPath &&
     other.type == type &&
+    other.city == city &&
+    other.country == country &&
+    other.phone == phone &&
+    other.address == address &&
+    other.website == website &&
+    other.category == category &&
+    other.monthlySalesRange == monthlySalesRange &&
+    other.printerType == printerType &&
     other.createdAt == createdAt &&
     other.docsIssuedThisMonth == docsIssuedThisMonth &&
     other.purchasedDocsConsumedThisMonth == purchasedDocsConsumedThisMonth &&
@@ -156,13 +168,16 @@ class AssociatedCompany {
     (id == null ? 0 : id!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (rnc == null ? 0 : rnc!.hashCode) +
-    (phone == null ? 0 : phone!.hashCode) +
-    (address == null ? 0 : address!.hashCode) +
-    (city == null ? 0 : city!.hashCode) +
-    (country == null ? 0 : country!.hashCode) +
-    (website == null ? 0 : website!.hashCode) +
     (logoPath == null ? 0 : logoPath!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
+    (city == null ? 0 : city!.hashCode) +
+    (country == null ? 0 : country!.hashCode) +
+    (phone == null ? 0 : phone!.hashCode) +
+    (address == null ? 0 : address!.hashCode) +
+    (website == null ? 0 : website!.hashCode) +
+    (category == null ? 0 : category!.hashCode) +
+    (monthlySalesRange == null ? 0 : monthlySalesRange!.hashCode) +
+    (printerType == null ? 0 : printerType!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (docsIssuedThisMonth == null ? 0 : docsIssuedThisMonth!.hashCode) +
     (purchasedDocsConsumedThisMonth == null ? 0 : purchasedDocsConsumedThisMonth!.hashCode) +
@@ -170,7 +185,7 @@ class AssociatedCompany {
     (subscription == null ? 0 : subscription!.hashCode);
 
   @override
-  String toString() => 'AssociatedCompany[id=$id, name=$name, rnc=$rnc, phone=$phone, address=$address, city=$city, country=$country, website=$website, logoPath=$logoPath, type=$type, createdAt=$createdAt, docsIssuedThisMonth=$docsIssuedThisMonth, purchasedDocsConsumedThisMonth=$purchasedDocsConsumedThisMonth, ownerEmail=$ownerEmail, subscription=$subscription]';
+  String toString() => 'AssociatedCompany[id=$id, name=$name, rnc=$rnc, logoPath=$logoPath, type=$type, city=$city, country=$country, phone=$phone, address=$address, website=$website, category=$category, monthlySalesRange=$monthlySalesRange, printerType=$printerType, createdAt=$createdAt, docsIssuedThisMonth=$docsIssuedThisMonth, purchasedDocsConsumedThisMonth=$purchasedDocsConsumedThisMonth, ownerEmail=$ownerEmail, subscription=$subscription]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -189,15 +204,15 @@ class AssociatedCompany {
     } else {
       json[r'rnc'] = null;
     }
-    if (this.phone != null) {
-      json[r'phone'] = this.phone;
+    if (this.logoPath != null) {
+      json[r'logoPath'] = this.logoPath;
     } else {
-      json[r'phone'] = null;
+      json[r'logoPath'] = null;
     }
-    if (this.address != null) {
-      json[r'address'] = this.address;
+    if (this.type != null) {
+      json[r'type'] = this.type;
     } else {
-      json[r'address'] = null;
+      json[r'type'] = null;
     }
     if (this.city != null) {
       json[r'city'] = this.city;
@@ -209,20 +224,35 @@ class AssociatedCompany {
     } else {
       json[r'country'] = null;
     }
+    if (this.phone != null) {
+      json[r'phone'] = this.phone;
+    } else {
+      json[r'phone'] = null;
+    }
+    if (this.address != null) {
+      json[r'address'] = this.address;
+    } else {
+      json[r'address'] = null;
+    }
     if (this.website != null) {
       json[r'website'] = this.website;
     } else {
       json[r'website'] = null;
     }
-    if (this.logoPath != null) {
-      json[r'logoPath'] = this.logoPath;
+    if (this.category != null) {
+      json[r'category'] = this.category;
     } else {
-      json[r'logoPath'] = null;
+      json[r'category'] = null;
     }
-    if (this.type != null) {
-      json[r'type'] = this.type;
+    if (this.monthlySalesRange != null) {
+      json[r'monthlySalesRange'] = this.monthlySalesRange;
     } else {
-      json[r'type'] = null;
+      json[r'monthlySalesRange'] = null;
+    }
+    if (this.printerType != null) {
+      json[r'printerType'] = this.printerType;
+    } else {
+      json[r'printerType'] = null;
     }
     if (this.createdAt != null) {
       json[r'createdAt'] = this.createdAt!.toUtc().toIso8601String();
@@ -270,13 +300,16 @@ class AssociatedCompany {
         id: mapValueOfType<String>(json, r'id'),
         name: mapValueOfType<String>(json, r'name'),
         rnc: mapValueOfType<String>(json, r'rnc'),
-        phone: mapValueOfType<String>(json, r'phone'),
-        address: mapValueOfType<String>(json, r'address'),
-        city: mapValueOfType<String>(json, r'city'),
-        country: mapValueOfType<String>(json, r'country'),
-        website: mapValueOfType<String>(json, r'website'),
         logoPath: mapValueOfType<String>(json, r'logoPath'),
         type: AssociatedCompanyTypeEnum.fromJson(json[r'type']),
+        city: mapValueOfType<String>(json, r'city'),
+        country: mapValueOfType<String>(json, r'country'),
+        phone: mapValueOfType<String>(json, r'phone'),
+        address: mapValueOfType<String>(json, r'address'),
+        website: mapValueOfType<String>(json, r'website'),
+        category: mapValueOfType<String>(json, r'category'),
+        monthlySalesRange: mapValueOfType<String>(json, r'monthlySalesRange'),
+        printerType: PrintFormat.fromJson(json[r'printerType']),
         createdAt: mapDateTime(json, r'createdAt', r''),
         docsIssuedThisMonth: mapValueOfType<int>(json, r'docsIssuedThisMonth'),
         purchasedDocsConsumedThisMonth: mapValueOfType<int>(json, r'purchasedDocsConsumedThisMonth'),

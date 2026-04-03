@@ -80,7 +80,7 @@ public class Example {
 
 <a id="listReceivedDocuments"></a>
 # **listReceivedDocuments**
-> ReceivedDocumentListResponse listReceivedDocuments(xTenantId, encf, type, status, dateFrom, dateTo, page, limit)
+> ReceivedDocumentListResponse listReceivedDocuments(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit)
 
 List received documents
 
@@ -109,15 +109,15 @@ public class Example {
 
     DocumentsReceivedApi apiInstance = new DocumentsReceivedApi(defaultClient);
     UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    String encf = "encf_example"; // String | 
-    String type = "type_example"; // String | 
+    String ecf = "ecf_example"; // String | 
+    String documentType = "documentType_example"; // String | 
     Integer status = 56; // Integer | 
     LocalDate dateFrom = LocalDate.now(); // LocalDate | 
     LocalDate dateTo = LocalDate.now(); // LocalDate | 
     Integer page = 1; // Integer | 
     Integer limit = 10; // Integer | 
     try {
-      ReceivedDocumentListResponse result = apiInstance.listReceivedDocuments(xTenantId, encf, type, status, dateFrom, dateTo, page, limit);
+      ReceivedDocumentListResponse result = apiInstance.listReceivedDocuments(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling DocumentsReceivedApi#listReceivedDocuments");
@@ -135,8 +135,8 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **xTenantId** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
-| **encf** | **String**|  | [optional] |
-| **type** | **String**|  | [optional] |
+| **ecf** | **String**|  | [optional] |
+| **documentType** | **String**|  | [optional] |
 | **status** | **Integer**|  | [optional] |
 | **dateFrom** | **LocalDate**|  | [optional] |
 | **dateTo** | **LocalDate**|  | [optional] |

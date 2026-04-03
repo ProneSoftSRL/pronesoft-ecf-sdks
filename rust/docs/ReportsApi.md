@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## export606
 
-> String export606(from, to, format)
+> String export606(from, to, format, status, r#type, encf)
 Export Format 606 (Purchases)
 
 Downloads the official Format 606 for DGII in TXT (official) or Excel format.
@@ -24,6 +24,9 @@ Name | Type | Description  | Required | Notes
 **from** | **String** |  | [required] |
 **to** | **String** |  | [required] |
 **format** | **String** |  | [required] |
+**status** | Option<**String**> |  |  |
+**r#type** | Option<**String**> |  |  |
+**encf** | Option<**String**> |  |  |
 
 ### Return type
 

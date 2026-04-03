@@ -14,11 +14,13 @@ class Transport {
   /// Returns a new [Transport] instance.
   Transport({
     this.driver,
+    this.document,
     this.vehicleId,
     this.licensePlate,
     this.route,
-    this.departureDate,
-    this.arrivalDate,
+    this.zone,
+    this.deliveryNoteNumber,
+    this.destinationCountry,
   });
 
   ///
@@ -28,6 +30,14 @@ class Transport {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? driver;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? document;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -59,7 +69,7 @@ class Transport {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  DateTime? departureDate;
+  String? zone;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -67,29 +77,41 @@ class Transport {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  DateTime? arrivalDate;
+  String? deliveryNoteNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? destinationCountry;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Transport &&
     other.driver == driver &&
+    other.document == document &&
     other.vehicleId == vehicleId &&
     other.licensePlate == licensePlate &&
     other.route == route &&
-    other.departureDate == departureDate &&
-    other.arrivalDate == arrivalDate;
+    other.zone == zone &&
+    other.deliveryNoteNumber == deliveryNoteNumber &&
+    other.destinationCountry == destinationCountry;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (driver == null ? 0 : driver!.hashCode) +
+    (document == null ? 0 : document!.hashCode) +
     (vehicleId == null ? 0 : vehicleId!.hashCode) +
     (licensePlate == null ? 0 : licensePlate!.hashCode) +
     (route == null ? 0 : route!.hashCode) +
-    (departureDate == null ? 0 : departureDate!.hashCode) +
-    (arrivalDate == null ? 0 : arrivalDate!.hashCode);
+    (zone == null ? 0 : zone!.hashCode) +
+    (deliveryNoteNumber == null ? 0 : deliveryNoteNumber!.hashCode) +
+    (destinationCountry == null ? 0 : destinationCountry!.hashCode);
 
   @override
-  String toString() => 'Transport[driver=$driver, vehicleId=$vehicleId, licensePlate=$licensePlate, route=$route, departureDate=$departureDate, arrivalDate=$arrivalDate]';
+  String toString() => 'Transport[driver=$driver, document=$document, vehicleId=$vehicleId, licensePlate=$licensePlate, route=$route, zone=$zone, deliveryNoteNumber=$deliveryNoteNumber, destinationCountry=$destinationCountry]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -97,6 +119,11 @@ class Transport {
       json[r'driver'] = this.driver;
     } else {
       json[r'driver'] = null;
+    }
+    if (this.document != null) {
+      json[r'document'] = this.document;
+    } else {
+      json[r'document'] = null;
     }
     if (this.vehicleId != null) {
       json[r'vehicleId'] = this.vehicleId;
@@ -113,15 +140,20 @@ class Transport {
     } else {
       json[r'route'] = null;
     }
-    if (this.departureDate != null) {
-      json[r'departureDate'] = this.departureDate!.toUtc().toIso8601String();
+    if (this.zone != null) {
+      json[r'zone'] = this.zone;
     } else {
-      json[r'departureDate'] = null;
+      json[r'zone'] = null;
     }
-    if (this.arrivalDate != null) {
-      json[r'arrivalDate'] = this.arrivalDate!.toUtc().toIso8601String();
+    if (this.deliveryNoteNumber != null) {
+      json[r'deliveryNoteNumber'] = this.deliveryNoteNumber;
     } else {
-      json[r'arrivalDate'] = null;
+      json[r'deliveryNoteNumber'] = null;
+    }
+    if (this.destinationCountry != null) {
+      json[r'destinationCountry'] = this.destinationCountry;
+    } else {
+      json[r'destinationCountry'] = null;
     }
     return json;
   }
@@ -142,11 +174,13 @@ class Transport {
 
       return Transport(
         driver: mapValueOfType<String>(json, r'driver'),
+        document: mapValueOfType<String>(json, r'document'),
         vehicleId: mapValueOfType<String>(json, r'vehicleId'),
         licensePlate: mapValueOfType<String>(json, r'licensePlate'),
         route: mapValueOfType<String>(json, r'route'),
-        departureDate: mapDateTime(json, r'departureDate', r''),
-        arrivalDate: mapDateTime(json, r'arrivalDate', r''),
+        zone: mapValueOfType<String>(json, r'zone'),
+        deliveryNoteNumber: mapValueOfType<String>(json, r'deliveryNoteNumber'),
+        destinationCountry: mapValueOfType<String>(json, r'destinationCountry'),
       );
     }
     return null;

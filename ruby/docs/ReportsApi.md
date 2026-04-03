@@ -10,7 +10,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 ## export606
 
-> String export606(from, to, format)
+> String export606(from, to, format, opts)
 
 Export Format 606 (Purchases)
 
@@ -34,10 +34,15 @@ api_instance = PronesoftEcf::ReportsApi.new
 from = Date.parse('2013-10-20') # Date | 
 to = Date.parse('2013-10-20') # Date | 
 format = 'txt' # String | 
+opts = {
+  status: 'status_example', # String | 
+  type: 'type_example', # String | 
+  encf: 'encf_example' # String | 
+}
 
 begin
   # Export Format 606 (Purchases)
-  result = api_instance.export606(from, to, format)
+  result = api_instance.export606(from, to, format, opts)
   p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling ReportsApi->export606: #{e}"
@@ -48,12 +53,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(String, Integer, Hash)> export606_with_http_info(from, to, format)
+> <Array(String, Integer, Hash)> export606_with_http_info(from, to, format, opts)
 
 ```ruby
 begin
   # Export Format 606 (Purchases)
-  data, status_code, headers = api_instance.export606_with_http_info(from, to, format)
+  data, status_code, headers = api_instance.export606_with_http_info(from, to, format, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => String
@@ -69,6 +74,9 @@ end
 | **from** | **Date** |  |  |
 | **to** | **Date** |  |  |
 | **format** | **String** |  |  |
+| **status** | **String** |  | [optional] |
+| **type** | **String** |  | [optional] |
+| **encf** | **String** |  | [optional] |
 
 ### Return type
 

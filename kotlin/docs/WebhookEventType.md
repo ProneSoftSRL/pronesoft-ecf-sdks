@@ -12,9 +12,13 @@
 
     * `documentPeriodContingency_activated` (value: `"document.contingency_activated"`)
 
-    * `sequencePeriodDepleted` (value: `"sequence.depleted"`)
+    * `commercialPeriodApproval` (value: `"commercial.approval"`)
 
-    * `sequencePeriodVoided` (value: `"sequence.voided"`)
+    * `certificatePeriodExpiring` (value: `"certificate.expiring"`)
+
+    * `securityPeriodNew_login` (value: `"security.new_login"`)
+
+    * `securityPeriodApi_key_rotated` (value: `"security.api_key_rotated"`)
 
     * `planPeriodUsage_alert` (value: `"plan.usage_alert"`)
 
@@ -22,11 +26,15 @@
 
     * `billingPeriodInvoice_ready` (value: `"billing.invoice_ready"`)
 
+    * `sequencePeriodDepleted` (value: `"sequence.depleted"`)
+
+    * `sequencePeriodVoided` (value: `"sequence.voided"`)
+
     * `branchPeriodCreated` (value: `"branch.created"`)
 
     * `branchPeriodStatus_changed` (value: `"branch.status_changed"`)
 
-    * `securityPeriodNew_login` (value: `"security.new_login"`)
+    * `securityPeriodNew_login2` (value: `"security.new_login"`)
 
     * `memberPeriodInvited` (value: `"member.invited"`)
 
@@ -34,9 +42,9 @@
 
     * `memberPeriodRemoved` (value: `"member.removed"`)
 
-    * `certificatePeriodExpiring` (value: `"certificate.expiring"`)
+    * `certificatePeriodExpiring2` (value: `"certificate.expiring"`)
 
-    * `commercialPeriodApproval` (value: `"commercial.approval"`)
+    * `commercialPeriodApproval2` (value: `"commercial.approval"`)
 
     * `certificationPeriodCompleted` (value: `"certification.completed"`)
 

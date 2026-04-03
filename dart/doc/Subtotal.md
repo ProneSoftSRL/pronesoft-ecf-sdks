@@ -8,9 +8,9 @@ import 'package:pronesoft_ecf/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**number** | **int** |  | 
-**amount** | **num** |  | 
+**number** | **int** |  | [optional] 
 **description** | **String** |  | [optional] 
+**order** | **int** |  | [optional] 
 **taxableAmount** | **num** |  | [optional] 
 **taxableAmount1** | **num** |  | [optional] 
 **taxableAmount2** | **num** |  | [optional] 
@@ -21,6 +21,7 @@ Name | Type | Description | Notes
 **itbis3** | **num** |  | [optional] 
 **additionalTaxes** | **num** |  | [optional] 
 **exemptAmount** | **num** |  | [optional] 
+**amount** | **num** |  | [optional] 
 **lines** | **int** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

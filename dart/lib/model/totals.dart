@@ -143,7 +143,7 @@ class Totals {
   ///
   num? additionalTaxAmount;
 
-  List<ItemAdditionalTax> additionalTaxes;
+  List<String> additionalTaxes;
 
   num totalAmount;
 
@@ -424,7 +424,9 @@ class Totals {
         itbis2: num.parse('${json[r'itbis2']}'),
         itbis3: num.parse('${json[r'itbis3']}'),
         additionalTaxAmount: num.parse('${json[r'additionalTaxAmount']}'),
-        additionalTaxes: ItemAdditionalTax.listFromJson(json[r'additionalTaxes']),
+        additionalTaxes: json[r'additionalTaxes'] is Iterable
+            ? (json[r'additionalTaxes'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
         totalAmount: num.parse('${json[r'totalAmount']}'),
         nonBillableAmount: num.parse('${json[r'nonBillableAmount']}'),
         periodAmount: num.parse('${json[r'periodAmount']}'),

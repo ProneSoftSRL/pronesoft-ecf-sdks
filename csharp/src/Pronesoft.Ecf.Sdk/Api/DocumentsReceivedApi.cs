@@ -51,15 +51,15 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
-        /// <param name="encf"> (optional)</param>
-        /// <param name="type"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
+        /// <param name="documentType"> (optional)</param>
         /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ReceivedDocumentListResponse</returns>
-        ReceivedDocumentListResponse ListReceivedDocuments(Guid? xTenantId = default, string? encf = default, string? type = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default);
+        ReceivedDocumentListResponse ListReceivedDocuments(Guid? xTenantId = default, string? ecf = default, string? documentType = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default);
 
         /// <summary>
         /// List received documents
@@ -69,15 +69,15 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
-        /// <param name="encf"> (optional)</param>
-        /// <param name="type"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
+        /// <param name="documentType"> (optional)</param>
         /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ReceivedDocumentListResponse</returns>
-        ApiResponse<ReceivedDocumentListResponse> ListReceivedDocumentsWithHttpInfo(Guid? xTenantId = default, string? encf = default, string? type = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default);
+        ApiResponse<ReceivedDocumentListResponse> ListReceivedDocumentsWithHttpInfo(Guid? xTenantId = default, string? ecf = default, string? documentType = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default);
         #endregion Synchronous Operations
     }
 
@@ -118,8 +118,8 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
-        /// <param name="encf"> (optional)</param>
-        /// <param name="type"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
+        /// <param name="documentType"> (optional)</param>
         /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
@@ -127,7 +127,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ReceivedDocumentListResponse</returns>
-        System.Threading.Tasks.Task<ReceivedDocumentListResponse> ListReceivedDocumentsAsync(Guid? xTenantId = default, string? encf = default, string? type = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ReceivedDocumentListResponse> ListReceivedDocumentsAsync(Guid? xTenantId = default, string? ecf = default, string? documentType = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// List received documents
@@ -137,8 +137,8 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
-        /// <param name="encf"> (optional)</param>
-        /// <param name="type"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
+        /// <param name="documentType"> (optional)</param>
         /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
@@ -146,7 +146,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ReceivedDocumentListResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ReceivedDocumentListResponse>> ListReceivedDocumentsWithHttpInfoAsync(Guid? xTenantId = default, string? encf = default, string? type = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<ReceivedDocumentListResponse>> ListReceivedDocumentsWithHttpInfoAsync(Guid? xTenantId = default, string? ecf = default, string? documentType = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -502,17 +502,17 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
-        /// <param name="encf"> (optional)</param>
-        /// <param name="type"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
+        /// <param name="documentType"> (optional)</param>
         /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ReceivedDocumentListResponse</returns>
-        public ReceivedDocumentListResponse ListReceivedDocuments(Guid? xTenantId = default, string? encf = default, string? type = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default)
+        public ReceivedDocumentListResponse ListReceivedDocuments(Guid? xTenantId = default, string? ecf = default, string? documentType = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> localVarResponse = ListReceivedDocumentsWithHttpInfo(xTenantId, encf, type, status, dateFrom, dateTo, page, limit);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> localVarResponse = ListReceivedDocumentsWithHttpInfo(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit);
             return localVarResponse.Data;
         }
 
@@ -521,15 +521,15 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
-        /// <param name="encf"> (optional)</param>
-        /// <param name="type"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
+        /// <param name="documentType"> (optional)</param>
         /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ReceivedDocumentListResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> ListReceivedDocumentsWithHttpInfo(Guid? xTenantId = default, string? encf = default, string? type = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> ListReceivedDocumentsWithHttpInfo(Guid? xTenantId = default, string? ecf = default, string? documentType = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -547,13 +547,13 @@ namespace Pronesoft.Ecf.Sdk.Api
             var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (encf != null)
+            if (ecf != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "encf", encf));
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "ecf", ecf));
             }
-            if (type != null)
+            if (documentType != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "type", type));
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "documentType", documentType));
             }
             if (status != null)
             {
@@ -610,8 +610,8 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
-        /// <param name="encf"> (optional)</param>
-        /// <param name="type"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
+        /// <param name="documentType"> (optional)</param>
         /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
@@ -619,9 +619,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ReceivedDocumentListResponse</returns>
-        public async System.Threading.Tasks.Task<ReceivedDocumentListResponse> ListReceivedDocumentsAsync(Guid? xTenantId = default, string? encf = default, string? type = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<ReceivedDocumentListResponse> ListReceivedDocumentsAsync(Guid? xTenantId = default, string? ecf = default, string? documentType = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> localVarResponse = await ListReceivedDocumentsWithHttpInfoAsync(xTenantId, encf, type, status, dateFrom, dateTo, page, limit, cancellationToken).ConfigureAwait(false);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> localVarResponse = await ListReceivedDocumentsWithHttpInfoAsync(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -630,8 +630,8 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
-        /// <param name="encf"> (optional)</param>
-        /// <param name="type"> (optional)</param>
+        /// <param name="ecf"> (optional)</param>
+        /// <param name="documentType"> (optional)</param>
         /// <param name="status"> (optional)</param>
         /// <param name="dateFrom"> (optional)</param>
         /// <param name="dateTo"> (optional)</param>
@@ -639,7 +639,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ReceivedDocumentListResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse>> ListReceivedDocumentsWithHttpInfoAsync(Guid? xTenantId = default, string? encf = default, string? type = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse>> ListReceivedDocumentsWithHttpInfoAsync(Guid? xTenantId = default, string? ecf = default, string? documentType = default, int? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -659,13 +659,13 @@ namespace Pronesoft.Ecf.Sdk.Api
             var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (encf != null)
+            if (ecf != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "encf", encf));
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "ecf", ecf));
             }
-            if (type != null)
+            if (documentType != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "type", type));
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "documentType", documentType));
             }
             if (status != null)
             {

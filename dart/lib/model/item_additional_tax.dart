@@ -14,12 +14,19 @@ class ItemAdditionalTax {
   /// Returns a new [ItemAdditionalTax] instance.
   ItemAdditionalTax({
     required this.code,
-    required this.amount,
+    this.amount,
   });
 
+  /// DGII tax code (e.g. ISC, IECS)
   String code;
 
-  num amount;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? amount;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ItemAdditionalTax &&
@@ -30,7 +37,7 @@ class ItemAdditionalTax {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (code.hashCode) +
-    (amount.hashCode);
+    (amount == null ? 0 : amount!.hashCode);
 
   @override
   String toString() => 'ItemAdditionalTax[code=$code, amount=$amount]';
@@ -38,7 +45,11 @@ class ItemAdditionalTax {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'code'] = this.code;
+    if (this.amount != null) {
       json[r'amount'] = this.amount;
+    } else {
+      json[r'amount'] = null;
+    }
     return json;
   }
 
@@ -55,8 +66,6 @@ class ItemAdditionalTax {
       assert(() {
         assert(json.containsKey(r'code'), 'Required key "ItemAdditionalTax[code]" is missing from JSON.');
         assert(json[r'code'] != null, 'Required key "ItemAdditionalTax[code]" has a null value in JSON.');
-        assert(json.containsKey(r'amount'), 'Required key "ItemAdditionalTax[amount]" is missing from JSON.');
-        assert(json[r'amount'] != null, 'Required key "ItemAdditionalTax[amount]" has a null value in JSON.');
         return true;
       }());
 
@@ -111,7 +120,6 @@ class ItemAdditionalTax {
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
     'code',
-    'amount',
   };
 }
 

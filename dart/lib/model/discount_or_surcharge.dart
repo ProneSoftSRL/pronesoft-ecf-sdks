@@ -15,21 +15,21 @@ class DiscountOrSurcharge {
   DiscountOrSurcharge({
     required this.lineNumber,
     required this.type,
-    required this.valueType,
-    required this.amount,
+    this.norm1007Indicator,
     this.description,
+    required this.valueType,
     this.percentageValue,
+    required this.amount,
     this.alternativeCurrencyAmount,
     this.billingIndicator,
   });
 
   int lineNumber;
 
+  /// D=Discount, R=Surcharge
   DiscountOrSurchargeTypeEnum type;
 
-  DiscountOrSurchargeValueTypeEnum valueType;
-
-  num amount;
+  DiscountOrSurchargeNorm1007IndicatorEnum? norm1007Indicator;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -39,6 +39,8 @@ class DiscountOrSurcharge {
   ///
   String? description;
 
+  DiscountOrSurchargeValueTypeEnum valueType;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -46,6 +48,8 @@ class DiscountOrSurcharge {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? percentageValue;
+
+  num amount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -67,10 +71,11 @@ class DiscountOrSurcharge {
   bool operator ==(Object other) => identical(this, other) || other is DiscountOrSurcharge &&
     other.lineNumber == lineNumber &&
     other.type == type &&
-    other.valueType == valueType &&
-    other.amount == amount &&
+    other.norm1007Indicator == norm1007Indicator &&
     other.description == description &&
+    other.valueType == valueType &&
     other.percentageValue == percentageValue &&
+    other.amount == amount &&
     other.alternativeCurrencyAmount == alternativeCurrencyAmount &&
     other.billingIndicator == billingIndicator;
 
@@ -79,32 +84,38 @@ class DiscountOrSurcharge {
     // ignore: unnecessary_parenthesis
     (lineNumber.hashCode) +
     (type.hashCode) +
-    (valueType.hashCode) +
-    (amount.hashCode) +
+    (norm1007Indicator == null ? 0 : norm1007Indicator!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
+    (valueType.hashCode) +
     (percentageValue == null ? 0 : percentageValue!.hashCode) +
+    (amount.hashCode) +
     (alternativeCurrencyAmount == null ? 0 : alternativeCurrencyAmount!.hashCode) +
     (billingIndicator == null ? 0 : billingIndicator!.hashCode);
 
   @override
-  String toString() => 'DiscountOrSurcharge[lineNumber=$lineNumber, type=$type, valueType=$valueType, amount=$amount, description=$description, percentageValue=$percentageValue, alternativeCurrencyAmount=$alternativeCurrencyAmount, billingIndicator=$billingIndicator]';
+  String toString() => 'DiscountOrSurcharge[lineNumber=$lineNumber, type=$type, norm1007Indicator=$norm1007Indicator, description=$description, valueType=$valueType, percentageValue=$percentageValue, amount=$amount, alternativeCurrencyAmount=$alternativeCurrencyAmount, billingIndicator=$billingIndicator]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'lineNumber'] = this.lineNumber;
       json[r'type'] = this.type;
-      json[r'valueType'] = this.valueType;
-      json[r'amount'] = this.amount;
+    if (this.norm1007Indicator != null) {
+      json[r'norm1007Indicator'] = this.norm1007Indicator;
+    } else {
+      json[r'norm1007Indicator'] = null;
+    }
     if (this.description != null) {
       json[r'description'] = this.description;
     } else {
       json[r'description'] = null;
     }
+      json[r'valueType'] = this.valueType;
     if (this.percentageValue != null) {
       json[r'percentageValue'] = this.percentageValue;
     } else {
       json[r'percentageValue'] = null;
     }
+      json[r'amount'] = this.amount;
     if (this.alternativeCurrencyAmount != null) {
       json[r'alternativeCurrencyAmount'] = this.alternativeCurrencyAmount;
     } else {
@@ -143,10 +154,11 @@ class DiscountOrSurcharge {
       return DiscountOrSurcharge(
         lineNumber: mapValueOfType<int>(json, r'lineNumber')!,
         type: DiscountOrSurchargeTypeEnum.fromJson(json[r'type'])!,
-        valueType: DiscountOrSurchargeValueTypeEnum.fromJson(json[r'valueType'])!,
-        amount: num.parse('${json[r'amount']}'),
+        norm1007Indicator: DiscountOrSurchargeNorm1007IndicatorEnum.fromJson(json[r'norm1007Indicator']),
         description: mapValueOfType<String>(json, r'description'),
+        valueType: DiscountOrSurchargeValueTypeEnum.fromJson(json[r'valueType'])!,
         percentageValue: num.parse('${json[r'percentageValue']}'),
+        amount: num.parse('${json[r'amount']}'),
         alternativeCurrencyAmount: num.parse('${json[r'alternativeCurrencyAmount']}'),
         billingIndicator: BillingIndicator.fromJson(json[r'billingIndicator']),
       );
@@ -203,7 +215,7 @@ class DiscountOrSurcharge {
   };
 }
 
-
+/// D=Discount, R=Surcharge
 class DiscountOrSurchargeTypeEnum {
   /// Instantiate a new enum with the provided [value].
   const DiscountOrSurchargeTypeEnum._(this.value);
@@ -274,6 +286,80 @@ class DiscountOrSurchargeTypeEnumTypeTransformer {
 
   /// Singleton [DiscountOrSurchargeTypeEnumTypeTransformer] instance.
   static DiscountOrSurchargeTypeEnumTypeTransformer? _instance;
+}
+
+
+
+class DiscountOrSurchargeNorm1007IndicatorEnum {
+  /// Instantiate a new enum with the provided [value].
+  const DiscountOrSurchargeNorm1007IndicatorEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n0 = DiscountOrSurchargeNorm1007IndicatorEnum._(r'0');
+  static const n1 = DiscountOrSurchargeNorm1007IndicatorEnum._(r'1');
+
+  /// List of all possible values in this [enum][DiscountOrSurchargeNorm1007IndicatorEnum].
+  static const values = <DiscountOrSurchargeNorm1007IndicatorEnum>[
+    n0,
+    n1,
+  ];
+
+  static DiscountOrSurchargeNorm1007IndicatorEnum? fromJson(dynamic value) => DiscountOrSurchargeNorm1007IndicatorEnumTypeTransformer().decode(value);
+
+  static List<DiscountOrSurchargeNorm1007IndicatorEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <DiscountOrSurchargeNorm1007IndicatorEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = DiscountOrSurchargeNorm1007IndicatorEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [DiscountOrSurchargeNorm1007IndicatorEnum] to String,
+/// and [decode] dynamic data back to [DiscountOrSurchargeNorm1007IndicatorEnum].
+class DiscountOrSurchargeNorm1007IndicatorEnumTypeTransformer {
+  factory DiscountOrSurchargeNorm1007IndicatorEnumTypeTransformer() => _instance ??= const DiscountOrSurchargeNorm1007IndicatorEnumTypeTransformer._();
+
+  const DiscountOrSurchargeNorm1007IndicatorEnumTypeTransformer._();
+
+  String encode(DiscountOrSurchargeNorm1007IndicatorEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a DiscountOrSurchargeNorm1007IndicatorEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  DiscountOrSurchargeNorm1007IndicatorEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'0': return DiscountOrSurchargeNorm1007IndicatorEnum.n0;
+        case r'1': return DiscountOrSurchargeNorm1007IndicatorEnum.n1;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [DiscountOrSurchargeNorm1007IndicatorEnumTypeTransformer] instance.
+  static DiscountOrSurchargeNorm1007IndicatorEnumTypeTransformer? _instance;
 }
 
 

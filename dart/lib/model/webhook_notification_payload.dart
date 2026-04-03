@@ -20,6 +20,7 @@ class WebhookNotificationPayload {
     required this.data,
   });
 
+  /// Unique notification ID (evt_xxx format). Use for deduplication.
   String id;
 
   WebhookEventType event;

@@ -188,6 +188,10 @@ class ApiClient {
           return AdditionalInfo.fromJson(value);
         case 'AlternativeCurrency':
           return AlternativeCurrency.fromJson(value);
+        case 'ApprovalItem':
+          return ApprovalItem.fromJson(value);
+        case 'ApprovalListResponse':
+          return ApprovalListResponse.fromJson(value);
         case 'AssociatedCompany':
           return AssociatedCompany.fromJson(value);
         case 'AssociatedCompanySubscription':
@@ -198,16 +202,52 @@ class ApiClient {
           return BillingIndicatorTypeTransformer().decode(value);
         case 'Buyer':
           return Buyer.fromJson(value);
+        case 'CertificationNiche':
+          return CertificationNiche.fromJson(value);
+        case 'CertificationNicheNicheItemsInner':
+          return CertificationNicheNicheItemsInner.fromJson(value);
+        case 'CertificationStatus':
+          return CertificationStatus.fromJson(value);
+        case 'CompanyDocumentMetrics':
+          return CompanyDocumentMetrics.fromJson(value);
+        case 'CompanyDocumentMetricsGroupByStatusInner':
+          return CompanyDocumentMetricsGroupByStatusInner.fromJson(value);
+        case 'CompanyDocumentMetricsGroupByStatusInnerCount':
+          return CompanyDocumentMetricsGroupByStatusInnerCount.fromJson(value);
+        case 'CompanyDocumentMetricsMainBusiness':
+          return CompanyDocumentMetricsMainBusiness.fromJson(value);
+        case 'CompanyDocumentMetricsTotals':
+          return CompanyDocumentMetricsTotals.fromJson(value);
+        case 'CompanyMetrics':
+          return CompanyMetrics.fromJson(value);
+        case 'CompanyMetricsDocumentsStatus':
+          return CompanyMetricsDocumentsStatus.fromJson(value);
         case 'CreateAssociatedCompany201Response':
           return CreateAssociatedCompany201Response.fromJson(value);
+        case 'CreateTaxSequence201Response':
+          return CreateTaxSequence201Response.fromJson(value);
         case 'CreateTaxSequenceRequest':
           return CreateTaxSequenceRequest.fromJson(value);
-        case 'CreateWebhookConfig':
-          return CreateWebhookConfig.fromJson(value);
+        case 'DeleteAssociatedCompany200Response':
+          return DeleteAssociatedCompany200Response.fromJson(value);
         case 'DiscountOrSurcharge':
           return DiscountOrSurcharge.fromJson(value);
+        case 'DocumentStatsResponse':
+          return DocumentStatsResponse.fromJson(value);
+        case 'DocumentStatus':
+          return DocumentStatusTypeTransformer().decode(value);
+        case 'EcfHistoryItem':
+          return EcfHistoryItem.fromJson(value);
+        case 'EcfStatsResponse':
+          return EcfStatsResponse.fromJson(value);
+        case 'EcfStatusResponse':
+          return EcfStatusResponse.fromJson(value);
+        case 'EcfStatusResponseMensajesInner':
+          return EcfStatusResponseMensajesInner.fromJson(value);
         case 'EcfSubmissionResponse':
           return EcfSubmissionResponse.fromJson(value);
+        case 'EcfSubmissionResponseDgiiResponse':
+          return EcfSubmissionResponseDgiiResponse.fromJson(value);
         case 'ElectronicDocument':
           return ElectronicDocument.fromJson(value);
         case 'Environment':
@@ -220,10 +260,20 @@ class ApiClient {
           return GetNextNumber200ResponseData.fromJson(value);
         case 'InvoiceType':
           return InvoiceTypeTypeTransformer().decode(value);
+        case 'InvoiceTypeSequence':
+          return InvoiceTypeSequenceTypeTransformer().decode(value);
         case 'Item':
           return Item.fromJson(value);
         case 'ItemAdditionalTax':
           return ItemAdditionalTax.fromJson(value);
+        case 'ItemAlternativeCurrency':
+          return ItemAlternativeCurrency.fromJson(value);
+        case 'ItemCodesInner':
+          return ItemCodesInner.fromJson(value);
+        case 'ItemDiscountInner':
+          return ItemDiscountInner.fromJson(value);
+        case 'ItemMiningInfo':
+          return ItemMiningInfo.fromJson(value);
         case 'ListTaxSequences200Response':
           return ListTaxSequences200Response.fromJson(value);
         case 'OAuthTokenRequest':
@@ -232,30 +282,72 @@ class ApiClient {
           return OAuthTokenResponse.fromJson(value);
         case 'Page':
           return Page.fromJson(value);
+        case 'PaginationMeta':
+          return PaginationMeta.fromJson(value);
+        case 'PaymentForm':
+          return PaymentForm.fromJson(value);
         case 'PaymentMethod':
           return PaymentMethodTypeTransformer().decode(value);
         case 'PrintFormat':
           return PrintFormatTypeTransformer().decode(value);
+        case 'ProcessingLog':
+          return ProcessingLog.fromJson(value);
+        case 'RateLimitErrorResponse':
+          return RateLimitErrorResponse.fromJson(value);
+        case 'ReceivedDocument':
+          return ReceivedDocument.fromJson(value);
+        case 'ReceivedDocumentListResponse':
+          return ReceivedDocumentListResponse.fromJson(value);
+        case 'ReceivedDocumentStatsResponse':
+          return ReceivedDocumentStatsResponse.fromJson(value);
         case 'ReferenceInfo':
           return ReferenceInfo.fromJson(value);
+        case 'SentDocumentDetail':
+          return SentDocumentDetail.fromJson(value);
+        case 'SentDocumentListResponse':
+          return SentDocumentListResponse.fromJson(value);
+        case 'SentDocumentSummary':
+          return SentDocumentSummary.fromJson(value);
+        case 'SentDocumentSummaryBusiness':
+          return SentDocumentSummaryBusiness.fromJson(value);
+        case 'StartCertification200Response':
+          return StartCertification200Response.fromJson(value);
+        case 'StartCertificationRequest':
+          return StartCertificationRequest.fromJson(value);
         case 'Subquantity':
           return Subquantity.fromJson(value);
         case 'Subtotal':
           return Subtotal.fromJson(value);
         case 'TaxSequence':
           return TaxSequence.fromJson(value);
+        case 'TaxSequenceCreated':
+          return TaxSequenceCreated.fromJson(value);
         case 'Totals':
           return Totals.fromJson(value);
         case 'Transport':
           return Transport.fromJson(value);
-        case 'UploadCertificate201Response':
-          return UploadCertificate201Response.fromJson(value);
+        case 'UpdateTaxSequenceRequest':
+          return UpdateTaxSequenceRequest.fromJson(value);
+        case 'UploadCertificateResponse':
+          return UploadCertificateResponse.fromJson(value);
+        case 'VoidTaxSequence200Response':
+          return VoidTaxSequence200Response.fromJson(value);
+        case 'VoidTaxSequence200ResponseData':
+          return VoidTaxSequence200ResponseData.fromJson(value);
+        case 'VoidTaxSequenceRequest':
+          return VoidTaxSequenceRequest.fromJson(value);
+        case 'WebhookConfigDetail':
+          return WebhookConfigDetail.fromJson(value);
         case 'WebhookConfigResponse':
           return WebhookConfigResponse.fromJson(value);
         case 'WebhookEventType':
           return WebhookEventTypeTypeTransformer().decode(value);
         case 'WebhookNotificationPayload':
           return WebhookNotificationPayload.fromJson(value);
+        case 'WebhookStats':
+          return WebhookStats.fromJson(value);
+        case 'WebhookStatsStats':
+          return WebhookStatsStats.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {

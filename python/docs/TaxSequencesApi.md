@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence
+[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Create new tax sequence
 [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number
 [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences
-[**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence
+[**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Update tax sequence
 [**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
 
 
@@ -184,7 +184,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_tax_sequences**
-> ListTaxSequences200Response list_tax_sequences(x_tenant_id=x_tenant_id, type=type, page=page, limit=limit)
+> ListTaxSequences200Response list_tax_sequences(x_tenant_id=x_tenant_id, type=type, environment=environment, page=page, limit=limit)
 
 List tax sequences
 
@@ -195,6 +195,7 @@ List tax sequences
 
 ```python
 import pronesoft_ecf
+from pronesoft_ecf.models.environment import Environment
 from pronesoft_ecf.models.invoice_type_sequence import InvoiceTypeSequence
 from pronesoft_ecf.models.list_tax_sequences200_response import ListTaxSequences200Response
 from pronesoft_ecf.rest import ApiException
@@ -224,12 +225,13 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
     x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
     type = pronesoft_ecf.InvoiceTypeSequence() # InvoiceTypeSequence |  (optional)
+    environment = pronesoft_ecf.Environment() # Environment |  (optional)
     page = 1 # int |  (optional) (default to 1)
     limit = 10 # int |  (optional) (default to 10)
 
     try:
         # List tax sequences
-        api_response = api_instance.list_tax_sequences(x_tenant_id=x_tenant_id, type=type, page=page, limit=limit)
+        api_response = api_instance.list_tax_sequences(x_tenant_id=x_tenant_id, type=type, environment=environment, page=page, limit=limit)
         print("The response of TaxSequencesApi->list_tax_sequences:\n")
         pprint(api_response)
     except Exception as e:
@@ -245,6 +247,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **x_tenant_id** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
  **type** | [**InvoiceTypeSequence**](.md)|  | [optional] 
+ **environment** | [**Environment**](.md)|  | [optional] 
  **page** | **int**|  | [optional] [default to 1]
  **limit** | **int**|  | [optional] [default to 10]
 
@@ -271,7 +274,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_tax_sequence**
-> update_tax_sequence(sequence_id, update_tax_sequence_request, x_tenant_id=x_tenant_id)
+> update_tax_sequence(id, update_tax_sequence_request, x_tenant_id=x_tenant_id)
 
 Update tax sequence
 
@@ -308,13 +311,13 @@ configuration = pronesoft_ecf.Configuration(
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
-    sequence_id = 'sequence_id_example' # str | 
+    id = 'id_example' # str | 
     update_tax_sequence_request = pronesoft_ecf.UpdateTaxSequenceRequest() # UpdateTaxSequenceRequest | 
     x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
 
     try:
         # Update tax sequence
-        api_instance.update_tax_sequence(sequence_id, update_tax_sequence_request, x_tenant_id=x_tenant_id)
+        api_instance.update_tax_sequence(id, update_tax_sequence_request, x_tenant_id=x_tenant_id)
     except Exception as e:
         print("Exception when calling TaxSequencesApi->update_tax_sequence: %s\n" % e)
 ```
@@ -326,7 +329,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sequence_id** | **str**|  | 
+ **id** | **str**|  | 
  **update_tax_sequence_request** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md)|  | 
  **x_tenant_id** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
 

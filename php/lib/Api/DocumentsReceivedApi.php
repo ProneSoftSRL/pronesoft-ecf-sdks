@@ -415,8 +415,8 @@ class DocumentsReceivedApi
      * List received documents
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $encf encf (optional)
-     * @param  string|null $type type (optional)
+     * @param  string|null $ecf ecf (optional)
+     * @param  string|null $document_type document_type (optional)
      * @param  int|null $status status (optional)
      * @param  \DateTime|null $date_from date_from (optional)
      * @param  \DateTime|null $date_to date_to (optional)
@@ -428,9 +428,9 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\ReceivedDocumentListResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function listReceivedDocuments($x_tenant_id = null, $encf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocuments($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
-        list($response) = $this->listReceivedDocumentsWithHttpInfo($x_tenant_id, $encf, $type, $status, $date_from, $date_to, $page, $limit, $contentType);
+        list($response) = $this->listReceivedDocumentsWithHttpInfo($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit, $contentType);
         return $response;
     }
 
@@ -440,8 +440,8 @@ class DocumentsReceivedApi
      * List received documents
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $encf (optional)
-     * @param  string|null $type (optional)
+     * @param  string|null $ecf (optional)
+     * @param  string|null $document_type (optional)
      * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
@@ -453,9 +453,9 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\ReceivedDocumentListResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listReceivedDocumentsWithHttpInfo($x_tenant_id = null, $encf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocumentsWithHttpInfo($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
-        $request = $this->listReceivedDocumentsRequest($x_tenant_id, $encf, $type, $status, $date_from, $date_to, $page, $limit, $contentType);
+        $request = $this->listReceivedDocumentsRequest($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -546,8 +546,8 @@ class DocumentsReceivedApi
      * List received documents
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $encf (optional)
-     * @param  string|null $type (optional)
+     * @param  string|null $ecf (optional)
+     * @param  string|null $document_type (optional)
      * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
@@ -558,9 +558,9 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listReceivedDocumentsAsync($x_tenant_id = null, $encf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocumentsAsync($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
-        return $this->listReceivedDocumentsAsyncWithHttpInfo($x_tenant_id, $encf, $type, $status, $date_from, $date_to, $page, $limit, $contentType)
+        return $this->listReceivedDocumentsAsyncWithHttpInfo($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -574,8 +574,8 @@ class DocumentsReceivedApi
      * List received documents
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $encf (optional)
-     * @param  string|null $type (optional)
+     * @param  string|null $ecf (optional)
+     * @param  string|null $document_type (optional)
      * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
@@ -586,10 +586,10 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listReceivedDocumentsAsyncWithHttpInfo($x_tenant_id = null, $encf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocumentsAsyncWithHttpInfo($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
         $returnType = '\PronesoftEcf\Model\ReceivedDocumentListResponse';
-        $request = $this->listReceivedDocumentsRequest($x_tenant_id, $encf, $type, $status, $date_from, $date_to, $page, $limit, $contentType);
+        $request = $this->listReceivedDocumentsRequest($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -631,8 +631,8 @@ class DocumentsReceivedApi
      * Create request for operation 'listReceivedDocuments'
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $encf (optional)
-     * @param  string|null $type (optional)
+     * @param  string|null $ecf (optional)
+     * @param  string|null $document_type (optional)
      * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
@@ -643,7 +643,7 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listReceivedDocumentsRequest($x_tenant_id = null, $encf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocumentsRequest($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
 
 
@@ -664,8 +664,8 @@ class DocumentsReceivedApi
 
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $encf,
-            'encf', // param base name
+            $ecf,
+            'ecf', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
@@ -673,8 +673,8 @@ class DocumentsReceivedApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $type,
-            'type', // param base name
+            $document_type,
+            'documentType', // param base name
             'string', // openApiType
             'form', // style
             true, // explode

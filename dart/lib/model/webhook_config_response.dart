@@ -15,9 +15,11 @@ class WebhookConfigResponse {
   WebhookConfigResponse({
     this.id,
     this.url,
+    this.description,
     this.eventTypes = const [],
     this.isActive,
     this.createdAt,
+    this.updatedAt,
     this.lastTriggeredAt,
   });
 
@@ -37,6 +39,14 @@ class WebhookConfigResponse {
   ///
   String? url;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? description;
+
   List<WebhookEventType> eventTypes;
 
   ///
@@ -55,15 +65,25 @@ class WebhookConfigResponse {
   ///
   DateTime? createdAt;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? updatedAt;
+
   DateTime? lastTriggeredAt;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is WebhookConfigResponse &&
     other.id == id &&
     other.url == url &&
+    other.description == description &&
     _deepEquality.equals(other.eventTypes, eventTypes) &&
     other.isActive == isActive &&
     other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
     other.lastTriggeredAt == lastTriggeredAt;
 
   @override
@@ -71,13 +91,15 @@ class WebhookConfigResponse {
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
     (url == null ? 0 : url!.hashCode) +
+    (description == null ? 0 : description!.hashCode) +
     (eventTypes.hashCode) +
     (isActive == null ? 0 : isActive!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (lastTriggeredAt == null ? 0 : lastTriggeredAt!.hashCode);
 
   @override
-  String toString() => 'WebhookConfigResponse[id=$id, url=$url, eventTypes=$eventTypes, isActive=$isActive, createdAt=$createdAt, lastTriggeredAt=$lastTriggeredAt]';
+  String toString() => 'WebhookConfigResponse[id=$id, url=$url, description=$description, eventTypes=$eventTypes, isActive=$isActive, createdAt=$createdAt, updatedAt=$updatedAt, lastTriggeredAt=$lastTriggeredAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -91,6 +113,11 @@ class WebhookConfigResponse {
     } else {
       json[r'url'] = null;
     }
+    if (this.description != null) {
+      json[r'description'] = this.description;
+    } else {
+      json[r'description'] = null;
+    }
       json[r'eventTypes'] = this.eventTypes;
     if (this.isActive != null) {
       json[r'isActive'] = this.isActive;
@@ -101,6 +128,11 @@ class WebhookConfigResponse {
       json[r'createdAt'] = this.createdAt!.toUtc().toIso8601String();
     } else {
       json[r'createdAt'] = null;
+    }
+    if (this.updatedAt != null) {
+      json[r'updatedAt'] = this.updatedAt!.toUtc().toIso8601String();
+    } else {
+      json[r'updatedAt'] = null;
     }
     if (this.lastTriggeredAt != null) {
       json[r'lastTriggeredAt'] = this.lastTriggeredAt!.toUtc().toIso8601String();
@@ -127,9 +159,11 @@ class WebhookConfigResponse {
       return WebhookConfigResponse(
         id: mapValueOfType<String>(json, r'id'),
         url: mapValueOfType<String>(json, r'url'),
+        description: mapValueOfType<String>(json, r'description'),
         eventTypes: WebhookEventType.listFromJson(json[r'eventTypes']),
         isActive: mapValueOfType<bool>(json, r'isActive'),
         createdAt: mapDateTime(json, r'createdAt', r''),
+        updatedAt: mapDateTime(json, r'updatedAt', r''),
         lastTriggeredAt: mapDateTime(json, r'lastTriggeredAt', r''),
       );
     }

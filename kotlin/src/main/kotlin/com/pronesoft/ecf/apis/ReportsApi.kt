@@ -78,6 +78,9 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param from 
      * @param to 
      * @param format 
+     * @param status  (optional)
+     * @param type  (optional)
+     * @param encf  (optional)
      * @return kotlin.String
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -87,8 +90,8 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun export606(from: java.time.LocalDate, to: java.time.LocalDate, format: FormatExport606) : kotlin.String {
-        val localVarResponse = export606WithHttpInfo(from = from, to = to, format = format)
+    fun export606(from: java.time.LocalDate, to: java.time.LocalDate, format: FormatExport606, status: kotlin.String? = null, type: kotlin.String? = null, encf: kotlin.String? = null) : kotlin.String {
+        val localVarResponse = export606WithHttpInfo(from = from, to = to, format = format, status = status, type = type, encf = encf)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
@@ -112,14 +115,17 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param from 
      * @param to 
      * @param format 
+     * @param status  (optional)
+     * @param type  (optional)
+     * @param encf  (optional)
      * @return ApiResponse<kotlin.String?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun export606WithHttpInfo(from: java.time.LocalDate, to: java.time.LocalDate, format: FormatExport606) : ApiResponse<kotlin.String?> {
-        val localVariableConfig = export606RequestConfig(from = from, to = to, format = format)
+    fun export606WithHttpInfo(from: java.time.LocalDate, to: java.time.LocalDate, format: FormatExport606, status: kotlin.String?, type: kotlin.String?, encf: kotlin.String?) : ApiResponse<kotlin.String?> {
+        val localVariableConfig = export606RequestConfig(from = from, to = to, format = format, status = status, type = type, encf = encf)
 
         return request<Unit, kotlin.String>(
             localVariableConfig
@@ -132,15 +138,27 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
      * @param from 
      * @param to 
      * @param format 
+     * @param status  (optional)
+     * @param type  (optional)
+     * @param encf  (optional)
      * @return RequestConfig
      */
-    fun export606RequestConfig(from: java.time.LocalDate, to: java.time.LocalDate, format: FormatExport606) : RequestConfig<Unit> {
+    fun export606RequestConfig(from: java.time.LocalDate, to: java.time.LocalDate, format: FormatExport606, status: kotlin.String?, type: kotlin.String?, encf: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("from", listOf(parseDateToQueryString(from)))
                 put("to", listOf(parseDateToQueryString(to)))
                 put("format", listOf(format.value))
+                if (status != null) {
+                    put("status", listOf(status.toString()))
+                }
+                if (type != null) {
+                    put("type", listOf(type.toString()))
+                }
+                if (encf != null) {
+                    put("encf", listOf(encf.toString()))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "text/plain, application/json"

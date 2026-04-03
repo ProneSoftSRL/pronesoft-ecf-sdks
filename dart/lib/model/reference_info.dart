@@ -38,6 +38,7 @@ class ReferenceInfo {
   ///
   DateTime? modifiedInvoiceDate;
 
+  /// 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
   ReferenceInfoModificationCodeEnum modificationCode;
 
   ///
@@ -77,7 +78,7 @@ class ReferenceInfo {
       json[r'otherContributorRNC'] = null;
     }
     if (this.modifiedInvoiceDate != null) {
-      json[r'modifiedInvoiceDate'] = _dateFormatter.format(this.modifiedInvoiceDate!.toUtc());
+      json[r'modifiedInvoiceDate'] = this.modifiedInvoiceDate!.toUtc().toIso8601String();
     } else {
       json[r'modifiedInvoiceDate'] = null;
     }
@@ -166,7 +167,7 @@ class ReferenceInfo {
   };
 }
 
-
+/// 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
 class ReferenceInfoModificationCodeEnum {
   /// Instantiate a new enum with the provided [value].
   const ReferenceInfoModificationCodeEnum._(this.value);

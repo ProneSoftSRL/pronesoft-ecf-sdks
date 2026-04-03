@@ -58,7 +58,7 @@ Configure bearerAuth:
 
 <a id="listReceivedDocuments"></a>
 # **listReceivedDocuments**
-> ReceivedDocumentListResponse listReceivedDocuments(xTenantId, encf, type, status, dateFrom, dateTo, page, limit)
+> ReceivedDocumentListResponse listReceivedDocuments(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit)
 
 List received documents
 
@@ -70,15 +70,15 @@ List received documents
 
 val apiInstance = DocumentsReceivedApi()
 val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-val encf : kotlin.String = encf_example // kotlin.String | 
-val type : kotlin.String = type_example // kotlin.String | 
+val ecf : kotlin.String = ecf_example // kotlin.String | 
+val documentType : kotlin.String = documentType_example // kotlin.String | 
 val status : kotlin.Int = 56 // kotlin.Int | 
 val dateFrom : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
 val dateTo : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
 val page : kotlin.Int = 56 // kotlin.Int | 
 val limit : kotlin.Int = 56 // kotlin.Int | 
 try {
-    val result : ReceivedDocumentListResponse = apiInstance.listReceivedDocuments(xTenantId, encf, type, status, dateFrom, dateTo, page, limit)
+    val result : ReceivedDocumentListResponse = apiInstance.listReceivedDocuments(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling DocumentsReceivedApi#listReceivedDocuments")
@@ -91,8 +91,8 @@ try {
 
 ### Parameters
 | **xTenantId** | **java.util.UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
-| **encf** | **kotlin.String**|  | [optional] |
-| **type** | **kotlin.String**|  | [optional] |
+| **ecf** | **kotlin.String**|  | [optional] |
+| **documentType** | **kotlin.String**|  | [optional] |
 | **status** | **kotlin.Int**|  | [optional] |
 | **dateFrom** | **java.time.LocalDate**|  | [optional] |
 | **dateTo** | **java.time.LocalDate**|  | [optional] |

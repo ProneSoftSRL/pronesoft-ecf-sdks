@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createTaxSequence**](TaxSequencesApi.md#createtaxsequenceoperation) | **POST** /tax-sequences | Create new tax sequence |
+| [**createTaxSequence**](TaxSequencesApi.md#createtaxsequenceoperation) | **POST** /tax-sequences/create | Create new tax sequence |
 | [**getNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**listTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences |
-| [**updateTaxSequence**](TaxSequencesApi.md#updatetaxsequenceoperation) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**updateTaxSequence**](TaxSequencesApi.md#updatetaxsequenceoperation) | **PATCH** /tax-sequences/update | Update tax sequence |
 | [**voidTaxSequence**](TaxSequencesApi.md#voidtaxsequenceoperation) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 
@@ -170,7 +170,7 @@ example().catch(console.error);
 
 ## listTaxSequences
 
-> ListTaxSequences200Response listTaxSequences(xTenantId, type, page, limit)
+> ListTaxSequences200Response listTaxSequences(xTenantId, type, environment, page, limit)
 
 List tax sequences
 
@@ -198,6 +198,8 @@ async function example() {
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
     // InvoiceTypeSequence (optional)
     type: ...,
+    // Environment (optional)
+    environment: ...,
     // number (optional)
     page: 56,
     // number (optional)
@@ -223,6 +225,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
 | **type** | `InvoiceTypeSequence` |  | [Optional] [Defaults to `undefined`] [Enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
+| **environment** | `Environment` |  | [Optional] [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
 | **page** | `number` |  | [Optional] [Defaults to `1`] |
 | **limit** | `number` |  | [Optional] [Defaults to `10`] |
 
@@ -251,7 +254,7 @@ example().catch(console.error);
 
 ## updateTaxSequence
 
-> updateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId)
+> updateTaxSequence(id, updateTaxSequenceRequest, xTenantId)
 
 Update tax sequence
 
@@ -276,7 +279,7 @@ async function example() {
 
   const body = {
     // string
-    sequenceId: sequenceId_example,
+    id: id_example,
     // UpdateTaxSequenceRequest
     updateTaxSequenceRequest: ...,
     // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
@@ -300,7 +303,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **sequenceId** | `string` |  | [Defaults to `undefined`] |
+| **id** | `string` |  | [Defaults to `undefined`] |
 | **updateTaxSequenceRequest** | [UpdateTaxSequenceRequest](UpdateTaxSequenceRequest.md) |  | |
 | **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
 

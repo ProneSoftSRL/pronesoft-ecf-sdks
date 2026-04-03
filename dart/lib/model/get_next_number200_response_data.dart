@@ -14,6 +14,7 @@ class GetNextNumber200ResponseData {
   /// Returns a new [GetNextNumber200ResponseData] instance.
   GetNextNumber200ResponseData({
     this.nextNumber,
+    this.sequenceId,
     this.remainingNumbers,
   });
 
@@ -31,21 +32,31 @@ class GetNextNumber200ResponseData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  String? sequenceId;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   int? remainingNumbers;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is GetNextNumber200ResponseData &&
     other.nextNumber == nextNumber &&
+    other.sequenceId == sequenceId &&
     other.remainingNumbers == remainingNumbers;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (nextNumber == null ? 0 : nextNumber!.hashCode) +
+    (sequenceId == null ? 0 : sequenceId!.hashCode) +
     (remainingNumbers == null ? 0 : remainingNumbers!.hashCode);
 
   @override
-  String toString() => 'GetNextNumber200ResponseData[nextNumber=$nextNumber, remainingNumbers=$remainingNumbers]';
+  String toString() => 'GetNextNumber200ResponseData[nextNumber=$nextNumber, sequenceId=$sequenceId, remainingNumbers=$remainingNumbers]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -53,6 +64,11 @@ class GetNextNumber200ResponseData {
       json[r'nextNumber'] = this.nextNumber;
     } else {
       json[r'nextNumber'] = null;
+    }
+    if (this.sequenceId != null) {
+      json[r'sequenceId'] = this.sequenceId;
+    } else {
+      json[r'sequenceId'] = null;
     }
     if (this.remainingNumbers != null) {
       json[r'remainingNumbers'] = this.remainingNumbers;
@@ -78,6 +94,7 @@ class GetNextNumber200ResponseData {
 
       return GetNextNumber200ResponseData(
         nextNumber: mapValueOfType<String>(json, r'nextNumber'),
+        sequenceId: mapValueOfType<String>(json, r'sequenceId'),
         remainingNumbers: mapValueOfType<int>(json, r'remainingNumbers'),
       );
     }

@@ -13,11 +13,51 @@ part of openapi.api;
 class AdditionalInfo {
   /// Returns a new [AdditionalInfo] instance.
   AdditionalInfo({
+    this.shipmentDate,
+    this.shipmentNumber,
+    this.containerNumber,
+    this.referenceNumber,
     this.grossWeight,
+    this.netWeight,
+    this.grossWeightUnit,
+    this.netWeightUnit,
     this.packageQuantity,
-    this.containerId,
-    this.sealId,
+    this.packageUnit,
+    this.packageVolume,
+    this.volumeUnit,
   });
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? shipmentDate;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? shipmentNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? containerNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? referenceNumber;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -33,6 +73,30 @@ class AdditionalInfo {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  num? netWeight;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? grossWeightUnit;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? netWeightUnit;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   num? packageQuantity;
 
   ///
@@ -41,7 +105,7 @@ class AdditionalInfo {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? containerId;
+  int? packageUnit;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -49,47 +113,111 @@ class AdditionalInfo {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? sealId;
+  num? packageVolume;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? volumeUnit;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalInfo &&
+    other.shipmentDate == shipmentDate &&
+    other.shipmentNumber == shipmentNumber &&
+    other.containerNumber == containerNumber &&
+    other.referenceNumber == referenceNumber &&
     other.grossWeight == grossWeight &&
+    other.netWeight == netWeight &&
+    other.grossWeightUnit == grossWeightUnit &&
+    other.netWeightUnit == netWeightUnit &&
     other.packageQuantity == packageQuantity &&
-    other.containerId == containerId &&
-    other.sealId == sealId;
+    other.packageUnit == packageUnit &&
+    other.packageVolume == packageVolume &&
+    other.volumeUnit == volumeUnit;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
+    (shipmentDate == null ? 0 : shipmentDate!.hashCode) +
+    (shipmentNumber == null ? 0 : shipmentNumber!.hashCode) +
+    (containerNumber == null ? 0 : containerNumber!.hashCode) +
+    (referenceNumber == null ? 0 : referenceNumber!.hashCode) +
     (grossWeight == null ? 0 : grossWeight!.hashCode) +
+    (netWeight == null ? 0 : netWeight!.hashCode) +
+    (grossWeightUnit == null ? 0 : grossWeightUnit!.hashCode) +
+    (netWeightUnit == null ? 0 : netWeightUnit!.hashCode) +
     (packageQuantity == null ? 0 : packageQuantity!.hashCode) +
-    (containerId == null ? 0 : containerId!.hashCode) +
-    (sealId == null ? 0 : sealId!.hashCode);
+    (packageUnit == null ? 0 : packageUnit!.hashCode) +
+    (packageVolume == null ? 0 : packageVolume!.hashCode) +
+    (volumeUnit == null ? 0 : volumeUnit!.hashCode);
 
   @override
-  String toString() => 'AdditionalInfo[grossWeight=$grossWeight, packageQuantity=$packageQuantity, containerId=$containerId, sealId=$sealId]';
+  String toString() => 'AdditionalInfo[shipmentDate=$shipmentDate, shipmentNumber=$shipmentNumber, containerNumber=$containerNumber, referenceNumber=$referenceNumber, grossWeight=$grossWeight, netWeight=$netWeight, grossWeightUnit=$grossWeightUnit, netWeightUnit=$netWeightUnit, packageQuantity=$packageQuantity, packageUnit=$packageUnit, packageVolume=$packageVolume, volumeUnit=$volumeUnit]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.shipmentDate != null) {
+      json[r'shipmentDate'] = this.shipmentDate;
+    } else {
+      json[r'shipmentDate'] = null;
+    }
+    if (this.shipmentNumber != null) {
+      json[r'shipmentNumber'] = this.shipmentNumber;
+    } else {
+      json[r'shipmentNumber'] = null;
+    }
+    if (this.containerNumber != null) {
+      json[r'containerNumber'] = this.containerNumber;
+    } else {
+      json[r'containerNumber'] = null;
+    }
+    if (this.referenceNumber != null) {
+      json[r'referenceNumber'] = this.referenceNumber;
+    } else {
+      json[r'referenceNumber'] = null;
+    }
     if (this.grossWeight != null) {
       json[r'grossWeight'] = this.grossWeight;
     } else {
       json[r'grossWeight'] = null;
+    }
+    if (this.netWeight != null) {
+      json[r'netWeight'] = this.netWeight;
+    } else {
+      json[r'netWeight'] = null;
+    }
+    if (this.grossWeightUnit != null) {
+      json[r'grossWeightUnit'] = this.grossWeightUnit;
+    } else {
+      json[r'grossWeightUnit'] = null;
+    }
+    if (this.netWeightUnit != null) {
+      json[r'netWeightUnit'] = this.netWeightUnit;
+    } else {
+      json[r'netWeightUnit'] = null;
     }
     if (this.packageQuantity != null) {
       json[r'packageQuantity'] = this.packageQuantity;
     } else {
       json[r'packageQuantity'] = null;
     }
-    if (this.containerId != null) {
-      json[r'containerId'] = this.containerId;
+    if (this.packageUnit != null) {
+      json[r'packageUnit'] = this.packageUnit;
     } else {
-      json[r'containerId'] = null;
+      json[r'packageUnit'] = null;
     }
-    if (this.sealId != null) {
-      json[r'sealId'] = this.sealId;
+    if (this.packageVolume != null) {
+      json[r'packageVolume'] = this.packageVolume;
     } else {
-      json[r'sealId'] = null;
+      json[r'packageVolume'] = null;
+    }
+    if (this.volumeUnit != null) {
+      json[r'volumeUnit'] = this.volumeUnit;
+    } else {
+      json[r'volumeUnit'] = null;
     }
     return json;
   }
@@ -109,10 +237,18 @@ class AdditionalInfo {
       }());
 
       return AdditionalInfo(
+        shipmentDate: mapValueOfType<String>(json, r'shipmentDate'),
+        shipmentNumber: mapValueOfType<String>(json, r'shipmentNumber'),
+        containerNumber: mapValueOfType<String>(json, r'containerNumber'),
+        referenceNumber: mapValueOfType<String>(json, r'referenceNumber'),
         grossWeight: num.parse('${json[r'grossWeight']}'),
+        netWeight: num.parse('${json[r'netWeight']}'),
+        grossWeightUnit: mapValueOfType<int>(json, r'grossWeightUnit'),
+        netWeightUnit: mapValueOfType<int>(json, r'netWeightUnit'),
         packageQuantity: num.parse('${json[r'packageQuantity']}'),
-        containerId: mapValueOfType<String>(json, r'containerId'),
-        sealId: mapValueOfType<String>(json, r'sealId'),
+        packageUnit: mapValueOfType<int>(json, r'packageUnit'),
+        packageVolume: num.parse('${json[r'packageVolume']}'),
+        volumeUnit: mapValueOfType<int>(json, r'volumeUnit'),
       );
     }
     return null;

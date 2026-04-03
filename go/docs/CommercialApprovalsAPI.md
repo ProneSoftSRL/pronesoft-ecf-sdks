@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ListApprovals
 
-> ApprovalListResponse ListApprovals(ctx).BusinessId(businessId).Page(page).Limit(limit).Status(status).DocumentType(documentType).DateFrom(dateFrom).DateTo(dateTo).MinAmount(minAmount).MaxAmount(maxAmount).Search(search).SortBy(sortBy).SortOrder(sortOrder).Execute()
+> ApprovalListResponse ListApprovals(ctx).BusinessId(businessId).Page(page).Limit(limit).Ecf(ecf).DocumentType(documentType).Status(status).DateFrom(dateFrom).DateTo(dateTo).MinAmount(minAmount).MaxAmount(maxAmount).Search(search).SortBy(sortBy).SortOrder(sortOrder).Execute()
 
 List commercial approvals
 
@@ -31,8 +31,9 @@ func main() {
 	businessId := "businessId_example" // string | 
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 20)
-	status := "status_example" // string |  (optional)
+	ecf := "ecf_example" // string |  (optional)
 	documentType := "documentType_example" // string |  (optional)
+	status := int32(56) // int32 |  (optional)
 	dateFrom := time.Now() // time.Time |  (optional)
 	dateTo := time.Now() // time.Time |  (optional)
 	minAmount := float32(8.14) // float32 |  (optional)
@@ -43,7 +44,7 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.CommercialApprovalsAPI.ListApprovals(context.Background()).BusinessId(businessId).Page(page).Limit(limit).Status(status).DocumentType(documentType).DateFrom(dateFrom).DateTo(dateTo).MinAmount(minAmount).MaxAmount(maxAmount).Search(search).SortBy(sortBy).SortOrder(sortOrder).Execute()
+	resp, r, err := apiClient.CommercialApprovalsAPI.ListApprovals(context.Background()).BusinessId(businessId).Page(page).Limit(limit).Ecf(ecf).DocumentType(documentType).Status(status).DateFrom(dateFrom).DateTo(dateTo).MinAmount(minAmount).MaxAmount(maxAmount).Search(search).SortBy(sortBy).SortOrder(sortOrder).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `CommercialApprovalsAPI.ListApprovals``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -67,8 +68,9 @@ Name | Type | Description  | Notes
  **businessId** | **string** |  | 
  **page** | **int32** |  | [default to 1]
  **limit** | **int32** |  | [default to 20]
- **status** | **string** |  | 
+ **ecf** | **string** |  | 
  **documentType** | **string** |  | 
+ **status** | **int32** |  | 
  **dateFrom** | **time.Time** |  | 
  **dateTo** | **time.Time** |  | 
  **minAmount** | **float32** |  | 

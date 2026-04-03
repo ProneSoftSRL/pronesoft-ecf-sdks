@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**CreateTaxSequence**](TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences | Create new tax sequence |
+| [**CreateTaxSequence**](TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences/create | Create new tax sequence |
 | [**GetNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**ListTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences |
-| [**UpdateTaxSequence**](TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**UpdateTaxSequence**](TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Update tax sequence |
 | [**VoidTaxSequence**](TaxSequencesApi.md#voidtaxsequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 <a id="createtaxsequence"></a>
@@ -219,7 +219,7 @@ catch (ApiException e)
 
 <a id="listtaxsequences"></a>
 # **ListTaxSequences**
-> ListTaxSequences200Response ListTaxSequences (Guid? xTenantId = null, InvoiceTypeSequence? type = null, int? page = null, int? limit = null)
+> ListTaxSequences200Response ListTaxSequences (Guid? xTenantId = null, InvoiceTypeSequence? type = null, ModelEnvironment? environment = null, int? page = null, int? limit = null)
 
 List tax sequences
 
@@ -251,13 +251,14 @@ namespace Example
             var apiInstance = new TaxSequencesApi(httpClient, config, httpClientHandler);
             var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
             var type = new InvoiceTypeSequence?(); // InvoiceTypeSequence? |  (optional) 
+            var environment = new ModelEnvironment?(); // ModelEnvironment? |  (optional) 
             var page = 1;  // int? |  (optional)  (default to 1)
             var limit = 10;  // int? |  (optional)  (default to 10)
 
             try
             {
                 // List tax sequences
-                ListTaxSequences200Response result = apiInstance.ListTaxSequences(xTenantId, type, page, limit);
+                ListTaxSequences200Response result = apiInstance.ListTaxSequences(xTenantId, type, environment, page, limit);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -278,7 +279,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // List tax sequences
-    ApiResponse<ListTaxSequences200Response> response = apiInstance.ListTaxSequencesWithHttpInfo(xTenantId, type, page, limit);
+    ApiResponse<ListTaxSequences200Response> response = apiInstance.ListTaxSequencesWithHttpInfo(xTenantId, type, environment, page, limit);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -297,6 +298,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
 | **type** | [**InvoiceTypeSequence?**](InvoiceTypeSequence?.md) |  | [optional]  |
+| **environment** | [**ModelEnvironment?**](ModelEnvironment?.md) |  | [optional]  |
 | **page** | **int?** |  | [optional] [default to 1] |
 | **limit** | **int?** |  | [optional] [default to 10] |
 
@@ -324,7 +326,7 @@ catch (ApiException e)
 
 <a id="updatetaxsequence"></a>
 # **UpdateTaxSequence**
-> void UpdateTaxSequence (string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = null)
+> void UpdateTaxSequence (string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = null)
 
 Update tax sequence
 
@@ -354,14 +356,14 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new TaxSequencesApi(httpClient, config, httpClientHandler);
-            var sequenceId = "sequenceId_example";  // string | 
+            var id = "id_example";  // string | 
             var updateTaxSequenceRequest = new UpdateTaxSequenceRequest(); // UpdateTaxSequenceRequest | 
             var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
 
             try
             {
                 // Update tax sequence
-                apiInstance.UpdateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId);
+                apiInstance.UpdateTaxSequence(id, updateTaxSequenceRequest, xTenantId);
             }
             catch (ApiException  e)
             {
@@ -381,7 +383,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Update tax sequence
-    apiInstance.UpdateTaxSequenceWithHttpInfo(sequenceId, updateTaxSequenceRequest, xTenantId);
+    apiInstance.UpdateTaxSequenceWithHttpInfo(id, updateTaxSequenceRequest, xTenantId);
 }
 catch (ApiException e)
 {
@@ -395,7 +397,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **sequenceId** | **string** |  |  |
+| **id** | **string** |  |  |
 | **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  |  |
 | **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
 

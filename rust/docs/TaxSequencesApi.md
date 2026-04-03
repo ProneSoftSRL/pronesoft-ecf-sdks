@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence
+[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Create new tax sequence
 [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number
 [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences
-[**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence
+[**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Update tax sequence
 [**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
 
 
@@ -75,7 +75,7 @@ Name | Type | Description  | Required | Notes
 
 ## list_tax_sequences
 
-> models::ListTaxSequences200Response list_tax_sequences(x_tenant_id, r#type, page, limit)
+> models::ListTaxSequences200Response list_tax_sequences(x_tenant_id, r#type, environment, page, limit)
 List tax sequences
 
 ### Parameters
@@ -85,6 +85,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
 **r#type** | Option<[**InvoiceTypeSequence**](InvoiceTypeSequence.md)> |  |  |
+**environment** | Option<[**Environment**](Environment.md)> |  |  |
 **page** | Option<**i32**> |  |  |[default to 1]
 **limit** | Option<**i32**> |  |  |[default to 10]
 
@@ -106,7 +107,7 @@ Name | Type | Description  | Required | Notes
 
 ## update_tax_sequence
 
-> update_tax_sequence(sequence_id, update_tax_sequence_request, x_tenant_id)
+> update_tax_sequence(id, update_tax_sequence_request, x_tenant_id)
 Update tax sequence
 
 ### Parameters
@@ -114,7 +115,7 @@ Update tax sequence
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**sequence_id** | **String** |  | [required] |
+**id** | **String** |  | [required] |
 **update_tax_sequence_request** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  | [required] |
 **x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
 

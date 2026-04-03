@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **list_approvals**
-> ApprovalListResponse list_approvals(business_id, page=page, limit=limit, status=status, document_type=document_type, date_from=date_from, date_to=date_to, min_amount=min_amount, max_amount=max_amount, search=search, sort_by=sort_by, sort_order=sort_order)
+> ApprovalListResponse list_approvals(business_id, page=page, limit=limit, ecf=ecf, document_type=document_type, status=status, date_from=date_from, date_to=date_to, min_amount=min_amount, max_amount=max_amount, search=search, sort_by=sort_by, sort_order=sort_order)
 
 List commercial approvals
 
@@ -48,8 +48,9 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     business_id = 'business_id_example' # str | 
     page = 1 # int |  (optional) (default to 1)
     limit = 20 # int |  (optional) (default to 20)
-    status = 'status_example' # str |  (optional)
+    ecf = 'ecf_example' # str |  (optional)
     document_type = 'document_type_example' # str |  (optional)
+    status = 56 # int |  (optional)
     date_from = '2013-10-20T19:20:30+01:00' # datetime |  (optional)
     date_to = '2013-10-20T19:20:30+01:00' # datetime |  (optional)
     min_amount = 3.4 # float |  (optional)
@@ -60,7 +61,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
     try:
         # List commercial approvals
-        api_response = api_instance.list_approvals(business_id, page=page, limit=limit, status=status, document_type=document_type, date_from=date_from, date_to=date_to, min_amount=min_amount, max_amount=max_amount, search=search, sort_by=sort_by, sort_order=sort_order)
+        api_response = api_instance.list_approvals(business_id, page=page, limit=limit, ecf=ecf, document_type=document_type, status=status, date_from=date_from, date_to=date_to, min_amount=min_amount, max_amount=max_amount, search=search, sort_by=sort_by, sort_order=sort_order)
         print("The response of CommercialApprovalsApi->list_approvals:\n")
         pprint(api_response)
     except Exception as e:
@@ -77,8 +78,9 @@ Name | Type | Description  | Notes
  **business_id** | **str**|  | 
  **page** | **int**|  | [optional] [default to 1]
  **limit** | **int**|  | [optional] [default to 20]
- **status** | **str**|  | [optional] 
+ **ecf** | **str**|  | [optional] 
  **document_type** | **str**|  | [optional] 
+ **status** | **int**|  | [optional] 
  **date_from** | **datetime**|  | [optional] 
  **date_to** | **datetime**|  | [optional] 
  **min_amount** | **float**|  | [optional] 

@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## Export606
 
-> string Export606(ctx).From(from).To(to).Format(format).Execute()
+> string Export606(ctx).From(from).To(to).Format(format).Status(status).Type_(type_).Encf(encf).Execute()
 
 Export Format 606 (Purchases)
 
@@ -34,10 +34,13 @@ func main() {
 	from := time.Now() // string | 
 	to := time.Now() // string | 
 	format := "format_example" // string | 
+	status := "status_example" // string |  (optional)
+	type_ := "type__example" // string |  (optional)
+	encf := "encf_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ReportsAPI.Export606(context.Background()).From(from).To(to).Format(format).Execute()
+	resp, r, err := apiClient.ReportsAPI.Export606(context.Background()).From(from).To(to).Format(format).Status(status).Type_(type_).Encf(encf).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ReportsAPI.Export606``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -61,6 +64,9 @@ Name | Type | Description  | Notes
  **from** | **string** |  | 
  **to** | **string** |  | 
  **format** | **string** |  | 
+ **status** | **string** |  | 
+ **type_** | **string** |  | 
+ **encf** | **string** |  | 
 
 ### Return type
 

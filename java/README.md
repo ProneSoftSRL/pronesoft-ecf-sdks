@@ -2,7 +2,7 @@
 
 eCF-Pronesoft Integration API
 - API version: 1.1.0
-  - Build date: 2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]
+  - Build date: 2026-04-03T14:20:24.238162186-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Overview
@@ -197,10 +197,10 @@ Class | Method | HTTP request | Description
 *ECfSubmissionApi* | [**submitEcf**](docs/ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII
 *ReportsApi* | [**export606**](docs/ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases)
 *ReportsApi* | [**exportSentDocuments**](docs/ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Export sent documents report
-*TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Create new tax sequence
+*TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Create new tax sequence
 *TaxSequencesApi* | [**getNextNumber**](docs/TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available fiscal number
 *TaxSequencesApi* | [**listTaxSequences**](docs/TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences
-*TaxSequencesApi* | [**updateTaxSequence**](docs/TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence
+*TaxSequencesApi* | [**updateTaxSequence**](docs/TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Update tax sequence
 *TaxSequencesApi* | [**voidTaxSequence**](docs/TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
 *WebhookConfigurationApi* | [**getWebhook**](docs/WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
 *WebhookConfigurationApi* | [**getWebhookStats**](docs/WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics

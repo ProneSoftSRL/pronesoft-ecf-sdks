@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **export606**
-> str export606(var_from, to, format)
+> str export606(var_from, to, format, status=status, type=type, encf=encf)
 
 Export Format 606 (Purchases)
 
@@ -50,10 +50,13 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     var_from = '2013-10-20' # date | 
     to = '2013-10-20' # date | 
     format = 'format_example' # str | 
+    status = 'status_example' # str |  (optional)
+    type = 'type_example' # str |  (optional)
+    encf = 'encf_example' # str |  (optional)
 
     try:
         # Export Format 606 (Purchases)
-        api_response = api_instance.export606(var_from, to, format)
+        api_response = api_instance.export606(var_from, to, format, status=status, type=type, encf=encf)
         print("The response of ReportsApi->export606:\n")
         pprint(api_response)
     except Exception as e:
@@ -70,6 +73,9 @@ Name | Type | Description  | Notes
  **var_from** | **date**|  | 
  **to** | **date**|  | 
  **format** | **str**|  | 
+ **status** | **str**|  | [optional] 
+ **type** | **str**|  | [optional] 
+ **encf** | **str**|  | [optional] 
 
 ### Return type
 

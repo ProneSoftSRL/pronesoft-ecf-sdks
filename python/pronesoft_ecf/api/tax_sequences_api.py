@@ -325,7 +325,7 @@ class TaxSequencesApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/tax-sequences',
+            resource_path='/tax-sequences/create',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -645,6 +645,7 @@ class TaxSequencesApi:
         self,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
         type: Optional[InvoiceTypeSequence] = None,
+        environment: Optional[Environment] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[StrictInt] = None,
         _request_timeout: Union[
@@ -667,6 +668,8 @@ class TaxSequencesApi:
         :type x_tenant_id: UUID
         :param type:
         :type type: InvoiceTypeSequence
+        :param environment:
+        :type environment: Environment
         :param page:
         :type page: int
         :param limit:
@@ -696,6 +699,7 @@ class TaxSequencesApi:
         _param = self._list_tax_sequences_serialize(
             x_tenant_id=x_tenant_id,
             type=type,
+            environment=environment,
             page=page,
             limit=limit,
             _request_auth=_request_auth,
@@ -724,6 +728,7 @@ class TaxSequencesApi:
         self,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
         type: Optional[InvoiceTypeSequence] = None,
+        environment: Optional[Environment] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[StrictInt] = None,
         _request_timeout: Union[
@@ -746,6 +751,8 @@ class TaxSequencesApi:
         :type x_tenant_id: UUID
         :param type:
         :type type: InvoiceTypeSequence
+        :param environment:
+        :type environment: Environment
         :param page:
         :type page: int
         :param limit:
@@ -775,6 +782,7 @@ class TaxSequencesApi:
         _param = self._list_tax_sequences_serialize(
             x_tenant_id=x_tenant_id,
             type=type,
+            environment=environment,
             page=page,
             limit=limit,
             _request_auth=_request_auth,
@@ -803,6 +811,7 @@ class TaxSequencesApi:
         self,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
         type: Optional[InvoiceTypeSequence] = None,
+        environment: Optional[Environment] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[StrictInt] = None,
         _request_timeout: Union[
@@ -825,6 +834,8 @@ class TaxSequencesApi:
         :type x_tenant_id: UUID
         :param type:
         :type type: InvoiceTypeSequence
+        :param environment:
+        :type environment: Environment
         :param page:
         :type page: int
         :param limit:
@@ -854,6 +865,7 @@ class TaxSequencesApi:
         _param = self._list_tax_sequences_serialize(
             x_tenant_id=x_tenant_id,
             type=type,
+            environment=environment,
             page=page,
             limit=limit,
             _request_auth=_request_auth,
@@ -877,6 +889,7 @@ class TaxSequencesApi:
         self,
         x_tenant_id,
         type,
+        environment,
         page,
         limit,
         _request_auth,
@@ -904,6 +917,10 @@ class TaxSequencesApi:
         if type is not None:
             
             _query_params.append(('type', type.value))
+            
+        if environment is not None:
+            
+            _query_params.append(('environment', environment.value))
             
         if page is not None:
             
@@ -956,7 +973,7 @@ class TaxSequencesApi:
     @validate_call
     def update_tax_sequence(
         self,
-        sequence_id: StrictStr,
+        id: StrictStr,
         update_tax_sequence_request: UpdateTaxSequenceRequest,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
         _request_timeout: Union[
@@ -975,8 +992,8 @@ class TaxSequencesApi:
         """Update tax sequence
 
 
-        :param sequence_id: (required)
-        :type sequence_id: str
+        :param id: (required)
+        :type id: str
         :param update_tax_sequence_request: (required)
         :type update_tax_sequence_request: UpdateTaxSequenceRequest
         :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
@@ -1004,7 +1021,7 @@ class TaxSequencesApi:
         """ # noqa: E501
 
         _param = self._update_tax_sequence_serialize(
-            sequence_id=sequence_id,
+            id=id,
             update_tax_sequence_request=update_tax_sequence_request,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
@@ -1031,7 +1048,7 @@ class TaxSequencesApi:
     @validate_call
     def update_tax_sequence_with_http_info(
         self,
-        sequence_id: StrictStr,
+        id: StrictStr,
         update_tax_sequence_request: UpdateTaxSequenceRequest,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
         _request_timeout: Union[
@@ -1050,8 +1067,8 @@ class TaxSequencesApi:
         """Update tax sequence
 
 
-        :param sequence_id: (required)
-        :type sequence_id: str
+        :param id: (required)
+        :type id: str
         :param update_tax_sequence_request: (required)
         :type update_tax_sequence_request: UpdateTaxSequenceRequest
         :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
@@ -1079,7 +1096,7 @@ class TaxSequencesApi:
         """ # noqa: E501
 
         _param = self._update_tax_sequence_serialize(
-            sequence_id=sequence_id,
+            id=id,
             update_tax_sequence_request=update_tax_sequence_request,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
@@ -1106,7 +1123,7 @@ class TaxSequencesApi:
     @validate_call
     def update_tax_sequence_without_preload_content(
         self,
-        sequence_id: StrictStr,
+        id: StrictStr,
         update_tax_sequence_request: UpdateTaxSequenceRequest,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
         _request_timeout: Union[
@@ -1125,8 +1142,8 @@ class TaxSequencesApi:
         """Update tax sequence
 
 
-        :param sequence_id: (required)
-        :type sequence_id: str
+        :param id: (required)
+        :type id: str
         :param update_tax_sequence_request: (required)
         :type update_tax_sequence_request: UpdateTaxSequenceRequest
         :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
@@ -1154,7 +1171,7 @@ class TaxSequencesApi:
         """ # noqa: E501
 
         _param = self._update_tax_sequence_serialize(
-            sequence_id=sequence_id,
+            id=id,
             update_tax_sequence_request=update_tax_sequence_request,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
@@ -1176,7 +1193,7 @@ class TaxSequencesApi:
 
     def _update_tax_sequence_serialize(
         self,
-        sequence_id,
+        id,
         update_tax_sequence_request,
         x_tenant_id,
         _request_auth,
@@ -1200,9 +1217,11 @@ class TaxSequencesApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if sequence_id is not None:
-            _path_params['sequenceId'] = sequence_id
         # process the query parameters
+        if id is not None:
+            
+            _query_params.append(('id', id))
+            
         # process the header parameters
         if x_tenant_id is not None:
             _header_params['x-tenant-id'] = x_tenant_id
@@ -1242,7 +1261,7 @@ class TaxSequencesApi:
 
         return self.api_client.param_serialize(
             method='PATCH',
-            resource_path='/tax-sequences/{sequenceId}',
+            resource_path='/tax-sequences/update',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -63,12 +63,13 @@ export interface GetNextNumberRequest {
 export interface ListTaxSequencesRequest {
     xTenantId?: string;
     type?: InvoiceTypeSequence;
+    environment?: Environment;
     page?: number;
     limit?: number;
 }
 
 export interface UpdateTaxSequenceOperationRequest {
-    sequenceId: string;
+    id: string;
     updateTaxSequenceRequest: UpdateTaxSequenceRequest;
     xTenantId?: string;
 }
@@ -142,6 +143,7 @@ export interface TaxSequencesApiInterface {
      * Creates request options for listTaxSequences without sending the request
      * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
      * @param {InvoiceTypeSequence} [type] 
+     * @param {Environment} [environment] 
      * @param {number} [page] 
      * @param {number} [limit] 
      * @throws {RequiredError}
@@ -154,6 +156,7 @@ export interface TaxSequencesApiInterface {
      * @summary List tax sequences
      * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
      * @param {InvoiceTypeSequence} [type] 
+     * @param {Environment} [environment] 
      * @param {number} [page] 
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
@@ -169,7 +172,7 @@ export interface TaxSequencesApiInterface {
 
     /**
      * Creates request options for updateTaxSequence without sending the request
-     * @param {string} sequenceId 
+     * @param {string} id 
      * @param {UpdateTaxSequenceRequest} updateTaxSequenceRequest 
      * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
      * @throws {RequiredError}
@@ -180,7 +183,7 @@ export interface TaxSequencesApiInterface {
     /**
      * 
      * @summary Update tax sequence
-     * @param {string} sequenceId 
+     * @param {string} id 
      * @param {UpdateTaxSequenceRequest} updateTaxSequenceRequest 
      * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
      * @param {*} [options] Override http request option.
@@ -262,7 +265,7 @@ export class TaxSequencesApi extends runtime.BaseAPI implements TaxSequencesApiI
             }
         }
 
-        let urlPath = `/tax-sequences`;
+        let urlPath = `/tax-sequences/create`;
 
         return {
             path: urlPath,
@@ -379,6 +382,10 @@ export class TaxSequencesApi extends runtime.BaseAPI implements TaxSequencesApiI
             queryParameters['type'] = requestParameters['type'];
         }
 
+        if (requestParameters['environment'] != null) {
+            queryParameters['environment'] = requestParameters['environment'];
+        }
+
         if (requestParameters['page'] != null) {
             queryParameters['page'] = requestParameters['page'];
         }
@@ -439,10 +446,10 @@ export class TaxSequencesApi extends runtime.BaseAPI implements TaxSequencesApiI
      * Creates request options for updateTaxSequence without sending the request
      */
     async updateTaxSequenceRequestOpts(requestParameters: UpdateTaxSequenceOperationRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['sequenceId'] == null) {
+        if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
-                'sequenceId',
-                'Required parameter "sequenceId" was null or undefined when calling updateTaxSequence().'
+                'id',
+                'Required parameter "id" was null or undefined when calling updateTaxSequence().'
             );
         }
 
@@ -454,6 +461,10 @@ export class TaxSequencesApi extends runtime.BaseAPI implements TaxSequencesApiI
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters['id'] != null) {
+            queryParameters['id'] = requestParameters['id'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -477,8 +488,7 @@ export class TaxSequencesApi extends runtime.BaseAPI implements TaxSequencesApiI
             }
         }
 
-        let urlPath = `/tax-sequences/{sequenceId}`;
-        urlPath = urlPath.replace(`{${"sequenceId"}}`, encodeURIComponent(String(requestParameters['sequenceId'])));
+        let urlPath = `/tax-sequences/update`;
 
         return {
             path: urlPath,

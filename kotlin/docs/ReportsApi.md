@@ -10,7 +10,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="export606"></a>
 # **export606**
-> kotlin.String export606(from, to, format)
+> kotlin.String export606(from, to, format, status, type, encf)
 
 Export Format 606 (Purchases)
 
@@ -26,8 +26,11 @@ val apiInstance = ReportsApi()
 val from : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
 val to : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
 val format : kotlin.String = format_example // kotlin.String | 
+val status : kotlin.String = status_example // kotlin.String | 
+val type : kotlin.String = type_example // kotlin.String | 
+val encf : kotlin.String = encf_example // kotlin.String | 
 try {
-    val result : kotlin.String = apiInstance.export606(from, to, format)
+    val result : kotlin.String = apiInstance.export606(from, to, format, status, type, encf)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ReportsApi#export606")
@@ -41,9 +44,12 @@ try {
 ### Parameters
 | **from** | **java.time.LocalDate**|  | |
 | **to** | **java.time.LocalDate**|  | |
+| **format** | **kotlin.String**|  | [enum: txt, xlsx] |
+| **status** | **kotlin.String**|  | [optional] |
+| **type** | **kotlin.String**|  | [optional] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **format** | **kotlin.String**|  | [enum: txt, xlsx] |
+| **encf** | **kotlin.String**|  | [optional] |
 
 ### Return type
 

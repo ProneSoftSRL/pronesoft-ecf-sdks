@@ -13,7 +13,7 @@
 
 package com.pronesoft.ecf;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T14:20:24.238162186-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Pair {
   private final String name;
   private final String value;

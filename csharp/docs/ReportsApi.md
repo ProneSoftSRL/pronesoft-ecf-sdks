@@ -9,7 +9,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="export606"></a>
 # **Export606**
-> string Export606 (DateOnly from, DateOnly to, string format)
+> string Export606 (DateOnly from, DateOnly to, string format, string? status = null, string? type = null, string? encf = null)
 
 Export Format 606 (Purchases)
 
@@ -44,11 +44,14 @@ namespace Example
             var from = DateOnly.Parse("2013-10-20");  // DateOnly | 
             var to = DateOnly.Parse("2013-10-20");  // DateOnly | 
             var format = "txt";  // string | 
+            var status = "status_example";  // string? |  (optional) 
+            var type = "type_example";  // string? |  (optional) 
+            var encf = "encf_example";  // string? |  (optional) 
 
             try
             {
                 // Export Format 606 (Purchases)
-                string result = apiInstance.Export606(from, to, format);
+                string result = apiInstance.Export606(from, to, format, status, type, encf);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -69,7 +72,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Export Format 606 (Purchases)
-    ApiResponse<string> response = apiInstance.Export606WithHttpInfo(from, to, format);
+    ApiResponse<string> response = apiInstance.Export606WithHttpInfo(from, to, format, status, type, encf);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -89,6 +92,9 @@ catch (ApiException e)
 | **from** | **DateOnly** |  |  |
 | **to** | **DateOnly** |  |  |
 | **format** | **string** |  |  |
+| **status** | **string?** |  | [optional]  |
+| **type** | **string?** |  | [optional]  |
+| **encf** | **string?** |  | [optional]  |
 
 ### Return type
 

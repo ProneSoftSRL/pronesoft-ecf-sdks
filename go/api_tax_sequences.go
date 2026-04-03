@@ -17,7 +17,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 
@@ -74,7 +73,7 @@ func (a *TaxSequencesAPIService) CreateTaxSequenceExecute(r ApiCreateTaxSequence
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/tax-sequences"
+	localVarPath := localBasePath + "/tax-sequences/create"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -307,6 +306,7 @@ type ApiListTaxSequencesRequest struct {
 	ApiService *TaxSequencesAPIService
 	xTenantId *string
 	type_ *InvoiceTypeSequence
+	environment *Environment
 	page *int32
 	limit *int32
 }
@@ -319,6 +319,11 @@ func (r ApiListTaxSequencesRequest) XTenantId(xTenantId string) ApiListTaxSequen
 
 func (r ApiListTaxSequencesRequest) Type_(type_ InvoiceTypeSequence) ApiListTaxSequencesRequest {
 	r.type_ = &type_
+	return r
+}
+
+func (r ApiListTaxSequencesRequest) Environment(environment Environment) ApiListTaxSequencesRequest {
+	r.environment = &environment
 	return r
 }
 
@@ -372,6 +377,9 @@ func (a *TaxSequencesAPIService) ListTaxSequencesExecute(r ApiListTaxSequencesRe
 
 	if r.type_ != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "form", "")
+	}
+	if r.environment != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "environment", r.environment, "form", "")
 	}
 	if r.page != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
@@ -457,9 +465,14 @@ func (a *TaxSequencesAPIService) ListTaxSequencesExecute(r ApiListTaxSequencesRe
 type ApiUpdateTaxSequenceRequest struct {
 	ctx context.Context
 	ApiService *TaxSequencesAPIService
-	sequenceId string
+	id *string
 	updateTaxSequenceRequest *UpdateTaxSequenceRequest
 	xTenantId *string
+}
+
+func (r ApiUpdateTaxSequenceRequest) Id(id string) ApiUpdateTaxSequenceRequest {
+	r.id = &id
+	return r
 }
 
 func (r ApiUpdateTaxSequenceRequest) UpdateTaxSequenceRequest(updateTaxSequenceRequest UpdateTaxSequenceRequest) ApiUpdateTaxSequenceRequest {
@@ -481,14 +494,12 @@ func (r ApiUpdateTaxSequenceRequest) Execute() (*http.Response, error) {
 UpdateTaxSequence Update tax sequence
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param sequenceId
  @return ApiUpdateTaxSequenceRequest
 */
-func (a *TaxSequencesAPIService) UpdateTaxSequence(ctx context.Context, sequenceId string) ApiUpdateTaxSequenceRequest {
+func (a *TaxSequencesAPIService) UpdateTaxSequence(ctx context.Context) ApiUpdateTaxSequenceRequest {
 	return ApiUpdateTaxSequenceRequest{
 		ApiService: a,
 		ctx: ctx,
-		sequenceId: sequenceId,
 	}
 }
 
@@ -505,16 +516,19 @@ func (a *TaxSequencesAPIService) UpdateTaxSequenceExecute(r ApiUpdateTaxSequence
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/tax-sequences/{sequenceId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"sequenceId"+"}", url.PathEscape(parameterValueToString(r.sequenceId, "sequenceId")), -1)
+	localVarPath := localBasePath + "/tax-sequences/update"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.id == nil {
+		return nil, reportError("id is required and must be specified")
+	}
 	if r.updateTaxSequenceRequest == nil {
 		return nil, reportError("updateTaxSequenceRequest is required and must be specified")
 	}
 
+	parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 

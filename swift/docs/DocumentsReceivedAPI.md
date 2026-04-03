@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 
 # **listReceivedDocuments**
 ```swift
-    open class func listReceivedDocuments(xTenantId: UUID? = nil, encf: String? = nil, type: String? = nil, status: Int? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)
+    open class func listReceivedDocuments(xTenantId: UUID? = nil, ecf: String? = nil, documentType: String? = nil, status: Int? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)
 ```
 
 List received documents
@@ -69,8 +69,8 @@ List received documents
 import PronesoftEcf
 
 let xTenantId = 987 // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-let encf = "encf_example" // String |  (optional)
-let type = "type_example" // String |  (optional)
+let ecf = "ecf_example" // String |  (optional)
+let documentType = "documentType_example" // String |  (optional)
 let status = 987 // Int |  (optional)
 let dateFrom = Date() // Date |  (optional)
 let dateTo = Date() // Date |  (optional)
@@ -78,7 +78,7 @@ let page = 987 // Int |  (optional) (default to 1)
 let limit = 987 // Int |  (optional) (default to 10)
 
 // List received documents
-DocumentsReceivedAPI.listReceivedDocuments(xTenantId: xTenantId, encf: encf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit) { (response, error) in
+DocumentsReceivedAPI.listReceivedDocuments(xTenantId: xTenantId, ecf: ecf, documentType: documentType, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -95,8 +95,8 @@ DocumentsReceivedAPI.listReceivedDocuments(xTenantId: xTenantId, encf: encf, typ
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xTenantId** | **UUID** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
- **encf** | **String** |  | [optional] 
- **type** | **String** |  | [optional] 
+ **ecf** | **String** |  | [optional] 
+ **documentType** | **String** |  | [optional] 
  **status** | **Int** |  | [optional] 
  **dateFrom** | **Date** |  | [optional] 
  **dateTo** | **Date** |  | [optional] 

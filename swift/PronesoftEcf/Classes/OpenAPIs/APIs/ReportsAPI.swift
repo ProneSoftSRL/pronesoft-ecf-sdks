@@ -29,12 +29,15 @@ open class ReportsAPI {
      - parameter from: (query)  
      - parameter to: (query)  
      - parameter format: (query)  
+     - parameter status: (query)  (optional)
+     - parameter type: (query)  (optional)
+     - parameter encf: (query)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func export606(from: Date, to: Date, format: Format_export606, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> RequestTask {
-        return export606WithRequestBuilder(from: from, to: to, format: format).execute(apiResponseQueue) { result in
+    open class func export606(from: Date, to: Date, format: Format_export606, status: String? = nil, type: String? = nil, encf: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> RequestTask {
+        return export606WithRequestBuilder(from: from, to: to, format: format, status: status, type: type, encf: encf).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -57,9 +60,12 @@ open class ReportsAPI {
      - parameter from: (query)  
      - parameter to: (query)  
      - parameter format: (query)  
+     - parameter status: (query)  (optional)
+     - parameter type: (query)  (optional)
+     - parameter encf: (query)  (optional)
      - returns: RequestBuilder<String> 
      */
-    open class func export606WithRequestBuilder(from: Date, to: Date, format: Format_export606) -> RequestBuilder<String> {
+    open class func export606WithRequestBuilder(from: Date, to: Date, format: Format_export606, status: String? = nil, type: String? = nil, encf: String? = nil) -> RequestBuilder<String> {
         let localVariablePath = "/dgii/606/export"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -69,6 +75,9 @@ open class ReportsAPI {
             "from": (wrappedValue: from.encodeToJSON(), isExplode: true),
             "to": (wrappedValue: to.encodeToJSON(), isExplode: true),
             "format": (wrappedValue: format.encodeToJSON(), isExplode: true),
+            "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
+            "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
+            "encf": (wrappedValue: encf?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [

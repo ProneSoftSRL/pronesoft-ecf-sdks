@@ -39,7 +39,7 @@ Name | Type | Description  | Required | Notes
 
 ## list_received_documents
 
-> models::ReceivedDocumentListResponse list_received_documents(x_tenant_id, encf, r#type, status, date_from, date_to, page, limit)
+> models::ReceivedDocumentListResponse list_received_documents(x_tenant_id, ecf, document_type, status, date_from, date_to, page, limit)
 List received documents
 
 ### Parameters
@@ -48,8 +48,8 @@ List received documents
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
-**encf** | Option<**String**> |  |  |
-**r#type** | Option<**String**> |  |  |
+**ecf** | Option<**String**> |  |  |
+**document_type** | Option<**String**> |  |  |
 **status** | Option<**i32**> |  |  |
 **date_from** | Option<**String**> |  |  |
 **date_to** | Option<**String**> |  |  |

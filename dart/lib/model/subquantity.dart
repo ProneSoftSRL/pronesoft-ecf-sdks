@@ -19,7 +19,7 @@ class Subquantity {
 
   num quantity;
 
-  num unitCode;
+  int unitCode;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Subquantity &&
@@ -62,7 +62,7 @@ class Subquantity {
 
       return Subquantity(
         quantity: num.parse('${json[r'quantity']}'),
-        unitCode: num.parse('${json[r'unitCode']}'),
+        unitCode: mapValueOfType<int>(json, r'unitCode')!,
       );
     }
     return null;

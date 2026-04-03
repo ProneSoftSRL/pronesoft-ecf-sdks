@@ -80,6 +80,9 @@ public class ReportsApi {
      * @param from  (required)
      * @param to  (required)
      * @param format  (required)
+     * @param status  (optional)
+     * @param type  (optional)
+     * @param encf  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -93,7 +96,7 @@ public class ReportsApi {
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call export606Call(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call export606Call(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format, @javax.annotation.Nullable String status, @javax.annotation.Nullable String type, @javax.annotation.Nullable String encf, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -130,6 +133,18 @@ public class ReportsApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("format", format));
         }
 
+        if (status != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("status", status));
+        }
+
+        if (type != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("type", type));
+        }
+
+        if (encf != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("encf", encf));
+        }
+
         final String[] localVarAccepts = {
             "text/plain",
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -152,7 +167,7 @@ public class ReportsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call export606ValidateBeforeCall(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call export606ValidateBeforeCall(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format, @javax.annotation.Nullable String status, @javax.annotation.Nullable String type, @javax.annotation.Nullable String encf, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'from' is set
         if (from == null) {
             throw new ApiException("Missing the required parameter 'from' when calling export606(Async)");
@@ -168,7 +183,7 @@ public class ReportsApi {
             throw new ApiException("Missing the required parameter 'format' when calling export606(Async)");
         }
 
-        return export606Call(from, to, format, _callback);
+        return export606Call(from, to, format, status, type, encf, _callback);
 
     }
 
@@ -178,6 +193,9 @@ public class ReportsApi {
      * @param from  (required)
      * @param to  (required)
      * @param format  (required)
+     * @param status  (optional)
+     * @param type  (optional)
+     * @param encf  (optional)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -190,8 +208,8 @@ public class ReportsApi {
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
-    public String export606(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format) throws ApiException {
-        ApiResponse<String> localVarResp = export606WithHttpInfo(from, to, format);
+    public String export606(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format, @javax.annotation.Nullable String status, @javax.annotation.Nullable String type, @javax.annotation.Nullable String encf) throws ApiException {
+        ApiResponse<String> localVarResp = export606WithHttpInfo(from, to, format, status, type, encf);
         return localVarResp.getData();
     }
 
@@ -201,6 +219,9 @@ public class ReportsApi {
      * @param from  (required)
      * @param to  (required)
      * @param format  (required)
+     * @param status  (optional)
+     * @param type  (optional)
+     * @param encf  (optional)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -213,8 +234,8 @@ public class ReportsApi {
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> export606WithHttpInfo(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format) throws ApiException {
-        okhttp3.Call localVarCall = export606ValidateBeforeCall(from, to, format, null);
+    public ApiResponse<String> export606WithHttpInfo(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format, @javax.annotation.Nullable String status, @javax.annotation.Nullable String type, @javax.annotation.Nullable String encf) throws ApiException {
+        okhttp3.Call localVarCall = export606ValidateBeforeCall(from, to, format, status, type, encf, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -225,6 +246,9 @@ public class ReportsApi {
      * @param from  (required)
      * @param to  (required)
      * @param format  (required)
+     * @param status  (optional)
+     * @param type  (optional)
+     * @param encf  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -238,9 +262,9 @@ public class ReportsApi {
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call export606Async(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call export606Async(@javax.annotation.Nonnull LocalDate from, @javax.annotation.Nonnull LocalDate to, @javax.annotation.Nonnull String format, @javax.annotation.Nullable String status, @javax.annotation.Nullable String type, @javax.annotation.Nullable String encf, final ApiCallback<String> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = export606ValidateBeforeCall(from, to, format, _callback);
+        okhttp3.Call localVarCall = export606ValidateBeforeCall(from, to, format, status, type, encf, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

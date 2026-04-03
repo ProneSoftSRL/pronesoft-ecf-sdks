@@ -51,9 +51,13 @@ class WebhookEventType
 
     public const DOCUMENT_CONTINGENCY_ACTIVATED = 'document.contingency_activated';
 
-    public const SEQUENCE_DEPLETED = 'sequence.depleted';
+    public const COMMERCIAL_APPROVAL = 'commercial.approval';
 
-    public const SEQUENCE_VOIDED = 'sequence.voided';
+    public const CERTIFICATE_EXPIRING = 'certificate.expiring';
+
+    public const SECURITY_NEW_LOGIN = 'security.new_login';
+
+    public const SECURITY_API_KEY_ROTATED = 'security.api_key_rotated';
 
     public const PLAN_USAGE_ALERT = 'plan.usage_alert';
 
@@ -61,11 +65,15 @@ class WebhookEventType
 
     public const BILLING_INVOICE_READY = 'billing.invoice_ready';
 
+    public const SEQUENCE_DEPLETED = 'sequence.depleted';
+
+    public const SEQUENCE_VOIDED = 'sequence.voided';
+
     public const BRANCH_CREATED = 'branch.created';
 
     public const BRANCH_STATUS_CHANGED = 'branch.status_changed';
 
-    public const SECURITY_NEW_LOGIN = 'security.new_login';
+    public const SECURITY_NEW_LOGIN2 = 'security.new_login';
 
     public const MEMBER_INVITED = 'member.invited';
 
@@ -73,9 +81,9 @@ class WebhookEventType
 
     public const MEMBER_REMOVED = 'member.removed';
 
-    public const CERTIFICATE_EXPIRING = 'certificate.expiring';
+    public const CERTIFICATE_EXPIRING2 = 'certificate.expiring';
 
-    public const COMMERCIAL_APPROVAL = 'commercial.approval';
+    public const COMMERCIAL_APPROVAL2 = 'commercial.approval';
 
     public const CERTIFICATION_COMPLETED = 'certification.completed';
 
@@ -90,19 +98,23 @@ class WebhookEventType
             self::DOCUMENT_STATUS_CHANGED,
             self::DOCUMENT_VALIDATION_ERROR,
             self::DOCUMENT_CONTINGENCY_ACTIVATED,
-            self::SEQUENCE_DEPLETED,
-            self::SEQUENCE_VOIDED,
+            self::COMMERCIAL_APPROVAL,
+            self::CERTIFICATE_EXPIRING,
+            self::SECURITY_NEW_LOGIN,
+            self::SECURITY_API_KEY_ROTATED,
             self::PLAN_USAGE_ALERT,
             self::PLAN_PAYMENT_FAILED,
             self::BILLING_INVOICE_READY,
+            self::SEQUENCE_DEPLETED,
+            self::SEQUENCE_VOIDED,
             self::BRANCH_CREATED,
             self::BRANCH_STATUS_CHANGED,
-            self::SECURITY_NEW_LOGIN,
+            self::SECURITY_NEW_LOGIN2,
             self::MEMBER_INVITED,
             self::MEMBER_JOINED,
             self::MEMBER_REMOVED,
-            self::CERTIFICATE_EXPIRING,
-            self::COMMERCIAL_APPROVAL,
+            self::CERTIFICATE_EXPIRING2,
+            self::COMMERCIAL_APPROVAL2,
             self::CERTIFICATION_COMPLETED
         ];
     }

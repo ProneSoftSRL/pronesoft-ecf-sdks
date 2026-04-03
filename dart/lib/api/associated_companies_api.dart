@@ -16,13 +16,11 @@ class AssociatedCompaniesApi {
 
   final ApiClient apiClient;
 
-  /// Create new associated company
+  /// Create associated company / branch
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
-  ///
-  /// * [String] xTenantId (required):
   ///
   /// * [String] email (required):
   ///
@@ -40,6 +38,8 @@ class AssociatedCompaniesApi {
   ///
   /// * [String] country (required):
   ///
+  /// * [PrintFormat] printerType (required):
+  ///
   /// * [String] firstName:
   ///
   /// * [String] lastName:
@@ -52,10 +52,8 @@ class AssociatedCompaniesApi {
   ///
   /// * [String] monthlySalesRange:
   ///
-  /// * [PrintFormat] printerType:
-  ///
   /// * [MultipartFile] logo:
-  Future<Response> createAssociatedCompanyWithHttpInfo(String xTenantId, String email, String password, String name, String rnc, String phone, String address, String city, String country, { String? firstName, String? lastName, String? jobTitle, String? website, String? category, String? monthlySalesRange, PrintFormat? printerType, MultipartFile? logo, }) async {
+  Future<Response> createAssociatedCompanyWithHttpInfo(String email, String password, String name, String rnc, String phone, String address, String city, String country, PrintFormat printerType, { String? firstName, String? lastName, String? jobTitle, String? website, String? category, String? monthlySalesRange, MultipartFile? logo, }) async {
     // ignore: prefer_const_declarations
     final path = r'/associated-companies';
 
@@ -65,8 +63,6 @@ class AssociatedCompaniesApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-
-    headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
 
     const contentTypes = <String>['multipart/form-data'];
 
@@ -152,11 +148,9 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// Create new associated company
+  /// Create associated company / branch
   ///
   /// Parameters:
-  ///
-  /// * [String] xTenantId (required):
   ///
   /// * [String] email (required):
   ///
@@ -174,6 +168,8 @@ class AssociatedCompaniesApi {
   ///
   /// * [String] country (required):
   ///
+  /// * [PrintFormat] printerType (required):
+  ///
   /// * [String] firstName:
   ///
   /// * [String] lastName:
@@ -186,11 +182,9 @@ class AssociatedCompaniesApi {
   ///
   /// * [String] monthlySalesRange:
   ///
-  /// * [PrintFormat] printerType:
-  ///
   /// * [MultipartFile] logo:
-  Future<CreateAssociatedCompany201Response?> createAssociatedCompany(String xTenantId, String email, String password, String name, String rnc, String phone, String address, String city, String country, { String? firstName, String? lastName, String? jobTitle, String? website, String? category, String? monthlySalesRange, PrintFormat? printerType, MultipartFile? logo, }) async {
-    final response = await createAssociatedCompanyWithHttpInfo(xTenantId, email, password, name, rnc, phone, address, city, country,  firstName: firstName, lastName: lastName, jobTitle: jobTitle, website: website, category: category, monthlySalesRange: monthlySalesRange, printerType: printerType, logo: logo, );
+  Future<CreateAssociatedCompany201Response?> createAssociatedCompany(String email, String password, String name, String rnc, String phone, String address, String city, String country, PrintFormat printerType, { String? firstName, String? lastName, String? jobTitle, String? website, String? category, String? monthlySalesRange, MultipartFile? logo, }) async {
+    final response = await createAssociatedCompanyWithHttpInfo(email, password, name, rnc, phone, address, city, country, printerType,  firstName: firstName, lastName: lastName, jobTitle: jobTitle, website: website, category: category, monthlySalesRange: monthlySalesRange, logo: logo, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -204,16 +198,19 @@ class AssociatedCompaniesApi {
     return null;
   }
 
-  /// List associated branches/companies
+  /// Delete associated company
+  ///
+  /// Permanently deletes an associated company. This action is irreversible.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
-  /// * [String] xTenantId (required):
-  Future<Response> listAssociatedCompaniesWithHttpInfo(String xTenantId,) async {
+  /// * [String] companyId (required):
+  Future<Response> deleteAssociatedCompanyWithHttpInfo(String companyId,) async {
     // ignore: prefer_const_declarations
-    final path = r'/associated-companies';
+    final path = r'/associated-companies/{companyId}'
+      .replaceAll('{companyId}', companyId);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -222,7 +219,60 @@ class AssociatedCompaniesApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Delete associated company
+  ///
+  /// Permanently deletes an associated company. This action is irreversible.
+  ///
+  /// Parameters:
+  ///
+  /// * [String] companyId (required):
+  Future<DeleteAssociatedCompany200Response?> deleteAssociatedCompany(String companyId,) async {
+    final response = await deleteAssociatedCompanyWithHttpInfo(companyId,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'DeleteAssociatedCompany200Response',) as DeleteAssociatedCompany200Response;
+    
+    }
+    return null;
+  }
+
+  /// Get company document metrics
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] companyId (required):
+  Future<Response> getCompanyDocumentMetricsWithHttpInfo(String companyId,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/associated-companies/{companyId}/documents-metrics'
+      .replaceAll('{companyId}', companyId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
     const contentTypes = <String>[];
 
@@ -238,13 +288,129 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// List associated branches/companies
+  /// Get company document metrics
   ///
   /// Parameters:
   ///
-  /// * [String] xTenantId (required):
-  Future<List<AssociatedCompany>?> listAssociatedCompanies(String xTenantId,) async {
-    final response = await listAssociatedCompaniesWithHttpInfo(xTenantId,);
+  /// * [String] companyId (required):
+  Future<CompanyDocumentMetrics?> getCompanyDocumentMetrics(String companyId,) async {
+    final response = await getCompanyDocumentMetricsWithHttpInfo(companyId,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CompanyDocumentMetrics',) as CompanyDocumentMetrics;
+    
+    }
+    return null;
+  }
+
+  /// Get company metrics
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] companyId (required):
+  Future<Response> getCompanyMetricsWithHttpInfo(String companyId,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/associated-companies/{companyId}/metrics'
+      .replaceAll('{companyId}', companyId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get company metrics
+  ///
+  /// Parameters:
+  ///
+  /// * [String] companyId (required):
+  Future<CompanyMetrics?> getCompanyMetrics(String companyId,) async {
+    final response = await getCompanyMetricsWithHttpInfo(companyId,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CompanyMetrics',) as CompanyMetrics;
+    
+    }
+    return null;
+  }
+
+  /// List associated companies / branches
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] page:
+  ///
+  /// * [int] limit:
+  Future<Response> listAssociatedCompaniesWithHttpInfo({ int? page, int? limit, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/associated-companies';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (page != null) {
+      queryParams.addAll(_queryParams('', 'page', page));
+    }
+    if (limit != null) {
+      queryParams.addAll(_queryParams('', 'limit', limit));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// List associated companies / branches
+  ///
+  /// Parameters:
+  ///
+  /// * [int] page:
+  ///
+  /// * [int] limit:
+  Future<List<AssociatedCompany>?> listAssociatedCompanies({ int? page, int? limit, }) async {
+    final response = await listAssociatedCompaniesWithHttpInfo( page: page, limit: limit, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -257,6 +423,113 @@ class AssociatedCompaniesApi {
         .cast<AssociatedCompany>()
         .toList(growable: false);
 
+    }
+    return null;
+  }
+
+  /// Update associated company
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] companyId (required):
+  ///
+  /// * [String] name:
+  ///
+  /// * [String] phone:
+  ///
+  /// * [String] website:
+  ///
+  /// * [String] city:
+  ///
+  /// * [String] country:
+  ///
+  /// * [MultipartFile] logo:
+  Future<Response> updateAssociatedCompanyWithHttpInfo(String companyId, { String? name, String? phone, String? website, String? city, String? country, MultipartFile? logo, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/associated-companies/{companyId}'
+      .replaceAll('{companyId}', companyId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['multipart/form-data'];
+
+    bool hasFields = false;
+    final mp = MultipartRequest('PUT', Uri.parse(path));
+    if (name != null) {
+      hasFields = true;
+      mp.fields[r'name'] = parameterToString(name);
+    }
+    if (phone != null) {
+      hasFields = true;
+      mp.fields[r'phone'] = parameterToString(phone);
+    }
+    if (website != null) {
+      hasFields = true;
+      mp.fields[r'website'] = parameterToString(website);
+    }
+    if (city != null) {
+      hasFields = true;
+      mp.fields[r'city'] = parameterToString(city);
+    }
+    if (country != null) {
+      hasFields = true;
+      mp.fields[r'country'] = parameterToString(country);
+    }
+    if (logo != null) {
+      hasFields = true;
+      mp.fields[r'logo'] = logo.field;
+      mp.files.add(logo);
+    }
+    if (hasFields) {
+      postBody = mp;
+    }
+
+    return apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Update associated company
+  ///
+  /// Parameters:
+  ///
+  /// * [String] companyId (required):
+  ///
+  /// * [String] name:
+  ///
+  /// * [String] phone:
+  ///
+  /// * [String] website:
+  ///
+  /// * [String] city:
+  ///
+  /// * [String] country:
+  ///
+  /// * [MultipartFile] logo:
+  Future<CreateAssociatedCompany201Response?> updateAssociatedCompany(String companyId, { String? name, String? phone, String? website, String? city, String? country, MultipartFile? logo, }) async {
+    final response = await updateAssociatedCompanyWithHttpInfo(companyId,  name: name, phone: phone, website: website, city: city, country: country, logo: logo, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CreateAssociatedCompany201Response',) as CreateAssociatedCompany201Response;
+    
     }
     return null;
   }

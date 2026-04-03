@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createTaxSequence**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Create new tax sequence |
+| [**createTaxSequence**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Create new tax sequence |
 | [**getNextNumber**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**listTaxSequences**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences |
-| [**updateTaxSequence**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**updateTaxSequence**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Update tax sequence |
 | [**voidTaxSequence**](TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 
@@ -162,7 +162,7 @@ public class Example {
 
 <a id="listTaxSequences"></a>
 # **listTaxSequences**
-> ListTaxSequences200Response listTaxSequences(xTenantId, type, page, limit)
+> ListTaxSequences200Response listTaxSequences(xTenantId, type, environment, page, limit)
 
 List tax sequences
 
@@ -192,10 +192,11 @@ public class Example {
     TaxSequencesApi apiInstance = new TaxSequencesApi(defaultClient);
     UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
     InvoiceTypeSequence type = InvoiceTypeSequence.fromValue("E31"); // InvoiceTypeSequence | 
+    Environment environment = Environment.fromValue("TesteCF"); // Environment | 
     Integer page = 1; // Integer | 
     Integer limit = 10; // Integer | 
     try {
-      ListTaxSequences200Response result = apiInstance.listTaxSequences(xTenantId, type, page, limit);
+      ListTaxSequences200Response result = apiInstance.listTaxSequences(xTenantId, type, environment, page, limit);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling TaxSequencesApi#listTaxSequences");
@@ -214,6 +215,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **xTenantId** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 | **type** | [**InvoiceTypeSequence**](.md)|  | [optional] [enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
+| **environment** | [**Environment**](.md)|  | [optional] [enum: TesteCF, CerteCF, eCF] |
 | **page** | **Integer**|  | [optional] [default to 1] |
 | **limit** | **Integer**|  | [optional] [default to 10] |
 
@@ -238,7 +240,7 @@ public class Example {
 
 <a id="updateTaxSequence"></a>
 # **updateTaxSequence**
-> updateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId)
+> updateTaxSequence(id, updateTaxSequenceRequest, xTenantId)
 
 Update tax sequence
 
@@ -266,11 +268,11 @@ public class Example {
     bearerAuth.setBearerToken("BEARER TOKEN");
 
     TaxSequencesApi apiInstance = new TaxSequencesApi(defaultClient);
-    String sequenceId = "sequenceId_example"; // String | 
+    String id = "id_example"; // String | 
     UpdateTaxSequenceRequest updateTaxSequenceRequest = new UpdateTaxSequenceRequest(); // UpdateTaxSequenceRequest | 
     UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
     try {
-      apiInstance.updateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId);
+      apiInstance.updateTaxSequence(id, updateTaxSequenceRequest, xTenantId);
     } catch (ApiException e) {
       System.err.println("Exception when calling TaxSequencesApi#updateTaxSequence");
       System.err.println("Status code: " + e.getCode());
@@ -286,7 +288,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **sequenceId** | **String**|  | |
+| **id** | **String**|  | |
 | **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md)|  | |
 | **xTenantId** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 

@@ -19,23 +19,27 @@ module PronesoftEcf
     DOCUMENT_STATUS_CHANGED = "document.status_changed".freeze
     DOCUMENT_VALIDATION_ERROR = "document.validation_error".freeze
     DOCUMENT_CONTINGENCY_ACTIVATED = "document.contingency_activated".freeze
-    SEQUENCE_DEPLETED = "sequence.depleted".freeze
-    SEQUENCE_VOIDED = "sequence.voided".freeze
+    COMMERCIAL_APPROVAL = "commercial.approval".freeze
+    CERTIFICATE_EXPIRING = "certificate.expiring".freeze
+    SECURITY_NEW_LOGIN = "security.new_login".freeze
+    SECURITY_API_KEY_ROTATED = "security.api_key_rotated".freeze
     PLAN_USAGE_ALERT = "plan.usage_alert".freeze
     PLAN_PAYMENT_FAILED = "plan.payment_failed".freeze
     BILLING_INVOICE_READY = "billing.invoice_ready".freeze
+    SEQUENCE_DEPLETED = "sequence.depleted".freeze
+    SEQUENCE_VOIDED = "sequence.voided".freeze
     BRANCH_CREATED = "branch.created".freeze
     BRANCH_STATUS_CHANGED = "branch.status_changed".freeze
-    SECURITY_NEW_LOGIN = "security.new_login".freeze
+    SECURITY_NEW_LOGIN2 = "security.new_login".freeze
     MEMBER_INVITED = "member.invited".freeze
     MEMBER_JOINED = "member.joined".freeze
     MEMBER_REMOVED = "member.removed".freeze
-    CERTIFICATE_EXPIRING = "certificate.expiring".freeze
-    COMMERCIAL_APPROVAL = "commercial.approval".freeze
+    CERTIFICATE_EXPIRING2 = "certificate.expiring".freeze
+    COMMERCIAL_APPROVAL2 = "commercial.approval".freeze
     CERTIFICATION_COMPLETED = "certification.completed".freeze
 
     def self.all_vars
-      @all_vars ||= [DOCUMENT_RECEIVED, DOCUMENT_STATUS_CHANGED, DOCUMENT_VALIDATION_ERROR, DOCUMENT_CONTINGENCY_ACTIVATED, SEQUENCE_DEPLETED, SEQUENCE_VOIDED, PLAN_USAGE_ALERT, PLAN_PAYMENT_FAILED, BILLING_INVOICE_READY, BRANCH_CREATED, BRANCH_STATUS_CHANGED, SECURITY_NEW_LOGIN, MEMBER_INVITED, MEMBER_JOINED, MEMBER_REMOVED, CERTIFICATE_EXPIRING, COMMERCIAL_APPROVAL, CERTIFICATION_COMPLETED].freeze
+      @all_vars ||= [DOCUMENT_RECEIVED, DOCUMENT_STATUS_CHANGED, DOCUMENT_VALIDATION_ERROR, DOCUMENT_CONTINGENCY_ACTIVATED, COMMERCIAL_APPROVAL, CERTIFICATE_EXPIRING, SECURITY_NEW_LOGIN, SECURITY_API_KEY_ROTATED, PLAN_USAGE_ALERT, PLAN_PAYMENT_FAILED, BILLING_INVOICE_READY, SEQUENCE_DEPLETED, SEQUENCE_VOIDED, BRANCH_CREATED, BRANCH_STATUS_CHANGED, SECURITY_NEW_LOGIN2, MEMBER_INVITED, MEMBER_JOINED, MEMBER_REMOVED, CERTIFICATE_EXPIRING2, COMMERCIAL_APPROVAL2, CERTIFICATION_COMPLETED].freeze
     end
 
     # Builds the enum from string

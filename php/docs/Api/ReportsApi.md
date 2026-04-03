@@ -13,7 +13,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 ## `export606()`
 
 ```php
-export606($from, $to, $format): string
+export606($from, $to, $format, $status, $type, $encf): string
 ```
 
 Export Format 606 (Purchases)
@@ -43,9 +43,12 @@ $apiInstance = new PronesoftEcf\Api\ReportsApi(
 $from = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
 $to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
 $format = 'format_example'; // string
+$status = 'status_example'; // string
+$type = 'type_example'; // string
+$encf = 'encf_example'; // string
 
 try {
-    $result = $apiInstance->export606($from, $to, $format);
+    $result = $apiInstance->export606($from, $to, $format, $status, $type, $encf);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ReportsApi->export606: ', $e->getMessage(), PHP_EOL;
@@ -59,6 +62,9 @@ try {
 | **from** | **\DateTime**|  | |
 | **to** | **\DateTime**|  | |
 | **format** | **string**|  | |
+| **status** | **string**|  | [optional] |
+| **type** | **string**|  | [optional] |
+| **encf** | **string**|  | [optional] |
 
 ### Return type
 

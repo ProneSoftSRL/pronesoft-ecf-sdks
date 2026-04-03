@@ -209,8 +209,8 @@ public class DocumentsReceivedApi {
     /**
      * Build call for listReceivedDocuments
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param encf  (optional)
-     * @param type  (optional)
+     * @param ecf  (optional)
+     * @param documentType  (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
@@ -227,7 +227,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listReceivedDocumentsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String encf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listReceivedDocumentsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -252,12 +252,12 @@ public class DocumentsReceivedApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (encf != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("encf", encf));
+        if (ecf != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("ecf", ecf));
         }
 
-        if (type != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("type", type));
+        if (documentType != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("documentType", documentType));
         }
 
         if (status != null) {
@@ -305,8 +305,8 @@ public class DocumentsReceivedApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listReceivedDocumentsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String encf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
-        return listReceivedDocumentsCall(xTenantId, encf, type, status, dateFrom, dateTo, page, limit, _callback);
+    private okhttp3.Call listReceivedDocumentsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+        return listReceivedDocumentsCall(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit, _callback);
 
     }
 
@@ -314,8 +314,8 @@ public class DocumentsReceivedApi {
      * List received documents
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param encf  (optional)
-     * @param type  (optional)
+     * @param ecf  (optional)
+     * @param documentType  (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
@@ -331,8 +331,8 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ReceivedDocumentListResponse listReceivedDocuments(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String encf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
-        ApiResponse<ReceivedDocumentListResponse> localVarResp = listReceivedDocumentsWithHttpInfo(xTenantId, encf, type, status, dateFrom, dateTo, page, limit);
+    public ReceivedDocumentListResponse listReceivedDocuments(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+        ApiResponse<ReceivedDocumentListResponse> localVarResp = listReceivedDocumentsWithHttpInfo(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit);
         return localVarResp.getData();
     }
 
@@ -340,8 +340,8 @@ public class DocumentsReceivedApi {
      * List received documents
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param encf  (optional)
-     * @param type  (optional)
+     * @param ecf  (optional)
+     * @param documentType  (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
@@ -357,8 +357,8 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ReceivedDocumentListResponse> listReceivedDocumentsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String encf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
-        okhttp3.Call localVarCall = listReceivedDocumentsValidateBeforeCall(xTenantId, encf, type, status, dateFrom, dateTo, page, limit, null);
+    public ApiResponse<ReceivedDocumentListResponse> listReceivedDocumentsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+        okhttp3.Call localVarCall = listReceivedDocumentsValidateBeforeCall(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit, null);
         Type localVarReturnType = new TypeToken<ReceivedDocumentListResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -367,8 +367,8 @@ public class DocumentsReceivedApi {
      * List received documents (asynchronously)
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param encf  (optional)
-     * @param type  (optional)
+     * @param ecf  (optional)
+     * @param documentType  (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
@@ -385,9 +385,9 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listReceivedDocumentsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String encf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ReceivedDocumentListResponse> _callback) throws ApiException {
+    public okhttp3.Call listReceivedDocumentsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ReceivedDocumentListResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listReceivedDocumentsValidateBeforeCall(xTenantId, encf, type, status, dateFrom, dateTo, page, limit, _callback);
+        okhttp3.Call localVarCall = listReceivedDocumentsValidateBeforeCall(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit, _callback);
         Type localVarReturnType = new TypeToken<ReceivedDocumentListResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

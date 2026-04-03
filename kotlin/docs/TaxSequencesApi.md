@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createTaxSequence**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Create new tax sequence |
+| [**createTaxSequence**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Create new tax sequence |
 | [**getNextNumber**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**listTaxSequences**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences |
-| [**updateTaxSequence**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**updateTaxSequence**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Update tax sequence |
 | [**voidTaxSequence**](TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 
@@ -117,7 +117,7 @@ Configure bearerAuth:
 
 <a id="listTaxSequences"></a>
 # **listTaxSequences**
-> ListTaxSequences200Response listTaxSequences(xTenantId, type, page, limit)
+> ListTaxSequences200Response listTaxSequences(xTenantId, type, environment, page, limit)
 
 List tax sequences
 
@@ -130,10 +130,11 @@ List tax sequences
 val apiInstance = TaxSequencesApi()
 val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
 val type : InvoiceTypeSequence =  // InvoiceTypeSequence | 
+val environment : Environment =  // Environment | 
 val page : kotlin.Int = 56 // kotlin.Int | 
 val limit : kotlin.Int = 56 // kotlin.Int | 
 try {
-    val result : ListTaxSequences200Response = apiInstance.listTaxSequences(xTenantId, type, page, limit)
+    val result : ListTaxSequences200Response = apiInstance.listTaxSequences(xTenantId, type, environment, page, limit)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling TaxSequencesApi#listTaxSequences")
@@ -147,6 +148,7 @@ try {
 ### Parameters
 | **xTenantId** | **java.util.UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 | **type** | [**InvoiceTypeSequence**](.md)|  | [optional] [enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
+| **environment** | [**Environment**](.md)|  | [optional] [enum: TesteCF, CerteCF, eCF] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
@@ -171,7 +173,7 @@ Configure bearerAuth:
 
 <a id="updateTaxSequence"></a>
 # **updateTaxSequence**
-> updateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId)
+> updateTaxSequence(id, updateTaxSequenceRequest, xTenantId)
 
 Update tax sequence
 
@@ -182,11 +184,11 @@ Update tax sequence
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = TaxSequencesApi()
-val sequenceId : kotlin.String = sequenceId_example // kotlin.String | 
+val id : kotlin.String = id_example // kotlin.String | 
 val updateTaxSequenceRequest : UpdateTaxSequenceRequest =  // UpdateTaxSequenceRequest | 
 val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
 try {
-    apiInstance.updateTaxSequence(sequenceId, updateTaxSequenceRequest, xTenantId)
+    apiInstance.updateTaxSequence(id, updateTaxSequenceRequest, xTenantId)
 } catch (e: ClientException) {
     println("4xx response calling TaxSequencesApi#updateTaxSequence")
     e.printStackTrace()
@@ -197,7 +199,7 @@ try {
 ```
 
 ### Parameters
-| **sequenceId** | **kotlin.String**|  | |
+| **id** | **kotlin.String**|  | |
 | **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md)|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |

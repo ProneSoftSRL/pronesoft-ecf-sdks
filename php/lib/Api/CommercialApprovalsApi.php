@@ -134,8 +134,9 @@ class CommercialApprovalsApi
      * @param  string $business_id business_id (required)
      * @param  int|null $page page (optional, default to 1)
      * @param  int|null $limit limit (optional, default to 20)
-     * @param  string|null $status status (optional)
+     * @param  string|null $ecf ecf (optional)
      * @param  string|null $document_type document_type (optional)
+     * @param  int|null $status status (optional)
      * @param  \DateTime|null $date_from date_from (optional)
      * @param  \DateTime|null $date_to date_to (optional)
      * @param  float|null $min_amount min_amount (optional)
@@ -149,9 +150,9 @@ class CommercialApprovalsApi
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\ApprovalListResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function listApprovals($business_id, $page = 1, $limit = 20, $status = null, $document_type = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listApprovals($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
     {
-        list($response) = $this->listApprovalsWithHttpInfo($business_id, $page, $limit, $status, $document_type, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
+        list($response) = $this->listApprovalsWithHttpInfo($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
         return $response;
     }
 
@@ -163,8 +164,9 @@ class CommercialApprovalsApi
      * @param  string $business_id (required)
      * @param  int|null $page (optional, default to 1)
      * @param  int|null $limit (optional, default to 20)
-     * @param  string|null $status (optional)
+     * @param  string|null $ecf (optional)
      * @param  string|null $document_type (optional)
+     * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
      * @param  float|null $min_amount (optional)
@@ -178,9 +180,9 @@ class CommercialApprovalsApi
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\ApprovalListResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listApprovalsWithHttpInfo($business_id, $page = 1, $limit = 20, $status = null, $document_type = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listApprovalsWithHttpInfo($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
     {
-        $request = $this->listApprovalsRequest($business_id, $page, $limit, $status, $document_type, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
+        $request = $this->listApprovalsRequest($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -273,8 +275,9 @@ class CommercialApprovalsApi
      * @param  string $business_id (required)
      * @param  int|null $page (optional, default to 1)
      * @param  int|null $limit (optional, default to 20)
-     * @param  string|null $status (optional)
+     * @param  string|null $ecf (optional)
      * @param  string|null $document_type (optional)
+     * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
      * @param  float|null $min_amount (optional)
@@ -287,9 +290,9 @@ class CommercialApprovalsApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listApprovalsAsync($business_id, $page = 1, $limit = 20, $status = null, $document_type = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listApprovalsAsync($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
     {
-        return $this->listApprovalsAsyncWithHttpInfo($business_id, $page, $limit, $status, $document_type, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType)
+        return $this->listApprovalsAsyncWithHttpInfo($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -305,8 +308,9 @@ class CommercialApprovalsApi
      * @param  string $business_id (required)
      * @param  int|null $page (optional, default to 1)
      * @param  int|null $limit (optional, default to 20)
-     * @param  string|null $status (optional)
+     * @param  string|null $ecf (optional)
      * @param  string|null $document_type (optional)
+     * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
      * @param  float|null $min_amount (optional)
@@ -319,10 +323,10 @@ class CommercialApprovalsApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listApprovalsAsyncWithHttpInfo($business_id, $page = 1, $limit = 20, $status = null, $document_type = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listApprovalsAsyncWithHttpInfo($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
     {
         $returnType = '\PronesoftEcf\Model\ApprovalListResponse';
-        $request = $this->listApprovalsRequest($business_id, $page, $limit, $status, $document_type, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
+        $request = $this->listApprovalsRequest($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -366,8 +370,9 @@ class CommercialApprovalsApi
      * @param  string $business_id (required)
      * @param  int|null $page (optional, default to 1)
      * @param  int|null $limit (optional, default to 20)
-     * @param  string|null $status (optional)
+     * @param  string|null $ecf (optional)
      * @param  string|null $document_type (optional)
+     * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
      * @param  float|null $min_amount (optional)
@@ -380,7 +385,7 @@ class CommercialApprovalsApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listApprovalsRequest($business_id, $page = 1, $limit = 20, $status = null, $document_type = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listApprovalsRequest($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
     {
 
         // verify the required parameter 'business_id' is set
@@ -395,6 +400,7 @@ class CommercialApprovalsApi
             throw new \InvalidArgumentException('invalid value for "$limit" when calling CommercialApprovalsApi.listApprovals, must be smaller than or equal to 100.');
         }
         
+
 
 
 
@@ -441,8 +447,8 @@ class CommercialApprovalsApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $status,
-            'status', // param base name
+            $ecf,
+            'ecf', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
@@ -453,6 +459,15 @@ class CommercialApprovalsApi
             $document_type,
             'documentType', // param base name
             'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $status,
+            'status', // param base name
+            'integer', // openApiType
             'form', // style
             true, // explode
             false // required

@@ -29,7 +29,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 
  *
- * Values: documentPeriodReceived,documentPeriodStatus_changed,documentPeriodValidation_error,documentPeriodContingency_activated,sequencePeriodDepleted,sequencePeriodVoided,planPeriodUsage_alert,planPeriodPayment_failed,billingPeriodInvoice_ready,branchPeriodCreated,branchPeriodStatus_changed,securityPeriodNew_login,memberPeriodInvited,memberPeriodJoined,memberPeriodRemoved,certificatePeriodExpiring,commercialPeriodApproval,certificationPeriodCompleted
+ * Values: documentPeriodReceived,documentPeriodStatus_changed,documentPeriodValidation_error,documentPeriodContingency_activated,commercialPeriodApproval,certificatePeriodExpiring,securityPeriodNew_login,securityPeriodApi_key_rotated,planPeriodUsage_alert,planPeriodPayment_failed,billingPeriodInvoice_ready,sequencePeriodDepleted,sequencePeriodVoided,branchPeriodCreated,branchPeriodStatus_changed,securityPeriodNew_login2,memberPeriodInvited,memberPeriodJoined,memberPeriodRemoved,certificatePeriodExpiring2,commercialPeriodApproval2,certificationPeriodCompleted
  */
 
 enum class WebhookEventType(val value: kotlin.String) {
@@ -46,11 +46,17 @@ enum class WebhookEventType(val value: kotlin.String) {
     @SerializedName(value = "document.contingency_activated")
     documentPeriodContingency_activated("document.contingency_activated"),
 
-    @SerializedName(value = "sequence.depleted")
-    sequencePeriodDepleted("sequence.depleted"),
+    @SerializedName(value = "commercial.approval")
+    commercialPeriodApproval("commercial.approval"),
 
-    @SerializedName(value = "sequence.voided")
-    sequencePeriodVoided("sequence.voided"),
+    @SerializedName(value = "certificate.expiring")
+    certificatePeriodExpiring("certificate.expiring"),
+
+    @SerializedName(value = "security.new_login")
+    securityPeriodNew_login("security.new_login"),
+
+    @SerializedName(value = "security.api_key_rotated")
+    securityPeriodApi_key_rotated("security.api_key_rotated"),
 
     @SerializedName(value = "plan.usage_alert")
     planPeriodUsage_alert("plan.usage_alert"),
@@ -61,6 +67,12 @@ enum class WebhookEventType(val value: kotlin.String) {
     @SerializedName(value = "billing.invoice_ready")
     billingPeriodInvoice_ready("billing.invoice_ready"),
 
+    @SerializedName(value = "sequence.depleted")
+    sequencePeriodDepleted("sequence.depleted"),
+
+    @SerializedName(value = "sequence.voided")
+    sequencePeriodVoided("sequence.voided"),
+
     @SerializedName(value = "branch.created")
     branchPeriodCreated("branch.created"),
 
@@ -68,7 +80,7 @@ enum class WebhookEventType(val value: kotlin.String) {
     branchPeriodStatus_changed("branch.status_changed"),
 
     @SerializedName(value = "security.new_login")
-    securityPeriodNew_login("security.new_login"),
+    securityPeriodNew_login2("security.new_login"),
 
     @SerializedName(value = "member.invited")
     memberPeriodInvited("member.invited"),
@@ -80,10 +92,10 @@ enum class WebhookEventType(val value: kotlin.String) {
     memberPeriodRemoved("member.removed"),
 
     @SerializedName(value = "certificate.expiring")
-    certificatePeriodExpiring("certificate.expiring"),
+    certificatePeriodExpiring2("certificate.expiring"),
 
     @SerializedName(value = "commercial.approval")
-    commercialPeriodApproval("commercial.approval"),
+    commercialPeriodApproval2("commercial.approval"),
 
     @SerializedName(value = "certification.completed")
     certificationPeriodCompleted("certification.completed");

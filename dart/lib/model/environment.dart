@@ -10,7 +10,7 @@
 
 part of openapi.api;
 
-
+/// TesteCF=testing no DGII, CerteCF=official certification, eCF=production
 class Environment {
   /// Instantiate a new enum with the provided [value].
   const Environment._(this.value);

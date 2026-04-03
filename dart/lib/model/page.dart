@@ -13,28 +13,22 @@ part of openapi.api;
 class Page {
   /// Returns a new [Page] instance.
   Page({
-    required this.pageNumber,
-    required this.lineFrom,
-    required this.lineTo,
-    this.subtotal,
+    this.pageNumber,
+    this.lineFrom,
+    this.lineTo,
     this.taxableAmount,
     this.taxableAmount1,
     this.taxableAmount2,
     this.taxableAmount3,
+    this.exemptAmount,
     this.totalITBIS,
     this.itbis1,
     this.itbis2,
     this.itbis3,
     this.additionalTaxes,
-    this.exemptAmount,
+    this.subtotal,
     this.nonBillableAmount,
   });
-
-  int pageNumber;
-
-  int lineFrom;
-
-  int lineTo;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -42,7 +36,23 @@ class Page {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? subtotal;
+  int? pageNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? lineFrom;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? lineTo;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -75,6 +85,14 @@ class Page {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? taxableAmount3;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? exemptAmount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -122,7 +140,7 @@ class Page {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? exemptAmount;
+  num? subtotal;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -137,50 +155,57 @@ class Page {
     other.pageNumber == pageNumber &&
     other.lineFrom == lineFrom &&
     other.lineTo == lineTo &&
-    other.subtotal == subtotal &&
     other.taxableAmount == taxableAmount &&
     other.taxableAmount1 == taxableAmount1 &&
     other.taxableAmount2 == taxableAmount2 &&
     other.taxableAmount3 == taxableAmount3 &&
+    other.exemptAmount == exemptAmount &&
     other.totalITBIS == totalITBIS &&
     other.itbis1 == itbis1 &&
     other.itbis2 == itbis2 &&
     other.itbis3 == itbis3 &&
     other.additionalTaxes == additionalTaxes &&
-    other.exemptAmount == exemptAmount &&
+    other.subtotal == subtotal &&
     other.nonBillableAmount == nonBillableAmount;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (pageNumber.hashCode) +
-    (lineFrom.hashCode) +
-    (lineTo.hashCode) +
-    (subtotal == null ? 0 : subtotal!.hashCode) +
+    (pageNumber == null ? 0 : pageNumber!.hashCode) +
+    (lineFrom == null ? 0 : lineFrom!.hashCode) +
+    (lineTo == null ? 0 : lineTo!.hashCode) +
     (taxableAmount == null ? 0 : taxableAmount!.hashCode) +
     (taxableAmount1 == null ? 0 : taxableAmount1!.hashCode) +
     (taxableAmount2 == null ? 0 : taxableAmount2!.hashCode) +
     (taxableAmount3 == null ? 0 : taxableAmount3!.hashCode) +
+    (exemptAmount == null ? 0 : exemptAmount!.hashCode) +
     (totalITBIS == null ? 0 : totalITBIS!.hashCode) +
     (itbis1 == null ? 0 : itbis1!.hashCode) +
     (itbis2 == null ? 0 : itbis2!.hashCode) +
     (itbis3 == null ? 0 : itbis3!.hashCode) +
     (additionalTaxes == null ? 0 : additionalTaxes!.hashCode) +
-    (exemptAmount == null ? 0 : exemptAmount!.hashCode) +
+    (subtotal == null ? 0 : subtotal!.hashCode) +
     (nonBillableAmount == null ? 0 : nonBillableAmount!.hashCode);
 
   @override
-  String toString() => 'Page[pageNumber=$pageNumber, lineFrom=$lineFrom, lineTo=$lineTo, subtotal=$subtotal, taxableAmount=$taxableAmount, taxableAmount1=$taxableAmount1, taxableAmount2=$taxableAmount2, taxableAmount3=$taxableAmount3, totalITBIS=$totalITBIS, itbis1=$itbis1, itbis2=$itbis2, itbis3=$itbis3, additionalTaxes=$additionalTaxes, exemptAmount=$exemptAmount, nonBillableAmount=$nonBillableAmount]';
+  String toString() => 'Page[pageNumber=$pageNumber, lineFrom=$lineFrom, lineTo=$lineTo, taxableAmount=$taxableAmount, taxableAmount1=$taxableAmount1, taxableAmount2=$taxableAmount2, taxableAmount3=$taxableAmount3, exemptAmount=$exemptAmount, totalITBIS=$totalITBIS, itbis1=$itbis1, itbis2=$itbis2, itbis3=$itbis3, additionalTaxes=$additionalTaxes, subtotal=$subtotal, nonBillableAmount=$nonBillableAmount]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.pageNumber != null) {
       json[r'pageNumber'] = this.pageNumber;
-      json[r'lineFrom'] = this.lineFrom;
-      json[r'lineTo'] = this.lineTo;
-    if (this.subtotal != null) {
-      json[r'subtotal'] = this.subtotal;
     } else {
-      json[r'subtotal'] = null;
+      json[r'pageNumber'] = null;
+    }
+    if (this.lineFrom != null) {
+      json[r'lineFrom'] = this.lineFrom;
+    } else {
+      json[r'lineFrom'] = null;
+    }
+    if (this.lineTo != null) {
+      json[r'lineTo'] = this.lineTo;
+    } else {
+      json[r'lineTo'] = null;
     }
     if (this.taxableAmount != null) {
       json[r'taxableAmount'] = this.taxableAmount;
@@ -201,6 +226,11 @@ class Page {
       json[r'taxableAmount3'] = this.taxableAmount3;
     } else {
       json[r'taxableAmount3'] = null;
+    }
+    if (this.exemptAmount != null) {
+      json[r'exemptAmount'] = this.exemptAmount;
+    } else {
+      json[r'exemptAmount'] = null;
     }
     if (this.totalITBIS != null) {
       json[r'totalITBIS'] = this.totalITBIS;
@@ -227,10 +257,10 @@ class Page {
     } else {
       json[r'additionalTaxes'] = null;
     }
-    if (this.exemptAmount != null) {
-      json[r'exemptAmount'] = this.exemptAmount;
+    if (this.subtotal != null) {
+      json[r'subtotal'] = this.subtotal;
     } else {
-      json[r'exemptAmount'] = null;
+      json[r'subtotal'] = null;
     }
     if (this.nonBillableAmount != null) {
       json[r'nonBillableAmount'] = this.nonBillableAmount;
@@ -251,30 +281,24 @@ class Page {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        assert(json.containsKey(r'pageNumber'), 'Required key "Page[pageNumber]" is missing from JSON.');
-        assert(json[r'pageNumber'] != null, 'Required key "Page[pageNumber]" has a null value in JSON.');
-        assert(json.containsKey(r'lineFrom'), 'Required key "Page[lineFrom]" is missing from JSON.');
-        assert(json[r'lineFrom'] != null, 'Required key "Page[lineFrom]" has a null value in JSON.');
-        assert(json.containsKey(r'lineTo'), 'Required key "Page[lineTo]" is missing from JSON.');
-        assert(json[r'lineTo'] != null, 'Required key "Page[lineTo]" has a null value in JSON.');
         return true;
       }());
 
       return Page(
-        pageNumber: mapValueOfType<int>(json, r'pageNumber')!,
-        lineFrom: mapValueOfType<int>(json, r'lineFrom')!,
-        lineTo: mapValueOfType<int>(json, r'lineTo')!,
-        subtotal: num.parse('${json[r'subtotal']}'),
+        pageNumber: mapValueOfType<int>(json, r'pageNumber'),
+        lineFrom: mapValueOfType<int>(json, r'lineFrom'),
+        lineTo: mapValueOfType<int>(json, r'lineTo'),
         taxableAmount: num.parse('${json[r'taxableAmount']}'),
         taxableAmount1: num.parse('${json[r'taxableAmount1']}'),
         taxableAmount2: num.parse('${json[r'taxableAmount2']}'),
         taxableAmount3: num.parse('${json[r'taxableAmount3']}'),
+        exemptAmount: num.parse('${json[r'exemptAmount']}'),
         totalITBIS: num.parse('${json[r'totalITBIS']}'),
         itbis1: num.parse('${json[r'itbis1']}'),
         itbis2: num.parse('${json[r'itbis2']}'),
         itbis3: num.parse('${json[r'itbis3']}'),
         additionalTaxes: num.parse('${json[r'additionalTaxes']}'),
-        exemptAmount: num.parse('${json[r'exemptAmount']}'),
+        subtotal: num.parse('${json[r'subtotal']}'),
         nonBillableAmount: num.parse('${json[r'nonBillableAmount']}'),
       );
     }
@@ -323,9 +347,6 @@ class Page {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'pageNumber',
-    'lineFrom',
-    'lineTo',
   };
 }
 

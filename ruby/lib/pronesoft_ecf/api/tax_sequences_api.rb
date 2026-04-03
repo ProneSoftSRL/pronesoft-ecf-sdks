@@ -43,7 +43,7 @@ module PronesoftEcf
         fail ArgumentError, "Missing the required parameter 'create_tax_sequence_request' when calling TaxSequencesApi.create_tax_sequence"
       end
       # resource path
-      local_var_path = '/tax-sequences'
+      local_var_path = '/tax-sequences/create'
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -166,6 +166,7 @@ module PronesoftEcf
     # @param [Hash] opts the optional parameters
     # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
     # @option opts [InvoiceTypeSequence] :type 
+    # @option opts [Environment] :environment 
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :limit  (default to 10)
     # @return [ListTaxSequences200Response]
@@ -178,6 +179,7 @@ module PronesoftEcf
     # @param [Hash] opts the optional parameters
     # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
     # @option opts [InvoiceTypeSequence] :type 
+    # @option opts [Environment] :environment 
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :limit  (default to 10)
     # @return [Array<(ListTaxSequences200Response, Integer, Hash)>] ListTaxSequences200Response data, response status code and response headers
@@ -191,6 +193,7 @@ module PronesoftEcf
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'type'] = opts[:'type'] if !opts[:'type'].nil?
+      query_params[:'environment'] = opts[:'environment'] if !opts[:'environment'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
       query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
 
@@ -230,39 +233,40 @@ module PronesoftEcf
     end
 
     # Update tax sequence
-    # @param sequence_id [String] 
+    # @param id [String] 
     # @param update_tax_sequence_request [UpdateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
     # @return [nil]
-    def update_tax_sequence(sequence_id, update_tax_sequence_request, opts = {})
-      update_tax_sequence_with_http_info(sequence_id, update_tax_sequence_request, opts)
+    def update_tax_sequence(id, update_tax_sequence_request, opts = {})
+      update_tax_sequence_with_http_info(id, update_tax_sequence_request, opts)
       nil
     end
 
     # Update tax sequence
-    # @param sequence_id [String] 
+    # @param id [String] 
     # @param update_tax_sequence_request [UpdateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
     # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def update_tax_sequence_with_http_info(sequence_id, update_tax_sequence_request, opts = {})
+    def update_tax_sequence_with_http_info(id, update_tax_sequence_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: TaxSequencesApi.update_tax_sequence ...'
       end
-      # verify the required parameter 'sequence_id' is set
-      if @api_client.config.client_side_validation && sequence_id.nil?
-        fail ArgumentError, "Missing the required parameter 'sequence_id' when calling TaxSequencesApi.update_tax_sequence"
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling TaxSequencesApi.update_tax_sequence"
       end
       # verify the required parameter 'update_tax_sequence_request' is set
       if @api_client.config.client_side_validation && update_tax_sequence_request.nil?
         fail ArgumentError, "Missing the required parameter 'update_tax_sequence_request' when calling TaxSequencesApi.update_tax_sequence"
       end
       # resource path
-      local_var_path = '/tax-sequences/{sequenceId}'.sub('{' + 'sequenceId' + '}', CGI.escape(sequence_id.to_s))
+      local_var_path = '/tax-sequences/update'
 
       # query parameters
       query_params = opts[:query_params] || {}
+      query_params[:'id'] = id
 
       # header parameters
       header_params = opts[:header_params] || {}

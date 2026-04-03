@@ -18,10 +18,11 @@ open class CommercialApprovalsAPI {
     /**
      * enum for parameter status
      */
-    public enum Status_listApprovals: String, CaseIterable {
-        case pending = "PENDING"
-        case approved = "APPROVED"
-        case rejected = "REJECTED"
+    public enum Status_listApprovals: Int, CaseIterable {
+        case _1 = 1
+        case _2 = 2
+        case _3 = 3
+        case _4 = 4
     }
 
     /**
@@ -47,8 +48,9 @@ open class CommercialApprovalsAPI {
      - parameter businessId: (query)  
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 20)
-     - parameter status: (query)  (optional)
+     - parameter ecf: (query)  (optional)
      - parameter documentType: (query)  (optional)
+     - parameter status: (query)  (optional)
      - parameter dateFrom: (query)  (optional)
      - parameter dateTo: (query)  (optional)
      - parameter minAmount: (query)  (optional)
@@ -60,8 +62,8 @@ open class CommercialApprovalsAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listApprovals(businessId: String, page: Int? = nil, limit: Int? = nil, status: Status_listApprovals? = nil, documentType: String? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, minAmount: Double? = nil, maxAmount: Double? = nil, search: String? = nil, sortBy: SortBy_listApprovals? = nil, sortOrder: SortOrder_listApprovals? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return listApprovalsWithRequestBuilder(businessId: businessId, page: page, limit: limit, status: status, documentType: documentType, dateFrom: dateFrom, dateTo: dateTo, minAmount: minAmount, maxAmount: maxAmount, search: search, sortBy: sortBy, sortOrder: sortOrder).execute(apiResponseQueue) { result in
+    open class func listApprovals(businessId: String, page: Int? = nil, limit: Int? = nil, ecf: String? = nil, documentType: String? = nil, status: Status_listApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, minAmount: Double? = nil, maxAmount: Double? = nil, search: String? = nil, sortBy: SortBy_listApprovals? = nil, sortOrder: SortOrder_listApprovals? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return listApprovalsWithRequestBuilder(businessId: businessId, page: page, limit: limit, ecf: ecf, documentType: documentType, status: status, dateFrom: dateFrom, dateTo: dateTo, minAmount: minAmount, maxAmount: maxAmount, search: search, sortBy: sortBy, sortOrder: sortOrder).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -83,8 +85,9 @@ open class CommercialApprovalsAPI {
      - parameter businessId: (query)  
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 20)
-     - parameter status: (query)  (optional)
+     - parameter ecf: (query)  (optional)
      - parameter documentType: (query)  (optional)
+     - parameter status: (query)  (optional)
      - parameter dateFrom: (query)  (optional)
      - parameter dateTo: (query)  (optional)
      - parameter minAmount: (query)  (optional)
@@ -94,7 +97,7 @@ open class CommercialApprovalsAPI {
      - parameter sortOrder: (query)  (optional)
      - returns: RequestBuilder<ApprovalListResponse> 
      */
-    open class func listApprovalsWithRequestBuilder(businessId: String, page: Int? = nil, limit: Int? = nil, status: Status_listApprovals? = nil, documentType: String? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, minAmount: Double? = nil, maxAmount: Double? = nil, search: String? = nil, sortBy: SortBy_listApprovals? = nil, sortOrder: SortOrder_listApprovals? = nil) -> RequestBuilder<ApprovalListResponse> {
+    open class func listApprovalsWithRequestBuilder(businessId: String, page: Int? = nil, limit: Int? = nil, ecf: String? = nil, documentType: String? = nil, status: Status_listApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, minAmount: Double? = nil, maxAmount: Double? = nil, search: String? = nil, sortBy: SortBy_listApprovals? = nil, sortOrder: SortOrder_listApprovals? = nil) -> RequestBuilder<ApprovalListResponse> {
         let localVariablePath = "/documents/approvals/all"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -104,8 +107,9 @@ open class CommercialApprovalsAPI {
             "businessId": (wrappedValue: businessId.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
             "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-            "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
+            "ecf": (wrappedValue: ecf?.encodeToJSON(), isExplode: true),
             "documentType": (wrappedValue: documentType?.encodeToJSON(), isExplode: true),
+            "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
             "dateFrom": (wrappedValue: dateFrom?.encodeToJSON(), isExplode: true),
             "dateTo": (wrappedValue: dateTo?.encodeToJSON(), isExplode: true),
             "minAmount": (wrappedValue: minAmount?.encodeToJSON(), isExplode: true),

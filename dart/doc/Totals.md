@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **itbis2** | **num** |  | [optional] 
 **itbis3** | **num** |  | [optional] 
 **additionalTaxAmount** | **num** |  | [optional] 
-**additionalTaxes** | [**List<ItemAdditionalTax>**](ItemAdditionalTax.md) |  | [optional] [default to const []]
+**additionalTaxes** | **List<String>** |  | [optional] [default to const []]
 **totalAmount** | **num** |  | 
 **nonBillableAmount** | **num** |  | [optional] 
 **periodAmount** | **num** |  | [optional] 

@@ -16,17 +16,22 @@ class DigitalCertificatesApi {
 
   final ApiClient apiClient;
 
-  /// Upload Digital Certificate (P12)
+  /// Upload digital certificate (P12/PFX)
+  ///
+  /// Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
+  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
   ///
   /// * [MultipartFile] file (required):
+  ///   Certificate file in .p12 or .pfx format.
   ///
   /// * [String] password (required):
+  ///   Password to unlock the certificate.
   Future<Response> uploadCertificateWithHttpInfo(String rnc, MultipartFile file, String password,) async {
     // ignore: prefer_const_declarations
     final path = r'/{rnc}/certificates'
@@ -67,16 +72,21 @@ class DigitalCertificatesApi {
     );
   }
 
-  /// Upload Digital Certificate (P12)
+  /// Upload digital certificate (P12/PFX)
+  ///
+  /// Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
+  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
   ///
   /// * [MultipartFile] file (required):
+  ///   Certificate file in .p12 or .pfx format.
   ///
   /// * [String] password (required):
-  Future<UploadCertificate201Response?> uploadCertificate(String rnc, MultipartFile file, String password,) async {
+  ///   Password to unlock the certificate.
+  Future<UploadCertificateResponse?> uploadCertificate(String rnc, MultipartFile file, String password,) async {
     final response = await uploadCertificateWithHttpInfo(rnc, file, password,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -85,7 +95,7 @@ class DigitalCertificatesApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UploadCertificate201Response',) as UploadCertificate201Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UploadCertificateResponse',) as UploadCertificateResponse;
     
     }
     return null;

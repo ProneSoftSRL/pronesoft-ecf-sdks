@@ -15,7 +15,15 @@ class TaxSequence {
   TaxSequence({
     this.id,
     this.type,
-    this.nextNumber,
+    this.startNumber,
+    this.endNumber,
+    this.currentNumber,
+    this.status,
+    this.totalNumbers,
+    this.usedNumbers,
+    this.availableNumbers,
+    this.createdAt,
+    this.expiresAt,
   });
 
   ///
@@ -32,7 +40,7 @@ class TaxSequence {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? type;
+  InvoiceTypeSequence? type;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -40,23 +48,97 @@ class TaxSequence {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? nextNumber;
+  String? startNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? endNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? currentNumber;
+
+  TaxSequenceStatusEnum? status;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? totalNumbers;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? usedNumbers;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? availableNumbers;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? createdAt;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? expiresAt;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is TaxSequence &&
     other.id == id &&
     other.type == type &&
-    other.nextNumber == nextNumber;
+    other.startNumber == startNumber &&
+    other.endNumber == endNumber &&
+    other.currentNumber == currentNumber &&
+    other.status == status &&
+    other.totalNumbers == totalNumbers &&
+    other.usedNumbers == usedNumbers &&
+    other.availableNumbers == availableNumbers &&
+    other.createdAt == createdAt &&
+    other.expiresAt == expiresAt;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
-    (nextNumber == null ? 0 : nextNumber!.hashCode);
+    (startNumber == null ? 0 : startNumber!.hashCode) +
+    (endNumber == null ? 0 : endNumber!.hashCode) +
+    (currentNumber == null ? 0 : currentNumber!.hashCode) +
+    (status == null ? 0 : status!.hashCode) +
+    (totalNumbers == null ? 0 : totalNumbers!.hashCode) +
+    (usedNumbers == null ? 0 : usedNumbers!.hashCode) +
+    (availableNumbers == null ? 0 : availableNumbers!.hashCode) +
+    (createdAt == null ? 0 : createdAt!.hashCode) +
+    (expiresAt == null ? 0 : expiresAt!.hashCode);
 
   @override
-  String toString() => 'TaxSequence[id=$id, type=$type, nextNumber=$nextNumber]';
+  String toString() => 'TaxSequence[id=$id, type=$type, startNumber=$startNumber, endNumber=$endNumber, currentNumber=$currentNumber, status=$status, totalNumbers=$totalNumbers, usedNumbers=$usedNumbers, availableNumbers=$availableNumbers, createdAt=$createdAt, expiresAt=$expiresAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -70,10 +152,50 @@ class TaxSequence {
     } else {
       json[r'type'] = null;
     }
-    if (this.nextNumber != null) {
-      json[r'nextNumber'] = this.nextNumber;
+    if (this.startNumber != null) {
+      json[r'startNumber'] = this.startNumber;
     } else {
-      json[r'nextNumber'] = null;
+      json[r'startNumber'] = null;
+    }
+    if (this.endNumber != null) {
+      json[r'endNumber'] = this.endNumber;
+    } else {
+      json[r'endNumber'] = null;
+    }
+    if (this.currentNumber != null) {
+      json[r'currentNumber'] = this.currentNumber;
+    } else {
+      json[r'currentNumber'] = null;
+    }
+    if (this.status != null) {
+      json[r'status'] = this.status;
+    } else {
+      json[r'status'] = null;
+    }
+    if (this.totalNumbers != null) {
+      json[r'totalNumbers'] = this.totalNumbers;
+    } else {
+      json[r'totalNumbers'] = null;
+    }
+    if (this.usedNumbers != null) {
+      json[r'usedNumbers'] = this.usedNumbers;
+    } else {
+      json[r'usedNumbers'] = null;
+    }
+    if (this.availableNumbers != null) {
+      json[r'availableNumbers'] = this.availableNumbers;
+    } else {
+      json[r'availableNumbers'] = null;
+    }
+    if (this.createdAt != null) {
+      json[r'createdAt'] = this.createdAt!.toUtc().toIso8601String();
+    } else {
+      json[r'createdAt'] = null;
+    }
+    if (this.expiresAt != null) {
+      json[r'expiresAt'] = this.expiresAt!.toUtc().toIso8601String();
+    } else {
+      json[r'expiresAt'] = null;
     }
     return json;
   }
@@ -94,8 +216,16 @@ class TaxSequence {
 
       return TaxSequence(
         id: mapValueOfType<String>(json, r'id'),
-        type: mapValueOfType<String>(json, r'type'),
-        nextNumber: mapValueOfType<String>(json, r'nextNumber'),
+        type: InvoiceTypeSequence.fromJson(json[r'type']),
+        startNumber: mapValueOfType<String>(json, r'startNumber'),
+        endNumber: mapValueOfType<String>(json, r'endNumber'),
+        currentNumber: mapValueOfType<String>(json, r'currentNumber'),
+        status: TaxSequenceStatusEnum.fromJson(json[r'status']),
+        totalNumbers: mapValueOfType<int>(json, r'totalNumbers'),
+        usedNumbers: mapValueOfType<int>(json, r'usedNumbers'),
+        availableNumbers: mapValueOfType<int>(json, r'availableNumbers'),
+        createdAt: mapDateTime(json, r'createdAt', r''),
+        expiresAt: mapDateTime(json, r'expiresAt', r''),
       );
     }
     return null;
@@ -145,4 +275,84 @@ class TaxSequence {
   static const requiredKeys = <String>{
   };
 }
+
+
+class TaxSequenceStatusEnum {
+  /// Instantiate a new enum with the provided [value].
+  const TaxSequenceStatusEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const ACTIVE = TaxSequenceStatusEnum._(r'ACTIVE');
+  static const EXHAUSTED = TaxSequenceStatusEnum._(r'EXHAUSTED');
+  static const EXPIRED = TaxSequenceStatusEnum._(r'EXPIRED');
+  static const VOIDED = TaxSequenceStatusEnum._(r'VOIDED');
+
+  /// List of all possible values in this [enum][TaxSequenceStatusEnum].
+  static const values = <TaxSequenceStatusEnum>[
+    ACTIVE,
+    EXHAUSTED,
+    EXPIRED,
+    VOIDED,
+  ];
+
+  static TaxSequenceStatusEnum? fromJson(dynamic value) => TaxSequenceStatusEnumTypeTransformer().decode(value);
+
+  static List<TaxSequenceStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <TaxSequenceStatusEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = TaxSequenceStatusEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [TaxSequenceStatusEnum] to String,
+/// and [decode] dynamic data back to [TaxSequenceStatusEnum].
+class TaxSequenceStatusEnumTypeTransformer {
+  factory TaxSequenceStatusEnumTypeTransformer() => _instance ??= const TaxSequenceStatusEnumTypeTransformer._();
+
+  const TaxSequenceStatusEnumTypeTransformer._();
+
+  String encode(TaxSequenceStatusEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a TaxSequenceStatusEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  TaxSequenceStatusEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'ACTIVE': return TaxSequenceStatusEnum.ACTIVE;
+        case r'EXHAUSTED': return TaxSequenceStatusEnum.EXHAUSTED;
+        case r'EXPIRED': return TaxSequenceStatusEnum.EXPIRED;
+        case r'VOIDED': return TaxSequenceStatusEnum.VOIDED;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [TaxSequenceStatusEnumTypeTransformer] instance.
+  static TaxSequenceStatusEnumTypeTransformer? _instance;
+}
+
 

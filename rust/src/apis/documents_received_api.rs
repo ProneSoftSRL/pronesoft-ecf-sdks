@@ -77,11 +77,11 @@ pub async fn get_received_document_stats(configuration: &configuration::Configur
     }
 }
 
-pub async fn list_received_documents(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, encf: Option<&str>, r#type: Option<&str>, status: Option<i32>, date_from: Option<String>, date_to: Option<String>, page: Option<i32>, limit: Option<i32>) -> Result<models::ReceivedDocumentListResponse, Error<ListReceivedDocumentsError>> {
+pub async fn list_received_documents(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, ecf: Option<&str>, document_type: Option<&str>, status: Option<i32>, date_from: Option<String>, date_to: Option<String>, page: Option<i32>, limit: Option<i32>) -> Result<models::ReceivedDocumentListResponse, Error<ListReceivedDocumentsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_header_x_tenant_id = x_tenant_id;
-    let p_query_encf = encf;
-    let p_query_type = r#type;
+    let p_query_ecf = ecf;
+    let p_query_document_type = document_type;
     let p_query_status = status;
     let p_query_date_from = date_from;
     let p_query_date_to = date_to;
@@ -91,11 +91,11 @@ pub async fn list_received_documents(configuration: &configuration::Configuratio
     let uri_str = format!("{}/documents/received/all", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_query_encf {
-        req_builder = req_builder.query(&[("encf", &param_value.to_string())]);
+    if let Some(ref param_value) = p_query_ecf {
+        req_builder = req_builder.query(&[("ecf", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_query_type {
-        req_builder = req_builder.query(&[("type", &param_value.to_string())]);
+    if let Some(ref param_value) = p_query_document_type {
+        req_builder = req_builder.query(&[("documentType", &param_value.to_string())]);
     }
     if let Some(ref param_value) = p_query_status {
         req_builder = req_builder.query(&[("status", &param_value.to_string())]);

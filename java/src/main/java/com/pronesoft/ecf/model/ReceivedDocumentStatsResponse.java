@@ -51,7 +51,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * ReceivedDocumentStatsResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T14:20:24.238162186-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ReceivedDocumentStatsResponse {
   public static final String SERIALIZED_NAME_TOTAL = "total";
   @SerializedName(SERIALIZED_NAME_TOTAL)

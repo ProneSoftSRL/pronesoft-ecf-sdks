@@ -37,9 +37,13 @@ public enum WebhookEventType {
   
   DOCUMENT_CONTINGENCY_ACTIVATED("document.contingency_activated"),
   
-  SEQUENCE_DEPLETED("sequence.depleted"),
+  COMMERCIAL_APPROVAL("commercial.approval"),
   
-  SEQUENCE_VOIDED("sequence.voided"),
+  CERTIFICATE_EXPIRING("certificate.expiring"),
+  
+  SECURITY_NEW_LOGIN("security.new_login"),
+  
+  SECURITY_API_KEY_ROTATED("security.api_key_rotated"),
   
   PLAN_USAGE_ALERT("plan.usage_alert"),
   
@@ -47,11 +51,15 @@ public enum WebhookEventType {
   
   BILLING_INVOICE_READY("billing.invoice_ready"),
   
+  SEQUENCE_DEPLETED("sequence.depleted"),
+  
+  SEQUENCE_VOIDED("sequence.voided"),
+  
   BRANCH_CREATED("branch.created"),
   
   BRANCH_STATUS_CHANGED("branch.status_changed"),
   
-  SECURITY_NEW_LOGIN("security.new_login"),
+  SECURITY_NEW_LOGIN2("security.new_login"),
   
   MEMBER_INVITED("member.invited"),
   
@@ -59,9 +67,9 @@ public enum WebhookEventType {
   
   MEMBER_REMOVED("member.removed"),
   
-  CERTIFICATE_EXPIRING("certificate.expiring"),
+  CERTIFICATE_EXPIRING2("certificate.expiring"),
   
-  COMMERCIAL_APPROVAL("commercial.approval"),
+  COMMERCIAL_APPROVAL2("commercial.approval"),
   
   CERTIFICATION_COMPLETED("certification.completed");
 

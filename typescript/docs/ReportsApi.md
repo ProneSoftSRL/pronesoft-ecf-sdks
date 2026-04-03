@@ -11,7 +11,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 ## export606
 
-> string export606(from, to, format)
+> string export606(from, to, format, status, type, encf)
 
 Export Format 606 (Purchases)
 
@@ -43,6 +43,12 @@ async function example() {
     to: 2013-10-20,
     // 'txt' | 'xlsx'
     format: format_example,
+    // string (optional)
+    status: status_example,
+    // string (optional)
+    type: type_example,
+    // string (optional)
+    encf: encf_example,
   } satisfies Export606Request;
 
   try {
@@ -65,6 +71,9 @@ example().catch(console.error);
 | **from** | `Date` |  | [Defaults to `undefined`] |
 | **to** | `Date` |  | [Defaults to `undefined`] |
 | **format** | `txt`, `xlsx` |  | [Defaults to `undefined`] [Enum: txt, xlsx] |
+| **status** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **type** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **encf** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

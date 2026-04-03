@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence |
+| [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Create new tax sequence |
 | [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences |
-| [**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Update tax sequence |
 | [**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 
@@ -187,6 +187,7 @@ api_instance = PronesoftEcf::TaxSequencesApi.new
 opts = {
   x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798', # String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
   type: PronesoftEcf::InvoiceTypeSequence::E31, # InvoiceTypeSequence | 
+  environment: PronesoftEcf::Environment::TESTE_CF, # Environment | 
   page: 56, # Integer | 
   limit: 56 # Integer | 
 }
@@ -224,6 +225,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **x_tenant_id** | **String** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 | **type** | [**InvoiceTypeSequence**](.md) |  | [optional] |
+| **environment** | [**Environment**](.md) |  | [optional] |
 | **page** | **Integer** |  | [optional][default to 1] |
 | **limit** | **Integer** |  | [optional][default to 10] |
 
@@ -243,7 +245,7 @@ end
 
 ## update_tax_sequence
 
-> update_tax_sequence(sequence_id, update_tax_sequence_request, opts)
+> update_tax_sequence(id, update_tax_sequence_request, opts)
 
 Update tax sequence
 
@@ -262,7 +264,7 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-sequence_id = 'sequence_id_example' # String | 
+id = 'id_example' # String | 
 update_tax_sequence_request = PronesoftEcf::UpdateTaxSequenceRequest.new # UpdateTaxSequenceRequest | 
 opts = {
   x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
@@ -270,7 +272,7 @@ opts = {
 
 begin
   # Update tax sequence
-  api_instance.update_tax_sequence(sequence_id, update_tax_sequence_request, opts)
+  api_instance.update_tax_sequence(id, update_tax_sequence_request, opts)
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling TaxSequencesApi->update_tax_sequence: #{e}"
 end
@@ -280,12 +282,12 @@ end
 
 This returns an Array which contains the response data (`nil` in this case), status code and headers.
 
-> <Array(nil, Integer, Hash)> update_tax_sequence_with_http_info(sequence_id, update_tax_sequence_request, opts)
+> <Array(nil, Integer, Hash)> update_tax_sequence_with_http_info(id, update_tax_sequence_request, opts)
 
 ```ruby
 begin
   # Update tax sequence
-  data, status_code, headers = api_instance.update_tax_sequence_with_http_info(sequence_id, update_tax_sequence_request, opts)
+  data, status_code, headers = api_instance.update_tax_sequence_with_http_info(id, update_tax_sequence_request, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => nil
@@ -298,7 +300,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **sequence_id** | **String** |  |  |
+| **id** | **String** |  |  |
 | **update_tax_sequence_request** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  |  |
 | **x_tenant_id** | **String** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
 

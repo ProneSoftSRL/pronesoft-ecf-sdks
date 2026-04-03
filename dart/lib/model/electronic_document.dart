@@ -13,23 +13,43 @@ part of openapi.api;
 class ElectronicDocument {
   /// Returns a new [ElectronicDocument] instance.
   ElectronicDocument({
-    this.version = '1.0',
+    this.environment,
+    this.version = 1,
     required this.invoiceType,
     required this.invoiceNumber,
     required this.issueDate,
     this.expirationDate,
+    this.creditNoteIndicator,
+    this.deferredSendingIndicator,
+    this.taxedAmountIndicator,
     this.incomeType,
     this.paymentType,
     this.paymentDeadline,
     this.paymentTerms,
+    this.paymentForms = const [],
     this.paymentAccountType,
     this.paymentAccountNumber,
     this.paymentBank,
-    this.creditNoteIndicator,
+    this.serviceStartDate,
+    this.serviceEndDate,
+    this.totalPages,
     this.issuerRNC,
     this.issuerBusinessName,
-    this.issuerEmail,
+    this.issuerCommercialName,
+    this.branchName,
+    this.issuerAddress,
+    this.municipalityCode,
+    this.provinceCode,
     this.issuerPhones = const [],
+    this.issuerEmail,
+    this.issuerWebsite,
+    this.issuerEconomicActivity,
+    this.sellerCode,
+    this.internalInvoiceNumber,
+    this.internalOrderNumber,
+    this.salesZone,
+    this.salesRoute,
+    this.additionalIssuerInfo,
     this.buyer,
     this.items = const [],
     required this.totals,
@@ -37,15 +57,25 @@ class ElectronicDocument {
     this.additionalInfo,
     this.alternativeCurrency,
     this.referenceInfo,
-    this.subtotals = const [],
+    this.subtotals,
     this.discountsOrSurcharges = const [],
-    this.pages = const [],
+    this.pages,
   });
 
-  String version;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  Environment? environment;
+
+  /// Always 1.
+  int version;
 
   InvoiceType invoiceType;
 
+  /// e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
   String invoiceNumber;
 
   DateTime issueDate;
@@ -58,8 +88,29 @@ class ElectronicDocument {
   ///
   DateTime? expirationDate;
 
+  /// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+  ElectronicDocumentCreditNoteIndicatorEnum? creditNoteIndicator;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? deferredSendingIndicator;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? taxedAmountIndicator;
+
+  /// 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
   ElectronicDocumentIncomeTypeEnum? incomeType;
 
+  /// 1=Cash, 2=Credit, 3=Mixed
   ElectronicDocumentPaymentTypeEnum? paymentType;
 
   ///
@@ -77,6 +128,9 @@ class ElectronicDocument {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? paymentTerms;
+
+  /// Payment breakdown. Required.
+  List<PaymentForm> paymentForms;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -102,9 +156,31 @@ class ElectronicDocument {
   ///
   String? paymentBank;
 
-  /// 0: issuance affected ≤ 30 days, 1: > 30 days
-  ElectronicDocumentCreditNoteIndicatorEnum? creditNoteIndicator;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? serviceStartDate;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? serviceEndDate;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? totalPages;
+
+  /// RNC of the issuing company.
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -127,9 +203,113 @@ class ElectronicDocument {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? issuerEmail;
+  String? issuerCommercialName;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? branchName;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? issuerAddress;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? municipalityCode;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? provinceCode;
 
   List<String> issuerPhones;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? issuerEmail;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? issuerWebsite;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? issuerEconomicActivity;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? sellerCode;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? internalInvoiceNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? internalOrderNumber;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? salesZone;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? salesRoute;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? additionalIssuerInfo;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -175,31 +355,63 @@ class ElectronicDocument {
   ///
   ReferenceInfo? referenceInfo;
 
-  List<Subtotal> subtotals;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  Subtotal? subtotals;
 
   List<DiscountOrSurcharge> discountsOrSurcharges;
 
-  List<Page> pages;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  Page? pages;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ElectronicDocument &&
+    other.environment == environment &&
     other.version == version &&
     other.invoiceType == invoiceType &&
     other.invoiceNumber == invoiceNumber &&
     other.issueDate == issueDate &&
     other.expirationDate == expirationDate &&
+    other.creditNoteIndicator == creditNoteIndicator &&
+    other.deferredSendingIndicator == deferredSendingIndicator &&
+    other.taxedAmountIndicator == taxedAmountIndicator &&
     other.incomeType == incomeType &&
     other.paymentType == paymentType &&
     other.paymentDeadline == paymentDeadline &&
     other.paymentTerms == paymentTerms &&
+    _deepEquality.equals(other.paymentForms, paymentForms) &&
     other.paymentAccountType == paymentAccountType &&
     other.paymentAccountNumber == paymentAccountNumber &&
     other.paymentBank == paymentBank &&
-    other.creditNoteIndicator == creditNoteIndicator &&
+    other.serviceStartDate == serviceStartDate &&
+    other.serviceEndDate == serviceEndDate &&
+    other.totalPages == totalPages &&
     other.issuerRNC == issuerRNC &&
     other.issuerBusinessName == issuerBusinessName &&
-    other.issuerEmail == issuerEmail &&
+    other.issuerCommercialName == issuerCommercialName &&
+    other.branchName == branchName &&
+    other.issuerAddress == issuerAddress &&
+    other.municipalityCode == municipalityCode &&
+    other.provinceCode == provinceCode &&
     _deepEquality.equals(other.issuerPhones, issuerPhones) &&
+    other.issuerEmail == issuerEmail &&
+    other.issuerWebsite == issuerWebsite &&
+    other.issuerEconomicActivity == issuerEconomicActivity &&
+    other.sellerCode == sellerCode &&
+    other.internalInvoiceNumber == internalInvoiceNumber &&
+    other.internalOrderNumber == internalOrderNumber &&
+    other.salesZone == salesZone &&
+    other.salesRoute == salesRoute &&
+    other.additionalIssuerInfo == additionalIssuerInfo &&
     other.buyer == buyer &&
     _deepEquality.equals(other.items, items) &&
     other.totals == totals &&
@@ -207,30 +419,50 @@ class ElectronicDocument {
     other.additionalInfo == additionalInfo &&
     other.alternativeCurrency == alternativeCurrency &&
     other.referenceInfo == referenceInfo &&
-    _deepEquality.equals(other.subtotals, subtotals) &&
+    other.subtotals == subtotals &&
     _deepEquality.equals(other.discountsOrSurcharges, discountsOrSurcharges) &&
-    _deepEquality.equals(other.pages, pages);
+    other.pages == pages;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
+    (environment == null ? 0 : environment!.hashCode) +
     (version.hashCode) +
     (invoiceType.hashCode) +
     (invoiceNumber.hashCode) +
     (issueDate.hashCode) +
     (expirationDate == null ? 0 : expirationDate!.hashCode) +
+    (creditNoteIndicator == null ? 0 : creditNoteIndicator!.hashCode) +
+    (deferredSendingIndicator == null ? 0 : deferredSendingIndicator!.hashCode) +
+    (taxedAmountIndicator == null ? 0 : taxedAmountIndicator!.hashCode) +
     (incomeType == null ? 0 : incomeType!.hashCode) +
     (paymentType == null ? 0 : paymentType!.hashCode) +
     (paymentDeadline == null ? 0 : paymentDeadline!.hashCode) +
     (paymentTerms == null ? 0 : paymentTerms!.hashCode) +
+    (paymentForms.hashCode) +
     (paymentAccountType == null ? 0 : paymentAccountType!.hashCode) +
     (paymentAccountNumber == null ? 0 : paymentAccountNumber!.hashCode) +
     (paymentBank == null ? 0 : paymentBank!.hashCode) +
-    (creditNoteIndicator == null ? 0 : creditNoteIndicator!.hashCode) +
+    (serviceStartDate == null ? 0 : serviceStartDate!.hashCode) +
+    (serviceEndDate == null ? 0 : serviceEndDate!.hashCode) +
+    (totalPages == null ? 0 : totalPages!.hashCode) +
     (issuerRNC == null ? 0 : issuerRNC!.hashCode) +
     (issuerBusinessName == null ? 0 : issuerBusinessName!.hashCode) +
-    (issuerEmail == null ? 0 : issuerEmail!.hashCode) +
+    (issuerCommercialName == null ? 0 : issuerCommercialName!.hashCode) +
+    (branchName == null ? 0 : branchName!.hashCode) +
+    (issuerAddress == null ? 0 : issuerAddress!.hashCode) +
+    (municipalityCode == null ? 0 : municipalityCode!.hashCode) +
+    (provinceCode == null ? 0 : provinceCode!.hashCode) +
     (issuerPhones.hashCode) +
+    (issuerEmail == null ? 0 : issuerEmail!.hashCode) +
+    (issuerWebsite == null ? 0 : issuerWebsite!.hashCode) +
+    (issuerEconomicActivity == null ? 0 : issuerEconomicActivity!.hashCode) +
+    (sellerCode == null ? 0 : sellerCode!.hashCode) +
+    (internalInvoiceNumber == null ? 0 : internalInvoiceNumber!.hashCode) +
+    (internalOrderNumber == null ? 0 : internalOrderNumber!.hashCode) +
+    (salesZone == null ? 0 : salesZone!.hashCode) +
+    (salesRoute == null ? 0 : salesRoute!.hashCode) +
+    (additionalIssuerInfo == null ? 0 : additionalIssuerInfo!.hashCode) +
     (buyer == null ? 0 : buyer!.hashCode) +
     (items.hashCode) +
     (totals.hashCode) +
@@ -238,15 +470,20 @@ class ElectronicDocument {
     (additionalInfo == null ? 0 : additionalInfo!.hashCode) +
     (alternativeCurrency == null ? 0 : alternativeCurrency!.hashCode) +
     (referenceInfo == null ? 0 : referenceInfo!.hashCode) +
-    (subtotals.hashCode) +
+    (subtotals == null ? 0 : subtotals!.hashCode) +
     (discountsOrSurcharges.hashCode) +
-    (pages.hashCode);
+    (pages == null ? 0 : pages!.hashCode);
 
   @override
-  String toString() => 'ElectronicDocument[version=$version, invoiceType=$invoiceType, invoiceNumber=$invoiceNumber, issueDate=$issueDate, expirationDate=$expirationDate, incomeType=$incomeType, paymentType=$paymentType, paymentDeadline=$paymentDeadline, paymentTerms=$paymentTerms, paymentAccountType=$paymentAccountType, paymentAccountNumber=$paymentAccountNumber, paymentBank=$paymentBank, creditNoteIndicator=$creditNoteIndicator, issuerRNC=$issuerRNC, issuerBusinessName=$issuerBusinessName, issuerEmail=$issuerEmail, issuerPhones=$issuerPhones, buyer=$buyer, items=$items, totals=$totals, transport=$transport, additionalInfo=$additionalInfo, alternativeCurrency=$alternativeCurrency, referenceInfo=$referenceInfo, subtotals=$subtotals, discountsOrSurcharges=$discountsOrSurcharges, pages=$pages]';
+  String toString() => 'ElectronicDocument[environment=$environment, version=$version, invoiceType=$invoiceType, invoiceNumber=$invoiceNumber, issueDate=$issueDate, expirationDate=$expirationDate, creditNoteIndicator=$creditNoteIndicator, deferredSendingIndicator=$deferredSendingIndicator, taxedAmountIndicator=$taxedAmountIndicator, incomeType=$incomeType, paymentType=$paymentType, paymentDeadline=$paymentDeadline, paymentTerms=$paymentTerms, paymentForms=$paymentForms, paymentAccountType=$paymentAccountType, paymentAccountNumber=$paymentAccountNumber, paymentBank=$paymentBank, serviceStartDate=$serviceStartDate, serviceEndDate=$serviceEndDate, totalPages=$totalPages, issuerRNC=$issuerRNC, issuerBusinessName=$issuerBusinessName, issuerCommercialName=$issuerCommercialName, branchName=$branchName, issuerAddress=$issuerAddress, municipalityCode=$municipalityCode, provinceCode=$provinceCode, issuerPhones=$issuerPhones, issuerEmail=$issuerEmail, issuerWebsite=$issuerWebsite, issuerEconomicActivity=$issuerEconomicActivity, sellerCode=$sellerCode, internalInvoiceNumber=$internalInvoiceNumber, internalOrderNumber=$internalOrderNumber, salesZone=$salesZone, salesRoute=$salesRoute, additionalIssuerInfo=$additionalIssuerInfo, buyer=$buyer, items=$items, totals=$totals, transport=$transport, additionalInfo=$additionalInfo, alternativeCurrency=$alternativeCurrency, referenceInfo=$referenceInfo, subtotals=$subtotals, discountsOrSurcharges=$discountsOrSurcharges, pages=$pages]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.environment != null) {
+      json[r'environment'] = this.environment;
+    } else {
+      json[r'environment'] = null;
+    }
       json[r'version'] = this.version;
       json[r'invoiceType'] = this.invoiceType;
       json[r'invoiceNumber'] = this.invoiceNumber;
@@ -255,6 +492,21 @@ class ElectronicDocument {
       json[r'expirationDate'] = this.expirationDate!.toUtc().toIso8601String();
     } else {
       json[r'expirationDate'] = null;
+    }
+    if (this.creditNoteIndicator != null) {
+      json[r'creditNoteIndicator'] = this.creditNoteIndicator;
+    } else {
+      json[r'creditNoteIndicator'] = null;
+    }
+    if (this.deferredSendingIndicator != null) {
+      json[r'deferredSendingIndicator'] = this.deferredSendingIndicator;
+    } else {
+      json[r'deferredSendingIndicator'] = null;
+    }
+    if (this.taxedAmountIndicator != null) {
+      json[r'taxedAmountIndicator'] = this.taxedAmountIndicator;
+    } else {
+      json[r'taxedAmountIndicator'] = null;
     }
     if (this.incomeType != null) {
       json[r'incomeType'] = this.incomeType;
@@ -276,6 +528,7 @@ class ElectronicDocument {
     } else {
       json[r'paymentTerms'] = null;
     }
+      json[r'paymentForms'] = this.paymentForms;
     if (this.paymentAccountType != null) {
       json[r'paymentAccountType'] = this.paymentAccountType;
     } else {
@@ -291,10 +544,20 @@ class ElectronicDocument {
     } else {
       json[r'paymentBank'] = null;
     }
-    if (this.creditNoteIndicator != null) {
-      json[r'creditNoteIndicator'] = this.creditNoteIndicator;
+    if (this.serviceStartDate != null) {
+      json[r'serviceStartDate'] = this.serviceStartDate!.toUtc().toIso8601String();
     } else {
-      json[r'creditNoteIndicator'] = null;
+      json[r'serviceStartDate'] = null;
+    }
+    if (this.serviceEndDate != null) {
+      json[r'serviceEndDate'] = this.serviceEndDate!.toUtc().toIso8601String();
+    } else {
+      json[r'serviceEndDate'] = null;
+    }
+    if (this.totalPages != null) {
+      json[r'totalPages'] = this.totalPages;
+    } else {
+      json[r'totalPages'] = null;
     }
     if (this.issuerRNC != null) {
       json[r'issuerRNC'] = this.issuerRNC;
@@ -306,12 +569,77 @@ class ElectronicDocument {
     } else {
       json[r'issuerBusinessName'] = null;
     }
+    if (this.issuerCommercialName != null) {
+      json[r'issuerCommercialName'] = this.issuerCommercialName;
+    } else {
+      json[r'issuerCommercialName'] = null;
+    }
+    if (this.branchName != null) {
+      json[r'branchName'] = this.branchName;
+    } else {
+      json[r'branchName'] = null;
+    }
+    if (this.issuerAddress != null) {
+      json[r'issuerAddress'] = this.issuerAddress;
+    } else {
+      json[r'issuerAddress'] = null;
+    }
+    if (this.municipalityCode != null) {
+      json[r'municipalityCode'] = this.municipalityCode;
+    } else {
+      json[r'municipalityCode'] = null;
+    }
+    if (this.provinceCode != null) {
+      json[r'provinceCode'] = this.provinceCode;
+    } else {
+      json[r'provinceCode'] = null;
+    }
+      json[r'issuerPhones'] = this.issuerPhones;
     if (this.issuerEmail != null) {
       json[r'issuerEmail'] = this.issuerEmail;
     } else {
       json[r'issuerEmail'] = null;
     }
-      json[r'issuerPhones'] = this.issuerPhones;
+    if (this.issuerWebsite != null) {
+      json[r'issuerWebsite'] = this.issuerWebsite;
+    } else {
+      json[r'issuerWebsite'] = null;
+    }
+    if (this.issuerEconomicActivity != null) {
+      json[r'issuerEconomicActivity'] = this.issuerEconomicActivity;
+    } else {
+      json[r'issuerEconomicActivity'] = null;
+    }
+    if (this.sellerCode != null) {
+      json[r'sellerCode'] = this.sellerCode;
+    } else {
+      json[r'sellerCode'] = null;
+    }
+    if (this.internalInvoiceNumber != null) {
+      json[r'internalInvoiceNumber'] = this.internalInvoiceNumber;
+    } else {
+      json[r'internalInvoiceNumber'] = null;
+    }
+    if (this.internalOrderNumber != null) {
+      json[r'internalOrderNumber'] = this.internalOrderNumber;
+    } else {
+      json[r'internalOrderNumber'] = null;
+    }
+    if (this.salesZone != null) {
+      json[r'salesZone'] = this.salesZone;
+    } else {
+      json[r'salesZone'] = null;
+    }
+    if (this.salesRoute != null) {
+      json[r'salesRoute'] = this.salesRoute;
+    } else {
+      json[r'salesRoute'] = null;
+    }
+    if (this.additionalIssuerInfo != null) {
+      json[r'additionalIssuerInfo'] = this.additionalIssuerInfo;
+    } else {
+      json[r'additionalIssuerInfo'] = null;
+    }
     if (this.buyer != null) {
       json[r'buyer'] = this.buyer;
     } else {
@@ -339,9 +667,17 @@ class ElectronicDocument {
     } else {
       json[r'referenceInfo'] = null;
     }
+    if (this.subtotals != null) {
       json[r'subtotals'] = this.subtotals;
+    } else {
+      json[r'subtotals'] = null;
+    }
       json[r'discountsOrSurcharges'] = this.discountsOrSurcharges;
+    if (this.pages != null) {
       json[r'pages'] = this.pages;
+    } else {
+      json[r'pages'] = null;
+    }
     return json;
   }
 
@@ -364,6 +700,8 @@ class ElectronicDocument {
         assert(json[r'invoiceNumber'] != null, 'Required key "ElectronicDocument[invoiceNumber]" has a null value in JSON.');
         assert(json.containsKey(r'issueDate'), 'Required key "ElectronicDocument[issueDate]" is missing from JSON.');
         assert(json[r'issueDate'] != null, 'Required key "ElectronicDocument[issueDate]" has a null value in JSON.');
+        assert(json.containsKey(r'paymentForms'), 'Required key "ElectronicDocument[paymentForms]" is missing from JSON.');
+        assert(json[r'paymentForms'] != null, 'Required key "ElectronicDocument[paymentForms]" has a null value in JSON.');
         assert(json.containsKey(r'items'), 'Required key "ElectronicDocument[items]" is missing from JSON.');
         assert(json[r'items'] != null, 'Required key "ElectronicDocument[items]" has a null value in JSON.');
         assert(json.containsKey(r'totals'), 'Required key "ElectronicDocument[totals]" is missing from JSON.');
@@ -372,25 +710,45 @@ class ElectronicDocument {
       }());
 
       return ElectronicDocument(
-        version: mapValueOfType<String>(json, r'version')!,
+        environment: Environment.fromJson(json[r'environment']),
+        version: mapValueOfType<int>(json, r'version')!,
         invoiceType: InvoiceType.fromJson(json[r'invoiceType'])!,
         invoiceNumber: mapValueOfType<String>(json, r'invoiceNumber')!,
         issueDate: mapDateTime(json, r'issueDate', r'')!,
         expirationDate: mapDateTime(json, r'expirationDate', r''),
+        creditNoteIndicator: ElectronicDocumentCreditNoteIndicatorEnum.fromJson(json[r'creditNoteIndicator']),
+        deferredSendingIndicator: mapValueOfType<String>(json, r'deferredSendingIndicator'),
+        taxedAmountIndicator: mapValueOfType<String>(json, r'taxedAmountIndicator'),
         incomeType: ElectronicDocumentIncomeTypeEnum.fromJson(json[r'incomeType']),
         paymentType: ElectronicDocumentPaymentTypeEnum.fromJson(json[r'paymentType']),
         paymentDeadline: mapDateTime(json, r'paymentDeadline', r''),
         paymentTerms: mapValueOfType<String>(json, r'paymentTerms'),
+        paymentForms: PaymentForm.listFromJson(json[r'paymentForms']),
         paymentAccountType: AccountType.fromJson(json[r'paymentAccountType']),
         paymentAccountNumber: mapValueOfType<String>(json, r'paymentAccountNumber'),
         paymentBank: mapValueOfType<String>(json, r'paymentBank'),
-        creditNoteIndicator: ElectronicDocumentCreditNoteIndicatorEnum.fromJson(json[r'creditNoteIndicator']),
+        serviceStartDate: mapDateTime(json, r'serviceStartDate', r''),
+        serviceEndDate: mapDateTime(json, r'serviceEndDate', r''),
+        totalPages: mapValueOfType<int>(json, r'totalPages'),
         issuerRNC: mapValueOfType<String>(json, r'issuerRNC'),
         issuerBusinessName: mapValueOfType<String>(json, r'issuerBusinessName'),
-        issuerEmail: mapValueOfType<String>(json, r'issuerEmail'),
+        issuerCommercialName: mapValueOfType<String>(json, r'issuerCommercialName'),
+        branchName: mapValueOfType<String>(json, r'branchName'),
+        issuerAddress: mapValueOfType<String>(json, r'issuerAddress'),
+        municipalityCode: mapValueOfType<String>(json, r'municipalityCode'),
+        provinceCode: mapValueOfType<String>(json, r'provinceCode'),
         issuerPhones: json[r'issuerPhones'] is Iterable
             ? (json[r'issuerPhones'] as Iterable).cast<String>().toList(growable: false)
             : const [],
+        issuerEmail: mapValueOfType<String>(json, r'issuerEmail'),
+        issuerWebsite: mapValueOfType<String>(json, r'issuerWebsite'),
+        issuerEconomicActivity: mapValueOfType<String>(json, r'issuerEconomicActivity'),
+        sellerCode: mapValueOfType<String>(json, r'sellerCode'),
+        internalInvoiceNumber: mapValueOfType<String>(json, r'internalInvoiceNumber'),
+        internalOrderNumber: mapValueOfType<int>(json, r'internalOrderNumber'),
+        salesZone: mapValueOfType<String>(json, r'salesZone'),
+        salesRoute: mapValueOfType<String>(json, r'salesRoute'),
+        additionalIssuerInfo: mapValueOfType<String>(json, r'additionalIssuerInfo'),
         buyer: Buyer.fromJson(json[r'buyer']),
         items: Item.listFromJson(json[r'items']),
         totals: Totals.fromJson(json[r'totals'])!,
@@ -398,9 +756,9 @@ class ElectronicDocument {
         additionalInfo: AdditionalInfo.fromJson(json[r'additionalInfo']),
         alternativeCurrency: AlternativeCurrency.fromJson(json[r'alternativeCurrency']),
         referenceInfo: ReferenceInfo.fromJson(json[r'referenceInfo']),
-        subtotals: Subtotal.listFromJson(json[r'subtotals']),
+        subtotals: Subtotal.fromJson(json[r'subtotals']),
         discountsOrSurcharges: DiscountOrSurcharge.listFromJson(json[r'discountsOrSurcharges']),
-        pages: Page.listFromJson(json[r'pages']),
+        pages: Page.fromJson(json[r'pages']),
       );
     }
     return null;
@@ -452,12 +810,87 @@ class ElectronicDocument {
     'invoiceType',
     'invoiceNumber',
     'issueDate',
+    'paymentForms',
     'items',
     'totals',
   };
 }
 
+/// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+class ElectronicDocumentCreditNoteIndicatorEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ElectronicDocumentCreditNoteIndicatorEnum._(this.value);
 
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n0 = ElectronicDocumentCreditNoteIndicatorEnum._(r'0');
+  static const n1 = ElectronicDocumentCreditNoteIndicatorEnum._(r'1');
+
+  /// List of all possible values in this [enum][ElectronicDocumentCreditNoteIndicatorEnum].
+  static const values = <ElectronicDocumentCreditNoteIndicatorEnum>[
+    n0,
+    n1,
+  ];
+
+  static ElectronicDocumentCreditNoteIndicatorEnum? fromJson(dynamic value) => ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer().decode(value);
+
+  static List<ElectronicDocumentCreditNoteIndicatorEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ElectronicDocumentCreditNoteIndicatorEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ElectronicDocumentCreditNoteIndicatorEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ElectronicDocumentCreditNoteIndicatorEnum] to String,
+/// and [decode] dynamic data back to [ElectronicDocumentCreditNoteIndicatorEnum].
+class ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer {
+  factory ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer() => _instance ??= const ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer._();
+
+  const ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer._();
+
+  String encode(ElectronicDocumentCreditNoteIndicatorEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ElectronicDocumentCreditNoteIndicatorEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ElectronicDocumentCreditNoteIndicatorEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'0': return ElectronicDocumentCreditNoteIndicatorEnum.n0;
+        case r'1': return ElectronicDocumentCreditNoteIndicatorEnum.n1;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer] instance.
+  static ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer? _instance;
+}
+
+
+/// 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
 class ElectronicDocumentIncomeTypeEnum {
   /// Instantiate a new enum with the provided [value].
   const ElectronicDocumentIncomeTypeEnum._(this.value);
@@ -543,7 +976,7 @@ class ElectronicDocumentIncomeTypeEnumTypeTransformer {
 }
 
 
-
+/// 1=Cash, 2=Credit, 3=Mixed
 class ElectronicDocumentPaymentTypeEnum {
   /// Instantiate a new enum with the provided [value].
   const ElectronicDocumentPaymentTypeEnum._(this.value);
@@ -617,80 +1050,6 @@ class ElectronicDocumentPaymentTypeEnumTypeTransformer {
 
   /// Singleton [ElectronicDocumentPaymentTypeEnumTypeTransformer] instance.
   static ElectronicDocumentPaymentTypeEnumTypeTransformer? _instance;
-}
-
-
-/// 0: issuance affected ≤ 30 days, 1: > 30 days
-class ElectronicDocumentCreditNoteIndicatorEnum {
-  /// Instantiate a new enum with the provided [value].
-  const ElectronicDocumentCreditNoteIndicatorEnum._(this.value);
-
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const n0 = ElectronicDocumentCreditNoteIndicatorEnum._(r'0');
-  static const n1 = ElectronicDocumentCreditNoteIndicatorEnum._(r'1');
-
-  /// List of all possible values in this [enum][ElectronicDocumentCreditNoteIndicatorEnum].
-  static const values = <ElectronicDocumentCreditNoteIndicatorEnum>[
-    n0,
-    n1,
-  ];
-
-  static ElectronicDocumentCreditNoteIndicatorEnum? fromJson(dynamic value) => ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer().decode(value);
-
-  static List<ElectronicDocumentCreditNoteIndicatorEnum> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <ElectronicDocumentCreditNoteIndicatorEnum>[];
-    if (json is List && json.isNotEmpty) {
-      for (final row in json) {
-        final value = ElectronicDocumentCreditNoteIndicatorEnum.fromJson(row);
-        if (value != null) {
-          result.add(value);
-        }
-      }
-    }
-    return result.toList(growable: growable);
-  }
-}
-
-/// Transformation class that can [encode] an instance of [ElectronicDocumentCreditNoteIndicatorEnum] to String,
-/// and [decode] dynamic data back to [ElectronicDocumentCreditNoteIndicatorEnum].
-class ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer {
-  factory ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer() => _instance ??= const ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer._();
-
-  const ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer._();
-
-  String encode(ElectronicDocumentCreditNoteIndicatorEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a ElectronicDocumentCreditNoteIndicatorEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  ElectronicDocumentCreditNoteIndicatorEnum? decode(dynamic data, {bool allowNull = true}) {
-    if (data != null) {
-      switch (data) {
-        case r'0': return ElectronicDocumentCreditNoteIndicatorEnum.n0;
-        case r'1': return ElectronicDocumentCreditNoteIndicatorEnum.n1;
-        default:
-          if (!allowNull) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
-    }
-    return null;
-  }
-
-  /// Singleton [ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer] instance.
-  static ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer? _instance;
 }
 
 

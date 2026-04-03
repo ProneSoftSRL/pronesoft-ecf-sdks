@@ -45,6 +45,9 @@ class ReportsApi:
         var_from: date,
         to: date,
         format: StrictStr,
+        status: Optional[StrictStr] = None,
+        type: Optional[StrictStr] = None,
+        encf: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -68,6 +71,12 @@ class ReportsApi:
         :type to: date
         :param format: (required)
         :type format: str
+        :param status:
+        :type status: str
+        :param type:
+        :type type: str
+        :param encf:
+        :type encf: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -94,6 +103,9 @@ class ReportsApi:
             var_from=var_from,
             to=to,
             format=format,
+            status=status,
+            type=type,
+            encf=encf,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -123,6 +135,9 @@ class ReportsApi:
         var_from: date,
         to: date,
         format: StrictStr,
+        status: Optional[StrictStr] = None,
+        type: Optional[StrictStr] = None,
+        encf: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -146,6 +161,12 @@ class ReportsApi:
         :type to: date
         :param format: (required)
         :type format: str
+        :param status:
+        :type status: str
+        :param type:
+        :type type: str
+        :param encf:
+        :type encf: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -172,6 +193,9 @@ class ReportsApi:
             var_from=var_from,
             to=to,
             format=format,
+            status=status,
+            type=type,
+            encf=encf,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -201,6 +225,9 @@ class ReportsApi:
         var_from: date,
         to: date,
         format: StrictStr,
+        status: Optional[StrictStr] = None,
+        type: Optional[StrictStr] = None,
+        encf: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -224,6 +251,12 @@ class ReportsApi:
         :type to: date
         :param format: (required)
         :type format: str
+        :param status:
+        :type status: str
+        :param type:
+        :type type: str
+        :param encf:
+        :type encf: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -250,6 +283,9 @@ class ReportsApi:
             var_from=var_from,
             to=to,
             format=format,
+            status=status,
+            type=type,
+            encf=encf,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -274,6 +310,9 @@ class ReportsApi:
         var_from,
         to,
         format,
+        status,
+        type,
+        encf,
         _request_auth,
         _content_type,
         _headers,
@@ -325,6 +364,18 @@ class ReportsApi:
         if format is not None:
             
             _query_params.append(('format', format))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        if type is not None:
+            
+            _query_params.append(('type', type))
+            
+        if encf is not None:
+            
+            _query_params.append(('encf', encf))
             
         # process the header parameters
         # process the form parameters

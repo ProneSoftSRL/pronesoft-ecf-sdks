@@ -10,7 +10,7 @@
 
 part of openapi.api;
 
-
+/// 1=Cash, 2=Check, 3=Card, 4=Credit, 5=Transfer, 6=Electronic, 7=Bond, 8=Other
 class PaymentMethod {
   /// Instantiate a new enum with the provided [value].
   const PaymentMethod._(this.value);

@@ -74,7 +74,7 @@ try {
 ## `listReceivedDocuments()`
 
 ```php
-listReceivedDocuments($x_tenant_id, $encf, $type, $status, $date_from, $date_to, $page, $limit): \PronesoftEcf\Model\ReceivedDocumentListResponse
+listReceivedDocuments($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit): \PronesoftEcf\Model\ReceivedDocumentListResponse
 ```
 
 List received documents
@@ -100,8 +100,8 @@ $apiInstance = new PronesoftEcf\Api\DocumentsReceivedApi(
     $config
 );
 $x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
-$encf = 'encf_example'; // string
-$type = 'type_example'; // string
+$ecf = 'ecf_example'; // string
+$document_type = 'document_type_example'; // string
 $status = 56; // int
 $date_from = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
 $date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
@@ -109,7 +109,7 @@ $page = 1; // int
 $limit = 10; // int
 
 try {
-    $result = $apiInstance->listReceivedDocuments($x_tenant_id, $encf, $type, $status, $date_from, $date_to, $page, $limit);
+    $result = $apiInstance->listReceivedDocuments($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling DocumentsReceivedApi->listReceivedDocuments: ', $e->getMessage(), PHP_EOL;
@@ -121,8 +121,8 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
-| **encf** | **string**|  | [optional] |
-| **type** | **string**|  | [optional] |
+| **ecf** | **string**|  | [optional] |
+| **document_type** | **string**|  | [optional] |
 | **status** | **int**|  | [optional] |
 | **date_from** | **\DateTime**|  | [optional] |
 | **date_to** | **\DateTime**|  | [optional] |

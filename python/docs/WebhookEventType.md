@@ -11,15 +11,23 @@
 
 * `DOCUMENT_DOT_CONTINGENCY_ACTIVATED` (value: `'document.contingency_activated'`)
 
-* `SEQUENCE_DOT_DEPLETED` (value: `'sequence.depleted'`)
+* `COMMERCIAL_DOT_APPROVAL` (value: `'commercial.approval'`)
 
-* `SEQUENCE_DOT_VOIDED` (value: `'sequence.voided'`)
+* `CERTIFICATE_DOT_EXPIRING` (value: `'certificate.expiring'`)
+
+* `SECURITY_DOT_NEW_LOGIN` (value: `'security.new_login'`)
+
+* `SECURITY_DOT_API_KEY_ROTATED` (value: `'security.api_key_rotated'`)
 
 * `PLAN_DOT_USAGE_ALERT` (value: `'plan.usage_alert'`)
 
 * `PLAN_DOT_PAYMENT_FAILED` (value: `'plan.payment_failed'`)
 
 * `BILLING_DOT_INVOICE_READY` (value: `'billing.invoice_ready'`)
+
+* `SEQUENCE_DOT_DEPLETED` (value: `'sequence.depleted'`)
+
+* `SEQUENCE_DOT_VOIDED` (value: `'sequence.voided'`)
 
 * `BRANCH_DOT_CREATED` (value: `'branch.created'`)
 

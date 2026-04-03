@@ -134,8 +134,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * List received documents
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param encf  (optional)
-     * @param type  (optional)
+     * @param ecf  (optional)
+     * @param documentType  (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
@@ -150,8 +150,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listReceivedDocuments(xTenantId: java.util.UUID? = null, encf: kotlin.String? = null, type: kotlin.String? = null, status: kotlin.Int? = null, dateFrom: java.time.LocalDate? = null, dateTo: java.time.LocalDate? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ReceivedDocumentListResponse {
-        val localVarResponse = listReceivedDocumentsWithHttpInfo(xTenantId = xTenantId, encf = encf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
+    fun listReceivedDocuments(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, documentType: kotlin.String? = null, status: kotlin.Int? = null, dateFrom: java.time.LocalDate? = null, dateTo: java.time.LocalDate? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ReceivedDocumentListResponse {
+        val localVarResponse = listReceivedDocumentsWithHttpInfo(xTenantId = xTenantId, ecf = ecf, documentType = documentType, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ReceivedDocumentListResponse
@@ -173,8 +173,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * List received documents
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param encf  (optional)
-     * @param type  (optional)
+     * @param ecf  (optional)
+     * @param documentType  (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
@@ -186,8 +186,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listReceivedDocumentsWithHttpInfo(xTenantId: java.util.UUID?, encf: kotlin.String?, type: kotlin.String?, status: kotlin.Int?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ReceivedDocumentListResponse?> {
-        val localVariableConfig = listReceivedDocumentsRequestConfig(xTenantId = xTenantId, encf = encf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
+    fun listReceivedDocumentsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, documentType: kotlin.String?, status: kotlin.Int?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ReceivedDocumentListResponse?> {
+        val localVariableConfig = listReceivedDocumentsRequestConfig(xTenantId = xTenantId, ecf = ecf, documentType = documentType, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return request<Unit, ReceivedDocumentListResponse>(
             localVariableConfig
@@ -198,8 +198,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * To obtain the request config of the operation listReceivedDocuments
      *
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param encf  (optional)
-     * @param type  (optional)
+     * @param ecf  (optional)
+     * @param documentType  (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
@@ -207,15 +207,15 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listReceivedDocumentsRequestConfig(xTenantId: java.util.UUID?, encf: kotlin.String?, type: kotlin.String?, status: kotlin.Int?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listReceivedDocumentsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, documentType: kotlin.String?, status: kotlin.Int?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
-                if (encf != null) {
-                    put("encf", listOf(encf.toString()))
+                if (ecf != null) {
+                    put("ecf", listOf(ecf.toString()))
                 }
-                if (type != null) {
-                    put("type", listOf(type.toString()))
+                if (documentType != null) {
+                    put("documentType", listOf(documentType.toString()))
                 }
                 if (status != null) {
                     put("status", listOf(status.toString()))

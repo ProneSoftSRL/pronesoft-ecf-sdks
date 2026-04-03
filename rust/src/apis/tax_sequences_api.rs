@@ -62,7 +62,7 @@ pub async fn create_tax_sequence(configuration: &configuration::Configuration, c
     let p_body_create_tax_sequence_request = create_tax_sequence_request;
     let p_header_x_tenant_id = x_tenant_id;
 
-    let uri_str = format!("{}/tax-sequences", configuration.base_path);
+    let uri_str = format!("{}/tax-sequences/create", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -154,10 +154,11 @@ pub async fn get_next_number(configuration: &configuration::Configuration, r#typ
     }
 }
 
-pub async fn list_tax_sequences(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, r#type: Option<models::InvoiceTypeSequence>, page: Option<i32>, limit: Option<i32>) -> Result<models::ListTaxSequences200Response, Error<ListTaxSequencesError>> {
+pub async fn list_tax_sequences(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, r#type: Option<models::InvoiceTypeSequence>, environment: Option<models::Environment>, page: Option<i32>, limit: Option<i32>) -> Result<models::ListTaxSequences200Response, Error<ListTaxSequencesError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_header_x_tenant_id = x_tenant_id;
     let p_query_type = r#type;
+    let p_query_environment = environment;
     let p_query_page = page;
     let p_query_limit = limit;
 
@@ -166,6 +167,9 @@ pub async fn list_tax_sequences(configuration: &configuration::Configuration, x_
 
     if let Some(ref param_value) = p_query_type {
         req_builder = req_builder.query(&[("type", &param_value.to_string())]);
+    }
+    if let Some(ref param_value) = p_query_environment {
+        req_builder = req_builder.query(&[("environment", &param_value.to_string())]);
     }
     if let Some(ref param_value) = p_query_page {
         req_builder = req_builder.query(&[("page", &param_value.to_string())]);
@@ -211,15 +215,16 @@ pub async fn list_tax_sequences(configuration: &configuration::Configuration, x_
     }
 }
 
-pub async fn update_tax_sequence(configuration: &configuration::Configuration, sequence_id: &str, update_tax_sequence_request: models::UpdateTaxSequenceRequest, x_tenant_id: Option<&str>) -> Result<(), Error<UpdateTaxSequenceError>> {
+pub async fn update_tax_sequence(configuration: &configuration::Configuration, id: &str, update_tax_sequence_request: models::UpdateTaxSequenceRequest, x_tenant_id: Option<&str>) -> Result<(), Error<UpdateTaxSequenceError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_path_sequence_id = sequence_id;
+    let p_query_id = id;
     let p_body_update_tax_sequence_request = update_tax_sequence_request;
     let p_header_x_tenant_id = x_tenant_id;
 
-    let uri_str = format!("{}/tax-sequences/{sequenceId}", configuration.base_path, sequenceId=crate::apis::urlencode(p_path_sequence_id));
+    let uri_str = format!("{}/tax-sequences/update", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::PATCH, &uri_str);
 
+    req_builder = req_builder.query(&[("id", &p_query_id.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

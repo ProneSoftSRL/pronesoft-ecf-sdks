@@ -103,8 +103,8 @@ end
 api_instance = PronesoftEcf::DocumentsReceivedApi.new
 opts = {
   x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798', # String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-  encf: 'encf_example', # String | 
-  type: 'type_example', # String | 
+  ecf: 'ecf_example', # String | 
+  document_type: 'document_type_example', # String | 
   status: 56, # Integer | 
   date_from: Date.parse('2013-10-20'), # Date | 
   date_to: Date.parse('2013-10-20'), # Date | 
@@ -144,8 +144,8 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **x_tenant_id** | **String** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
-| **encf** | **String** |  | [optional] |
-| **type** | **String** |  | [optional] |
+| **ecf** | **String** |  | [optional] |
+| **document_type** | **String** |  | [optional] |
 | **status** | **Integer** |  | [optional] |
 | **date_from** | **Date** |  | [optional] |
 | **date_to** | **Date** |  | [optional] |

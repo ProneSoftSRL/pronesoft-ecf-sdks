@@ -84,10 +84,10 @@ Class | Method | HTTP request | Description
 *EcfSubmissionApi* | [**submit_ecf**](docs/EcfSubmissionApi.md#submit_ecf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII
 *ReportsApi* | [**export606**](docs/ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases)
 *ReportsApi* | [**export_sent_documents**](docs/ReportsApi.md#export_sent_documents) | **GET** /dgii/sent/export | Export sent documents report
-*TaxSequencesApi* | [**create_tax_sequence**](docs/TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences | Create new tax sequence
+*TaxSequencesApi* | [**create_tax_sequence**](docs/TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Create new tax sequence
 *TaxSequencesApi* | [**get_next_number**](docs/TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number
 *TaxSequencesApi* | [**list_tax_sequences**](docs/TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences
-*TaxSequencesApi* | [**update_tax_sequence**](docs/TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence
+*TaxSequencesApi* | [**update_tax_sequence**](docs/TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Update tax sequence
 *TaxSequencesApi* | [**void_tax_sequence**](docs/TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
 *WebhookConfigurationApi* | [**get_webhook**](docs/WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
 *WebhookConfigurationApi* | [**get_webhook_stats**](docs/WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics

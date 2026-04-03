@@ -1,0 +1,199 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.18
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: lines_longer_than_80_chars
+
+part of openapi.api;
+
+class UpdateTaxSequenceRequest {
+  /// Returns a new [UpdateTaxSequenceRequest] instance.
+  UpdateTaxSequenceRequest({
+    this.type,
+    this.from,
+    this.to,
+    this.quantity,
+    this.expiration,
+    this.environment,
+  });
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  InvoiceTypeSequence? type;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? from;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? to;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? quantity;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? expiration;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  Environment? environment;
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is UpdateTaxSequenceRequest &&
+    other.type == type &&
+    other.from == from &&
+    other.to == to &&
+    other.quantity == quantity &&
+    other.expiration == expiration &&
+    other.environment == environment;
+
+  @override
+  int get hashCode =>
+    // ignore: unnecessary_parenthesis
+    (type == null ? 0 : type!.hashCode) +
+    (from == null ? 0 : from!.hashCode) +
+    (to == null ? 0 : to!.hashCode) +
+    (quantity == null ? 0 : quantity!.hashCode) +
+    (expiration == null ? 0 : expiration!.hashCode) +
+    (environment == null ? 0 : environment!.hashCode);
+
+  @override
+  String toString() => 'UpdateTaxSequenceRequest[type=$type, from=$from, to=$to, quantity=$quantity, expiration=$expiration, environment=$environment]';
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (this.type != null) {
+      json[r'type'] = this.type;
+    } else {
+      json[r'type'] = null;
+    }
+    if (this.from != null) {
+      json[r'from'] = this.from;
+    } else {
+      json[r'from'] = null;
+    }
+    if (this.to != null) {
+      json[r'to'] = this.to;
+    } else {
+      json[r'to'] = null;
+    }
+    if (this.quantity != null) {
+      json[r'quantity'] = this.quantity;
+    } else {
+      json[r'quantity'] = null;
+    }
+    if (this.expiration != null) {
+      json[r'expiration'] = _dateFormatter.format(this.expiration!.toUtc());
+    } else {
+      json[r'expiration'] = null;
+    }
+    if (this.environment != null) {
+      json[r'environment'] = this.environment;
+    } else {
+      json[r'environment'] = null;
+    }
+    return json;
+  }
+
+  /// Returns a new [UpdateTaxSequenceRequest] instance and imports its values from
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static UpdateTaxSequenceRequest? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        return true;
+      }());
+
+      return UpdateTaxSequenceRequest(
+        type: InvoiceTypeSequence.fromJson(json[r'type']),
+        from: mapValueOfType<int>(json, r'from'),
+        to: mapValueOfType<int>(json, r'to'),
+        quantity: mapValueOfType<int>(json, r'quantity'),
+        expiration: mapDateTime(json, r'expiration', r''),
+        environment: Environment.fromJson(json[r'environment']),
+      );
+    }
+    return null;
+  }
+
+  static List<UpdateTaxSequenceRequest> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <UpdateTaxSequenceRequest>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = UpdateTaxSequenceRequest.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+
+  static Map<String, UpdateTaxSequenceRequest> mapFromJson(dynamic json) {
+    final map = <String, UpdateTaxSequenceRequest>{};
+    if (json is Map && json.isNotEmpty) {
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = UpdateTaxSequenceRequest.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
+    }
+    return map;
+  }
+
+  // maps a json object with a list of UpdateTaxSequenceRequest-objects as value to a dart map
+  static Map<String, List<UpdateTaxSequenceRequest>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<UpdateTaxSequenceRequest>>{};
+    if (json is Map && json.isNotEmpty) {
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
+      for (final entry in json.entries) {
+        map[entry.key] = UpdateTaxSequenceRequest.listFromJson(entry.value, growable: growable,);
+      }
+    }
+    return map;
+  }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
+}
+

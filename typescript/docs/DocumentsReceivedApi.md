@@ -83,7 +83,7 @@ example().catch(console.error);
 
 ## listReceivedDocuments
 
-> ReceivedDocumentListResponse listReceivedDocuments(xTenantId, encf, type, status, dateFrom, dateTo, page, limit)
+> ReceivedDocumentListResponse listReceivedDocuments(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit)
 
 List received documents
 
@@ -110,9 +110,9 @@ async function example() {
     // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
     // string (optional)
-    encf: encf_example,
+    ecf: ecf_example,
     // string (optional)
-    type: type_example,
+    documentType: documentType_example,
     // number (optional)
     status: 56,
     // Date (optional)
@@ -143,8 +143,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
-| **encf** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **type** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ecf** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **documentType** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **status** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **dateFrom** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **dateTo** | `Date` |  | [Optional] [Defaults to `undefined`] |

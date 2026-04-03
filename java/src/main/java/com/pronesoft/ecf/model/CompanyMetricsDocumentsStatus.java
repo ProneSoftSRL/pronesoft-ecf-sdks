@@ -48,7 +48,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * CompanyMetricsDocumentsStatus
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T01:28:31.690460795-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-03T14:20:24.238162186-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class CompanyMetricsDocumentsStatus {
   public static final String SERIALIZED_NAME_A_P_P_R_O_V_E_D = "APPROVED";
   @SerializedName(SERIALIZED_NAME_A_P_P_R_O_V_E_D)

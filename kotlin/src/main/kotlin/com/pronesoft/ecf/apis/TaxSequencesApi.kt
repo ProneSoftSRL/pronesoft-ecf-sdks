@@ -63,7 +63,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     }
 
     /**
-     * POST /tax-sequences
+     * POST /tax-sequences/create
      * Create new tax sequence
      * 
      * @param createTaxSequenceRequest 
@@ -96,7 +96,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     }
 
     /**
-     * POST /tax-sequences
+     * POST /tax-sequences/create
      * Create new tax sequence
      * 
      * @param createTaxSequenceRequest 
@@ -132,7 +132,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/tax-sequences",
+            path = "/tax-sequences/create",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -230,6 +230,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param type  (optional)
+     * @param environment  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ListTaxSequences200Response
@@ -241,8 +242,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listTaxSequences(xTenantId: java.util.UUID? = null, type: InvoiceTypeSequence? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ListTaxSequences200Response {
-        val localVarResponse = listTaxSequencesWithHttpInfo(xTenantId = xTenantId, type = type, page = page, limit = limit)
+    fun listTaxSequences(xTenantId: java.util.UUID? = null, type: InvoiceTypeSequence? = null, environment: Environment? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ListTaxSequences200Response {
+        val localVarResponse = listTaxSequencesWithHttpInfo(xTenantId = xTenantId, type = type, environment = environment, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ListTaxSequences200Response
@@ -265,6 +266,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param type  (optional)
+     * @param environment  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApiResponse<ListTaxSequences200Response?>
@@ -273,8 +275,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listTaxSequencesWithHttpInfo(xTenantId: java.util.UUID?, type: InvoiceTypeSequence?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ListTaxSequences200Response?> {
-        val localVariableConfig = listTaxSequencesRequestConfig(xTenantId = xTenantId, type = type, page = page, limit = limit)
+    fun listTaxSequencesWithHttpInfo(xTenantId: java.util.UUID?, type: InvoiceTypeSequence?, environment: Environment?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ListTaxSequences200Response?> {
+        val localVariableConfig = listTaxSequencesRequestConfig(xTenantId = xTenantId, type = type, environment = environment, page = page, limit = limit)
 
         return request<Unit, ListTaxSequences200Response>(
             localVariableConfig
@@ -286,16 +288,20 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      *
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param type  (optional)
+     * @param environment  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listTaxSequencesRequestConfig(xTenantId: java.util.UUID?, type: InvoiceTypeSequence?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listTaxSequencesRequestConfig(xTenantId: java.util.UUID?, type: InvoiceTypeSequence?, environment: Environment?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (type != null) {
                     put("type", listOf(type.toString()))
+                }
+                if (environment != null) {
+                    put("environment", listOf(environment.toString()))
                 }
                 if (page != null) {
                     put("page", listOf(page.toString()))
@@ -319,10 +325,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     }
 
     /**
-     * PATCH /tax-sequences/{sequenceId}
+     * PATCH /tax-sequences/update
      * Update tax sequence
      * 
-     * @param sequenceId 
+     * @param id 
      * @param updateTaxSequenceRequest 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return void
@@ -333,8 +339,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateTaxSequence(sequenceId: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID? = null) : Unit {
-        val localVarResponse = updateTaxSequenceWithHttpInfo(sequenceId = sequenceId, updateTaxSequenceRequest = updateTaxSequenceRequest, xTenantId = xTenantId)
+    fun updateTaxSequence(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID? = null) : Unit {
+        val localVarResponse = updateTaxSequenceWithHttpInfo(id = id, updateTaxSequenceRequest = updateTaxSequenceRequest, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -352,10 +358,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     }
 
     /**
-     * PATCH /tax-sequences/{sequenceId}
+     * PATCH /tax-sequences/update
      * Update tax sequence
      * 
-     * @param sequenceId 
+     * @param id 
      * @param updateTaxSequenceRequest 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return ApiResponse<Unit?>
@@ -363,8 +369,8 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateTaxSequenceWithHttpInfo(sequenceId: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : ApiResponse<Unit?> {
-        val localVariableConfig = updateTaxSequenceRequestConfig(sequenceId = sequenceId, updateTaxSequenceRequest = updateTaxSequenceRequest, xTenantId = xTenantId)
+    fun updateTaxSequenceWithHttpInfo(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : ApiResponse<Unit?> {
+        val localVariableConfig = updateTaxSequenceRequestConfig(id = id, updateTaxSequenceRequest = updateTaxSequenceRequest, xTenantId = xTenantId)
 
         return request<UpdateTaxSequenceRequest, Unit>(
             localVariableConfig
@@ -374,14 +380,17 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation updateTaxSequence
      *
-     * @param sequenceId 
+     * @param id 
      * @param updateTaxSequenceRequest 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return RequestConfig
      */
-    fun updateTaxSequenceRequestConfig(sequenceId: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<UpdateTaxSequenceRequest> {
+    fun updateTaxSequenceRequestConfig(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<UpdateTaxSequenceRequest> {
         val localVariableBody = updateTaxSequenceRequest
-        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("id", listOf(id.toString()))
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Content-Type"] = "application/json"
@@ -389,7 +398,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
         return RequestConfig(
             method = RequestMethod.PATCH,
-            path = "/tax-sequences/{sequenceId}".replace("{"+"sequenceId"+"}", encodeURIComponent(sequenceId.toString())),
+            path = "/tax-sequences/update",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

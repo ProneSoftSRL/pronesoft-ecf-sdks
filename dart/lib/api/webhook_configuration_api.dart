@@ -16,73 +16,17 @@ class WebhookConfigurationApi {
 
   final ApiClient apiClient;
 
-  /// Register new webhook
+  /// Get webhook details
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///
-  /// * [CreateWebhookConfig] createWebhookConfig (required):
-  Future<Response> createWebhookWithHttpInfo(String rnc, CreateWebhookConfig createWebhookConfig,) async {
-    // ignore: prefer_const_declarations
-    final path = r'/{rnc}/webhooks'
-      .replaceAll('{rnc}', rnc);
-
-    // ignore: prefer_final_locals
-    Object? postBody = createWebhookConfig;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    const contentTypes = <String>['application/json'];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// Register new webhook
-  ///
-  /// Parameters:
-  ///
-  /// * [String] rnc (required):
-  ///
-  /// * [CreateWebhookConfig] createWebhookConfig (required):
-  Future<WebhookConfigResponse?> createWebhook(String rnc, CreateWebhookConfig createWebhookConfig,) async {
-    final response = await createWebhookWithHttpInfo(rnc, createWebhookConfig,);
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'WebhookConfigResponse',) as WebhookConfigResponse;
-    
-    }
-    return null;
-  }
-
-  /// Delete webhook configuration
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [String] rnc (required):
+  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
   ///
   /// * [String] webhookId (required):
-  Future<Response> deleteWebhookWithHttpInfo(String rnc, String webhookId,) async {
+  Future<Response> getWebhookWithHttpInfo(String rnc, String webhookId,) async {
     // ignore: prefer_const_declarations
     final path = r'/{rnc}/webhooks/{webhookId}'
       .replaceAll('{rnc}', rnc)
@@ -100,7 +44,7 @@ class WebhookConfigurationApi {
 
     return apiClient.invokeAPI(
       path,
-      'DELETE',
+      'GET',
       queryParams,
       postBody,
       headerParams,
@@ -109,27 +53,107 @@ class WebhookConfigurationApi {
     );
   }
 
-  /// Delete webhook configuration
+  /// Get webhook details
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
+  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
   ///
   /// * [String] webhookId (required):
-  Future<void> deleteWebhook(String rnc, String webhookId,) async {
-    final response = await deleteWebhookWithHttpInfo(rnc, webhookId,);
+  Future<WebhookConfigDetail?> getWebhook(String rnc, String webhookId,) async {
+    final response = await getWebhookWithHttpInfo(rnc, webhookId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'WebhookConfigDetail',) as WebhookConfigDetail;
+    
+    }
+    return null;
   }
 
-  /// List all webhook configurations
+  /// Get webhook delivery statistics
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
+  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///
+  /// * [String] webhookId (required):
+  ///
+  /// * [String] period:
+  Future<Response> getWebhookStatsWithHttpInfo(String rnc, String webhookId, { String? period, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/{rnc}/webhooks/{webhookId}/stats'
+      .replaceAll('{rnc}', rnc)
+      .replaceAll('{webhookId}', webhookId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (period != null) {
+      queryParams.addAll(_queryParams('', 'period', period));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Get webhook delivery statistics
+  ///
+  /// Parameters:
+  ///
+  /// * [String] rnc (required):
+  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///
+  /// * [String] webhookId (required):
+  ///
+  /// * [String] period:
+  Future<WebhookStats?> getWebhookStats(String rnc, String webhookId, { String? period, }) async {
+    final response = await getWebhookStatsWithHttpInfo(rnc, webhookId,  period: period, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'WebhookStats',) as WebhookStats;
+    
+    }
+    return null;
+  }
+
+  /// List webhook configurations
+  ///
+  /// Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] rnc (required):
+  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
   Future<Response> listWebhooksWithHttpInfo(String rnc,) async {
     // ignore: prefer_const_declarations
     final path = r'/{rnc}/webhooks'
@@ -156,11 +180,14 @@ class WebhookConfigurationApi {
     );
   }
 
-  /// List all webhook configurations
+  /// List webhook configurations
+  ///
+  /// Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
+  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
   Future<List<WebhookConfigResponse>?> listWebhooks(String rnc,) async {
     final response = await listWebhooksWithHttpInfo(rnc,);
     if (response.statusCode >= HttpStatus.badRequest) {

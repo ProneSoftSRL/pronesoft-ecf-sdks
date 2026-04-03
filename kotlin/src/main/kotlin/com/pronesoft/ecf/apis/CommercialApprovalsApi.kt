@@ -57,10 +57,11 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * enum for parameter status
      */
-     enum class StatusListApprovals(val value: kotlin.String) {
-         @SerializedName(value = "PENDING") PENDING("PENDING"),
-         @SerializedName(value = "APPROVED") APPROVED("APPROVED"),
-         @SerializedName(value = "REJECTED") REJECTED("REJECTED");
+     enum class StatusListApprovals(val value: kotlin.Int) {
+         @SerializedName(value = "1") _1(1),
+         @SerializedName(value = "2") _2(2),
+         @SerializedName(value = "3") _3(3),
+         @SerializedName(value = "4") _4(4);
 
         /**
          * Override [toString()] to avoid using the enum variable name as the value, and instead use
@@ -114,8 +115,9 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param businessId 
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
-     * @param status  (optional)
+     * @param ecf  (optional)
      * @param documentType  (optional)
+     * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param minAmount  (optional)
@@ -132,8 +134,8 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listApprovals(businessId: kotlin.String, page: kotlin.Int? = 1, limit: kotlin.Int? = 20, status: StatusListApprovals? = null, documentType: kotlin.String? = null, dateFrom: java.time.OffsetDateTime? = null, dateTo: java.time.OffsetDateTime? = null, minAmount: java.math.BigDecimal? = null, maxAmount: java.math.BigDecimal? = null, search: kotlin.String? = null, sortBy: SortByListApprovals? = null, sortOrder: SortOrderListApprovals? = null) : ApprovalListResponse {
-        val localVarResponse = listApprovalsWithHttpInfo(businessId = businessId, page = page, limit = limit, status = status, documentType = documentType, dateFrom = dateFrom, dateTo = dateTo, minAmount = minAmount, maxAmount = maxAmount, search = search, sortBy = sortBy, sortOrder = sortOrder)
+    fun listApprovals(businessId: kotlin.String, page: kotlin.Int? = 1, limit: kotlin.Int? = 20, ecf: kotlin.String? = null, documentType: kotlin.String? = null, status: StatusListApprovals? = null, dateFrom: java.time.OffsetDateTime? = null, dateTo: java.time.OffsetDateTime? = null, minAmount: java.math.BigDecimal? = null, maxAmount: java.math.BigDecimal? = null, search: kotlin.String? = null, sortBy: SortByListApprovals? = null, sortOrder: SortOrderListApprovals? = null) : ApprovalListResponse {
+        val localVarResponse = listApprovalsWithHttpInfo(businessId = businessId, page = page, limit = limit, ecf = ecf, documentType = documentType, status = status, dateFrom = dateFrom, dateTo = dateTo, minAmount = minAmount, maxAmount = maxAmount, search = search, sortBy = sortBy, sortOrder = sortOrder)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ApprovalListResponse
@@ -157,8 +159,9 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param businessId 
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
-     * @param status  (optional)
+     * @param ecf  (optional)
      * @param documentType  (optional)
+     * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param minAmount  (optional)
@@ -172,8 +175,8 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listApprovalsWithHttpInfo(businessId: kotlin.String, page: kotlin.Int?, limit: kotlin.Int?, status: StatusListApprovals?, documentType: kotlin.String?, dateFrom: java.time.OffsetDateTime?, dateTo: java.time.OffsetDateTime?, minAmount: java.math.BigDecimal?, maxAmount: java.math.BigDecimal?, search: kotlin.String?, sortBy: SortByListApprovals?, sortOrder: SortOrderListApprovals?) : ApiResponse<ApprovalListResponse?> {
-        val localVariableConfig = listApprovalsRequestConfig(businessId = businessId, page = page, limit = limit, status = status, documentType = documentType, dateFrom = dateFrom, dateTo = dateTo, minAmount = minAmount, maxAmount = maxAmount, search = search, sortBy = sortBy, sortOrder = sortOrder)
+    fun listApprovalsWithHttpInfo(businessId: kotlin.String, page: kotlin.Int?, limit: kotlin.Int?, ecf: kotlin.String?, documentType: kotlin.String?, status: StatusListApprovals?, dateFrom: java.time.OffsetDateTime?, dateTo: java.time.OffsetDateTime?, minAmount: java.math.BigDecimal?, maxAmount: java.math.BigDecimal?, search: kotlin.String?, sortBy: SortByListApprovals?, sortOrder: SortOrderListApprovals?) : ApiResponse<ApprovalListResponse?> {
+        val localVariableConfig = listApprovalsRequestConfig(businessId = businessId, page = page, limit = limit, ecf = ecf, documentType = documentType, status = status, dateFrom = dateFrom, dateTo = dateTo, minAmount = minAmount, maxAmount = maxAmount, search = search, sortBy = sortBy, sortOrder = sortOrder)
 
         return request<Unit, ApprovalListResponse>(
             localVariableConfig
@@ -186,8 +189,9 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param businessId 
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
-     * @param status  (optional)
+     * @param ecf  (optional)
      * @param documentType  (optional)
+     * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param minAmount  (optional)
@@ -197,7 +201,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param sortOrder  (optional)
      * @return RequestConfig
      */
-    fun listApprovalsRequestConfig(businessId: kotlin.String, page: kotlin.Int?, limit: kotlin.Int?, status: StatusListApprovals?, documentType: kotlin.String?, dateFrom: java.time.OffsetDateTime?, dateTo: java.time.OffsetDateTime?, minAmount: java.math.BigDecimal?, maxAmount: java.math.BigDecimal?, search: kotlin.String?, sortBy: SortByListApprovals?, sortOrder: SortOrderListApprovals?) : RequestConfig<Unit> {
+    fun listApprovalsRequestConfig(businessId: kotlin.String, page: kotlin.Int?, limit: kotlin.Int?, ecf: kotlin.String?, documentType: kotlin.String?, status: StatusListApprovals?, dateFrom: java.time.OffsetDateTime?, dateTo: java.time.OffsetDateTime?, minAmount: java.math.BigDecimal?, maxAmount: java.math.BigDecimal?, search: kotlin.String?, sortBy: SortByListApprovals?, sortOrder: SortOrderListApprovals?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -208,11 +212,14 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
                 if (limit != null) {
                     put("limit", listOf(limit.toString()))
                 }
-                if (status != null) {
-                    put("status", listOf(status.value))
+                if (ecf != null) {
+                    put("ecf", listOf(ecf.toString()))
                 }
                 if (documentType != null) {
                     put("documentType", listOf(documentType.toString()))
+                }
+                if (status != null) {
+                    put("status", listOf(status.toString()))
                 }
                 if (dateFrom != null) {
                     put("dateFrom", listOf(parseDateToQueryString(dateFrom)))

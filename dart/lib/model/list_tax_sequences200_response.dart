@@ -15,6 +15,7 @@ class ListTaxSequences200Response {
   ListTaxSequences200Response({
     this.success,
     this.data = const [],
+    this.meta,
   });
 
   ///
@@ -27,19 +28,29 @@ class ListTaxSequences200Response {
 
   List<TaxSequence> data;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  PaginationMeta? meta;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ListTaxSequences200Response &&
     other.success == success &&
-    _deepEquality.equals(other.data, data);
+    _deepEquality.equals(other.data, data) &&
+    other.meta == meta;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (success == null ? 0 : success!.hashCode) +
-    (data.hashCode);
+    (data.hashCode) +
+    (meta == null ? 0 : meta!.hashCode);
 
   @override
-  String toString() => 'ListTaxSequences200Response[success=$success, data=$data]';
+  String toString() => 'ListTaxSequences200Response[success=$success, data=$data, meta=$meta]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -49,6 +60,11 @@ class ListTaxSequences200Response {
       json[r'success'] = null;
     }
       json[r'data'] = this.data;
+    if (this.meta != null) {
+      json[r'meta'] = this.meta;
+    } else {
+      json[r'meta'] = null;
+    }
     return json;
   }
 
@@ -69,6 +85,7 @@ class ListTaxSequences200Response {
       return ListTaxSequences200Response(
         success: mapValueOfType<bool>(json, r'success'),
         data: TaxSequence.listFromJson(json[r'data']),
+        meta: PaginationMeta.fromJson(json[r'meta']),
       );
     }
     return null;

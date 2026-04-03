@@ -25,6 +25,9 @@ module PronesoftEcf
     # @param to [Date] 
     # @param format [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :status 
+    # @option opts [String] :type 
+    # @option opts [String] :encf 
     # @return [String]
     def export606(from, to, format, opts = {})
       data, _status_code, _headers = export606_with_http_info(from, to, format, opts)
@@ -37,6 +40,9 @@ module PronesoftEcf
     # @param to [Date] 
     # @param format [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :status 
+    # @option opts [String] :type 
+    # @option opts [String] :encf 
     # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
     def export606_with_http_info(from, to, format, opts = {})
       if @api_client.config.debugging
@@ -67,6 +73,9 @@ module PronesoftEcf
       query_params[:'from'] = from
       query_params[:'to'] = to
       query_params[:'format'] = format
+      query_params[:'status'] = opts[:'status'] if !opts[:'status'].nil?
+      query_params[:'type'] = opts[:'type'] if !opts[:'type'].nil?
+      query_params[:'encf'] = opts[:'encf'] if !opts[:'encf'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

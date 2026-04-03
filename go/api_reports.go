@@ -30,6 +30,9 @@ type ApiExport606Request struct {
 	from *string
 	to *string
 	format *string
+	status *string
+	type_ *string
+	encf *string
 }
 
 func (r ApiExport606Request) From(from string) ApiExport606Request {
@@ -44,6 +47,21 @@ func (r ApiExport606Request) To(to string) ApiExport606Request {
 
 func (r ApiExport606Request) Format(format string) ApiExport606Request {
 	r.format = &format
+	return r
+}
+
+func (r ApiExport606Request) Status(status string) ApiExport606Request {
+	r.status = &status
+	return r
+}
+
+func (r ApiExport606Request) Type_(type_ string) ApiExport606Request {
+	r.type_ = &type_
+	return r
+}
+
+func (r ApiExport606Request) Encf(encf string) ApiExport606Request {
+	r.encf = &encf
 	return r
 }
 
@@ -99,6 +117,15 @@ func (a *ReportsAPIService) Export606Execute(r ApiExport606Request) (string, *ht
 	parameterAddToHeaderOrQuery(localVarQueryParams, "from", r.from, "form", "")
 	parameterAddToHeaderOrQuery(localVarQueryParams, "to", r.to, "form", "")
 	parameterAddToHeaderOrQuery(localVarQueryParams, "format", r.format, "form", "")
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")
+	}
+	if r.type_ != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "form", "")
+	}
+	if r.encf != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "encf", r.encf, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

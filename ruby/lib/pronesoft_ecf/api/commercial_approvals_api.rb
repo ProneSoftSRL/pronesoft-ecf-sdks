@@ -24,8 +24,9 @@ module PronesoftEcf
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :limit  (default to 20)
-    # @option opts [String] :status 
+    # @option opts [String] :ecf 
     # @option opts [String] :document_type 
+    # @option opts [Integer] :status 
     # @option opts [Time] :date_from 
     # @option opts [Time] :date_to 
     # @option opts [Float] :min_amount 
@@ -44,8 +45,9 @@ module PronesoftEcf
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :limit  (default to 20)
-    # @option opts [String] :status 
+    # @option opts [String] :ecf 
     # @option opts [String] :document_type 
+    # @option opts [Integer] :status 
     # @option opts [Time] :date_from 
     # @option opts [Time] :date_to 
     # @option opts [Float] :min_amount 
@@ -66,7 +68,7 @@ module PronesoftEcf
         fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling CommercialApprovalsApi.list_approvals, must be smaller than or equal to 100.'
       end
 
-      allowable_values = ["PENDING", "APPROVED", "REJECTED"]
+      allowable_values = [1, 2, 3, 4]
       if @api_client.config.client_side_validation && opts[:'status'] && !allowable_values.include?(opts[:'status'])
         fail ArgumentError, "invalid value for \"status\", must be one of #{allowable_values}"
       end
@@ -86,8 +88,9 @@ module PronesoftEcf
       query_params[:'businessId'] = business_id
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
       query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
-      query_params[:'status'] = opts[:'status'] if !opts[:'status'].nil?
+      query_params[:'ecf'] = opts[:'ecf'] if !opts[:'ecf'].nil?
       query_params[:'documentType'] = opts[:'document_type'] if !opts[:'document_type'].nil?
+      query_params[:'status'] = opts[:'status'] if !opts[:'status'].nil?
       query_params[:'dateFrom'] = opts[:'date_from'] if !opts[:'date_from'].nil?
       query_params[:'dateTo'] = opts[:'date_to'] if !opts[:'date_to'].nil?
       query_params[:'minAmount'] = opts[:'min_amount'] if !opts[:'min_amount'].nil?

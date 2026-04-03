@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## list_approvals
 
-> models::ApprovalListResponse list_approvals(business_id, page, limit, status, document_type, date_from, date_to, min_amount, max_amount, search, sort_by, sort_order)
+> models::ApprovalListResponse list_approvals(business_id, page, limit, ecf, document_type, status, date_from, date_to, min_amount, max_amount, search, sort_by, sort_order)
 List commercial approvals
 
 ### Parameters
@@ -21,8 +21,9 @@ Name | Type | Description  | Required | Notes
 **business_id** | **String** |  | [required] |
 **page** | Option<**i32**> |  |  |[default to 1]
 **limit** | Option<**i32**> |  |  |[default to 20]
-**status** | Option<**String**> |  |  |
+**ecf** | Option<**String**> |  |  |
 **document_type** | Option<**String**> |  |  |
+**status** | Option<**i32**> |  |  |
 **date_from** | Option<**String**> |  |  |
 **date_to** | Option<**String**> |  |  |
 **min_amount** | Option<**f64**> |  |  |

@@ -16,35 +16,83 @@ class CreateTaxSequenceRequest {
     required this.type,
     required this.from,
     required this.to,
+    this.quantity,
+    this.expiration,
+    this.environment,
   });
 
-  InvoiceType type;
+  InvoiceTypeSequence type;
 
   int from;
 
   int to;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? quantity;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? expiration;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  Environment? environment;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is CreateTaxSequenceRequest &&
     other.type == type &&
     other.from == from &&
-    other.to == to;
+    other.to == to &&
+    other.quantity == quantity &&
+    other.expiration == expiration &&
+    other.environment == environment;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (type.hashCode) +
     (from.hashCode) +
-    (to.hashCode);
+    (to.hashCode) +
+    (quantity == null ? 0 : quantity!.hashCode) +
+    (expiration == null ? 0 : expiration!.hashCode) +
+    (environment == null ? 0 : environment!.hashCode);
 
   @override
-  String toString() => 'CreateTaxSequenceRequest[type=$type, from=$from, to=$to]';
+  String toString() => 'CreateTaxSequenceRequest[type=$type, from=$from, to=$to, quantity=$quantity, expiration=$expiration, environment=$environment]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'type'] = this.type;
       json[r'from'] = this.from;
       json[r'to'] = this.to;
+    if (this.quantity != null) {
+      json[r'quantity'] = this.quantity;
+    } else {
+      json[r'quantity'] = null;
+    }
+    if (this.expiration != null) {
+      json[r'expiration'] = _dateFormatter.format(this.expiration!.toUtc());
+    } else {
+      json[r'expiration'] = null;
+    }
+    if (this.environment != null) {
+      json[r'environment'] = this.environment;
+    } else {
+      json[r'environment'] = null;
+    }
     return json;
   }
 
@@ -69,9 +117,12 @@ class CreateTaxSequenceRequest {
       }());
 
       return CreateTaxSequenceRequest(
-        type: InvoiceType.fromJson(json[r'type'])!,
+        type: InvoiceTypeSequence.fromJson(json[r'type'])!,
         from: mapValueOfType<int>(json, r'from')!,
         to: mapValueOfType<int>(json, r'to')!,
+        quantity: mapValueOfType<int>(json, r'quantity'),
+        expiration: mapDateTime(json, r'expiration', r''),
+        environment: Environment.fromJson(json[r'environment']),
       );
     }
     return null;

@@ -79,10 +79,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="type"> (optional)</param>
+        /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ListTaxSequences200Response</returns>
-        ListTaxSequences200Response ListTaxSequences(Guid? xTenantId = default, InvoiceTypeSequence? type = default, int? page = default, int? limit = default);
+        ListTaxSequences200Response ListTaxSequences(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default);
 
         /// <summary>
         /// List tax sequences
@@ -93,19 +94,20 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="type"> (optional)</param>
+        /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ListTaxSequences200Response</returns>
-        ApiResponse<ListTaxSequences200Response> ListTaxSequencesWithHttpInfo(Guid? xTenantId = default, InvoiceTypeSequence? type = default, int? page = default, int? limit = default);
+        ApiResponse<ListTaxSequences200Response> ListTaxSequencesWithHttpInfo(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default);
         /// <summary>
         /// Update tax sequence
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sequenceId"></param>
+        /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <returns></returns>
-        void UpdateTaxSequence(string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default);
+        void UpdateTaxSequence(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default);
 
         /// <summary>
         /// Update tax sequence
@@ -114,11 +116,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sequenceId"></param>
+        /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdateTaxSequenceWithHttpInfo(string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default);
+        ApiResponse<Object> UpdateTaxSequenceWithHttpInfo(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default);
         /// <summary>
         /// Void a range of fiscal numbers
         /// </summary>
@@ -212,11 +214,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="type"> (optional)</param>
+        /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ListTaxSequences200Response</returns>
-        System.Threading.Tasks.Task<ListTaxSequences200Response> ListTaxSequencesAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ListTaxSequences200Response> ListTaxSequencesAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// List tax sequences
@@ -227,11 +230,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="type"> (optional)</param>
+        /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ListTaxSequences200Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ListTaxSequences200Response>> ListTaxSequencesWithHttpInfoAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<ListTaxSequences200Response>> ListTaxSequencesWithHttpInfoAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Update tax sequence
         /// </summary>
@@ -239,12 +243,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sequenceId"></param>
+        /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdateTaxSequenceAsync(string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task UpdateTaxSequenceAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update tax sequence
@@ -253,12 +257,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sequenceId"></param>
+        /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateTaxSequenceWithHttpInfoAsync(string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateTaxSequenceWithHttpInfoAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Void a range of fiscal numbers
         /// </summary>
@@ -560,7 +564,7 @@ namespace Pronesoft.Ecf.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<CreateTaxSequence201Response>("/tax-sequences", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<CreateTaxSequence201Response>("/tax-sequences/create", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -639,7 +643,7 @@ namespace Pronesoft.Ecf.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateTaxSequence201Response>("/tax-sequences", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<CreateTaxSequence201Response>("/tax-sequences/create", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -805,12 +809,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="type"> (optional)</param>
+        /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ListTaxSequences200Response</returns>
-        public ListTaxSequences200Response ListTaxSequences(Guid? xTenantId = default, InvoiceTypeSequence? type = default, int? page = default, int? limit = default)
+        public ListTaxSequences200Response ListTaxSequences(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> localVarResponse = ListTaxSequencesWithHttpInfo(xTenantId, type, page, limit);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> localVarResponse = ListTaxSequencesWithHttpInfo(xTenantId, type, environment, page, limit);
             return localVarResponse.Data;
         }
 
@@ -820,10 +825,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="type"> (optional)</param>
+        /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ListTaxSequences200Response</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> ListTaxSequencesWithHttpInfo(Guid? xTenantId = default, InvoiceTypeSequence? type = default, int? page = default, int? limit = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> ListTaxSequencesWithHttpInfo(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -844,6 +850,10 @@ namespace Pronesoft.Ecf.Sdk.Api
             if (type != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "type", type));
+            }
+            if (environment != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "environment", environment));
             }
             if (page != null)
             {
@@ -889,13 +899,14 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="type"> (optional)</param>
+        /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ListTaxSequences200Response</returns>
-        public async System.Threading.Tasks.Task<ListTaxSequences200Response> ListTaxSequencesAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<ListTaxSequences200Response> ListTaxSequencesAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> localVarResponse = await ListTaxSequencesWithHttpInfoAsync(xTenantId, type, page, limit, cancellationToken).ConfigureAwait(false);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> localVarResponse = await ListTaxSequencesWithHttpInfoAsync(xTenantId, type, environment, page, limit, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -905,11 +916,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="type"> (optional)</param>
+        /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ListTaxSequences200Response)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response>> ListTaxSequencesWithHttpInfoAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response>> ListTaxSequencesWithHttpInfoAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -932,6 +944,10 @@ namespace Pronesoft.Ecf.Sdk.Api
             if (type != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "type", type));
+            }
+            if (environment != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "environment", environment));
             }
             if (page != null)
             {
@@ -976,28 +992,28 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Update tax sequence 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sequenceId"></param>
+        /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <returns></returns>
-        public void UpdateTaxSequence(string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default)
+        public void UpdateTaxSequence(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default)
         {
-            UpdateTaxSequenceWithHttpInfo(sequenceId, updateTaxSequenceRequest, xTenantId);
+            UpdateTaxSequenceWithHttpInfo(id, updateTaxSequenceRequest, xTenantId);
         }
 
         /// <summary>
         /// Update tax sequence 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sequenceId"></param>
+        /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<Object> UpdateTaxSequenceWithHttpInfo(string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<Object> UpdateTaxSequenceWithHttpInfo(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default)
         {
-            // verify the required parameter 'sequenceId' is set
-            if (sequenceId == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'sequenceId' when calling TaxSequencesApi->UpdateTaxSequence");
+            // verify the required parameter 'id' is set
+            if (id == null)
+                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling TaxSequencesApi->UpdateTaxSequence");
 
             // verify the required parameter 'updateTaxSequenceRequest' is set
             if (updateTaxSequenceRequest == null)
@@ -1020,7 +1036,7 @@ namespace Pronesoft.Ecf.Sdk.Api
             var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("sequenceId", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(sequenceId)); // path parameter
+            localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "id", id));
             if (xTenantId != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("x-tenant-id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(xTenantId)); // header parameter
@@ -1041,7 +1057,7 @@ namespace Pronesoft.Ecf.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<Object>("/tax-sequences/{sequenceId}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<Object>("/tax-sequences/update", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1056,30 +1072,30 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Update tax sequence 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sequenceId"></param>
+        /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdateTaxSequenceAsync(string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task UpdateTaxSequenceAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            await UpdateTaxSequenceWithHttpInfoAsync(sequenceId, updateTaxSequenceRequest, xTenantId, cancellationToken).ConfigureAwait(false);
+            await UpdateTaxSequenceWithHttpInfoAsync(id, updateTaxSequenceRequest, xTenantId, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Update tax sequence 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sequenceId"></param>
+        /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
         /// <param name="xTenantId">UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<Object>> UpdateTaxSequenceWithHttpInfoAsync(string sequenceId, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<Object>> UpdateTaxSequenceWithHttpInfoAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            // verify the required parameter 'sequenceId' is set
-            if (sequenceId == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'sequenceId' when calling TaxSequencesApi->UpdateTaxSequence");
+            // verify the required parameter 'id' is set
+            if (id == null)
+                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'id' when calling TaxSequencesApi->UpdateTaxSequence");
 
             // verify the required parameter 'updateTaxSequenceRequest' is set
             if (updateTaxSequenceRequest == null)
@@ -1104,7 +1120,7 @@ namespace Pronesoft.Ecf.Sdk.Api
             var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.PathParameters.Add("sequenceId", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(sequenceId)); // path parameter
+            localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "id", id));
             if (xTenantId != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("x-tenant-id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(xTenantId)); // header parameter
@@ -1126,7 +1142,7 @@ namespace Pronesoft.Ecf.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<Object>("/tax-sequences/{sequenceId}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<Object>("/tax-sequences/update", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

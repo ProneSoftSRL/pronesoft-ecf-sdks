@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateTaxSequence**](TaxSequencesAPI.md#CreateTaxSequence) | **Post** /tax-sequences | Create new tax sequence
+[**CreateTaxSequence**](TaxSequencesAPI.md#CreateTaxSequence) | **Post** /tax-sequences/create | Create new tax sequence
 [**GetNextNumber**](TaxSequencesAPI.md#GetNextNumber) | **Get** /tax-sequences/next | Get next available fiscal number
 [**ListTaxSequences**](TaxSequencesAPI.md#ListTaxSequences) | **Get** /tax-sequences | List tax sequences
-[**UpdateTaxSequence**](TaxSequencesAPI.md#UpdateTaxSequence) | **Patch** /tax-sequences/{sequenceId} | Update tax sequence
+[**UpdateTaxSequence**](TaxSequencesAPI.md#UpdateTaxSequence) | **Patch** /tax-sequences/update | Update tax sequence
 [**VoidTaxSequence**](TaxSequencesAPI.md#VoidTaxSequence) | **Post** /tax-sequences/void | Void a range of fiscal numbers
 
 
@@ -150,7 +150,7 @@ Name | Type | Description  | Notes
 
 ## ListTaxSequences
 
-> ListTaxSequences200Response ListTaxSequences(ctx).XTenantId(xTenantId).Type_(type_).Page(page).Limit(limit).Execute()
+> ListTaxSequences200Response ListTaxSequences(ctx).XTenantId(xTenantId).Type_(type_).Environment(environment).Page(page).Limit(limit).Execute()
 
 List tax sequences
 
@@ -169,12 +169,13 @@ import (
 func main() {
 	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
 	type_ := openapiclient.InvoiceTypeSequence("E31") // InvoiceTypeSequence |  (optional)
+	environment := openapiclient.Environment("TesteCF") // Environment |  (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 10)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TaxSequencesAPI.ListTaxSequences(context.Background()).XTenantId(xTenantId).Type_(type_).Page(page).Limit(limit).Execute()
+	resp, r, err := apiClient.TaxSequencesAPI.ListTaxSequences(context.Background()).XTenantId(xTenantId).Type_(type_).Environment(environment).Page(page).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TaxSequencesAPI.ListTaxSequences``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -197,6 +198,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xTenantId** | **string** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | 
  **type_** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
+ **environment** | [**Environment**](Environment.md) |  | 
  **page** | **int32** |  | [default to 1]
  **limit** | **int32** |  | [default to 10]
 
@@ -220,7 +222,7 @@ Name | Type | Description  | Notes
 
 ## UpdateTaxSequence
 
-> UpdateTaxSequence(ctx, sequenceId).UpdateTaxSequenceRequest(updateTaxSequenceRequest).XTenantId(xTenantId).Execute()
+> UpdateTaxSequence(ctx).Id(id).UpdateTaxSequenceRequest(updateTaxSequenceRequest).XTenantId(xTenantId).Execute()
 
 Update tax sequence
 
@@ -237,13 +239,13 @@ import (
 )
 
 func main() {
-	sequenceId := "sequenceId_example" // string | 
+	id := "id_example" // string | 
 	updateTaxSequenceRequest := *openapiclient.NewUpdateTaxSequenceRequest() // UpdateTaxSequenceRequest | 
 	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.TaxSequencesAPI.UpdateTaxSequence(context.Background(), sequenceId).UpdateTaxSequenceRequest(updateTaxSequenceRequest).XTenantId(xTenantId).Execute()
+	r, err := apiClient.TaxSequencesAPI.UpdateTaxSequence(context.Background()).Id(id).UpdateTaxSequenceRequest(updateTaxSequenceRequest).XTenantId(xTenantId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TaxSequencesAPI.UpdateTaxSequence``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -254,10 +256,6 @@ func main() {
 ### Path Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**sequenceId** | **string** |  | 
 
 ### Other Parameters
 
@@ -266,7 +264,7 @@ Other parameters are passed through a pointer to a apiUpdateTaxSequenceRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-
+ **id** | **string** |  | 
  **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  | 
  **xTenantId** | **string** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | 
 

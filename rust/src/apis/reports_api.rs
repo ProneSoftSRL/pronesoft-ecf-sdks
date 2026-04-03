@@ -37,11 +37,14 @@ pub enum ExportSentDocumentsError {
 
 
 /// Downloads the official Format 606 for DGII in TXT (official) or Excel format.
-pub async fn export606(configuration: &configuration::Configuration, from: String, to: String, format: &str) -> Result<String, Error<Export606Error>> {
+pub async fn export606(configuration: &configuration::Configuration, from: String, to: String, format: &str, status: Option<&str>, r#type: Option<&str>, encf: Option<&str>) -> Result<String, Error<Export606Error>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_from = from;
     let p_query_to = to;
     let p_query_format = format;
+    let p_query_status = status;
+    let p_query_type = r#type;
+    let p_query_encf = encf;
 
     let uri_str = format!("{}/dgii/606/export", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -49,6 +52,15 @@ pub async fn export606(configuration: &configuration::Configuration, from: Strin
     req_builder = req_builder.query(&[("from", &p_query_from.to_string())]);
     req_builder = req_builder.query(&[("to", &p_query_to.to_string())]);
     req_builder = req_builder.query(&[("format", &p_query_format.to_string())]);
+    if let Some(ref param_value) = p_query_status {
+        req_builder = req_builder.query(&[("status", &param_value.to_string())]);
+    }
+    if let Some(ref param_value) = p_query_type {
+        req_builder = req_builder.query(&[("type", &param_value.to_string())]);
+    }
+    if let Some(ref param_value) = p_query_encf {
+        req_builder = req_builder.query(&[("encf", &param_value.to_string())]);
+    }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

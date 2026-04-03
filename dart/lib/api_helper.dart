@@ -61,11 +61,17 @@ String parameterToString(dynamic value) {
   if (value is BillingIndicator) {
     return BillingIndicatorTypeTransformer().encode(value).toString();
   }
+  if (value is DocumentStatus) {
+    return DocumentStatusTypeTransformer().encode(value).toString();
+  }
   if (value is Environment) {
     return EnvironmentTypeTransformer().encode(value).toString();
   }
   if (value is InvoiceType) {
     return InvoiceTypeTypeTransformer().encode(value).toString();
+  }
+  if (value is InvoiceTypeSequence) {
+    return InvoiceTypeSequenceTypeTransformer().encode(value).toString();
   }
   if (value is PaymentMethod) {
     return PaymentMethodTypeTransformer().encode(value).toString();

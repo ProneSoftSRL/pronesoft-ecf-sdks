@@ -80,8 +80,9 @@ public class CommercialApprovalsApi {
      * @param businessId  (required)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
-     * @param status  (optional)
+     * @param ecf  (optional)
      * @param documentType  (optional)
+     * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param minAmount  (optional)
@@ -100,7 +101,7 @@ public class CommercialApprovalsApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listApprovalsCall(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String status, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listApprovalsCall(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -137,12 +138,16 @@ public class CommercialApprovalsApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("limit", limit));
         }
 
-        if (status != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("status", status));
+        if (ecf != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("ecf", ecf));
         }
 
         if (documentType != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("documentType", documentType));
+        }
+
+        if (status != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("status", status));
         }
 
         if (dateFrom != null) {
@@ -193,13 +198,13 @@ public class CommercialApprovalsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listApprovalsValidateBeforeCall(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String status, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listApprovalsValidateBeforeCall(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'businessId' is set
         if (businessId == null) {
             throw new ApiException("Missing the required parameter 'businessId' when calling listApprovals(Async)");
         }
 
-        return listApprovalsCall(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder, _callback);
+        return listApprovalsCall(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder, _callback);
 
     }
 
@@ -209,8 +214,9 @@ public class CommercialApprovalsApi {
      * @param businessId  (required)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
-     * @param status  (optional)
+     * @param ecf  (optional)
      * @param documentType  (optional)
+     * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param minAmount  (optional)
@@ -228,8 +234,8 @@ public class CommercialApprovalsApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApprovalListResponse listApprovals(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String status, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder) throws ApiException {
-        ApiResponse<ApprovalListResponse> localVarResp = listApprovalsWithHttpInfo(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
+    public ApprovalListResponse listApprovals(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder) throws ApiException {
+        ApiResponse<ApprovalListResponse> localVarResp = listApprovalsWithHttpInfo(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
         return localVarResp.getData();
     }
 
@@ -239,8 +245,9 @@ public class CommercialApprovalsApi {
      * @param businessId  (required)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
-     * @param status  (optional)
+     * @param ecf  (optional)
      * @param documentType  (optional)
+     * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param minAmount  (optional)
@@ -258,8 +265,8 @@ public class CommercialApprovalsApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ApprovalListResponse> listApprovalsWithHttpInfo(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String status, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder) throws ApiException {
-        okhttp3.Call localVarCall = listApprovalsValidateBeforeCall(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder, null);
+    public ApiResponse<ApprovalListResponse> listApprovalsWithHttpInfo(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder) throws ApiException {
+        okhttp3.Call localVarCall = listApprovalsValidateBeforeCall(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder, null);
         Type localVarReturnType = new TypeToken<ApprovalListResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -270,8 +277,9 @@ public class CommercialApprovalsApi {
      * @param businessId  (required)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
-     * @param status  (optional)
+     * @param ecf  (optional)
      * @param documentType  (optional)
+     * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param minAmount  (optional)
@@ -290,9 +298,9 @@ public class CommercialApprovalsApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listApprovalsAsync(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String status, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, final ApiCallback<ApprovalListResponse> _callback) throws ApiException {
+    public okhttp3.Call listApprovalsAsync(@javax.annotation.Nonnull String businessId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String documentType, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable OffsetDateTime dateFrom, @javax.annotation.Nullable OffsetDateTime dateTo, @javax.annotation.Nullable BigDecimal minAmount, @javax.annotation.Nullable BigDecimal maxAmount, @javax.annotation.Nullable String search, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable String sortOrder, final ApiCallback<ApprovalListResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listApprovalsValidateBeforeCall(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder, _callback);
+        okhttp3.Call localVarCall = listApprovalsValidateBeforeCall(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder, _callback);
         Type localVarReturnType = new TypeToken<ApprovalListResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

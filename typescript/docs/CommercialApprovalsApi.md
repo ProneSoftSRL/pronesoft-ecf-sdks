@@ -10,7 +10,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 ## listApprovals
 
-> ApprovalListResponse listApprovals(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder)
+> ApprovalListResponse listApprovals(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder)
 
 List commercial approvals
 
@@ -40,10 +40,12 @@ async function example() {
     page: 56,
     // number (optional)
     limit: 56,
-    // 'PENDING' | 'APPROVED' | 'REJECTED' (optional)
-    status: status_example,
+    // string (optional)
+    ecf: ecf_example,
     // string (optional)
     documentType: documentType_example,
+    // 1 | 2 | 3 | 4 (optional)
+    status: 56,
     // Date (optional)
     dateFrom: 2013-10-20T19:20:30+01:00,
     // Date (optional)
@@ -80,8 +82,9 @@ example().catch(console.error);
 | **businessId** | `string` |  | [Defaults to `undefined`] |
 | **page** | `number` |  | [Optional] [Defaults to `1`] |
 | **limit** | `number` |  | [Optional] [Defaults to `20`] |
-| **status** | `PENDING`, `APPROVED`, `REJECTED` |  | [Optional] [Defaults to `undefined`] [Enum: PENDING, APPROVED, REJECTED] |
+| **ecf** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **documentType** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **status** | `1`, `2`, `3`, `4` |  | [Optional] [Defaults to `undefined`] [Enum: 1, 2, 3, 4] |
 | **dateFrom** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **dateTo** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **minAmount** | `number` |  | [Optional] [Defaults to `undefined`] |

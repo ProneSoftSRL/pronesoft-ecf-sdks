@@ -8,7 +8,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="listapprovals"></a>
 # **ListApprovals**
-> ApprovalListResponse ListApprovals (string businessId, int? page = null, int? limit = null, string? status = null, string? documentType = null, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? minAmount = null, decimal? maxAmount = null, string? search = null, string? sortBy = null, string? sortOrder = null)
+> ApprovalListResponse ListApprovals (string businessId, int? page = null, int? limit = null, string? ecf = null, string? documentType = null, int? status = null, DateTime? dateFrom = null, DateTime? dateTo = null, decimal? minAmount = null, decimal? maxAmount = null, string? search = null, string? sortBy = null, string? sortOrder = null)
 
 List commercial approvals
 
@@ -41,8 +41,9 @@ namespace Example
             var businessId = "businessId_example";  // string | 
             var page = 1;  // int? |  (optional)  (default to 1)
             var limit = 20;  // int? |  (optional)  (default to 20)
-            var status = "PENDING";  // string? |  (optional) 
+            var ecf = "ecf_example";  // string? |  (optional) 
             var documentType = "documentType_example";  // string? |  (optional) 
+            var status = 1;  // int? |  (optional) 
             var dateFrom = DateTime.Parse("2013-10-20T19:20:30+01:00");  // DateTime? |  (optional) 
             var dateTo = DateTime.Parse("2013-10-20T19:20:30+01:00");  // DateTime? |  (optional) 
             var minAmount = 8.14D;  // decimal? |  (optional) 
@@ -54,7 +55,7 @@ namespace Example
             try
             {
                 // List commercial approvals
-                ApprovalListResponse result = apiInstance.ListApprovals(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
+                ApprovalListResponse result = apiInstance.ListApprovals(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -75,7 +76,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // List commercial approvals
-    ApiResponse<ApprovalListResponse> response = apiInstance.ListApprovalsWithHttpInfo(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
+    ApiResponse<ApprovalListResponse> response = apiInstance.ListApprovalsWithHttpInfo(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -95,8 +96,9 @@ catch (ApiException e)
 | **businessId** | **string** |  |  |
 | **page** | **int?** |  | [optional] [default to 1] |
 | **limit** | **int?** |  | [optional] [default to 20] |
-| **status** | **string?** |  | [optional]  |
+| **ecf** | **string?** |  | [optional]  |
 | **documentType** | **string?** |  | [optional]  |
+| **status** | **int?** |  | [optional]  |
 | **dateFrom** | **DateTime?** |  | [optional]  |
 | **dateTo** | **DateTime?** |  | [optional]  |
 | **minAmount** | **decimal?** |  | [optional]  |

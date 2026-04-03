@@ -58,88 +58,112 @@ namespace Pronesoft.Ecf.Sdk.Model
         DocumentContingencyActivated = 4,
 
         /// <summary>
-        /// Enum SequenceDepleted for value: sequence.depleted
+        /// Enum CommercialApproval for value: commercial.approval
         /// </summary>
-        [EnumMember(Value = "sequence.depleted")]
-        SequenceDepleted = 5,
-
-        /// <summary>
-        /// Enum SequenceVoided for value: sequence.voided
-        /// </summary>
-        [EnumMember(Value = "sequence.voided")]
-        SequenceVoided = 6,
-
-        /// <summary>
-        /// Enum PlanUsageAlert for value: plan.usage_alert
-        /// </summary>
-        [EnumMember(Value = "plan.usage_alert")]
-        PlanUsageAlert = 7,
-
-        /// <summary>
-        /// Enum PlanPaymentFailed for value: plan.payment_failed
-        /// </summary>
-        [EnumMember(Value = "plan.payment_failed")]
-        PlanPaymentFailed = 8,
-
-        /// <summary>
-        /// Enum BillingInvoiceReady for value: billing.invoice_ready
-        /// </summary>
-        [EnumMember(Value = "billing.invoice_ready")]
-        BillingInvoiceReady = 9,
-
-        /// <summary>
-        /// Enum BranchCreated for value: branch.created
-        /// </summary>
-        [EnumMember(Value = "branch.created")]
-        BranchCreated = 10,
-
-        /// <summary>
-        /// Enum BranchStatusChanged for value: branch.status_changed
-        /// </summary>
-        [EnumMember(Value = "branch.status_changed")]
-        BranchStatusChanged = 11,
-
-        /// <summary>
-        /// Enum SecurityNewLogin for value: security.new_login
-        /// </summary>
-        [EnumMember(Value = "security.new_login")]
-        SecurityNewLogin = 12,
-
-        /// <summary>
-        /// Enum MemberInvited for value: member.invited
-        /// </summary>
-        [EnumMember(Value = "member.invited")]
-        MemberInvited = 13,
-
-        /// <summary>
-        /// Enum MemberJoined for value: member.joined
-        /// </summary>
-        [EnumMember(Value = "member.joined")]
-        MemberJoined = 14,
-
-        /// <summary>
-        /// Enum MemberRemoved for value: member.removed
-        /// </summary>
-        [EnumMember(Value = "member.removed")]
-        MemberRemoved = 15,
+        [EnumMember(Value = "commercial.approval")]
+        CommercialApproval = 5,
 
         /// <summary>
         /// Enum CertificateExpiring for value: certificate.expiring
         /// </summary>
         [EnumMember(Value = "certificate.expiring")]
-        CertificateExpiring = 16,
+        CertificateExpiring = 6,
 
         /// <summary>
-        /// Enum CommercialApproval for value: commercial.approval
+        /// Enum SecurityNewLogin for value: security.new_login
+        /// </summary>
+        [EnumMember(Value = "security.new_login")]
+        SecurityNewLogin = 7,
+
+        /// <summary>
+        /// Enum SecurityApiKeyRotated for value: security.api_key_rotated
+        /// </summary>
+        [EnumMember(Value = "security.api_key_rotated")]
+        SecurityApiKeyRotated = 8,
+
+        /// <summary>
+        /// Enum PlanUsageAlert for value: plan.usage_alert
+        /// </summary>
+        [EnumMember(Value = "plan.usage_alert")]
+        PlanUsageAlert = 9,
+
+        /// <summary>
+        /// Enum PlanPaymentFailed for value: plan.payment_failed
+        /// </summary>
+        [EnumMember(Value = "plan.payment_failed")]
+        PlanPaymentFailed = 10,
+
+        /// <summary>
+        /// Enum BillingInvoiceReady for value: billing.invoice_ready
+        /// </summary>
+        [EnumMember(Value = "billing.invoice_ready")]
+        BillingInvoiceReady = 11,
+
+        /// <summary>
+        /// Enum SequenceDepleted for value: sequence.depleted
+        /// </summary>
+        [EnumMember(Value = "sequence.depleted")]
+        SequenceDepleted = 12,
+
+        /// <summary>
+        /// Enum SequenceVoided for value: sequence.voided
+        /// </summary>
+        [EnumMember(Value = "sequence.voided")]
+        SequenceVoided = 13,
+
+        /// <summary>
+        /// Enum BranchCreated for value: branch.created
+        /// </summary>
+        [EnumMember(Value = "branch.created")]
+        BranchCreated = 14,
+
+        /// <summary>
+        /// Enum BranchStatusChanged for value: branch.status_changed
+        /// </summary>
+        [EnumMember(Value = "branch.status_changed")]
+        BranchStatusChanged = 15,
+
+        /// <summary>
+        /// Enum SecurityNewLogin2 for value: security.new_login
+        /// </summary>
+        [EnumMember(Value = "security.new_login")]
+        SecurityNewLogin2 = 16,
+
+        /// <summary>
+        /// Enum MemberInvited for value: member.invited
+        /// </summary>
+        [EnumMember(Value = "member.invited")]
+        MemberInvited = 17,
+
+        /// <summary>
+        /// Enum MemberJoined for value: member.joined
+        /// </summary>
+        [EnumMember(Value = "member.joined")]
+        MemberJoined = 18,
+
+        /// <summary>
+        /// Enum MemberRemoved for value: member.removed
+        /// </summary>
+        [EnumMember(Value = "member.removed")]
+        MemberRemoved = 19,
+
+        /// <summary>
+        /// Enum CertificateExpiring2 for value: certificate.expiring
+        /// </summary>
+        [EnumMember(Value = "certificate.expiring")]
+        CertificateExpiring2 = 20,
+
+        /// <summary>
+        /// Enum CommercialApproval2 for value: commercial.approval
         /// </summary>
         [EnumMember(Value = "commercial.approval")]
-        CommercialApproval = 17,
+        CommercialApproval2 = 21,
 
         /// <summary>
         /// Enum CertificationCompleted for value: certification.completed
         /// </summary>
         [EnumMember(Value = "certification.completed")]
-        CertificationCompleted = 18
+        CertificationCompleted = 22
     }
 
 }

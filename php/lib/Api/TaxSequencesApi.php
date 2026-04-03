@@ -368,7 +368,7 @@ class TaxSequencesApi
 
 
 
-        $resourcePath = '/tax-sequences';
+        $resourcePath = '/tax-sequences/create';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -780,6 +780,7 @@ class TaxSequencesApi
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type type (optional)
+     * @param  \PronesoftEcf\Model\Environment|null $environment environment (optional)
      * @param  int|null $page page (optional, default to 1)
      * @param  int|null $limit limit (optional, default to 10)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTaxSequences'] to see the possible values for this operation
@@ -788,9 +789,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\ListTaxSequences200Response|\PronesoftEcf\Model\ErrorResponse
      */
-    public function listTaxSequences($x_tenant_id = null, $type = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
+    public function listTaxSequences($x_tenant_id = null, $type = null, $environment = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
     {
-        list($response) = $this->listTaxSequencesWithHttpInfo($x_tenant_id, $type, $page, $limit, $contentType);
+        list($response) = $this->listTaxSequencesWithHttpInfo($x_tenant_id, $type, $environment, $page, $limit, $contentType);
         return $response;
     }
 
@@ -801,6 +802,7 @@ class TaxSequencesApi
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type (optional)
+     * @param  \PronesoftEcf\Model\Environment|null $environment (optional)
      * @param  int|null $page (optional, default to 1)
      * @param  int|null $limit (optional, default to 10)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTaxSequences'] to see the possible values for this operation
@@ -809,9 +811,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\ListTaxSequences200Response|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listTaxSequencesWithHttpInfo($x_tenant_id = null, $type = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
+    public function listTaxSequencesWithHttpInfo($x_tenant_id = null, $type = null, $environment = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
     {
-        $request = $this->listTaxSequencesRequest($x_tenant_id, $type, $page, $limit, $contentType);
+        $request = $this->listTaxSequencesRequest($x_tenant_id, $type, $environment, $page, $limit, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -903,6 +905,7 @@ class TaxSequencesApi
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type (optional)
+     * @param  \PronesoftEcf\Model\Environment|null $environment (optional)
      * @param  int|null $page (optional, default to 1)
      * @param  int|null $limit (optional, default to 10)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTaxSequences'] to see the possible values for this operation
@@ -910,9 +913,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listTaxSequencesAsync($x_tenant_id = null, $type = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
+    public function listTaxSequencesAsync($x_tenant_id = null, $type = null, $environment = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
     {
-        return $this->listTaxSequencesAsyncWithHttpInfo($x_tenant_id, $type, $page, $limit, $contentType)
+        return $this->listTaxSequencesAsyncWithHttpInfo($x_tenant_id, $type, $environment, $page, $limit, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -927,6 +930,7 @@ class TaxSequencesApi
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type (optional)
+     * @param  \PronesoftEcf\Model\Environment|null $environment (optional)
      * @param  int|null $page (optional, default to 1)
      * @param  int|null $limit (optional, default to 10)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTaxSequences'] to see the possible values for this operation
@@ -934,10 +938,10 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listTaxSequencesAsyncWithHttpInfo($x_tenant_id = null, $type = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
+    public function listTaxSequencesAsyncWithHttpInfo($x_tenant_id = null, $type = null, $environment = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
     {
         $returnType = '\PronesoftEcf\Model\ListTaxSequences200Response';
-        $request = $this->listTaxSequencesRequest($x_tenant_id, $type, $page, $limit, $contentType);
+        $request = $this->listTaxSequencesRequest($x_tenant_id, $type, $environment, $page, $limit, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -980,6 +984,7 @@ class TaxSequencesApi
      *
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type (optional)
+     * @param  \PronesoftEcf\Model\Environment|null $environment (optional)
      * @param  int|null $page (optional, default to 1)
      * @param  int|null $limit (optional, default to 10)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listTaxSequences'] to see the possible values for this operation
@@ -987,8 +992,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listTaxSequencesRequest($x_tenant_id = null, $type = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
+    public function listTaxSequencesRequest($x_tenant_id = null, $type = null, $environment = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listTaxSequences'][0])
     {
+
 
 
 
@@ -1007,6 +1013,15 @@ class TaxSequencesApi
             $type,
             'type', // param base name
             'InvoiceTypeSequence', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $environment,
+            'environment', // param base name
+            'Environment', // openApiType
             'form', // style
             true, // explode
             false // required
@@ -1103,7 +1118,7 @@ class TaxSequencesApi
      *
      * Update tax sequence
      *
-     * @param  string $sequence_id sequence_id (required)
+     * @param  string $id id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request update_tax_sequence_request (required)
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
@@ -1112,9 +1127,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updateTaxSequence($sequence_id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
+    public function updateTaxSequence($id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
     {
-        $this->updateTaxSequenceWithHttpInfo($sequence_id, $update_tax_sequence_request, $x_tenant_id, $contentType);
+        $this->updateTaxSequenceWithHttpInfo($id, $update_tax_sequence_request, $x_tenant_id, $contentType);
     }
 
     /**
@@ -1122,7 +1137,7 @@ class TaxSequencesApi
      *
      * Update tax sequence
      *
-     * @param  string $sequence_id (required)
+     * @param  string $id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request (required)
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
@@ -1131,9 +1146,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateTaxSequenceWithHttpInfo($sequence_id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
+    public function updateTaxSequenceWithHttpInfo($id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
     {
-        $request = $this->updateTaxSequenceRequest($sequence_id, $update_tax_sequence_request, $x_tenant_id, $contentType);
+        $request = $this->updateTaxSequenceRequest($id, $update_tax_sequence_request, $x_tenant_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1181,7 +1196,7 @@ class TaxSequencesApi
      *
      * Update tax sequence
      *
-     * @param  string $sequence_id (required)
+     * @param  string $id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request (required)
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
@@ -1189,9 +1204,9 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateTaxSequenceAsync($sequence_id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
+    public function updateTaxSequenceAsync($id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
     {
-        return $this->updateTaxSequenceAsyncWithHttpInfo($sequence_id, $update_tax_sequence_request, $x_tenant_id, $contentType)
+        return $this->updateTaxSequenceAsyncWithHttpInfo($id, $update_tax_sequence_request, $x_tenant_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1204,7 +1219,7 @@ class TaxSequencesApi
      *
      * Update tax sequence
      *
-     * @param  string $sequence_id (required)
+     * @param  string $id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request (required)
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
@@ -1212,10 +1227,10 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateTaxSequenceAsyncWithHttpInfo($sequence_id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
+    public function updateTaxSequenceAsyncWithHttpInfo($id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
     {
         $returnType = '';
-        $request = $this->updateTaxSequenceRequest($sequence_id, $update_tax_sequence_request, $x_tenant_id, $contentType);
+        $request = $this->updateTaxSequenceRequest($id, $update_tax_sequence_request, $x_tenant_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1243,7 +1258,7 @@ class TaxSequencesApi
     /**
      * Create request for operation 'updateTaxSequence'
      *
-     * @param  string $sequence_id (required)
+     * @param  string $id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request (required)
      * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
@@ -1251,13 +1266,13 @@ class TaxSequencesApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function updateTaxSequenceRequest($sequence_id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
+    public function updateTaxSequenceRequest($id, $update_tax_sequence_request, $x_tenant_id = null, string $contentType = self::contentTypes['updateTaxSequence'][0])
     {
 
-        // verify the required parameter 'sequence_id' is set
-        if ($sequence_id === null || (is_array($sequence_id) && count($sequence_id) === 0)) {
+        // verify the required parameter 'id' is set
+        if ($id === null || (is_array($id) && count($id) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $sequence_id when calling updateTaxSequence'
+                'Missing the required parameter $id when calling updateTaxSequence'
             );
         }
 
@@ -1270,27 +1285,28 @@ class TaxSequencesApi
 
 
 
-        $resourcePath = '/tax-sequences/{sequenceId}';
+        $resourcePath = '/tax-sequences/update';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $id,
+            'id', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            true // required
+        ) ?? []);
 
         // header params
         if ($x_tenant_id !== null) {
             $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
         }
 
-        // path params
-        if ($sequence_id !== null) {
-            $resourcePath = str_replace(
-                '{' . 'sequenceId' . '}',
-                ObjectSerializer::toPathValue($sequence_id),
-                $resourcePath
-            );
-        }
 
 
         $headers = $this->headerSelector->selectHeaders(

@@ -75,7 +75,7 @@ Name | Type | Description  | Notes
 
 ## ListReceivedDocuments
 
-> ReceivedDocumentListResponse ListReceivedDocuments(ctx).XTenantId(xTenantId).Encf(encf).Type_(type_).Status(status).DateFrom(dateFrom).DateTo(dateTo).Page(page).Limit(limit).Execute()
+> ReceivedDocumentListResponse ListReceivedDocuments(ctx).XTenantId(xTenantId).Ecf(ecf).DocumentType(documentType).Status(status).DateFrom(dateFrom).DateTo(dateTo).Page(page).Limit(limit).Execute()
 
 List received documents
 
@@ -94,8 +94,8 @@ import (
 
 func main() {
 	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-	encf := "encf_example" // string |  (optional)
-	type_ := "type__example" // string |  (optional)
+	ecf := "ecf_example" // string |  (optional)
+	documentType := "documentType_example" // string |  (optional)
 	status := int32(56) // int32 |  (optional)
 	dateFrom := time.Now() // string |  (optional)
 	dateTo := time.Now() // string |  (optional)
@@ -104,7 +104,7 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DocumentsReceivedAPI.ListReceivedDocuments(context.Background()).XTenantId(xTenantId).Encf(encf).Type_(type_).Status(status).DateFrom(dateFrom).DateTo(dateTo).Page(page).Limit(limit).Execute()
+	resp, r, err := apiClient.DocumentsReceivedAPI.ListReceivedDocuments(context.Background()).XTenantId(xTenantId).Ecf(ecf).DocumentType(documentType).Status(status).DateFrom(dateFrom).DateTo(dateTo).Page(page).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DocumentsReceivedAPI.ListReceivedDocuments``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -126,8 +126,8 @@ Other parameters are passed through a pointer to a apiListReceivedDocumentsReque
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xTenantId** | **string** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | 
- **encf** | **string** |  | 
- **type_** | **string** |  | 
+ **ecf** | **string** |  | 
+ **documentType** | **string** |  | 
  **status** | **int32** |  | 
  **dateFrom** | **string** |  | 
  **dateTo** | **string** |  | 

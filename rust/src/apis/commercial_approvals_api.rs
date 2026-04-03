@@ -24,13 +24,14 @@ pub enum ListApprovalsError {
 }
 
 
-pub async fn list_approvals(configuration: &configuration::Configuration, business_id: &str, page: Option<i32>, limit: Option<i32>, status: Option<&str>, document_type: Option<&str>, date_from: Option<String>, date_to: Option<String>, min_amount: Option<f64>, max_amount: Option<f64>, search: Option<&str>, sort_by: Option<&str>, sort_order: Option<&str>) -> Result<models::ApprovalListResponse, Error<ListApprovalsError>> {
+pub async fn list_approvals(configuration: &configuration::Configuration, business_id: &str, page: Option<i32>, limit: Option<i32>, ecf: Option<&str>, document_type: Option<&str>, status: Option<i32>, date_from: Option<String>, date_to: Option<String>, min_amount: Option<f64>, max_amount: Option<f64>, search: Option<&str>, sort_by: Option<&str>, sort_order: Option<&str>) -> Result<models::ApprovalListResponse, Error<ListApprovalsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_business_id = business_id;
     let p_query_page = page;
     let p_query_limit = limit;
-    let p_query_status = status;
+    let p_query_ecf = ecf;
     let p_query_document_type = document_type;
+    let p_query_status = status;
     let p_query_date_from = date_from;
     let p_query_date_to = date_to;
     let p_query_min_amount = min_amount;
@@ -49,11 +50,14 @@ pub async fn list_approvals(configuration: &configuration::Configuration, busine
     if let Some(ref param_value) = p_query_limit {
         req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_query_status {
-        req_builder = req_builder.query(&[("status", &param_value.to_string())]);
+    if let Some(ref param_value) = p_query_ecf {
+        req_builder = req_builder.query(&[("ecf", &param_value.to_string())]);
     }
     if let Some(ref param_value) = p_query_document_type {
         req_builder = req_builder.query(&[("documentType", &param_value.to_string())]);
+    }
+    if let Some(ref param_value) = p_query_status {
+        req_builder = req_builder.query(&[("status", &param_value.to_string())]);
     }
     if let Some(ref param_value) = p_query_date_from {
         req_builder = req_builder.query(&[("dateFrom", &param_value.to_string())]);

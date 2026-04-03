@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createTaxSequence**](TaxSequencesAPI.md#createtaxsequence) | **POST** /tax-sequences | Create new tax sequence
+[**createTaxSequence**](TaxSequencesAPI.md#createtaxsequence) | **POST** /tax-sequences/create | Create new tax sequence
 [**getNextNumber**](TaxSequencesAPI.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number
 [**listTaxSequences**](TaxSequencesAPI.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences
-[**updateTaxSequence**](TaxSequencesAPI.md#updatetaxsequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence
+[**updateTaxSequence**](TaxSequencesAPI.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Update tax sequence
 [**voidTaxSequence**](TaxSequencesAPI.md#voidtaxsequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
 
 
@@ -117,7 +117,7 @@ Name | Type | Description  | Notes
 
 # **listTaxSequences**
 ```swift
-    open class func listTaxSequences(xTenantId: UUID? = nil, type: InvoiceTypeSequence? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
+    open class func listTaxSequences(xTenantId: UUID? = nil, type: InvoiceTypeSequence? = nil, environment: Environment? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
 ```
 
 List tax sequences
@@ -129,11 +129,12 @@ import PronesoftEcf
 
 let xTenantId = 987 // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
 let type = InvoiceTypeSequence() // InvoiceTypeSequence |  (optional)
+let environment = Environment() // Environment |  (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let limit = 987 // Int |  (optional) (default to 10)
 
 // List tax sequences
-TaxSequencesAPI.listTaxSequences(xTenantId: xTenantId, type: type, page: page, limit: limit) { (response, error) in
+TaxSequencesAPI.listTaxSequences(xTenantId: xTenantId, type: type, environment: environment, page: page, limit: limit) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -151,6 +152,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xTenantId** | **UUID** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
  **type** | [**InvoiceTypeSequence**](.md) |  | [optional] 
+ **environment** | [**Environment**](.md) |  | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **limit** | **Int** |  | [optional] [default to 10]
 
@@ -171,7 +173,7 @@ Name | Type | Description  | Notes
 
 # **updateTaxSequence**
 ```swift
-    open class func updateTaxSequence(sequenceId: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updateTaxSequence(id: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Update tax sequence
@@ -181,12 +183,12 @@ Update tax sequence
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let sequenceId = "sequenceId_example" // String | 
+let id = "id_example" // String | 
 let updateTaxSequenceRequest = UpdateTaxSequenceRequest(type: InvoiceTypeSequence(), from: 123, to: 123, quantity: 123, expiration: Date(), environment: Environment()) // UpdateTaxSequenceRequest | 
 let xTenantId = 987 // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
 
 // Update tax sequence
-TaxSequencesAPI.updateTaxSequence(sequenceId: sequenceId, updateTaxSequenceRequest: updateTaxSequenceRequest, xTenantId: xTenantId) { (response, error) in
+TaxSequencesAPI.updateTaxSequence(id: id, updateTaxSequenceRequest: updateTaxSequenceRequest, xTenantId: xTenantId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -202,7 +204,7 @@ TaxSequencesAPI.updateTaxSequence(sequenceId: sequenceId, updateTaxSequenceReque
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sequenceId** | **String** |  | 
+ **id** | **String** |  | 
  **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  | 
  **xTenantId** | **UUID** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
 

@@ -6,10 +6,10 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createTaxSequence()**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences | Create new tax sequence |
+| [**createTaxSequence()**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Create new tax sequence |
 | [**getNextNumber()**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available fiscal number |
 | [**listTaxSequences()**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences |
-| [**updateTaxSequence()**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/{sequenceId} | Update tax sequence |
+| [**updateTaxSequence()**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Update tax sequence |
 | [**voidTaxSequence()**](TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
 
 
@@ -146,7 +146,7 @@ try {
 ## `listTaxSequences()`
 
 ```php
-listTaxSequences($x_tenant_id, $type, $page, $limit): \PronesoftEcf\Model\ListTaxSequences200Response
+listTaxSequences($x_tenant_id, $type, $environment, $page, $limit): \PronesoftEcf\Model\ListTaxSequences200Response
 ```
 
 List tax sequences
@@ -173,11 +173,12 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
 );
 $x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
 $type = new \PronesoftEcf\Model\\PronesoftEcf\Model\InvoiceTypeSequence(); // \PronesoftEcf\Model\InvoiceTypeSequence
+$environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 $page = 1; // int
 $limit = 10; // int
 
 try {
-    $result = $apiInstance->listTaxSequences($x_tenant_id, $type, $page, $limit);
+    $result = $apiInstance->listTaxSequences($x_tenant_id, $type, $environment, $page, $limit);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling TaxSequencesApi->listTaxSequences: ', $e->getMessage(), PHP_EOL;
@@ -190,6 +191,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
 | **type** | [**\PronesoftEcf\Model\InvoiceTypeSequence**](../Model/.md)|  | [optional] |
+| **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | [optional] |
 | **page** | **int**|  | [optional] [default to 1] |
 | **limit** | **int**|  | [optional] [default to 10] |
 
@@ -213,7 +215,7 @@ try {
 ## `updateTaxSequence()`
 
 ```php
-updateTaxSequence($sequence_id, $update_tax_sequence_request, $x_tenant_id)
+updateTaxSequence($id, $update_tax_sequence_request, $x_tenant_id)
 ```
 
 Update tax sequence
@@ -238,12 +240,12 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     new GuzzleHttp\Client(),
     $config
 );
-$sequence_id = 'sequence_id_example'; // string
+$id = 'id_example'; // string
 $update_tax_sequence_request = new \PronesoftEcf\Model\UpdateTaxSequenceRequest(); // \PronesoftEcf\Model\UpdateTaxSequenceRequest
 $x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
 
 try {
-    $apiInstance->updateTaxSequence($sequence_id, $update_tax_sequence_request, $x_tenant_id);
+    $apiInstance->updateTaxSequence($id, $update_tax_sequence_request, $x_tenant_id);
 } catch (Exception $e) {
     echo 'Exception when calling TaxSequencesApi->updateTaxSequence: ', $e->getMessage(), PHP_EOL;
 }
@@ -253,7 +255,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **sequence_id** | **string**|  | |
+| **id** | **string**|  | |
 | **update_tax_sequence_request** | [**\PronesoftEcf\Model\UpdateTaxSequenceRequest**](../Model/UpdateTaxSequenceRequest.md)|  | |
 | **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
 

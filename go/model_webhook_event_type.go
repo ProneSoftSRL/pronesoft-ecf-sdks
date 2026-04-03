@@ -25,19 +25,23 @@ const (
 	DOCUMENT_STATUS_CHANGED WebhookEventType = "document.status_changed"
 	DOCUMENT_VALIDATION_ERROR WebhookEventType = "document.validation_error"
 	DOCUMENT_CONTINGENCY_ACTIVATED WebhookEventType = "document.contingency_activated"
-	SEQUENCE_DEPLETED WebhookEventType = "sequence.depleted"
-	SEQUENCE_VOIDED WebhookEventType = "sequence.voided"
+	COMMERCIAL_APPROVAL WebhookEventType = "commercial.approval"
+	CERTIFICATE_EXPIRING WebhookEventType = "certificate.expiring"
+	SECURITY_NEW_LOGIN WebhookEventType = "security.new_login"
+	SECURITY_API_KEY_ROTATED WebhookEventType = "security.api_key_rotated"
 	PLAN_USAGE_ALERT WebhookEventType = "plan.usage_alert"
 	PLAN_PAYMENT_FAILED WebhookEventType = "plan.payment_failed"
 	BILLING_INVOICE_READY WebhookEventType = "billing.invoice_ready"
+	SEQUENCE_DEPLETED WebhookEventType = "sequence.depleted"
+	SEQUENCE_VOIDED WebhookEventType = "sequence.voided"
 	BRANCH_CREATED WebhookEventType = "branch.created"
 	BRANCH_STATUS_CHANGED WebhookEventType = "branch.status_changed"
-	SECURITY_NEW_LOGIN WebhookEventType = "security.new_login"
+	SECURITY_NEW_LOGIN2 WebhookEventType = "security.new_login"
 	MEMBER_INVITED WebhookEventType = "member.invited"
 	MEMBER_JOINED WebhookEventType = "member.joined"
 	MEMBER_REMOVED WebhookEventType = "member.removed"
-	CERTIFICATE_EXPIRING WebhookEventType = "certificate.expiring"
-	COMMERCIAL_APPROVAL WebhookEventType = "commercial.approval"
+	CERTIFICATE_EXPIRING2 WebhookEventType = "certificate.expiring"
+	COMMERCIAL_APPROVAL2 WebhookEventType = "commercial.approval"
 	CERTIFICATION_COMPLETED WebhookEventType = "certification.completed"
 )
 
@@ -47,11 +51,15 @@ var AllowedWebhookEventTypeEnumValues = []WebhookEventType{
 	"document.status_changed",
 	"document.validation_error",
 	"document.contingency_activated",
-	"sequence.depleted",
-	"sequence.voided",
+	"commercial.approval",
+	"certificate.expiring",
+	"security.new_login",
+	"security.api_key_rotated",
 	"plan.usage_alert",
 	"plan.payment_failed",
 	"billing.invoice_ready",
+	"sequence.depleted",
+	"sequence.voided",
 	"branch.created",
 	"branch.status_changed",
 	"security.new_login",

@@ -12,7 +12,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 ## `listApprovals()`
 
 ```php
-listApprovals($business_id, $page, $limit, $status, $document_type, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order): \PronesoftEcf\Model\ApprovalListResponse
+listApprovals($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order): \PronesoftEcf\Model\ApprovalListResponse
 ```
 
 List commercial approvals
@@ -40,8 +40,9 @@ $apiInstance = new PronesoftEcf\Api\CommercialApprovalsApi(
 $business_id = 'business_id_example'; // string
 $page = 1; // int
 $limit = 20; // int
-$status = 'status_example'; // string
+$ecf = 'ecf_example'; // string
 $document_type = 'document_type_example'; // string
+$status = 56; // int
 $date_from = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
 $date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
 $min_amount = 3.4; // float
@@ -51,7 +52,7 @@ $sort_by = 'sort_by_example'; // string
 $sort_order = 'sort_order_example'; // string
 
 try {
-    $result = $apiInstance->listApprovals($business_id, $page, $limit, $status, $document_type, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order);
+    $result = $apiInstance->listApprovals($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling CommercialApprovalsApi->listApprovals: ', $e->getMessage(), PHP_EOL;
@@ -65,8 +66,9 @@ try {
 | **business_id** | **string**|  | |
 | **page** | **int**|  | [optional] [default to 1] |
 | **limit** | **int**|  | [optional] [default to 20] |
-| **status** | **string**|  | [optional] |
+| **ecf** | **string**|  | [optional] |
 | **document_type** | **string**|  | [optional] |
+| **status** | **int**|  | [optional] |
 | **date_from** | **\DateTime**|  | [optional] |
 | **date_to** | **\DateTime**|  | [optional] |
 | **min_amount** | **float**|  | [optional] |

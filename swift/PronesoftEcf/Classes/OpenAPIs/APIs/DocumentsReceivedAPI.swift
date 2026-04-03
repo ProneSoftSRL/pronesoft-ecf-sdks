@@ -68,8 +68,8 @@ open class DocumentsReceivedAPI {
      List received documents
      
      - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     - parameter encf: (query)  (optional)
-     - parameter type: (query)  (optional)
+     - parameter ecf: (query)  (optional)
+     - parameter documentType: (query)  (optional)
      - parameter status: (query)  (optional)
      - parameter dateFrom: (query)  (optional)
      - parameter dateTo: (query)  (optional)
@@ -79,8 +79,8 @@ open class DocumentsReceivedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listReceivedDocuments(xTenantId: UUID? = nil, encf: String? = nil, type: String? = nil, status: Int? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return listReceivedDocumentsWithRequestBuilder(xTenantId: xTenantId, encf: encf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
+    open class func listReceivedDocuments(xTenantId: UUID? = nil, ecf: String? = nil, documentType: String? = nil, status: Int? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return listReceivedDocumentsWithRequestBuilder(xTenantId: xTenantId, ecf: ecf, documentType: documentType, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -100,8 +100,8 @@ open class DocumentsReceivedAPI {
        - type: http
        - name: bearerAuth
      - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     - parameter encf: (query)  (optional)
-     - parameter type: (query)  (optional)
+     - parameter ecf: (query)  (optional)
+     - parameter documentType: (query)  (optional)
      - parameter status: (query)  (optional)
      - parameter dateFrom: (query)  (optional)
      - parameter dateTo: (query)  (optional)
@@ -109,15 +109,15 @@ open class DocumentsReceivedAPI {
      - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<ReceivedDocumentListResponse> 
      */
-    open class func listReceivedDocumentsWithRequestBuilder(xTenantId: UUID? = nil, encf: String? = nil, type: String? = nil, status: Int? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ReceivedDocumentListResponse> {
+    open class func listReceivedDocumentsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, documentType: String? = nil, status: Int? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ReceivedDocumentListResponse> {
         let localVariablePath = "/documents/received/all"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "encf": (wrappedValue: encf?.encodeToJSON(), isExplode: true),
-            "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
+            "ecf": (wrappedValue: ecf?.encodeToJSON(), isExplode: true),
+            "documentType": (wrappedValue: documentType?.encodeToJSON(), isExplode: true),
             "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
             "dateFrom": (wrappedValue: dateFrom?.encodeToJSON(), isExplode: true),
             "dateTo": (wrappedValue: dateTo?.encodeToJSON(), isExplode: true),

@@ -89,7 +89,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_received_documents**
-> ReceivedDocumentListResponse list_received_documents(x_tenant_id=x_tenant_id, encf=encf, type=type, status=status, date_from=date_from, date_to=date_to, page=page, limit=limit)
+> ReceivedDocumentListResponse list_received_documents(x_tenant_id=x_tenant_id, ecf=ecf, document_type=document_type, status=status, date_from=date_from, date_to=date_to, page=page, limit=limit)
 
 List received documents
 
@@ -127,8 +127,8 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.DocumentsReceivedApi(api_client)
     x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-    encf = 'encf_example' # str |  (optional)
-    type = 'type_example' # str |  (optional)
+    ecf = 'ecf_example' # str |  (optional)
+    document_type = 'document_type_example' # str |  (optional)
     status = 56 # int |  (optional)
     date_from = '2013-10-20' # date |  (optional)
     date_to = '2013-10-20' # date |  (optional)
@@ -137,7 +137,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
     try:
         # List received documents
-        api_response = api_instance.list_received_documents(x_tenant_id=x_tenant_id, encf=encf, type=type, status=status, date_from=date_from, date_to=date_to, page=page, limit=limit)
+        api_response = api_instance.list_received_documents(x_tenant_id=x_tenant_id, ecf=ecf, document_type=document_type, status=status, date_from=date_from, date_to=date_to, page=page, limit=limit)
         print("The response of DocumentsReceivedApi->list_received_documents:\n")
         pprint(api_response)
     except Exception as e:
@@ -152,8 +152,8 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **x_tenant_id** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
- **encf** | **str**|  | [optional] 
- **type** | **str**|  | [optional] 
+ **ecf** | **str**|  | [optional] 
+ **document_type** | **str**|  | [optional] 
  **status** | **int**|  | [optional] 
  **date_from** | **date**|  | [optional] 
  **date_to** | **date**|  | [optional] 

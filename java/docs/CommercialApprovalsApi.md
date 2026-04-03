@@ -9,7 +9,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="listApprovals"></a>
 # **listApprovals**
-> ApprovalListResponse listApprovals(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder)
+> ApprovalListResponse listApprovals(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder)
 
 List commercial approvals
 
@@ -40,8 +40,9 @@ public class Example {
     String businessId = "businessId_example"; // String | 
     Integer page = 1; // Integer | 
     Integer limit = 20; // Integer | 
-    String status = "PENDING"; // String | 
+    String ecf = "ecf_example"; // String | 
     String documentType = "documentType_example"; // String | 
+    Integer status = 1; // Integer | 
     OffsetDateTime dateFrom = OffsetDateTime.now(); // OffsetDateTime | 
     OffsetDateTime dateTo = OffsetDateTime.now(); // OffsetDateTime | 
     BigDecimal minAmount = new BigDecimal(78); // BigDecimal | 
@@ -50,7 +51,7 @@ public class Example {
     String sortBy = "createdAt"; // String | 
     String sortOrder = "asc"; // String | 
     try {
-      ApprovalListResponse result = apiInstance.listApprovals(businessId, page, limit, status, documentType, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
+      ApprovalListResponse result = apiInstance.listApprovals(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling CommercialApprovalsApi#listApprovals");
@@ -70,8 +71,9 @@ public class Example {
 | **businessId** | **String**|  | |
 | **page** | **Integer**|  | [optional] [default to 1] |
 | **limit** | **Integer**|  | [optional] [default to 20] |
-| **status** | **String**|  | [optional] [enum: PENDING, APPROVED, REJECTED] |
+| **ecf** | **String**|  | [optional] |
 | **documentType** | **String**|  | [optional] |
+| **status** | **Integer**|  | [optional] [enum: 1, 2, 3, 4] |
 | **dateFrom** | **OffsetDateTime**|  | [optional] |
 | **dateTo** | **OffsetDateTime**|  | [optional] |
 | **minAmount** | **BigDecimal**|  | [optional] |

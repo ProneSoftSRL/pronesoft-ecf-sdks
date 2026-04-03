@@ -115,7 +115,7 @@ public class TaxSequencesApi {
         Object localVarPostBody = createTaxSequenceRequest;
 
         // create path and map variables
-        String localVarPath = "/tax-sequences";
+        String localVarPath = "/tax-sequences/create";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -386,6 +386,7 @@ public class TaxSequencesApi {
      * Build call for listTaxSequences
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param type  (optional)
+     * @param environment  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @param _callback Callback for upload/download progress
@@ -399,7 +400,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listTaxSequencesCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listTaxSequencesCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -426,6 +427,10 @@ public class TaxSequencesApi {
 
         if (type != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("type", type));
+        }
+
+        if (environment != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("environment", environment));
         }
 
         if (page != null) {
@@ -461,8 +466,8 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listTaxSequencesValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
-        return listTaxSequencesCall(xTenantId, type, page, limit, _callback);
+    private okhttp3.Call listTaxSequencesValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+        return listTaxSequencesCall(xTenantId, type, environment, page, limit, _callback);
 
     }
 
@@ -471,6 +476,7 @@ public class TaxSequencesApi {
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param type  (optional)
+     * @param environment  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ListTaxSequences200Response
@@ -483,8 +489,8 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ListTaxSequences200Response listTaxSequences(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
-        ApiResponse<ListTaxSequences200Response> localVarResp = listTaxSequencesWithHttpInfo(xTenantId, type, page, limit);
+    public ListTaxSequences200Response listTaxSequences(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+        ApiResponse<ListTaxSequences200Response> localVarResp = listTaxSequencesWithHttpInfo(xTenantId, type, environment, page, limit);
         return localVarResp.getData();
     }
 
@@ -493,6 +499,7 @@ public class TaxSequencesApi {
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param type  (optional)
+     * @param environment  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApiResponse&lt;ListTaxSequences200Response&gt;
@@ -505,8 +512,8 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ListTaxSequences200Response> listTaxSequencesWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
-        okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, page, limit, null);
+    public ApiResponse<ListTaxSequences200Response> listTaxSequencesWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+        okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, environment, page, limit, null);
         Type localVarReturnType = new TypeToken<ListTaxSequences200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -516,6 +523,7 @@ public class TaxSequencesApi {
      * 
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param type  (optional)
+     * @param environment  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @param _callback The callback to be executed when the API call finishes
@@ -529,16 +537,16 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listTaxSequencesAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ListTaxSequences200Response> _callback) throws ApiException {
+    public okhttp3.Call listTaxSequencesAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ListTaxSequences200Response> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, page, limit, _callback);
+        okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, environment, page, limit, _callback);
         Type localVarReturnType = new TypeToken<ListTaxSequences200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for updateTaxSequence
-     * @param sequenceId  (required)
+     * @param id  (required)
      * @param updateTaxSequenceRequest  (required)
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param _callback Callback for upload/download progress
@@ -552,7 +560,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateTaxSequenceCall(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updateTaxSequenceCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -569,14 +577,17 @@ public class TaxSequencesApi {
         Object localVarPostBody = updateTaxSequenceRequest;
 
         // create path and map variables
-        String localVarPath = "/tax-sequences/{sequenceId}"
-            .replace("{" + "sequenceId" + "}", localVarApiClient.escapeString(sequenceId.toString()));
+        String localVarPath = "/tax-sequences/update";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (id != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("id", id));
+        }
 
         final String[] localVarAccepts = {
             "application/json"
@@ -604,10 +615,10 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'sequenceId' is set
-        if (sequenceId == null) {
-            throw new ApiException("Missing the required parameter 'sequenceId' when calling updateTaxSequence(Async)");
+    private okhttp3.Call updateTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling updateTaxSequence(Async)");
         }
 
         // verify the required parameter 'updateTaxSequenceRequest' is set
@@ -615,14 +626,14 @@ public class TaxSequencesApi {
             throw new ApiException("Missing the required parameter 'updateTaxSequenceRequest' when calling updateTaxSequence(Async)");
         }
 
-        return updateTaxSequenceCall(sequenceId, updateTaxSequenceRequest, xTenantId, _callback);
+        return updateTaxSequenceCall(id, updateTaxSequenceRequest, xTenantId, _callback);
 
     }
 
     /**
      * Update tax sequence
      * 
-     * @param sequenceId  (required)
+     * @param id  (required)
      * @param updateTaxSequenceRequest  (required)
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -634,14 +645,14 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public void updateTaxSequence(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
-        updateTaxSequenceWithHttpInfo(sequenceId, updateTaxSequenceRequest, xTenantId);
+    public void updateTaxSequence(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        updateTaxSequenceWithHttpInfo(id, updateTaxSequenceRequest, xTenantId);
     }
 
     /**
      * Update tax sequence
      * 
-     * @param sequenceId  (required)
+     * @param id  (required)
      * @param updateTaxSequenceRequest  (required)
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @return ApiResponse&lt;Void&gt;
@@ -654,15 +665,15 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updateTaxSequenceWithHttpInfo(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
-        okhttp3.Call localVarCall = updateTaxSequenceValidateBeforeCall(sequenceId, updateTaxSequenceRequest, xTenantId, null);
+    public ApiResponse<Void> updateTaxSequenceWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = updateTaxSequenceValidateBeforeCall(id, updateTaxSequenceRequest, xTenantId, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Update tax sequence (asynchronously)
      * 
-     * @param sequenceId  (required)
+     * @param id  (required)
      * @param updateTaxSequenceRequest  (required)
      * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
      * @param _callback The callback to be executed when the API call finishes
@@ -676,9 +687,9 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateTaxSequenceAsync(@javax.annotation.Nonnull String sequenceId, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updateTaxSequenceAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updateTaxSequenceValidateBeforeCall(sequenceId, updateTaxSequenceRequest, xTenantId, _callback);
+        okhttp3.Call localVarCall = updateTaxSequenceValidateBeforeCall(id, updateTaxSequenceRequest, xTenantId, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }

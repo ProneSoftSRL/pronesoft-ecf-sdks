@@ -144,8 +144,8 @@ type ApiListReceivedDocumentsRequest struct {
 	ctx context.Context
 	ApiService *DocumentsReceivedAPIService
 	xTenantId *string
-	encf *string
-	type_ *string
+	ecf *string
+	documentType *string
 	status *int32
 	dateFrom *string
 	dateTo *string
@@ -159,13 +159,13 @@ func (r ApiListReceivedDocumentsRequest) XTenantId(xTenantId string) ApiListRece
 	return r
 }
 
-func (r ApiListReceivedDocumentsRequest) Encf(encf string) ApiListReceivedDocumentsRequest {
-	r.encf = &encf
+func (r ApiListReceivedDocumentsRequest) Ecf(ecf string) ApiListReceivedDocumentsRequest {
+	r.ecf = &ecf
 	return r
 }
 
-func (r ApiListReceivedDocumentsRequest) Type_(type_ string) ApiListReceivedDocumentsRequest {
-	r.type_ = &type_
+func (r ApiListReceivedDocumentsRequest) DocumentType(documentType string) ApiListReceivedDocumentsRequest {
+	r.documentType = &documentType
 	return r
 }
 
@@ -232,11 +232,11 @@ func (a *DocumentsReceivedAPIService) ListReceivedDocumentsExecute(r ApiListRece
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.encf != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "encf", r.encf, "form", "")
+	if r.ecf != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "ecf", r.ecf, "form", "")
 	}
-	if r.type_ != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "form", "")
+	if r.documentType != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "documentType", r.documentType, "form", "")
 	}
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "form", "")

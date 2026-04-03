@@ -8,7 +8,7 @@ import 'package:pronesoft_ecf/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **String** |  | 
+**id** | **String** | Unique notification ID (evt_xxx format). Use for deduplication. | 
 **event** | [**WebhookEventType**](WebhookEventType.md) |  | 
 **timestamp** | [**DateTime**](DateTime.md) |  | 
 **businessRnc** | **String** |  | 

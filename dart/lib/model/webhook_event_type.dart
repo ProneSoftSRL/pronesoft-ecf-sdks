@@ -29,6 +29,8 @@ class WebhookEventType {
   static const documentPeriodContingencyActivated = WebhookEventType._(r'document.contingency_activated');
   static const commercialPeriodApproval = WebhookEventType._(r'commercial.approval');
   static const certificatePeriodExpiring = WebhookEventType._(r'certificate.expiring');
+  static const securityPeriodNewLogin = WebhookEventType._(r'security.new_login');
+  static const securityPeriodApiKeyRotated = WebhookEventType._(r'security.api_key_rotated');
   static const planPeriodUsageAlert = WebhookEventType._(r'plan.usage_alert');
   static const planPeriodPaymentFailed = WebhookEventType._(r'plan.payment_failed');
   static const billingPeriodInvoiceReady = WebhookEventType._(r'billing.invoice_ready');
@@ -36,9 +38,12 @@ class WebhookEventType {
   static const sequencePeriodVoided = WebhookEventType._(r'sequence.voided');
   static const branchPeriodCreated = WebhookEventType._(r'branch.created');
   static const branchPeriodStatusChanged = WebhookEventType._(r'branch.status_changed');
+  static const securityPeriodNewLogin2 = WebhookEventType._(r'security.new_login');
   static const memberPeriodInvited = WebhookEventType._(r'member.invited');
   static const memberPeriodJoined = WebhookEventType._(r'member.joined');
   static const memberPeriodRemoved = WebhookEventType._(r'member.removed');
+  static const certificatePeriodExpiring2 = WebhookEventType._(r'certificate.expiring');
+  static const commercialPeriodApproval2 = WebhookEventType._(r'commercial.approval');
   static const certificationPeriodCompleted = WebhookEventType._(r'certification.completed');
 
   /// List of all possible values in this [enum][WebhookEventType].
@@ -49,6 +54,8 @@ class WebhookEventType {
     documentPeriodContingencyActivated,
     commercialPeriodApproval,
     certificatePeriodExpiring,
+    securityPeriodNewLogin,
+    securityPeriodApiKeyRotated,
     planPeriodUsageAlert,
     planPeriodPaymentFailed,
     billingPeriodInvoiceReady,
@@ -56,9 +63,12 @@ class WebhookEventType {
     sequencePeriodVoided,
     branchPeriodCreated,
     branchPeriodStatusChanged,
+    securityPeriodNewLogin2,
     memberPeriodInvited,
     memberPeriodJoined,
     memberPeriodRemoved,
+    certificatePeriodExpiring2,
+    commercialPeriodApproval2,
     certificationPeriodCompleted,
   ];
 
@@ -104,6 +114,8 @@ class WebhookEventTypeTypeTransformer {
         case r'document.contingency_activated': return WebhookEventType.documentPeriodContingencyActivated;
         case r'commercial.approval': return WebhookEventType.commercialPeriodApproval;
         case r'certificate.expiring': return WebhookEventType.certificatePeriodExpiring;
+        case r'security.new_login': return WebhookEventType.securityPeriodNewLogin;
+        case r'security.api_key_rotated': return WebhookEventType.securityPeriodApiKeyRotated;
         case r'plan.usage_alert': return WebhookEventType.planPeriodUsageAlert;
         case r'plan.payment_failed': return WebhookEventType.planPeriodPaymentFailed;
         case r'billing.invoice_ready': return WebhookEventType.billingPeriodInvoiceReady;
@@ -111,9 +123,12 @@ class WebhookEventTypeTypeTransformer {
         case r'sequence.voided': return WebhookEventType.sequencePeriodVoided;
         case r'branch.created': return WebhookEventType.branchPeriodCreated;
         case r'branch.status_changed': return WebhookEventType.branchPeriodStatusChanged;
+        case r'security.new_login': return WebhookEventType.securityPeriodNewLogin2;
         case r'member.invited': return WebhookEventType.memberPeriodInvited;
         case r'member.joined': return WebhookEventType.memberPeriodJoined;
         case r'member.removed': return WebhookEventType.memberPeriodRemoved;
+        case r'certificate.expiring': return WebhookEventType.certificatePeriodExpiring2;
+        case r'commercial.approval': return WebhookEventType.commercialPeriodApproval2;
         case r'certification.completed': return WebhookEventType.certificationPeriodCompleted;
         default:
           if (!allowNull) {

@@ -10,7 +10,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="export606"></a>
 # **export606**
-> String export606(from, to, format)
+> String export606(from, to, format, status, type, encf)
 
 Export Format 606 (Purchases)
 
@@ -43,8 +43,11 @@ public class Example {
     LocalDate from = LocalDate.now(); // LocalDate | 
     LocalDate to = LocalDate.now(); // LocalDate | 
     String format = "txt"; // String | 
+    String status = "status_example"; // String | 
+    String type = "type_example"; // String | 
+    String encf = "encf_example"; // String | 
     try {
-      String result = apiInstance.export606(from, to, format);
+      String result = apiInstance.export606(from, to, format, status, type, encf);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling ReportsApi#export606");
@@ -64,6 +67,9 @@ public class Example {
 | **from** | **LocalDate**|  | |
 | **to** | **LocalDate**|  | |
 | **format** | **String**|  | [enum: txt, xlsx] |
+| **status** | **String**|  | [optional] |
+| **type** | **String**|  | [optional] |
+| **encf** | **String**|  | [optional] |
 
 ### Return type
 

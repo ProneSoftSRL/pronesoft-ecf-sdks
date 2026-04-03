@@ -34,8 +34,8 @@ export interface GetReceivedDocumentStatsRequest {
 
 export interface ListReceivedDocumentsRequest {
     xTenantId?: string;
-    encf?: string;
-    type?: string;
+    ecf?: string;
+    documentType?: string;
     status?: number;
     dateFrom?: Date;
     dateTo?: Date;
@@ -76,8 +76,8 @@ export interface DocumentsReceivedApiInterface {
     /**
      * Creates request options for listReceivedDocuments without sending the request
      * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-     * @param {string} [encf] 
-     * @param {string} [type] 
+     * @param {string} [ecf] 
+     * @param {string} [documentType] 
      * @param {number} [status] 
      * @param {Date} [dateFrom] 
      * @param {Date} [dateTo] 
@@ -92,8 +92,8 @@ export interface DocumentsReceivedApiInterface {
      * 
      * @summary List received documents
      * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-     * @param {string} [encf] 
-     * @param {string} [type] 
+     * @param {string} [ecf] 
+     * @param {string} [documentType] 
      * @param {number} [status] 
      * @param {Date} [dateFrom] 
      * @param {Date} [dateTo] 
@@ -177,12 +177,12 @@ export class DocumentsReceivedApi extends runtime.BaseAPI implements DocumentsRe
     async listReceivedDocumentsRequestOpts(requestParameters: ListReceivedDocumentsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
-        if (requestParameters['encf'] != null) {
-            queryParameters['encf'] = requestParameters['encf'];
+        if (requestParameters['ecf'] != null) {
+            queryParameters['ecf'] = requestParameters['ecf'];
         }
 
-        if (requestParameters['type'] != null) {
-            queryParameters['type'] = requestParameters['type'];
+        if (requestParameters['documentType'] != null) {
+            queryParameters['documentType'] = requestParameters['documentType'];
         }
 
         if (requestParameters['status'] != null) {

@@ -308,8 +308,8 @@ class DocumentsReceivedApi:
     def list_received_documents(
         self,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
-        encf: Optional[StrictStr] = None,
-        type: Optional[StrictStr] = None,
+        ecf: Optional[StrictStr] = None,
+        document_type: Optional[StrictStr] = None,
         status: Optional[StrictInt] = None,
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
@@ -333,10 +333,10 @@ class DocumentsReceivedApi:
 
         :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
         :type x_tenant_id: UUID
-        :param encf:
-        :type encf: str
-        :param type:
-        :type type: str
+        :param ecf:
+        :type ecf: str
+        :param document_type:
+        :type document_type: str
         :param status:
         :type status: int
         :param date_from:
@@ -371,8 +371,8 @@ class DocumentsReceivedApi:
 
         _param = self._list_received_documents_serialize(
             x_tenant_id=x_tenant_id,
-            encf=encf,
-            type=type,
+            ecf=ecf,
+            document_type=document_type,
             status=status,
             date_from=date_from,
             date_to=date_to,
@@ -403,8 +403,8 @@ class DocumentsReceivedApi:
     def list_received_documents_with_http_info(
         self,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
-        encf: Optional[StrictStr] = None,
-        type: Optional[StrictStr] = None,
+        ecf: Optional[StrictStr] = None,
+        document_type: Optional[StrictStr] = None,
         status: Optional[StrictInt] = None,
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
@@ -428,10 +428,10 @@ class DocumentsReceivedApi:
 
         :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
         :type x_tenant_id: UUID
-        :param encf:
-        :type encf: str
-        :param type:
-        :type type: str
+        :param ecf:
+        :type ecf: str
+        :param document_type:
+        :type document_type: str
         :param status:
         :type status: int
         :param date_from:
@@ -466,8 +466,8 @@ class DocumentsReceivedApi:
 
         _param = self._list_received_documents_serialize(
             x_tenant_id=x_tenant_id,
-            encf=encf,
-            type=type,
+            ecf=ecf,
+            document_type=document_type,
             status=status,
             date_from=date_from,
             date_to=date_to,
@@ -498,8 +498,8 @@ class DocumentsReceivedApi:
     def list_received_documents_without_preload_content(
         self,
         x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
-        encf: Optional[StrictStr] = None,
-        type: Optional[StrictStr] = None,
+        ecf: Optional[StrictStr] = None,
+        document_type: Optional[StrictStr] = None,
         status: Optional[StrictInt] = None,
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
@@ -523,10 +523,10 @@ class DocumentsReceivedApi:
 
         :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
         :type x_tenant_id: UUID
-        :param encf:
-        :type encf: str
-        :param type:
-        :type type: str
+        :param ecf:
+        :type ecf: str
+        :param document_type:
+        :type document_type: str
         :param status:
         :type status: int
         :param date_from:
@@ -561,8 +561,8 @@ class DocumentsReceivedApi:
 
         _param = self._list_received_documents_serialize(
             x_tenant_id=x_tenant_id,
-            encf=encf,
-            type=type,
+            ecf=ecf,
+            document_type=document_type,
             status=status,
             date_from=date_from,
             date_to=date_to,
@@ -588,8 +588,8 @@ class DocumentsReceivedApi:
     def _list_received_documents_serialize(
         self,
         x_tenant_id,
-        encf,
-        type,
+        ecf,
+        document_type,
         status,
         date_from,
         date_to,
@@ -617,13 +617,13 @@ class DocumentsReceivedApi:
 
         # process the path parameters
         # process the query parameters
-        if encf is not None:
+        if ecf is not None:
             
-            _query_params.append(('encf', encf))
+            _query_params.append(('ecf', ecf))
             
-        if type is not None:
+        if document_type is not None:
             
-            _query_params.append(('type', type))
+            _query_params.append(('documentType', document_type))
             
         if status is not None:
             

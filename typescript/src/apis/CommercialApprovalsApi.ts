@@ -29,8 +29,9 @@ export interface ListApprovalsRequest {
     businessId: string;
     page?: number;
     limit?: number;
-    status?: ListApprovalsStatusEnum;
+    ecf?: string;
     documentType?: string;
+    status?: ListApprovalsStatusEnum;
     dateFrom?: Date;
     dateTo?: Date;
     minAmount?: number;
@@ -52,8 +53,9 @@ export interface CommercialApprovalsApiInterface {
      * @param {string} businessId 
      * @param {number} [page] 
      * @param {number} [limit] 
-     * @param {'PENDING' | 'APPROVED' | 'REJECTED'} [status] 
+     * @param {string} [ecf] 
      * @param {string} [documentType] 
+     * @param {1 | 2 | 3 | 4} [status] 
      * @param {Date} [dateFrom] 
      * @param {Date} [dateTo] 
      * @param {number} [minAmount] 
@@ -72,8 +74,9 @@ export interface CommercialApprovalsApiInterface {
      * @param {string} businessId 
      * @param {number} [page] 
      * @param {number} [limit] 
-     * @param {'PENDING' | 'APPROVED' | 'REJECTED'} [status] 
+     * @param {string} [ecf] 
      * @param {string} [documentType] 
+     * @param {1 | 2 | 3 | 4} [status] 
      * @param {Date} [dateFrom] 
      * @param {Date} [dateTo] 
      * @param {number} [minAmount] 
@@ -124,12 +127,16 @@ export class CommercialApprovalsApi extends runtime.BaseAPI implements Commercia
             queryParameters['limit'] = requestParameters['limit'];
         }
 
-        if (requestParameters['status'] != null) {
-            queryParameters['status'] = requestParameters['status'];
+        if (requestParameters['ecf'] != null) {
+            queryParameters['ecf'] = requestParameters['ecf'];
         }
 
         if (requestParameters['documentType'] != null) {
             queryParameters['documentType'] = requestParameters['documentType'];
+        }
+
+        if (requestParameters['status'] != null) {
+            queryParameters['status'] = requestParameters['status'];
         }
 
         if (requestParameters['dateFrom'] != null) {
@@ -210,9 +217,10 @@ export class CommercialApprovalsApi extends runtime.BaseAPI implements Commercia
  * @export
  */
 export const ListApprovalsStatusEnum = {
-    Pending: 'PENDING',
-    Approved: 'APPROVED',
-    Rejected: 'REJECTED'
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4
 } as const;
 export type ListApprovalsStatusEnum = typeof ListApprovalsStatusEnum[keyof typeof ListApprovalsStatusEnum];
 /**
