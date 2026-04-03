@@ -1,4 +1,4 @@
-module github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf
+module github.com/ProneSoftSRL/pronesoft-ecf-sdks/go
 
 go 1.23
 
