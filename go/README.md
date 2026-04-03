@@ -90,7 +90,7 @@ For more information, please visit [https://pronesoft.com](https://pronesoft.com
 Import the package in a go file in your project and run `go mod tidy`:
 
 ```go
-import ecf "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+import ecf "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
