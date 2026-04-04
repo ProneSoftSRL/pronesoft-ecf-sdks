@@ -3,15 +3,16 @@
 ## Enum
 
 
-* `_0` (value: `"0"`)
+* `BillingIndicator_0` (value: `"0"`)
 
-* `_1` (value: `"1"`)
+* `BillingIndicator_1` (value: `"1"`)
 
-* `_2` (value: `"2"`)
+* `BillingIndicator_2` (value: `"2"`)
 
-* `_3` (value: `"3"`)
+* `BillingIndicator_3` (value: `"3"`)
 
-* `_4` (value: `"4"`)
+* `BillingIndicator_4` (value: `"4"`)
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
