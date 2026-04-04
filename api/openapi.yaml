@@ -1,0 +1,4949 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: support@pronesoft.com
+    name: Pronesoft SRL Support
+    url: https://pronesoft.com
+  description: |
+    ## Overview
+    Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
+    Dominican Republic through the Pronesoft platform.
+
+    ## Authentication — OAuth 2.0 Client Credentials
+
+    ### Steps
+    1. Get credentials from the portal:
+       - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App
+       - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App
+    2. Request a token via POST /oauth/token — valid for 24 hours (86400s).
+    3. Use: Authorization: Bearer <accessToken> on every request.
+    4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.
+
+    ### Multi-company delegation
+    To act on behalf of an associated company (branch), add:
+      x-tenant-id: <business-uuid>
+    Do NOT send x-tenant-id when acting as the main company.
+
+    ### Sandbox specifics
+    - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed.
+    - Sequences are automatic — no need to create them manually.
+    - The environment field in the document body MUST be TesteCF.
+
+    ### Scopes
+    business:read, business:create, business:update,
+    members:read, members:invite, members:revoke,
+    certificates:read, certificates:upload, certificates:update,
+    documents:read, documents:create, documents:send, documents:receive, documents:update,
+    approvals:read, approvals:commercial,
+    sequences:read, sequences:create, sequences:update, sequences:cancel,
+    business_info:read, certification:read, certification:write, reports:read
+  license:
+    name: Proprietary
+    url: https://pronesoft.com/terms
+  title: eCF-Pronesoft Integration API
+  version: 1.1.0
+externalDocs:
+  description: Pronesoft eCF SDKs Repository
+  url: https://github.com/ProneSoftSRL/pronesoft-ecf-sdks
+servers:
+- description: Sandbox — development and testing
+  url: https://api.ecf.sandbox.pronesoft.com/api/v1
+- description: Production — live e-CF issuance
+  url: https://api.ecf.pronesoft.com/api/v1
+security:
+- bearerAuth: []
+tags:
+- description: OAuth 2.0 token endpoint. No Authorization header needed here. Tokens
+    are valid for 24 hours.
+  name: Authentication
+- description: Upload and manage DGII digital signing certificates (P12/PFX format).
+  name: Digital Certificates
+- description: Manage e-NCF fiscal number sequences (E31-E47). Automatic in Sandbox.
+  name: Tax Sequences
+- description: Core endpoint for submitting e-CF documents to DGII via Pronesoft.
+  name: eCF Submission
+- description: "Query, download, and get statistics on submitted documents."
+  name: Documents Sent
+- description: Manage and query e-CF documents received from third parties.
+  name: Documents Received
+- description: Manage internal commercial approval workflows for received documents.
+  name: Commercial Approvals
+- description: Manage branches and associated companies under your main account.
+  name: Associated Companies
+- description: Read webhook configurations (webhooks are managed from the Dashboard
+    UI).
+  name: Webhook Configuration
+- description: Automate the DGII certification process for ERPs.
+  name: Automated Certification
+- description: "Download accounting reports (Sent Files, Format 606) for DGII compliance."
+  name: Reports
+paths:
+  /oauth/token:
+    post:
+      description: |
+        Authenticates using OAuth 2.0 Client Credentials flow.
+        Returns a Bearer token valid for 24 hours (86400 seconds).
+        This endpoint is public — no Authorization header needed.
+      operationId: getAccessToken
+      requestBody:
+        content:
+          application/json:
+            example:
+              clientId: app_live_TU_CLIENT_ID
+              clientSecret: sk_live_TU_CLIENT_SECRET
+            schema:
+              $ref: "#/components/schemas/OAuthTokenRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+                accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                tokenType: Bearer
+                expiresIn: 86400
+              schema:
+                $ref: "#/components/schemas/OAuthTokenResponse"
+          description: Token generated successfully
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security: []
+      summary: Get access token (OAuth 2.0)
+      tags:
+      - Authentication
+  /{rnc}/certificates:
+    post:
+      description: |
+        Uploads the DGII-issued digital signing certificate for a company.
+        Stored encrypted with AES-256-CBC. No download endpoint exists.
+        Sandbox tip: SBX-prefixed RNCs do not require a certificate.
+      operationId: uploadCertificate
+      parameters:
+      - description: Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+        explode: false
+        in: path
+        name: rnc
+        required: true
+        schema:
+          example: "133190907"
+          type: string
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/uploadCertificate_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadCertificateResponse"
+          description: Certificate uploaded successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Validation error (400). Check the message field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: The token does not have the required scope.
+        "404":
+          description: Company RNC not found in the system.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - certificates:upload
+      summary: Upload digital certificate (P12/PFX)
+      tags:
+      - Digital Certificates
+  /tax-sequences:
+    get:
+      operationId: listTaxSequences
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          $ref: "#/components/schemas/InvoiceTypeSequence"
+        style: form
+      - explode: true
+        in: query
+        name: environment
+        required: false
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listTaxSequences_200_response"
+          description: List of tax sequences
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - sequences:read
+      summary: List tax sequences
+      tags:
+      - Tax Sequences
+  /tax-sequences/create:
+    post:
+      operationId: createTaxSequence
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              type: E32
+              from: 1
+              to: 10000
+              quantity: 10000
+              expiration: 2025-12-31
+              environment: TesteCF
+            schema:
+              $ref: "#/components/schemas/CreateTaxSequenceRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createTaxSequence_201_response"
+          description: Sequence created successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Validation error (400). Check the message field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - sequences:create
+      summary: Create new tax sequence
+      tags:
+      - Tax Sequences
+  /tax-sequences/next:
+    get:
+      description: Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+      operationId: getNextNumber
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          $ref: "#/components/schemas/InvoiceTypeSequence"
+        style: form
+      - explode: true
+        in: query
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getNextNumber_200_response"
+          description: Next available e-NCF number
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - sequences:read
+      summary: Get next available fiscal number
+      tags:
+      - Tax Sequences
+  /tax-sequences/update:
+    patch:
+      operationId: updateTaxSequence
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: id
+        required: true
+        schema:
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTaxSequenceRequest"
+        required: true
+      responses:
+        "200":
+          description: Sequence updated successfully
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - sequences:update
+      summary: Update tax sequence
+      tags:
+      - Tax Sequences
+  /tax-sequences/void:
+    post:
+      description: Cancels unused fiscal numbers and notifies DGII.
+      operationId: voidTaxSequence
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VoidTaxSequenceRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/voidTaxSequence_200_response"
+          description: Numbers voided successfully
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - sequences:cancel
+      summary: Void a range of fiscal numbers
+      tags:
+      - Tax Sequences
+  /{environment}/ecf/submit:
+    post:
+      description: |
+        Submits an electronic tax document. Handles XML signing, queuing,
+        contingency mode, and DGII communication automatically.
+        IMPORTANT: In Sandbox the environment field in body MUST be TesteCF.
+      operationId: submitEcf
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ElectronicDocument"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EcfSubmissionResponse"
+          description: "Document submitted (approved, queued, or contingency mode)"
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Validation error (400). Check the message field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateLimitErrorResponse"
+          description: Rate limit exceeded. Retry after indicated seconds.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:send
+      summary: Submit e-CF document to DGII
+      tags:
+      - eCF Submission
+  /{environment}/ecf/status/{trackId}:
+    get:
+      operationId: getEcfStatus
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: simple
+      - explode: false
+        in: path
+        name: trackId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EcfStatusResponse"
+          description: Document status
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:read
+      summary: Get document status by trackId
+      tags:
+      - eCF Submission
+  /{environment}/ecf/responses/stats:
+    get:
+      operationId: getEcfStats
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EcfStatsResponse"
+          description: Submission statistics
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:read
+      summary: Get submission statistics (last 30 days)
+      tags:
+      - eCF Submission
+  /{environment}/ecf/responses/history:
+    get:
+      operationId: getEcfHistory
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/EcfHistoryItem"
+                type: array
+          description: Document history
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:read
+      summary: Get submission history (last 50 documents)
+      tags:
+      - eCF Submission
+  /documents/sent:
+    get:
+      operationId: listSentDocuments
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: env
+        required: false
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: form
+      - explode: true
+        in: query
+        name: ecf
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - APPROVED
+          - REJECTED
+          - IN_PROCESS
+          - CONTINGENCY
+          - ERROR
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: dateFrom
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: dateTo
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SentDocumentListResponse"
+          description: Paginated list of sent documents
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:read
+      summary: List sent documents
+      tags:
+      - Documents Sent
+  /documents/{id}:
+    get:
+      operationId: getDocument
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SentDocumentDetail"
+          description: Document details
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:read
+      summary: Get document details
+      tags:
+      - Documents Sent
+  /documents/download:
+    get:
+      operationId: downloadDocument
+      parameters:
+      - explode: true
+        in: query
+        name: fileUrl
+        required: true
+        schema:
+          format: uri
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                type: string
+          description: XML file content
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:read
+      summary: Download document XML
+      tags:
+      - Documents Sent
+  /documents/stats/summary:
+    get:
+      operationId: getDocumentStats
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: period
+        required: false
+        schema:
+          default: 30d
+          enum:
+          - 7d
+          - 30d
+          - 90d
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentStatsResponse"
+          description: Document statistics
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:read
+      summary: Get document statistics
+      tags:
+      - Documents Sent
+  /documents/received/all:
+    get:
+      operationId: listReceivedDocuments
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: ecf
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: documentType
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          description: "1=Válido, 2=Anulado, 3=Pendiente"
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: dateFrom
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: dateTo
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceivedDocumentListResponse"
+          description: Paginated list of received documents
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:receive
+      summary: List received documents
+      tags:
+      - Documents Received
+  /documents/received/stats/summary:
+    get:
+      operationId: getReceivedDocumentStats
+      parameters:
+      - description: |
+          UUID of the associated company (branch). Include ONLY when acting
+          on behalf of a branch. Omit when acting as the main company.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceivedDocumentStatsResponse"
+          description: Received document statistics
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - documents:receive
+      summary: Get received documents statistics
+      tags:
+      - Documents Received
+  /documents/approvals/all:
+    get:
+      operationId: listApprovals
+      parameters:
+      - explode: true
+        in: query
+        name: businessId
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: ecf
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: documentType
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          description: "1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En Revisión"
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: dateFrom
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: dateTo
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: minAmount
+        required: false
+        schema:
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: maxAmount
+        required: false
+        schema:
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: sortBy
+        required: false
+        schema:
+          enum:
+          - createdAt
+          - amount
+          - status
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalListResponse"
+          description: Paginated list of commercial approvals
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - approvals:read
+      summary: List commercial approvals
+      tags:
+      - Commercial Approvals
+  /associated-companies:
+    get:
+      operationId: listAssociatedCompanies
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AssociatedCompany"
+                type: array
+          description: Array of associated companies
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:read
+      summary: List associated companies / branches
+      tags:
+      - Associated Companies
+    post:
+      operationId: createAssociatedCompany
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateAssociatedCompanyRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createAssociatedCompany_201_response"
+          description: Company created successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Validation error (400). Check the message field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:create
+      summary: Create associated company / branch
+      tags:
+      - Associated Companies
+  /associated-companies/{companyId}:
+    delete:
+      description: Permanently deletes an associated company. This action is irreversible.
+      operationId: deleteAssociatedCompany
+      parameters:
+      - explode: false
+        in: path
+        name: companyId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/deleteAssociatedCompany_200_response"
+          description: Company deleted successfully
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:update
+      summary: Delete associated company
+      tags:
+      - Associated Companies
+    put:
+      operationId: updateAssociatedCompany
+      parameters:
+      - explode: false
+        in: path
+        name: companyId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateAssociatedCompanyRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createAssociatedCompany_201_response"
+          description: Company updated successfully
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:update
+      summary: Update associated company
+      tags:
+      - Associated Companies
+  /associated-companies/{companyId}/metrics:
+    get:
+      operationId: getCompanyMetrics
+      parameters:
+      - explode: false
+        in: path
+        name: companyId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyMetrics"
+          description: Company metrics
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:read
+      summary: Get company metrics
+      tags:
+      - Associated Companies
+  /associated-companies/{companyId}/documents-metrics:
+    get:
+      operationId: getCompanyDocumentMetrics
+      parameters:
+      - explode: false
+        in: path
+        name: companyId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyDocumentMetrics"
+          description: Document metrics
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:read
+      summary: Get company document metrics
+      tags:
+      - Associated Companies
+  /{rnc}/webhooks:
+    get:
+      description: Returns all webhooks for the RNC. Webhooks are created from the
+        Dashboard UI only.
+      operationId: listWebhooks
+      parameters:
+      - description: Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+        explode: false
+        in: path
+        name: rnc
+        required: true
+        schema:
+          example: "133190907"
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/WebhookConfigResponse"
+                type: array
+          description: List of webhook configurations
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:read
+      summary: List webhook configurations
+      tags:
+      - Webhook Configuration
+  /{rnc}/webhooks/{webhookId}:
+    get:
+      operationId: getWebhook
+      parameters:
+      - description: Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+        explode: false
+        in: path
+        name: rnc
+        required: true
+        schema:
+          example: "133190907"
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: webhookId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookConfigDetail"
+          description: Webhook details
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:read
+      summary: Get webhook details
+      tags:
+      - Webhook Configuration
+  /{rnc}/webhooks/{webhookId}/stats:
+    get:
+      operationId: getWebhookStats
+      parameters:
+      - description: Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+        explode: false
+        in: path
+        name: rnc
+        required: true
+        schema:
+          example: "133190907"
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: webhookId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: period
+        required: false
+        schema:
+          default: month
+          enum:
+          - today
+          - week
+          - month
+          - all
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookStats"
+          description: Webhook delivery statistics
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - business:read
+      summary: Get webhook delivery statistics
+      tags:
+      - Webhook Configuration
+  /dgii-ecf/automated-certification/niches:
+    get:
+      operationId: listCertificationNiches
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/CertificationNiche"
+                type: array
+          description: List of available niches
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - certification:read
+      summary: List certification niches
+      tags:
+      - Automated Certification
+  /dgii-ecf/automated-certification/start:
+    post:
+      operationId: startCertification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StartCertificationRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/startCertification_200_response"
+          description: Certification process started
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - certification:write
+      summary: Start certification process
+      tags:
+      - Automated Certification
+  /dgii-ecf/automated-certification/{id}/status:
+    get:
+      operationId: getCertificationStatus
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CertificationStatus"
+          description: Certification process status
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - certification:read
+      summary: Get certification process status
+      tags:
+      - Automated Certification
+  /dgii-ecf/automated-certification/{id}/download:
+    get:
+      description: Downloads ZIP with PDFs and XMLs. Only available when status is
+        COMPLETED.
+      operationId: downloadCertification
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/zip:
+              schema:
+                format: binary
+                type: string
+          description: ZIP file with certification documents
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - certification:read
+      summary: Download certification ZIP
+      tags:
+      - Automated Certification
+  /dgii/sent/export:
+    get:
+      description: Downloads submitted documents in a date range as Excel. Requires
+        reports:read scope.
+      operationId: exportSentDocuments
+      parameters:
+      - example: 2024-01-01
+        explode: true
+        in: query
+        name: from
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - example: 2024-01-31
+        explode: true
+        in: query
+        name: to
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: env
+        required: false
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: form
+      - explode: true
+        in: query
+        name: encf
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - ACCEPTED
+          - REJECTED
+          - PENDING
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: trackId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                format: binary
+                type: string
+          description: Excel report file
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Validation error (400). Check the message field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: The token does not have the required scope.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - reports:read
+      summary: Export sent documents report
+      tags:
+      - Reports
+  /dgii/606/export:
+    get:
+      description: Downloads the official Format 606 for DGII in TXT (official) or
+        Excel format.
+      operationId: export606
+      parameters:
+      - explode: true
+        in: query
+        name: from
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: to
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: format
+        required: true
+        schema:
+          enum:
+          - txt
+          - xlsx
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: encf
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                format: binary
+                type: string
+          description: Format 606 report
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Validation error (400). Check the message field for details.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token missing, expired, or invalid. Call POST /oauth/token\
+            \ to renew."
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: The token does not have the required scope.
+      security:
+      - bearerAuth: []
+      - oauth2:
+        - reports:read
+      summary: Export Format 606 (Purchases)
+      tags:
+      - Reports
+components:
+  parameters:
+    TenantIdHeaderOptional:
+      description: |
+        UUID of the associated company (branch). Include ONLY when acting
+        on behalf of a branch. Omit when acting as the main company.
+      explode: false
+      in: header
+      name: x-tenant-id
+      required: false
+      schema:
+        example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+        format: uuid
+        type: string
+      style: simple
+    RncPath:
+      description: Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+      explode: false
+      in: path
+      name: rnc
+      required: true
+      schema:
+        example: "133190907"
+        type: string
+      style: simple
+  responses:
+    UnauthorizedError:
+      content:
+        application/json:
+          example:
+            statusCode: 401
+            message: Invalid client credentials
+            error: Unauthorized
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: "Token missing, expired, or invalid. Call POST /oauth/token to\
+        \ renew."
+    ValidationError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: Validation error (400). Check the message field for details.
+    ForbiddenError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+      description: The token does not have the required scope.
+    RateLimitError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RateLimitErrorResponse"
+      description: Rate limit exceeded. Retry after indicated seconds.
+  schemas:
+    Environment:
+      description: "TesteCF=testing no DGII, CerteCF=official certification, eCF=production"
+      enum:
+      - TesteCF
+      - CerteCF
+      - eCF
+      type: string
+    InvoiceType:
+      description: |
+        31=Factura Credito Fiscal, 32=Factura Consumo, 33=Nota Debito,
+        34=Nota Credito, 41=Compras, 43=Gastos Menores,
+        44=Regimenes Especiales, 45=Gubernamental, 46=Exportaciones, 47=Pagos Exterior
+      enum:
+      - "31"
+      - "32"
+      - "33"
+      - "34"
+      - "41"
+      - "43"
+      - "44"
+      - "45"
+      - "46"
+      - "47"
+      type: string
+    InvoiceTypeSequence:
+      description: Invoice type with E prefix — used for tax sequence endpoints.
+      enum:
+      - E31
+      - E32
+      - E33
+      - E34
+      - E41
+      - E43
+      - E44
+      - E45
+      - E46
+      - E47
+      type: string
+    PaymentMethod:
+      description: "1=Cash, 2=Check, 3=Card, 4=Credit, 5=Transfer, 6=Electronic, 7=Bond,\
+        \ 8=Other"
+      enum:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+      - "6"
+      - "7"
+      - "8"
+      type: string
+    BillingIndicator:
+      description: "0=Non-billable, 1=18% ITBIS, 2=16% ITBIS, 3=0% ITBIS, 4=Exempt"
+      enum:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      type: string
+    WebhookEventType:
+      enum:
+      - document.received
+      - document.status_changed
+      - document.validation_error
+      - document.contingency_activated
+      - commercial.approval
+      - certificate.expiring
+      - security.new_login
+      - security.api_key_rotated
+      - plan.usage_alert
+      - plan.payment_failed
+      - billing.invoice_ready
+      - sequence.depleted
+      - sequence.voided
+      - branch.created
+      - branch.status_changed
+      - security.new_login
+      - member.invited
+      - member.joined
+      - member.removed
+      - certificate.expiring
+      - commercial.approval
+      - certification.completed
+      type: string
+    PrintFormat:
+      enum:
+      - A4
+      - thermal_80
+      - thermal_58
+      type: string
+    AccountType:
+      description: "CT=Current account, AH=Savings, OT=Other"
+      enum:
+      - CT
+      - AH
+      - OT
+      type: string
+    DocumentStatus:
+      enum:
+      - IN_PROCESS
+      - APPROVED
+      - REJECTED
+      - ERROR
+      - CONTINGENCY
+      type: string
+    OAuthTokenRequest:
+      description: Credentials for OAuth 2.0. Get from Pronesoft portal.
+      example:
+        clientId: app_live_TU_CLIENT_ID
+        clientSecret: sk_live_TU_CLIENT_SECRET
+      properties:
+        clientId:
+          example: app_live_TU_CLIENT_ID
+          type: string
+        clientSecret:
+          example: sk_live_TU_CLIENT_SECRET
+          type: string
+      required:
+      - clientId
+      - clientSecret
+      type: object
+    OAuthTokenResponse:
+      description: Bearer token valid for 24 hours (86400 seconds).
+      example:
+        expiresIn: 86400
+        accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        tokenType: Bearer
+      properties:
+        accessToken:
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+          type: string
+        tokenType:
+          example: Bearer
+          type: string
+        expiresIn:
+          description: Token lifetime in seconds (24 hours = 86400).
+          example: 86400
+          type: integer
+      type: object
+    PaymentForm:
+      properties:
+        method:
+          $ref: "#/components/schemas/PaymentMethod"
+        amount:
+          example: 11800.0
+          type: number
+      required:
+      - amount
+      - method
+      type: object
+    ElectronicDocument:
+      description: |
+        Electronic tax document (e-CF) payload.
+        Use GET /tax-sequences/next to obtain invoiceNumber.
+        paymentForms is always required.
+      example:
+        paymentAccountType: CT
+        paymentBank: paymentBank
+        issuerCommercialName: issuerCommercialName
+        alternativeCurrency:
+          taxableAmount: 0.2025324113236393
+          code: USD
+          additionalTaxes:
+          - additionalTaxes
+          - additionalTaxes
+          exemptAmount: 4.678947989005849
+          additionalTaxAmount: 0.5199002018724985
+          itbis2: 0.8774076871421566
+          itbis1: 9.132027271330688
+          itbis3: 9.702963800023566
+          nonBillableAmount: 7.933506881737151
+          totalAmount: 5.507386964179881
+          totalITBIS: 7.260521264802104
+          exchangeRate: 58.5
+          taxableAmount2: 4.258773108174356
+          taxableAmount1: 6.628464275087742
+          taxableAmount3: 1.041444916118296
+        paymentType: "1"
+        sellerCode: sellerCode
+        salesZone: salesZone
+        pages:
+          taxableAmount: 7.606863723092579
+          pageNumber: 5
+          additionalTaxes: 3.804112695731078
+          lineTo: 8
+          exemptAmount: 5.877124706116695
+          itbis2: 3.1497903714250555
+          lineFrom: 5
+          itbis1: 0.4768402382624515
+          itbis3: 2.380090174313445
+          nonBillableAmount: 4.518309517874243
+          totalITBIS: 7.835035282970782
+          subtotal: 8.675064425986758
+          taxableAmount2: 3.111202833403195
+          taxableAmount1: 3.7814124730767915
+          taxableAmount3: 9.897492629215506
+        taxedAmountIndicator: taxedAmountIndicator
+        issuerAddress: issuerAddress
+        invoiceNumber: E310000000001
+        additionalInfo:
+          netWeightUnit: 3
+          grossWeight: 8.969578798196912
+          netWeight: 7.740351818741173
+          packageVolume: 3.2588565619047607
+          containerNumber: containerNumber
+          referenceNumber: referenceNumber
+          packageUnit: 5
+          volumeUnit: 4
+          grossWeightUnit: 3
+          shipmentDate: shipmentDate
+          packageQuantity: 7.04836565559697
+          shipmentNumber: shipmentNumber
+        invoiceType: "31"
+        issueDate: 2025-01-15T10:30:00Z
+        paymentTerms: paymentTerms
+        serviceEndDate: 2000-01-23T04:56:07.000+00:00
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+        paymentAccountNumber: paymentAccountNumber
+        subtotals:
+          taxableAmount: 8.251625748923757
+          amount: 9.254183946267839
+          additionalTaxes: 4.573936264232251
+          description: description
+          exemptAmount: 8.863729185622827
+          itbis2: 8.28965939814297
+          itbis1: 1.7325933120207193
+          itbis3: 6.623518433804886
+          number: 4
+          totalITBIS: 2.9409642974827896
+          taxableAmount2: 3.901545264248647
+          taxableAmount1: 4.459605034958679
+          taxableAmount3: 0.43431398824148815
+          lines: 1
+          order: 6
+        creditNoteIndicator: "0"
+        internalInvoiceNumber: internalInvoiceNumber
+        incomeType: "01"
+        provinceCode: provinceCode
+        issuerEconomicActivity: issuerEconomicActivity
+        salesRoute: salesRoute
+        branchName: branchName
+        totals:
+          itbisRate2: 0.16
+          amountToPay: 0.8851374739011653
+          taxableAmount: 8.762042012749001
+          itbisRate1: 0.18
+          totalITBISPerception: 0.10263654006109402
+          itbisRate3: 0.0
+          additionalTaxes:
+          - additionalTaxes
+          - additionalTaxes
+          - additionalTaxes
+          - additionalTaxes
+          - additionalTaxes
+          totalISRPerception: 4.652396432933246
+          advancePaymentAmount: 7.143538047012306
+          exemptAmount: 6.965117697638846
+          additionalTaxAmount: 5.944895607614016
+          itbis2: 6.778324963048013
+          itbis1: 2.8841621266687802
+          itbis3: 6.878052220127876
+          previousBalance: 3.0937452626664474
+          nonBillableAmount: 6.704019297950036
+          periodAmount: 3.353193347011243
+          totalIncomeTaxWithholding: 6.519180951018382
+          totalAmount: 11800.0
+          totalITBIS: 1.284659006116532
+          taxableAmount2: 6.438423552598547
+          taxableAmount1: 9.018348186070783
+          taxableAmount3: 3.5571952270680973
+          totalWithheldITBIS: 7.058770351582356
+        transport:
+          licensePlate: licensePlate
+          route: route
+          driver: driver
+          zone: zone
+          document: document
+          vehicleId: vehicleId
+          destinationCountry: destinationCountry
+          deliveryNoteNumber: deliveryNoteNumber
+        municipalityCode: municipalityCode
+        issuerEmail: issuerEmail
+        version: 1
+        buyer:
+          address: address
+          provinceCode: provinceCode
+          municipalityCode: municipalityCode
+          foreignId: foreignId
+          purchaseOrderDate: 2000-01-23T04:56:07.000+00:00
+          deliveryAddress: deliveryAddress
+          paymentResponsible: paymentResponsible
+          taxId: "131415678"
+          contact: contact
+          purchaseOrderNumber: purchaseOrderNumber
+          name: Cliente Empresa SRL
+          additionalPhone: additionalPhone
+          additionalInfo: additionalInfo
+          deliveryContact: deliveryContact
+          deliveryDate: 2000-01-23T04:56:07.000+00:00
+          email: email
+          internalCode: internalCode
+        environment: TesteCF
+        issuerPhones:
+        - issuerPhones
+        - issuerPhones
+        - issuerPhones
+        issuerWebsite: https://openapi-generator.tech
+        serviceStartDate: 2000-01-23T04:56:07.000+00:00
+        paymentForms:
+        - method: "1"
+          amount: 11800.0
+        internalOrderNumber: 6
+        totalPages: 0
+        discountsOrSurcharges:
+        - amount: 8.761432466225475
+          norm1007Indicator: "0"
+          alternativeCurrencyAmount: 0.4182561061793122
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 9.183123594773994
+          lineNumber: 3
+          type: D
+        - amount: 8.761432466225475
+          norm1007Indicator: "0"
+          alternativeCurrencyAmount: 0.4182561061793122
+          valueType: $
+          description: description
+          billingIndicator: null
+          percentageValue: 9.183123594773994
+          lineNumber: 3
+          type: D
+        paymentDeadline: 2000-01-23T04:56:07.000+00:00
+        additionalIssuerInfo: additionalIssuerInfo
+        deferredSendingIndicator: deferredSendingIndicator
+        items:
+        - alcoholDegree: 7.386281948385884
+          surcharge:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 1.1730742509559433
+          referenceUnit: 9
+          description: description
+          billingIndicator: "0"
+          discountAmount: 1.4894159098541704
+          discount:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          type: "1"
+          referenceQuantity: 7.061401241503109
+          referenceUnitPrice: 3.616076749251911
+          alternativeCurrency:
+            unitPrice: 5.025004791520295
+            surcharge: 9.369310271410669
+            amount: 6.683562403749608
+            discount: 9.965781217890562
+          subquantities:
+          - quantity: 2.027123023002322
+            unitCode: 4
+          - quantity: 2.027123023002322
+            unitCode: 4
+          miningInfo:
+            netWeightMining: 1.0246457001441578
+            netWeightKg: 1.2315135367772556
+            affiliationType: affiliationType
+            settlement: settlement
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: "10000.00"
+          amount: 10000.0
+          quantity: "1"
+          unitOfMeasure: 2
+          additionalTaxes:
+          - amount: 4.965218492984954
+            code: code
+          - amount: 4.965218492984954
+            code: code
+          withheldISRAmount: 5.637376656633329
+          name: Servicio profesional
+          withholdingAgentIndicator: 1
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 1
+          withheldITBISAmount: 5.962133916683182
+        - alcoholDegree: 7.386281948385884
+          surcharge:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 1.1730742509559433
+          referenceUnit: 9
+          description: description
+          billingIndicator: "0"
+          discountAmount: 1.4894159098541704
+          discount:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          type: "1"
+          referenceQuantity: 7.061401241503109
+          referenceUnitPrice: 3.616076749251911
+          alternativeCurrency:
+            unitPrice: 5.025004791520295
+            surcharge: 9.369310271410669
+            amount: 6.683562403749608
+            discount: 9.965781217890562
+          subquantities:
+          - quantity: 2.027123023002322
+            unitCode: 4
+          - quantity: 2.027123023002322
+            unitCode: 4
+          miningInfo:
+            netWeightMining: 1.0246457001441578
+            netWeightKg: 1.2315135367772556
+            affiliationType: affiliationType
+            settlement: settlement
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: "10000.00"
+          amount: 10000.0
+          quantity: "1"
+          unitOfMeasure: 2
+          additionalTaxes:
+          - amount: 4.965218492984954
+            code: code
+          - amount: 4.965218492984954
+            code: code
+          withheldISRAmount: 5.637376656633329
+          name: Servicio profesional
+          withholdingAgentIndicator: 1
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 1
+          withheldITBISAmount: 5.962133916683182
+        - alcoholDegree: 7.386281948385884
+          surcharge:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 1.1730742509559433
+          referenceUnit: 9
+          description: description
+          billingIndicator: "0"
+          discountAmount: 1.4894159098541704
+          discount:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          type: "1"
+          referenceQuantity: 7.061401241503109
+          referenceUnitPrice: 3.616076749251911
+          alternativeCurrency:
+            unitPrice: 5.025004791520295
+            surcharge: 9.369310271410669
+            amount: 6.683562403749608
+            discount: 9.965781217890562
+          subquantities:
+          - quantity: 2.027123023002322
+            unitCode: 4
+          - quantity: 2.027123023002322
+            unitCode: 4
+          miningInfo:
+            netWeightMining: 1.0246457001441578
+            netWeightKg: 1.2315135367772556
+            affiliationType: affiliationType
+            settlement: settlement
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: "10000.00"
+          amount: 10000.0
+          quantity: "1"
+          unitOfMeasure: 2
+          additionalTaxes:
+          - amount: 4.965218492984954
+            code: code
+          - amount: 4.965218492984954
+            code: code
+          withheldISRAmount: 5.637376656633329
+          name: Servicio profesional
+          withholdingAgentIndicator: 1
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 1
+          withheldITBISAmount: 5.962133916683182
+        - alcoholDegree: 7.386281948385884
+          surcharge:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 1.1730742509559433
+          referenceUnit: 9
+          description: description
+          billingIndicator: "0"
+          discountAmount: 1.4894159098541704
+          discount:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          type: "1"
+          referenceQuantity: 7.061401241503109
+          referenceUnitPrice: 3.616076749251911
+          alternativeCurrency:
+            unitPrice: 5.025004791520295
+            surcharge: 9.369310271410669
+            amount: 6.683562403749608
+            discount: 9.965781217890562
+          subquantities:
+          - quantity: 2.027123023002322
+            unitCode: 4
+          - quantity: 2.027123023002322
+            unitCode: 4
+          miningInfo:
+            netWeightMining: 1.0246457001441578
+            netWeightKg: 1.2315135367772556
+            affiliationType: affiliationType
+            settlement: settlement
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: "10000.00"
+          amount: 10000.0
+          quantity: "1"
+          unitOfMeasure: 2
+          additionalTaxes:
+          - amount: 4.965218492984954
+            code: code
+          - amount: 4.965218492984954
+            code: code
+          withheldISRAmount: 5.637376656633329
+          name: Servicio profesional
+          withholdingAgentIndicator: 1
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 1
+          withheldITBISAmount: 5.962133916683182
+        - alcoholDegree: 7.386281948385884
+          surcharge:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          codes:
+          - code: code
+            codeType: codeType
+          - code: code
+            codeType: codeType
+          surchargeAmount: 1.1730742509559433
+          referenceUnit: 9
+          description: description
+          billingIndicator: "0"
+          discountAmount: 1.4894159098541704
+          discount:
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          - amount: 7.457744773683766
+            type: type
+            value: 6.84685269835264
+          type: "1"
+          referenceQuantity: 7.061401241503109
+          referenceUnitPrice: 3.616076749251911
+          alternativeCurrency:
+            unitPrice: 5.025004791520295
+            surcharge: 9.369310271410669
+            amount: 6.683562403749608
+            discount: 9.965781217890562
+          subquantities:
+          - quantity: 2.027123023002322
+            unitCode: 4
+          - quantity: 2.027123023002322
+            unitCode: 4
+          miningInfo:
+            netWeightMining: 1.0246457001441578
+            netWeightKg: 1.2315135367772556
+            affiliationType: affiliationType
+            settlement: settlement
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+          unitPrice: "10000.00"
+          amount: 10000.0
+          quantity: "1"
+          unitOfMeasure: 2
+          additionalTaxes:
+          - amount: 4.965218492984954
+            code: code
+          - amount: 4.965218492984954
+            code: code
+          withheldISRAmount: 5.637376656633329
+          name: Servicio profesional
+          withholdingAgentIndicator: 1
+          manufacturingDate: 2000-01-23T04:56:07.000+00:00
+          lineNumber: 1
+          withheldITBISAmount: 5.962133916683182
+        issuerRNC: issuerRNC
+        referenceInfo:
+          modifiedInvoiceDate: 2000-01-23T04:56:07.000+00:00
+          modificationReason: modificationReason
+          otherContributorRNC: otherContributorRNC
+          modifiedInvoiceNumber: E310000000001
+          modificationCode: "1"
+        issuerBusinessName: issuerBusinessName
+      properties:
+        environment:
+          $ref: "#/components/schemas/Environment"
+        version:
+          default: 1
+          description: Always 1.
+          example: 1
+          type: integer
+        invoiceType:
+          $ref: "#/components/schemas/InvoiceType"
+        invoiceNumber:
+          description: e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence
+            digits).
+          example: E310000000001
+          type: string
+        issueDate:
+          example: 2025-01-15T10:30:00Z
+          format: date-time
+          type: string
+        expirationDate:
+          format: date-time
+          type: string
+        creditNoteIndicator:
+          description: "Credit Notes only: 0=affected invoice <=30 days, 1=>30 days"
+          enum:
+          - "0"
+          - "1"
+          type: string
+        deferredSendingIndicator:
+          type: string
+        taxedAmountIndicator:
+          type: string
+        incomeType:
+          description: "01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing,\
+            \ 05=Assets, 06=Other"
+          enum:
+          - "01"
+          - "02"
+          - "03"
+          - "04"
+          - "05"
+          - "06"
+          type: string
+        paymentType:
+          description: "1=Cash, 2=Credit, 3=Mixed"
+          enum:
+          - "1"
+          - "2"
+          - "3"
+          type: string
+        paymentDeadline:
+          format: date-time
+          type: string
+        paymentTerms:
+          maxLength: 15
+          type: string
+        paymentForms:
+          description: Payment breakdown. Required.
+          example:
+          - method: "1"
+            amount: 11800.0
+          items:
+            $ref: "#/components/schemas/PaymentForm"
+          type: array
+        paymentAccountType:
+          $ref: "#/components/schemas/AccountType"
+        paymentAccountNumber:
+          maxLength: 28
+          type: string
+        paymentBank:
+          maxLength: 75
+          type: string
+        serviceStartDate:
+          format: date-time
+          type: string
+        serviceEndDate:
+          format: date-time
+          type: string
+        totalPages:
+          type: integer
+        issuerRNC:
+          description: RNC of the issuing company.
+          type: string
+        issuerBusinessName:
+          maxLength: 150
+          type: string
+        issuerCommercialName:
+          type: string
+        branchName:
+          type: string
+        issuerAddress:
+          type: string
+        municipalityCode:
+          type: string
+        provinceCode:
+          type: string
+        issuerPhones:
+          items:
+            type: string
+          maxItems: 3
+          type: array
+        issuerEmail:
+          format: email
+          type: string
+        issuerWebsite:
+          format: uri
+          type: string
+        issuerEconomicActivity:
+          type: string
+        sellerCode:
+          type: string
+        internalInvoiceNumber:
+          type: string
+        internalOrderNumber:
+          type: integer
+        salesZone:
+          type: string
+        salesRoute:
+          type: string
+        additionalIssuerInfo:
+          type: string
+        buyer:
+          $ref: "#/components/schemas/Buyer"
+        items:
+          items:
+            $ref: "#/components/schemas/Item"
+          maxItems: 1000
+          minItems: 1
+          type: array
+        totals:
+          $ref: "#/components/schemas/Totals"
+        transport:
+          $ref: "#/components/schemas/Transport"
+        additionalInfo:
+          $ref: "#/components/schemas/AdditionalInfo"
+        alternativeCurrency:
+          $ref: "#/components/schemas/AlternativeCurrency"
+        referenceInfo:
+          $ref: "#/components/schemas/ReferenceInfo"
+        subtotals:
+          $ref: "#/components/schemas/Subtotal"
+        discountsOrSurcharges:
+          items:
+            $ref: "#/components/schemas/DiscountOrSurcharge"
+          type: array
+        pages:
+          $ref: "#/components/schemas/Page"
+      required:
+      - invoiceNumber
+      - invoiceType
+      - issueDate
+      - items
+      - paymentForms
+      - totals
+      - version
+      type: object
+    Buyer:
+      example:
+        address: address
+        provinceCode: provinceCode
+        municipalityCode: municipalityCode
+        foreignId: foreignId
+        purchaseOrderDate: 2000-01-23T04:56:07.000+00:00
+        deliveryAddress: deliveryAddress
+        paymentResponsible: paymentResponsible
+        taxId: "131415678"
+        contact: contact
+        purchaseOrderNumber: purchaseOrderNumber
+        name: Cliente Empresa SRL
+        additionalPhone: additionalPhone
+        additionalInfo: additionalInfo
+        deliveryContact: deliveryContact
+        deliveryDate: 2000-01-23T04:56:07.000+00:00
+        email: email
+        internalCode: internalCode
+      properties:
+        taxId:
+          description: RNC (9 digits) or cedula (11 digits). Required for type 31.
+          example: "131415678"
+          type: string
+        foreignId:
+          type: string
+        name:
+          example: Cliente Empresa SRL
+          maxLength: 150
+          type: string
+        contact:
+          type: string
+        email:
+          format: email
+          type: string
+        address:
+          maxLength: 100
+          type: string
+        municipalityCode:
+          type: string
+        provinceCode:
+          type: string
+        deliveryDate:
+          format: date-time
+          type: string
+        deliveryContact:
+          type: string
+        deliveryAddress:
+          type: string
+        additionalPhone:
+          type: string
+        purchaseOrderDate:
+          format: date-time
+          type: string
+        purchaseOrderNumber:
+          type: string
+        internalCode:
+          type: string
+        paymentResponsible:
+          type: string
+        additionalInfo:
+          type: string
+      required:
+      - name
+      type: object
+    Item:
+      example:
+        alcoholDegree: 7.386281948385884
+        surcharge:
+        - amount: 7.457744773683766
+          type: type
+          value: 6.84685269835264
+        - amount: 7.457744773683766
+          type: type
+          value: 6.84685269835264
+        codes:
+        - code: code
+          codeType: codeType
+        - code: code
+          codeType: codeType
+        surchargeAmount: 1.1730742509559433
+        referenceUnit: 9
+        description: description
+        billingIndicator: "0"
+        discountAmount: 1.4894159098541704
+        discount:
+        - amount: 7.457744773683766
+          type: type
+          value: 6.84685269835264
+        - amount: 7.457744773683766
+          type: type
+          value: 6.84685269835264
+        type: "1"
+        referenceQuantity: 7.061401241503109
+        referenceUnitPrice: 3.616076749251911
+        alternativeCurrency:
+          unitPrice: 5.025004791520295
+          surcharge: 9.369310271410669
+          amount: 6.683562403749608
+          discount: 9.965781217890562
+        subquantities:
+        - quantity: 2.027123023002322
+          unitCode: 4
+        - quantity: 2.027123023002322
+          unitCode: 4
+        miningInfo:
+          netWeightMining: 1.0246457001441578
+          netWeightKg: 1.2315135367772556
+          affiliationType: affiliationType
+          settlement: settlement
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+        unitPrice: "10000.00"
+        amount: 10000.0
+        quantity: "1"
+        unitOfMeasure: 2
+        additionalTaxes:
+        - amount: 4.965218492984954
+          code: code
+        - amount: 4.965218492984954
+          code: code
+        withheldISRAmount: 5.637376656633329
+        name: Servicio profesional
+        withholdingAgentIndicator: 1
+        manufacturingDate: 2000-01-23T04:56:07.000+00:00
+        lineNumber: 1
+        withheldITBISAmount: 5.962133916683182
+      properties:
+        lineNumber:
+          example: 1
+          type: integer
+        codes:
+          items:
+            $ref: "#/components/schemas/Item_codes_inner"
+          type: array
+        name:
+          example: Servicio profesional
+          maxLength: 80
+          type: string
+        description:
+          type: string
+        type:
+          description: "1=Product, 2=Service"
+          enum:
+          - "1"
+          - "2"
+          type: string
+        billingIndicator:
+          $ref: "#/components/schemas/BillingIndicator"
+        withholdingAgentIndicator:
+          type: integer
+        withheldITBISAmount:
+          type: number
+        withheldISRAmount:
+          type: number
+        quantity:
+          example: "1"
+          type: string
+        unitOfMeasure:
+          type: integer
+        referenceQuantity:
+          type: number
+        referenceUnit:
+          type: integer
+        referenceUnitPrice:
+          type: number
+        subquantities:
+          items:
+            $ref: "#/components/schemas/Subquantity"
+          type: array
+        alcoholDegree:
+          type: number
+        manufacturingDate:
+          format: date-time
+          type: string
+        expirationDate:
+          format: date-time
+          type: string
+        miningInfo:
+          $ref: "#/components/schemas/Item_miningInfo"
+        unitPrice:
+          example: "10000.00"
+          type: string
+        discountAmount:
+          type: number
+        discount:
+          items:
+            $ref: "#/components/schemas/Item_discount_inner"
+          type: array
+        surchargeAmount:
+          type: number
+        surcharge:
+          items:
+            $ref: "#/components/schemas/Item_discount_inner"
+          type: array
+        additionalTaxes:
+          items:
+            $ref: "#/components/schemas/ItemAdditionalTax"
+          type: array
+        alternativeCurrency:
+          $ref: "#/components/schemas/Item_alternativeCurrency"
+        amount:
+          example: 10000.0
+          type: number
+      required:
+      - amount
+      - billingIndicator
+      - name
+      - quantity
+      - type
+      - unitPrice
+      type: object
+    Totals:
+      example:
+        itbisRate2: 0.16
+        amountToPay: 0.8851374739011653
+        taxableAmount: 8.762042012749001
+        itbisRate1: 0.18
+        totalITBISPerception: 0.10263654006109402
+        itbisRate3: 0.0
+        additionalTaxes:
+        - additionalTaxes
+        - additionalTaxes
+        - additionalTaxes
+        - additionalTaxes
+        - additionalTaxes
+        totalISRPerception: 4.652396432933246
+        advancePaymentAmount: 7.143538047012306
+        exemptAmount: 6.965117697638846
+        additionalTaxAmount: 5.944895607614016
+        itbis2: 6.778324963048013
+        itbis1: 2.8841621266687802
+        itbis3: 6.878052220127876
+        previousBalance: 3.0937452626664474
+        nonBillableAmount: 6.704019297950036
+        periodAmount: 3.353193347011243
+        totalIncomeTaxWithholding: 6.519180951018382
+        totalAmount: 11800.0
+        totalITBIS: 1.284659006116532
+        taxableAmount2: 6.438423552598547
+        taxableAmount1: 9.018348186070783
+        taxableAmount3: 3.5571952270680973
+        totalWithheldITBIS: 7.058770351582356
+      properties:
+        taxableAmount:
+          type: number
+        taxableAmount1:
+          type: number
+        taxableAmount2:
+          type: number
+        taxableAmount3:
+          type: number
+        exemptAmount:
+          type: number
+        itbisRate1:
+          example: 0.18
+          type: number
+        itbisRate2:
+          example: 0.16
+          type: number
+        itbisRate3:
+          example: 0.0
+          type: number
+        totalITBIS:
+          type: number
+        itbis1:
+          type: number
+        itbis2:
+          type: number
+        itbis3:
+          type: number
+        additionalTaxAmount:
+          type: number
+        additionalTaxes:
+          items:
+            type: string
+          maxItems: 20
+          type: array
+        totalAmount:
+          example: 11800.0
+          type: number
+        nonBillableAmount:
+          type: number
+        periodAmount:
+          type: number
+        previousBalance:
+          type: number
+        advancePaymentAmount:
+          type: number
+        amountToPay:
+          type: number
+        totalWithheldITBIS:
+          type: number
+        totalIncomeTaxWithholding:
+          type: number
+        totalITBISPerception:
+          type: number
+        totalISRPerception:
+          type: number
+      required:
+      - totalAmount
+      type: object
+    EcfSubmissionResponse:
+      description: |
+        Response after submitting an e-CF. HTTP 200 even when rejected.
+        Check the success field and dgiiResponse.estado for actual result.
+      example:
+        qrUrl: https://openapi-generator.tech
+        encf: E310000000001
+        contingencyMode: true
+        documentType: E31
+        securityCode: A1B2C3
+        message: message
+        dgiiResponse:
+          estado: estado
+          codigoError: codigoError
+          trackId: trackId
+          mensaje: mensaje
+        success: true
+        printUrl: https://openapi-generator.tech
+        documentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        estimatedProcessTime: estimatedProcessTime
+        authType: api_key
+        signatureTime: 2000-01-23T04:56:07.000+00:00
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        success:
+          type: boolean
+        documentId:
+          format: uuid
+          type: string
+        dgiiResponse:
+          $ref: "#/components/schemas/EcfSubmissionResponse_dgiiResponse"
+        qrUrl:
+          format: uri
+          type: string
+        signatureTime:
+          format: date-time
+          type: string
+        securityCode:
+          example: A1B2C3
+          type: string
+        encf:
+          example: E310000000001
+          type: string
+        documentType:
+          example: E31
+          type: string
+        printUrl:
+          format: uri
+          type: string
+        authType:
+          example: api_key
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+        message:
+          type: string
+        contingencyMode:
+          type: boolean
+        estimatedProcessTime:
+          type: string
+      required:
+      - success
+      type: object
+    EcfStatusResponse:
+      example:
+        businessRnc: businessRnc
+        estado: estado
+        environment: TesteCF
+        numeroControl: numeroControl
+        encf: encf
+        trackId: trackId
+        mensajes:
+        - codigo: codigo
+          valor: valor
+        - codigo: codigo
+          valor: valor
+        source: dgii_direct
+        receivedAt: 2000-01-23T04:56:07.000+00:00
+        logs:
+        - level: INFO
+          message: message
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        - level: INFO
+          message: message
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        trackingId: trackingId
+        status: IN_PROCESS
+      properties:
+        trackingId:
+          type: string
+        estado:
+          type: string
+        trackId:
+          type: string
+        numeroControl:
+          type: string
+        status:
+          $ref: "#/components/schemas/DocumentStatus"
+        encf:
+          type: string
+        businessRnc:
+          type: string
+        environment:
+          $ref: "#/components/schemas/Environment"
+        receivedAt:
+          format: date-time
+          type: string
+        mensajes:
+          items:
+            $ref: "#/components/schemas/EcfStatusResponse_mensajes_inner"
+          type: array
+        logs:
+          items:
+            $ref: "#/components/schemas/ProcessingLog"
+          type: array
+        source:
+          enum:
+          - dgii_direct
+          - local_database
+          type: string
+      type: object
+    EcfStatsResponse:
+      example:
+        total: 0
+        period: period
+        rejected: 1
+        successRate: "91.67"
+        dateTo: 2000-01-23T04:56:07.000+00:00
+        accepted: 6
+        processing: 5
+        error: 5
+        dateFrom: 2000-01-23T04:56:07.000+00:00
+      properties:
+        total:
+          type: integer
+        accepted:
+          type: integer
+        rejected:
+          type: integer
+        processing:
+          type: integer
+        error:
+          type: integer
+        successRate:
+          example: "91.67"
+          type: string
+        period:
+          type: string
+        dateFrom:
+          format: date-time
+          type: string
+        dateTo:
+          format: date-time
+          type: string
+      type: object
+    EcfHistoryItem:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        environment: TesteCF
+        encf: encf
+        documentType: documentType
+        trackId: trackId
+        rnc: rnc
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        logs:
+        - level: INFO
+          message: message
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        - level: INFO
+          message: message
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        status: IN_PROCESS
+      properties:
+        id:
+          format: uuid
+          type: string
+        trackId:
+          type: string
+        encf:
+          type: string
+        documentType:
+          type: string
+        status:
+          $ref: "#/components/schemas/DocumentStatus"
+        rnc:
+          type: string
+        environment:
+          $ref: "#/components/schemas/Environment"
+        createdAt:
+          format: date-time
+          type: string
+        logs:
+          items:
+            $ref: "#/components/schemas/ProcessingLog"
+          type: array
+      type: object
+    ProcessingLog:
+      example:
+        level: INFO
+        message: message
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        timestamp:
+          format: date-time
+          type: string
+        level:
+          enum:
+          - INFO
+          - SUCCESS
+          - WARNING
+          - ERROR
+          type: string
+        message:
+          type: string
+      type: object
+    TaxSequence:
+      example:
+        totalNumbers: 0
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        startNumber: E32000000001
+        availableNumbers: 1
+        endNumber: E32000010000
+        id: seq_sbx_1234567890
+        currentNumber: E32000005250
+        type: E31
+        usedNumbers: 6
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        status: ACTIVE
+      properties:
+        id:
+          example: seq_sbx_1234567890
+          type: string
+        type:
+          $ref: "#/components/schemas/InvoiceTypeSequence"
+        startNumber:
+          example: E32000000001
+          type: string
+        endNumber:
+          example: E32000010000
+          type: string
+        currentNumber:
+          example: E32000005250
+          type: string
+        status:
+          enum:
+          - ACTIVE
+          - EXHAUSTED
+          - EXPIRED
+          - VOIDED
+          type: string
+        totalNumbers:
+          type: integer
+        usedNumbers:
+          type: integer
+        availableNumbers:
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+      type: object
+    TaxSequenceCreated:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        environment: TesteCF
+        from: 0
+        id: id
+        to: 6
+        type: E31
+      properties:
+        id:
+          type: string
+        type:
+          $ref: "#/components/schemas/InvoiceTypeSequence"
+        from:
+          type: integer
+        to:
+          type: integer
+        environment:
+          $ref: "#/components/schemas/Environment"
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    CreateTaxSequenceRequest:
+      example:
+        environment: TesteCF
+        quantity: 10000
+        from: 1
+        expiration: 2025-12-31
+        to: 10000
+        type: E31
+      properties:
+        type:
+          $ref: "#/components/schemas/InvoiceTypeSequence"
+        from:
+          example: 1
+          type: integer
+        to:
+          example: 10000
+          type: integer
+        quantity:
+          example: 10000
+          type: integer
+        expiration:
+          example: 2025-12-31
+          format: date
+          type: string
+        environment:
+          $ref: "#/components/schemas/Environment"
+      required:
+      - from
+      - to
+      - type
+      type: object
+    UpdateTaxSequenceRequest:
+      example:
+        environment: TesteCF
+        quantity: 1
+        from: 0
+        expiration: 2000-01-23
+        to: 6
+        type: E31
+      properties:
+        type:
+          $ref: "#/components/schemas/InvoiceTypeSequence"
+        from:
+          type: integer
+        to:
+          type: integer
+        quantity:
+          type: integer
+        expiration:
+          format: date
+          type: string
+        environment:
+          $ref: "#/components/schemas/Environment"
+      type: object
+    VoidTaxSequenceRequest:
+      example:
+        reason: reason
+        startNumber: E32000005251
+        endNumber: E32000005300
+        sequenceId: sequenceId
+      properties:
+        sequenceId:
+          type: string
+        startNumber:
+          example: E32000005251
+          type: string
+        endNumber:
+          example: E32000005300
+          type: string
+        reason:
+          type: string
+      required:
+      - endNumber
+      - reason
+      - sequenceId
+      - startNumber
+      type: object
+    SentDocumentListResponse:
+      example:
+        data:
+        - totalAmount: 0.8008281904610115
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          encf: encf
+          business:
+            rnc: rnc
+            name: name
+          statusDisplay: Aceptado
+          documentType: documentType
+          trackId: trackId
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          receivedAt: 2000-01-23T04:56:07.000+00:00
+          status: IN_PROCESS
+          xmlUrl: https://openapi-generator.tech
+        - totalAmount: 0.8008281904610115
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          encf: encf
+          business:
+            rnc: rnc
+            name: name
+          statusDisplay: Aceptado
+          documentType: documentType
+          trackId: trackId
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          receivedAt: 2000-01-23T04:56:07.000+00:00
+          status: IN_PROCESS
+          xmlUrl: https://openapi-generator.tech
+        meta:
+          total: 5
+          limit: 2
+          totalPages: 7
+          page: 5
+        filters: "{}"
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/SentDocumentSummary"
+          type: array
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+        filters:
+          type: object
+      type: object
+    SentDocumentSummary:
+      example:
+        totalAmount: 0.8008281904610115
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        encf: encf
+        business:
+          rnc: rnc
+          name: name
+        statusDisplay: Aceptado
+        documentType: documentType
+        trackId: trackId
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        receivedAt: 2000-01-23T04:56:07.000+00:00
+        status: IN_PROCESS
+        xmlUrl: https://openapi-generator.tech
+      properties:
+        id:
+          format: uuid
+          type: string
+        encf:
+          type: string
+        status:
+          $ref: "#/components/schemas/DocumentStatus"
+        statusDisplay:
+          example: Aceptado
+          type: string
+        trackId:
+          type: string
+        documentType:
+          type: string
+        totalAmount:
+          type: number
+        receivedAt:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        xmlUrl:
+          format: uri
+          type: string
+        business:
+          $ref: "#/components/schemas/SentDocumentSummary_business"
+      type: object
+    SentDocumentDetail:
+      allOf:
+      - $ref: "#/components/schemas/SentDocumentSummary"
+      - properties:
+          logs:
+            items:
+              $ref: "#/components/schemas/ProcessingLog"
+            type: array
+          auditLogs:
+            items:
+              type: object
+            type: array
+        type: object
+      example:
+        encf: encf
+        business:
+          rnc: rnc
+          name: name
+        statusDisplay: Aceptado
+        documentType: documentType
+        trackId: trackId
+        receivedAt: 2000-01-23T04:56:07.000+00:00
+        xmlUrl: https://openapi-generator.tech
+        auditLogs:
+        - "{}"
+        - "{}"
+        totalAmount: 0.8008281904610115
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        logs:
+        - level: INFO
+          message: message
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        - level: INFO
+          message: message
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        status: IN_PROCESS
+    DocumentStatsResponse:
+      example:
+        recentActivity: 6
+        total: 0
+        byEnvironment:
+          key: 5
+        byStatus:
+          key: 1
+      properties:
+        total:
+          type: integer
+        recentActivity:
+          type: integer
+        byStatus:
+          additionalProperties:
+            type: integer
+          type: object
+        byEnvironment:
+          additionalProperties:
+            type: integer
+          type: object
+      type: object
+    ReceivedDocumentListResponse:
+      example:
+        data:
+        - totalAmount: 0.8008281904610115
+          encf: encf
+          business:
+            rnc: rnc
+            name: name
+          receiverRnc: receiverRnc
+          senderRnc: senderRnc
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          issueDate: 2000-01-23T04:56:07.000+00:00
+          receivedAt: 2000-01-23T04:56:07.000+00:00
+          status: 6
+        - totalAmount: 0.8008281904610115
+          encf: encf
+          business:
+            rnc: rnc
+            name: name
+          receiverRnc: receiverRnc
+          senderRnc: senderRnc
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          issueDate: 2000-01-23T04:56:07.000+00:00
+          receivedAt: 2000-01-23T04:56:07.000+00:00
+          status: 6
+        meta:
+          total: 5
+          limit: 2
+          totalPages: 7
+          page: 5
+        filters: "{}"
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/ReceivedDocument"
+          type: array
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+        filters:
+          type: object
+      type: object
+    ReceivedDocument:
+      example:
+        totalAmount: 0.8008281904610115
+        encf: encf
+        business:
+          rnc: rnc
+          name: name
+        receiverRnc: receiverRnc
+        senderRnc: senderRnc
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        issueDate: 2000-01-23T04:56:07.000+00:00
+        receivedAt: 2000-01-23T04:56:07.000+00:00
+        status: 6
+      properties:
+        id:
+          format: uuid
+          type: string
+        encf:
+          type: string
+        receiverRnc:
+          type: string
+        senderRnc:
+          type: string
+        totalAmount:
+          type: number
+        status:
+          description: "1=Valid, 2=Contingency, 3=Rejected"
+          type: integer
+        issueDate:
+          format: date-time
+          type: string
+        receivedAt:
+          format: date-time
+          type: string
+        business:
+          $ref: "#/components/schemas/SentDocumentSummary_business"
+      type: object
+    ReceivedDocumentStatsResponse:
+      example:
+        totalAmount: 6.027456183070403
+        total: 0
+        byStatus:
+          key: 1
+      properties:
+        total:
+          type: integer
+        totalAmount:
+          type: number
+        byStatus:
+          additionalProperties:
+            type: integer
+          type: object
+      type: object
+    ApprovalListResponse:
+      example:
+        data:
+        - encf: encf
+          comments: comments
+          approvalType: approvalType
+          id: id
+          issueDate: 2000-01-23T04:56:07.000+00:00
+          priority: priority
+          assignedTo: assignedTo
+          status: 0
+        - encf: encf
+          comments: comments
+          approvalType: approvalType
+          id: id
+          issueDate: 2000-01-23T04:56:07.000+00:00
+          priority: priority
+          assignedTo: assignedTo
+          status: 0
+        meta:
+          total: 5
+          limit: 2
+          totalPages: 7
+          page: 5
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/ApprovalItem"
+          type: array
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+      type: object
+    ApprovalItem:
+      example:
+        encf: encf
+        comments: comments
+        approvalType: approvalType
+        id: id
+        issueDate: 2000-01-23T04:56:07.000+00:00
+        priority: priority
+        assignedTo: assignedTo
+        status: 0
+      properties:
+        id:
+          type: string
+        encf:
+          type: string
+        status:
+          type: integer
+        issueDate:
+          format: date-time
+          type: string
+        approvalType:
+          type: string
+        priority:
+          type: string
+        assignedTo:
+          type: string
+        comments:
+          type: string
+      type: object
+    AssociatedCompany:
+      example:
+        docsIssuedThisMonth: 0
+        country: country
+        monthlySalesRange: monthlySalesRange
+        website: https://openapi-generator.tech
+        address: address
+        printerType: A4
+        city: city
+        rnc: rnc
+        logoPath: logoPath
+        subscription:
+          plan:
+            name: name
+            maxDocsPerMonth: 1
+          status: status
+          expirationDate: 2000-01-23T04:56:07.000+00:00
+        type: MAIN
+        ownerEmail: ownerEmail
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        purchasedDocsConsumedThisMonth: 6
+        phone: phone
+        name: name
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        category: category
+      properties:
+        id:
+          format: uuid
+          type: string
+        name:
+          type: string
+        rnc:
+          type: string
+        logoPath:
+          nullable: true
+          type: string
+        type:
+          enum:
+          - MAIN
+          - ASSOCIATED
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        website:
+          format: uri
+          nullable: true
+          type: string
+        category:
+          nullable: true
+          type: string
+        monthlySalesRange:
+          nullable: true
+          type: string
+        printerType:
+          $ref: "#/components/schemas/PrintFormat"
+        createdAt:
+          format: date-time
+          type: string
+        docsIssuedThisMonth:
+          type: integer
+        purchasedDocsConsumedThisMonth:
+          type: integer
+        ownerEmail:
+          format: email
+          type: string
+        subscription:
+          $ref: "#/components/schemas/AssociatedCompany_subscription"
+      type: object
+    CreateAssociatedCompanyRequest:
+      properties:
+        email:
+          format: email
+          type: string
+        password:
+          minLength: 8
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        name:
+          type: string
+        rnc:
+          example: SBX133190907
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        website:
+          format: uri
+          type: string
+        category:
+          type: string
+        monthlySalesRange:
+          type: string
+        printerType:
+          $ref: "#/components/schemas/PrintFormat"
+        logo:
+          format: binary
+          type: string
+      required:
+      - address
+      - city
+      - country
+      - email
+      - name
+      - password
+      - phone
+      - printerType
+      - rnc
+      type: object
+    UpdateAssociatedCompanyRequest:
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        website:
+          format: uri
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        logo:
+          format: binary
+          type: string
+      type: object
+    CompanyMetrics:
+      example:
+        consumptionPercentage: 2.3021358869347655
+        rnc: rnc
+        totalDocumentsIssued: 0
+        businessId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        businessName: businessName
+        subscriptionStatus: subscriptionStatus
+        documentsThisMonth: 6
+        documentsStatus:
+          PENDING: 5
+          APPROVED: 1
+          REJECTED: 5
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+      properties:
+        businessId:
+          format: uuid
+          type: string
+        businessName:
+          type: string
+        rnc:
+          type: string
+        totalDocumentsIssued:
+          type: integer
+        documentsThisMonth:
+          type: integer
+        documentsStatus:
+          $ref: "#/components/schemas/CompanyMetrics_documentsStatus"
+        consumptionPercentage:
+          type: number
+        subscriptionStatus:
+          type: string
+        expirationDate:
+          format: date-time
+          type: string
+      type: object
+    CompanyDocumentMetrics:
+      example:
+        associatedBusiness:
+          rnc: rnc
+          name: name
+          id: id
+        mainBusiness:
+          rnc: rnc
+          name: name
+          id: id
+        groupByStatus:
+        - _count:
+            status: 1
+          status: status
+        - _count:
+            status: 1
+          status: status
+        totals:
+          total: 0
+          last30Days: 6
+      properties:
+        mainBusiness:
+          $ref: "#/components/schemas/CompanyDocumentMetrics_mainBusiness"
+        associatedBusiness:
+          $ref: "#/components/schemas/CompanyDocumentMetrics_mainBusiness"
+        totals:
+          $ref: "#/components/schemas/CompanyDocumentMetrics_totals"
+        groupByStatus:
+          items:
+            $ref: "#/components/schemas/CompanyDocumentMetrics_groupByStatus_inner"
+          type: array
+      type: object
+    WebhookConfigResponse:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        description: description
+        id: webhook_sbx_1234567890abcdef
+        lastTriggeredAt: 2000-01-23T04:56:07.000+00:00
+        eventTypes:
+        - document.received
+        - document.received
+        isActive: true
+        url: https://openapi-generator.tech
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          example: webhook_sbx_1234567890abcdef
+          type: string
+        url:
+          format: uri
+          type: string
+        description:
+          type: string
+        eventTypes:
+          items:
+            $ref: "#/components/schemas/WebhookEventType"
+          type: array
+        isActive:
+          type: boolean
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        lastTriggeredAt:
+          format: date-time
+          nullable: true
+          type: string
+      type: object
+    WebhookConfigDetail:
+      allOf:
+      - $ref: "#/components/schemas/WebhookConfigResponse"
+      - properties:
+          deliveries:
+            type: integer
+        type: object
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        description: description
+        id: webhook_sbx_1234567890abcdef
+        lastTriggeredAt: 2000-01-23T04:56:07.000+00:00
+        eventTypes:
+        - document.received
+        - document.received
+        isActive: true
+        url: https://openapi-generator.tech
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+        deliveries: 0
+    WebhookStats:
+      example:
+        period: period
+        webhookId: webhookId
+        stats:
+          averageResponseTime: 5
+          successRate: successRate
+          totalAttempts: 0
+          lastAttempt: 2000-01-23T04:56:07.000+00:00
+          failed: 1
+          successful: 6
+      properties:
+        webhookId:
+          type: string
+        period:
+          type: string
+        stats:
+          $ref: "#/components/schemas/WebhookStats_stats"
+      type: object
+    WebhookNotificationPayload:
+      description: |
+        Payload sent to your webhook URL when an event occurs.
+        Validate using header X-Webhook-Signature: sha256=<hmac>.
+        Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp.
+      properties:
+        id:
+          description: Unique notification ID (evt_xxx format). Use for deduplication.
+          example: evt_1234567890abcdef
+          type: string
+        event:
+          $ref: "#/components/schemas/WebhookEventType"
+        timestamp:
+          format: date-time
+          type: string
+        businessRnc:
+          type: string
+        data:
+          type: object
+      required:
+      - businessRnc
+      - data
+      - event
+      - id
+      - timestamp
+      type: object
+    CertificationNiche:
+      example:
+        name: name
+        description: description
+        id: id
+        nicheItems:
+        - documentType: documentType
+          count: 0
+        - documentType: documentType
+          count: 0
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        nicheItems:
+          items:
+            $ref: "#/components/schemas/CertificationNiche_nicheItems_inner"
+          type: array
+      type: object
+    StartCertificationRequest:
+      example:
+        environment: TesteCF
+        rnc: rnc
+        businessName: businessName
+        nicheId: nicheId
+      properties:
+        rnc:
+          type: string
+        businessName:
+          type: string
+        nicheId:
+          type: string
+        environment:
+          $ref: "#/components/schemas/Environment"
+      required:
+      - businessName
+      - nicheId
+      - rnc
+      type: object
+    CertificationStatus:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        errorLog: errorLog
+        status: PENDING
+      properties:
+        status:
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        errorLog:
+          nullable: true
+          type: string
+      type: object
+    UploadCertificateResponse:
+      example:
+        message: Certificado subido correctamente
+        representative: representative
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+      properties:
+        message:
+          example: Certificado subido correctamente
+          type: string
+        representative:
+          type: string
+        expirationDate:
+          format: date-time
+          type: string
+      type: object
+    PaginationMeta:
+      example:
+        total: 5
+        limit: 2
+        totalPages: 7
+        page: 5
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    Subtotal:
+      example:
+        taxableAmount: 8.251625748923757
+        amount: 9.254183946267839
+        additionalTaxes: 4.573936264232251
+        description: description
+        exemptAmount: 8.863729185622827
+        itbis2: 8.28965939814297
+        itbis1: 1.7325933120207193
+        itbis3: 6.623518433804886
+        number: 4
+        totalITBIS: 2.9409642974827896
+        taxableAmount2: 3.901545264248647
+        taxableAmount1: 4.459605034958679
+        taxableAmount3: 0.43431398824148815
+        lines: 1
+        order: 6
+      properties:
+        number:
+          type: integer
+        description:
+          type: string
+        order:
+          type: integer
+        taxableAmount:
+          type: number
+        taxableAmount1:
+          type: number
+        taxableAmount2:
+          type: number
+        taxableAmount3:
+          type: number
+        totalITBIS:
+          type: number
+        itbis1:
+          type: number
+        itbis2:
+          type: number
+        itbis3:
+          type: number
+        additionalTaxes:
+          type: number
+        exemptAmount:
+          type: number
+        amount:
+          type: number
+        lines:
+          type: integer
+      type: object
+    DiscountOrSurcharge:
+      example:
+        amount: 8.761432466225475
+        norm1007Indicator: "0"
+        alternativeCurrencyAmount: 0.4182561061793122
+        valueType: $
+        description: description
+        billingIndicator: null
+        percentageValue: 9.183123594773994
+        lineNumber: 3
+        type: D
+      properties:
+        lineNumber:
+          type: integer
+        type:
+          description: "D=Discount, R=Surcharge"
+          enum:
+          - D
+          - R
+          type: string
+        norm1007Indicator:
+          enum:
+          - "0"
+          - "1"
+          type: string
+        description:
+          type: string
+        valueType:
+          enum:
+          - $
+          - '%'
+          type: string
+        percentageValue:
+          type: number
+        amount:
+          type: number
+        alternativeCurrencyAmount:
+          type: number
+        billingIndicator:
+          $ref: "#/components/schemas/BillingIndicator"
+      required:
+      - amount
+      - lineNumber
+      - type
+      - valueType
+      type: object
+    Page:
+      example:
+        taxableAmount: 7.606863723092579
+        pageNumber: 5
+        additionalTaxes: 3.804112695731078
+        lineTo: 8
+        exemptAmount: 5.877124706116695
+        itbis2: 3.1497903714250555
+        lineFrom: 5
+        itbis1: 0.4768402382624515
+        itbis3: 2.380090174313445
+        nonBillableAmount: 4.518309517874243
+        totalITBIS: 7.835035282970782
+        subtotal: 8.675064425986758
+        taxableAmount2: 3.111202833403195
+        taxableAmount1: 3.7814124730767915
+        taxableAmount3: 9.897492629215506
+      properties:
+        pageNumber:
+          type: integer
+        lineFrom:
+          type: integer
+        lineTo:
+          type: integer
+        taxableAmount:
+          type: number
+        taxableAmount1:
+          type: number
+        taxableAmount2:
+          type: number
+        taxableAmount3:
+          type: number
+        exemptAmount:
+          type: number
+        totalITBIS:
+          type: number
+        itbis1:
+          type: number
+        itbis2:
+          type: number
+        itbis3:
+          type: number
+        additionalTaxes:
+          type: number
+        subtotal:
+          type: number
+        nonBillableAmount:
+          type: number
+      type: object
+    Transport:
+      example:
+        licensePlate: licensePlate
+        route: route
+        driver: driver
+        zone: zone
+        document: document
+        vehicleId: vehicleId
+        destinationCountry: destinationCountry
+        deliveryNoteNumber: deliveryNoteNumber
+      properties:
+        driver:
+          type: string
+        document:
+          type: string
+        vehicleId:
+          type: string
+        licensePlate:
+          type: string
+        route:
+          type: string
+        zone:
+          type: string
+        deliveryNoteNumber:
+          type: string
+        destinationCountry:
+          type: string
+      type: object
+    AdditionalInfo:
+      example:
+        netWeightUnit: 3
+        grossWeight: 8.969578798196912
+        netWeight: 7.740351818741173
+        packageVolume: 3.2588565619047607
+        containerNumber: containerNumber
+        referenceNumber: referenceNumber
+        packageUnit: 5
+        volumeUnit: 4
+        grossWeightUnit: 3
+        shipmentDate: shipmentDate
+        packageQuantity: 7.04836565559697
+        shipmentNumber: shipmentNumber
+      properties:
+        shipmentDate:
+          type: string
+        shipmentNumber:
+          type: string
+        containerNumber:
+          type: string
+        referenceNumber:
+          type: string
+        grossWeight:
+          type: number
+        netWeight:
+          type: number
+        grossWeightUnit:
+          type: integer
+        netWeightUnit:
+          type: integer
+        packageQuantity:
+          type: number
+        packageUnit:
+          type: integer
+        packageVolume:
+          type: number
+        volumeUnit:
+          type: integer
+      type: object
+    AlternativeCurrency:
+      example:
+        taxableAmount: 0.2025324113236393
+        code: USD
+        additionalTaxes:
+        - additionalTaxes
+        - additionalTaxes
+        exemptAmount: 4.678947989005849
+        additionalTaxAmount: 0.5199002018724985
+        itbis2: 0.8774076871421566
+        itbis1: 9.132027271330688
+        itbis3: 9.702963800023566
+        nonBillableAmount: 7.933506881737151
+        totalAmount: 5.507386964179881
+        totalITBIS: 7.260521264802104
+        exchangeRate: 58.5
+        taxableAmount2: 4.258773108174356
+        taxableAmount1: 6.628464275087742
+        taxableAmount3: 1.041444916118296
+      properties:
+        code:
+          example: USD
+          maxLength: 3
+          type: string
+        exchangeRate:
+          example: 58.5
+          type: number
+        taxableAmount:
+          type: number
+        taxableAmount1:
+          type: number
+        taxableAmount2:
+          type: number
+        taxableAmount3:
+          type: number
+        exemptAmount:
+          type: number
+        totalITBIS:
+          type: number
+        itbis1:
+          type: number
+        itbis2:
+          type: number
+        itbis3:
+          type: number
+        additionalTaxAmount:
+          type: number
+        additionalTaxes:
+          items:
+            type: string
+          type: array
+        nonBillableAmount:
+          type: number
+        totalAmount:
+          type: number
+      required:
+      - code
+      - exchangeRate
+      type: object
+    ReferenceInfo:
+      description: Reference to previously issued document (for credit/debit notes).
+      example:
+        modifiedInvoiceDate: 2000-01-23T04:56:07.000+00:00
+        modificationReason: modificationReason
+        otherContributorRNC: otherContributorRNC
+        modifiedInvoiceNumber: E310000000001
+        modificationCode: "1"
+      properties:
+        modifiedInvoiceNumber:
+          example: E310000000001
+          type: string
+        otherContributorRNC:
+          type: string
+        modifiedInvoiceDate:
+          format: date-time
+          type: string
+        modificationCode:
+          description: "1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other"
+          enum:
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+          type: string
+        modificationReason:
+          type: string
+      required:
+      - modificationCode
+      - modifiedInvoiceNumber
+      type: object
+    ItemAdditionalTax:
+      example:
+        amount: 4.965218492984954
+        code: code
+      properties:
+        code:
+          description: "DGII tax code (e.g. ISC, IECS)"
+          type: string
+        amount:
+          type: number
+      required:
+      - code
+      type: object
+    Subquantity:
+      example:
+        quantity: 2.027123023002322
+        unitCode: 4
+      properties:
+        quantity:
+          type: number
+        unitCode:
+          type: integer
+      required:
+      - quantity
+      - unitCode
+      type: object
+    ErrorResponse:
+      example:
+        message: message
+        error: error
+        statusCode: 0
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        error:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+      type: object
+    RateLimitErrorResponse:
+      example:
+        retryAfter: 1
+        message: Rate limit exceeded. Retry after 1 second.
+        error: Too Many Requests
+        statusCode: 429
+      properties:
+        statusCode:
+          example: 429
+          type: integer
+        message:
+          example: Rate limit exceeded. Retry after 1 second.
+          type: string
+        error:
+          example: Too Many Requests
+          type: string
+        retryAfter:
+          example: 1
+          type: integer
+      type: object
+    uploadCertificate_request:
+      properties:
+        file:
+          description: Certificate file in .p12 or .pfx format.
+          format: binary
+          type: string
+        password:
+          description: Password to unlock the certificate.
+          format: password
+          type: string
+      required:
+      - file
+      - password
+      type: object
+    listTaxSequences_200_response:
+      example:
+        data:
+        - totalNumbers: 0
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          startNumber: E32000000001
+          availableNumbers: 1
+          endNumber: E32000010000
+          id: seq_sbx_1234567890
+          currentNumber: E32000005250
+          type: E31
+          usedNumbers: 6
+          expiresAt: 2000-01-23T04:56:07.000+00:00
+          status: ACTIVE
+        - totalNumbers: 0
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          startNumber: E32000000001
+          availableNumbers: 1
+          endNumber: E32000010000
+          id: seq_sbx_1234567890
+          currentNumber: E32000005250
+          type: E31
+          usedNumbers: 6
+          expiresAt: 2000-01-23T04:56:07.000+00:00
+          status: ACTIVE
+        success: true
+        meta:
+          total: 5
+          limit: 2
+          totalPages: 7
+          page: 5
+      properties:
+        success:
+          type: boolean
+        data:
+          items:
+            $ref: "#/components/schemas/TaxSequence"
+          type: array
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+      type: object
+    createTaxSequence_201_response:
+      example:
+        data:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          environment: TesteCF
+          from: 0
+          id: id
+          to: 6
+          type: E31
+        success: true
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/TaxSequenceCreated"
+      type: object
+    getNextNumber_200_response_data:
+      example:
+        nextNumber: E32000005251
+        remainingNumbers: 4750
+        sequenceId: seq_live_1234567890
+      properties:
+        nextNumber:
+          example: E32000005251
+          type: string
+        sequenceId:
+          example: seq_live_1234567890
+          type: string
+        remainingNumbers:
+          example: 4750
+          type: integer
+      type: object
+    getNextNumber_200_response:
+      example:
+        data:
+          nextNumber: E32000005251
+          remainingNumbers: 4750
+          sequenceId: seq_live_1234567890
+        success: true
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/getNextNumber_200_response_data"
+      type: object
+    voidTaxSequence_200_response_data:
+      example:
+        sequenceId: sequenceId
+        voidedNumbers: 0
+        status: SENT_TO_DGII
+      properties:
+        sequenceId:
+          type: string
+        voidedNumbers:
+          type: integer
+        status:
+          example: SENT_TO_DGII
+          type: string
+      type: object
+    voidTaxSequence_200_response:
+      example:
+        data:
+          sequenceId: sequenceId
+          voidedNumbers: 0
+          status: SENT_TO_DGII
+        success: true
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/voidTaxSequence_200_response_data"
+      type: object
+    createAssociatedCompany_201_response:
+      example:
+        business:
+          docsIssuedThisMonth: 0
+          country: country
+          monthlySalesRange: monthlySalesRange
+          website: https://openapi-generator.tech
+          address: address
+          printerType: A4
+          city: city
+          rnc: rnc
+          logoPath: logoPath
+          subscription:
+            plan:
+              name: name
+              maxDocsPerMonth: 1
+            status: status
+            expirationDate: 2000-01-23T04:56:07.000+00:00
+          type: MAIN
+          ownerEmail: ownerEmail
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          purchasedDocsConsumedThisMonth: 6
+          phone: phone
+          name: name
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          category: category
+        message: message
+      properties:
+        message:
+          type: string
+        business:
+          $ref: "#/components/schemas/AssociatedCompany"
+      type: object
+    deleteAssociatedCompany_200_response:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      type: object
+    startCertification_200_response:
+      example:
+        processId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        processId:
+          format: uuid
+          type: string
+      type: object
+    Item_codes_inner:
+      example:
+        code: code
+        codeType: codeType
+      properties:
+        codeType:
+          type: string
+        code:
+          type: string
+      type: object
+    Item_miningInfo:
+      example:
+        netWeightMining: 1.0246457001441578
+        netWeightKg: 1.2315135367772556
+        affiliationType: affiliationType
+        settlement: settlement
+      properties:
+        netWeightKg:
+          type: number
+        netWeightMining:
+          type: number
+        affiliationType:
+          type: string
+        settlement:
+          type: string
+      type: object
+    Item_discount_inner:
+      example:
+        amount: 7.457744773683766
+        type: type
+        value: 6.84685269835264
+      properties:
+        type:
+          type: string
+        value:
+          type: number
+        amount:
+          type: number
+      type: object
+    Item_alternativeCurrency:
+      example:
+        unitPrice: 5.025004791520295
+        surcharge: 9.369310271410669
+        amount: 6.683562403749608
+        discount: 9.965781217890562
+      properties:
+        unitPrice:
+          type: number
+        discount:
+          type: number
+        surcharge:
+          type: number
+        amount:
+          type: number
+      type: object
+    EcfSubmissionResponse_dgiiResponse:
+      example:
+        estado: estado
+        codigoError: codigoError
+        trackId: trackId
+        mensaje: mensaje
+      properties:
+        estado:
+          description: "Aprobado, Rechazado, En Proceso"
+          type: string
+        trackId:
+          type: string
+        codigoError:
+          type: string
+        mensaje:
+          type: string
+      type: object
+    EcfStatusResponse_mensajes_inner:
+      example:
+        codigo: codigo
+        valor: valor
+      properties:
+        codigo:
+          type: string
+        valor:
+          type: string
+      type: object
+    SentDocumentSummary_business:
+      example:
+        rnc: rnc
+        name: name
+      properties:
+        name:
+          type: string
+        rnc:
+          type: string
+      type: object
+    AssociatedCompany_subscription_plan:
+      example:
+        name: name
+        maxDocsPerMonth: 1
+      properties:
+        name:
+          type: string
+        maxDocsPerMonth:
+          type: integer
+      type: object
+    AssociatedCompany_subscription:
+      example:
+        plan:
+          name: name
+          maxDocsPerMonth: 1
+        status: status
+        expirationDate: 2000-01-23T04:56:07.000+00:00
+      nullable: true
+      properties:
+        status:
+          type: string
+        expirationDate:
+          format: date-time
+          nullable: true
+          type: string
+        plan:
+          $ref: "#/components/schemas/AssociatedCompany_subscription_plan"
+      type: object
+    CompanyMetrics_documentsStatus:
+      example:
+        PENDING: 5
+        APPROVED: 1
+        REJECTED: 5
+      properties:
+        APPROVED:
+          type: integer
+        REJECTED:
+          type: integer
+        PENDING:
+          type: integer
+      type: object
+    CompanyDocumentMetrics_mainBusiness:
+      example:
+        rnc: rnc
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        rnc:
+          type: string
+      type: object
+    CompanyDocumentMetrics_totals:
+      example:
+        total: 0
+        last30Days: 6
+      properties:
+        total:
+          type: integer
+        last30Days:
+          type: integer
+      type: object
+    CompanyDocumentMetrics_groupByStatus_inner__count:
+      example:
+        status: 1
+      properties:
+        status:
+          type: integer
+      type: object
+    CompanyDocumentMetrics_groupByStatus_inner:
+      example:
+        _count:
+          status: 1
+        status: status
+      properties:
+        status:
+          type: string
+        _count:
+          $ref: "#/components/schemas/CompanyDocumentMetrics_groupByStatus_inner__count"
+      type: object
+    WebhookStats_stats:
+      example:
+        averageResponseTime: 5
+        successRate: successRate
+        totalAttempts: 0
+        lastAttempt: 2000-01-23T04:56:07.000+00:00
+        failed: 1
+        successful: 6
+      properties:
+        totalAttempts:
+          type: integer
+        successful:
+          type: integer
+        failed:
+          type: integer
+        successRate:
+          type: string
+        averageResponseTime:
+          type: integer
+        lastAttempt:
+          format: date-time
+          type: string
+      type: object
+    CertificationNiche_nicheItems_inner:
+      example:
+        documentType: documentType
+        count: 0
+      properties:
+        documentType:
+          type: string
+        count:
+          type: integer
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      description: |
+        JWT Bearer token from POST /oauth/token.
+        Get credentials at https://ecf.sandbox.pronesoft.com (sandbox)
+        or https://ecf.pronesoft.com (production).
+        Tokens expire after 86400 seconds (24 hours).
+      scheme: bearer
+      type: http
+    oauth2:
+      description: |
+        OAuth 2.0 Client Credentials.
+        Credentials from https://ecf.sandbox.pronesoft.com or https://ecf.pronesoft.com
+      flows:
+        clientCredentials:
+          scopes:
+            business:read: Read company data.
+            business:create: Create a new company.
+            business:update: Update company data.
+            members:read: View team members.
+            members:invite: Invite new members.
+            members:revoke: Revoke member access.
+            certificates:read: View digital certificates.
+            certificates:upload: Upload new certificates.
+            certificates:update: Update existing certificates.
+            documents:read: List and view document details.
+            documents:create: Create drafts or internal documents.
+            documents:send: Submit e-CF to the DGII.
+            documents:receive: Receive e-CF from third parties.
+            documents:update: Modify document metadata.
+            approvals:read: View approval statuses.
+            approvals:commercial: Perform commercial approvals or rejections.
+            sequences:read: View NCF/e-NCF ranges.
+            sequences:create: Request or add new sequences.
+            sequences:update: Modify sequence configurations.
+            sequences:cancel: Cancel unused sequences.
+            business_info:read: Access dashboard statistics and metrics.
+            certification:read: View DGII certification progress.
+            certification:write: Execute automated DGII certification tests.
+            reports:read: Generate and export reports (e.g. format 606).
+          tokenUrl: https://api.ecf.sandbox.pronesoft.com/api/v1/oauth/token
+      type: oauth2
