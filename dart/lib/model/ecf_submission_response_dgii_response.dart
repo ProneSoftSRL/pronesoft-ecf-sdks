@@ -13,11 +13,21 @@ part of openapi.api;
 class EcfSubmissionResponseDgiiResponse {
   /// Returns a new [EcfSubmissionResponseDgiiResponse] instance.
   EcfSubmissionResponseDgiiResponse({
-    this.estado,
     this.trackId,
-    this.codigoError,
-    this.mensaje,
+    this.estado,
+    this.rnc,
+    this.encf,
+    this.fechaRecepcion,
+    this.mensajes = const [],
   });
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? trackId;
 
   /// Aprobado, Rechazado, En Proceso
   ///
@@ -34,7 +44,7 @@ class EcfSubmissionResponseDgiiResponse {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? trackId;
+  String? rnc;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -42,7 +52,7 @@ class EcfSubmissionResponseDgiiResponse {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? codigoError;
+  String? encf;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -50,48 +60,60 @@ class EcfSubmissionResponseDgiiResponse {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? mensaje;
+  DateTime? fechaRecepcion;
+
+  List<DgiiMessage> mensajes;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EcfSubmissionResponseDgiiResponse &&
-    other.estado == estado &&
     other.trackId == trackId &&
-    other.codigoError == codigoError &&
-    other.mensaje == mensaje;
+    other.estado == estado &&
+    other.rnc == rnc &&
+    other.encf == encf &&
+    other.fechaRecepcion == fechaRecepcion &&
+    _deepEquality.equals(other.mensajes, mensajes);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (estado == null ? 0 : estado!.hashCode) +
     (trackId == null ? 0 : trackId!.hashCode) +
-    (codigoError == null ? 0 : codigoError!.hashCode) +
-    (mensaje == null ? 0 : mensaje!.hashCode);
+    (estado == null ? 0 : estado!.hashCode) +
+    (rnc == null ? 0 : rnc!.hashCode) +
+    (encf == null ? 0 : encf!.hashCode) +
+    (fechaRecepcion == null ? 0 : fechaRecepcion!.hashCode) +
+    (mensajes.hashCode);
 
   @override
-  String toString() => 'EcfSubmissionResponseDgiiResponse[estado=$estado, trackId=$trackId, codigoError=$codigoError, mensaje=$mensaje]';
+  String toString() => 'EcfSubmissionResponseDgiiResponse[trackId=$trackId, estado=$estado, rnc=$rnc, encf=$encf, fechaRecepcion=$fechaRecepcion, mensajes=$mensajes]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.estado != null) {
-      json[r'estado'] = this.estado;
-    } else {
-      json[r'estado'] = null;
-    }
     if (this.trackId != null) {
       json[r'trackId'] = this.trackId;
     } else {
       json[r'trackId'] = null;
     }
-    if (this.codigoError != null) {
-      json[r'codigoError'] = this.codigoError;
+    if (this.estado != null) {
+      json[r'estado'] = this.estado;
     } else {
-      json[r'codigoError'] = null;
+      json[r'estado'] = null;
     }
-    if (this.mensaje != null) {
-      json[r'mensaje'] = this.mensaje;
+    if (this.rnc != null) {
+      json[r'rnc'] = this.rnc;
     } else {
-      json[r'mensaje'] = null;
+      json[r'rnc'] = null;
     }
+    if (this.encf != null) {
+      json[r'encf'] = this.encf;
+    } else {
+      json[r'encf'] = null;
+    }
+    if (this.fechaRecepcion != null) {
+      json[r'fechaRecepcion'] = this.fechaRecepcion!.toUtc().toIso8601String();
+    } else {
+      json[r'fechaRecepcion'] = null;
+    }
+      json[r'mensajes'] = this.mensajes;
     return json;
   }
 
@@ -110,10 +132,12 @@ class EcfSubmissionResponseDgiiResponse {
       }());
 
       return EcfSubmissionResponseDgiiResponse(
-        estado: mapValueOfType<String>(json, r'estado'),
         trackId: mapValueOfType<String>(json, r'trackId'),
-        codigoError: mapValueOfType<String>(json, r'codigoError'),
-        mensaje: mapValueOfType<String>(json, r'mensaje'),
+        estado: mapValueOfType<String>(json, r'estado'),
+        rnc: mapValueOfType<String>(json, r'rnc'),
+        encf: mapValueOfType<String>(json, r'encf'),
+        fechaRecepcion: mapDateTime(json, r'fechaRecepcion', r''),
+        mensajes: DgiiMessage.listFromJson(json[r'mensajes']),
       );
     }
     return null;

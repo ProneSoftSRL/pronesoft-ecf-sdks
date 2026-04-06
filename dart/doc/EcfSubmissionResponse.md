@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **encf** | **String** |  | [optional] 
 **documentType** | **String** |  | [optional] 
 **printUrl** | **String** |  | [optional] 
+**isSummary** | **bool** |  | [optional] 
 **authType** | **String** |  | [optional] 
 **timestamp** | [**DateTime**](DateTime.md) |  | [optional] 
 **message** | **String** |  | [optional] 

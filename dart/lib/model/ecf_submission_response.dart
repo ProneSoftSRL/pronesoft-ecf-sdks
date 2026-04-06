@@ -22,6 +22,7 @@ class EcfSubmissionResponse {
     this.encf,
     this.documentType,
     this.printUrl,
+    this.isSummary,
     this.authType,
     this.timestamp,
     this.message,
@@ -101,6 +102,14 @@ class EcfSubmissionResponse {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  bool? isSummary;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? authType;
 
   ///
@@ -146,6 +155,7 @@ class EcfSubmissionResponse {
     other.encf == encf &&
     other.documentType == documentType &&
     other.printUrl == printUrl &&
+    other.isSummary == isSummary &&
     other.authType == authType &&
     other.timestamp == timestamp &&
     other.message == message &&
@@ -164,6 +174,7 @@ class EcfSubmissionResponse {
     (encf == null ? 0 : encf!.hashCode) +
     (documentType == null ? 0 : documentType!.hashCode) +
     (printUrl == null ? 0 : printUrl!.hashCode) +
+    (isSummary == null ? 0 : isSummary!.hashCode) +
     (authType == null ? 0 : authType!.hashCode) +
     (timestamp == null ? 0 : timestamp!.hashCode) +
     (message == null ? 0 : message!.hashCode) +
@@ -171,7 +182,7 @@ class EcfSubmissionResponse {
     (estimatedProcessTime == null ? 0 : estimatedProcessTime!.hashCode);
 
   @override
-  String toString() => 'EcfSubmissionResponse[success=$success, documentId=$documentId, dgiiResponse=$dgiiResponse, qrUrl=$qrUrl, signatureTime=$signatureTime, securityCode=$securityCode, encf=$encf, documentType=$documentType, printUrl=$printUrl, authType=$authType, timestamp=$timestamp, message=$message, contingencyMode=$contingencyMode, estimatedProcessTime=$estimatedProcessTime]';
+  String toString() => 'EcfSubmissionResponse[success=$success, documentId=$documentId, dgiiResponse=$dgiiResponse, qrUrl=$qrUrl, signatureTime=$signatureTime, securityCode=$securityCode, encf=$encf, documentType=$documentType, printUrl=$printUrl, isSummary=$isSummary, authType=$authType, timestamp=$timestamp, message=$message, contingencyMode=$contingencyMode, estimatedProcessTime=$estimatedProcessTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -215,6 +226,11 @@ class EcfSubmissionResponse {
       json[r'printUrl'] = this.printUrl;
     } else {
       json[r'printUrl'] = null;
+    }
+    if (this.isSummary != null) {
+      json[r'isSummary'] = this.isSummary;
+    } else {
+      json[r'isSummary'] = null;
     }
     if (this.authType != null) {
       json[r'authType'] = this.authType;
@@ -270,6 +286,7 @@ class EcfSubmissionResponse {
         encf: mapValueOfType<String>(json, r'encf'),
         documentType: mapValueOfType<String>(json, r'documentType'),
         printUrl: mapValueOfType<String>(json, r'printUrl'),
+        isSummary: mapValueOfType<bool>(json, r'isSummary'),
         authType: mapValueOfType<String>(json, r'authType'),
         timestamp: mapDateTime(json, r'timestamp', r''),
         message: mapValueOfType<String>(json, r'message'),

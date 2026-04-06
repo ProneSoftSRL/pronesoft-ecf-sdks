@@ -6,10 +6,12 @@
 
 Name | Type
 ------------ | -------------
-`estado` | string
 `trackId` | string
-`codigoError` | string
-`mensaje` | string
+`estado` | string
+`rnc` | string
+`encf` | string
+`fechaRecepcion` | Date
+`mensajes` | [Array&lt;DgiiMessage&gt;](DgiiMessage.md)
 
 ## Example
 
@@ -18,10 +20,12 @@ import type { EcfSubmissionResponseDgiiResponse } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "estado": null,
   "trackId": null,
-  "codigoError": null,
-  "mensaje": null,
+  "estado": null,
+  "rnc": null,
+  "encf": null,
+  "fechaRecepcion": null,
+  "mensajes": null,
 } satisfies EcfSubmissionResponseDgiiResponse
 
 console.log(example)

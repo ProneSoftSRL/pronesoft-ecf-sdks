@@ -27,7 +27,7 @@ class Totals {
     this.itbis3,
     this.additionalTaxAmount,
     this.additionalTaxes = const [],
-    required this.totalAmount,
+    this.totalAmount,
     this.nonBillableAmount,
     this.periodAmount,
     this.previousBalance,
@@ -45,7 +45,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? taxableAmount;
+  ItemWithheldITBISAmount? taxableAmount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -53,7 +53,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? taxableAmount1;
+  ItemWithheldITBISAmount? taxableAmount1;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -61,7 +61,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? taxableAmount2;
+  ItemWithheldITBISAmount? taxableAmount2;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -69,7 +69,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? taxableAmount3;
+  ItemWithheldITBISAmount? taxableAmount3;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -77,7 +77,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? exemptAmount;
+  ItemWithheldITBISAmount? exemptAmount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -85,7 +85,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? itbisRate1;
+  TotalsItbisRate1? itbisRate1;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -93,7 +93,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? itbisRate2;
+  TotalsItbisRate2? itbisRate2;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -101,7 +101,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? itbisRate3;
+  TotalsItbisRate3? itbisRate3;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -109,7 +109,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? totalITBIS;
+  ItemWithheldITBISAmount? totalITBIS;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -117,7 +117,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? itbis1;
+  ItemWithheldITBISAmount? itbis1;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -125,7 +125,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? itbis2;
+  ItemWithheldITBISAmount? itbis2;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -133,7 +133,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? itbis3;
+  ItemWithheldITBISAmount? itbis3;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -141,11 +141,9 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? additionalTaxAmount;
+  ItemWithheldITBISAmount? additionalTaxAmount;
 
-  List<String> additionalTaxes;
-
-  num totalAmount;
+  List<AdditionalTax> additionalTaxes;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -153,7 +151,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? nonBillableAmount;
+  TotalsTotalAmount? totalAmount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -161,7 +159,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? periodAmount;
+  ItemWithheldITBISAmount? nonBillableAmount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -169,7 +167,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? previousBalance;
+  ItemWithheldITBISAmount? periodAmount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -177,7 +175,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? advancePaymentAmount;
+  ItemWithheldITBISAmount? previousBalance;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -185,7 +183,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? amountToPay;
+  ItemWithheldITBISAmount? advancePaymentAmount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -193,7 +191,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? totalWithheldITBIS;
+  ItemWithheldITBISAmount? amountToPay;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -201,7 +199,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? totalIncomeTaxWithholding;
+  ItemWithheldITBISAmount? totalWithheldITBIS;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -209,7 +207,7 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? totalITBISPerception;
+  ItemWithheldITBISAmount? totalIncomeTaxWithholding;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -217,7 +215,15 @@ class Totals {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? totalISRPerception;
+  ItemWithheldITBISAmount? totalITBISPerception;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ItemWithheldITBISAmount? totalISRPerception;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Totals &&
@@ -263,7 +269,7 @@ class Totals {
     (itbis3 == null ? 0 : itbis3!.hashCode) +
     (additionalTaxAmount == null ? 0 : additionalTaxAmount!.hashCode) +
     (additionalTaxes.hashCode) +
-    (totalAmount.hashCode) +
+    (totalAmount == null ? 0 : totalAmount!.hashCode) +
     (nonBillableAmount == null ? 0 : nonBillableAmount!.hashCode) +
     (periodAmount == null ? 0 : periodAmount!.hashCode) +
     (previousBalance == null ? 0 : previousBalance!.hashCode) +
@@ -345,7 +351,11 @@ class Totals {
       json[r'additionalTaxAmount'] = null;
     }
       json[r'additionalTaxes'] = this.additionalTaxes;
+    if (this.totalAmount != null) {
       json[r'totalAmount'] = this.totalAmount;
+    } else {
+      json[r'totalAmount'] = null;
+    }
     if (this.nonBillableAmount != null) {
       json[r'nonBillableAmount'] = this.nonBillableAmount;
     } else {
@@ -405,38 +415,34 @@ class Totals {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        assert(json.containsKey(r'totalAmount'), 'Required key "Totals[totalAmount]" is missing from JSON.');
-        assert(json[r'totalAmount'] != null, 'Required key "Totals[totalAmount]" has a null value in JSON.');
         return true;
       }());
 
       return Totals(
-        taxableAmount: num.parse('${json[r'taxableAmount']}'),
-        taxableAmount1: num.parse('${json[r'taxableAmount1']}'),
-        taxableAmount2: num.parse('${json[r'taxableAmount2']}'),
-        taxableAmount3: num.parse('${json[r'taxableAmount3']}'),
-        exemptAmount: num.parse('${json[r'exemptAmount']}'),
-        itbisRate1: num.parse('${json[r'itbisRate1']}'),
-        itbisRate2: num.parse('${json[r'itbisRate2']}'),
-        itbisRate3: num.parse('${json[r'itbisRate3']}'),
-        totalITBIS: num.parse('${json[r'totalITBIS']}'),
-        itbis1: num.parse('${json[r'itbis1']}'),
-        itbis2: num.parse('${json[r'itbis2']}'),
-        itbis3: num.parse('${json[r'itbis3']}'),
-        additionalTaxAmount: num.parse('${json[r'additionalTaxAmount']}'),
-        additionalTaxes: json[r'additionalTaxes'] is Iterable
-            ? (json[r'additionalTaxes'] as Iterable).cast<String>().toList(growable: false)
-            : const [],
-        totalAmount: num.parse('${json[r'totalAmount']}'),
-        nonBillableAmount: num.parse('${json[r'nonBillableAmount']}'),
-        periodAmount: num.parse('${json[r'periodAmount']}'),
-        previousBalance: num.parse('${json[r'previousBalance']}'),
-        advancePaymentAmount: num.parse('${json[r'advancePaymentAmount']}'),
-        amountToPay: num.parse('${json[r'amountToPay']}'),
-        totalWithheldITBIS: num.parse('${json[r'totalWithheldITBIS']}'),
-        totalIncomeTaxWithholding: num.parse('${json[r'totalIncomeTaxWithholding']}'),
-        totalITBISPerception: num.parse('${json[r'totalITBISPerception']}'),
-        totalISRPerception: num.parse('${json[r'totalISRPerception']}'),
+        taxableAmount: ItemWithheldITBISAmount.fromJson(json[r'taxableAmount']),
+        taxableAmount1: ItemWithheldITBISAmount.fromJson(json[r'taxableAmount1']),
+        taxableAmount2: ItemWithheldITBISAmount.fromJson(json[r'taxableAmount2']),
+        taxableAmount3: ItemWithheldITBISAmount.fromJson(json[r'taxableAmount3']),
+        exemptAmount: ItemWithheldITBISAmount.fromJson(json[r'exemptAmount']),
+        itbisRate1: TotalsItbisRate1.fromJson(json[r'itbisRate1']),
+        itbisRate2: TotalsItbisRate2.fromJson(json[r'itbisRate2']),
+        itbisRate3: TotalsItbisRate3.fromJson(json[r'itbisRate3']),
+        totalITBIS: ItemWithheldITBISAmount.fromJson(json[r'totalITBIS']),
+        itbis1: ItemWithheldITBISAmount.fromJson(json[r'itbis1']),
+        itbis2: ItemWithheldITBISAmount.fromJson(json[r'itbis2']),
+        itbis3: ItemWithheldITBISAmount.fromJson(json[r'itbis3']),
+        additionalTaxAmount: ItemWithheldITBISAmount.fromJson(json[r'additionalTaxAmount']),
+        additionalTaxes: AdditionalTax.listFromJson(json[r'additionalTaxes']),
+        totalAmount: TotalsTotalAmount.fromJson(json[r'totalAmount']),
+        nonBillableAmount: ItemWithheldITBISAmount.fromJson(json[r'nonBillableAmount']),
+        periodAmount: ItemWithheldITBISAmount.fromJson(json[r'periodAmount']),
+        previousBalance: ItemWithheldITBISAmount.fromJson(json[r'previousBalance']),
+        advancePaymentAmount: ItemWithheldITBISAmount.fromJson(json[r'advancePaymentAmount']),
+        amountToPay: ItemWithheldITBISAmount.fromJson(json[r'amountToPay']),
+        totalWithheldITBIS: ItemWithheldITBISAmount.fromJson(json[r'totalWithheldITBIS']),
+        totalIncomeTaxWithholding: ItemWithheldITBISAmount.fromJson(json[r'totalIncomeTaxWithholding']),
+        totalITBISPerception: ItemWithheldITBISAmount.fromJson(json[r'totalITBISPerception']),
+        totalISRPerception: ItemWithheldITBISAmount.fromJson(json[r'totalISRPerception']),
       );
     }
     return null;
@@ -484,7 +490,6 @@ class Totals {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'totalAmount',
   };
 }
 

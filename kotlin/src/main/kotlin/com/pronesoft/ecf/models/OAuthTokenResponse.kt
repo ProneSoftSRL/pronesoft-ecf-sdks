@@ -32,6 +32,7 @@ import com.google.gson.annotations.SerializedName
  * @param accessToken 
  * @param tokenType 
  * @param expiresIn Token lifetime in seconds (24 hours = 86400).
+ * @param scope 
  */
 
 
@@ -45,7 +46,10 @@ data class OAuthTokenResponse (
 
     /* Token lifetime in seconds (24 hours = 86400). */
     @SerializedName("expiresIn")
-    val expiresIn: kotlin.Int? = null
+    val expiresIn: kotlin.Int? = null,
+
+    @SerializedName("scope")
+    val scope: kotlin.collections.List<kotlin.String>? = null
 
 ) {
 

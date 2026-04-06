@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **Encf** | Pointer to **string** |  | [optional] 
 **DocumentType** | Pointer to **string** |  | [optional] 
 **PrintUrl** | Pointer to **string** |  | [optional] 
+**IsSummary** | Pointer to **bool** |  | [optional] 
 **AuthType** | Pointer to **string** |  | [optional] 
 **Timestamp** | Pointer to **time.Time** |  | [optional] 
 **Message** | Pointer to **string** |  | [optional] 
@@ -257,6 +258,31 @@ SetPrintUrl sets PrintUrl field to given value.
 `func (o *EcfSubmissionResponse) HasPrintUrl() bool`
 
 HasPrintUrl returns a boolean if a field has been set.
+
+### GetIsSummary
+
+`func (o *EcfSubmissionResponse) GetIsSummary() bool`
+
+GetIsSummary returns the IsSummary field if non-nil, zero value otherwise.
+
+### GetIsSummaryOk
+
+`func (o *EcfSubmissionResponse) GetIsSummaryOk() (*bool, bool)`
+
+GetIsSummaryOk returns a tuple with the IsSummary field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsSummary
+
+`func (o *EcfSubmissionResponse) SetIsSummary(v bool)`
+
+SetIsSummary sets IsSummary field to given value.
+
+### HasIsSummary
+
+`func (o *EcfSubmissionResponse) HasIsSummary() bool`
+
+HasIsSummary returns a boolean if a field has been set.
 
 ### GetAuthType
 

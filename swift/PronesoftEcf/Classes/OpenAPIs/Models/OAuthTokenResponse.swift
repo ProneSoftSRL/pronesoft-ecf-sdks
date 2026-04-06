@@ -22,17 +22,20 @@ public struct OAuthTokenResponse: Codable, JSONEncodable, Hashable {
     public var tokenType: String?
     /** Token lifetime in seconds (24 hours = 86400). */
     public var expiresIn: Int?
+    public var scope: [String]?
 
-    public init(accessToken: String? = nil, tokenType: String? = nil, expiresIn: Int? = nil) {
+    public init(accessToken: String? = nil, tokenType: String? = nil, expiresIn: Int? = nil, scope: [String]? = nil) {
         self.accessToken = accessToken
         self.tokenType = tokenType
         self.expiresIn = expiresIn
+        self.scope = scope
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case accessToken
         case tokenType
         case expiresIn
+        case scope
     }
 
     // Encodable protocol methods
@@ -42,6 +45,7 @@ public struct OAuthTokenResponse: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(accessToken, forKey: .accessToken)
         try container.encodeIfPresent(tokenType, forKey: .tokenType)
         try container.encodeIfPresent(expiresIn, forKey: .expiresIn)
+        try container.encodeIfPresent(scope, forKey: .scope)
     }
 }
 

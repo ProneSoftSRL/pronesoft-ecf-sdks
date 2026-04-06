@@ -9,8 +9,26 @@
 |------------ | ------------- | ------------- | -------------|
 |**netWeightKg** | **BigDecimal** |  |  [optional] |
 |**netWeightMining** | **BigDecimal** |  |  [optional] |
-|**affiliationType** | **String** |  |  [optional] |
-|**settlement** | **String** |  |  [optional] |
+|**affiliationType** | [**AffiliationTypeEnum**](#AffiliationTypeEnum) |  |  [optional] |
+|**settlement** | [**SettlementEnum**](#SettlementEnum) |  |  [optional] |
+
+
+
+## Enum: AffiliationTypeEnum
+
+| Name | Value |
+|---- | -----|
+| _1 | &quot;1&quot; |
+| _2 | &quot;2&quot; |
+
+
+
+## Enum: SettlementEnum
+
+| Name | Value |
+|---- | -----|
+| _1 | &quot;1&quot; |
+| _2 | &quot;2&quot; |
 
 
 

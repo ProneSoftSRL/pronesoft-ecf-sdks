@@ -33,17 +33,11 @@
 
 * `BRANCH_DOT_STATUS_CHANGED` (value: `'branch.status_changed'`)
 
-* `SECURITY_DOT_NEW_LOGIN` (value: `'security.new_login'`)
-
 * `MEMBER_DOT_INVITED` (value: `'member.invited'`)
 
 * `MEMBER_DOT_JOINED` (value: `'member.joined'`)
 
 * `MEMBER_DOT_REMOVED` (value: `'member.removed'`)
-
-* `CERTIFICATE_DOT_EXPIRING` (value: `'certificate.expiring'`)
-
-* `COMMERCIAL_DOT_APPROVAL` (value: `'commercial.approval'`)
 
 * `CERTIFICATION_DOT_COMPLETED` (value: `'certification.completed'`)
 

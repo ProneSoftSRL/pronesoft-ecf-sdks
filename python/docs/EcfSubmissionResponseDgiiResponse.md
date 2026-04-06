@@ -5,10 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**estado** | **str** | Aprobado, Rechazado, En Proceso | [optional] 
 **track_id** | **str** |  | [optional] 
-**codigo_error** | **str** |  | [optional] 
-**mensaje** | **str** |  | [optional] 
+**estado** | **str** | Aprobado, Rechazado, En Proceso | [optional] 
+**rnc** | **str** |  | [optional] 
+**encf** | **str** |  | [optional] 
+**fecha_recepcion** | **datetime** |  | [optional] 
+**mensajes** | [**List[DgiiMessage]**](DgiiMessage.md) |  | [optional] 
 
 ## Example
 

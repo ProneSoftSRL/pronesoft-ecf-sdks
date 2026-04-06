@@ -8,7 +8,7 @@ Name | Type
 ------------ | -------------
 `type` | string
 `value` | number
-`amount` | number
+`amount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
 
 ## Example
 

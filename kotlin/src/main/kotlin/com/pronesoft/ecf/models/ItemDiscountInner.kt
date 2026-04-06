@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.ItemWithheldITBISAmount
 
 import com.google.gson.annotations.SerializedName
 
@@ -38,16 +39,25 @@ import com.google.gson.annotations.SerializedName
 data class ItemDiscountInner (
 
     @SerializedName("type")
-    val type: kotlin.String? = null,
+    val type: ItemDiscountInner.Type? = null,
 
     @SerializedName("value")
     val `value`: java.math.BigDecimal? = null,
 
     @SerializedName("amount")
-    val amount: java.math.BigDecimal? = null
+    val amount: ItemWithheldITBISAmount? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: Dollar,Percent
+     */
+    enum class Type(val value: kotlin.String) {
+        @SerializedName(value = "$") Dollar("$"),
+        @SerializedName(value = "%") Percent("%");
+    }
 
 }
 

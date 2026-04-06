@@ -31,12 +31,9 @@ public enum WebhookEventType: String, Codable, CaseIterable {
     case sequencePeriodVoided = "sequence.voided"
     case branchPeriodCreated = "branch.created"
     case branchPeriodStatusChanged = "branch.status_changed"
-    case securityPeriodNewLogin2 = "security.new_login"
     case memberPeriodInvited = "member.invited"
     case memberPeriodJoined = "member.joined"
     case memberPeriodRemoved = "member.removed"
-    case certificatePeriodExpiring2 = "certificate.expiring"
-    case commercialPeriodApproval2 = "commercial.approval"
     case certificationPeriodCompleted = "certification.completed"
 }
 }

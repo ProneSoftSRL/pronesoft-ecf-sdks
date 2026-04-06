@@ -23,8 +23,8 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.DgiiMessage
 import com.pronesoft.ecf.models.DocumentStatus
-import com.pronesoft.ecf.models.EcfStatusResponseMensajesInner
 import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.ProcessingLog
 
@@ -78,7 +78,7 @@ data class EcfStatusResponse (
     val receivedAt: java.time.OffsetDateTime? = null,
 
     @SerializedName("mensajes")
-    val mensajes: kotlin.collections.List<EcfStatusResponseMensajesInner>? = null,
+    val mensajes: kotlin.collections.List<DgiiMessage>? = null,
 
     @SerializedName("logs")
     val logs: kotlin.collections.List<ProcessingLog>? = null,

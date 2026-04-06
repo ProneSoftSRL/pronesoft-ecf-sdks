@@ -14,9 +14,10 @@ class ElectronicDocument {
   /// Returns a new [ElectronicDocument] instance.
   ElectronicDocument({
     this.environment,
-    this.version = 1,
+    this.version = '1.0',
     required this.invoiceType,
-    required this.invoiceNumber,
+    this.invoiceNumber,
+    this.groupId,
     required this.issueDate,
     this.expirationDate,
     this.creditNoteIndicator,
@@ -70,13 +71,28 @@ class ElectronicDocument {
   ///
   Environment? environment;
 
-  /// Always 1.
-  int version;
+  /// Always 1.0.
+  String version;
 
   InvoiceType invoiceType;
 
   /// e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
-  String invoiceNumber;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? invoiceNumber;
+
+  /// Optional Group ID for batch processing
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? groupId;
 
   DateTime issueDate;
 
@@ -91,21 +107,9 @@ class ElectronicDocument {
   /// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
   ElectronicDocumentCreditNoteIndicatorEnum? creditNoteIndicator;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? deferredSendingIndicator;
+  ElectronicDocumentDeferredSendingIndicatorEnum? deferredSendingIndicator;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? taxedAmountIndicator;
+  ElectronicDocumentTaxedAmountIndicatorEnum? taxedAmountIndicator;
 
   /// 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
   ElectronicDocumentIncomeTypeEnum? incomeType;
@@ -379,6 +383,7 @@ class ElectronicDocument {
     other.version == version &&
     other.invoiceType == invoiceType &&
     other.invoiceNumber == invoiceNumber &&
+    other.groupId == groupId &&
     other.issueDate == issueDate &&
     other.expirationDate == expirationDate &&
     other.creditNoteIndicator == creditNoteIndicator &&
@@ -429,7 +434,8 @@ class ElectronicDocument {
     (environment == null ? 0 : environment!.hashCode) +
     (version.hashCode) +
     (invoiceType.hashCode) +
-    (invoiceNumber.hashCode) +
+    (invoiceNumber == null ? 0 : invoiceNumber!.hashCode) +
+    (groupId == null ? 0 : groupId!.hashCode) +
     (issueDate.hashCode) +
     (expirationDate == null ? 0 : expirationDate!.hashCode) +
     (creditNoteIndicator == null ? 0 : creditNoteIndicator!.hashCode) +
@@ -475,7 +481,7 @@ class ElectronicDocument {
     (pages == null ? 0 : pages!.hashCode);
 
   @override
-  String toString() => 'ElectronicDocument[environment=$environment, version=$version, invoiceType=$invoiceType, invoiceNumber=$invoiceNumber, issueDate=$issueDate, expirationDate=$expirationDate, creditNoteIndicator=$creditNoteIndicator, deferredSendingIndicator=$deferredSendingIndicator, taxedAmountIndicator=$taxedAmountIndicator, incomeType=$incomeType, paymentType=$paymentType, paymentDeadline=$paymentDeadline, paymentTerms=$paymentTerms, paymentForms=$paymentForms, paymentAccountType=$paymentAccountType, paymentAccountNumber=$paymentAccountNumber, paymentBank=$paymentBank, serviceStartDate=$serviceStartDate, serviceEndDate=$serviceEndDate, totalPages=$totalPages, issuerRNC=$issuerRNC, issuerBusinessName=$issuerBusinessName, issuerCommercialName=$issuerCommercialName, branchName=$branchName, issuerAddress=$issuerAddress, municipalityCode=$municipalityCode, provinceCode=$provinceCode, issuerPhones=$issuerPhones, issuerEmail=$issuerEmail, issuerWebsite=$issuerWebsite, issuerEconomicActivity=$issuerEconomicActivity, sellerCode=$sellerCode, internalInvoiceNumber=$internalInvoiceNumber, internalOrderNumber=$internalOrderNumber, salesZone=$salesZone, salesRoute=$salesRoute, additionalIssuerInfo=$additionalIssuerInfo, buyer=$buyer, items=$items, totals=$totals, transport=$transport, additionalInfo=$additionalInfo, alternativeCurrency=$alternativeCurrency, referenceInfo=$referenceInfo, subtotals=$subtotals, discountsOrSurcharges=$discountsOrSurcharges, pages=$pages]';
+  String toString() => 'ElectronicDocument[environment=$environment, version=$version, invoiceType=$invoiceType, invoiceNumber=$invoiceNumber, groupId=$groupId, issueDate=$issueDate, expirationDate=$expirationDate, creditNoteIndicator=$creditNoteIndicator, deferredSendingIndicator=$deferredSendingIndicator, taxedAmountIndicator=$taxedAmountIndicator, incomeType=$incomeType, paymentType=$paymentType, paymentDeadline=$paymentDeadline, paymentTerms=$paymentTerms, paymentForms=$paymentForms, paymentAccountType=$paymentAccountType, paymentAccountNumber=$paymentAccountNumber, paymentBank=$paymentBank, serviceStartDate=$serviceStartDate, serviceEndDate=$serviceEndDate, totalPages=$totalPages, issuerRNC=$issuerRNC, issuerBusinessName=$issuerBusinessName, issuerCommercialName=$issuerCommercialName, branchName=$branchName, issuerAddress=$issuerAddress, municipalityCode=$municipalityCode, provinceCode=$provinceCode, issuerPhones=$issuerPhones, issuerEmail=$issuerEmail, issuerWebsite=$issuerWebsite, issuerEconomicActivity=$issuerEconomicActivity, sellerCode=$sellerCode, internalInvoiceNumber=$internalInvoiceNumber, internalOrderNumber=$internalOrderNumber, salesZone=$salesZone, salesRoute=$salesRoute, additionalIssuerInfo=$additionalIssuerInfo, buyer=$buyer, items=$items, totals=$totals, transport=$transport, additionalInfo=$additionalInfo, alternativeCurrency=$alternativeCurrency, referenceInfo=$referenceInfo, subtotals=$subtotals, discountsOrSurcharges=$discountsOrSurcharges, pages=$pages]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -486,7 +492,16 @@ class ElectronicDocument {
     }
       json[r'version'] = this.version;
       json[r'invoiceType'] = this.invoiceType;
+    if (this.invoiceNumber != null) {
       json[r'invoiceNumber'] = this.invoiceNumber;
+    } else {
+      json[r'invoiceNumber'] = null;
+    }
+    if (this.groupId != null) {
+      json[r'groupId'] = this.groupId;
+    } else {
+      json[r'groupId'] = null;
+    }
       json[r'issueDate'] = this.issueDate.toUtc().toIso8601String();
     if (this.expirationDate != null) {
       json[r'expirationDate'] = this.expirationDate!.toUtc().toIso8601String();
@@ -696,8 +711,6 @@ class ElectronicDocument {
         assert(json[r'version'] != null, 'Required key "ElectronicDocument[version]" has a null value in JSON.');
         assert(json.containsKey(r'invoiceType'), 'Required key "ElectronicDocument[invoiceType]" is missing from JSON.');
         assert(json[r'invoiceType'] != null, 'Required key "ElectronicDocument[invoiceType]" has a null value in JSON.');
-        assert(json.containsKey(r'invoiceNumber'), 'Required key "ElectronicDocument[invoiceNumber]" is missing from JSON.');
-        assert(json[r'invoiceNumber'] != null, 'Required key "ElectronicDocument[invoiceNumber]" has a null value in JSON.');
         assert(json.containsKey(r'issueDate'), 'Required key "ElectronicDocument[issueDate]" is missing from JSON.');
         assert(json[r'issueDate'] != null, 'Required key "ElectronicDocument[issueDate]" has a null value in JSON.');
         assert(json.containsKey(r'paymentForms'), 'Required key "ElectronicDocument[paymentForms]" is missing from JSON.');
@@ -711,14 +724,15 @@ class ElectronicDocument {
 
       return ElectronicDocument(
         environment: Environment.fromJson(json[r'environment']),
-        version: mapValueOfType<int>(json, r'version')!,
+        version: mapValueOfType<String>(json, r'version')!,
         invoiceType: InvoiceType.fromJson(json[r'invoiceType'])!,
-        invoiceNumber: mapValueOfType<String>(json, r'invoiceNumber')!,
+        invoiceNumber: mapValueOfType<String>(json, r'invoiceNumber'),
+        groupId: mapValueOfType<String>(json, r'groupId'),
         issueDate: mapDateTime(json, r'issueDate', r'')!,
         expirationDate: mapDateTime(json, r'expirationDate', r''),
         creditNoteIndicator: ElectronicDocumentCreditNoteIndicatorEnum.fromJson(json[r'creditNoteIndicator']),
-        deferredSendingIndicator: mapValueOfType<String>(json, r'deferredSendingIndicator'),
-        taxedAmountIndicator: mapValueOfType<String>(json, r'taxedAmountIndicator'),
+        deferredSendingIndicator: ElectronicDocumentDeferredSendingIndicatorEnum.fromJson(json[r'deferredSendingIndicator']),
+        taxedAmountIndicator: ElectronicDocumentTaxedAmountIndicatorEnum.fromJson(json[r'taxedAmountIndicator']),
         incomeType: ElectronicDocumentIncomeTypeEnum.fromJson(json[r'incomeType']),
         paymentType: ElectronicDocumentPaymentTypeEnum.fromJson(json[r'paymentType']),
         paymentDeadline: mapDateTime(json, r'paymentDeadline', r''),
@@ -808,7 +822,6 @@ class ElectronicDocument {
   static const requiredKeys = <String>{
     'version',
     'invoiceType',
-    'invoiceNumber',
     'issueDate',
     'paymentForms',
     'items',
@@ -887,6 +900,151 @@ class ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer {
 
   /// Singleton [ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer] instance.
   static ElectronicDocumentCreditNoteIndicatorEnumTypeTransformer? _instance;
+}
+
+
+
+class ElectronicDocumentDeferredSendingIndicatorEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ElectronicDocumentDeferredSendingIndicatorEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n1 = ElectronicDocumentDeferredSendingIndicatorEnum._(r'1');
+
+  /// List of all possible values in this [enum][ElectronicDocumentDeferredSendingIndicatorEnum].
+  static const values = <ElectronicDocumentDeferredSendingIndicatorEnum>[
+    n1,
+  ];
+
+  static ElectronicDocumentDeferredSendingIndicatorEnum? fromJson(dynamic value) => ElectronicDocumentDeferredSendingIndicatorEnumTypeTransformer().decode(value);
+
+  static List<ElectronicDocumentDeferredSendingIndicatorEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ElectronicDocumentDeferredSendingIndicatorEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ElectronicDocumentDeferredSendingIndicatorEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ElectronicDocumentDeferredSendingIndicatorEnum] to String,
+/// and [decode] dynamic data back to [ElectronicDocumentDeferredSendingIndicatorEnum].
+class ElectronicDocumentDeferredSendingIndicatorEnumTypeTransformer {
+  factory ElectronicDocumentDeferredSendingIndicatorEnumTypeTransformer() => _instance ??= const ElectronicDocumentDeferredSendingIndicatorEnumTypeTransformer._();
+
+  const ElectronicDocumentDeferredSendingIndicatorEnumTypeTransformer._();
+
+  String encode(ElectronicDocumentDeferredSendingIndicatorEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ElectronicDocumentDeferredSendingIndicatorEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ElectronicDocumentDeferredSendingIndicatorEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'1': return ElectronicDocumentDeferredSendingIndicatorEnum.n1;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ElectronicDocumentDeferredSendingIndicatorEnumTypeTransformer] instance.
+  static ElectronicDocumentDeferredSendingIndicatorEnumTypeTransformer? _instance;
+}
+
+
+
+class ElectronicDocumentTaxedAmountIndicatorEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ElectronicDocumentTaxedAmountIndicatorEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n0 = ElectronicDocumentTaxedAmountIndicatorEnum._(r'0');
+  static const n1 = ElectronicDocumentTaxedAmountIndicatorEnum._(r'1');
+
+  /// List of all possible values in this [enum][ElectronicDocumentTaxedAmountIndicatorEnum].
+  static const values = <ElectronicDocumentTaxedAmountIndicatorEnum>[
+    n0,
+    n1,
+  ];
+
+  static ElectronicDocumentTaxedAmountIndicatorEnum? fromJson(dynamic value) => ElectronicDocumentTaxedAmountIndicatorEnumTypeTransformer().decode(value);
+
+  static List<ElectronicDocumentTaxedAmountIndicatorEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ElectronicDocumentTaxedAmountIndicatorEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ElectronicDocumentTaxedAmountIndicatorEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ElectronicDocumentTaxedAmountIndicatorEnum] to String,
+/// and [decode] dynamic data back to [ElectronicDocumentTaxedAmountIndicatorEnum].
+class ElectronicDocumentTaxedAmountIndicatorEnumTypeTransformer {
+  factory ElectronicDocumentTaxedAmountIndicatorEnumTypeTransformer() => _instance ??= const ElectronicDocumentTaxedAmountIndicatorEnumTypeTransformer._();
+
+  const ElectronicDocumentTaxedAmountIndicatorEnumTypeTransformer._();
+
+  String encode(ElectronicDocumentTaxedAmountIndicatorEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ElectronicDocumentTaxedAmountIndicatorEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ElectronicDocumentTaxedAmountIndicatorEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'0': return ElectronicDocumentTaxedAmountIndicatorEnum.n0;
+        case r'1': return ElectronicDocumentTaxedAmountIndicatorEnum.n1;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ElectronicDocumentTaxedAmountIndicatorEnumTypeTransformer] instance.
+  static ElectronicDocumentTaxedAmountIndicatorEnumTypeTransformer? _instance;
 }
 
 

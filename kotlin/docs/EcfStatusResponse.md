@@ -13,7 +13,7 @@
 | **businessRnc** | **kotlin.String** |  |  [optional] |
 | **environment** | [**Environment**](Environment.md) |  |  [optional] |
 | **receivedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **mensajes** | [**kotlin.collections.List&lt;EcfStatusResponseMensajesInner&gt;**](EcfStatusResponseMensajesInner.md) |  |  [optional] |
+| **mensajes** | [**kotlin.collections.List&lt;DgiiMessage&gt;**](DgiiMessage.md) |  |  [optional] |
 | **logs** | [**kotlin.collections.List&lt;ProcessingLog&gt;**](ProcessingLog.md) |  |  [optional] |
 | **source** | [**inline**](#Source) |  |  [optional] |
 

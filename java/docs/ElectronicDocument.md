@@ -9,14 +9,15 @@ Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain in
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**environment** | **Environment** |  |  [optional] |
-|**version** | **Integer** | Always 1. |  |
+|**version** | **String** | Always 1.0. |  |
 |**invoiceType** | **InvoiceType** |  |  |
-|**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  |
+|**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  [optional] |
+|**groupId** | **String** | Optional Group ID for batch processing |  [optional] |
 |**issueDate** | **OffsetDateTime** |  |  |
 |**expirationDate** | **OffsetDateTime** |  |  [optional] |
 |**creditNoteIndicator** | [**CreditNoteIndicatorEnum**](#CreditNoteIndicatorEnum) | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days |  [optional] |
-|**deferredSendingIndicator** | **String** |  |  [optional] |
-|**taxedAmountIndicator** | **String** |  |  [optional] |
+|**deferredSendingIndicator** | [**DeferredSendingIndicatorEnum**](#DeferredSendingIndicatorEnum) |  |  [optional] |
+|**taxedAmountIndicator** | [**TaxedAmountIndicatorEnum**](#TaxedAmountIndicatorEnum) |  |  [optional] |
 |**incomeType** | [**IncomeTypeEnum**](#IncomeTypeEnum) | 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other |  [optional] |
 |**paymentType** | [**PaymentTypeEnum**](#PaymentTypeEnum) | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed |  [optional] |
 |**paymentDeadline** | **OffsetDateTime** |  |  [optional] |
@@ -59,6 +60,23 @@ Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain in
 
 
 ## Enum: CreditNoteIndicatorEnum
+
+| Name | Value |
+|---- | -----|
+| _0 | &quot;0&quot; |
+| _1 | &quot;1&quot; |
+
+
+
+## Enum: DeferredSendingIndicatorEnum
+
+| Name | Value |
+|---- | -----|
+| _1 | &quot;1&quot; |
+
+
+
+## Enum: TaxedAmountIndicatorEnum
 
 | Name | Value |
 |---- | -----|

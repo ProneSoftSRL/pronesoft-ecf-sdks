@@ -45,13 +45,31 @@ data class ItemMiningInfo (
     val netWeightMining: java.math.BigDecimal? = null,
 
     @SerializedName("affiliationType")
-    val affiliationType: kotlin.String? = null,
+    val affiliationType: ItemMiningInfo.AffiliationType? = null,
 
     @SerializedName("settlement")
-    val settlement: kotlin.String? = null
+    val settlement: ItemMiningInfo.Settlement? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: _1,_2
+     */
+    enum class AffiliationType(val value: kotlin.String) {
+        @SerializedName(value = "1") _1("1"),
+        @SerializedName(value = "2") _2("2");
+    }
+    /**
+     * 
+     *
+     * Values: _1,_2
+     */
+    enum class Settlement(val value: kotlin.String) {
+        @SerializedName(value = "1") _1("1"),
+        @SerializedName(value = "2") _2("2");
+    }
 
 }
 

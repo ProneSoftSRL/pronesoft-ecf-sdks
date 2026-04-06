@@ -4,30 +4,30 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **totalAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  |
-| **taxableAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **taxableAmount1** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **taxableAmount2** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **taxableAmount3** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **exemptAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **itbisRate1** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **itbisRate2** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **itbisRate3** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **totalITBIS** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **itbis1** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **itbis2** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **itbis3** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **additionalTaxAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **additionalTaxes** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
-| **nonBillableAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **periodAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **previousBalance** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **advancePaymentAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **amountToPay** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **totalWithheldITBIS** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **totalIncomeTaxWithholding** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **totalITBISPerception** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **totalISRPerception** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **taxableAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **taxableAmount1** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **taxableAmount2** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **taxableAmount3** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **exemptAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **itbisRate1** | [**TotalsItbisRate1**](TotalsItbisRate1.md) |  |  [optional] |
+| **itbisRate2** | [**TotalsItbisRate2**](TotalsItbisRate2.md) |  |  [optional] |
+| **itbisRate3** | [**TotalsItbisRate3**](TotalsItbisRate3.md) |  |  [optional] |
+| **totalITBIS** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **itbis1** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **itbis2** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **itbis3** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **additionalTaxAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **additionalTaxes** | [**kotlin.collections.List&lt;AdditionalTax&gt;**](AdditionalTax.md) |  |  [optional] |
+| **totalAmount** | [**TotalsTotalAmount**](TotalsTotalAmount.md) |  |  [optional] |
+| **nonBillableAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **periodAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **previousBalance** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **advancePaymentAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **amountToPay** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **totalWithheldITBIS** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **totalIncomeTaxWithholding** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **totalITBISPerception** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+| **totalISRPerception** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
 
 
 

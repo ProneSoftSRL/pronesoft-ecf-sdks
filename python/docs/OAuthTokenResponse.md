@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **access_token** | **str** |  | [optional] 
 **token_type** | **str** |  | [optional] 
 **expires_in** | **int** | Token lifetime in seconds (24 hours &#x3D; 86400). | [optional] 
+**scope** | **List[str]** |  | [optional] 
 
 ## Example
 

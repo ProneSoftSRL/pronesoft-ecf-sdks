@@ -3,7 +3,7 @@ eCF-Pronesoft Integration API
 
 ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
-API version: 1.1.0
+API version: 1.2.0
 Contact: support@pronesoft.com
 */
 
@@ -21,14 +21,14 @@ type PaymentMethod string
 
 // List of PaymentMethod
 const (
-	PaymentMethod_1 PaymentMethod = "1"
-	PaymentMethod_2 PaymentMethod = "2"
-	PaymentMethod_3 PaymentMethod = "3"
-	PaymentMethod_4 PaymentMethod = "4"
-	PaymentMethod_5 PaymentMethod = "5"
-	PaymentMethod_6 PaymentMethod = "6"
-	PaymentMethod_7 PaymentMethod = "7"
-	PaymentMethod_8 PaymentMethod = "8"
+	_1 PaymentMethod = "1"
+	_2 PaymentMethod = "2"
+	_3 PaymentMethod = "3"
+	_4 PaymentMethod = "4"
+	_5 PaymentMethod = "5"
+	_6 PaymentMethod = "6"
+	_7 PaymentMethod = "7"
+	_8 PaymentMethod = "8"
 )
 
 // All allowed values of PaymentMethod enum

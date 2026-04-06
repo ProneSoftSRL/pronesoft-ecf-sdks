@@ -8,7 +8,9 @@
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**code** | **String** | DGII tax code (e.g. ISC, IECS) |  |
-|**amount** | **BigDecimal** |  |  [optional] |
+|**amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**rate** | **BigDecimal** |  |  [optional] |
+|**alternativeCurrencyAmount** | **BigDecimal** |  |  [optional] |
 
 
 

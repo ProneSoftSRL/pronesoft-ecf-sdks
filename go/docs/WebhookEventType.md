@@ -33,17 +33,11 @@
 
 * `BRANCH_STATUS_CHANGED` (value: `"branch.status_changed"`)
 
-* `SECURITY_NEW_LOGIN2` (value: `"security.new_login"`)
-
 * `MEMBER_INVITED` (value: `"member.invited"`)
 
 * `MEMBER_JOINED` (value: `"member.joined"`)
 
 * `MEMBER_REMOVED` (value: `"member.removed"`)
-
-* `CERTIFICATE_EXPIRING2` (value: `"certificate.expiring"`)
-
-* `COMMERCIAL_APPROVAL2` (value: `"commercial.approval"`)
 
 * `CERTIFICATION_COMPLETED` (value: `"certification.completed"`)
 

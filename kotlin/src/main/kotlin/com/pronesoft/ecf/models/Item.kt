@@ -26,9 +26,14 @@ package com.pronesoft.ecf.models
 import com.pronesoft.ecf.models.BillingIndicator
 import com.pronesoft.ecf.models.ItemAdditionalTax
 import com.pronesoft.ecf.models.ItemAlternativeCurrency
+import com.pronesoft.ecf.models.ItemAmount
 import com.pronesoft.ecf.models.ItemCodesInner
 import com.pronesoft.ecf.models.ItemDiscountInner
 import com.pronesoft.ecf.models.ItemMiningInfo
+import com.pronesoft.ecf.models.ItemQuantity
+import com.pronesoft.ecf.models.ItemSurchargeInner
+import com.pronesoft.ecf.models.ItemUnitPrice
+import com.pronesoft.ecf.models.ItemWithheldITBISAmount
 import com.pronesoft.ecf.models.Subquantity
 
 import com.google.gson.annotations.SerializedName
@@ -37,11 +42,10 @@ import com.google.gson.annotations.SerializedName
  * 
  *
  * @param name 
- * @param type 1=Product, 2=Service
+ * @param type 1=Good, 2=Service
  * @param billingIndicator 
  * @param quantity 
  * @param unitPrice 
- * @param amount 
  * @param lineNumber 
  * @param codes 
  * @param description 
@@ -63,6 +67,7 @@ import com.google.gson.annotations.SerializedName
  * @param surcharge 
  * @param additionalTaxes 
  * @param alternativeCurrency 
+ * @param amount 
  */
 
 
@@ -71,7 +76,7 @@ data class Item (
     @SerializedName("name")
     val name: kotlin.String,
 
-    /* 1=Product, 2=Service */
+    /* 1=Good, 2=Service */
     @SerializedName("type")
     val type: Item.Type,
 
@@ -79,13 +84,10 @@ data class Item (
     val billingIndicator: BillingIndicator,
 
     @SerializedName("quantity")
-    val quantity: kotlin.String,
+    val quantity: ItemQuantity,
 
     @SerializedName("unitPrice")
-    val unitPrice: kotlin.String,
-
-    @SerializedName("amount")
-    val amount: java.math.BigDecimal,
+    val unitPrice: ItemUnitPrice,
 
     @SerializedName("lineNumber")
     val lineNumber: kotlin.Int? = null,
@@ -100,22 +102,22 @@ data class Item (
     val withholdingAgentIndicator: kotlin.Int? = null,
 
     @SerializedName("withheldITBISAmount")
-    val withheldITBISAmount: java.math.BigDecimal? = null,
+    val withheldITBISAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("withheldISRAmount")
-    val withheldISRAmount: java.math.BigDecimal? = null,
+    val withheldISRAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("unitOfMeasure")
     val unitOfMeasure: kotlin.Int? = null,
 
     @SerializedName("referenceQuantity")
-    val referenceQuantity: java.math.BigDecimal? = null,
+    val referenceQuantity: ItemWithheldITBISAmount? = null,
 
     @SerializedName("referenceUnit")
     val referenceUnit: kotlin.Int? = null,
 
     @SerializedName("referenceUnitPrice")
-    val referenceUnitPrice: java.math.BigDecimal? = null,
+    val referenceUnitPrice: ItemWithheldITBISAmount? = null,
 
     @SerializedName("subquantities")
     val subquantities: kotlin.collections.List<Subquantity>? = null,
@@ -133,27 +135,30 @@ data class Item (
     val miningInfo: ItemMiningInfo? = null,
 
     @SerializedName("discountAmount")
-    val discountAmount: java.math.BigDecimal? = null,
+    val discountAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("discount")
     val discount: kotlin.collections.List<ItemDiscountInner>? = null,
 
     @SerializedName("surchargeAmount")
-    val surchargeAmount: java.math.BigDecimal? = null,
+    val surchargeAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("surcharge")
-    val surcharge: kotlin.collections.List<ItemDiscountInner>? = null,
+    val surcharge: kotlin.collections.List<ItemSurchargeInner>? = null,
 
     @SerializedName("additionalTaxes")
     val additionalTaxes: kotlin.collections.List<ItemAdditionalTax>? = null,
 
     @SerializedName("alternativeCurrency")
-    val alternativeCurrency: ItemAlternativeCurrency? = null
+    val alternativeCurrency: ItemAlternativeCurrency? = null,
+
+    @SerializedName("amount")
+    val amount: ItemAmount? = null
 
 ) {
 
     /**
-     * 1=Product, 2=Service
+     * 1=Good, 2=Service
      *
      * Values: _1,_2
      */

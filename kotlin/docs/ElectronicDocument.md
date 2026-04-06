@@ -4,18 +4,19 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **version** | **kotlin.Int** | Always 1. |  |
+| **version** | **kotlin.String** | Always 1.0. |  |
 | **invoiceType** | [**InvoiceType**](InvoiceType.md) |  |  |
-| **invoiceNumber** | **kotlin.String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  |
 | **issueDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
 | **paymentForms** | [**kotlin.collections.List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
 | **items** | [**kotlin.collections.List&lt;Item&gt;**](Item.md) |  |  |
 | **totals** | [**Totals**](Totals.md) |  |  |
 | **environment** | [**Environment**](Environment.md) |  |  [optional] |
+| **invoiceNumber** | **kotlin.String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  [optional] |
+| **groupId** | **kotlin.String** | Optional Group ID for batch processing |  [optional] |
 | **expirationDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **creditNoteIndicator** | [**inline**](#CreditNoteIndicator) | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days |  [optional] |
-| **deferredSendingIndicator** | **kotlin.String** |  |  [optional] |
-| **taxedAmountIndicator** | **kotlin.String** |  |  [optional] |
+| **deferredSendingIndicator** | [**inline**](#DeferredSendingIndicator) |  |  [optional] |
+| **taxedAmountIndicator** | [**inline**](#TaxedAmountIndicator) |  |  [optional] |
 | **incomeType** | [**inline**](#IncomeType) | 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other |  [optional] |
 | **paymentType** | [**inline**](#PaymentType) | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed |  [optional] |
 | **paymentDeadline** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
@@ -58,6 +59,20 @@
 | Name | Value |
 | ---- | ----- |
 | creditNoteIndicator | 0, 1 |
+
+
+<a id="DeferredSendingIndicator"></a>
+## Enum: deferredSendingIndicator
+| Name | Value |
+| ---- | ----- |
+| deferredSendingIndicator | 1 |
+
+
+<a id="TaxedAmountIndicator"></a>
+## Enum: taxedAmountIndicator
+| Name | Value |
+| ---- | ----- |
+| taxedAmountIndicator | 0, 1 |
 
 
 <a id="IncomeType"></a>

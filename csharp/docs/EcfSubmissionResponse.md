@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **Encf** | **string** |  | [optional] 
 **DocumentType** | **string** |  | [optional] 
 **PrintUrl** | **string** |  | [optional] 
+**IsSummary** | **bool** |  | [optional] 
 **AuthType** | **string** |  | [optional] 
 **Timestamp** | **DateTime** |  | [optional] 
 **Message** | **string** |  | [optional] 

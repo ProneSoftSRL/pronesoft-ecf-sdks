@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **BusinessRnc** | Pointer to **string** |  | [optional] 
 **Environment** | Pointer to [**Environment**](Environment.md) |  | [optional] 
 **ReceivedAt** | Pointer to **time.Time** |  | [optional] 
-**Mensajes** | Pointer to [**[]EcfStatusResponseMensajesInner**](EcfStatusResponseMensajesInner.md) |  | [optional] 
+**Mensajes** | Pointer to [**[]DgiiMessage**](DgiiMessage.md) |  | [optional] 
 **Logs** | Pointer to [**[]ProcessingLog**](ProcessingLog.md) |  | [optional] 
 **Source** | Pointer to **string** |  | [optional] 
 
@@ -263,20 +263,20 @@ HasReceivedAt returns a boolean if a field has been set.
 
 ### GetMensajes
 
-`func (o *EcfStatusResponse) GetMensajes() []EcfStatusResponseMensajesInner`
+`func (o *EcfStatusResponse) GetMensajes() []DgiiMessage`
 
 GetMensajes returns the Mensajes field if non-nil, zero value otherwise.
 
 ### GetMensajesOk
 
-`func (o *EcfStatusResponse) GetMensajesOk() (*[]EcfStatusResponseMensajesInner, bool)`
+`func (o *EcfStatusResponse) GetMensajesOk() (*[]DgiiMessage, bool)`
 
 GetMensajesOk returns a tuple with the Mensajes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMensajes
 
-`func (o *EcfStatusResponse) SetMensajes(v []EcfStatusResponseMensajesInner)`
+`func (o *EcfStatusResponse) SetMensajes(v []DgiiMessage)`
 
 SetMensajes sets Mensajes field to given value.
 

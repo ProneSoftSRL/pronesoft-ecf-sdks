@@ -19,12 +19,9 @@
 | SequenceVoided | sequence.voided |
 | BranchCreated | branch.created |
 | BranchStatusChanged | branch.status_changed |
-| SecurityNewLogin2 | security.new_login |
 | MemberInvited | member.invited |
 | MemberJoined | member.joined |
 | MemberRemoved | member.removed |
-| CertificateExpiring2 | certificate.expiring |
-| CommercialApproval2 | commercial.approval |
 | CertificationCompleted | certification.completed |
 
 

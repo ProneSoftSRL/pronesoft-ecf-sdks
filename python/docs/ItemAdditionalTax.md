@@ -6,7 +6,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **str** | DGII tax code (e.g. ISC, IECS) | 
-**amount** | **float** |  | [optional] 
+**amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
+**rate** | **float** |  | [optional] 
+**alternative_currency_amount** | **float** |  | [optional] 
 
 ## Example
 

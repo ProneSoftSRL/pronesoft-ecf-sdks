@@ -11,29 +11,29 @@
 |**codes** | [**List&lt;ItemCodesInner&gt;**](ItemCodesInner.md) |  |  [optional] |
 |**name** | **String** |  |  |
 |**description** | **String** |  |  [optional] |
-|**type** | [**TypeEnum**](#TypeEnum) | 1&#x3D;Product, 2&#x3D;Service |  |
+|**type** | [**TypeEnum**](#TypeEnum) | 1&#x3D;Good, 2&#x3D;Service |  |
 |**billingIndicator** | **BillingIndicator** |  |  |
 |**withholdingAgentIndicator** | **Integer** |  |  [optional] |
-|**withheldITBISAmount** | **BigDecimal** |  |  [optional] |
-|**withheldISRAmount** | **BigDecimal** |  |  [optional] |
-|**quantity** | **String** |  |  |
+|**withheldITBISAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**withheldISRAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**quantity** | [**ItemQuantity**](ItemQuantity.md) |  |  |
 |**unitOfMeasure** | **Integer** |  |  [optional] |
-|**referenceQuantity** | **BigDecimal** |  |  [optional] |
+|**referenceQuantity** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
 |**referenceUnit** | **Integer** |  |  [optional] |
-|**referenceUnitPrice** | **BigDecimal** |  |  [optional] |
+|**referenceUnitPrice** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
 |**subquantities** | [**List&lt;Subquantity&gt;**](Subquantity.md) |  |  [optional] |
 |**alcoholDegree** | **BigDecimal** |  |  [optional] |
 |**manufacturingDate** | **OffsetDateTime** |  |  [optional] |
 |**expirationDate** | **OffsetDateTime** |  |  [optional] |
 |**miningInfo** | [**ItemMiningInfo**](ItemMiningInfo.md) |  |  [optional] |
-|**unitPrice** | **String** |  |  |
-|**discountAmount** | **BigDecimal** |  |  [optional] |
+|**unitPrice** | [**ItemUnitPrice**](ItemUnitPrice.md) |  |  |
+|**discountAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
 |**discount** | [**List&lt;ItemDiscountInner&gt;**](ItemDiscountInner.md) |  |  [optional] |
-|**surchargeAmount** | **BigDecimal** |  |  [optional] |
-|**surcharge** | [**List&lt;ItemDiscountInner&gt;**](ItemDiscountInner.md) |  |  [optional] |
+|**surchargeAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**surcharge** | [**List&lt;ItemSurchargeInner&gt;**](ItemSurchargeInner.md) |  |  [optional] |
 |**additionalTaxes** | [**List&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) |  |  [optional] |
 |**alternativeCurrency** | [**ItemAlternativeCurrency**](ItemAlternativeCurrency.md) |  |  [optional] |
-|**amount** | **BigDecimal** |  |  |
+|**amount** | [**ItemAmount**](ItemAmount.md) |  |  [optional] |
 
 
 

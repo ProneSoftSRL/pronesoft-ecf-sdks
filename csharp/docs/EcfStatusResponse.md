@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **BusinessRnc** | **string** |  | [optional] 
 **VarEnvironment** | **ModelEnvironment** |  | [optional] 
 **ReceivedAt** | **DateTime** |  | [optional] 
-**Mensajes** | [**List&lt;EcfStatusResponseMensajesInner&gt;**](EcfStatusResponseMensajesInner.md) |  | [optional] 
+**Mensajes** | [**List&lt;DgiiMessage&gt;**](DgiiMessage.md) |  | [optional] 
 **Logs** | [**List&lt;ProcessingLog&gt;**](ProcessingLog.md) |  | [optional] 
 **Source** | **string** |  | [optional] 
 

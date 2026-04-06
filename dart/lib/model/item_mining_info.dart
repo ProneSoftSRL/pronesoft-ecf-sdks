@@ -35,21 +35,9 @@ class ItemMiningInfo {
   ///
   num? netWeightMining;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? affiliationType;
+  ItemMiningInfoAffiliationTypeEnum? affiliationType;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? settlement;
+  ItemMiningInfoSettlementEnum? settlement;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ItemMiningInfo &&
@@ -111,8 +99,8 @@ class ItemMiningInfo {
       return ItemMiningInfo(
         netWeightKg: num.parse('${json[r'netWeightKg']}'),
         netWeightMining: num.parse('${json[r'netWeightMining']}'),
-        affiliationType: mapValueOfType<String>(json, r'affiliationType'),
-        settlement: mapValueOfType<String>(json, r'settlement'),
+        affiliationType: ItemMiningInfoAffiliationTypeEnum.fromJson(json[r'affiliationType']),
+        settlement: ItemMiningInfoSettlementEnum.fromJson(json[r'settlement']),
       );
     }
     return null;
@@ -162,4 +150,152 @@ class ItemMiningInfo {
   static const requiredKeys = <String>{
   };
 }
+
+
+class ItemMiningInfoAffiliationTypeEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ItemMiningInfoAffiliationTypeEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n1 = ItemMiningInfoAffiliationTypeEnum._(r'1');
+  static const n2 = ItemMiningInfoAffiliationTypeEnum._(r'2');
+
+  /// List of all possible values in this [enum][ItemMiningInfoAffiliationTypeEnum].
+  static const values = <ItemMiningInfoAffiliationTypeEnum>[
+    n1,
+    n2,
+  ];
+
+  static ItemMiningInfoAffiliationTypeEnum? fromJson(dynamic value) => ItemMiningInfoAffiliationTypeEnumTypeTransformer().decode(value);
+
+  static List<ItemMiningInfoAffiliationTypeEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ItemMiningInfoAffiliationTypeEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ItemMiningInfoAffiliationTypeEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ItemMiningInfoAffiliationTypeEnum] to String,
+/// and [decode] dynamic data back to [ItemMiningInfoAffiliationTypeEnum].
+class ItemMiningInfoAffiliationTypeEnumTypeTransformer {
+  factory ItemMiningInfoAffiliationTypeEnumTypeTransformer() => _instance ??= const ItemMiningInfoAffiliationTypeEnumTypeTransformer._();
+
+  const ItemMiningInfoAffiliationTypeEnumTypeTransformer._();
+
+  String encode(ItemMiningInfoAffiliationTypeEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ItemMiningInfoAffiliationTypeEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ItemMiningInfoAffiliationTypeEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'1': return ItemMiningInfoAffiliationTypeEnum.n1;
+        case r'2': return ItemMiningInfoAffiliationTypeEnum.n2;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ItemMiningInfoAffiliationTypeEnumTypeTransformer] instance.
+  static ItemMiningInfoAffiliationTypeEnumTypeTransformer? _instance;
+}
+
+
+
+class ItemMiningInfoSettlementEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ItemMiningInfoSettlementEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n1 = ItemMiningInfoSettlementEnum._(r'1');
+  static const n2 = ItemMiningInfoSettlementEnum._(r'2');
+
+  /// List of all possible values in this [enum][ItemMiningInfoSettlementEnum].
+  static const values = <ItemMiningInfoSettlementEnum>[
+    n1,
+    n2,
+  ];
+
+  static ItemMiningInfoSettlementEnum? fromJson(dynamic value) => ItemMiningInfoSettlementEnumTypeTransformer().decode(value);
+
+  static List<ItemMiningInfoSettlementEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ItemMiningInfoSettlementEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ItemMiningInfoSettlementEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ItemMiningInfoSettlementEnum] to String,
+/// and [decode] dynamic data back to [ItemMiningInfoSettlementEnum].
+class ItemMiningInfoSettlementEnumTypeTransformer {
+  factory ItemMiningInfoSettlementEnumTypeTransformer() => _instance ??= const ItemMiningInfoSettlementEnumTypeTransformer._();
+
+  const ItemMiningInfoSettlementEnumTypeTransformer._();
+
+  String encode(ItemMiningInfoSettlementEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ItemMiningInfoSettlementEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ItemMiningInfoSettlementEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'1': return ItemMiningInfoSettlementEnum.n1;
+        case r'2': return ItemMiningInfoSettlementEnum.n2;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ItemMiningInfoSettlementEnumTypeTransformer] instance.
+  static ItemMiningInfoSettlementEnumTypeTransformer? _instance;
+}
+
 

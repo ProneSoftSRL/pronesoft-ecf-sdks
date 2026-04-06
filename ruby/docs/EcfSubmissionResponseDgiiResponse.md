@@ -4,10 +4,12 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **estado** | **String** | Aprobado, Rechazado, En Proceso | [optional] |
 | **track_id** | **String** |  | [optional] |
-| **codigo_error** | **String** |  | [optional] |
-| **mensaje** | **String** |  | [optional] |
+| **estado** | **String** | Aprobado, Rechazado, En Proceso | [optional] |
+| **rnc** | **String** |  | [optional] |
+| **encf** | **String** |  | [optional] |
+| **fecha_recepcion** | **Time** |  | [optional] |
+| **mensajes** | [**Array&lt;DgiiMessage&gt;**](DgiiMessage.md) |  | [optional] |
 
 ## Example
 
@@ -15,10 +17,12 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::EcfSubmissionResponseDgiiResponse.new(
-  estado: null,
   track_id: null,
-  codigo_error: null,
-  mensaje: null
+  estado: null,
+  rnc: null,
+  encf: null,
+  fecha_recepcion: null,
+  mensajes: null
 )
 ```
 

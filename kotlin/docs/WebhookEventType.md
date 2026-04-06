@@ -34,17 +34,11 @@
 
     * `branchPeriodStatus_changed` (value: `"branch.status_changed"`)
 
-    * `securityPeriodNew_login2` (value: `"security.new_login"`)
-
     * `memberPeriodInvited` (value: `"member.invited"`)
 
     * `memberPeriodJoined` (value: `"member.joined"`)
 
     * `memberPeriodRemoved` (value: `"member.removed"`)
-
-    * `certificatePeriodExpiring2` (value: `"certificate.expiring"`)
-
-    * `commercialPeriodApproval2` (value: `"commercial.approval"`)
 
     * `certificationPeriodCompleted` (value: `"certification.completed"`)
 

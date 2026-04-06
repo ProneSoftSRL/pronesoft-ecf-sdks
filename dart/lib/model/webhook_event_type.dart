@@ -38,12 +38,9 @@ class WebhookEventType {
   static const sequencePeriodVoided = WebhookEventType._(r'sequence.voided');
   static const branchPeriodCreated = WebhookEventType._(r'branch.created');
   static const branchPeriodStatusChanged = WebhookEventType._(r'branch.status_changed');
-  static const securityPeriodNewLogin2 = WebhookEventType._(r'security.new_login');
   static const memberPeriodInvited = WebhookEventType._(r'member.invited');
   static const memberPeriodJoined = WebhookEventType._(r'member.joined');
   static const memberPeriodRemoved = WebhookEventType._(r'member.removed');
-  static const certificatePeriodExpiring2 = WebhookEventType._(r'certificate.expiring');
-  static const commercialPeriodApproval2 = WebhookEventType._(r'commercial.approval');
   static const certificationPeriodCompleted = WebhookEventType._(r'certification.completed');
 
   /// List of all possible values in this [enum][WebhookEventType].
@@ -63,12 +60,9 @@ class WebhookEventType {
     sequencePeriodVoided,
     branchPeriodCreated,
     branchPeriodStatusChanged,
-    securityPeriodNewLogin2,
     memberPeriodInvited,
     memberPeriodJoined,
     memberPeriodRemoved,
-    certificatePeriodExpiring2,
-    commercialPeriodApproval2,
     certificationPeriodCompleted,
   ];
 
@@ -123,12 +117,9 @@ class WebhookEventTypeTypeTransformer {
         case r'sequence.voided': return WebhookEventType.sequencePeriodVoided;
         case r'branch.created': return WebhookEventType.branchPeriodCreated;
         case r'branch.status_changed': return WebhookEventType.branchPeriodStatusChanged;
-        case r'security.new_login': return WebhookEventType.securityPeriodNewLogin2;
         case r'member.invited': return WebhookEventType.memberPeriodInvited;
         case r'member.joined': return WebhookEventType.memberPeriodJoined;
         case r'member.removed': return WebhookEventType.memberPeriodRemoved;
-        case r'certificate.expiring': return WebhookEventType.certificatePeriodExpiring2;
-        case r'commercial.approval': return WebhookEventType.commercialPeriodApproval2;
         case r'certification.completed': return WebhookEventType.certificationPeriodCompleted;
         default:
           if (!allowNull) {

@@ -15,6 +15,8 @@ class ItemAdditionalTax {
   ItemAdditionalTax({
     required this.code,
     this.amount,
+    this.rate,
+    this.alternativeCurrencyAmount,
   });
 
   /// DGII tax code (e.g. ISC, IECS)
@@ -26,21 +28,41 @@ class ItemAdditionalTax {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? amount;
+  ItemWithheldITBISAmount? amount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? rate;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? alternativeCurrencyAmount;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ItemAdditionalTax &&
     other.code == code &&
-    other.amount == amount;
+    other.amount == amount &&
+    other.rate == rate &&
+    other.alternativeCurrencyAmount == alternativeCurrencyAmount;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (code.hashCode) +
-    (amount == null ? 0 : amount!.hashCode);
+    (amount == null ? 0 : amount!.hashCode) +
+    (rate == null ? 0 : rate!.hashCode) +
+    (alternativeCurrencyAmount == null ? 0 : alternativeCurrencyAmount!.hashCode);
 
   @override
-  String toString() => 'ItemAdditionalTax[code=$code, amount=$amount]';
+  String toString() => 'ItemAdditionalTax[code=$code, amount=$amount, rate=$rate, alternativeCurrencyAmount=$alternativeCurrencyAmount]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -49,6 +71,16 @@ class ItemAdditionalTax {
       json[r'amount'] = this.amount;
     } else {
       json[r'amount'] = null;
+    }
+    if (this.rate != null) {
+      json[r'rate'] = this.rate;
+    } else {
+      json[r'rate'] = null;
+    }
+    if (this.alternativeCurrencyAmount != null) {
+      json[r'alternativeCurrencyAmount'] = this.alternativeCurrencyAmount;
+    } else {
+      json[r'alternativeCurrencyAmount'] = null;
     }
     return json;
   }
@@ -71,7 +103,9 @@ class ItemAdditionalTax {
 
       return ItemAdditionalTax(
         code: mapValueOfType<String>(json, r'code')!,
-        amount: num.parse('${json[r'amount']}'),
+        amount: ItemWithheldITBISAmount.fromJson(json[r'amount']),
+        rate: num.parse('${json[r'rate']}'),
+        alternativeCurrencyAmount: num.parse('${json[r'alternativeCurrencyAmount']}'),
       );
     }
     return null;

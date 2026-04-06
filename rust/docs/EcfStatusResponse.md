@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **business_rnc** | Option<**String**> |  | [optional]
 **environment** | Option<[**models::Environment**](Environment.md)> |  | [optional]
 **received_at** | Option<**String**> |  | [optional]
-**mensajes** | Option<[**Vec<models::EcfStatusResponseMensajesInner>**](EcfStatusResponseMensajesInner.md)> |  | [optional]
+**mensajes** | Option<[**Vec<models::DgiiMessage>**](DgiiMessage.md)> |  | [optional]
 **logs** | Option<[**Vec<models::ProcessingLog>**](ProcessingLog.md)> |  | [optional]
 **source** | Option<**Source**> |  (enum: dgii_direct, local_database) | [optional]
 

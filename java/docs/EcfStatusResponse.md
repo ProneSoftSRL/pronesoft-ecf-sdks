@@ -16,7 +16,7 @@
 |**businessRnc** | **String** |  |  [optional] |
 |**environment** | **Environment** |  |  [optional] |
 |**receivedAt** | **OffsetDateTime** |  |  [optional] |
-|**mensajes** | [**List&lt;EcfStatusResponseMensajesInner&gt;**](EcfStatusResponseMensajesInner.md) |  |  [optional] |
+|**mensajes** | [**List&lt;DgiiMessage&gt;**](DgiiMessage.md) |  |  [optional] |
 |**logs** | [**List&lt;ProcessingLog&gt;**](ProcessingLog.md) |  |  [optional] |
 |**source** | [**SourceEnum**](#SourceEnum) |  |  [optional] |
 

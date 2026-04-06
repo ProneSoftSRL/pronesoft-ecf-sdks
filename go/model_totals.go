@@ -3,7 +3,7 @@ eCF-Pronesoft Integration API
 
 ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
-API version: 1.1.0
+API version: 1.2.0
 Contact: support@pronesoft.com
 */
 
@@ -13,8 +13,6 @@ package ecf
 
 import (
 	"encoding/json"
-	"bytes"
-	"fmt"
 )
 
 // checks if the Totals type satisfies the MappedNullable interface at compile time
@@ -22,41 +20,38 @@ var _ MappedNullable = &Totals{}
 
 // Totals struct for Totals
 type Totals struct {
-	TaxableAmount *float32 `json:"taxableAmount,omitempty"`
-	TaxableAmount1 *float32 `json:"taxableAmount1,omitempty"`
-	TaxableAmount2 *float32 `json:"taxableAmount2,omitempty"`
-	TaxableAmount3 *float32 `json:"taxableAmount3,omitempty"`
-	ExemptAmount *float32 `json:"exemptAmount,omitempty"`
-	ItbisRate1 *float32 `json:"itbisRate1,omitempty"`
-	ItbisRate2 *float32 `json:"itbisRate2,omitempty"`
-	ItbisRate3 *float32 `json:"itbisRate3,omitempty"`
-	TotalITBIS *float32 `json:"totalITBIS,omitempty"`
-	Itbis1 *float32 `json:"itbis1,omitempty"`
-	Itbis2 *float32 `json:"itbis2,omitempty"`
-	Itbis3 *float32 `json:"itbis3,omitempty"`
-	AdditionalTaxAmount *float32 `json:"additionalTaxAmount,omitempty"`
-	AdditionalTaxes []string `json:"additionalTaxes,omitempty"`
-	TotalAmount float32 `json:"totalAmount"`
-	NonBillableAmount *float32 `json:"nonBillableAmount,omitempty"`
-	PeriodAmount *float32 `json:"periodAmount,omitempty"`
-	PreviousBalance *float32 `json:"previousBalance,omitempty"`
-	AdvancePaymentAmount *float32 `json:"advancePaymentAmount,omitempty"`
-	AmountToPay *float32 `json:"amountToPay,omitempty"`
-	TotalWithheldITBIS *float32 `json:"totalWithheldITBIS,omitempty"`
-	TotalIncomeTaxWithholding *float32 `json:"totalIncomeTaxWithholding,omitempty"`
-	TotalITBISPerception *float32 `json:"totalITBISPerception,omitempty"`
-	TotalISRPerception *float32 `json:"totalISRPerception,omitempty"`
+	TaxableAmount *ItemWithheldITBISAmount `json:"taxableAmount,omitempty"`
+	TaxableAmount1 *ItemWithheldITBISAmount `json:"taxableAmount1,omitempty"`
+	TaxableAmount2 *ItemWithheldITBISAmount `json:"taxableAmount2,omitempty"`
+	TaxableAmount3 *ItemWithheldITBISAmount `json:"taxableAmount3,omitempty"`
+	ExemptAmount *ItemWithheldITBISAmount `json:"exemptAmount,omitempty"`
+	ItbisRate1 *TotalsItbisRate1 `json:"itbisRate1,omitempty"`
+	ItbisRate2 *TotalsItbisRate2 `json:"itbisRate2,omitempty"`
+	ItbisRate3 *TotalsItbisRate3 `json:"itbisRate3,omitempty"`
+	TotalITBIS *ItemWithheldITBISAmount `json:"totalITBIS,omitempty"`
+	Itbis1 *ItemWithheldITBISAmount `json:"itbis1,omitempty"`
+	Itbis2 *ItemWithheldITBISAmount `json:"itbis2,omitempty"`
+	Itbis3 *ItemWithheldITBISAmount `json:"itbis3,omitempty"`
+	AdditionalTaxAmount *ItemWithheldITBISAmount `json:"additionalTaxAmount,omitempty"`
+	AdditionalTaxes []AdditionalTax `json:"additionalTaxes,omitempty"`
+	TotalAmount *TotalsTotalAmount `json:"totalAmount,omitempty"`
+	NonBillableAmount *ItemWithheldITBISAmount `json:"nonBillableAmount,omitempty"`
+	PeriodAmount *ItemWithheldITBISAmount `json:"periodAmount,omitempty"`
+	PreviousBalance *ItemWithheldITBISAmount `json:"previousBalance,omitempty"`
+	AdvancePaymentAmount *ItemWithheldITBISAmount `json:"advancePaymentAmount,omitempty"`
+	AmountToPay *ItemWithheldITBISAmount `json:"amountToPay,omitempty"`
+	TotalWithheldITBIS *ItemWithheldITBISAmount `json:"totalWithheldITBIS,omitempty"`
+	TotalIncomeTaxWithholding *ItemWithheldITBISAmount `json:"totalIncomeTaxWithholding,omitempty"`
+	TotalITBISPerception *ItemWithheldITBISAmount `json:"totalITBISPerception,omitempty"`
+	TotalISRPerception *ItemWithheldITBISAmount `json:"totalISRPerception,omitempty"`
 }
-
-type _Totals Totals
 
 // NewTotals instantiates a new Totals object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTotals(totalAmount float32) *Totals {
+func NewTotals() *Totals {
 	this := Totals{}
-	this.TotalAmount = totalAmount
 	return &this
 }
 
@@ -69,9 +64,9 @@ func NewTotalsWithDefaults() *Totals {
 }
 
 // GetTaxableAmount returns the TaxableAmount field value if set, zero value otherwise.
-func (o *Totals) GetTaxableAmount() float32 {
+func (o *Totals) GetTaxableAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TaxableAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TaxableAmount
@@ -79,7 +74,7 @@ func (o *Totals) GetTaxableAmount() float32 {
 
 // GetTaxableAmountOk returns a tuple with the TaxableAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTaxableAmountOk() (*float32, bool) {
+func (o *Totals) GetTaxableAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TaxableAmount) {
 		return nil, false
 	}
@@ -95,15 +90,15 @@ func (o *Totals) HasTaxableAmount() bool {
 	return false
 }
 
-// SetTaxableAmount gets a reference to the given float32 and assigns it to the TaxableAmount field.
-func (o *Totals) SetTaxableAmount(v float32) {
+// SetTaxableAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the TaxableAmount field.
+func (o *Totals) SetTaxableAmount(v ItemWithheldITBISAmount) {
 	o.TaxableAmount = &v
 }
 
 // GetTaxableAmount1 returns the TaxableAmount1 field value if set, zero value otherwise.
-func (o *Totals) GetTaxableAmount1() float32 {
+func (o *Totals) GetTaxableAmount1() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TaxableAmount1) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TaxableAmount1
@@ -111,7 +106,7 @@ func (o *Totals) GetTaxableAmount1() float32 {
 
 // GetTaxableAmount1Ok returns a tuple with the TaxableAmount1 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTaxableAmount1Ok() (*float32, bool) {
+func (o *Totals) GetTaxableAmount1Ok() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TaxableAmount1) {
 		return nil, false
 	}
@@ -127,15 +122,15 @@ func (o *Totals) HasTaxableAmount1() bool {
 	return false
 }
 
-// SetTaxableAmount1 gets a reference to the given float32 and assigns it to the TaxableAmount1 field.
-func (o *Totals) SetTaxableAmount1(v float32) {
+// SetTaxableAmount1 gets a reference to the given ItemWithheldITBISAmount and assigns it to the TaxableAmount1 field.
+func (o *Totals) SetTaxableAmount1(v ItemWithheldITBISAmount) {
 	o.TaxableAmount1 = &v
 }
 
 // GetTaxableAmount2 returns the TaxableAmount2 field value if set, zero value otherwise.
-func (o *Totals) GetTaxableAmount2() float32 {
+func (o *Totals) GetTaxableAmount2() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TaxableAmount2) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TaxableAmount2
@@ -143,7 +138,7 @@ func (o *Totals) GetTaxableAmount2() float32 {
 
 // GetTaxableAmount2Ok returns a tuple with the TaxableAmount2 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTaxableAmount2Ok() (*float32, bool) {
+func (o *Totals) GetTaxableAmount2Ok() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TaxableAmount2) {
 		return nil, false
 	}
@@ -159,15 +154,15 @@ func (o *Totals) HasTaxableAmount2() bool {
 	return false
 }
 
-// SetTaxableAmount2 gets a reference to the given float32 and assigns it to the TaxableAmount2 field.
-func (o *Totals) SetTaxableAmount2(v float32) {
+// SetTaxableAmount2 gets a reference to the given ItemWithheldITBISAmount and assigns it to the TaxableAmount2 field.
+func (o *Totals) SetTaxableAmount2(v ItemWithheldITBISAmount) {
 	o.TaxableAmount2 = &v
 }
 
 // GetTaxableAmount3 returns the TaxableAmount3 field value if set, zero value otherwise.
-func (o *Totals) GetTaxableAmount3() float32 {
+func (o *Totals) GetTaxableAmount3() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TaxableAmount3) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TaxableAmount3
@@ -175,7 +170,7 @@ func (o *Totals) GetTaxableAmount3() float32 {
 
 // GetTaxableAmount3Ok returns a tuple with the TaxableAmount3 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTaxableAmount3Ok() (*float32, bool) {
+func (o *Totals) GetTaxableAmount3Ok() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TaxableAmount3) {
 		return nil, false
 	}
@@ -191,15 +186,15 @@ func (o *Totals) HasTaxableAmount3() bool {
 	return false
 }
 
-// SetTaxableAmount3 gets a reference to the given float32 and assigns it to the TaxableAmount3 field.
-func (o *Totals) SetTaxableAmount3(v float32) {
+// SetTaxableAmount3 gets a reference to the given ItemWithheldITBISAmount and assigns it to the TaxableAmount3 field.
+func (o *Totals) SetTaxableAmount3(v ItemWithheldITBISAmount) {
 	o.TaxableAmount3 = &v
 }
 
 // GetExemptAmount returns the ExemptAmount field value if set, zero value otherwise.
-func (o *Totals) GetExemptAmount() float32 {
+func (o *Totals) GetExemptAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.ExemptAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.ExemptAmount
@@ -207,7 +202,7 @@ func (o *Totals) GetExemptAmount() float32 {
 
 // GetExemptAmountOk returns a tuple with the ExemptAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetExemptAmountOk() (*float32, bool) {
+func (o *Totals) GetExemptAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.ExemptAmount) {
 		return nil, false
 	}
@@ -223,15 +218,15 @@ func (o *Totals) HasExemptAmount() bool {
 	return false
 }
 
-// SetExemptAmount gets a reference to the given float32 and assigns it to the ExemptAmount field.
-func (o *Totals) SetExemptAmount(v float32) {
+// SetExemptAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the ExemptAmount field.
+func (o *Totals) SetExemptAmount(v ItemWithheldITBISAmount) {
 	o.ExemptAmount = &v
 }
 
 // GetItbisRate1 returns the ItbisRate1 field value if set, zero value otherwise.
-func (o *Totals) GetItbisRate1() float32 {
+func (o *Totals) GetItbisRate1() TotalsItbisRate1 {
 	if o == nil || IsNil(o.ItbisRate1) {
-		var ret float32
+		var ret TotalsItbisRate1
 		return ret
 	}
 	return *o.ItbisRate1
@@ -239,7 +234,7 @@ func (o *Totals) GetItbisRate1() float32 {
 
 // GetItbisRate1Ok returns a tuple with the ItbisRate1 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetItbisRate1Ok() (*float32, bool) {
+func (o *Totals) GetItbisRate1Ok() (*TotalsItbisRate1, bool) {
 	if o == nil || IsNil(o.ItbisRate1) {
 		return nil, false
 	}
@@ -255,15 +250,15 @@ func (o *Totals) HasItbisRate1() bool {
 	return false
 }
 
-// SetItbisRate1 gets a reference to the given float32 and assigns it to the ItbisRate1 field.
-func (o *Totals) SetItbisRate1(v float32) {
+// SetItbisRate1 gets a reference to the given TotalsItbisRate1 and assigns it to the ItbisRate1 field.
+func (o *Totals) SetItbisRate1(v TotalsItbisRate1) {
 	o.ItbisRate1 = &v
 }
 
 // GetItbisRate2 returns the ItbisRate2 field value if set, zero value otherwise.
-func (o *Totals) GetItbisRate2() float32 {
+func (o *Totals) GetItbisRate2() TotalsItbisRate2 {
 	if o == nil || IsNil(o.ItbisRate2) {
-		var ret float32
+		var ret TotalsItbisRate2
 		return ret
 	}
 	return *o.ItbisRate2
@@ -271,7 +266,7 @@ func (o *Totals) GetItbisRate2() float32 {
 
 // GetItbisRate2Ok returns a tuple with the ItbisRate2 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetItbisRate2Ok() (*float32, bool) {
+func (o *Totals) GetItbisRate2Ok() (*TotalsItbisRate2, bool) {
 	if o == nil || IsNil(o.ItbisRate2) {
 		return nil, false
 	}
@@ -287,15 +282,15 @@ func (o *Totals) HasItbisRate2() bool {
 	return false
 }
 
-// SetItbisRate2 gets a reference to the given float32 and assigns it to the ItbisRate2 field.
-func (o *Totals) SetItbisRate2(v float32) {
+// SetItbisRate2 gets a reference to the given TotalsItbisRate2 and assigns it to the ItbisRate2 field.
+func (o *Totals) SetItbisRate2(v TotalsItbisRate2) {
 	o.ItbisRate2 = &v
 }
 
 // GetItbisRate3 returns the ItbisRate3 field value if set, zero value otherwise.
-func (o *Totals) GetItbisRate3() float32 {
+func (o *Totals) GetItbisRate3() TotalsItbisRate3 {
 	if o == nil || IsNil(o.ItbisRate3) {
-		var ret float32
+		var ret TotalsItbisRate3
 		return ret
 	}
 	return *o.ItbisRate3
@@ -303,7 +298,7 @@ func (o *Totals) GetItbisRate3() float32 {
 
 // GetItbisRate3Ok returns a tuple with the ItbisRate3 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetItbisRate3Ok() (*float32, bool) {
+func (o *Totals) GetItbisRate3Ok() (*TotalsItbisRate3, bool) {
 	if o == nil || IsNil(o.ItbisRate3) {
 		return nil, false
 	}
@@ -319,15 +314,15 @@ func (o *Totals) HasItbisRate3() bool {
 	return false
 }
 
-// SetItbisRate3 gets a reference to the given float32 and assigns it to the ItbisRate3 field.
-func (o *Totals) SetItbisRate3(v float32) {
+// SetItbisRate3 gets a reference to the given TotalsItbisRate3 and assigns it to the ItbisRate3 field.
+func (o *Totals) SetItbisRate3(v TotalsItbisRate3) {
 	o.ItbisRate3 = &v
 }
 
 // GetTotalITBIS returns the TotalITBIS field value if set, zero value otherwise.
-func (o *Totals) GetTotalITBIS() float32 {
+func (o *Totals) GetTotalITBIS() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TotalITBIS) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TotalITBIS
@@ -335,7 +330,7 @@ func (o *Totals) GetTotalITBIS() float32 {
 
 // GetTotalITBISOk returns a tuple with the TotalITBIS field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTotalITBISOk() (*float32, bool) {
+func (o *Totals) GetTotalITBISOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TotalITBIS) {
 		return nil, false
 	}
@@ -351,15 +346,15 @@ func (o *Totals) HasTotalITBIS() bool {
 	return false
 }
 
-// SetTotalITBIS gets a reference to the given float32 and assigns it to the TotalITBIS field.
-func (o *Totals) SetTotalITBIS(v float32) {
+// SetTotalITBIS gets a reference to the given ItemWithheldITBISAmount and assigns it to the TotalITBIS field.
+func (o *Totals) SetTotalITBIS(v ItemWithheldITBISAmount) {
 	o.TotalITBIS = &v
 }
 
 // GetItbis1 returns the Itbis1 field value if set, zero value otherwise.
-func (o *Totals) GetItbis1() float32 {
+func (o *Totals) GetItbis1() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.Itbis1) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.Itbis1
@@ -367,7 +362,7 @@ func (o *Totals) GetItbis1() float32 {
 
 // GetItbis1Ok returns a tuple with the Itbis1 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetItbis1Ok() (*float32, bool) {
+func (o *Totals) GetItbis1Ok() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.Itbis1) {
 		return nil, false
 	}
@@ -383,15 +378,15 @@ func (o *Totals) HasItbis1() bool {
 	return false
 }
 
-// SetItbis1 gets a reference to the given float32 and assigns it to the Itbis1 field.
-func (o *Totals) SetItbis1(v float32) {
+// SetItbis1 gets a reference to the given ItemWithheldITBISAmount and assigns it to the Itbis1 field.
+func (o *Totals) SetItbis1(v ItemWithheldITBISAmount) {
 	o.Itbis1 = &v
 }
 
 // GetItbis2 returns the Itbis2 field value if set, zero value otherwise.
-func (o *Totals) GetItbis2() float32 {
+func (o *Totals) GetItbis2() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.Itbis2) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.Itbis2
@@ -399,7 +394,7 @@ func (o *Totals) GetItbis2() float32 {
 
 // GetItbis2Ok returns a tuple with the Itbis2 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetItbis2Ok() (*float32, bool) {
+func (o *Totals) GetItbis2Ok() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.Itbis2) {
 		return nil, false
 	}
@@ -415,15 +410,15 @@ func (o *Totals) HasItbis2() bool {
 	return false
 }
 
-// SetItbis2 gets a reference to the given float32 and assigns it to the Itbis2 field.
-func (o *Totals) SetItbis2(v float32) {
+// SetItbis2 gets a reference to the given ItemWithheldITBISAmount and assigns it to the Itbis2 field.
+func (o *Totals) SetItbis2(v ItemWithheldITBISAmount) {
 	o.Itbis2 = &v
 }
 
 // GetItbis3 returns the Itbis3 field value if set, zero value otherwise.
-func (o *Totals) GetItbis3() float32 {
+func (o *Totals) GetItbis3() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.Itbis3) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.Itbis3
@@ -431,7 +426,7 @@ func (o *Totals) GetItbis3() float32 {
 
 // GetItbis3Ok returns a tuple with the Itbis3 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetItbis3Ok() (*float32, bool) {
+func (o *Totals) GetItbis3Ok() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.Itbis3) {
 		return nil, false
 	}
@@ -447,15 +442,15 @@ func (o *Totals) HasItbis3() bool {
 	return false
 }
 
-// SetItbis3 gets a reference to the given float32 and assigns it to the Itbis3 field.
-func (o *Totals) SetItbis3(v float32) {
+// SetItbis3 gets a reference to the given ItemWithheldITBISAmount and assigns it to the Itbis3 field.
+func (o *Totals) SetItbis3(v ItemWithheldITBISAmount) {
 	o.Itbis3 = &v
 }
 
 // GetAdditionalTaxAmount returns the AdditionalTaxAmount field value if set, zero value otherwise.
-func (o *Totals) GetAdditionalTaxAmount() float32 {
+func (o *Totals) GetAdditionalTaxAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.AdditionalTaxAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.AdditionalTaxAmount
@@ -463,7 +458,7 @@ func (o *Totals) GetAdditionalTaxAmount() float32 {
 
 // GetAdditionalTaxAmountOk returns a tuple with the AdditionalTaxAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetAdditionalTaxAmountOk() (*float32, bool) {
+func (o *Totals) GetAdditionalTaxAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.AdditionalTaxAmount) {
 		return nil, false
 	}
@@ -479,15 +474,15 @@ func (o *Totals) HasAdditionalTaxAmount() bool {
 	return false
 }
 
-// SetAdditionalTaxAmount gets a reference to the given float32 and assigns it to the AdditionalTaxAmount field.
-func (o *Totals) SetAdditionalTaxAmount(v float32) {
+// SetAdditionalTaxAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the AdditionalTaxAmount field.
+func (o *Totals) SetAdditionalTaxAmount(v ItemWithheldITBISAmount) {
 	o.AdditionalTaxAmount = &v
 }
 
 // GetAdditionalTaxes returns the AdditionalTaxes field value if set, zero value otherwise.
-func (o *Totals) GetAdditionalTaxes() []string {
+func (o *Totals) GetAdditionalTaxes() []AdditionalTax {
 	if o == nil || IsNil(o.AdditionalTaxes) {
-		var ret []string
+		var ret []AdditionalTax
 		return ret
 	}
 	return o.AdditionalTaxes
@@ -495,7 +490,7 @@ func (o *Totals) GetAdditionalTaxes() []string {
 
 // GetAdditionalTaxesOk returns a tuple with the AdditionalTaxes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetAdditionalTaxesOk() ([]string, bool) {
+func (o *Totals) GetAdditionalTaxesOk() ([]AdditionalTax, bool) {
 	if o == nil || IsNil(o.AdditionalTaxes) {
 		return nil, false
 	}
@@ -511,39 +506,47 @@ func (o *Totals) HasAdditionalTaxes() bool {
 	return false
 }
 
-// SetAdditionalTaxes gets a reference to the given []string and assigns it to the AdditionalTaxes field.
-func (o *Totals) SetAdditionalTaxes(v []string) {
+// SetAdditionalTaxes gets a reference to the given []AdditionalTax and assigns it to the AdditionalTaxes field.
+func (o *Totals) SetAdditionalTaxes(v []AdditionalTax) {
 	o.AdditionalTaxes = v
 }
 
-// GetTotalAmount returns the TotalAmount field value
-func (o *Totals) GetTotalAmount() float32 {
-	if o == nil {
-		var ret float32
+// GetTotalAmount returns the TotalAmount field value if set, zero value otherwise.
+func (o *Totals) GetTotalAmount() TotalsTotalAmount {
+	if o == nil || IsNil(o.TotalAmount) {
+		var ret TotalsTotalAmount
 		return ret
 	}
-
-	return o.TotalAmount
+	return *o.TotalAmount
 }
 
-// GetTotalAmountOk returns a tuple with the TotalAmount field value
+// GetTotalAmountOk returns a tuple with the TotalAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTotalAmountOk() (*float32, bool) {
-	if o == nil {
+func (o *Totals) GetTotalAmountOk() (*TotalsTotalAmount, bool) {
+	if o == nil || IsNil(o.TotalAmount) {
 		return nil, false
 	}
-	return &o.TotalAmount, true
+	return o.TotalAmount, true
 }
 
-// SetTotalAmount sets field value
-func (o *Totals) SetTotalAmount(v float32) {
-	o.TotalAmount = v
+// HasTotalAmount returns a boolean if a field has been set.
+func (o *Totals) HasTotalAmount() bool {
+	if o != nil && !IsNil(o.TotalAmount) {
+		return true
+	}
+
+	return false
+}
+
+// SetTotalAmount gets a reference to the given TotalsTotalAmount and assigns it to the TotalAmount field.
+func (o *Totals) SetTotalAmount(v TotalsTotalAmount) {
+	o.TotalAmount = &v
 }
 
 // GetNonBillableAmount returns the NonBillableAmount field value if set, zero value otherwise.
-func (o *Totals) GetNonBillableAmount() float32 {
+func (o *Totals) GetNonBillableAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.NonBillableAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.NonBillableAmount
@@ -551,7 +554,7 @@ func (o *Totals) GetNonBillableAmount() float32 {
 
 // GetNonBillableAmountOk returns a tuple with the NonBillableAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetNonBillableAmountOk() (*float32, bool) {
+func (o *Totals) GetNonBillableAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.NonBillableAmount) {
 		return nil, false
 	}
@@ -567,15 +570,15 @@ func (o *Totals) HasNonBillableAmount() bool {
 	return false
 }
 
-// SetNonBillableAmount gets a reference to the given float32 and assigns it to the NonBillableAmount field.
-func (o *Totals) SetNonBillableAmount(v float32) {
+// SetNonBillableAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the NonBillableAmount field.
+func (o *Totals) SetNonBillableAmount(v ItemWithheldITBISAmount) {
 	o.NonBillableAmount = &v
 }
 
 // GetPeriodAmount returns the PeriodAmount field value if set, zero value otherwise.
-func (o *Totals) GetPeriodAmount() float32 {
+func (o *Totals) GetPeriodAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.PeriodAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.PeriodAmount
@@ -583,7 +586,7 @@ func (o *Totals) GetPeriodAmount() float32 {
 
 // GetPeriodAmountOk returns a tuple with the PeriodAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetPeriodAmountOk() (*float32, bool) {
+func (o *Totals) GetPeriodAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.PeriodAmount) {
 		return nil, false
 	}
@@ -599,15 +602,15 @@ func (o *Totals) HasPeriodAmount() bool {
 	return false
 }
 
-// SetPeriodAmount gets a reference to the given float32 and assigns it to the PeriodAmount field.
-func (o *Totals) SetPeriodAmount(v float32) {
+// SetPeriodAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the PeriodAmount field.
+func (o *Totals) SetPeriodAmount(v ItemWithheldITBISAmount) {
 	o.PeriodAmount = &v
 }
 
 // GetPreviousBalance returns the PreviousBalance field value if set, zero value otherwise.
-func (o *Totals) GetPreviousBalance() float32 {
+func (o *Totals) GetPreviousBalance() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.PreviousBalance) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.PreviousBalance
@@ -615,7 +618,7 @@ func (o *Totals) GetPreviousBalance() float32 {
 
 // GetPreviousBalanceOk returns a tuple with the PreviousBalance field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetPreviousBalanceOk() (*float32, bool) {
+func (o *Totals) GetPreviousBalanceOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.PreviousBalance) {
 		return nil, false
 	}
@@ -631,15 +634,15 @@ func (o *Totals) HasPreviousBalance() bool {
 	return false
 }
 
-// SetPreviousBalance gets a reference to the given float32 and assigns it to the PreviousBalance field.
-func (o *Totals) SetPreviousBalance(v float32) {
+// SetPreviousBalance gets a reference to the given ItemWithheldITBISAmount and assigns it to the PreviousBalance field.
+func (o *Totals) SetPreviousBalance(v ItemWithheldITBISAmount) {
 	o.PreviousBalance = &v
 }
 
 // GetAdvancePaymentAmount returns the AdvancePaymentAmount field value if set, zero value otherwise.
-func (o *Totals) GetAdvancePaymentAmount() float32 {
+func (o *Totals) GetAdvancePaymentAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.AdvancePaymentAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.AdvancePaymentAmount
@@ -647,7 +650,7 @@ func (o *Totals) GetAdvancePaymentAmount() float32 {
 
 // GetAdvancePaymentAmountOk returns a tuple with the AdvancePaymentAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetAdvancePaymentAmountOk() (*float32, bool) {
+func (o *Totals) GetAdvancePaymentAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.AdvancePaymentAmount) {
 		return nil, false
 	}
@@ -663,15 +666,15 @@ func (o *Totals) HasAdvancePaymentAmount() bool {
 	return false
 }
 
-// SetAdvancePaymentAmount gets a reference to the given float32 and assigns it to the AdvancePaymentAmount field.
-func (o *Totals) SetAdvancePaymentAmount(v float32) {
+// SetAdvancePaymentAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the AdvancePaymentAmount field.
+func (o *Totals) SetAdvancePaymentAmount(v ItemWithheldITBISAmount) {
 	o.AdvancePaymentAmount = &v
 }
 
 // GetAmountToPay returns the AmountToPay field value if set, zero value otherwise.
-func (o *Totals) GetAmountToPay() float32 {
+func (o *Totals) GetAmountToPay() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.AmountToPay) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.AmountToPay
@@ -679,7 +682,7 @@ func (o *Totals) GetAmountToPay() float32 {
 
 // GetAmountToPayOk returns a tuple with the AmountToPay field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetAmountToPayOk() (*float32, bool) {
+func (o *Totals) GetAmountToPayOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.AmountToPay) {
 		return nil, false
 	}
@@ -695,15 +698,15 @@ func (o *Totals) HasAmountToPay() bool {
 	return false
 }
 
-// SetAmountToPay gets a reference to the given float32 and assigns it to the AmountToPay field.
-func (o *Totals) SetAmountToPay(v float32) {
+// SetAmountToPay gets a reference to the given ItemWithheldITBISAmount and assigns it to the AmountToPay field.
+func (o *Totals) SetAmountToPay(v ItemWithheldITBISAmount) {
 	o.AmountToPay = &v
 }
 
 // GetTotalWithheldITBIS returns the TotalWithheldITBIS field value if set, zero value otherwise.
-func (o *Totals) GetTotalWithheldITBIS() float32 {
+func (o *Totals) GetTotalWithheldITBIS() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TotalWithheldITBIS) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TotalWithheldITBIS
@@ -711,7 +714,7 @@ func (o *Totals) GetTotalWithheldITBIS() float32 {
 
 // GetTotalWithheldITBISOk returns a tuple with the TotalWithheldITBIS field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTotalWithheldITBISOk() (*float32, bool) {
+func (o *Totals) GetTotalWithheldITBISOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TotalWithheldITBIS) {
 		return nil, false
 	}
@@ -727,15 +730,15 @@ func (o *Totals) HasTotalWithheldITBIS() bool {
 	return false
 }
 
-// SetTotalWithheldITBIS gets a reference to the given float32 and assigns it to the TotalWithheldITBIS field.
-func (o *Totals) SetTotalWithheldITBIS(v float32) {
+// SetTotalWithheldITBIS gets a reference to the given ItemWithheldITBISAmount and assigns it to the TotalWithheldITBIS field.
+func (o *Totals) SetTotalWithheldITBIS(v ItemWithheldITBISAmount) {
 	o.TotalWithheldITBIS = &v
 }
 
 // GetTotalIncomeTaxWithholding returns the TotalIncomeTaxWithholding field value if set, zero value otherwise.
-func (o *Totals) GetTotalIncomeTaxWithholding() float32 {
+func (o *Totals) GetTotalIncomeTaxWithholding() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TotalIncomeTaxWithholding) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TotalIncomeTaxWithholding
@@ -743,7 +746,7 @@ func (o *Totals) GetTotalIncomeTaxWithholding() float32 {
 
 // GetTotalIncomeTaxWithholdingOk returns a tuple with the TotalIncomeTaxWithholding field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTotalIncomeTaxWithholdingOk() (*float32, bool) {
+func (o *Totals) GetTotalIncomeTaxWithholdingOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TotalIncomeTaxWithholding) {
 		return nil, false
 	}
@@ -759,15 +762,15 @@ func (o *Totals) HasTotalIncomeTaxWithholding() bool {
 	return false
 }
 
-// SetTotalIncomeTaxWithholding gets a reference to the given float32 and assigns it to the TotalIncomeTaxWithholding field.
-func (o *Totals) SetTotalIncomeTaxWithholding(v float32) {
+// SetTotalIncomeTaxWithholding gets a reference to the given ItemWithheldITBISAmount and assigns it to the TotalIncomeTaxWithholding field.
+func (o *Totals) SetTotalIncomeTaxWithholding(v ItemWithheldITBISAmount) {
 	o.TotalIncomeTaxWithholding = &v
 }
 
 // GetTotalITBISPerception returns the TotalITBISPerception field value if set, zero value otherwise.
-func (o *Totals) GetTotalITBISPerception() float32 {
+func (o *Totals) GetTotalITBISPerception() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TotalITBISPerception) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TotalITBISPerception
@@ -775,7 +778,7 @@ func (o *Totals) GetTotalITBISPerception() float32 {
 
 // GetTotalITBISPerceptionOk returns a tuple with the TotalITBISPerception field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTotalITBISPerceptionOk() (*float32, bool) {
+func (o *Totals) GetTotalITBISPerceptionOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TotalITBISPerception) {
 		return nil, false
 	}
@@ -791,15 +794,15 @@ func (o *Totals) HasTotalITBISPerception() bool {
 	return false
 }
 
-// SetTotalITBISPerception gets a reference to the given float32 and assigns it to the TotalITBISPerception field.
-func (o *Totals) SetTotalITBISPerception(v float32) {
+// SetTotalITBISPerception gets a reference to the given ItemWithheldITBISAmount and assigns it to the TotalITBISPerception field.
+func (o *Totals) SetTotalITBISPerception(v ItemWithheldITBISAmount) {
 	o.TotalITBISPerception = &v
 }
 
 // GetTotalISRPerception returns the TotalISRPerception field value if set, zero value otherwise.
-func (o *Totals) GetTotalISRPerception() float32 {
+func (o *Totals) GetTotalISRPerception() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.TotalISRPerception) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.TotalISRPerception
@@ -807,7 +810,7 @@ func (o *Totals) GetTotalISRPerception() float32 {
 
 // GetTotalISRPerceptionOk returns a tuple with the TotalISRPerception field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Totals) GetTotalISRPerceptionOk() (*float32, bool) {
+func (o *Totals) GetTotalISRPerceptionOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.TotalISRPerception) {
 		return nil, false
 	}
@@ -823,8 +826,8 @@ func (o *Totals) HasTotalISRPerception() bool {
 	return false
 }
 
-// SetTotalISRPerception gets a reference to the given float32 and assigns it to the TotalISRPerception field.
-func (o *Totals) SetTotalISRPerception(v float32) {
+// SetTotalISRPerception gets a reference to the given ItemWithheldITBISAmount and assigns it to the TotalISRPerception field.
+func (o *Totals) SetTotalISRPerception(v ItemWithheldITBISAmount) {
 	o.TotalISRPerception = &v
 }
 
@@ -880,7 +883,9 @@ func (o Totals) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AdditionalTaxes) {
 		toSerialize["additionalTaxes"] = o.AdditionalTaxes
 	}
-	toSerialize["totalAmount"] = o.TotalAmount
+	if !IsNil(o.TotalAmount) {
+		toSerialize["totalAmount"] = o.TotalAmount
+	}
 	if !IsNil(o.NonBillableAmount) {
 		toSerialize["nonBillableAmount"] = o.NonBillableAmount
 	}
@@ -909,43 +914,6 @@ func (o Totals) ToMap() (map[string]interface{}, error) {
 		toSerialize["totalISRPerception"] = o.TotalISRPerception
 	}
 	return toSerialize, nil
-}
-
-func (o *Totals) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"totalAmount",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
-	varTotals := _Totals{}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTotals)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Totals(varTotals)
-
-	return err
 }
 
 type NullableTotals struct {

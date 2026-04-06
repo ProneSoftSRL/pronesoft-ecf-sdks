@@ -18,13 +18,7 @@ class ItemDiscountInner {
     this.amount,
   });
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? type;
+  ItemDiscountInnerTypeEnum? type;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -40,7 +34,7 @@ class ItemDiscountInner {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? amount;
+  ItemWithheldITBISAmount? amount;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ItemDiscountInner &&
@@ -93,9 +87,9 @@ class ItemDiscountInner {
       }());
 
       return ItemDiscountInner(
-        type: mapValueOfType<String>(json, r'type'),
+        type: ItemDiscountInnerTypeEnum.fromJson(json[r'type']),
         value: num.parse('${json[r'value']}'),
-        amount: num.parse('${json[r'amount']}'),
+        amount: ItemWithheldITBISAmount.fromJson(json[r'amount']),
       );
     }
     return null;
@@ -145,4 +139,78 @@ class ItemDiscountInner {
   static const requiredKeys = <String>{
   };
 }
+
+
+class ItemDiscountInnerTypeEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ItemDiscountInnerTypeEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const dollar = ItemDiscountInnerTypeEnum._(r'$');
+  static const percent = ItemDiscountInnerTypeEnum._(r'%');
+
+  /// List of all possible values in this [enum][ItemDiscountInnerTypeEnum].
+  static const values = <ItemDiscountInnerTypeEnum>[
+    dollar,
+    percent,
+  ];
+
+  static ItemDiscountInnerTypeEnum? fromJson(dynamic value) => ItemDiscountInnerTypeEnumTypeTransformer().decode(value);
+
+  static List<ItemDiscountInnerTypeEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ItemDiscountInnerTypeEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ItemDiscountInnerTypeEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ItemDiscountInnerTypeEnum] to String,
+/// and [decode] dynamic data back to [ItemDiscountInnerTypeEnum].
+class ItemDiscountInnerTypeEnumTypeTransformer {
+  factory ItemDiscountInnerTypeEnumTypeTransformer() => _instance ??= const ItemDiscountInnerTypeEnumTypeTransformer._();
+
+  const ItemDiscountInnerTypeEnumTypeTransformer._();
+
+  String encode(ItemDiscountInnerTypeEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ItemDiscountInnerTypeEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ItemDiscountInnerTypeEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'$': return ItemDiscountInnerTypeEnum.dollar;
+        case r'%': return ItemDiscountInnerTypeEnum.percent;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ItemDiscountInnerTypeEnumTypeTransformer] instance.
+  static ItemDiscountInnerTypeEnumTypeTransformer? _instance;
+}
+
 

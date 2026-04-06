@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **AccessToken** | Pointer to **string** |  | [optional] 
 **TokenType** | Pointer to **string** |  | [optional] 
 **ExpiresIn** | Pointer to **int32** | Token lifetime in seconds (24 hours &#x3D; 86400). | [optional] 
+**Scope** | Pointer to **[]string** |  | [optional] 
 
 ## Methods
 
@@ -101,6 +102,31 @@ SetExpiresIn sets ExpiresIn field to given value.
 `func (o *OAuthTokenResponse) HasExpiresIn() bool`
 
 HasExpiresIn returns a boolean if a field has been set.
+
+### GetScope
+
+`func (o *OAuthTokenResponse) GetScope() []string`
+
+GetScope returns the Scope field if non-nil, zero value otherwise.
+
+### GetScopeOk
+
+`func (o *OAuthTokenResponse) GetScopeOk() (*[]string, bool)`
+
+GetScopeOk returns a tuple with the Scope field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetScope
+
+`func (o *OAuthTokenResponse) SetScope(v []string)`
+
+SetScope sets Scope field to given value.
+
+### HasScope
+
+`func (o *OAuthTokenResponse) HasScope() bool`
+
+HasScope returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

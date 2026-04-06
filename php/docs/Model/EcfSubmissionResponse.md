@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **encf** | **string** |  | [optional]
 **document_type** | **string** |  | [optional]
 **print_url** | **string** |  | [optional]
+**is_summary** | **bool** |  | [optional]
 **auth_type** | **string** |  | [optional]
 **timestamp** | **\DateTime** |  | [optional]
 **message** | **string** |  | [optional]

@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **encf** | Option<**String**> |  | [optional]
 **document_type** | Option<**String**> |  | [optional]
 **print_url** | Option<**String**> |  | [optional]
+**is_summary** | Option<**bool**> |  | [optional]
 **auth_type** | Option<**String**> |  | [optional]
 **timestamp** | Option<**String**> |  | [optional]
 **message** | Option<**String**> |  | [optional]

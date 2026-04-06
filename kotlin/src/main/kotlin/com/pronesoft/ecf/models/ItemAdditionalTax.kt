@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.ItemWithheldITBISAmount
 
 import com.google.gson.annotations.SerializedName
 
@@ -31,6 +32,8 @@ import com.google.gson.annotations.SerializedName
  *
  * @param code DGII tax code (e.g. ISC, IECS)
  * @param amount 
+ * @param rate 
+ * @param alternativeCurrencyAmount 
  */
 
 
@@ -41,7 +44,13 @@ data class ItemAdditionalTax (
     val code: kotlin.String,
 
     @SerializedName("amount")
-    val amount: java.math.BigDecimal? = null
+    val amount: ItemWithheldITBISAmount? = null,
+
+    @SerializedName("rate")
+    val rate: java.math.BigDecimal? = null,
+
+    @SerializedName("alternativeCurrencyAmount")
+    val alternativeCurrencyAmount: java.math.BigDecimal? = null
 
 ) {
 

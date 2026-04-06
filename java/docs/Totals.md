@@ -7,30 +7,30 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**taxableAmount** | **BigDecimal** |  |  [optional] |
-|**taxableAmount1** | **BigDecimal** |  |  [optional] |
-|**taxableAmount2** | **BigDecimal** |  |  [optional] |
-|**taxableAmount3** | **BigDecimal** |  |  [optional] |
-|**exemptAmount** | **BigDecimal** |  |  [optional] |
-|**itbisRate1** | **BigDecimal** |  |  [optional] |
-|**itbisRate2** | **BigDecimal** |  |  [optional] |
-|**itbisRate3** | **BigDecimal** |  |  [optional] |
-|**totalITBIS** | **BigDecimal** |  |  [optional] |
-|**itbis1** | **BigDecimal** |  |  [optional] |
-|**itbis2** | **BigDecimal** |  |  [optional] |
-|**itbis3** | **BigDecimal** |  |  [optional] |
-|**additionalTaxAmount** | **BigDecimal** |  |  [optional] |
-|**additionalTaxes** | **List&lt;String&gt;** |  |  [optional] |
-|**totalAmount** | **BigDecimal** |  |  |
-|**nonBillableAmount** | **BigDecimal** |  |  [optional] |
-|**periodAmount** | **BigDecimal** |  |  [optional] |
-|**previousBalance** | **BigDecimal** |  |  [optional] |
-|**advancePaymentAmount** | **BigDecimal** |  |  [optional] |
-|**amountToPay** | **BigDecimal** |  |  [optional] |
-|**totalWithheldITBIS** | **BigDecimal** |  |  [optional] |
-|**totalIncomeTaxWithholding** | **BigDecimal** |  |  [optional] |
-|**totalITBISPerception** | **BigDecimal** |  |  [optional] |
-|**totalISRPerception** | **BigDecimal** |  |  [optional] |
+|**taxableAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**taxableAmount1** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**taxableAmount2** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**taxableAmount3** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**exemptAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**itbisRate1** | [**TotalsItbisRate1**](TotalsItbisRate1.md) |  |  [optional] |
+|**itbisRate2** | [**TotalsItbisRate2**](TotalsItbisRate2.md) |  |  [optional] |
+|**itbisRate3** | [**TotalsItbisRate3**](TotalsItbisRate3.md) |  |  [optional] |
+|**totalITBIS** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**itbis1** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**itbis2** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**itbis3** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**additionalTaxAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**additionalTaxes** | [**List&lt;AdditionalTax&gt;**](AdditionalTax.md) |  |  [optional] |
+|**totalAmount** | [**TotalsTotalAmount**](TotalsTotalAmount.md) |  |  [optional] |
+|**nonBillableAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**periodAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**previousBalance** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**advancePaymentAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**amountToPay** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**totalWithheldITBIS** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**totalIncomeTaxWithholding** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**totalITBISPerception** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
+|**totalISRPerception** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |
 
 
 

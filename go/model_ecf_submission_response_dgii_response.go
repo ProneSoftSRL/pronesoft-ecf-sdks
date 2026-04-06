@@ -3,7 +3,7 @@ eCF-Pronesoft Integration API
 
 ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
-API version: 1.1.0
+API version: 1.2.0
 Contact: support@pronesoft.com
 */
 
@@ -13,6 +13,7 @@ package ecf
 
 import (
 	"encoding/json"
+	"time"
 )
 
 // checks if the EcfSubmissionResponseDgiiResponse type satisfies the MappedNullable interface at compile time
@@ -20,11 +21,13 @@ var _ MappedNullable = &EcfSubmissionResponseDgiiResponse{}
 
 // EcfSubmissionResponseDgiiResponse struct for EcfSubmissionResponseDgiiResponse
 type EcfSubmissionResponseDgiiResponse struct {
+	TrackId *string `json:"trackId,omitempty"`
 	// Aprobado, Rechazado, En Proceso
 	Estado *string `json:"estado,omitempty"`
-	TrackId *string `json:"trackId,omitempty"`
-	CodigoError *string `json:"codigoError,omitempty"`
-	Mensaje *string `json:"mensaje,omitempty"`
+	Rnc *string `json:"rnc,omitempty"`
+	Encf *string `json:"encf,omitempty"`
+	FechaRecepcion *time.Time `json:"fechaRecepcion,omitempty"`
+	Mensajes []DgiiMessage `json:"mensajes,omitempty"`
 }
 
 // NewEcfSubmissionResponseDgiiResponse instantiates a new EcfSubmissionResponseDgiiResponse object
@@ -42,38 +45,6 @@ func NewEcfSubmissionResponseDgiiResponse() *EcfSubmissionResponseDgiiResponse {
 func NewEcfSubmissionResponseDgiiResponseWithDefaults() *EcfSubmissionResponseDgiiResponse {
 	this := EcfSubmissionResponseDgiiResponse{}
 	return &this
-}
-
-// GetEstado returns the Estado field value if set, zero value otherwise.
-func (o *EcfSubmissionResponseDgiiResponse) GetEstado() string {
-	if o == nil || IsNil(o.Estado) {
-		var ret string
-		return ret
-	}
-	return *o.Estado
-}
-
-// GetEstadoOk returns a tuple with the Estado field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EcfSubmissionResponseDgiiResponse) GetEstadoOk() (*string, bool) {
-	if o == nil || IsNil(o.Estado) {
-		return nil, false
-	}
-	return o.Estado, true
-}
-
-// HasEstado returns a boolean if a field has been set.
-func (o *EcfSubmissionResponseDgiiResponse) HasEstado() bool {
-	if o != nil && !IsNil(o.Estado) {
-		return true
-	}
-
-	return false
-}
-
-// SetEstado gets a reference to the given string and assigns it to the Estado field.
-func (o *EcfSubmissionResponseDgiiResponse) SetEstado(v string) {
-	o.Estado = &v
 }
 
 // GetTrackId returns the TrackId field value if set, zero value otherwise.
@@ -108,68 +79,164 @@ func (o *EcfSubmissionResponseDgiiResponse) SetTrackId(v string) {
 	o.TrackId = &v
 }
 
-// GetCodigoError returns the CodigoError field value if set, zero value otherwise.
-func (o *EcfSubmissionResponseDgiiResponse) GetCodigoError() string {
-	if o == nil || IsNil(o.CodigoError) {
+// GetEstado returns the Estado field value if set, zero value otherwise.
+func (o *EcfSubmissionResponseDgiiResponse) GetEstado() string {
+	if o == nil || IsNil(o.Estado) {
 		var ret string
 		return ret
 	}
-	return *o.CodigoError
+	return *o.Estado
 }
 
-// GetCodigoErrorOk returns a tuple with the CodigoError field value if set, nil otherwise
+// GetEstadoOk returns a tuple with the Estado field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EcfSubmissionResponseDgiiResponse) GetCodigoErrorOk() (*string, bool) {
-	if o == nil || IsNil(o.CodigoError) {
+func (o *EcfSubmissionResponseDgiiResponse) GetEstadoOk() (*string, bool) {
+	if o == nil || IsNil(o.Estado) {
 		return nil, false
 	}
-	return o.CodigoError, true
+	return o.Estado, true
 }
 
-// HasCodigoError returns a boolean if a field has been set.
-func (o *EcfSubmissionResponseDgiiResponse) HasCodigoError() bool {
-	if o != nil && !IsNil(o.CodigoError) {
+// HasEstado returns a boolean if a field has been set.
+func (o *EcfSubmissionResponseDgiiResponse) HasEstado() bool {
+	if o != nil && !IsNil(o.Estado) {
 		return true
 	}
 
 	return false
 }
 
-// SetCodigoError gets a reference to the given string and assigns it to the CodigoError field.
-func (o *EcfSubmissionResponseDgiiResponse) SetCodigoError(v string) {
-	o.CodigoError = &v
+// SetEstado gets a reference to the given string and assigns it to the Estado field.
+func (o *EcfSubmissionResponseDgiiResponse) SetEstado(v string) {
+	o.Estado = &v
 }
 
-// GetMensaje returns the Mensaje field value if set, zero value otherwise.
-func (o *EcfSubmissionResponseDgiiResponse) GetMensaje() string {
-	if o == nil || IsNil(o.Mensaje) {
+// GetRnc returns the Rnc field value if set, zero value otherwise.
+func (o *EcfSubmissionResponseDgiiResponse) GetRnc() string {
+	if o == nil || IsNil(o.Rnc) {
 		var ret string
 		return ret
 	}
-	return *o.Mensaje
+	return *o.Rnc
 }
 
-// GetMensajeOk returns a tuple with the Mensaje field value if set, nil otherwise
+// GetRncOk returns a tuple with the Rnc field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EcfSubmissionResponseDgiiResponse) GetMensajeOk() (*string, bool) {
-	if o == nil || IsNil(o.Mensaje) {
+func (o *EcfSubmissionResponseDgiiResponse) GetRncOk() (*string, bool) {
+	if o == nil || IsNil(o.Rnc) {
 		return nil, false
 	}
-	return o.Mensaje, true
+	return o.Rnc, true
 }
 
-// HasMensaje returns a boolean if a field has been set.
-func (o *EcfSubmissionResponseDgiiResponse) HasMensaje() bool {
-	if o != nil && !IsNil(o.Mensaje) {
+// HasRnc returns a boolean if a field has been set.
+func (o *EcfSubmissionResponseDgiiResponse) HasRnc() bool {
+	if o != nil && !IsNil(o.Rnc) {
 		return true
 	}
 
 	return false
 }
 
-// SetMensaje gets a reference to the given string and assigns it to the Mensaje field.
-func (o *EcfSubmissionResponseDgiiResponse) SetMensaje(v string) {
-	o.Mensaje = &v
+// SetRnc gets a reference to the given string and assigns it to the Rnc field.
+func (o *EcfSubmissionResponseDgiiResponse) SetRnc(v string) {
+	o.Rnc = &v
+}
+
+// GetEncf returns the Encf field value if set, zero value otherwise.
+func (o *EcfSubmissionResponseDgiiResponse) GetEncf() string {
+	if o == nil || IsNil(o.Encf) {
+		var ret string
+		return ret
+	}
+	return *o.Encf
+}
+
+// GetEncfOk returns a tuple with the Encf field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EcfSubmissionResponseDgiiResponse) GetEncfOk() (*string, bool) {
+	if o == nil || IsNil(o.Encf) {
+		return nil, false
+	}
+	return o.Encf, true
+}
+
+// HasEncf returns a boolean if a field has been set.
+func (o *EcfSubmissionResponseDgiiResponse) HasEncf() bool {
+	if o != nil && !IsNil(o.Encf) {
+		return true
+	}
+
+	return false
+}
+
+// SetEncf gets a reference to the given string and assigns it to the Encf field.
+func (o *EcfSubmissionResponseDgiiResponse) SetEncf(v string) {
+	o.Encf = &v
+}
+
+// GetFechaRecepcion returns the FechaRecepcion field value if set, zero value otherwise.
+func (o *EcfSubmissionResponseDgiiResponse) GetFechaRecepcion() time.Time {
+	if o == nil || IsNil(o.FechaRecepcion) {
+		var ret time.Time
+		return ret
+	}
+	return *o.FechaRecepcion
+}
+
+// GetFechaRecepcionOk returns a tuple with the FechaRecepcion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EcfSubmissionResponseDgiiResponse) GetFechaRecepcionOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.FechaRecepcion) {
+		return nil, false
+	}
+	return o.FechaRecepcion, true
+}
+
+// HasFechaRecepcion returns a boolean if a field has been set.
+func (o *EcfSubmissionResponseDgiiResponse) HasFechaRecepcion() bool {
+	if o != nil && !IsNil(o.FechaRecepcion) {
+		return true
+	}
+
+	return false
+}
+
+// SetFechaRecepcion gets a reference to the given time.Time and assigns it to the FechaRecepcion field.
+func (o *EcfSubmissionResponseDgiiResponse) SetFechaRecepcion(v time.Time) {
+	o.FechaRecepcion = &v
+}
+
+// GetMensajes returns the Mensajes field value if set, zero value otherwise.
+func (o *EcfSubmissionResponseDgiiResponse) GetMensajes() []DgiiMessage {
+	if o == nil || IsNil(o.Mensajes) {
+		var ret []DgiiMessage
+		return ret
+	}
+	return o.Mensajes
+}
+
+// GetMensajesOk returns a tuple with the Mensajes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EcfSubmissionResponseDgiiResponse) GetMensajesOk() ([]DgiiMessage, bool) {
+	if o == nil || IsNil(o.Mensajes) {
+		return nil, false
+	}
+	return o.Mensajes, true
+}
+
+// HasMensajes returns a boolean if a field has been set.
+func (o *EcfSubmissionResponseDgiiResponse) HasMensajes() bool {
+	if o != nil && !IsNil(o.Mensajes) {
+		return true
+	}
+
+	return false
+}
+
+// SetMensajes gets a reference to the given []DgiiMessage and assigns it to the Mensajes field.
+func (o *EcfSubmissionResponseDgiiResponse) SetMensajes(v []DgiiMessage) {
+	o.Mensajes = v
 }
 
 func (o EcfSubmissionResponseDgiiResponse) MarshalJSON() ([]byte, error) {
@@ -182,17 +249,23 @@ func (o EcfSubmissionResponseDgiiResponse) MarshalJSON() ([]byte, error) {
 
 func (o EcfSubmissionResponseDgiiResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Estado) {
-		toSerialize["estado"] = o.Estado
-	}
 	if !IsNil(o.TrackId) {
 		toSerialize["trackId"] = o.TrackId
 	}
-	if !IsNil(o.CodigoError) {
-		toSerialize["codigoError"] = o.CodigoError
+	if !IsNil(o.Estado) {
+		toSerialize["estado"] = o.Estado
 	}
-	if !IsNil(o.Mensaje) {
-		toSerialize["mensaje"] = o.Mensaje
+	if !IsNil(o.Rnc) {
+		toSerialize["rnc"] = o.Rnc
+	}
+	if !IsNil(o.Encf) {
+		toSerialize["encf"] = o.Encf
+	}
+	if !IsNil(o.FechaRecepcion) {
+		toSerialize["fechaRecepcion"] = o.FechaRecepcion
+	}
+	if !IsNil(o.Mensajes) {
+		toSerialize["mensajes"] = o.Mensajes
 	}
 	return toSerialize, nil
 }

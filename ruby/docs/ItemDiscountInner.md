@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **type** | **String** |  | [optional] |
 | **value** | **Float** |  | [optional] |
-| **amount** | **Float** |  | [optional] |
+| **amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
 
 ## Example
 

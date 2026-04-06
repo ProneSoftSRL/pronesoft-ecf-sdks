@@ -3,7 +3,7 @@ eCF-Pronesoft Integration API
 
 ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
-API version: 1.1.0
+API version: 1.2.0
 Contact: support@pronesoft.com
 */
 
@@ -24,11 +24,13 @@ var _ MappedNullable = &ElectronicDocument{}
 // ElectronicDocument Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
 type ElectronicDocument struct {
 	Environment *Environment `json:"environment,omitempty"`
-	// Always 1.
-	Version int32 `json:"version"`
+	// Always 1.0.
+	Version string `json:"version"`
 	InvoiceType InvoiceType `json:"invoiceType"`
 	// e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
-	InvoiceNumber string `json:"invoiceNumber"`
+	InvoiceNumber *string `json:"invoiceNumber,omitempty"`
+	// Optional Group ID for batch processing
+	GroupId *string `json:"groupId,omitempty"`
 	IssueDate time.Time `json:"issueDate"`
 	ExpirationDate *time.Time `json:"expirationDate,omitempty"`
 	// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
@@ -85,11 +87,10 @@ type _ElectronicDocument ElectronicDocument
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewElectronicDocument(version int32, invoiceType InvoiceType, invoiceNumber string, issueDate time.Time, paymentForms []PaymentForm, items []Item, totals Totals) *ElectronicDocument {
+func NewElectronicDocument(version string, invoiceType InvoiceType, issueDate time.Time, paymentForms []PaymentForm, items []Item, totals Totals) *ElectronicDocument {
 	this := ElectronicDocument{}
 	this.Version = version
 	this.InvoiceType = invoiceType
-	this.InvoiceNumber = invoiceNumber
 	this.IssueDate = issueDate
 	this.PaymentForms = paymentForms
 	this.Items = items
@@ -102,7 +103,7 @@ func NewElectronicDocument(version int32, invoiceType InvoiceType, invoiceNumber
 // but it doesn't guarantee that properties required by API are set
 func NewElectronicDocumentWithDefaults() *ElectronicDocument {
 	this := ElectronicDocument{}
-	var version int32 = 1
+	var version string = "1.0"
 	this.Version = version
 	return &this
 }
@@ -140,9 +141,9 @@ func (o *ElectronicDocument) SetEnvironment(v Environment) {
 }
 
 // GetVersion returns the Version field value
-func (o *ElectronicDocument) GetVersion() int32 {
+func (o *ElectronicDocument) GetVersion() string {
 	if o == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 
@@ -151,7 +152,7 @@ func (o *ElectronicDocument) GetVersion() int32 {
 
 // GetVersionOk returns a tuple with the Version field value
 // and a boolean to check if the value has been set.
-func (o *ElectronicDocument) GetVersionOk() (*int32, bool) {
+func (o *ElectronicDocument) GetVersionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -159,7 +160,7 @@ func (o *ElectronicDocument) GetVersionOk() (*int32, bool) {
 }
 
 // SetVersion sets field value
-func (o *ElectronicDocument) SetVersion(v int32) {
+func (o *ElectronicDocument) SetVersion(v string) {
 	o.Version = v
 }
 
@@ -187,28 +188,68 @@ func (o *ElectronicDocument) SetInvoiceType(v InvoiceType) {
 	o.InvoiceType = v
 }
 
-// GetInvoiceNumber returns the InvoiceNumber field value
+// GetInvoiceNumber returns the InvoiceNumber field value if set, zero value otherwise.
 func (o *ElectronicDocument) GetInvoiceNumber() string {
-	if o == nil {
+	if o == nil || IsNil(o.InvoiceNumber) {
 		var ret string
 		return ret
 	}
-
-	return o.InvoiceNumber
+	return *o.InvoiceNumber
 }
 
-// GetInvoiceNumberOk returns a tuple with the InvoiceNumber field value
+// GetInvoiceNumberOk returns a tuple with the InvoiceNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ElectronicDocument) GetInvoiceNumberOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.InvoiceNumber) {
 		return nil, false
 	}
-	return &o.InvoiceNumber, true
+	return o.InvoiceNumber, true
 }
 
-// SetInvoiceNumber sets field value
+// HasInvoiceNumber returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasInvoiceNumber() bool {
+	if o != nil && !IsNil(o.InvoiceNumber) {
+		return true
+	}
+
+	return false
+}
+
+// SetInvoiceNumber gets a reference to the given string and assigns it to the InvoiceNumber field.
 func (o *ElectronicDocument) SetInvoiceNumber(v string) {
-	o.InvoiceNumber = v
+	o.InvoiceNumber = &v
+}
+
+// GetGroupId returns the GroupId field value if set, zero value otherwise.
+func (o *ElectronicDocument) GetGroupId() string {
+	if o == nil || IsNil(o.GroupId) {
+		var ret string
+		return ret
+	}
+	return *o.GroupId
+}
+
+// GetGroupIdOk returns a tuple with the GroupId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ElectronicDocument) GetGroupIdOk() (*string, bool) {
+	if o == nil || IsNil(o.GroupId) {
+		return nil, false
+	}
+	return o.GroupId, true
+}
+
+// HasGroupId returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasGroupId() bool {
+	if o != nil && !IsNil(o.GroupId) {
+		return true
+	}
+
+	return false
+}
+
+// SetGroupId gets a reference to the given string and assigns it to the GroupId field.
+func (o *ElectronicDocument) SetGroupId(v string) {
+	o.GroupId = &v
 }
 
 // GetIssueDate returns the IssueDate field value
@@ -1570,7 +1611,12 @@ func (o ElectronicDocument) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["version"] = o.Version
 	toSerialize["invoiceType"] = o.InvoiceType
-	toSerialize["invoiceNumber"] = o.InvoiceNumber
+	if !IsNil(o.InvoiceNumber) {
+		toSerialize["invoiceNumber"] = o.InvoiceNumber
+	}
+	if !IsNil(o.GroupId) {
+		toSerialize["groupId"] = o.GroupId
+	}
 	toSerialize["issueDate"] = o.IssueDate
 	if !IsNil(o.ExpirationDate) {
 		toSerialize["expirationDate"] = o.ExpirationDate
@@ -1702,7 +1748,6 @@ func (o *ElectronicDocument) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"version",
 		"invoiceType",
-		"invoiceNumber",
 		"issueDate",
 		"paymentForms",
 		"items",

@@ -19,16 +19,22 @@ public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
 
     /** DGII tax code (e.g. ISC, IECS) */
     public var code: String
-    public var amount: Double?
+    public var amount: ItemWithheldITBISAmount?
+    public var rate: Double?
+    public var alternativeCurrencyAmount: Double?
 
-    public init(code: String, amount: Double? = nil) {
+    public init(code: String, amount: ItemWithheldITBISAmount? = nil, rate: Double? = nil, alternativeCurrencyAmount: Double? = nil) {
         self.code = code
         self.amount = amount
+        self.rate = rate
+        self.alternativeCurrencyAmount = alternativeCurrencyAmount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case amount
+        case rate
+        case alternativeCurrencyAmount
     }
 
     // Encodable protocol methods
@@ -37,6 +43,8 @@ public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
         try container.encodeIfPresent(amount, forKey: .amount)
+        try container.encodeIfPresent(rate, forKey: .rate)
+        try container.encodeIfPresent(alternativeCurrencyAmount, forKey: .alternativeCurrencyAmount)
     }
 }
 

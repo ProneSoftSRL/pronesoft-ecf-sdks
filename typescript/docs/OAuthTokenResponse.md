@@ -10,6 +10,7 @@ Name | Type
 `accessToken` | string
 `tokenType` | string
 `expiresIn` | number
+`scope` | Array&lt;string&gt;
 
 ## Example
 
@@ -21,6 +22,7 @@ const example = {
   "accessToken": eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...,
   "tokenType": Bearer,
   "expiresIn": 86400,
+  "scope": ["documents:read","documents:write"],
 } satisfies OAuthTokenResponse
 
 console.log(example)

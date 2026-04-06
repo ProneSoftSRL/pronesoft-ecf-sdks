@@ -8,9 +8,10 @@ Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain in
 Name | Type
 ------------ | -------------
 `environment` | [Environment](Environment.md)
-`version` | number
+`version` | string
 `invoiceType` | [InvoiceType](InvoiceType.md)
 `invoiceNumber` | string
+`groupId` | string
 `issueDate` | Date
 `expirationDate` | Date
 `creditNoteIndicator` | string
@@ -63,9 +64,10 @@ import type { ElectronicDocument } from '@pronesoft-rd/ecf-sdk'
 // TODO: Update the object below with actual values
 const example = {
   "environment": null,
-  "version": 1,
+  "version": 1.0,
   "invoiceType": null,
   "invoiceNumber": E310000000001,
+  "groupId": null,
   "issueDate": 2025-01-15T10:30Z,
   "expirationDate": null,
   "creditNoteIndicator": null,

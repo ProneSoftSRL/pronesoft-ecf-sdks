@@ -3,7 +3,7 @@ eCF-Pronesoft Integration API
 
 ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
-API version: 1.1.0
+API version: 1.2.0
 Contact: support@pronesoft.com
 */
 
@@ -27,30 +27,30 @@ type Item struct {
 	Codes []ItemCodesInner `json:"codes,omitempty"`
 	Name string `json:"name"`
 	Description *string `json:"description,omitempty"`
-	// 1=Product, 2=Service
+	// 1=Good, 2=Service
 	Type string `json:"type"`
 	BillingIndicator BillingIndicator `json:"billingIndicator"`
 	WithholdingAgentIndicator *int32 `json:"withholdingAgentIndicator,omitempty"`
-	WithheldITBISAmount *float32 `json:"withheldITBISAmount,omitempty"`
-	WithheldISRAmount *float32 `json:"withheldISRAmount,omitempty"`
-	Quantity string `json:"quantity"`
+	WithheldITBISAmount *ItemWithheldITBISAmount `json:"withheldITBISAmount,omitempty"`
+	WithheldISRAmount *ItemWithheldITBISAmount `json:"withheldISRAmount,omitempty"`
+	Quantity ItemQuantity `json:"quantity"`
 	UnitOfMeasure *int32 `json:"unitOfMeasure,omitempty"`
-	ReferenceQuantity *float32 `json:"referenceQuantity,omitempty"`
+	ReferenceQuantity *ItemWithheldITBISAmount `json:"referenceQuantity,omitempty"`
 	ReferenceUnit *int32 `json:"referenceUnit,omitempty"`
-	ReferenceUnitPrice *float32 `json:"referenceUnitPrice,omitempty"`
+	ReferenceUnitPrice *ItemWithheldITBISAmount `json:"referenceUnitPrice,omitempty"`
 	Subquantities []Subquantity `json:"subquantities,omitempty"`
 	AlcoholDegree *float32 `json:"alcoholDegree,omitempty"`
 	ManufacturingDate *time.Time `json:"manufacturingDate,omitempty"`
 	ExpirationDate *time.Time `json:"expirationDate,omitempty"`
 	MiningInfo *ItemMiningInfo `json:"miningInfo,omitempty"`
-	UnitPrice string `json:"unitPrice"`
-	DiscountAmount *float32 `json:"discountAmount,omitempty"`
+	UnitPrice ItemUnitPrice `json:"unitPrice"`
+	DiscountAmount *ItemWithheldITBISAmount `json:"discountAmount,omitempty"`
 	Discount []ItemDiscountInner `json:"discount,omitempty"`
-	SurchargeAmount *float32 `json:"surchargeAmount,omitempty"`
-	Surcharge []ItemDiscountInner `json:"surcharge,omitempty"`
+	SurchargeAmount *ItemWithheldITBISAmount `json:"surchargeAmount,omitempty"`
+	Surcharge []ItemSurchargeInner `json:"surcharge,omitempty"`
 	AdditionalTaxes []ItemAdditionalTax `json:"additionalTaxes,omitempty"`
 	AlternativeCurrency *ItemAlternativeCurrency `json:"alternativeCurrency,omitempty"`
-	Amount float32 `json:"amount"`
+	Amount *ItemAmount `json:"amount,omitempty"`
 }
 
 type _Item Item
@@ -59,14 +59,13 @@ type _Item Item
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewItem(name string, type_ string, billingIndicator BillingIndicator, quantity string, unitPrice string, amount float32) *Item {
+func NewItem(name string, type_ string, billingIndicator BillingIndicator, quantity ItemQuantity, unitPrice ItemUnitPrice) *Item {
 	this := Item{}
 	this.Name = name
 	this.Type = type_
 	this.BillingIndicator = billingIndicator
 	this.Quantity = quantity
 	this.UnitPrice = unitPrice
-	this.Amount = amount
 	return &this
 }
 
@@ -279,9 +278,9 @@ func (o *Item) SetWithholdingAgentIndicator(v int32) {
 }
 
 // GetWithheldITBISAmount returns the WithheldITBISAmount field value if set, zero value otherwise.
-func (o *Item) GetWithheldITBISAmount() float32 {
+func (o *Item) GetWithheldITBISAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.WithheldITBISAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.WithheldITBISAmount
@@ -289,7 +288,7 @@ func (o *Item) GetWithheldITBISAmount() float32 {
 
 // GetWithheldITBISAmountOk returns a tuple with the WithheldITBISAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Item) GetWithheldITBISAmountOk() (*float32, bool) {
+func (o *Item) GetWithheldITBISAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.WithheldITBISAmount) {
 		return nil, false
 	}
@@ -305,15 +304,15 @@ func (o *Item) HasWithheldITBISAmount() bool {
 	return false
 }
 
-// SetWithheldITBISAmount gets a reference to the given float32 and assigns it to the WithheldITBISAmount field.
-func (o *Item) SetWithheldITBISAmount(v float32) {
+// SetWithheldITBISAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the WithheldITBISAmount field.
+func (o *Item) SetWithheldITBISAmount(v ItemWithheldITBISAmount) {
 	o.WithheldITBISAmount = &v
 }
 
 // GetWithheldISRAmount returns the WithheldISRAmount field value if set, zero value otherwise.
-func (o *Item) GetWithheldISRAmount() float32 {
+func (o *Item) GetWithheldISRAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.WithheldISRAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.WithheldISRAmount
@@ -321,7 +320,7 @@ func (o *Item) GetWithheldISRAmount() float32 {
 
 // GetWithheldISRAmountOk returns a tuple with the WithheldISRAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Item) GetWithheldISRAmountOk() (*float32, bool) {
+func (o *Item) GetWithheldISRAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.WithheldISRAmount) {
 		return nil, false
 	}
@@ -337,15 +336,15 @@ func (o *Item) HasWithheldISRAmount() bool {
 	return false
 }
 
-// SetWithheldISRAmount gets a reference to the given float32 and assigns it to the WithheldISRAmount field.
-func (o *Item) SetWithheldISRAmount(v float32) {
+// SetWithheldISRAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the WithheldISRAmount field.
+func (o *Item) SetWithheldISRAmount(v ItemWithheldITBISAmount) {
 	o.WithheldISRAmount = &v
 }
 
 // GetQuantity returns the Quantity field value
-func (o *Item) GetQuantity() string {
+func (o *Item) GetQuantity() ItemQuantity {
 	if o == nil {
-		var ret string
+		var ret ItemQuantity
 		return ret
 	}
 
@@ -354,7 +353,7 @@ func (o *Item) GetQuantity() string {
 
 // GetQuantityOk returns a tuple with the Quantity field value
 // and a boolean to check if the value has been set.
-func (o *Item) GetQuantityOk() (*string, bool) {
+func (o *Item) GetQuantityOk() (*ItemQuantity, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -362,7 +361,7 @@ func (o *Item) GetQuantityOk() (*string, bool) {
 }
 
 // SetQuantity sets field value
-func (o *Item) SetQuantity(v string) {
+func (o *Item) SetQuantity(v ItemQuantity) {
 	o.Quantity = v
 }
 
@@ -399,9 +398,9 @@ func (o *Item) SetUnitOfMeasure(v int32) {
 }
 
 // GetReferenceQuantity returns the ReferenceQuantity field value if set, zero value otherwise.
-func (o *Item) GetReferenceQuantity() float32 {
+func (o *Item) GetReferenceQuantity() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.ReferenceQuantity) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.ReferenceQuantity
@@ -409,7 +408,7 @@ func (o *Item) GetReferenceQuantity() float32 {
 
 // GetReferenceQuantityOk returns a tuple with the ReferenceQuantity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Item) GetReferenceQuantityOk() (*float32, bool) {
+func (o *Item) GetReferenceQuantityOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.ReferenceQuantity) {
 		return nil, false
 	}
@@ -425,8 +424,8 @@ func (o *Item) HasReferenceQuantity() bool {
 	return false
 }
 
-// SetReferenceQuantity gets a reference to the given float32 and assigns it to the ReferenceQuantity field.
-func (o *Item) SetReferenceQuantity(v float32) {
+// SetReferenceQuantity gets a reference to the given ItemWithheldITBISAmount and assigns it to the ReferenceQuantity field.
+func (o *Item) SetReferenceQuantity(v ItemWithheldITBISAmount) {
 	o.ReferenceQuantity = &v
 }
 
@@ -463,9 +462,9 @@ func (o *Item) SetReferenceUnit(v int32) {
 }
 
 // GetReferenceUnitPrice returns the ReferenceUnitPrice field value if set, zero value otherwise.
-func (o *Item) GetReferenceUnitPrice() float32 {
+func (o *Item) GetReferenceUnitPrice() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.ReferenceUnitPrice) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.ReferenceUnitPrice
@@ -473,7 +472,7 @@ func (o *Item) GetReferenceUnitPrice() float32 {
 
 // GetReferenceUnitPriceOk returns a tuple with the ReferenceUnitPrice field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Item) GetReferenceUnitPriceOk() (*float32, bool) {
+func (o *Item) GetReferenceUnitPriceOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.ReferenceUnitPrice) {
 		return nil, false
 	}
@@ -489,8 +488,8 @@ func (o *Item) HasReferenceUnitPrice() bool {
 	return false
 }
 
-// SetReferenceUnitPrice gets a reference to the given float32 and assigns it to the ReferenceUnitPrice field.
-func (o *Item) SetReferenceUnitPrice(v float32) {
+// SetReferenceUnitPrice gets a reference to the given ItemWithheldITBISAmount and assigns it to the ReferenceUnitPrice field.
+func (o *Item) SetReferenceUnitPrice(v ItemWithheldITBISAmount) {
 	o.ReferenceUnitPrice = &v
 }
 
@@ -655,9 +654,9 @@ func (o *Item) SetMiningInfo(v ItemMiningInfo) {
 }
 
 // GetUnitPrice returns the UnitPrice field value
-func (o *Item) GetUnitPrice() string {
+func (o *Item) GetUnitPrice() ItemUnitPrice {
 	if o == nil {
-		var ret string
+		var ret ItemUnitPrice
 		return ret
 	}
 
@@ -666,7 +665,7 @@ func (o *Item) GetUnitPrice() string {
 
 // GetUnitPriceOk returns a tuple with the UnitPrice field value
 // and a boolean to check if the value has been set.
-func (o *Item) GetUnitPriceOk() (*string, bool) {
+func (o *Item) GetUnitPriceOk() (*ItemUnitPrice, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -674,14 +673,14 @@ func (o *Item) GetUnitPriceOk() (*string, bool) {
 }
 
 // SetUnitPrice sets field value
-func (o *Item) SetUnitPrice(v string) {
+func (o *Item) SetUnitPrice(v ItemUnitPrice) {
 	o.UnitPrice = v
 }
 
 // GetDiscountAmount returns the DiscountAmount field value if set, zero value otherwise.
-func (o *Item) GetDiscountAmount() float32 {
+func (o *Item) GetDiscountAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.DiscountAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.DiscountAmount
@@ -689,7 +688,7 @@ func (o *Item) GetDiscountAmount() float32 {
 
 // GetDiscountAmountOk returns a tuple with the DiscountAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Item) GetDiscountAmountOk() (*float32, bool) {
+func (o *Item) GetDiscountAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.DiscountAmount) {
 		return nil, false
 	}
@@ -705,8 +704,8 @@ func (o *Item) HasDiscountAmount() bool {
 	return false
 }
 
-// SetDiscountAmount gets a reference to the given float32 and assigns it to the DiscountAmount field.
-func (o *Item) SetDiscountAmount(v float32) {
+// SetDiscountAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the DiscountAmount field.
+func (o *Item) SetDiscountAmount(v ItemWithheldITBISAmount) {
 	o.DiscountAmount = &v
 }
 
@@ -743,9 +742,9 @@ func (o *Item) SetDiscount(v []ItemDiscountInner) {
 }
 
 // GetSurchargeAmount returns the SurchargeAmount field value if set, zero value otherwise.
-func (o *Item) GetSurchargeAmount() float32 {
+func (o *Item) GetSurchargeAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.SurchargeAmount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.SurchargeAmount
@@ -753,7 +752,7 @@ func (o *Item) GetSurchargeAmount() float32 {
 
 // GetSurchargeAmountOk returns a tuple with the SurchargeAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Item) GetSurchargeAmountOk() (*float32, bool) {
+func (o *Item) GetSurchargeAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.SurchargeAmount) {
 		return nil, false
 	}
@@ -769,15 +768,15 @@ func (o *Item) HasSurchargeAmount() bool {
 	return false
 }
 
-// SetSurchargeAmount gets a reference to the given float32 and assigns it to the SurchargeAmount field.
-func (o *Item) SetSurchargeAmount(v float32) {
+// SetSurchargeAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the SurchargeAmount field.
+func (o *Item) SetSurchargeAmount(v ItemWithheldITBISAmount) {
 	o.SurchargeAmount = &v
 }
 
 // GetSurcharge returns the Surcharge field value if set, zero value otherwise.
-func (o *Item) GetSurcharge() []ItemDiscountInner {
+func (o *Item) GetSurcharge() []ItemSurchargeInner {
 	if o == nil || IsNil(o.Surcharge) {
-		var ret []ItemDiscountInner
+		var ret []ItemSurchargeInner
 		return ret
 	}
 	return o.Surcharge
@@ -785,7 +784,7 @@ func (o *Item) GetSurcharge() []ItemDiscountInner {
 
 // GetSurchargeOk returns a tuple with the Surcharge field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Item) GetSurchargeOk() ([]ItemDiscountInner, bool) {
+func (o *Item) GetSurchargeOk() ([]ItemSurchargeInner, bool) {
 	if o == nil || IsNil(o.Surcharge) {
 		return nil, false
 	}
@@ -801,8 +800,8 @@ func (o *Item) HasSurcharge() bool {
 	return false
 }
 
-// SetSurcharge gets a reference to the given []ItemDiscountInner and assigns it to the Surcharge field.
-func (o *Item) SetSurcharge(v []ItemDiscountInner) {
+// SetSurcharge gets a reference to the given []ItemSurchargeInner and assigns it to the Surcharge field.
+func (o *Item) SetSurcharge(v []ItemSurchargeInner) {
 	o.Surcharge = v
 }
 
@@ -870,28 +869,36 @@ func (o *Item) SetAlternativeCurrency(v ItemAlternativeCurrency) {
 	o.AlternativeCurrency = &v
 }
 
-// GetAmount returns the Amount field value
-func (o *Item) GetAmount() float32 {
-	if o == nil {
-		var ret float32
+// GetAmount returns the Amount field value if set, zero value otherwise.
+func (o *Item) GetAmount() ItemAmount {
+	if o == nil || IsNil(o.Amount) {
+		var ret ItemAmount
 		return ret
 	}
-
-	return o.Amount
+	return *o.Amount
 }
 
-// GetAmountOk returns a tuple with the Amount field value
+// GetAmountOk returns a tuple with the Amount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Item) GetAmountOk() (*float32, bool) {
-	if o == nil {
+func (o *Item) GetAmountOk() (*ItemAmount, bool) {
+	if o == nil || IsNil(o.Amount) {
 		return nil, false
 	}
-	return &o.Amount, true
+	return o.Amount, true
 }
 
-// SetAmount sets field value
-func (o *Item) SetAmount(v float32) {
-	o.Amount = v
+// HasAmount returns a boolean if a field has been set.
+func (o *Item) HasAmount() bool {
+	if o != nil && !IsNil(o.Amount) {
+		return true
+	}
+
+	return false
+}
+
+// SetAmount gets a reference to the given ItemAmount and assigns it to the Amount field.
+func (o *Item) SetAmount(v ItemAmount) {
+	o.Amount = &v
 }
 
 func (o Item) MarshalJSON() ([]byte, error) {
@@ -972,7 +979,9 @@ func (o Item) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AlternativeCurrency) {
 		toSerialize["alternativeCurrency"] = o.AlternativeCurrency
 	}
-	toSerialize["amount"] = o.Amount
+	if !IsNil(o.Amount) {
+		toSerialize["amount"] = o.Amount
+	}
 	return toSerialize, nil
 }
 
@@ -986,7 +995,6 @@ func (o *Item) UnmarshalJSON(data []byte) (err error) {
 		"billingIndicator",
 		"quantity",
 		"unitPrice",
-		"amount",
 	}
 
 	allProperties := make(map[string]interface{})

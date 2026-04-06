@@ -23,13 +23,18 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.AdditionalTax
+import com.pronesoft.ecf.models.ItemWithheldITBISAmount
+import com.pronesoft.ecf.models.TotalsItbisRate1
+import com.pronesoft.ecf.models.TotalsItbisRate2
+import com.pronesoft.ecf.models.TotalsItbisRate3
+import com.pronesoft.ecf.models.TotalsTotalAmount
 
 import com.google.gson.annotations.SerializedName
 
 /**
  * 
  *
- * @param totalAmount 
  * @param taxableAmount 
  * @param taxableAmount1 
  * @param taxableAmount2 
@@ -44,6 +49,7 @@ import com.google.gson.annotations.SerializedName
  * @param itbis3 
  * @param additionalTaxAmount 
  * @param additionalTaxes 
+ * @param totalAmount 
  * @param nonBillableAmount 
  * @param periodAmount 
  * @param previousBalance 
@@ -58,77 +64,77 @@ import com.google.gson.annotations.SerializedName
 
 data class Totals (
 
-    @SerializedName("totalAmount")
-    val totalAmount: java.math.BigDecimal,
-
     @SerializedName("taxableAmount")
-    val taxableAmount: java.math.BigDecimal? = null,
+    val taxableAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("taxableAmount1")
-    val taxableAmount1: java.math.BigDecimal? = null,
+    val taxableAmount1: ItemWithheldITBISAmount? = null,
 
     @SerializedName("taxableAmount2")
-    val taxableAmount2: java.math.BigDecimal? = null,
+    val taxableAmount2: ItemWithheldITBISAmount? = null,
 
     @SerializedName("taxableAmount3")
-    val taxableAmount3: java.math.BigDecimal? = null,
+    val taxableAmount3: ItemWithheldITBISAmount? = null,
 
     @SerializedName("exemptAmount")
-    val exemptAmount: java.math.BigDecimal? = null,
+    val exemptAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("itbisRate1")
-    val itbisRate1: java.math.BigDecimal? = null,
+    val itbisRate1: TotalsItbisRate1? = null,
 
     @SerializedName("itbisRate2")
-    val itbisRate2: java.math.BigDecimal? = null,
+    val itbisRate2: TotalsItbisRate2? = null,
 
     @SerializedName("itbisRate3")
-    val itbisRate3: java.math.BigDecimal? = null,
+    val itbisRate3: TotalsItbisRate3? = null,
 
     @SerializedName("totalITBIS")
-    val totalITBIS: java.math.BigDecimal? = null,
+    val totalITBIS: ItemWithheldITBISAmount? = null,
 
     @SerializedName("itbis1")
-    val itbis1: java.math.BigDecimal? = null,
+    val itbis1: ItemWithheldITBISAmount? = null,
 
     @SerializedName("itbis2")
-    val itbis2: java.math.BigDecimal? = null,
+    val itbis2: ItemWithheldITBISAmount? = null,
 
     @SerializedName("itbis3")
-    val itbis3: java.math.BigDecimal? = null,
+    val itbis3: ItemWithheldITBISAmount? = null,
 
     @SerializedName("additionalTaxAmount")
-    val additionalTaxAmount: java.math.BigDecimal? = null,
+    val additionalTaxAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("additionalTaxes")
-    val additionalTaxes: kotlin.collections.List<kotlin.String>? = null,
+    val additionalTaxes: kotlin.collections.List<AdditionalTax>? = null,
+
+    @SerializedName("totalAmount")
+    val totalAmount: TotalsTotalAmount? = null,
 
     @SerializedName("nonBillableAmount")
-    val nonBillableAmount: java.math.BigDecimal? = null,
+    val nonBillableAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("periodAmount")
-    val periodAmount: java.math.BigDecimal? = null,
+    val periodAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("previousBalance")
-    val previousBalance: java.math.BigDecimal? = null,
+    val previousBalance: ItemWithheldITBISAmount? = null,
 
     @SerializedName("advancePaymentAmount")
-    val advancePaymentAmount: java.math.BigDecimal? = null,
+    val advancePaymentAmount: ItemWithheldITBISAmount? = null,
 
     @SerializedName("amountToPay")
-    val amountToPay: java.math.BigDecimal? = null,
+    val amountToPay: ItemWithheldITBISAmount? = null,
 
     @SerializedName("totalWithheldITBIS")
-    val totalWithheldITBIS: java.math.BigDecimal? = null,
+    val totalWithheldITBIS: ItemWithheldITBISAmount? = null,
 
     @SerializedName("totalIncomeTaxWithholding")
-    val totalIncomeTaxWithholding: java.math.BigDecimal? = null,
+    val totalIncomeTaxWithholding: ItemWithheldITBISAmount? = null,
 
     @SerializedName("totalITBISPerception")
-    val totalITBISPerception: java.math.BigDecimal? = null,
+    val totalITBISPerception: ItemWithheldITBISAmount? = null,
 
     @SerializedName("totalISRPerception")
-    val totalISRPerception: java.math.BigDecimal? = null
+    val totalISRPerception: ItemWithheldITBISAmount? = null
 
 ) {
 

@@ -18,32 +18,32 @@ extension PronesoftEcfAPI {
 public struct Totals: Codable, JSONEncodable, Hashable {
 
     public static let additionalTaxesRule = ArrayRule(minItems: nil, maxItems: 20, uniqueItems: false)
-    public var taxableAmount: Double?
-    public var taxableAmount1: Double?
-    public var taxableAmount2: Double?
-    public var taxableAmount3: Double?
-    public var exemptAmount: Double?
-    public var itbisRate1: Double?
-    public var itbisRate2: Double?
-    public var itbisRate3: Double?
-    public var totalITBIS: Double?
-    public var itbis1: Double?
-    public var itbis2: Double?
-    public var itbis3: Double?
-    public var additionalTaxAmount: Double?
-    public var additionalTaxes: [String]?
-    public var totalAmount: Double
-    public var nonBillableAmount: Double?
-    public var periodAmount: Double?
-    public var previousBalance: Double?
-    public var advancePaymentAmount: Double?
-    public var amountToPay: Double?
-    public var totalWithheldITBIS: Double?
-    public var totalIncomeTaxWithholding: Double?
-    public var totalITBISPerception: Double?
-    public var totalISRPerception: Double?
+    public var taxableAmount: ItemWithheldITBISAmount?
+    public var taxableAmount1: ItemWithheldITBISAmount?
+    public var taxableAmount2: ItemWithheldITBISAmount?
+    public var taxableAmount3: ItemWithheldITBISAmount?
+    public var exemptAmount: ItemWithheldITBISAmount?
+    public var itbisRate1: TotalsItbisRate1?
+    public var itbisRate2: TotalsItbisRate2?
+    public var itbisRate3: TotalsItbisRate3?
+    public var totalITBIS: ItemWithheldITBISAmount?
+    public var itbis1: ItemWithheldITBISAmount?
+    public var itbis2: ItemWithheldITBISAmount?
+    public var itbis3: ItemWithheldITBISAmount?
+    public var additionalTaxAmount: ItemWithheldITBISAmount?
+    public var additionalTaxes: [AdditionalTax]?
+    public var totalAmount: TotalsTotalAmount?
+    public var nonBillableAmount: ItemWithheldITBISAmount?
+    public var periodAmount: ItemWithheldITBISAmount?
+    public var previousBalance: ItemWithheldITBISAmount?
+    public var advancePaymentAmount: ItemWithheldITBISAmount?
+    public var amountToPay: ItemWithheldITBISAmount?
+    public var totalWithheldITBIS: ItemWithheldITBISAmount?
+    public var totalIncomeTaxWithholding: ItemWithheldITBISAmount?
+    public var totalITBISPerception: ItemWithheldITBISAmount?
+    public var totalISRPerception: ItemWithheldITBISAmount?
 
-    public init(taxableAmount: Double? = nil, taxableAmount1: Double? = nil, taxableAmount2: Double? = nil, taxableAmount3: Double? = nil, exemptAmount: Double? = nil, itbisRate1: Double? = nil, itbisRate2: Double? = nil, itbisRate3: Double? = nil, totalITBIS: Double? = nil, itbis1: Double? = nil, itbis2: Double? = nil, itbis3: Double? = nil, additionalTaxAmount: Double? = nil, additionalTaxes: [String]? = nil, totalAmount: Double, nonBillableAmount: Double? = nil, periodAmount: Double? = nil, previousBalance: Double? = nil, advancePaymentAmount: Double? = nil, amountToPay: Double? = nil, totalWithheldITBIS: Double? = nil, totalIncomeTaxWithholding: Double? = nil, totalITBISPerception: Double? = nil, totalISRPerception: Double? = nil) {
+    public init(taxableAmount: ItemWithheldITBISAmount? = nil, taxableAmount1: ItemWithheldITBISAmount? = nil, taxableAmount2: ItemWithheldITBISAmount? = nil, taxableAmount3: ItemWithheldITBISAmount? = nil, exemptAmount: ItemWithheldITBISAmount? = nil, itbisRate1: TotalsItbisRate1? = nil, itbisRate2: TotalsItbisRate2? = nil, itbisRate3: TotalsItbisRate3? = nil, totalITBIS: ItemWithheldITBISAmount? = nil, itbis1: ItemWithheldITBISAmount? = nil, itbis2: ItemWithheldITBISAmount? = nil, itbis3: ItemWithheldITBISAmount? = nil, additionalTaxAmount: ItemWithheldITBISAmount? = nil, additionalTaxes: [AdditionalTax]? = nil, totalAmount: TotalsTotalAmount? = nil, nonBillableAmount: ItemWithheldITBISAmount? = nil, periodAmount: ItemWithheldITBISAmount? = nil, previousBalance: ItemWithheldITBISAmount? = nil, advancePaymentAmount: ItemWithheldITBISAmount? = nil, amountToPay: ItemWithheldITBISAmount? = nil, totalWithheldITBIS: ItemWithheldITBISAmount? = nil, totalIncomeTaxWithholding: ItemWithheldITBISAmount? = nil, totalITBISPerception: ItemWithheldITBISAmount? = nil, totalISRPerception: ItemWithheldITBISAmount? = nil) {
         self.taxableAmount = taxableAmount
         self.taxableAmount1 = taxableAmount1
         self.taxableAmount2 = taxableAmount2
@@ -115,7 +115,7 @@ public struct Totals: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(itbis3, forKey: .itbis3)
         try container.encodeIfPresent(additionalTaxAmount, forKey: .additionalTaxAmount)
         try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
-        try container.encode(totalAmount, forKey: .totalAmount)
+        try container.encodeIfPresent(totalAmount, forKey: .totalAmount)
         try container.encodeIfPresent(nonBillableAmount, forKey: .nonBillableAmount)
         try container.encodeIfPresent(periodAmount, forKey: .periodAmount)
         try container.encodeIfPresent(previousBalance, forKey: .previousBalance)

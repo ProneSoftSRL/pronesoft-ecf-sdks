@@ -13,7 +13,7 @@
 | **business_rnc** | **String** |  | [optional] |
 | **environment** | [**Environment**](Environment.md) |  | [optional] |
 | **received_at** | **Time** |  | [optional] |
-| **mensajes** | [**Array&lt;EcfStatusResponseMensajesInner&gt;**](EcfStatusResponseMensajesInner.md) |  | [optional] |
+| **mensajes** | [**Array&lt;DgiiMessage&gt;**](DgiiMessage.md) |  | [optional] |
 | **logs** | [**Array&lt;ProcessingLog&gt;**](ProcessingLog.md) |  | [optional] |
 | **source** | **String** |  | [optional] |
 

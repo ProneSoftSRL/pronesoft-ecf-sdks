@@ -8,10 +8,12 @@ import 'package:pronesoft_ecf/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**estado** | **String** | Aprobado, Rechazado, En Proceso | [optional] 
 **trackId** | **String** |  | [optional] 
-**codigoError** | **String** |  | [optional] 
-**mensaje** | **String** |  | [optional] 
+**estado** | **String** | Aprobado, Rechazado, En Proceso | [optional] 
+**rnc** | **String** |  | [optional] 
+**encf** | **String** |  | [optional] 
+**fechaRecepcion** | [**DateTime**](DateTime.md) |  | [optional] 
+**mensajes** | [**List<DgiiMessage>**](DgiiMessage.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

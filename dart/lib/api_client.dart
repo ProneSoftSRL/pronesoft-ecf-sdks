@@ -186,6 +186,8 @@ class ApiClient {
           return AccountTypeTypeTransformer().decode(value);
         case 'AdditionalInfo':
           return AdditionalInfo.fromJson(value);
+        case 'AdditionalTax':
+          return AdditionalTax.fromJson(value);
         case 'AlternativeCurrency':
           return AlternativeCurrency.fromJson(value);
         case 'ApprovalItem':
@@ -230,6 +232,8 @@ class ApiClient {
           return CreateTaxSequenceRequest.fromJson(value);
         case 'DeleteAssociatedCompany200Response':
           return DeleteAssociatedCompany200Response.fromJson(value);
+        case 'DgiiMessage':
+          return DgiiMessage.fromJson(value);
         case 'DiscountOrSurcharge':
           return DiscountOrSurcharge.fromJson(value);
         case 'DocumentStatsResponse':
@@ -242,8 +246,6 @@ class ApiClient {
           return EcfStatsResponse.fromJson(value);
         case 'EcfStatusResponse':
           return EcfStatusResponse.fromJson(value);
-        case 'EcfStatusResponseMensajesInner':
-          return EcfStatusResponseMensajesInner.fromJson(value);
         case 'EcfSubmissionResponse':
           return EcfSubmissionResponse.fromJson(value);
         case 'EcfSubmissionResponseDgiiResponse':
@@ -268,12 +270,22 @@ class ApiClient {
           return ItemAdditionalTax.fromJson(value);
         case 'ItemAlternativeCurrency':
           return ItemAlternativeCurrency.fromJson(value);
+        case 'ItemAmount':
+          return ItemAmount.fromJson(value);
         case 'ItemCodesInner':
           return ItemCodesInner.fromJson(value);
         case 'ItemDiscountInner':
           return ItemDiscountInner.fromJson(value);
         case 'ItemMiningInfo':
           return ItemMiningInfo.fromJson(value);
+        case 'ItemQuantity':
+          return ItemQuantity.fromJson(value);
+        case 'ItemSurchargeInner':
+          return ItemSurchargeInner.fromJson(value);
+        case 'ItemUnitPrice':
+          return ItemUnitPrice.fromJson(value);
+        case 'ItemWithheldITBISAmount':
+          return ItemWithheldITBISAmount.fromJson(value);
         case 'ListTaxSequences200Response':
           return ListTaxSequences200Response.fromJson(value);
         case 'OAuthTokenRequest':
@@ -324,6 +336,14 @@ class ApiClient {
           return TaxSequenceCreated.fromJson(value);
         case 'Totals':
           return Totals.fromJson(value);
+        case 'TotalsItbisRate1':
+          return TotalsItbisRate1.fromJson(value);
+        case 'TotalsItbisRate2':
+          return TotalsItbisRate2.fromJson(value);
+        case 'TotalsItbisRate3':
+          return TotalsItbisRate3.fromJson(value);
+        case 'TotalsTotalAmount':
+          return TotalsTotalAmount.fromJson(value);
         case 'Transport':
           return Transport.fromJson(value);
         case 'UpdateTaxSequenceRequest':

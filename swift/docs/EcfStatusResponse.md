@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **businessRnc** | **String** |  | [optional] 
 **environment** | [**Environment**](Environment.md) |  | [optional] 
 **receivedAt** | **Date** |  | [optional] 
-**mensajes** | [EcfStatusResponseMensajesInner] |  | [optional] 
+**mensajes** | [DgiiMessage] |  | [optional] 
 **logs** | [ProcessingLog] |  | [optional] 
 **source** | **String** |  | [optional] 
 

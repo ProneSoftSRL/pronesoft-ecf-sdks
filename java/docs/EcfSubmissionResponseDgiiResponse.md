@@ -7,10 +7,12 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**estado** | **String** | Aprobado, Rechazado, En Proceso |  [optional] |
 |**trackId** | **String** |  |  [optional] |
-|**codigoError** | **String** |  |  [optional] |
-|**mensaje** | **String** |  |  [optional] |
+|**estado** | **String** | Aprobado, Rechazado, En Proceso |  [optional] |
+|**rnc** | **String** |  |  [optional] |
+|**encf** | **String** |  |  [optional] |
+|**fechaRecepcion** | **OffsetDateTime** |  |  [optional] |
+|**mensajes** | [**List&lt;DgiiMessage&gt;**](DgiiMessage.md) |  |  [optional] |
 
 
 

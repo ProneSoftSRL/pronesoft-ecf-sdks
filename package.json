@@ -1,0 +1,11 @@
+{
+  "name": "pronesoft-ecf-sdks",
+  "version": "1.2.0",
+  "private": true,
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.16.1"
+  },
+  "scripts": {
+    "generate": "bash generate.sh"
+  }
+}

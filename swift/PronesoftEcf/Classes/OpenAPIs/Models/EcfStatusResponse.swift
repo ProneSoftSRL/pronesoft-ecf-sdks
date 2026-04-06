@@ -30,11 +30,11 @@ public struct EcfStatusResponse: Codable, JSONEncodable, Hashable {
     public var businessRnc: String?
     public var environment: Environment?
     public var receivedAt: Date?
-    public var mensajes: [EcfStatusResponseMensajesInner]?
+    public var mensajes: [DgiiMessage]?
     public var logs: [ProcessingLog]?
     public var source: Source?
 
-    public init(trackingId: String? = nil, estado: String? = nil, trackId: String? = nil, numeroControl: String? = nil, status: DocumentStatus? = nil, encf: String? = nil, businessRnc: String? = nil, environment: Environment? = nil, receivedAt: Date? = nil, mensajes: [EcfStatusResponseMensajesInner]? = nil, logs: [ProcessingLog]? = nil, source: Source? = nil) {
+    public init(trackingId: String? = nil, estado: String? = nil, trackId: String? = nil, numeroControl: String? = nil, status: DocumentStatus? = nil, encf: String? = nil, businessRnc: String? = nil, environment: Environment? = nil, receivedAt: Date? = nil, mensajes: [DgiiMessage]? = nil, logs: [ProcessingLog]? = nil, source: Source? = nil) {
         self.trackingId = trackingId
         self.estado = estado
         self.trackId = trackId

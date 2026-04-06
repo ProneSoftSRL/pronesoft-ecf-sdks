@@ -41,7 +41,7 @@ info:
     name: Proprietary
     url: https://pronesoft.com/terms
   title: eCF-Pronesoft Integration API
-  version: 1.1.0
+  version: 1.2.0
 externalDocs:
   description: Pronesoft eCF SDKs Repository
   url: https://github.com/ProneSoftSRL/pronesoft-ecf-sdks
@@ -2145,12 +2145,9 @@ components:
       - sequence.voided
       - branch.created
       - branch.status_changed
-      - security.new_login
       - member.invited
       - member.joined
       - member.removed
-      - certificate.expiring
-      - commercial.approval
       - certification.completed
       type: string
     PrintFormat:
@@ -2194,6 +2191,9 @@ components:
       description: Bearer token valid for 24 hours (86400 seconds).
       example:
         expiresIn: 86400
+        scope:
+        - documents:read
+        - documents:write
         accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
         tokenType: Bearer
       properties:
@@ -2207,6 +2207,13 @@ components:
           description: Token lifetime in seconds (24 hours = 86400).
           example: 86400
           type: integer
+        scope:
+          example:
+          - documents:read
+          - documents:write
+          items:
+            type: string
+          type: array
       type: object
     PaymentForm:
       properties:
@@ -2227,59 +2234,60 @@ components:
       example:
         paymentAccountType: CT
         paymentBank: paymentBank
+        groupId: groupId
         issuerCommercialName: issuerCommercialName
         alternativeCurrency:
-          taxableAmount: 0.2025324113236393
+          taxableAmount: 5.944895607614016
           code: USD
           additionalTaxes:
           - additionalTaxes
           - additionalTaxes
-          exemptAmount: 4.678947989005849
-          additionalTaxAmount: 0.5199002018724985
-          itbis2: 0.8774076871421566
-          itbis1: 9.132027271330688
-          itbis3: 9.702963800023566
-          nonBillableAmount: 7.933506881737151
-          totalAmount: 5.507386964179881
-          totalITBIS: 7.260521264802104
+          exemptAmount: 7.143538047012306
+          additionalTaxAmount: 4.652396432933246
+          itbis2: 6.519180951018382
+          itbis1: 7.058770351582356
+          itbis3: 0.10263654006109402
+          nonBillableAmount: 8.969578798196912
+          totalAmount: 7.740351818741173
+          totalITBIS: 0.8851374739011653
           exchangeRate: 58.5
-          taxableAmount2: 4.258773108174356
-          taxableAmount1: 6.628464275087742
-          taxableAmount3: 1.041444916118296
+          taxableAmount2: 3.353193347011243
+          taxableAmount1: 6.704019297950036
+          taxableAmount3: 3.0937452626664474
         paymentType: "1"
         sellerCode: sellerCode
         salesZone: salesZone
         pages:
-          taxableAmount: 7.606863723092579
-          pageNumber: 5
-          additionalTaxes: 3.804112695731078
+          taxableAmount: 4.459605034958679
+          pageNumber: 4
+          additionalTaxes: 9.254183946267839
           lineTo: 8
-          exemptAmount: 5.877124706116695
-          itbis2: 3.1497903714250555
-          lineFrom: 5
-          itbis1: 0.4768402382624515
-          itbis3: 2.380090174313445
-          nonBillableAmount: 4.518309517874243
-          totalITBIS: 7.835035282970782
-          subtotal: 8.675064425986758
-          taxableAmount2: 3.111202833403195
-          taxableAmount1: 3.7814124730767915
-          taxableAmount3: 9.897492629215506
-        taxedAmountIndicator: taxedAmountIndicator
+          exemptAmount: 1.7325933120207193
+          itbis2: 4.573936264232251
+          lineFrom: 6
+          itbis1: 6.623518433804886
+          itbis3: 8.863729185622827
+          nonBillableAmount: 3.502657762086401
+          totalITBIS: 8.28965939814297
+          subtotal: 1.8268702177058116
+          taxableAmount2: 0.43431398824148815
+          taxableAmount1: 3.901545264248647
+          taxableAmount3: 2.9409642974827896
+        taxedAmountIndicator: "0"
         issuerAddress: issuerAddress
         invoiceNumber: E310000000001
         additionalInfo:
-          netWeightUnit: 3
-          grossWeight: 8.969578798196912
-          netWeight: 7.740351818741173
-          packageVolume: 3.2588565619047607
+          netWeightUnit: 6
+          grossWeight: 9.018348186070783
+          netWeight: 6.438423552598547
+          packageVolume: 6.778324963048013
           containerNumber: containerNumber
           referenceNumber: referenceNumber
-          packageUnit: 5
-          volumeUnit: 4
+          packageUnit: 2
+          volumeUnit: 6
           grossWeightUnit: 3
           shipmentDate: shipmentDate
-          packageQuantity: 7.04836565559697
+          packageQuantity: 1.284659006116532
           shipmentNumber: shipmentNumber
         invoiceType: "31"
         issueDate: 2025-01-15T10:30:00Z
@@ -2288,21 +2296,21 @@ components:
         expirationDate: 2000-01-23T04:56:07.000+00:00
         paymentAccountNumber: paymentAccountNumber
         subtotals:
-          taxableAmount: 8.251625748923757
-          amount: 9.254183946267839
-          additionalTaxes: 4.573936264232251
+          taxableAmount: 7.04836565559697
+          amount: 9.132027271330688
+          additionalTaxes: 4.678947989005849
           description: description
-          exemptAmount: 8.863729185622827
-          itbis2: 8.28965939814297
-          itbis1: 1.7325933120207193
-          itbis3: 6.623518433804886
-          number: 4
-          totalITBIS: 2.9409642974827896
-          taxableAmount2: 3.901545264248647
-          taxableAmount1: 4.459605034958679
-          taxableAmount3: 0.43431398824148815
-          lines: 1
-          order: 6
+          exemptAmount: 7.260521264802104
+          itbis2: 4.258773108174356
+          itbis1: 6.628464275087742
+          itbis3: 1.041444916118296
+          number: 3
+          totalITBIS: 0.2025324113236393
+          taxableAmount2: 3.2588565619047607
+          taxableAmount1: 5.533258397034986
+          taxableAmount3: 4.078845849666752
+          lines: 0
+          order: 3
         creditNoteIndicator: "0"
         internalInvoiceNumber: internalInvoiceNumber
         incomeType: "01"
@@ -2312,34 +2320,54 @@ components:
         branchName: branchName
         totals:
           itbisRate2: 0.16
-          amountToPay: 0.8851374739011653
-          taxableAmount: 8.762042012749001
+          amountToPay: null
+          taxableAmount: null
           itbisRate1: 0.18
-          totalITBISPerception: 0.10263654006109402
+          totalITBISPerception: null
           itbisRate3: 0.0
           additionalTaxes:
-          - additionalTaxes
-          - additionalTaxes
-          - additionalTaxes
-          - additionalTaxes
-          - additionalTaxes
-          totalISRPerception: 4.652396432933246
-          advancePaymentAmount: 7.143538047012306
-          exemptAmount: 6.965117697638846
-          additionalTaxAmount: 5.944895607614016
-          itbis2: 6.778324963048013
-          itbis1: 2.8841621266687802
-          itbis3: 6.878052220127876
-          previousBalance: 3.0937452626664474
-          nonBillableAmount: 6.704019297950036
-          periodAmount: 3.353193347011243
-          totalIncomeTaxWithholding: 6.519180951018382
+          - code: code
+            otherAdditionalTaxesAmount: 8.762042012749001
+            rate: 9.965781217890562
+            adValoremConsumptionTaxAmount: 6.683562403749608
+            specificConsumptionTaxAmount: 9.369310271410669
+          - code: code
+            otherAdditionalTaxesAmount: 8.762042012749001
+            rate: 9.965781217890562
+            adValoremConsumptionTaxAmount: 6.683562403749608
+            specificConsumptionTaxAmount: 9.369310271410669
+          - code: code
+            otherAdditionalTaxesAmount: 8.762042012749001
+            rate: 9.965781217890562
+            adValoremConsumptionTaxAmount: 6.683562403749608
+            specificConsumptionTaxAmount: 9.369310271410669
+          - code: code
+            otherAdditionalTaxesAmount: 8.762042012749001
+            rate: 9.965781217890562
+            adValoremConsumptionTaxAmount: 6.683562403749608
+            specificConsumptionTaxAmount: 9.369310271410669
+          - code: code
+            otherAdditionalTaxesAmount: 8.762042012749001
+            rate: 9.965781217890562
+            adValoremConsumptionTaxAmount: 6.683562403749608
+            specificConsumptionTaxAmount: 9.369310271410669
+          totalISRPerception: null
+          advancePaymentAmount: null
+          exemptAmount: null
+          additionalTaxAmount: null
+          itbis2: null
+          itbis1: null
+          itbis3: null
+          previousBalance: null
+          nonBillableAmount: null
+          periodAmount: null
+          totalIncomeTaxWithholding: null
           totalAmount: 11800.0
-          totalITBIS: 1.284659006116532
-          taxableAmount2: 6.438423552598547
-          taxableAmount1: 9.018348186070783
-          taxableAmount3: 3.5571952270680973
-          totalWithheldITBIS: 7.058770351582356
+          totalITBIS: null
+          taxableAmount2: null
+          taxableAmount1: null
+          taxableAmount3: null
+          totalWithheldITBIS: null
         transport:
           licensePlate: licensePlate
           route: route
@@ -2351,7 +2379,7 @@ components:
           deliveryNoteNumber: deliveryNoteNumber
         municipalityCode: municipalityCode
         issuerEmail: issuerEmail
-        version: 1
+        version: "1.0"
         buyer:
           address: address
           provinceCode: provinceCode
@@ -2383,318 +2411,338 @@ components:
         internalOrderNumber: 6
         totalPages: 0
         discountsOrSurcharges:
-        - amount: 8.761432466225475
+        - amount: 7.933506881737151
           norm1007Indicator: "0"
-          alternativeCurrencyAmount: 0.4182561061793122
+          alternativeCurrencyAmount: 5.507386964179881
           valueType: $
           description: description
           billingIndicator: null
-          percentageValue: 9.183123594773994
-          lineNumber: 3
+          percentageValue: 0.5199002018724985
+          lineNumber: 9
           type: D
-        - amount: 8.761432466225475
+        - amount: 7.933506881737151
           norm1007Indicator: "0"
-          alternativeCurrencyAmount: 0.4182561061793122
+          alternativeCurrencyAmount: 5.507386964179881
           valueType: $
           description: description
           billingIndicator: null
-          percentageValue: 9.183123594773994
-          lineNumber: 3
+          percentageValue: 0.5199002018724985
+          lineNumber: 9
           type: D
         paymentDeadline: 2000-01-23T04:56:07.000+00:00
         additionalIssuerInfo: additionalIssuerInfo
-        deferredSendingIndicator: deferredSendingIndicator
+        deferredSendingIndicator: "1"
         items:
-        - alcoholDegree: 7.386281948385884
+        - alcoholDegree: 3.616076749251911
           surcharge:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
           codes:
           - code: code
             codeType: codeType
           - code: code
             codeType: codeType
-          surchargeAmount: 1.1730742509559433
-          referenceUnit: 9
+          surchargeAmount: null
+          referenceUnit: 2
           description: description
           billingIndicator: "0"
-          discountAmount: 1.4894159098541704
+          discountAmount: null
           discount:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: null
+            type: $
+            value: 7.386281948385884
+          - amount: null
+            type: $
+            value: 7.386281948385884
           type: "1"
-          referenceQuantity: 7.061401241503109
-          referenceUnitPrice: 3.616076749251911
+          referenceQuantity: null
+          referenceUnitPrice: null
           alternativeCurrency:
-            unitPrice: 5.025004791520295
-            surcharge: 9.369310271410669
-            amount: 6.683562403749608
-            discount: 9.965781217890562
+            unitPrice: 7.457744773683766
+            surcharge: 4.965218492984954
+            amount: 5.025004791520295
+            discount: 1.1730742509559433
           subquantities:
-          - quantity: 2.027123023002322
-            unitCode: 4
-          - quantity: 2.027123023002322
-            unitCode: 4
+          - quantity: 7.061401241503109
+            unitCode: 9
+          - quantity: 7.061401241503109
+            unitCode: 9
           miningInfo:
-            netWeightMining: 1.0246457001441578
-            netWeightKg: 1.2315135367772556
-            affiliationType: affiliationType
-            settlement: settlement
+            netWeightMining: 4.145608029883936
+            netWeightKg: 2.027123023002322
+            affiliationType: "1"
+            settlement: "1"
           expirationDate: 2000-01-23T04:56:07.000+00:00
           unitPrice: "10000.00"
           amount: 10000.0
           quantity: "1"
-          unitOfMeasure: 2
+          unitOfMeasure: 5
           additionalTaxes:
-          - amount: 4.965218492984954
+          - amount: null
             code: code
-          - amount: 4.965218492984954
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          - amount: null
             code: code
-          withheldISRAmount: 5.637376656633329
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          withheldISRAmount: null
           name: Servicio profesional
           withholdingAgentIndicator: 1
           manufacturingDate: 2000-01-23T04:56:07.000+00:00
           lineNumber: 1
           withheldITBISAmount: 5.962133916683182
-        - alcoholDegree: 7.386281948385884
+        - alcoholDegree: 3.616076749251911
           surcharge:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
           codes:
           - code: code
             codeType: codeType
           - code: code
             codeType: codeType
-          surchargeAmount: 1.1730742509559433
-          referenceUnit: 9
+          surchargeAmount: null
+          referenceUnit: 2
           description: description
           billingIndicator: "0"
-          discountAmount: 1.4894159098541704
+          discountAmount: null
           discount:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: null
+            type: $
+            value: 7.386281948385884
+          - amount: null
+            type: $
+            value: 7.386281948385884
           type: "1"
-          referenceQuantity: 7.061401241503109
-          referenceUnitPrice: 3.616076749251911
+          referenceQuantity: null
+          referenceUnitPrice: null
           alternativeCurrency:
-            unitPrice: 5.025004791520295
-            surcharge: 9.369310271410669
-            amount: 6.683562403749608
-            discount: 9.965781217890562
+            unitPrice: 7.457744773683766
+            surcharge: 4.965218492984954
+            amount: 5.025004791520295
+            discount: 1.1730742509559433
           subquantities:
-          - quantity: 2.027123023002322
-            unitCode: 4
-          - quantity: 2.027123023002322
-            unitCode: 4
+          - quantity: 7.061401241503109
+            unitCode: 9
+          - quantity: 7.061401241503109
+            unitCode: 9
           miningInfo:
-            netWeightMining: 1.0246457001441578
-            netWeightKg: 1.2315135367772556
-            affiliationType: affiliationType
-            settlement: settlement
+            netWeightMining: 4.145608029883936
+            netWeightKg: 2.027123023002322
+            affiliationType: "1"
+            settlement: "1"
           expirationDate: 2000-01-23T04:56:07.000+00:00
           unitPrice: "10000.00"
           amount: 10000.0
           quantity: "1"
-          unitOfMeasure: 2
+          unitOfMeasure: 5
           additionalTaxes:
-          - amount: 4.965218492984954
+          - amount: null
             code: code
-          - amount: 4.965218492984954
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          - amount: null
             code: code
-          withheldISRAmount: 5.637376656633329
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          withheldISRAmount: null
           name: Servicio profesional
           withholdingAgentIndicator: 1
           manufacturingDate: 2000-01-23T04:56:07.000+00:00
           lineNumber: 1
           withheldITBISAmount: 5.962133916683182
-        - alcoholDegree: 7.386281948385884
+        - alcoholDegree: 3.616076749251911
           surcharge:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
           codes:
           - code: code
             codeType: codeType
           - code: code
             codeType: codeType
-          surchargeAmount: 1.1730742509559433
-          referenceUnit: 9
+          surchargeAmount: null
+          referenceUnit: 2
           description: description
           billingIndicator: "0"
-          discountAmount: 1.4894159098541704
+          discountAmount: null
           discount:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: null
+            type: $
+            value: 7.386281948385884
+          - amount: null
+            type: $
+            value: 7.386281948385884
           type: "1"
-          referenceQuantity: 7.061401241503109
-          referenceUnitPrice: 3.616076749251911
+          referenceQuantity: null
+          referenceUnitPrice: null
           alternativeCurrency:
-            unitPrice: 5.025004791520295
-            surcharge: 9.369310271410669
-            amount: 6.683562403749608
-            discount: 9.965781217890562
+            unitPrice: 7.457744773683766
+            surcharge: 4.965218492984954
+            amount: 5.025004791520295
+            discount: 1.1730742509559433
           subquantities:
-          - quantity: 2.027123023002322
-            unitCode: 4
-          - quantity: 2.027123023002322
-            unitCode: 4
+          - quantity: 7.061401241503109
+            unitCode: 9
+          - quantity: 7.061401241503109
+            unitCode: 9
           miningInfo:
-            netWeightMining: 1.0246457001441578
-            netWeightKg: 1.2315135367772556
-            affiliationType: affiliationType
-            settlement: settlement
+            netWeightMining: 4.145608029883936
+            netWeightKg: 2.027123023002322
+            affiliationType: "1"
+            settlement: "1"
           expirationDate: 2000-01-23T04:56:07.000+00:00
           unitPrice: "10000.00"
           amount: 10000.0
           quantity: "1"
-          unitOfMeasure: 2
+          unitOfMeasure: 5
           additionalTaxes:
-          - amount: 4.965218492984954
+          - amount: null
             code: code
-          - amount: 4.965218492984954
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          - amount: null
             code: code
-          withheldISRAmount: 5.637376656633329
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          withheldISRAmount: null
           name: Servicio profesional
           withholdingAgentIndicator: 1
           manufacturingDate: 2000-01-23T04:56:07.000+00:00
           lineNumber: 1
           withheldITBISAmount: 5.962133916683182
-        - alcoholDegree: 7.386281948385884
+        - alcoholDegree: 3.616076749251911
           surcharge:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
           codes:
           - code: code
             codeType: codeType
           - code: code
             codeType: codeType
-          surchargeAmount: 1.1730742509559433
-          referenceUnit: 9
+          surchargeAmount: null
+          referenceUnit: 2
           description: description
           billingIndicator: "0"
-          discountAmount: 1.4894159098541704
+          discountAmount: null
           discount:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: null
+            type: $
+            value: 7.386281948385884
+          - amount: null
+            type: $
+            value: 7.386281948385884
           type: "1"
-          referenceQuantity: 7.061401241503109
-          referenceUnitPrice: 3.616076749251911
+          referenceQuantity: null
+          referenceUnitPrice: null
           alternativeCurrency:
-            unitPrice: 5.025004791520295
-            surcharge: 9.369310271410669
-            amount: 6.683562403749608
-            discount: 9.965781217890562
+            unitPrice: 7.457744773683766
+            surcharge: 4.965218492984954
+            amount: 5.025004791520295
+            discount: 1.1730742509559433
           subquantities:
-          - quantity: 2.027123023002322
-            unitCode: 4
-          - quantity: 2.027123023002322
-            unitCode: 4
+          - quantity: 7.061401241503109
+            unitCode: 9
+          - quantity: 7.061401241503109
+            unitCode: 9
           miningInfo:
-            netWeightMining: 1.0246457001441578
-            netWeightKg: 1.2315135367772556
-            affiliationType: affiliationType
-            settlement: settlement
+            netWeightMining: 4.145608029883936
+            netWeightKg: 2.027123023002322
+            affiliationType: "1"
+            settlement: "1"
           expirationDate: 2000-01-23T04:56:07.000+00:00
           unitPrice: "10000.00"
           amount: 10000.0
           quantity: "1"
-          unitOfMeasure: 2
+          unitOfMeasure: 5
           additionalTaxes:
-          - amount: 4.965218492984954
+          - amount: null
             code: code
-          - amount: 4.965218492984954
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          - amount: null
             code: code
-          withheldISRAmount: 5.637376656633329
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          withheldISRAmount: null
           name: Servicio profesional
           withholdingAgentIndicator: 1
           manufacturingDate: 2000-01-23T04:56:07.000+00:00
           lineNumber: 1
           withheldITBISAmount: 5.962133916683182
-        - alcoholDegree: 7.386281948385884
+        - alcoholDegree: 3.616076749251911
           surcharge:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
+          - amount: 1.0246457001441578
+            type: $
+            value: 1.2315135367772556
           codes:
           - code: code
             codeType: codeType
           - code: code
             codeType: codeType
-          surchargeAmount: 1.1730742509559433
-          referenceUnit: 9
+          surchargeAmount: null
+          referenceUnit: 2
           description: description
           billingIndicator: "0"
-          discountAmount: 1.4894159098541704
+          discountAmount: null
           discount:
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
-          - amount: 7.457744773683766
-            type: type
-            value: 6.84685269835264
+          - amount: null
+            type: $
+            value: 7.386281948385884
+          - amount: null
+            type: $
+            value: 7.386281948385884
           type: "1"
-          referenceQuantity: 7.061401241503109
-          referenceUnitPrice: 3.616076749251911
+          referenceQuantity: null
+          referenceUnitPrice: null
           alternativeCurrency:
-            unitPrice: 5.025004791520295
-            surcharge: 9.369310271410669
-            amount: 6.683562403749608
-            discount: 9.965781217890562
+            unitPrice: 7.457744773683766
+            surcharge: 4.965218492984954
+            amount: 5.025004791520295
+            discount: 1.1730742509559433
           subquantities:
-          - quantity: 2.027123023002322
-            unitCode: 4
-          - quantity: 2.027123023002322
-            unitCode: 4
+          - quantity: 7.061401241503109
+            unitCode: 9
+          - quantity: 7.061401241503109
+            unitCode: 9
           miningInfo:
-            netWeightMining: 1.0246457001441578
-            netWeightKg: 1.2315135367772556
-            affiliationType: affiliationType
-            settlement: settlement
+            netWeightMining: 4.145608029883936
+            netWeightKg: 2.027123023002322
+            affiliationType: "1"
+            settlement: "1"
           expirationDate: 2000-01-23T04:56:07.000+00:00
           unitPrice: "10000.00"
           amount: 10000.0
           quantity: "1"
-          unitOfMeasure: 2
+          unitOfMeasure: 5
           additionalTaxes:
-          - amount: 4.965218492984954
+          - amount: null
             code: code
-          - amount: 4.965218492984954
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          - amount: null
             code: code
-          withheldISRAmount: 5.637376656633329
+            rate: 1.4894159098541704
+            alternativeCurrencyAmount: 6.84685269835264
+          withheldISRAmount: null
           name: Servicio profesional
           withholdingAgentIndicator: 1
           manufacturingDate: 2000-01-23T04:56:07.000+00:00
@@ -2712,16 +2760,19 @@ components:
         environment:
           $ref: "#/components/schemas/Environment"
         version:
-          default: 1
-          description: Always 1.
-          example: 1
-          type: integer
+          default: "1.0"
+          description: Always 1.0.
+          example: "1.0"
+          type: string
         invoiceType:
           $ref: "#/components/schemas/InvoiceType"
         invoiceNumber:
           description: e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence
             digits).
           example: E310000000001
+          type: string
+        groupId:
+          description: Optional Group ID for batch processing
           type: string
         issueDate:
           example: 2025-01-15T10:30:00Z
@@ -2737,8 +2788,13 @@ components:
           - "1"
           type: string
         deferredSendingIndicator:
+          enum:
+          - "1"
           type: string
         taxedAmountIndicator:
+          enum:
+          - "0"
+          - "1"
           type: string
         incomeType:
           description: "01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing,\
@@ -2795,14 +2851,19 @@ components:
           maxLength: 150
           type: string
         issuerCommercialName:
+          maxLength: 150
           type: string
         branchName:
+          maxLength: 20
           type: string
         issuerAddress:
+          maxLength: 100
           type: string
         municipalityCode:
+          maxLength: 6
           type: string
         provinceCode:
+          maxLength: 6
           type: string
         issuerPhones:
           items:
@@ -2811,23 +2872,30 @@ components:
           type: array
         issuerEmail:
           format: email
+          maxLength: 80
           type: string
         issuerWebsite:
           format: uri
+          maxLength: 50
           type: string
         issuerEconomicActivity:
+          maxLength: 100
           type: string
         sellerCode:
+          maxLength: 60
           type: string
         internalInvoiceNumber:
           type: string
         internalOrderNumber:
           type: integer
         salesZone:
+          maxLength: 20
           type: string
         salesRoute:
+          maxLength: 20
           type: string
         additionalIssuerInfo:
+          maxLength: 250
           type: string
         buyer:
           $ref: "#/components/schemas/Buyer"
@@ -2856,7 +2924,6 @@ components:
         pages:
           $ref: "#/components/schemas/Page"
       required:
-      - invoiceNumber
       - invoiceType
       - issueDate
       - items
@@ -2931,60 +2998,64 @@ components:
       type: object
     Item:
       example:
-        alcoholDegree: 7.386281948385884
+        alcoholDegree: 3.616076749251911
         surcharge:
-        - amount: 7.457744773683766
-          type: type
-          value: 6.84685269835264
-        - amount: 7.457744773683766
-          type: type
-          value: 6.84685269835264
+        - amount: 1.0246457001441578
+          type: $
+          value: 1.2315135367772556
+        - amount: 1.0246457001441578
+          type: $
+          value: 1.2315135367772556
         codes:
         - code: code
           codeType: codeType
         - code: code
           codeType: codeType
-        surchargeAmount: 1.1730742509559433
-        referenceUnit: 9
+        surchargeAmount: null
+        referenceUnit: 2
         description: description
         billingIndicator: "0"
-        discountAmount: 1.4894159098541704
+        discountAmount: null
         discount:
-        - amount: 7.457744773683766
-          type: type
-          value: 6.84685269835264
-        - amount: 7.457744773683766
-          type: type
-          value: 6.84685269835264
+        - amount: null
+          type: $
+          value: 7.386281948385884
+        - amount: null
+          type: $
+          value: 7.386281948385884
         type: "1"
-        referenceQuantity: 7.061401241503109
-        referenceUnitPrice: 3.616076749251911
+        referenceQuantity: null
+        referenceUnitPrice: null
         alternativeCurrency:
-          unitPrice: 5.025004791520295
-          surcharge: 9.369310271410669
-          amount: 6.683562403749608
-          discount: 9.965781217890562
+          unitPrice: 7.457744773683766
+          surcharge: 4.965218492984954
+          amount: 5.025004791520295
+          discount: 1.1730742509559433
         subquantities:
-        - quantity: 2.027123023002322
-          unitCode: 4
-        - quantity: 2.027123023002322
-          unitCode: 4
+        - quantity: 7.061401241503109
+          unitCode: 9
+        - quantity: 7.061401241503109
+          unitCode: 9
         miningInfo:
-          netWeightMining: 1.0246457001441578
-          netWeightKg: 1.2315135367772556
-          affiliationType: affiliationType
-          settlement: settlement
+          netWeightMining: 4.145608029883936
+          netWeightKg: 2.027123023002322
+          affiliationType: "1"
+          settlement: "1"
         expirationDate: 2000-01-23T04:56:07.000+00:00
         unitPrice: "10000.00"
         amount: 10000.0
         quantity: "1"
-        unitOfMeasure: 2
+        unitOfMeasure: 5
         additionalTaxes:
-        - amount: 4.965218492984954
+        - amount: null
           code: code
-        - amount: 4.965218492984954
+          rate: 1.4894159098541704
+          alternativeCurrencyAmount: 6.84685269835264
+        - amount: null
           code: code
-        withheldISRAmount: 5.637376656633329
+          rate: 1.4894159098541704
+          alternativeCurrencyAmount: 6.84685269835264
+        withheldISRAmount: null
         name: Servicio profesional
         withholdingAgentIndicator: 1
         manufacturingDate: 2000-01-23T04:56:07.000+00:00
@@ -3003,9 +3074,10 @@ components:
           maxLength: 80
           type: string
         description:
+          maxLength: 1000
           type: string
         type:
-          description: "1=Product, 2=Service"
+          description: "1=Good, 2=Service"
           enum:
           - "1"
           - "2"
@@ -3015,20 +3087,19 @@ components:
         withholdingAgentIndicator:
           type: integer
         withheldITBISAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         withheldISRAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         quantity:
-          example: "1"
-          type: string
+          $ref: "#/components/schemas/Item_quantity"
         unitOfMeasure:
           type: integer
         referenceQuantity:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         referenceUnit:
           type: integer
         referenceUnitPrice:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         subquantities:
           items:
             $ref: "#/components/schemas/Subquantity"
@@ -3044,19 +3115,18 @@ components:
         miningInfo:
           $ref: "#/components/schemas/Item_miningInfo"
         unitPrice:
-          example: "10000.00"
-          type: string
+          $ref: "#/components/schemas/Item_unitPrice"
         discountAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         discount:
           items:
             $ref: "#/components/schemas/Item_discount_inner"
           type: array
         surchargeAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         surcharge:
           items:
-            $ref: "#/components/schemas/Item_discount_inner"
+            $ref: "#/components/schemas/Item_surcharge_inner"
           type: array
         additionalTaxes:
           items:
@@ -3065,10 +3135,8 @@ components:
         alternativeCurrency:
           $ref: "#/components/schemas/Item_alternativeCurrency"
         amount:
-          example: 10000.0
-          type: number
+          $ref: "#/components/schemas/Item_amount"
       required:
-      - amount
       - billingIndicator
       - name
       - quantity
@@ -3078,92 +3146,106 @@ components:
     Totals:
       example:
         itbisRate2: 0.16
-        amountToPay: 0.8851374739011653
-        taxableAmount: 8.762042012749001
+        amountToPay: null
+        taxableAmount: null
         itbisRate1: 0.18
-        totalITBISPerception: 0.10263654006109402
+        totalITBISPerception: null
         itbisRate3: 0.0
         additionalTaxes:
-        - additionalTaxes
-        - additionalTaxes
-        - additionalTaxes
-        - additionalTaxes
-        - additionalTaxes
-        totalISRPerception: 4.652396432933246
-        advancePaymentAmount: 7.143538047012306
-        exemptAmount: 6.965117697638846
-        additionalTaxAmount: 5.944895607614016
-        itbis2: 6.778324963048013
-        itbis1: 2.8841621266687802
-        itbis3: 6.878052220127876
-        previousBalance: 3.0937452626664474
-        nonBillableAmount: 6.704019297950036
-        periodAmount: 3.353193347011243
-        totalIncomeTaxWithholding: 6.519180951018382
+        - code: code
+          otherAdditionalTaxesAmount: 8.762042012749001
+          rate: 9.965781217890562
+          adValoremConsumptionTaxAmount: 6.683562403749608
+          specificConsumptionTaxAmount: 9.369310271410669
+        - code: code
+          otherAdditionalTaxesAmount: 8.762042012749001
+          rate: 9.965781217890562
+          adValoremConsumptionTaxAmount: 6.683562403749608
+          specificConsumptionTaxAmount: 9.369310271410669
+        - code: code
+          otherAdditionalTaxesAmount: 8.762042012749001
+          rate: 9.965781217890562
+          adValoremConsumptionTaxAmount: 6.683562403749608
+          specificConsumptionTaxAmount: 9.369310271410669
+        - code: code
+          otherAdditionalTaxesAmount: 8.762042012749001
+          rate: 9.965781217890562
+          adValoremConsumptionTaxAmount: 6.683562403749608
+          specificConsumptionTaxAmount: 9.369310271410669
+        - code: code
+          otherAdditionalTaxesAmount: 8.762042012749001
+          rate: 9.965781217890562
+          adValoremConsumptionTaxAmount: 6.683562403749608
+          specificConsumptionTaxAmount: 9.369310271410669
+        totalISRPerception: null
+        advancePaymentAmount: null
+        exemptAmount: null
+        additionalTaxAmount: null
+        itbis2: null
+        itbis1: null
+        itbis3: null
+        previousBalance: null
+        nonBillableAmount: null
+        periodAmount: null
+        totalIncomeTaxWithholding: null
         totalAmount: 11800.0
-        totalITBIS: 1.284659006116532
-        taxableAmount2: 6.438423552598547
-        taxableAmount1: 9.018348186070783
-        taxableAmount3: 3.5571952270680973
-        totalWithheldITBIS: 7.058770351582356
+        totalITBIS: null
+        taxableAmount2: null
+        taxableAmount1: null
+        taxableAmount3: null
+        totalWithheldITBIS: null
       properties:
         taxableAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         taxableAmount1:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         taxableAmount2:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         taxableAmount3:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         exemptAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         itbisRate1:
-          example: 0.18
-          type: number
+          $ref: "#/components/schemas/Totals_itbisRate1"
         itbisRate2:
-          example: 0.16
-          type: number
+          $ref: "#/components/schemas/Totals_itbisRate2"
         itbisRate3:
-          example: 0.0
-          type: number
+          $ref: "#/components/schemas/Totals_itbisRate3"
         totalITBIS:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         itbis1:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         itbis2:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         itbis3:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         additionalTaxAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         additionalTaxes:
           items:
-            type: string
+            $ref: "#/components/schemas/AdditionalTax"
           maxItems: 20
           type: array
         totalAmount:
-          example: 11800.0
-          type: number
+          $ref: "#/components/schemas/Totals_totalAmount"
         nonBillableAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         periodAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         previousBalance:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         advancePaymentAmount:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         amountToPay:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         totalWithheldITBIS:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         totalIncomeTaxWithholding:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         totalITBISPerception:
-          type: number
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
         totalISRPerception:
-          type: number
-      required:
-      - totalAmount
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
       type: object
     EcfSubmissionResponse:
       description: |
@@ -3175,12 +3257,19 @@ components:
         contingencyMode: true
         documentType: E31
         securityCode: A1B2C3
+        isSummary: true
         message: message
         dgiiResponse:
           estado: estado
-          codigoError: codigoError
+          encf: encf
           trackId: trackId
-          mensaje: mensaje
+          rnc: rnc
+          mensajes:
+          - codigo: 0.8008281904610115
+            valor: valor
+          - codigo: 0.8008281904610115
+            valor: valor
+          fechaRecepcion: 2000-01-23T04:56:07.000+00:00
         success: true
         printUrl: https://openapi-generator.tech
         documentId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -3214,6 +3303,8 @@ components:
         printUrl:
           format: uri
           type: string
+        isSummary:
+          type: boolean
         authType:
           example: api_key
           type: string
@@ -3238,9 +3329,9 @@ components:
         encf: encf
         trackId: trackId
         mensajes:
-        - codigo: codigo
+        - codigo: 0.8008281904610115
           valor: valor
-        - codigo: codigo
+        - codigo: 0.8008281904610115
           valor: valor
         source: dgii_direct
         receivedAt: 2000-01-23T04:56:07.000+00:00
@@ -3275,7 +3366,7 @@ components:
           type: string
         mensajes:
           items:
-            $ref: "#/components/schemas/EcfStatusResponse_mensajes_inner"
+            $ref: "#/components/schemas/DgiiMessage"
           type: array
         logs:
           items:
@@ -4238,21 +4329,21 @@ components:
       type: object
     Subtotal:
       example:
-        taxableAmount: 8.251625748923757
-        amount: 9.254183946267839
-        additionalTaxes: 4.573936264232251
+        taxableAmount: 7.04836565559697
+        amount: 9.132027271330688
+        additionalTaxes: 4.678947989005849
         description: description
-        exemptAmount: 8.863729185622827
-        itbis2: 8.28965939814297
-        itbis1: 1.7325933120207193
-        itbis3: 6.623518433804886
-        number: 4
-        totalITBIS: 2.9409642974827896
-        taxableAmount2: 3.901545264248647
-        taxableAmount1: 4.459605034958679
-        taxableAmount3: 0.43431398824148815
-        lines: 1
-        order: 6
+        exemptAmount: 7.260521264802104
+        itbis2: 4.258773108174356
+        itbis1: 6.628464275087742
+        itbis3: 1.041444916118296
+        number: 3
+        totalITBIS: 0.2025324113236393
+        taxableAmount2: 3.2588565619047607
+        taxableAmount1: 5.533258397034986
+        taxableAmount3: 4.078845849666752
+        lines: 0
+        order: 3
       properties:
         number:
           type: integer
@@ -4287,14 +4378,14 @@ components:
       type: object
     DiscountOrSurcharge:
       example:
-        amount: 8.761432466225475
+        amount: 7.933506881737151
         norm1007Indicator: "0"
-        alternativeCurrencyAmount: 0.4182561061793122
+        alternativeCurrencyAmount: 5.507386964179881
         valueType: $
         description: description
         billingIndicator: null
-        percentageValue: 9.183123594773994
-        lineNumber: 3
+        percentageValue: 0.5199002018724985
+        lineNumber: 9
         type: D
       properties:
         lineNumber:
@@ -4333,21 +4424,21 @@ components:
       type: object
     Page:
       example:
-        taxableAmount: 7.606863723092579
-        pageNumber: 5
-        additionalTaxes: 3.804112695731078
+        taxableAmount: 4.459605034958679
+        pageNumber: 4
+        additionalTaxes: 9.254183946267839
         lineTo: 8
-        exemptAmount: 5.877124706116695
-        itbis2: 3.1497903714250555
-        lineFrom: 5
-        itbis1: 0.4768402382624515
-        itbis3: 2.380090174313445
-        nonBillableAmount: 4.518309517874243
-        totalITBIS: 7.835035282970782
-        subtotal: 8.675064425986758
-        taxableAmount2: 3.111202833403195
-        taxableAmount1: 3.7814124730767915
-        taxableAmount3: 9.897492629215506
+        exemptAmount: 1.7325933120207193
+        itbis2: 4.573936264232251
+        lineFrom: 6
+        itbis1: 6.623518433804886
+        itbis3: 8.863729185622827
+        nonBillableAmount: 3.502657762086401
+        totalITBIS: 8.28965939814297
+        subtotal: 1.8268702177058116
+        taxableAmount2: 0.43431398824148815
+        taxableAmount1: 3.901545264248647
+        taxableAmount3: 2.9409642974827896
       properties:
         pageNumber:
           type: integer
@@ -4410,17 +4501,17 @@ components:
       type: object
     AdditionalInfo:
       example:
-        netWeightUnit: 3
-        grossWeight: 8.969578798196912
-        netWeight: 7.740351818741173
-        packageVolume: 3.2588565619047607
+        netWeightUnit: 6
+        grossWeight: 9.018348186070783
+        netWeight: 6.438423552598547
+        packageVolume: 6.778324963048013
         containerNumber: containerNumber
         referenceNumber: referenceNumber
-        packageUnit: 5
-        volumeUnit: 4
+        packageUnit: 2
+        volumeUnit: 6
         grossWeightUnit: 3
         shipmentDate: shipmentDate
-        packageQuantity: 7.04836565559697
+        packageQuantity: 1.284659006116532
         shipmentNumber: shipmentNumber
       properties:
         shipmentDate:
@@ -4450,23 +4541,23 @@ components:
       type: object
     AlternativeCurrency:
       example:
-        taxableAmount: 0.2025324113236393
+        taxableAmount: 5.944895607614016
         code: USD
         additionalTaxes:
         - additionalTaxes
         - additionalTaxes
-        exemptAmount: 4.678947989005849
-        additionalTaxAmount: 0.5199002018724985
-        itbis2: 0.8774076871421566
-        itbis1: 9.132027271330688
-        itbis3: 9.702963800023566
-        nonBillableAmount: 7.933506881737151
-        totalAmount: 5.507386964179881
-        totalITBIS: 7.260521264802104
+        exemptAmount: 7.143538047012306
+        additionalTaxAmount: 4.652396432933246
+        itbis2: 6.519180951018382
+        itbis1: 7.058770351582356
+        itbis3: 0.10263654006109402
+        nonBillableAmount: 8.969578798196912
+        totalAmount: 7.740351818741173
+        totalITBIS: 0.8851374739011653
         exchangeRate: 58.5
-        taxableAmount2: 4.258773108174356
-        taxableAmount1: 6.628464275087742
-        taxableAmount3: 1.041444916118296
+        taxableAmount2: 3.353193347011243
+        taxableAmount1: 6.704019297950036
+        taxableAmount3: 3.0937452626664474
       properties:
         code:
           example: USD
@@ -4541,21 +4632,60 @@ components:
       type: object
     ItemAdditionalTax:
       example:
-        amount: 4.965218492984954
+        amount: null
         code: code
+        rate: 1.4894159098541704
+        alternativeCurrencyAmount: 6.84685269835264
       properties:
         code:
           description: "DGII tax code (e.g. ISC, IECS)"
           type: string
         amount:
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
+        rate:
+          type: number
+        alternativeCurrencyAmount:
           type: number
       required:
       - code
       type: object
+    AdditionalTax:
+      example:
+        code: code
+        otherAdditionalTaxesAmount: 8.762042012749001
+        rate: 9.965781217890562
+        adValoremConsumptionTaxAmount: 6.683562403749608
+        specificConsumptionTaxAmount: 9.369310271410669
+      properties:
+        code:
+          maxLength: 3
+          type: string
+        rate:
+          type: number
+        specificConsumptionTaxAmount:
+          type: number
+        adValoremConsumptionTaxAmount:
+          type: number
+        otherAdditionalTaxesAmount:
+          type: number
+      required:
+      - code
+      - rate
+      type: object
+    DgiiMessage:
+      example:
+        codigo: 0.8008281904610115
+        valor: valor
+      properties:
+        codigo:
+          type: number
+        valor:
+          type: string
+      type: object
     Subquantity:
       example:
-        quantity: 2.027123023002322
-        unitCode: 4
+        quantity: 7.061401241503109
+        unitCode: 9
       properties:
         quantity:
           type: number
@@ -4787,29 +4917,68 @@ components:
         code:
           type: string
       type: object
+    Item_withheldITBISAmount:
+      oneOf:
+      - type: number
+      - type: string
+    Item_quantity:
+      example: "1"
+      oneOf:
+      - type: number
+      - type: string
     Item_miningInfo:
       example:
-        netWeightMining: 1.0246457001441578
-        netWeightKg: 1.2315135367772556
-        affiliationType: affiliationType
-        settlement: settlement
+        netWeightMining: 4.145608029883936
+        netWeightKg: 2.027123023002322
+        affiliationType: "1"
+        settlement: "1"
       properties:
         netWeightKg:
           type: number
         netWeightMining:
           type: number
         affiliationType:
+          enum:
+          - "1"
+          - "2"
           type: string
         settlement:
+          enum:
+          - "1"
+          - "2"
           type: string
       type: object
+    Item_unitPrice:
+      example: "10000.00"
+      oneOf:
+      - type: number
+      - type: string
     Item_discount_inner:
       example:
-        amount: 7.457744773683766
-        type: type
-        value: 6.84685269835264
+        amount: null
+        type: $
+        value: 7.386281948385884
       properties:
         type:
+          enum:
+          - $
+          - '%'
+          type: string
+        value:
+          type: number
+        amount:
+          $ref: "#/components/schemas/Item_withheldITBISAmount"
+      type: object
+    Item_surcharge_inner:
+      example:
+        amount: 1.0246457001441578
+        type: $
+        value: 1.2315135367772556
+      properties:
+        type:
+          enum:
+          - $
+          - '%'
           type: string
         value:
           type: number
@@ -4818,10 +4987,10 @@ components:
       type: object
     Item_alternativeCurrency:
       example:
-        unitPrice: 5.025004791520295
-        surcharge: 9.369310271410669
-        amount: 6.683562403749608
-        discount: 9.965781217890562
+        unitPrice: 7.457744773683766
+        surcharge: 4.965218492984954
+        amount: 5.025004791520295
+        discount: 1.1730742509559433
       properties:
         unitPrice:
           type: number
@@ -4832,32 +5001,60 @@ components:
         amount:
           type: number
       type: object
+    Item_amount:
+      example: 10000.0
+      oneOf:
+      - type: number
+      - type: string
+    Totals_itbisRate1:
+      example: 0.18
+      oneOf:
+      - type: number
+      - type: string
+    Totals_itbisRate2:
+      example: 0.16
+      oneOf:
+      - type: number
+      - type: string
+    Totals_itbisRate3:
+      example: 0.0
+      oneOf:
+      - type: number
+      - type: string
+    Totals_totalAmount:
+      example: 11800.0
+      oneOf:
+      - type: number
+      - type: string
     EcfSubmissionResponse_dgiiResponse:
       example:
         estado: estado
-        codigoError: codigoError
+        encf: encf
         trackId: trackId
-        mensaje: mensaje
+        rnc: rnc
+        mensajes:
+        - codigo: 0.8008281904610115
+          valor: valor
+        - codigo: 0.8008281904610115
+          valor: valor
+        fechaRecepcion: 2000-01-23T04:56:07.000+00:00
       properties:
+        trackId:
+          type: string
         estado:
           description: "Aprobado, Rechazado, En Proceso"
           type: string
-        trackId:
+        rnc:
           type: string
-        codigoError:
+        encf:
           type: string
-        mensaje:
+        fechaRecepcion:
+          format: date-time
           type: string
-      type: object
-    EcfStatusResponse_mensajes_inner:
-      example:
-        codigo: codigo
-        valor: valor
-      properties:
-        codigo:
-          type: string
-        valor:
-          type: string
+        mensajes:
+          items:
+            $ref: "#/components/schemas/DgiiMessage"
+          type: array
       type: object
     SentDocumentSummary_business:
       example:

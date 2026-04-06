@@ -7,6 +7,7 @@
 | **access_token** | **String** |  | [optional] |
 | **token_type** | **String** |  | [optional] |
 | **expires_in** | **Integer** | Token lifetime in seconds (24 hours &#x3D; 86400). | [optional] |
+| **scope** | **Array&lt;String&gt;** |  | [optional] |
 
 ## Example
 
@@ -16,7 +17,8 @@ require 'pronesoft_ecf'
 instance = PronesoftEcf::OAuthTokenResponse.new(
   access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...,
   token_type: Bearer,
-  expires_in: 86400
+  expires_in: 86400,
+  scope: [&quot;documents:read&quot;,&quot;documents:write&quot;]
 )
 ```
 

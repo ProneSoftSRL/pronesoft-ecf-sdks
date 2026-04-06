@@ -16,6 +16,7 @@ Name | Type
 `encf` | string
 `documentType` | string
 `printUrl` | string
+`isSummary` | boolean
 `authType` | string
 `timestamp` | Date
 `message` | string
@@ -38,6 +39,7 @@ const example = {
   "encf": E310000000001,
   "documentType": E31,
   "printUrl": null,
+  "isSummary": null,
   "authType": api_key,
   "timestamp": null,
   "message": null,

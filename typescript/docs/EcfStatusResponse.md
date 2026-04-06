@@ -15,7 +15,7 @@ Name | Type
 `businessRnc` | string
 `environment` | [Environment](Environment.md)
 `receivedAt` | Date
-`mensajes` | [Array&lt;EcfStatusResponseMensajesInner&gt;](EcfStatusResponseMensajesInner.md)
+`mensajes` | [Array&lt;DgiiMessage&gt;](DgiiMessage.md)
 `logs` | [Array&lt;ProcessingLog&gt;](ProcessingLog.md)
 `source` | string
 

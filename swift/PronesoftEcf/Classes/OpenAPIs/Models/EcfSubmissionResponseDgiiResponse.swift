@@ -17,34 +17,42 @@ extension PronesoftEcfAPI {
 
 public struct EcfSubmissionResponseDgiiResponse: Codable, JSONEncodable, Hashable {
 
+    public var trackId: String?
     /** Aprobado, Rechazado, En Proceso */
     public var estado: String?
-    public var trackId: String?
-    public var codigoError: String?
-    public var mensaje: String?
+    public var rnc: String?
+    public var encf: String?
+    public var fechaRecepcion: Date?
+    public var mensajes: [DgiiMessage]?
 
-    public init(estado: String? = nil, trackId: String? = nil, codigoError: String? = nil, mensaje: String? = nil) {
-        self.estado = estado
+    public init(trackId: String? = nil, estado: String? = nil, rnc: String? = nil, encf: String? = nil, fechaRecepcion: Date? = nil, mensajes: [DgiiMessage]? = nil) {
         self.trackId = trackId
-        self.codigoError = codigoError
-        self.mensaje = mensaje
+        self.estado = estado
+        self.rnc = rnc
+        self.encf = encf
+        self.fechaRecepcion = fechaRecepcion
+        self.mensajes = mensajes
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case estado
         case trackId
-        case codigoError
-        case mensaje
+        case estado
+        case rnc
+        case encf
+        case fechaRecepcion
+        case mensajes
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(estado, forKey: .estado)
         try container.encodeIfPresent(trackId, forKey: .trackId)
-        try container.encodeIfPresent(codigoError, forKey: .codigoError)
-        try container.encodeIfPresent(mensaje, forKey: .mensaje)
+        try container.encodeIfPresent(estado, forKey: .estado)
+        try container.encodeIfPresent(rnc, forKey: .rnc)
+        try container.encodeIfPresent(encf, forKey: .encf)
+        try container.encodeIfPresent(fechaRecepcion, forKey: .fechaRecepcion)
+        try container.encodeIfPresent(mensajes, forKey: .mensajes)
     }
 }
 

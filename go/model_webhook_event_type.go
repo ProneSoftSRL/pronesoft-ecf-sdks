@@ -3,7 +3,7 @@ eCF-Pronesoft Integration API
 
 ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
-API version: 1.1.0
+API version: 1.2.0
 Contact: support@pronesoft.com
 */
 
@@ -36,12 +36,9 @@ const (
 	SEQUENCE_VOIDED WebhookEventType = "sequence.voided"
 	BRANCH_CREATED WebhookEventType = "branch.created"
 	BRANCH_STATUS_CHANGED WebhookEventType = "branch.status_changed"
-	SECURITY_NEW_LOGIN2 WebhookEventType = "security.new_login"
 	MEMBER_INVITED WebhookEventType = "member.invited"
 	MEMBER_JOINED WebhookEventType = "member.joined"
 	MEMBER_REMOVED WebhookEventType = "member.removed"
-	CERTIFICATE_EXPIRING2 WebhookEventType = "certificate.expiring"
-	COMMERCIAL_APPROVAL2 WebhookEventType = "commercial.approval"
 	CERTIFICATION_COMPLETED WebhookEventType = "certification.completed"
 )
 
@@ -62,12 +59,9 @@ var AllowedWebhookEventTypeEnumValues = []WebhookEventType{
 	"sequence.voided",
 	"branch.created",
 	"branch.status_changed",
-	"security.new_login",
 	"member.invited",
 	"member.joined",
 	"member.removed",
-	"certificate.expiring",
-	"commercial.approval",
 	"certification.completed",
 }
 

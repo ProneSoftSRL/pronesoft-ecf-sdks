@@ -17,11 +17,15 @@ extension PronesoftEcfAPI {
 
 public struct ItemDiscountInner: Codable, JSONEncodable, Hashable {
 
-    public var type: String?
+    public enum ModelType: String, Codable, CaseIterable {
+        case dollar = "$"
+        case percent = "%"
+    }
+    public var type: ModelType?
     public var value: Double?
-    public var amount: Double?
+    public var amount: ItemWithheldITBISAmount?
 
-    public init(type: String? = nil, value: Double? = nil, amount: Double? = nil) {
+    public init(type: ModelType? = nil, value: Double? = nil, amount: ItemWithheldITBISAmount? = nil) {
         self.type = type
         self.value = value
         self.amount = amount

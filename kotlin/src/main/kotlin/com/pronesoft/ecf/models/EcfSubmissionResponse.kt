@@ -39,6 +39,7 @@ import com.google.gson.annotations.SerializedName
  * @param encf 
  * @param documentType 
  * @param printUrl 
+ * @param isSummary 
  * @param authType 
  * @param timestamp 
  * @param message 
@@ -75,6 +76,9 @@ data class EcfSubmissionResponse (
 
     @SerializedName("printUrl")
     val printUrl: java.net.URI? = null,
+
+    @SerializedName("isSummary")
+    val isSummary: kotlin.Boolean? = null,
 
     @SerializedName("authType")
     val authType: kotlin.String? = null,

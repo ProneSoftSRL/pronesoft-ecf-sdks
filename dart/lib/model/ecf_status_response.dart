@@ -99,7 +99,7 @@ class EcfStatusResponse {
   ///
   DateTime? receivedAt;
 
-  List<EcfStatusResponseMensajesInner> mensajes;
+  List<DgiiMessage> mensajes;
 
   List<ProcessingLog> logs;
 
@@ -220,7 +220,7 @@ class EcfStatusResponse {
         businessRnc: mapValueOfType<String>(json, r'businessRnc'),
         environment: Environment.fromJson(json[r'environment']),
         receivedAt: mapDateTime(json, r'receivedAt', r''),
-        mensajes: EcfStatusResponseMensajesInner.listFromJson(json[r'mensajes']),
+        mensajes: DgiiMessage.listFromJson(json[r'mensajes']),
         logs: ProcessingLog.listFromJson(json[r'logs']),
         source_: EcfStatusResponseSource_Enum.fromJson(json[r'source']),
       );

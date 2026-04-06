@@ -4,10 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Estado** | **string** | Aprobado, Rechazado, En Proceso | [optional] 
 **TrackId** | **string** |  | [optional] 
-**CodigoError** | **string** |  | [optional] 
-**Mensaje** | **string** |  | [optional] 
+**Estado** | **string** | Aprobado, Rechazado, En Proceso | [optional] 
+**Rnc** | **string** |  | [optional] 
+**Encf** | **string** |  | [optional] 
+**FechaRecepcion** | **DateTime** |  | [optional] 
+**Mensajes** | [**List&lt;DgiiMessage&gt;**](DgiiMessage.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

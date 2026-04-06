@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **encf** | **String** |  | [optional] 
 **documentType** | **String** |  | [optional] 
 **printUrl** | **String** |  | [optional] 
+**isSummary** | **Bool** |  | [optional] 
 **authType** | **String** |  | [optional] 
 **timestamp** | **Date** |  | [optional] 
 **message** | **String** |  | [optional] 

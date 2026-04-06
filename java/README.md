@@ -1,8 +1,8 @@
 # ecf-sdk
 
 eCF-Pronesoft Integration API
-- API version: 1.1.0
-  - Build date: 2026-04-03T14:20:24.238162186-04:00[America/Santo_Domingo]
+- API version: 1.2.0
+  - Build date: 2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Overview
@@ -74,7 +74,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.pronesoft</groupId>
   <artifactId>ecf-sdk</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -90,7 +90,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.pronesoft:ecf-sdk:0.0.2"
+     implementation "com.pronesoft:ecf-sdk:0.0.3"
   }
 ```
 
@@ -104,7 +104,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/ecf-sdk-0.0.2.jar`
+* `target/ecf-sdk-0.0.3.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -211,6 +211,7 @@ Class | Method | HTTP request | Description
 
  - [AccountType](docs/AccountType.md)
  - [AdditionalInfo](docs/AdditionalInfo.md)
+ - [AdditionalTax](docs/AdditionalTax.md)
  - [AlternativeCurrency](docs/AlternativeCurrency.md)
  - [ApprovalItem](docs/ApprovalItem.md)
  - [ApprovalListResponse](docs/ApprovalListResponse.md)
@@ -233,13 +234,13 @@ Class | Method | HTTP request | Description
  - [CreateTaxSequence201Response](docs/CreateTaxSequence201Response.md)
  - [CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
  - [DeleteAssociatedCompany200Response](docs/DeleteAssociatedCompany200Response.md)
+ - [DgiiMessage](docs/DgiiMessage.md)
  - [DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
  - [DocumentStatsResponse](docs/DocumentStatsResponse.md)
  - [DocumentStatus](docs/DocumentStatus.md)
  - [EcfHistoryItem](docs/EcfHistoryItem.md)
  - [EcfStatsResponse](docs/EcfStatsResponse.md)
  - [EcfStatusResponse](docs/EcfStatusResponse.md)
- - [EcfStatusResponseMensajesInner](docs/EcfStatusResponseMensajesInner.md)
  - [EcfSubmissionResponse](docs/EcfSubmissionResponse.md)
  - [EcfSubmissionResponseDgiiResponse](docs/EcfSubmissionResponseDgiiResponse.md)
  - [ElectronicDocument](docs/ElectronicDocument.md)
@@ -252,9 +253,14 @@ Class | Method | HTTP request | Description
  - [Item](docs/Item.md)
  - [ItemAdditionalTax](docs/ItemAdditionalTax.md)
  - [ItemAlternativeCurrency](docs/ItemAlternativeCurrency.md)
+ - [ItemAmount](docs/ItemAmount.md)
  - [ItemCodesInner](docs/ItemCodesInner.md)
  - [ItemDiscountInner](docs/ItemDiscountInner.md)
  - [ItemMiningInfo](docs/ItemMiningInfo.md)
+ - [ItemQuantity](docs/ItemQuantity.md)
+ - [ItemSurchargeInner](docs/ItemSurchargeInner.md)
+ - [ItemUnitPrice](docs/ItemUnitPrice.md)
+ - [ItemWithheldITBISAmount](docs/ItemWithheldITBISAmount.md)
  - [ListTaxSequences200Response](docs/ListTaxSequences200Response.md)
  - [OAuthTokenRequest](docs/OAuthTokenRequest.md)
  - [OAuthTokenResponse](docs/OAuthTokenResponse.md)
@@ -280,6 +286,10 @@ Class | Method | HTTP request | Description
  - [TaxSequence](docs/TaxSequence.md)
  - [TaxSequenceCreated](docs/TaxSequenceCreated.md)
  - [Totals](docs/Totals.md)
+ - [TotalsItbisRate1](docs/TotalsItbisRate1.md)
+ - [TotalsItbisRate2](docs/TotalsItbisRate2.md)
+ - [TotalsItbisRate3](docs/TotalsItbisRate3.md)
+ - [TotalsTotalAmount](docs/TotalsTotalAmount.md)
  - [Transport](docs/Transport.md)
  - [UpdateTaxSequenceRequest](docs/UpdateTaxSequenceRequest.md)
  - [UploadCertificateResponse](docs/UploadCertificateResponse.md)

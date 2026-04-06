@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | Pointer to **string** |  | [optional] 
 **Value** | Pointer to **float32** |  | [optional] 
-**Amount** | Pointer to **float32** |  | [optional] 
+**Amount** | Pointer to [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasValue returns a boolean if a field has been set.
 
 ### GetAmount
 
-`func (o *ItemDiscountInner) GetAmount() float32`
+`func (o *ItemDiscountInner) GetAmount() ItemWithheldITBISAmount`
 
 GetAmount returns the Amount field if non-nil, zero value otherwise.
 
 ### GetAmountOk
 
-`func (o *ItemDiscountInner) GetAmountOk() (*float32, bool)`
+`func (o *ItemDiscountInner) GetAmountOk() (*ItemWithheldITBISAmount, bool)`
 
 GetAmountOk returns a tuple with the Amount field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAmount
 
-`func (o *ItemDiscountInner) SetAmount(v float32)`
+`func (o *ItemDiscountInner) SetAmount(v ItemWithheldITBISAmount)`
 
 SetAmount sets Amount field to given value.
 

@@ -5,9 +5,10 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **environment** | [**Environment**](Environment.md) |  | [optional] |
-| **version** | **Integer** | Always 1. | [default to 1] |
+| **version** | **String** | Always 1.0. | [default to &#39;1.0&#39;] |
 | **invoice_type** | [**InvoiceType**](InvoiceType.md) |  |  |
-| **invoice_number** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  |
+| **invoice_number** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional] |
+| **group_id** | **String** | Optional Group ID for batch processing | [optional] |
 | **issue_date** | **Time** |  |  |
 | **expiration_date** | **Time** |  | [optional] |
 | **credit_note_indicator** | **String** | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days | [optional] |
@@ -59,9 +60,10 @@ require 'pronesoft_ecf'
 
 instance = PronesoftEcf::ElectronicDocument.new(
   environment: null,
-  version: 1,
+  version: 1.0,
   invoice_type: null,
   invoice_number: E310000000001,
+  group_id: null,
   issue_date: 2025-01-15T10:30Z,
   expiration_date: null,
   credit_note_indicator: null,

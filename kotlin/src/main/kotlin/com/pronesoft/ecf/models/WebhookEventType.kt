@@ -29,7 +29,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 
  *
- * Values: documentPeriodReceived,documentPeriodStatus_changed,documentPeriodValidation_error,documentPeriodContingency_activated,commercialPeriodApproval,certificatePeriodExpiring,securityPeriodNew_login,securityPeriodApi_key_rotated,planPeriodUsage_alert,planPeriodPayment_failed,billingPeriodInvoice_ready,sequencePeriodDepleted,sequencePeriodVoided,branchPeriodCreated,branchPeriodStatus_changed,securityPeriodNew_login2,memberPeriodInvited,memberPeriodJoined,memberPeriodRemoved,certificatePeriodExpiring2,commercialPeriodApproval2,certificationPeriodCompleted
+ * Values: documentPeriodReceived,documentPeriodStatus_changed,documentPeriodValidation_error,documentPeriodContingency_activated,commercialPeriodApproval,certificatePeriodExpiring,securityPeriodNew_login,securityPeriodApi_key_rotated,planPeriodUsage_alert,planPeriodPayment_failed,billingPeriodInvoice_ready,sequencePeriodDepleted,sequencePeriodVoided,branchPeriodCreated,branchPeriodStatus_changed,memberPeriodInvited,memberPeriodJoined,memberPeriodRemoved,certificationPeriodCompleted
  */
 
 enum class WebhookEventType(val value: kotlin.String) {
@@ -79,9 +79,6 @@ enum class WebhookEventType(val value: kotlin.String) {
     @SerializedName(value = "branch.status_changed")
     branchPeriodStatus_changed("branch.status_changed"),
 
-    @SerializedName(value = "security.new_login")
-    securityPeriodNew_login2("security.new_login"),
-
     @SerializedName(value = "member.invited")
     memberPeriodInvited("member.invited"),
 
@@ -90,12 +87,6 @@ enum class WebhookEventType(val value: kotlin.String) {
 
     @SerializedName(value = "member.removed")
     memberPeriodRemoved("member.removed"),
-
-    @SerializedName(value = "certificate.expiring")
-    certificatePeriodExpiring2("certificate.expiring"),
-
-    @SerializedName(value = "commercial.approval")
-    commercialPeriodApproval2("commercial.approval"),
 
     @SerializedName(value = "certification.completed")
     certificationPeriodCompleted("certification.completed");

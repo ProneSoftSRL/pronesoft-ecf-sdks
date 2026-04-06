@@ -3,7 +3,7 @@
 #
 
 name: 'pronesoft_ecf'
-version: '0.0.2'
+version: '0.0.3'
 description: 'Pronesoft eCF SDK for Dart/Flutter'
 homepage: 'homepage'
 environment:

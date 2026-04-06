@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **accessToken** | **String** |  | [optional] 
 **tokenType** | **String** |  | [optional] 
 **expiresIn** | **int** | Token lifetime in seconds (24 hours = 86400). | [optional] 
+**scope** | **List<String>** |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

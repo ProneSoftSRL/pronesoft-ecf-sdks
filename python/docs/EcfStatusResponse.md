@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **business_rnc** | **str** |  | [optional] 
 **environment** | [**Environment**](Environment.md) |  | [optional] 
 **received_at** | **datetime** |  | [optional] 
-**mensajes** | [**List[EcfStatusResponseMensajesInner]**](EcfStatusResponseMensajesInner.md) |  | [optional] 
+**mensajes** | [**List[DgiiMessage]**](DgiiMessage.md) |  | [optional] 
 **logs** | [**List[ProcessingLog]**](ProcessingLog.md) |  | [optional] 
 **source** | **str** |  | [optional] 
 

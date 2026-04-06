@@ -17,6 +17,7 @@ Response after submitting an e-CF. HTTP 200 even when rejected. Check the succes
 |**encf** | **String** |  |  [optional] |
 |**documentType** | **String** |  |  [optional] |
 |**printUrl** | **URI** |  |  [optional] |
+|**isSummary** | **Boolean** |  |  [optional] |
 |**authType** | **String** |  |  [optional] |
 |**timestamp** | **OffsetDateTime** |  |  [optional] |
 |**message** | **String** |  |  [optional] |

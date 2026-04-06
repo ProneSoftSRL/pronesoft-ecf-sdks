@@ -6,30 +6,30 @@
 
 Name | Type
 ------------ | -------------
-`taxableAmount` | number
-`taxableAmount1` | number
-`taxableAmount2` | number
-`taxableAmount3` | number
-`exemptAmount` | number
-`itbisRate1` | number
-`itbisRate2` | number
-`itbisRate3` | number
-`totalITBIS` | number
-`itbis1` | number
-`itbis2` | number
-`itbis3` | number
-`additionalTaxAmount` | number
-`additionalTaxes` | Array&lt;string&gt;
-`totalAmount` | number
-`nonBillableAmount` | number
-`periodAmount` | number
-`previousBalance` | number
-`advancePaymentAmount` | number
-`amountToPay` | number
-`totalWithheldITBIS` | number
-`totalIncomeTaxWithholding` | number
-`totalITBISPerception` | number
-`totalISRPerception` | number
+`taxableAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`taxableAmount1` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`taxableAmount2` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`taxableAmount3` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`exemptAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`itbisRate1` | [TotalsItbisRate1](TotalsItbisRate1.md)
+`itbisRate2` | [TotalsItbisRate2](TotalsItbisRate2.md)
+`itbisRate3` | [TotalsItbisRate3](TotalsItbisRate3.md)
+`totalITBIS` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`itbis1` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`itbis2` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`itbis3` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`additionalTaxAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`additionalTaxes` | [Array&lt;AdditionalTax&gt;](AdditionalTax.md)
+`totalAmount` | [TotalsTotalAmount](TotalsTotalAmount.md)
+`nonBillableAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`periodAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`previousBalance` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`advancePaymentAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`amountToPay` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`totalWithheldITBIS` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`totalIncomeTaxWithholding` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`totalITBISPerception` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`totalISRPerception` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
 
 ## Example
 
@@ -43,16 +43,16 @@ const example = {
   "taxableAmount2": null,
   "taxableAmount3": null,
   "exemptAmount": null,
-  "itbisRate1": 0.18,
-  "itbisRate2": 0.16,
-  "itbisRate3": 0.0,
+  "itbisRate1": null,
+  "itbisRate2": null,
+  "itbisRate3": null,
   "totalITBIS": null,
   "itbis1": null,
   "itbis2": null,
   "itbis3": null,
   "additionalTaxAmount": null,
   "additionalTaxes": null,
-  "totalAmount": 11800.0,
+  "totalAmount": null,
   "nonBillableAmount": null,
   "periodAmount": null,
   "previousBalance": null,

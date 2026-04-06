@@ -247,7 +247,7 @@ import (
 
 func main() {
 	environment := openapiclient.Environment("TesteCF") // Environment | 
-	electronicDocument := *openapiclient.NewElectronicDocument(int32(1), openapiclient.InvoiceType("31"), "E310000000001", time.Now(), []openapiclient.PaymentForm{*openapiclient.NewPaymentForm(openapiclient.PaymentMethod("1"), float32(11800.0))}, []openapiclient.Item{*openapiclient.NewItem("Servicio profesional", "Type_example", openapiclient.BillingIndicator("0"), "1", "10000.00", float32(10000.0))}, *openapiclient.NewTotals(float32(11800.0))) // ElectronicDocument | 
+	electronicDocument := *openapiclient.NewElectronicDocument("1.0", openapiclient.InvoiceType("31"), time.Now(), []openapiclient.PaymentForm{*openapiclient.NewPaymentForm(openapiclient.PaymentMethod("1"), float32(11800.0))}, []openapiclient.Item{*openapiclient.NewItem("Servicio profesional", "Type_example", openapiclient.BillingIndicator("0"), openapiclient.Item_quantity{Float32: new(float32)}, openapiclient.Item_unitPrice{Float32: new(float32)})}, *openapiclient.NewTotals()) // ElectronicDocument | 
 	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
 
 	configuration := openapiclient.NewConfiguration()

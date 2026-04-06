@@ -23,33 +23,42 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.DgiiMessage
 
 import com.google.gson.annotations.SerializedName
 
 /**
  * 
  *
- * @param estado Aprobado, Rechazado, En Proceso
  * @param trackId 
- * @param codigoError 
- * @param mensaje 
+ * @param estado Aprobado, Rechazado, En Proceso
+ * @param rnc 
+ * @param encf 
+ * @param fechaRecepcion 
+ * @param mensajes 
  */
 
 
 data class EcfSubmissionResponseDgiiResponse (
 
+    @SerializedName("trackId")
+    val trackId: kotlin.String? = null,
+
     /* Aprobado, Rechazado, En Proceso */
     @SerializedName("estado")
     val estado: kotlin.String? = null,
 
-    @SerializedName("trackId")
-    val trackId: kotlin.String? = null,
+    @SerializedName("rnc")
+    val rnc: kotlin.String? = null,
 
-    @SerializedName("codigoError")
-    val codigoError: kotlin.String? = null,
+    @SerializedName("encf")
+    val encf: kotlin.String? = null,
 
-    @SerializedName("mensaje")
-    val mensaje: kotlin.String? = null
+    @SerializedName("fechaRecepcion")
+    val fechaRecepcion: java.time.OffsetDateTime? = null,
+
+    @SerializedName("mensajes")
+    val mensajes: kotlin.collections.List<DgiiMessage>? = null
 
 ) {
 

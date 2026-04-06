@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **businessRnc** | **String** |  | [optional] 
 **environment** | [**Environment**](Environment.md) |  | [optional] 
 **receivedAt** | [**DateTime**](DateTime.md) |  | [optional] 
-**mensajes** | [**List<EcfStatusResponseMensajesInner>**](EcfStatusResponseMensajesInner.md) |  | [optional] [default to const []]
+**mensajes** | [**List<DgiiMessage>**](DgiiMessage.md) |  | [optional] [default to const []]
 **logs** | [**List<ProcessingLog>**](ProcessingLog.md) |  | [optional] [default to const []]
 **source_** | **String** |  | [optional] 
 

@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **encf** | **str** |  | [optional] 
 **document_type** | **str** |  | [optional] 
 **print_url** | **str** |  | [optional] 
+**is_summary** | **bool** |  | [optional] 
 **auth_type** | **str** |  | [optional] 
 **timestamp** | **datetime** |  | [optional] 
 **message** | **str** |  | [optional] 

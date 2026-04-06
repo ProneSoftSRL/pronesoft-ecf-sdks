@@ -13,6 +13,7 @@
 | **encf** | **String** |  | [optional] |
 | **document_type** | **String** |  | [optional] |
 | **print_url** | **String** |  | [optional] |
+| **is_summary** | **Boolean** |  | [optional] |
 | **auth_type** | **String** |  | [optional] |
 | **timestamp** | **Time** |  | [optional] |
 | **message** | **String** |  | [optional] |
@@ -34,6 +35,7 @@ instance = PronesoftEcf::EcfSubmissionResponse.new(
   encf: E310000000001,
   document_type: E31,
   print_url: null,
+  is_summary: null,
   auth_type: api_key,
   timestamp: null,
   message: null,

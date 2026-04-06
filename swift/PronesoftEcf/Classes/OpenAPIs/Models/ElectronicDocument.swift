@@ -22,6 +22,13 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         case _0 = "0"
         case _1 = "1"
     }
+    public enum DeferredSendingIndicator: String, Codable, CaseIterable {
+        case _1 = "1"
+    }
+    public enum TaxedAmountIndicator: String, Codable, CaseIterable {
+        case _0 = "0"
+        case _1 = "1"
+    }
     public enum IncomeType: String, Codable, CaseIterable {
         case _01 = "01"
         case _02 = "02"
@@ -39,20 +46,34 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public static let paymentAccountNumberRule = StringRule(minLength: nil, maxLength: 28, pattern: nil)
     public static let paymentBankRule = StringRule(minLength: nil, maxLength: 75, pattern: nil)
     public static let issuerBusinessNameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
+    public static let issuerCommercialNameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
+    public static let branchNameRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
+    public static let issuerAddressRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
+    public static let municipalityCodeRule = StringRule(minLength: nil, maxLength: 6, pattern: nil)
+    public static let provinceCodeRule = StringRule(minLength: nil, maxLength: 6, pattern: nil)
     public static let issuerPhonesRule = ArrayRule(minItems: nil, maxItems: 3, uniqueItems: false)
+    public static let issuerEmailRule = StringRule(minLength: nil, maxLength: 80, pattern: nil)
+    public static let issuerWebsiteRule = StringRule(minLength: nil, maxLength: 50, pattern: nil)
+    public static let issuerEconomicActivityRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
+    public static let sellerCodeRule = StringRule(minLength: nil, maxLength: 60, pattern: nil)
+    public static let salesZoneRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
+    public static let salesRouteRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
+    public static let additionalIssuerInfoRule = StringRule(minLength: nil, maxLength: 250, pattern: nil)
     public static let itemsRule = ArrayRule(minItems: 1, maxItems: 1000, uniqueItems: false)
     public var environment: Environment?
-    /** Always 1. */
-    public var version: Int = 1
+    /** Always 1.0. */
+    public var version: String = "1.0"
     public var invoiceType: InvoiceType
     /** e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). */
-    public var invoiceNumber: String
+    public var invoiceNumber: String?
+    /** Optional Group ID for batch processing */
+    public var groupId: String?
     public var issueDate: Date
     public var expirationDate: Date?
     /** Credit Notes only: 0=affected invoice <=30 days, 1=>30 days */
     public var creditNoteIndicator: CreditNoteIndicator?
-    public var deferredSendingIndicator: String?
-    public var taxedAmountIndicator: String?
+    public var deferredSendingIndicator: DeferredSendingIndicator?
+    public var taxedAmountIndicator: TaxedAmountIndicator?
     /** 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other */
     public var incomeType: IncomeType?
     /** 1=Cash, 2=Credit, 3=Mixed */
@@ -96,11 +117,12 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public var discountsOrSurcharges: [DiscountOrSurcharge]?
     public var pages: Page?
 
-    public init(environment: Environment? = nil, version: Int = 1, invoiceType: InvoiceType, invoiceNumber: String, issueDate: Date, expirationDate: Date? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, deferredSendingIndicator: String? = nil, taxedAmountIndicator: String? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentForms: [PaymentForm], paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, serviceStartDate: Date? = nil, serviceEndDate: Date? = nil, totalPages: Int? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerCommercialName: String? = nil, branchName: String? = nil, issuerAddress: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, issuerPhones: [String]? = nil, issuerEmail: String? = nil, issuerWebsite: String? = nil, issuerEconomicActivity: String? = nil, sellerCode: String? = nil, internalInvoiceNumber: String? = nil, internalOrderNumber: Int? = nil, salesZone: String? = nil, salesRoute: String? = nil, additionalIssuerInfo: String? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: Subtotal? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: Page? = nil) {
+    public init(environment: Environment? = nil, version: String = "1.0", invoiceType: InvoiceType, invoiceNumber: String? = nil, groupId: String? = nil, issueDate: Date, expirationDate: Date? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, deferredSendingIndicator: DeferredSendingIndicator? = nil, taxedAmountIndicator: TaxedAmountIndicator? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentForms: [PaymentForm], paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, serviceStartDate: Date? = nil, serviceEndDate: Date? = nil, totalPages: Int? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerCommercialName: String? = nil, branchName: String? = nil, issuerAddress: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, issuerPhones: [String]? = nil, issuerEmail: String? = nil, issuerWebsite: String? = nil, issuerEconomicActivity: String? = nil, sellerCode: String? = nil, internalInvoiceNumber: String? = nil, internalOrderNumber: Int? = nil, salesZone: String? = nil, salesRoute: String? = nil, additionalIssuerInfo: String? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: Subtotal? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: Page? = nil) {
         self.environment = environment
         self.version = version
         self.invoiceType = invoiceType
         self.invoiceNumber = invoiceNumber
+        self.groupId = groupId
         self.issueDate = issueDate
         self.expirationDate = expirationDate
         self.creditNoteIndicator = creditNoteIndicator
@@ -151,6 +173,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         case version
         case invoiceType
         case invoiceNumber
+        case groupId
         case issueDate
         case expirationDate
         case creditNoteIndicator
@@ -203,7 +226,8 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(environment, forKey: .environment)
         try container.encode(version, forKey: .version)
         try container.encode(invoiceType, forKey: .invoiceType)
-        try container.encode(invoiceNumber, forKey: .invoiceNumber)
+        try container.encodeIfPresent(invoiceNumber, forKey: .invoiceNumber)
+        try container.encodeIfPresent(groupId, forKey: .groupId)
         try container.encode(issueDate, forKey: .issueDate)
         try container.encodeIfPresent(expirationDate, forKey: .expirationDate)
         try container.encodeIfPresent(creditNoteIndicator, forKey: .creditNoteIndicator)

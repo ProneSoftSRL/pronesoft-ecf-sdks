@@ -43,14 +43,15 @@ import com.google.gson.annotations.SerializedName
 /**
  * Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
  *
- * @param version Always 1.
+ * @param version Always 1.0.
  * @param invoiceType 
- * @param invoiceNumber e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
  * @param issueDate 
  * @param paymentForms Payment breakdown. Required.
  * @param items 
  * @param totals 
  * @param environment 
+ * @param invoiceNumber e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+ * @param groupId Optional Group ID for batch processing
  * @param expirationDate 
  * @param creditNoteIndicator Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
  * @param deferredSendingIndicator 
@@ -95,16 +96,12 @@ import com.google.gson.annotations.SerializedName
 
 data class ElectronicDocument (
 
-    /* Always 1. */
+    /* Always 1.0. */
     @SerializedName("version")
-    val version: kotlin.Int = 1,
+    val version: kotlin.String = "1.0",
 
     @SerializedName("invoiceType")
     val invoiceType: InvoiceType,
-
-    /* e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). */
-    @SerializedName("invoiceNumber")
-    val invoiceNumber: kotlin.String,
 
     @SerializedName("issueDate")
     val issueDate: java.time.OffsetDateTime,
@@ -122,6 +119,14 @@ data class ElectronicDocument (
     @SerializedName("environment")
     val environment: Environment? = null,
 
+    /* e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). */
+    @SerializedName("invoiceNumber")
+    val invoiceNumber: kotlin.String? = null,
+
+    /* Optional Group ID for batch processing */
+    @SerializedName("groupId")
+    val groupId: kotlin.String? = null,
+
     @SerializedName("expirationDate")
     val expirationDate: java.time.OffsetDateTime? = null,
 
@@ -130,10 +135,10 @@ data class ElectronicDocument (
     val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
 
     @SerializedName("deferredSendingIndicator")
-    val deferredSendingIndicator: kotlin.String? = null,
+    val deferredSendingIndicator: ElectronicDocument.DeferredSendingIndicator? = null,
 
     @SerializedName("taxedAmountIndicator")
-    val taxedAmountIndicator: kotlin.String? = null,
+    val taxedAmountIndicator: ElectronicDocument.TaxedAmountIndicator? = null,
 
     /* 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other */
     @SerializedName("incomeType")
@@ -251,6 +256,23 @@ data class ElectronicDocument (
      * Values: _0,_1
      */
     enum class CreditNoteIndicator(val value: kotlin.String) {
+        @SerializedName(value = "0") _0("0"),
+        @SerializedName(value = "1") _1("1");
+    }
+    /**
+     * 
+     *
+     * Values: _1
+     */
+    enum class DeferredSendingIndicator(val value: kotlin.String) {
+        @SerializedName(value = "1") _1("1");
+    }
+    /**
+     * 
+     *
+     * Values: _0,_1
+     */
+    enum class TaxedAmountIndicator(val value: kotlin.String) {
         @SerializedName(value = "0") _0("0"),
         @SerializedName(value = "1") _1("1");
     }

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **type** | **str** |  | [optional] 
 **value** | **float** |  | [optional] 
-**amount** | **float** |  | [optional] 
+**amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 
 ## Example
 

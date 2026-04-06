@@ -17,12 +17,20 @@ extension PronesoftEcfAPI {
 
 public struct ItemMiningInfo: Codable, JSONEncodable, Hashable {
 
+    public enum AffiliationType: String, Codable, CaseIterable {
+        case _1 = "1"
+        case _2 = "2"
+    }
+    public enum Settlement: String, Codable, CaseIterable {
+        case _1 = "1"
+        case _2 = "2"
+    }
     public var netWeightKg: Double?
     public var netWeightMining: Double?
-    public var affiliationType: String?
-    public var settlement: String?
+    public var affiliationType: AffiliationType?
+    public var settlement: Settlement?
 
-    public init(netWeightKg: Double? = nil, netWeightMining: Double? = nil, affiliationType: String? = nil, settlement: String? = nil) {
+    public init(netWeightKg: Double? = nil, netWeightMining: Double? = nil, affiliationType: AffiliationType? = nil, settlement: Settlement? = nil) {
         self.netWeightKg = netWeightKg
         self.netWeightMining = netWeightMining
         self.affiliationType = affiliationType

@@ -27,13 +27,14 @@ public struct EcfSubmissionResponse: Codable, JSONEncodable, Hashable {
     public var encf: String?
     public var documentType: String?
     public var printUrl: String?
+    public var isSummary: Bool?
     public var authType: String?
     public var timestamp: Date?
     public var message: String?
     public var contingencyMode: Bool?
     public var estimatedProcessTime: String?
 
-    public init(success: Bool, documentId: UUID? = nil, dgiiResponse: EcfSubmissionResponseDgiiResponse? = nil, qrUrl: String? = nil, signatureTime: Date? = nil, securityCode: String? = nil, encf: String? = nil, documentType: String? = nil, printUrl: String? = nil, authType: String? = nil, timestamp: Date? = nil, message: String? = nil, contingencyMode: Bool? = nil, estimatedProcessTime: String? = nil) {
+    public init(success: Bool, documentId: UUID? = nil, dgiiResponse: EcfSubmissionResponseDgiiResponse? = nil, qrUrl: String? = nil, signatureTime: Date? = nil, securityCode: String? = nil, encf: String? = nil, documentType: String? = nil, printUrl: String? = nil, isSummary: Bool? = nil, authType: String? = nil, timestamp: Date? = nil, message: String? = nil, contingencyMode: Bool? = nil, estimatedProcessTime: String? = nil) {
         self.success = success
         self.documentId = documentId
         self.dgiiResponse = dgiiResponse
@@ -43,6 +44,7 @@ public struct EcfSubmissionResponse: Codable, JSONEncodable, Hashable {
         self.encf = encf
         self.documentType = documentType
         self.printUrl = printUrl
+        self.isSummary = isSummary
         self.authType = authType
         self.timestamp = timestamp
         self.message = message
@@ -60,6 +62,7 @@ public struct EcfSubmissionResponse: Codable, JSONEncodable, Hashable {
         case encf
         case documentType
         case printUrl
+        case isSummary
         case authType
         case timestamp
         case message
@@ -80,6 +83,7 @@ public struct EcfSubmissionResponse: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(encf, forKey: .encf)
         try container.encodeIfPresent(documentType, forKey: .documentType)
         try container.encodeIfPresent(printUrl, forKey: .printUrl)
+        try container.encodeIfPresent(isSummary, forKey: .isSummary)
         try container.encodeIfPresent(authType, forKey: .authType)
         try container.encodeIfPresent(timestamp, forKey: .timestamp)
         try container.encodeIfPresent(message, forKey: .message)

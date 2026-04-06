@@ -13,26 +13,26 @@ Name | Type
 `type` | string
 `billingIndicator` | [BillingIndicator](BillingIndicator.md)
 `withholdingAgentIndicator` | number
-`withheldITBISAmount` | number
-`withheldISRAmount` | number
-`quantity` | string
+`withheldITBISAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`withheldISRAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`quantity` | [ItemQuantity](ItemQuantity.md)
 `unitOfMeasure` | number
-`referenceQuantity` | number
+`referenceQuantity` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
 `referenceUnit` | number
-`referenceUnitPrice` | number
+`referenceUnitPrice` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
 `subquantities` | [Array&lt;Subquantity&gt;](Subquantity.md)
 `alcoholDegree` | number
 `manufacturingDate` | Date
 `expirationDate` | Date
 `miningInfo` | [ItemMiningInfo](ItemMiningInfo.md)
-`unitPrice` | string
-`discountAmount` | number
+`unitPrice` | [ItemUnitPrice](ItemUnitPrice.md)
+`discountAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
 `discount` | [Array&lt;ItemDiscountInner&gt;](ItemDiscountInner.md)
-`surchargeAmount` | number
-`surcharge` | [Array&lt;ItemDiscountInner&gt;](ItemDiscountInner.md)
+`surchargeAmount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`surcharge` | [Array&lt;ItemSurchargeInner&gt;](ItemSurchargeInner.md)
 `additionalTaxes` | [Array&lt;ItemAdditionalTax&gt;](ItemAdditionalTax.md)
 `alternativeCurrency` | [ItemAlternativeCurrency](ItemAlternativeCurrency.md)
-`amount` | number
+`amount` | [ItemAmount](ItemAmount.md)
 
 ## Example
 
@@ -50,7 +50,7 @@ const example = {
   "withholdingAgentIndicator": null,
   "withheldITBISAmount": null,
   "withheldISRAmount": null,
-  "quantity": 1,
+  "quantity": null,
   "unitOfMeasure": null,
   "referenceQuantity": null,
   "referenceUnit": null,
@@ -60,14 +60,14 @@ const example = {
   "manufacturingDate": null,
   "expirationDate": null,
   "miningInfo": null,
-  "unitPrice": 10000.00,
+  "unitPrice": null,
   "discountAmount": null,
   "discount": null,
   "surchargeAmount": null,
   "surcharge": null,
   "additionalTaxes": null,
   "alternativeCurrency": null,
-  "amount": 10000.0,
+  "amount": null,
 } satisfies Item
 
 console.log(example)

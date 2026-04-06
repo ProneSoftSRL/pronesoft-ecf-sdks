@@ -8,29 +8,29 @@
 | **codes** | [**Array&lt;ItemCodesInner&gt;**](ItemCodesInner.md) |  | [optional] |
 | **name** | **String** |  |  |
 | **description** | **String** |  | [optional] |
-| **type** | **String** | 1&#x3D;Product, 2&#x3D;Service |  |
+| **type** | **String** | 1&#x3D;Good, 2&#x3D;Service |  |
 | **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  |  |
 | **withholding_agent_indicator** | **Integer** |  | [optional] |
-| **withheld_itbis_amount** | **Float** |  | [optional] |
-| **withheld_isr_amount** | **Float** |  | [optional] |
-| **quantity** | **String** |  |  |
+| **withheld_itbis_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **withheld_isr_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **quantity** | [**ItemQuantity**](ItemQuantity.md) |  |  |
 | **unit_of_measure** | **Integer** |  | [optional] |
-| **reference_quantity** | **Float** |  | [optional] |
+| **reference_quantity** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
 | **reference_unit** | **Integer** |  | [optional] |
-| **reference_unit_price** | **Float** |  | [optional] |
+| **reference_unit_price** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
 | **subquantities** | [**Array&lt;Subquantity&gt;**](Subquantity.md) |  | [optional] |
 | **alcohol_degree** | **Float** |  | [optional] |
 | **manufacturing_date** | **Time** |  | [optional] |
 | **expiration_date** | **Time** |  | [optional] |
 | **mining_info** | [**ItemMiningInfo**](ItemMiningInfo.md) |  | [optional] |
-| **unit_price** | **String** |  |  |
-| **discount_amount** | **Float** |  | [optional] |
+| **unit_price** | [**ItemUnitPrice**](ItemUnitPrice.md) |  |  |
+| **discount_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
 | **discount** | [**Array&lt;ItemDiscountInner&gt;**](ItemDiscountInner.md) |  | [optional] |
-| **surcharge_amount** | **Float** |  | [optional] |
-| **surcharge** | [**Array&lt;ItemDiscountInner&gt;**](ItemDiscountInner.md) |  | [optional] |
+| **surcharge_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **surcharge** | [**Array&lt;ItemSurchargeInner&gt;**](ItemSurchargeInner.md) |  | [optional] |
 | **additional_taxes** | [**Array&lt;ItemAdditionalTax&gt;**](ItemAdditionalTax.md) |  | [optional] |
 | **alternative_currency** | [**ItemAlternativeCurrency**](ItemAlternativeCurrency.md) |  | [optional] |
-| **amount** | **Float** |  |  |
+| **amount** | [**ItemAmount**](ItemAmount.md) |  | [optional] |
 
 ## Example
 
@@ -47,7 +47,7 @@ instance = PronesoftEcf::Item.new(
   withholding_agent_indicator: null,
   withheld_itbis_amount: null,
   withheld_isr_amount: null,
-  quantity: 1,
+  quantity: null,
   unit_of_measure: null,
   reference_quantity: null,
   reference_unit: null,
@@ -57,14 +57,14 @@ instance = PronesoftEcf::Item.new(
   manufacturing_date: null,
   expiration_date: null,
   mining_info: null,
-  unit_price: 10000.00,
+  unit_price: null,
   discount_amount: null,
   discount: null,
   surcharge_amount: null,
   surcharge: null,
   additional_taxes: null,
   alternative_currency: null,
-  amount: 10000.0
+  amount: null
 )
 ```
 

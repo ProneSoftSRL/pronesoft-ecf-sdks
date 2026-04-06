@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **business_rnc** | **string** |  | [optional]
 **environment** | [**\PronesoftEcf\Model\Environment**](Environment.md) |  | [optional]
 **received_at** | **\DateTime** |  | [optional]
-**mensajes** | [**\PronesoftEcf\Model\EcfStatusResponseMensajesInner[]**](EcfStatusResponseMensajesInner.md) |  | [optional]
+**mensajes** | [**\PronesoftEcf\Model\DgiiMessage[]**](DgiiMessage.md) |  | [optional]
 **logs** | [**\PronesoftEcf\Model\ProcessingLog[]**](ProcessingLog.md) |  | [optional]
 **source** | **string** |  | [optional]
 

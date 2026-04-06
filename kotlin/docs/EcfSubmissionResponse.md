@@ -13,6 +13,7 @@
 | **encf** | **kotlin.String** |  |  [optional] |
 | **documentType** | **kotlin.String** |  |  [optional] |
 | **printUrl** | [**java.net.URI**](java.net.URI.md) |  |  [optional] |
+| **isSummary** | **kotlin.Boolean** |  |  [optional] |
 | **authType** | **kotlin.String** |  |  [optional] |
 | **timestamp** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **message** | **kotlin.String** |  |  [optional] |

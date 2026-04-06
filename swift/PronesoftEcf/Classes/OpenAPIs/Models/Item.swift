@@ -22,36 +22,37 @@ public struct Item: Codable, JSONEncodable, Hashable {
         case _2 = "2"
     }
     public static let nameRule = StringRule(minLength: nil, maxLength: 80, pattern: nil)
+    public static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
     public var lineNumber: Int?
     public var codes: [ItemCodesInner]?
     public var name: String
     public var description: String?
-    /** 1=Product, 2=Service */
+    /** 1=Good, 2=Service */
     public var type: ModelType
     public var billingIndicator: BillingIndicator
     public var withholdingAgentIndicator: Int?
-    public var withheldITBISAmount: Double?
-    public var withheldISRAmount: Double?
-    public var quantity: String
+    public var withheldITBISAmount: ItemWithheldITBISAmount?
+    public var withheldISRAmount: ItemWithheldITBISAmount?
+    public var quantity: ItemQuantity
     public var unitOfMeasure: Int?
-    public var referenceQuantity: Double?
+    public var referenceQuantity: ItemWithheldITBISAmount?
     public var referenceUnit: Int?
-    public var referenceUnitPrice: Double?
+    public var referenceUnitPrice: ItemWithheldITBISAmount?
     public var subquantities: [Subquantity]?
     public var alcoholDegree: Double?
     public var manufacturingDate: Date?
     public var expirationDate: Date?
     public var miningInfo: ItemMiningInfo?
-    public var unitPrice: String
-    public var discountAmount: Double?
+    public var unitPrice: ItemUnitPrice
+    public var discountAmount: ItemWithheldITBISAmount?
     public var discount: [ItemDiscountInner]?
-    public var surchargeAmount: Double?
-    public var surcharge: [ItemDiscountInner]?
+    public var surchargeAmount: ItemWithheldITBISAmount?
+    public var surcharge: [ItemSurchargeInner]?
     public var additionalTaxes: [ItemAdditionalTax]?
     public var alternativeCurrency: ItemAlternativeCurrency?
-    public var amount: Double
+    public var amount: ItemAmount?
 
-    public init(lineNumber: Int? = nil, codes: [ItemCodesInner]? = nil, name: String, description: String? = nil, type: ModelType, billingIndicator: BillingIndicator, withholdingAgentIndicator: Int? = nil, withheldITBISAmount: Double? = nil, withheldISRAmount: Double? = nil, quantity: String, unitOfMeasure: Int? = nil, referenceQuantity: Double? = nil, referenceUnit: Int? = nil, referenceUnitPrice: Double? = nil, subquantities: [Subquantity]? = nil, alcoholDegree: Double? = nil, manufacturingDate: Date? = nil, expirationDate: Date? = nil, miningInfo: ItemMiningInfo? = nil, unitPrice: String, discountAmount: Double? = nil, discount: [ItemDiscountInner]? = nil, surchargeAmount: Double? = nil, surcharge: [ItemDiscountInner]? = nil, additionalTaxes: [ItemAdditionalTax]? = nil, alternativeCurrency: ItemAlternativeCurrency? = nil, amount: Double) {
+    public init(lineNumber: Int? = nil, codes: [ItemCodesInner]? = nil, name: String, description: String? = nil, type: ModelType, billingIndicator: BillingIndicator, withholdingAgentIndicator: Int? = nil, withheldITBISAmount: ItemWithheldITBISAmount? = nil, withheldISRAmount: ItemWithheldITBISAmount? = nil, quantity: ItemQuantity, unitOfMeasure: Int? = nil, referenceQuantity: ItemWithheldITBISAmount? = nil, referenceUnit: Int? = nil, referenceUnitPrice: ItemWithheldITBISAmount? = nil, subquantities: [Subquantity]? = nil, alcoholDegree: Double? = nil, manufacturingDate: Date? = nil, expirationDate: Date? = nil, miningInfo: ItemMiningInfo? = nil, unitPrice: ItemUnitPrice, discountAmount: ItemWithheldITBISAmount? = nil, discount: [ItemDiscountInner]? = nil, surchargeAmount: ItemWithheldITBISAmount? = nil, surcharge: [ItemSurchargeInner]? = nil, additionalTaxes: [ItemAdditionalTax]? = nil, alternativeCurrency: ItemAlternativeCurrency? = nil, amount: ItemAmount? = nil) {
         self.lineNumber = lineNumber
         self.codes = codes
         self.name = name
@@ -141,7 +142,7 @@ public struct Item: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(surcharge, forKey: .surcharge)
         try container.encodeIfPresent(additionalTaxes, forKey: .additionalTaxes)
         try container.encodeIfPresent(alternativeCurrency, forKey: .alternativeCurrency)
-        try container.encode(amount, forKey: .amount)
+        try container.encodeIfPresent(amount, forKey: .amount)
     }
 }
 

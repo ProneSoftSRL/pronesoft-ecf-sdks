@@ -3,7 +3,7 @@ eCF-Pronesoft Integration API
 
 ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
-API version: 1.1.0
+API version: 1.2.0
 Contact: support@pronesoft.com
 */
 
@@ -30,7 +30,7 @@ type EcfStatusResponse struct {
 	BusinessRnc *string `json:"businessRnc,omitempty"`
 	Environment *Environment `json:"environment,omitempty"`
 	ReceivedAt *time.Time `json:"receivedAt,omitempty"`
-	Mensajes []EcfStatusResponseMensajesInner `json:"mensajes,omitempty"`
+	Mensajes []DgiiMessage `json:"mensajes,omitempty"`
 	Logs []ProcessingLog `json:"logs,omitempty"`
 	Source *string `json:"source,omitempty"`
 }
@@ -341,9 +341,9 @@ func (o *EcfStatusResponse) SetReceivedAt(v time.Time) {
 }
 
 // GetMensajes returns the Mensajes field value if set, zero value otherwise.
-func (o *EcfStatusResponse) GetMensajes() []EcfStatusResponseMensajesInner {
+func (o *EcfStatusResponse) GetMensajes() []DgiiMessage {
 	if o == nil || IsNil(o.Mensajes) {
-		var ret []EcfStatusResponseMensajesInner
+		var ret []DgiiMessage
 		return ret
 	}
 	return o.Mensajes
@@ -351,7 +351,7 @@ func (o *EcfStatusResponse) GetMensajes() []EcfStatusResponseMensajesInner {
 
 // GetMensajesOk returns a tuple with the Mensajes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EcfStatusResponse) GetMensajesOk() ([]EcfStatusResponseMensajesInner, bool) {
+func (o *EcfStatusResponse) GetMensajesOk() ([]DgiiMessage, bool) {
 	if o == nil || IsNil(o.Mensajes) {
 		return nil, false
 	}
@@ -367,8 +367,8 @@ func (o *EcfStatusResponse) HasMensajes() bool {
 	return false
 }
 
-// SetMensajes gets a reference to the given []EcfStatusResponseMensajesInner and assigns it to the Mensajes field.
-func (o *EcfStatusResponse) SetMensajes(v []EcfStatusResponseMensajesInner) {
+// SetMensajes gets a reference to the given []DgiiMessage and assigns it to the Mensajes field.
+func (o *EcfStatusResponse) SetMensajes(v []DgiiMessage) {
 	o.Mensajes = v
 }
 

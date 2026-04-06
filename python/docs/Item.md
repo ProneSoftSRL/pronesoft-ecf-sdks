@@ -9,29 +9,29 @@ Name | Type | Description | Notes
 **codes** | [**List[ItemCodesInner]**](ItemCodesInner.md) |  | [optional] 
 **name** | **str** |  | 
 **description** | **str** |  | [optional] 
-**type** | **str** | 1&#x3D;Product, 2&#x3D;Service | 
+**type** | **str** | 1&#x3D;Good, 2&#x3D;Service | 
 **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
 **withholding_agent_indicator** | **int** |  | [optional] 
-**withheld_itbis_amount** | **float** |  | [optional] 
-**withheld_isr_amount** | **float** |  | [optional] 
-**quantity** | **str** |  | 
+**withheld_itbis_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
+**withheld_isr_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
+**quantity** | [**ItemQuantity**](ItemQuantity.md) |  | 
 **unit_of_measure** | **int** |  | [optional] 
-**reference_quantity** | **float** |  | [optional] 
+**reference_quantity** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 **reference_unit** | **int** |  | [optional] 
-**reference_unit_price** | **float** |  | [optional] 
+**reference_unit_price** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 **subquantities** | [**List[Subquantity]**](Subquantity.md) |  | [optional] 
 **alcohol_degree** | **float** |  | [optional] 
 **manufacturing_date** | **datetime** |  | [optional] 
 **expiration_date** | **datetime** |  | [optional] 
 **mining_info** | [**ItemMiningInfo**](ItemMiningInfo.md) |  | [optional] 
-**unit_price** | **str** |  | 
-**discount_amount** | **float** |  | [optional] 
+**unit_price** | [**ItemUnitPrice**](ItemUnitPrice.md) |  | 
+**discount_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 **discount** | [**List[ItemDiscountInner]**](ItemDiscountInner.md) |  | [optional] 
-**surcharge_amount** | **float** |  | [optional] 
-**surcharge** | [**List[ItemDiscountInner]**](ItemDiscountInner.md) |  | [optional] 
+**surcharge_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
+**surcharge** | [**List[ItemSurchargeInner]**](ItemSurchargeInner.md) |  | [optional] 
 **additional_taxes** | [**List[ItemAdditionalTax]**](ItemAdditionalTax.md) |  | [optional] 
 **alternative_currency** | [**ItemAlternativeCurrency**](ItemAlternativeCurrency.md) |  | [optional] 
-**amount** | **float** |  | 
+**amount** | [**ItemAmount**](ItemAmount.md) |  | [optional] 
 
 ## Example
 

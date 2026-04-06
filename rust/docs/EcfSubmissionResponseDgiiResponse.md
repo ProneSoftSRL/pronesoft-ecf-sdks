@@ -4,10 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**estado** | Option<**String**> | Aprobado, Rechazado, En Proceso | [optional]
 **track_id** | Option<**String**> |  | [optional]
-**codigo_error** | Option<**String**> |  | [optional]
-**mensaje** | Option<**String**> |  | [optional]
+**estado** | Option<**String**> | Aprobado, Rechazado, En Proceso | [optional]
+**rnc** | Option<**String**> |  | [optional]
+**encf** | Option<**String**> |  | [optional]
+**fecha_recepcion** | Option<**String**> |  | [optional]
+**mensajes** | Option<[**Vec<models::DgiiMessage>**](DgiiMessage.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -1,6 +1,6 @@
 {
   "name": "@pronesoft-rd/ecf-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "OpenAPI client for @pronesoft-rd/ecf-sdk",
   "author": "OpenAPI-Generator",
   "repository": {

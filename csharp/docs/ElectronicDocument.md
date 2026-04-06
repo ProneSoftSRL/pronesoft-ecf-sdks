@@ -6,9 +6,10 @@ Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain in
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **VarEnvironment** | **ModelEnvironment** |  | [optional] 
-**VarVersion** | **int** | Always 1. | [default to 1]
+**VarVersion** | **string** | Always 1.0. | [default to "1.0"]
 **InvoiceType** | **InvoiceType** |  | 
-**InvoiceNumber** | **string** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | 
+**InvoiceNumber** | **string** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional] 
+**GroupId** | **string** | Optional Group ID for batch processing | [optional] 
 **IssueDate** | **DateTime** |  | 
 **ExpirationDate** | **DateTime** |  | [optional] 
 **CreditNoteIndicator** | **string** | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days | [optional] 

@@ -9,9 +9,10 @@ import 'package:pronesoft_ecf/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [optional] 
-**version** | **int** | Always 1. | [default to 1]
+**version** | **String** | Always 1.0. | [default to '1.0']
 **invoiceType** | [**InvoiceType**](InvoiceType.md) |  | 
-**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | 
+**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional] 
+**groupId** | **String** | Optional Group ID for batch processing | [optional] 
 **issueDate** | [**DateTime**](DateTime.md) |  | 
 **expirationDate** | [**DateTime**](DateTime.md) |  | [optional] 
 **creditNoteIndicator** | **String** | Credit Notes only: 0=affected invoice <=30 days, 1=>30 days | [optional] 

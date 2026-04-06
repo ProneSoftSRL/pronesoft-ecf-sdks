@@ -4,9 +4,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [optional] 
-**version** | **Int** | Always 1. | [default to 1]
+**version** | **String** | Always 1.0. | [default to "1.0"]
 **invoiceType** | [**InvoiceType**](InvoiceType.md) |  | 
-**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | 
+**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional] 
+**groupId** | **String** | Optional Group ID for batch processing | [optional] 
 **issueDate** | **Date** |  | 
 **expirationDate** | **Date** |  | [optional] 
 **creditNoteIndicator** | **String** | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days | [optional] 

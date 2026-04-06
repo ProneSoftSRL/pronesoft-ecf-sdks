@@ -39,7 +39,7 @@ class Item {
     this.surcharge = const [],
     this.additionalTaxes = const [],
     this.alternativeCurrency,
-    required this.amount,
+    this.amount,
   });
 
   ///
@@ -62,7 +62,7 @@ class Item {
   ///
   String? description;
 
-  /// 1=Product, 2=Service
+  /// 1=Good, 2=Service
   ItemTypeEnum type;
 
   BillingIndicator billingIndicator;
@@ -81,7 +81,7 @@ class Item {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? withheldITBISAmount;
+  ItemWithheldITBISAmount? withheldITBISAmount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -89,9 +89,9 @@ class Item {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? withheldISRAmount;
+  ItemWithheldITBISAmount? withheldISRAmount;
 
-  String quantity;
+  ItemQuantity quantity;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -107,7 +107,7 @@ class Item {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? referenceQuantity;
+  ItemWithheldITBISAmount? referenceQuantity;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -123,7 +123,7 @@ class Item {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? referenceUnitPrice;
+  ItemWithheldITBISAmount? referenceUnitPrice;
 
   List<Subquantity> subquantities;
 
@@ -159,7 +159,7 @@ class Item {
   ///
   ItemMiningInfo? miningInfo;
 
-  String unitPrice;
+  ItemUnitPrice unitPrice;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -167,7 +167,7 @@ class Item {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? discountAmount;
+  ItemWithheldITBISAmount? discountAmount;
 
   List<ItemDiscountInner> discount;
 
@@ -177,9 +177,9 @@ class Item {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? surchargeAmount;
+  ItemWithheldITBISAmount? surchargeAmount;
 
-  List<ItemDiscountInner> surcharge;
+  List<ItemSurchargeInner> surcharge;
 
   List<ItemAdditionalTax> additionalTaxes;
 
@@ -191,7 +191,13 @@ class Item {
   ///
   ItemAlternativeCurrency? alternativeCurrency;
 
-  num amount;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ItemAmount? amount;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Item &&
@@ -252,7 +258,7 @@ class Item {
     (surcharge.hashCode) +
     (additionalTaxes.hashCode) +
     (alternativeCurrency == null ? 0 : alternativeCurrency!.hashCode) +
-    (amount.hashCode);
+    (amount == null ? 0 : amount!.hashCode);
 
   @override
   String toString() => 'Item[lineNumber=$lineNumber, codes=$codes, name=$name, description=$description, type=$type, billingIndicator=$billingIndicator, withholdingAgentIndicator=$withholdingAgentIndicator, withheldITBISAmount=$withheldITBISAmount, withheldISRAmount=$withheldISRAmount, quantity=$quantity, unitOfMeasure=$unitOfMeasure, referenceQuantity=$referenceQuantity, referenceUnit=$referenceUnit, referenceUnitPrice=$referenceUnitPrice, subquantities=$subquantities, alcoholDegree=$alcoholDegree, manufacturingDate=$manufacturingDate, expirationDate=$expirationDate, miningInfo=$miningInfo, unitPrice=$unitPrice, discountAmount=$discountAmount, discount=$discount, surchargeAmount=$surchargeAmount, surcharge=$surcharge, additionalTaxes=$additionalTaxes, alternativeCurrency=$alternativeCurrency, amount=$amount]';
@@ -349,7 +355,11 @@ class Item {
     } else {
       json[r'alternativeCurrency'] = null;
     }
+    if (this.amount != null) {
       json[r'amount'] = this.amount;
+    } else {
+      json[r'amount'] = null;
+    }
     return json;
   }
 
@@ -374,8 +384,6 @@ class Item {
         assert(json[r'quantity'] != null, 'Required key "Item[quantity]" has a null value in JSON.');
         assert(json.containsKey(r'unitPrice'), 'Required key "Item[unitPrice]" is missing from JSON.');
         assert(json[r'unitPrice'] != null, 'Required key "Item[unitPrice]" has a null value in JSON.');
-        assert(json.containsKey(r'amount'), 'Required key "Item[amount]" is missing from JSON.');
-        assert(json[r'amount'] != null, 'Required key "Item[amount]" has a null value in JSON.');
         return true;
       }());
 
@@ -387,26 +395,26 @@ class Item {
         type: ItemTypeEnum.fromJson(json[r'type'])!,
         billingIndicator: BillingIndicator.fromJson(json[r'billingIndicator'])!,
         withholdingAgentIndicator: mapValueOfType<int>(json, r'withholdingAgentIndicator'),
-        withheldITBISAmount: num.parse('${json[r'withheldITBISAmount']}'),
-        withheldISRAmount: num.parse('${json[r'withheldISRAmount']}'),
-        quantity: mapValueOfType<String>(json, r'quantity')!,
+        withheldITBISAmount: ItemWithheldITBISAmount.fromJson(json[r'withheldITBISAmount']),
+        withheldISRAmount: ItemWithheldITBISAmount.fromJson(json[r'withheldISRAmount']),
+        quantity: ItemQuantity.fromJson(json[r'quantity'])!,
         unitOfMeasure: mapValueOfType<int>(json, r'unitOfMeasure'),
-        referenceQuantity: num.parse('${json[r'referenceQuantity']}'),
+        referenceQuantity: ItemWithheldITBISAmount.fromJson(json[r'referenceQuantity']),
         referenceUnit: mapValueOfType<int>(json, r'referenceUnit'),
-        referenceUnitPrice: num.parse('${json[r'referenceUnitPrice']}'),
+        referenceUnitPrice: ItemWithheldITBISAmount.fromJson(json[r'referenceUnitPrice']),
         subquantities: Subquantity.listFromJson(json[r'subquantities']),
         alcoholDegree: num.parse('${json[r'alcoholDegree']}'),
         manufacturingDate: mapDateTime(json, r'manufacturingDate', r''),
         expirationDate: mapDateTime(json, r'expirationDate', r''),
         miningInfo: ItemMiningInfo.fromJson(json[r'miningInfo']),
-        unitPrice: mapValueOfType<String>(json, r'unitPrice')!,
-        discountAmount: num.parse('${json[r'discountAmount']}'),
+        unitPrice: ItemUnitPrice.fromJson(json[r'unitPrice'])!,
+        discountAmount: ItemWithheldITBISAmount.fromJson(json[r'discountAmount']),
         discount: ItemDiscountInner.listFromJson(json[r'discount']),
-        surchargeAmount: num.parse('${json[r'surchargeAmount']}'),
-        surcharge: ItemDiscountInner.listFromJson(json[r'surcharge']),
+        surchargeAmount: ItemWithheldITBISAmount.fromJson(json[r'surchargeAmount']),
+        surcharge: ItemSurchargeInner.listFromJson(json[r'surcharge']),
         additionalTaxes: ItemAdditionalTax.listFromJson(json[r'additionalTaxes']),
         alternativeCurrency: ItemAlternativeCurrency.fromJson(json[r'alternativeCurrency']),
-        amount: num.parse('${json[r'amount']}'),
+        amount: ItemAmount.fromJson(json[r'amount']),
       );
     }
     return null;
@@ -459,11 +467,10 @@ class Item {
     'billingIndicator',
     'quantity',
     'unitPrice',
-    'amount',
   };
 }
 
-/// 1=Product, 2=Service
+/// 1=Good, 2=Service
 class ItemTypeEnum {
   /// Instantiate a new enum with the provided [value].
   const ItemTypeEnum._(this.value);

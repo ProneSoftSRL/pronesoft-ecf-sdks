@@ -4,10 +4,12 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **estado** | **kotlin.String** | Aprobado, Rechazado, En Proceso |  [optional] |
 | **trackId** | **kotlin.String** |  |  [optional] |
-| **codigoError** | **kotlin.String** |  |  [optional] |
-| **mensaje** | **kotlin.String** |  |  [optional] |
+| **estado** | **kotlin.String** | Aprobado, Rechazado, En Proceso |  [optional] |
+| **rnc** | **kotlin.String** |  |  [optional] |
+| **encf** | **kotlin.String** |  |  [optional] |
+| **fechaRecepcion** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
+| **mensajes** | [**kotlin.collections.List&lt;DgiiMessage&gt;**](DgiiMessage.md) |  |  [optional] |
 
 
 

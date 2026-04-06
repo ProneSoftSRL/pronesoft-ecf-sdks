@@ -16,6 +16,7 @@ class OAuthTokenResponse {
     this.accessToken,
     this.tokenType,
     this.expiresIn,
+    this.scope = const [],
   });
 
   ///
@@ -43,21 +44,25 @@ class OAuthTokenResponse {
   ///
   int? expiresIn;
 
+  List<String> scope;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is OAuthTokenResponse &&
     other.accessToken == accessToken &&
     other.tokenType == tokenType &&
-    other.expiresIn == expiresIn;
+    other.expiresIn == expiresIn &&
+    _deepEquality.equals(other.scope, scope);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (accessToken == null ? 0 : accessToken!.hashCode) +
     (tokenType == null ? 0 : tokenType!.hashCode) +
-    (expiresIn == null ? 0 : expiresIn!.hashCode);
+    (expiresIn == null ? 0 : expiresIn!.hashCode) +
+    (scope.hashCode);
 
   @override
-  String toString() => 'OAuthTokenResponse[accessToken=$accessToken, tokenType=$tokenType, expiresIn=$expiresIn]';
+  String toString() => 'OAuthTokenResponse[accessToken=$accessToken, tokenType=$tokenType, expiresIn=$expiresIn, scope=$scope]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -76,6 +81,7 @@ class OAuthTokenResponse {
     } else {
       json[r'expiresIn'] = null;
     }
+      json[r'scope'] = this.scope;
     return json;
   }
 
@@ -97,6 +103,9 @@ class OAuthTokenResponse {
         accessToken: mapValueOfType<String>(json, r'accessToken'),
         tokenType: mapValueOfType<String>(json, r'tokenType'),
         expiresIn: mapValueOfType<int>(json, r'expiresIn'),
+        scope: json[r'scope'] is Iterable
+            ? (json[r'scope'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
       );
     }
     return null;

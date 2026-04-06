@@ -4,30 +4,30 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **taxable_amount** | **Float** |  | [optional] |
-| **taxable_amount1** | **Float** |  | [optional] |
-| **taxable_amount2** | **Float** |  | [optional] |
-| **taxable_amount3** | **Float** |  | [optional] |
-| **exempt_amount** | **Float** |  | [optional] |
-| **itbis_rate1** | **Float** |  | [optional] |
-| **itbis_rate2** | **Float** |  | [optional] |
-| **itbis_rate3** | **Float** |  | [optional] |
-| **total_itbis** | **Float** |  | [optional] |
-| **itbis1** | **Float** |  | [optional] |
-| **itbis2** | **Float** |  | [optional] |
-| **itbis3** | **Float** |  | [optional] |
-| **additional_tax_amount** | **Float** |  | [optional] |
-| **additional_taxes** | **Array&lt;String&gt;** |  | [optional] |
-| **total_amount** | **Float** |  |  |
-| **non_billable_amount** | **Float** |  | [optional] |
-| **period_amount** | **Float** |  | [optional] |
-| **previous_balance** | **Float** |  | [optional] |
-| **advance_payment_amount** | **Float** |  | [optional] |
-| **amount_to_pay** | **Float** |  | [optional] |
-| **total_withheld_itbis** | **Float** |  | [optional] |
-| **total_income_tax_withholding** | **Float** |  | [optional] |
-| **total_itbis_perception** | **Float** |  | [optional] |
-| **total_isr_perception** | **Float** |  | [optional] |
+| **taxable_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **taxable_amount1** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **taxable_amount2** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **taxable_amount3** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **exempt_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **itbis_rate1** | [**TotalsItbisRate1**](TotalsItbisRate1.md) |  | [optional] |
+| **itbis_rate2** | [**TotalsItbisRate2**](TotalsItbisRate2.md) |  | [optional] |
+| **itbis_rate3** | [**TotalsItbisRate3**](TotalsItbisRate3.md) |  | [optional] |
+| **total_itbis** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **itbis1** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **itbis2** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **itbis3** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **additional_tax_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **additional_taxes** | [**Array&lt;AdditionalTax&gt;**](AdditionalTax.md) |  | [optional] |
+| **total_amount** | [**TotalsTotalAmount**](TotalsTotalAmount.md) |  | [optional] |
+| **non_billable_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **period_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **previous_balance** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **advance_payment_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **amount_to_pay** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **total_withheld_itbis** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **total_income_tax_withholding** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **total_itbis_perception** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
+| **total_isr_perception** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |
 
 ## Example
 
@@ -40,16 +40,16 @@ instance = PronesoftEcf::Totals.new(
   taxable_amount2: null,
   taxable_amount3: null,
   exempt_amount: null,
-  itbis_rate1: 0.18,
-  itbis_rate2: 0.16,
-  itbis_rate3: 0.0,
+  itbis_rate1: null,
+  itbis_rate2: null,
+  itbis_rate3: null,
   total_itbis: null,
   itbis1: null,
   itbis2: null,
   itbis3: null,
   additional_tax_amount: null,
   additional_taxes: null,
-  total_amount: 11800.0,
+  total_amount: null,
   non_billable_amount: null,
   period_amount: null,
   previous_balance: null,

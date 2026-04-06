@@ -7,7 +7,9 @@
 Name | Type
 ------------ | -------------
 `code` | string
-`amount` | number
+`amount` | [ItemWithheldITBISAmount](ItemWithheldITBISAmount.md)
+`rate` | number
+`alternativeCurrencyAmount` | number
 
 ## Example
 
@@ -18,6 +20,8 @@ import type { ItemAdditionalTax } from '@pronesoft-rd/ecf-sdk'
 const example = {
   "code": null,
   "amount": null,
+  "rate": null,
+  "alternativeCurrencyAmount": null,
 } satisfies ItemAdditionalTax
 
 console.log(example)

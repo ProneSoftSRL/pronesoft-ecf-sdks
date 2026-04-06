@@ -3,7 +3,7 @@ eCF-Pronesoft Integration API
 
 ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
-API version: 1.1.0
+API version: 1.2.0
 Contact: support@pronesoft.com
 */
 
@@ -24,7 +24,9 @@ var _ MappedNullable = &ItemAdditionalTax{}
 type ItemAdditionalTax struct {
 	// DGII tax code (e.g. ISC, IECS)
 	Code string `json:"code"`
-	Amount *float32 `json:"amount,omitempty"`
+	Amount *ItemWithheldITBISAmount `json:"amount,omitempty"`
+	Rate *float32 `json:"rate,omitempty"`
+	AlternativeCurrencyAmount *float32 `json:"alternativeCurrencyAmount,omitempty"`
 }
 
 type _ItemAdditionalTax ItemAdditionalTax
@@ -72,9 +74,9 @@ func (o *ItemAdditionalTax) SetCode(v string) {
 }
 
 // GetAmount returns the Amount field value if set, zero value otherwise.
-func (o *ItemAdditionalTax) GetAmount() float32 {
+func (o *ItemAdditionalTax) GetAmount() ItemWithheldITBISAmount {
 	if o == nil || IsNil(o.Amount) {
-		var ret float32
+		var ret ItemWithheldITBISAmount
 		return ret
 	}
 	return *o.Amount
@@ -82,7 +84,7 @@ func (o *ItemAdditionalTax) GetAmount() float32 {
 
 // GetAmountOk returns a tuple with the Amount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ItemAdditionalTax) GetAmountOk() (*float32, bool) {
+func (o *ItemAdditionalTax) GetAmountOk() (*ItemWithheldITBISAmount, bool) {
 	if o == nil || IsNil(o.Amount) {
 		return nil, false
 	}
@@ -98,9 +100,73 @@ func (o *ItemAdditionalTax) HasAmount() bool {
 	return false
 }
 
-// SetAmount gets a reference to the given float32 and assigns it to the Amount field.
-func (o *ItemAdditionalTax) SetAmount(v float32) {
+// SetAmount gets a reference to the given ItemWithheldITBISAmount and assigns it to the Amount field.
+func (o *ItemAdditionalTax) SetAmount(v ItemWithheldITBISAmount) {
 	o.Amount = &v
+}
+
+// GetRate returns the Rate field value if set, zero value otherwise.
+func (o *ItemAdditionalTax) GetRate() float32 {
+	if o == nil || IsNil(o.Rate) {
+		var ret float32
+		return ret
+	}
+	return *o.Rate
+}
+
+// GetRateOk returns a tuple with the Rate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ItemAdditionalTax) GetRateOk() (*float32, bool) {
+	if o == nil || IsNil(o.Rate) {
+		return nil, false
+	}
+	return o.Rate, true
+}
+
+// HasRate returns a boolean if a field has been set.
+func (o *ItemAdditionalTax) HasRate() bool {
+	if o != nil && !IsNil(o.Rate) {
+		return true
+	}
+
+	return false
+}
+
+// SetRate gets a reference to the given float32 and assigns it to the Rate field.
+func (o *ItemAdditionalTax) SetRate(v float32) {
+	o.Rate = &v
+}
+
+// GetAlternativeCurrencyAmount returns the AlternativeCurrencyAmount field value if set, zero value otherwise.
+func (o *ItemAdditionalTax) GetAlternativeCurrencyAmount() float32 {
+	if o == nil || IsNil(o.AlternativeCurrencyAmount) {
+		var ret float32
+		return ret
+	}
+	return *o.AlternativeCurrencyAmount
+}
+
+// GetAlternativeCurrencyAmountOk returns a tuple with the AlternativeCurrencyAmount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ItemAdditionalTax) GetAlternativeCurrencyAmountOk() (*float32, bool) {
+	if o == nil || IsNil(o.AlternativeCurrencyAmount) {
+		return nil, false
+	}
+	return o.AlternativeCurrencyAmount, true
+}
+
+// HasAlternativeCurrencyAmount returns a boolean if a field has been set.
+func (o *ItemAdditionalTax) HasAlternativeCurrencyAmount() bool {
+	if o != nil && !IsNil(o.AlternativeCurrencyAmount) {
+		return true
+	}
+
+	return false
+}
+
+// SetAlternativeCurrencyAmount gets a reference to the given float32 and assigns it to the AlternativeCurrencyAmount field.
+func (o *ItemAdditionalTax) SetAlternativeCurrencyAmount(v float32) {
+	o.AlternativeCurrencyAmount = &v
 }
 
 func (o ItemAdditionalTax) MarshalJSON() ([]byte, error) {
@@ -116,6 +182,12 @@ func (o ItemAdditionalTax) ToMap() (map[string]interface{}, error) {
 	toSerialize["code"] = o.Code
 	if !IsNil(o.Amount) {
 		toSerialize["amount"] = o.Amount
+	}
+	if !IsNil(o.Rate) {
+		toSerialize["rate"] = o.Rate
+	}
+	if !IsNil(o.AlternativeCurrencyAmount) {
+		toSerialize["alternativeCurrencyAmount"] = o.AlternativeCurrencyAmount
 	}
 	return toSerialize, nil
 }

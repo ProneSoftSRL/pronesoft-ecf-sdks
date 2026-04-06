@@ -5,14 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **environment** | Option<[**models::Environment**](Environment.md)> |  | [optional]
-**version** | **i32** | Always 1. | [default to 1]
+**version** | **String** | Always 1.0. | [default to 1.0]
 **invoice_type** | [**models::InvoiceType**](InvoiceType.md) |  | 
-**invoice_number** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | 
+**invoice_number** | Option<**String**> | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional]
+**group_id** | Option<**String**> | Optional Group ID for batch processing | [optional]
 **issue_date** | **String** |  | 
 **expiration_date** | Option<**String**> |  | [optional]
 **credit_note_indicator** | Option<**CreditNoteIndicator**> | Credit Notes only: 0=affected invoice <=30 days, 1=>30 days (enum: 0, 1) | [optional]
-**deferred_sending_indicator** | Option<**String**> |  | [optional]
-**taxed_amount_indicator** | Option<**String**> |  | [optional]
+**deferred_sending_indicator** | Option<**DeferredSendingIndicator**> |  (enum: 1) | [optional]
+**taxed_amount_indicator** | Option<**TaxedAmountIndicator**> |  (enum: 0, 1) | [optional]
 **income_type** | Option<**IncomeType**> | 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other (enum: 01, 02, 03, 04, 05, 06) | [optional]
 **payment_type** | Option<**PaymentType**> | 1=Cash, 2=Credit, 3=Mixed (enum: 1, 2, 3) | [optional]
 **payment_deadline** | Option<**String**> |  | [optional]
