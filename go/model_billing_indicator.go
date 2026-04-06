@@ -21,11 +21,11 @@ type BillingIndicator string
 
 // List of BillingIndicator
 const (
-	_0 BillingIndicator = "0"
-	_1 BillingIndicator = "1"
-	_2 BillingIndicator = "2"
-	_3 BillingIndicator = "3"
-	_4 BillingIndicator = "4"
+	BillingIndicator_0 BillingIndicator = "0"
+	BillingIndicator_1 BillingIndicator = "1"
+	BillingIndicator_2 BillingIndicator = "2"
+	BillingIndicator_3 BillingIndicator = "3"
+	BillingIndicator_4 BillingIndicator = "4"
 )
 
 // All allowed values of BillingIndicator enum

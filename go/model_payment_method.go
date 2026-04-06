@@ -21,14 +21,14 @@ type PaymentMethod string
 
 // List of PaymentMethod
 const (
-	_1 PaymentMethod = "1"
-	_2 PaymentMethod = "2"
-	_3 PaymentMethod = "3"
-	_4 PaymentMethod = "4"
-	_5 PaymentMethod = "5"
-	_6 PaymentMethod = "6"
-	_7 PaymentMethod = "7"
-	_8 PaymentMethod = "8"
+	PaymentMethod_1 PaymentMethod = "1"
+	PaymentMethod_2 PaymentMethod = "2"
+	PaymentMethod_3 PaymentMethod = "3"
+	PaymentMethod_4 PaymentMethod = "4"
+	PaymentMethod_5 PaymentMethod = "5"
+	PaymentMethod_6 PaymentMethod = "6"
+	PaymentMethod_7 PaymentMethod = "7"
+	PaymentMethod_8 PaymentMethod = "8"
 )
 
 // All allowed values of PaymentMethod enum
