@@ -70,6 +70,49 @@ using Pronesoft.Ecf.Sdk.Api;
 using Pronesoft.Ecf.Sdk.Client;
 using Pronesoft.Ecf.Sdk.Model;
 ```
+
+## Recommended usage
+
+The IntegrationClient is a wrapper that manages:
+
+- OAuth token acquisition
+- token cache
+- automatic refresh on 401
+
+The recommended pattern is:
+
+1. Create one IntegrationClient for the application.
+2. When the ERP user logs in, resolve the active tenant.
+3. Create a tenant session with `StartSession(tenantId)`.
+4. Reuse `Client()` while that tenant stays active.
+
+```csharp
+var integrationClient = new IntegrationClient(
+    baseUrl: "https://ecf.sandbox.pronesoft.com",
+    clientId: Environment.GetEnvironmentVariable("PRONESOFT_CLIENT_ID"),
+    clientSecret: Environment.GetEnvironmentVariable("PRONESOFT_CLIENT_SECRET")
+);
+
+var session = integrationClient.StartSession("130862346");
+var client = session.Client();  // → TenantScopedClient with x-tenant-id auto-injected
+
+var response = await client.ECFSubmissionAPI.SubmitEcfAsync(
+    ModelEnvironment.TesteCF,
+    payload
+);
+```
+
+If the user changes company during the ERP session:
+
+```csharp
+await session.SetCurrentTenant("101234567");
+```
+
+If you want to work without a session wrapper, you can create a tenant-scoped client directly:
+
+```csharp
+var client = integrationClient.ForTenant("130862346");
+```
 <a id="packaging"></a>
 ## Packaging
 

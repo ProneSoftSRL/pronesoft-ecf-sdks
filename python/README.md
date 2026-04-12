@@ -74,6 +74,51 @@ Then import the package:
 import pronesoft_ecf
 ```
 
+## Recommended usage
+
+This SDK includes an IntegrationClient that manages:
+
+- OAuth token acquisition
+- token cache
+- automatic refresh on 401
+
+The recommended pattern is:
+
+1. Create one IntegrationClient for the application.
+2. When the ERP user logs in, resolve the active tenant.
+3. Create a tenant session with `start_session(tenant_id)`.
+4. Reuse `session.get_client()` while that tenant stays active.
+
+```python
+from pronesoft_ecf import IntegrationClient, Environment
+
+integration_client = IntegrationClient(
+    base_url="https://ecf.sandbox.pronesoft.com",
+    client_id=os.getenv("PRONESOFT_CLIENT_ID"),
+    client_secret=os.getenv("PRONESOFT_CLIENT_SECRET"),
+)
+
+session = integration_client.start_session("130862346")
+client = session.get_client()  # → TenantScopedClient with x-tenant-id auto-injected
+
+response = client.ecf_submission.submit_ecf(
+    environment=Environment.TESTE_CF,
+    electronic_document=payload,
+)
+```
+
+If the user changes company during the ERP session:
+
+```python
+session.set_current_tenant("101234567")
+```
+
+If you want to work without a session wrapper, you can create a tenant-scoped client directly:
+
+```python
+client = integration_client.for_tenant("130862346")
+```
+
 ### Tests
 
 Execute `pytest` to run the tests.

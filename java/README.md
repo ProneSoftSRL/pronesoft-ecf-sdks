@@ -79,6 +79,49 @@ Add this dependency to your project's POM:
 </dependency>
 ```
 
+## Recommended usage
+
+The IntegrationClient is a wrapper that manages:
+
+- OAuth token acquisition
+- token cache  
+- automatic refresh on 401
+
+The recommended pattern is:
+
+1. Create one IntegrationClient for the application.
+2. When the ERP user logs in, resolve the active tenant.
+3. Create a tenant session with `startSession(tenantId)`.
+4. Reuse `getClient()` while that tenant stays active.
+
+```java
+IntegrationClient integrationClient = new IntegrationClient(
+    "https://ecf.sandbox.pronesoft.com",
+    System.getenv("PRONESOFT_CLIENT_ID"),
+    System.getenv("PRONESOFT_CLIENT_SECRET")
+);
+
+IntegrationClient.TenantSessionClient session = integrationClient.startSession("130862346");
+ECFSubmissionAPI client = session.getClient();  // → TenantScopedClient with x-tenant-id auto-injected
+
+ApiResponse<EcfSubmissionResponse> response = client.submitEcf(
+    Environment.TESTECF,
+    payload
+);
+```
+
+If the user changes company during the ERP session:
+
+```java
+session.setCurrentTenant("101234567");
+```
+
+If you want to work without a session wrapper, you can create a tenant-scoped client directly:
+
+```java
+ECFSubmissionAPI client = integrationClient.forTenant("130862346");
+```
+
 ### Gradle users
 
 Add this dependency to your project's build file:
