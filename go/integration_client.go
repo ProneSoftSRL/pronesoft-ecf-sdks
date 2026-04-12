@@ -164,7 +164,11 @@ type integrationTokenManager struct {
 	lastErr   error
 }
 
-func (m *integrationTokenManager) getToken(force bool) (string, error) {
+func (m *integrationTokenManager) getToken(ctx context.Context, force bool) (string, error) {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
 	m.mu.Lock()
 	if !force && m.token != "" && time.Now().Add(time.Duration(m.refreshSkewSeconds)*time.Second).Before(m.expiresAt) {
 		t := m.token
@@ -175,7 +179,11 @@ func (m *integrationTokenManager) getToken(force bool) (string, error) {
 	if m.inflight != nil {
 		ch := m.inflight
 		m.mu.Unlock()
-		<-ch
+		select {
+		case <-ch:
+		case <-ctx.Done():
+			return "", ctx.Err()
+		}
 		m.mu.Lock()
 		defer m.mu.Unlock()
 		if m.lastErr != nil {
@@ -188,7 +196,7 @@ func (m *integrationTokenManager) getToken(force bool) (string, error) {
 	m.inflight = ch
 	m.mu.Unlock()
 
-	token, expiresAt, err := m.fetchToken()
+	token, expiresAt, err := m.fetchToken(ctx)
 
 	m.mu.Lock()
 	m.lastErr = err
@@ -206,9 +214,13 @@ func (m *integrationTokenManager) getToken(force bool) (string, error) {
 	return token, nil
 }
 
-func (m *integrationTokenManager) fetchToken() (string, time.Time, error) {
+func (m *integrationTokenManager) fetchToken(ctx context.Context) (string, time.Time, error) {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
 	req := NewOAuthTokenRequest(m.clientID, m.clientSecret)
-	res, _, err := m.authAPI.GetAccessToken(context.Background()).OAuthTokenRequest(*req).Execute()
+	res, _, err := m.authAPI.GetAccessToken(ctx).OAuthTokenRequest(*req).Execute()
 	if err != nil {
 		return "", time.Time{}, err
 	}
@@ -238,10 +250,14 @@ func (t *integrationAuthTransport) RoundTrip(req *http.Request) (*http.Response,
 		base = http.DefaultTransport
 	}
 
-	bodyBytes, _ := cloneBody(req)
+	bodyBytes, bodyErr := cloneBody(req)
+	if bodyErr != nil {
+		return nil, bodyErr
+	}
+	isOAuthTokenPath := strings.HasSuffix(req.URL.Path, "/oauth/token")
 
-	if req.URL.Path != "/oauth/token" {
-		token, err := t.manager.getToken(false)
+	if !isOAuthTokenPath {
+		token, err := t.manager.getToken(req.Context(), false)
 		if err != nil {
 			return nil, err
 		}
@@ -256,13 +272,13 @@ func (t *integrationAuthTransport) RoundTrip(req *http.Request) (*http.Response,
 		return res, err
 	}
 
-	if res.StatusCode != http.StatusUnauthorized || req.URL.Path == "/oauth/token" {
+	if res.StatusCode != http.StatusUnauthorized || isOAuthTokenPath {
 		return res, nil
 	}
 
 	_ = res.Body.Close()
 
-	token, tokenErr := t.manager.getToken(true)
+	token, tokenErr := t.manager.getToken(req.Context(), true)
 	if tokenErr != nil {
 		return nil, tokenErr
 	}
