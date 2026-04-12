@@ -71,6 +71,86 @@ func (c *IntegrationClient) API() *APIClient {
 	return c.apiClient
 }
 
+// TenantSession is a lightweight tenant-scoped view over the shared integration client.
+type TenantSession struct {
+	client *APIClient
+}
+
+// Client returns the tenant-scoped API client.
+func (s *TenantSession) Client() *APIClient {
+	return s.client
+}
+
+// StartSession returns a tenant-scoped session while reusing the same token manager.
+func (c *IntegrationClient) StartSession(tenantID string) (*TenantSession, error) {
+	tenantID = strings.TrimSpace(tenantID)
+	if tenantID == "" {
+		return nil, fmt.Errorf("tenantID is required")
+	}
+
+	baseCfg := c.apiClient.GetConfig()
+
+	cfg := NewConfiguration()
+	cfg.Servers = baseCfg.Servers
+	cfg.Host = baseCfg.Host
+	cfg.Scheme = baseCfg.Scheme
+	cfg.UserAgent = baseCfg.UserAgent
+	cfg.Debug = baseCfg.Debug
+	cfg.DefaultHeader = make(map[string]string)
+	for k, v := range baseCfg.DefaultHeader {
+		cfg.DefaultHeader[k] = v
+	}
+
+	var timeout time.Duration
+	if baseCfg.HTTPClient != nil {
+		timeout = baseCfg.HTTPClient.Timeout
+	}
+
+	baseTransport := http.DefaultTransport
+	if baseCfg.HTTPClient != nil && baseCfg.HTTPClient.Transport != nil {
+		baseTransport = baseCfg.HTTPClient.Transport
+	}
+
+	// Prefer cloning integrationAuthTransport so tenant override happens inside auth transport.
+	if authTransport, ok := baseTransport.(*integrationAuthTransport); ok {
+		cfg.HTTPClient = &http.Client{
+			Transport: &integrationAuthTransport{
+				base:     authTransport.base,
+				manager:  authTransport.manager,
+				tenantID: tenantID,
+			},
+			Timeout: timeout,
+		}
+	} else {
+		cfg.HTTPClient = &http.Client{
+			Transport: &tenantOverrideTransport{
+				base:     baseTransport,
+				tenantID: tenantID,
+			},
+			Timeout: timeout,
+		}
+	}
+
+	return &TenantSession{client: NewAPIClient(cfg)}, nil
+}
+
+type tenantOverrideTransport struct {
+	base     http.RoundTripper
+	tenantID string
+}
+
+func (t *tenantOverrideTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	req2 := req.Clone(req.Context())
+	req2.Header.Set("x-tenant-id", t.tenantID)
+
+	base := t.base
+	if base == nil {
+		base = http.DefaultTransport
+	}
+
+	return base.RoundTrip(req2)
+}
+
 type integrationTokenManager struct {
 	clientID           string
 	clientSecret       string
