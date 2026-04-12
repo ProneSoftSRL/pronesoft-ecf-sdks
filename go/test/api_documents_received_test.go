@@ -1,3 +1,6 @@
+//go:build integration
+// +build integration
+
 /*
 eCF-Pronesoft Integration API
 
@@ -14,7 +17,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func Test_ecf_DocumentsReceivedAPIService(t *testing.T) {

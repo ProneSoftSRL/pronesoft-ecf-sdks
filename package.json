@@ -6,6 +6,8 @@
     "@openapitools/openapi-generator-cli": "^2.16.1"
   },
   "scripts": {
-    "generate": "bash generate.sh"
+    "spec:sync": "bash sync-spec.sh",
+    "generate": "bash generate.sh",
+    "generate:6": "bash generate.sh"
   }
 }

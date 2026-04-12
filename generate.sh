@@ -1,64 +1,62 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Configuration
-OPENAPI_SPEC="../pronesoft-ecf/ecf-server/openapi.yaml"
-GENERATOR_VERSION="7.21.0"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SOURCE_SPEC_DEFAULT="/home/joselm/Documentos/Proyectos Pronesoft/pronesoft-ecf/ecf-server/openapi.yaml"
+SOURCE_SPEC="${SOURCE_SPEC:-$SOURCE_SPEC_DEFAULT}"
+LOCAL_SPEC="$ROOT_DIR/spec/openapi.yaml"
 
-# Explicit check for the spec file
-if [ ! -f "$OPENAPI_SPEC" ]; then
-    echo "Error: OpenAPI specification not found at $OPENAPI_SPEC"
+if [[ ! -f "$SOURCE_SPEC" ]]; then
+    echo "Error: OpenAPI specification not found at: $SOURCE_SPEC"
     exit 1
 fi
 
-echo "--- Using OpenAPI Generator v$GENERATOR_VERSION ---"
+mkdir -p "$ROOT_DIR/spec"
+cp "$SOURCE_SPEC" "$LOCAL_SPEC"
 
-# --- TypeScript (Fetch) ---
-echo "Generating TypeScript SDK..."
+echo "Using spec: $LOCAL_SPEC"
+echo "Generating SDKs: typescript, go, python, php, java, csharp"
+
 npx @openapitools/openapi-generator-cli generate \
-    -i "$OPENAPI_SPEC" \
+    -i "$LOCAL_SPEC" \
     -g typescript-fetch \
-    -o ./typescript \
+    -o "$ROOT_DIR/typescript" \
     --additional-properties=supportsES6=true,typescriptThreePlus=true \
     --skip-validate-spec
 
-# --- Go ---
-echo "Generating Go SDK..."
 npx @openapitools/openapi-generator-cli generate \
-    -i "$OPENAPI_SPEC" \
+    -i "$LOCAL_SPEC" \
     -g go \
-    -o ./go \
-    --additional-properties=enumClassPrefix=true,isGoSubmodule=true \
-    --git-user-id ProneSoftSRL \
-    --git-repo-id pronesoft-ecf-sdks/go \
+    -o "$ROOT_DIR/go" \
+    --additional-properties=enumClassPrefix=true,isGoSubmodule=true,withGoCodegenComment=false \
     --skip-validate-spec
 
-# --- PHP ---
-echo "Generating PHP SDK..."
 npx @openapitools/openapi-generator-cli generate \
-    -i "$OPENAPI_SPEC" \
-    -g php \
-    -o ./php \
-    --additional-properties=invokerPackage=PronesoftEcf,packageName=pronesoft-ecf-sdk \
-    --skip-validate-spec
-
-# --- Python ---
-echo "Generating Python SDK..."
-npx @openapitools/openapi-generator-cli generate \
-    -i "$OPENAPI_SPEC" \
+    -i "$LOCAL_SPEC" \
     -g python \
-    -o ./python \
+    -o "$ROOT_DIR/python" \
     --additional-properties=packageName=pronesoft_ecf,packageVersion=1.2.0 \
     --skip-validate-spec
 
-# --- Other Languages (Standard Generation) ---
-LANGS=("java" "kotlin" "rust" "ruby" "swift5" "dart" "csharp")
-for lang in "${LANGS[@]}"; do
-    echo "Generating $lang SDK..."
-    npx @openapitools/openapi-generator-cli generate \
-        -i "$OPENAPI_SPEC" \
-        -g "$lang" \
-        -o "./$lang" \
-        --skip-validate-spec
-done
+npx @openapitools/openapi-generator-cli generate \
+    -i "$LOCAL_SPEC" \
+    -g php \
+    -o "$ROOT_DIR/php" \
+    --additional-properties=invokerPackage=PronesoftEcf,packageName=pronesoft-ecf-sdk \
+    --skip-validate-spec
 
-echo "--- SDK Generation Complete ---"
+npx @openapitools/openapi-generator-cli generate \
+    -i "$LOCAL_SPEC" \
+    -g java \
+    -o "$ROOT_DIR/java" \
+    --additional-properties=hideGenerationTimestamp=true \
+    --skip-validate-spec
+
+npx @openapitools/openapi-generator-cli generate \
+    -i "$LOCAL_SPEC" \
+    -g csharp \
+    -o "$ROOT_DIR/csharp" \
+    --additional-properties=packageName=Pronesoft.Ecf.Sdk \
+    --skip-validate-spec
+
+echo "SDK generation complete."

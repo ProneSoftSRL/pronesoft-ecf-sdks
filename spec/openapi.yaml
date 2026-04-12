@@ -1,0 +1,2342 @@
+openapi: 3.0.0
+
+# =============================================================================
+# eCF-Pronesoft Master Integration API — v1.1.0
+# =============================================================================
+# Authentication: OAuth 2.0 Client Credentials
+#
+# PORTALS (get credentials here):
+#   Sandbox:    https://ecf.sandbox.pronesoft.com
+#   Production: https://ecf.pronesoft.com
+#
+# API ENDPOINTS:
+#   Sandbox:    https://api.ecf.sandbox.pronesoft.com/api/v1
+#   Production: https://api.ecf.pronesoft.com/api/v1
+#
+# TOKEN LIFETIME: 86400 seconds (24 hours)
+# =============================================================================
+
+info:
+  title: eCF-Pronesoft Integration API
+  version: 1.2.0
+  description: |
+    ## Overview
+    Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
+    Dominican Republic through the Pronesoft platform.
+
+    ## Authentication — OAuth 2.0 Client Credentials
+
+    ### Steps
+    1. Get credentials from the portal:
+       - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App
+       - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App
+    2. Request a token via POST /oauth/token — valid for 24 hours (86400s).
+    3. Use: Authorization: Bearer <accessToken> on every request.
+    4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.
+
+    ### Multi-company delegation
+    To act on behalf of an associated company (branch), add:
+      x-tenant-id: <business-uuid>
+    Do NOT send x-tenant-id when acting as the main company.
+
+    ### Sandbox specifics
+    - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed.
+    - Sequences are automatic — no need to create them manually.
+    - The environment field in the document body MUST be TesteCF.
+
+    ### Scopes
+    business:read, business:create, business:update,
+    members:read, members:invite, members:revoke,
+    certificates:read, certificates:upload, certificates:update,
+    documents:read, documents:create, documents:send, documents:receive, documents:update,
+    approvals:read, approvals:commercial,
+    sequences:read, sequences:create, sequences:update, sequences:cancel,
+    business_info:read, certification:read, certification:write, reports:read
+
+
+  contact:
+    name: Pronesoft SRL Support
+    url: https://pronesoft.com
+    email: support@pronesoft.com
+  license:
+    name: Proprietary
+    url: https://pronesoft.com/terms
+
+externalDocs:
+  description: Pronesoft eCF SDKs Repository
+  url: https://github.com/ProneSoftSRL/pronesoft-ecf-sdks
+
+servers:
+  - url: https://api.ecf.sandbox.pronesoft.com/api/v1
+    description: Sandbox — development and testing
+  - url: https://api.ecf.pronesoft.com/api/v1
+    description: Production — live e-CF issuance
+
+security:
+  - oauth2: []
+
+tags:
+  - name: Authentication
+    description: OAuth 2.0 token endpoint. No Authorization header needed here. Tokens are valid for 24 hours.
+  - name: Digital Certificates
+    description: Upload and manage DGII digital signing certificates (P12/PFX format).
+  - name: Tax Sequences
+    description: Manage e-NCF fiscal number sequences (E31-E47). Automatic in Sandbox.
+  - name: eCF Submission
+    description: Core endpoint for submitting e-CF documents to DGII via Pronesoft.
+  - name: Documents Sent
+    description: Query, download, and get statistics on submitted documents.
+  - name: Documents Received
+    description: Manage and query e-CF documents received from third parties.
+  - name: Commercial Approvals
+    description: Manage internal commercial approval workflows for received documents.
+  - name: Associated Companies
+    description: Manage branches and associated companies under your main account.
+  - name: Webhook Configuration
+    description: Read webhook configurations (webhooks are managed from the Dashboard UI).
+  - name: Automated Certification
+    description: Automate the DGII certification process for ERPs.
+  - name: Reports
+    description: Download accounting reports (Sent Files, Format 606) for DGII compliance.
+
+paths:
+  /oauth/token:
+    post:
+      tags: [Authentication]
+      summary: Get access token (OAuth 2.0)
+      description: |
+        Authenticates using OAuth 2.0 Client Credentials flow.
+        Returns a Bearer token valid for 24 hours (86400 seconds).
+        This endpoint is public — no Authorization header needed.
+      operationId: getAccessToken
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OAuthTokenRequest"
+            example:
+              clientId: "app_live_TU_CLIENT_ID"
+              clientSecret: "sk_live_TU_CLIENT_SECRET"
+      responses:
+        "200":
+          description: Token generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OAuthTokenResponse"
+              example:
+                accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                tokenType: "Bearer"
+                expiresIn: 86400
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /{rnc}/certificates:
+    post:
+      tags: [Digital Certificates]
+      summary: Upload digital certificate (P12/PFX)
+      description: |
+        Uploads the DGII-issued digital signing certificate for a company.
+        Stored encrypted with AES-256-CBC. No download endpoint exists.
+        Sandbox tip: SBX-prefixed RNCs do not require a certificate.
+      operationId: uploadCertificate
+      security:
+        - oauth2: [certificates:upload]
+      parameters:
+        - $ref: "#/components/parameters/RncPath"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file, password]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Certificate file in .p12 or .pfx format.
+                password:
+                  type: string
+                  format: password
+                  description: Password to unlock the certificate.
+      responses:
+        "201":
+          description: Certificate uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadCertificateResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          description: Company RNC not found in the system.
+
+  /tax-sequences:
+    get:
+      tags: [Tax Sequences]
+      summary: List tax sequences
+      operationId: listTaxSequences
+      security:
+        - oauth2: [sequences:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: type
+          in: query
+          schema:
+            $ref: "#/components/schemas/InvoiceTypeSequence"
+        - name: environment
+          in: query
+          schema:
+            $ref: "#/components/schemas/Environment"
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        "200":
+          description: List of tax sequences
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TaxSequence"
+                  meta:
+                    $ref: "#/components/schemas/PaginationMeta"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /tax-sequences/create:
+    post:
+      tags: [Tax Sequences]
+      summary: Create new tax sequence
+      operationId: createTaxSequence
+      security:
+        - oauth2: [sequences:create]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTaxSequenceRequest"
+            example:
+              type: "E32"
+              from: 1
+              to: 10000
+              quantity: 10000
+              expiration: "2025-12-31"
+              environment: "TesteCF"
+      responses:
+        "201":
+          description: Sequence created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  data:
+                    $ref: "#/components/schemas/TaxSequenceCreated"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /tax-sequences/next:
+    get:
+      tags: [Tax Sequences]
+      summary: Get next available fiscal number
+      description: Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+      operationId: getNextNumber
+      security:
+        - oauth2: [sequences:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: type
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/InvoiceTypeSequence"
+        - name: environment
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Environment"
+      responses:
+        "200":
+          description: Next available e-NCF number
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  data:
+                    type: object
+                    properties:
+                      nextNumber:
+                        type: string
+                        example: "E32000005251"
+                      sequenceId:
+                        type: string
+                        example: "seq_live_1234567890"
+                      remainingNumbers:
+                        type: integer
+                        example: 4750
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /tax-sequences/update:
+    patch:
+      tags: [Tax Sequences]
+      summary: Update tax sequence
+      operationId: updateTaxSequence
+      security:
+        - oauth2: [sequences:update]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: id
+          in: query
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTaxSequenceRequest"
+      responses:
+        "200":
+          description: Sequence updated successfully
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /tax-sequences/void:
+    post:
+      tags: [Tax Sequences]
+      summary: Void a range of fiscal numbers
+      description: Cancels unused fiscal numbers and notifies DGII.
+      operationId: voidTaxSequence
+      security:
+        - oauth2: [sequences:cancel]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VoidTaxSequenceRequest"
+      responses:
+        "200":
+          description: Numbers voided successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  data:
+                    type: object
+                    properties:
+                      sequenceId: { type: string }
+                      voidedNumbers: { type: integer }
+                      status: { type: string, example: "SENT_TO_DGII" }
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /{environment}/ecf/submit:
+    post:
+      tags: [eCF Submission]
+      summary: Submit e-CF document to DGII
+      description: |
+        Submits an electronic tax document. Handles XML signing, queuing,
+        contingency mode, and DGII communication automatically.
+        IMPORTANT: In Sandbox the environment field in body MUST be TesteCF.
+      operationId: submitEcf
+      security:
+        - oauth2: [documents:send]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: environment
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Environment"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ElectronicDocument"
+      responses:
+        "201":
+          description: Document registered and queued for processing
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EcfStatusResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "422":
+          description: Validation or processing error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "429":
+          $ref: "#/components/responses/RateLimitError"
+
+  /{environment}/ecf/status/{id}:
+    get:
+      tags: [eCF Submission]
+      summary: Get document status by internal id
+      operationId: getEcfStatus
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: environment
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Environment"
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Document status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EcfStatusResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /{environment}/ecf/responses/stats:
+    get:
+      tags: [eCF Submission]
+      summary: Get submission statistics (last 30 days)
+      operationId: getEcfStats
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: environment
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Environment"
+      responses:
+        "200":
+          description: Submission statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EcfStatsResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /{environment}/ecf/responses/history:
+    get:
+      tags: [eCF Submission]
+      summary: Get submission history (last 50 documents)
+      operationId: getEcfHistory
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: environment
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/Environment"
+      responses:
+        "200":
+          description: Document history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EcfHistoryItem"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/sent:
+    get:
+      tags: [Documents Sent]
+      summary: List sent documents
+      operationId: listSentDocuments
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: env
+          in: query
+          schema:
+            $ref: "#/components/schemas/Environment"
+        - name: ecf
+          in: query
+          schema: { type: string }
+        - name: type
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [APPROVED, REJECTED, IN_PROCESS, CONTINGENCY, ERROR]
+        - name: dateFrom
+          in: query
+          schema: { type: string, format: date }
+        - name: dateTo
+          in: query
+          schema: { type: string, format: date }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10, maximum: 100 }
+      responses:
+        "200":
+          description: Paginated list of sent documents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SentDocumentListResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/{id}:
+    get:
+      tags: [Documents Sent]
+      summary: Get document details
+      operationId: getDocument
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Document details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SentDocumentDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/download:
+    get:
+      tags: [Documents Sent]
+      summary: Download document XML
+      operationId: downloadDocument
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - name: fileUrl
+          in: query
+          required: true
+          schema: { type: string, format: uri }
+      responses:
+        "200":
+          description: XML file content
+          content:
+            application/xml:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/stats/summary:
+    get:
+      tags: [Documents Sent]
+      summary: Get document statistics
+      operationId: getDocumentStats
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [7d, 30d, 90d]
+            default: 30d
+      responses:
+        "200":
+          description: Document statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentStatsResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/received/all:
+    get:
+      tags: [Documents Received]
+      summary: List received documents
+      operationId: listReceivedDocuments
+      security:
+        - oauth2: [documents:receive]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: ecf
+          in: query
+          schema: { type: string }
+        - name: documentType
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema: { type: integer, description: "1=Válido, 2=Anulado, 3=Pendiente" }
+        - name: dateFrom
+          in: query
+          schema: { type: string, format: date }
+        - name: dateTo
+          in: query
+          schema: { type: string, format: date }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        "200":
+          description: Paginated list of received documents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceivedDocumentListResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/received/stats/summary:
+    get:
+      tags: [Documents Received]
+      summary: Get received documents statistics
+      operationId: getReceivedDocumentStats
+      security:
+        - oauth2: [documents:receive]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+      responses:
+        "200":
+          description: Received document statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceivedDocumentStatsResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/approvals/all:
+    get:
+      tags: [Commercial Approvals]
+      summary: List commercial approvals
+      operationId: listApprovals
+      security:
+        - oauth2: [approvals:read]
+      parameters:
+        - name: businessId
+          in: query
+          required: true
+          schema: { type: string }
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20, maximum: 100 }
+        - name: ecf
+          in: query
+          required: false
+          schema: { type: string }
+        - name: documentType
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema:
+            type: integer
+            enum: [1, 2, 3, 4]
+            description: "1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En Revisión"
+        - name: dateFrom
+          in: query
+          schema: { type: string, format: date-time }
+        - name: dateTo
+          in: query
+          schema: { type: string, format: date-time }
+        - name: minAmount
+          in: query
+          schema: { type: number }
+        - name: maxAmount
+          in: query
+          schema: { type: number }
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+            enum: [createdAt, amount, status]
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+      responses:
+        "200":
+          description: Paginated list of commercial approvals
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalListResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /associated-companies:
+    get:
+      tags: [Associated Companies]
+      summary: List associated companies / branches
+      operationId: listAssociatedCompanies
+      security:
+        - oauth2: [business:read]
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        "200":
+          description: Array of associated companies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AssociatedCompany"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags: [Associated Companies]
+      summary: Create associated company / branch
+      operationId: createAssociatedCompany
+      security:
+        - oauth2: [business:create]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreateAssociatedCompanyRequest"
+      responses:
+        "201":
+          description: Company created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+                  business:
+                    $ref: "#/components/schemas/AssociatedCompany"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /associated-companies/{companyId}:
+    put:
+      tags: [Associated Companies]
+      summary: Update associated company
+      operationId: updateAssociatedCompany
+      security:
+        - oauth2: [business:update]
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateAssociatedCompanyRequest"
+      responses:
+        "200":
+          description: Company updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+                  business:
+                    $ref: "#/components/schemas/AssociatedCompany"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      tags: [Associated Companies]
+      summary: Delete associated company
+      description: Permanently deletes an associated company. This action is irreversible.
+      operationId: deleteAssociatedCompany
+      security:
+        - oauth2: [business:update]
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Company deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string }
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /associated-companies/{companyId}/metrics:
+    get:
+      tags: [Associated Companies]
+      summary: Get company metrics
+      operationId: getCompanyMetrics
+      security:
+        - oauth2: [business:read]
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Company metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyMetrics"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /associated-companies/{companyId}/documents-metrics:
+    get:
+      tags: [Associated Companies]
+      summary: Get company document metrics
+      operationId: getCompanyDocumentMetrics
+      security:
+        - oauth2: [business:read]
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Document metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyDocumentMetrics"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /{rnc}/webhooks:
+    get:
+      tags: [Webhook Configuration]
+      summary: List webhook configurations
+      description: Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+      operationId: listWebhooks
+      security:
+        - oauth2: [business:read]
+      parameters:
+        - $ref: "#/components/parameters/RncPath"
+      responses:
+        "200":
+          description: List of webhook configurations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WebhookConfigResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /{rnc}/webhooks/{webhookId}:
+    get:
+      tags: [Webhook Configuration]
+      summary: Get webhook details
+      operationId: getWebhook
+      security:
+        - oauth2: [business:read]
+      parameters:
+        - $ref: "#/components/parameters/RncPath"
+        - name: webhookId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Webhook details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookConfigDetail"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /{rnc}/webhooks/{webhookId}/stats:
+    get:
+      tags: [Webhook Configuration]
+      summary: Get webhook delivery statistics
+      operationId: getWebhookStats
+      security:
+        - oauth2: [business:read]
+      parameters:
+        - $ref: "#/components/parameters/RncPath"
+        - name: webhookId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [today, week, month, all]
+            default: month
+      responses:
+        "200":
+          description: Webhook delivery statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookStats"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /dgii-ecf/automated-certification/niches:
+    get:
+      tags: [Automated Certification]
+      summary: List certification niches
+      operationId: listCertificationNiches
+      security:
+        - oauth2: [certification:read]
+      responses:
+        "200":
+          description: List of available niches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CertificationNiche"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /dgii-ecf/automated-certification/start:
+    post:
+      tags: [Automated Certification]
+      summary: Start certification process
+      operationId: startCertification
+      security:
+        - oauth2: [certification:write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StartCertificationRequest"
+      responses:
+        "200":
+          description: Certification process started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  processId:
+                    type: string
+                    format: uuid
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /dgii-ecf/automated-certification/{id}/status:
+    get:
+      tags: [Automated Certification]
+      summary: Get certification process status
+      operationId: getCertificationStatus
+      security:
+        - oauth2: [certification:read]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Certification process status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CertificationStatus"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /dgii-ecf/automated-certification/{id}/download:
+    get:
+      tags: [Automated Certification]
+      summary: Download certification ZIP
+      description: Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+      operationId: downloadCertification
+      security:
+        - oauth2: [certification:read]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: ZIP file with certification documents
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /dgii/sent/export:
+    get:
+      tags: [Reports]
+      summary: Export sent documents report
+      description: Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+      operationId: exportSentDocuments
+      security:
+        - oauth2: [reports:read]
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema: { type: string, format: date }
+          example: "2024-01-01"
+        - name: to
+          in: query
+          required: true
+          schema: { type: string, format: date }
+          example: "2024-01-31"
+        - name: env
+          in: query
+          schema:
+            $ref: "#/components/schemas/Environment"
+        - name: encf
+          in: query
+          schema: { type: string }
+        - name: type
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [ACCEPTED, REJECTED, PENDING]
+        - name: trackId
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Excel report file
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+
+  /dgii/606/export:
+    get:
+      tags: [Reports]
+      summary: Export Format 606 (Purchases)
+      description: Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+      operationId: export606
+      security:
+        - oauth2: [reports:read]
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: to
+          in: query
+          required: true
+          schema: { type: string, format: date }
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [txt, xlsx]
+        - name: status
+          in: query
+          schema: { type: string }
+        - name: type
+          in: query
+          schema: { type: string }
+        - name: encf
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Format 606 report
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT Bearer token from POST /oauth/token.
+        Get credentials at https://ecf.sandbox.pronesoft.com (sandbox)
+        or https://ecf.pronesoft.com (production).
+        Tokens expire after 86400 seconds (24 hours).
+
+    oauth2:
+      type: oauth2
+      description: |
+        OAuth 2.0 Client Credentials.
+        Credentials from https://ecf.sandbox.pronesoft.com or https://ecf.pronesoft.com
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes:
+            "business:read": Read company data.
+            "business:create": Create a new company.
+            "business:update": Update company data.
+            "members:read": View team members.
+            "members:invite": Invite new members.
+            "members:revoke": Revoke member access.
+            "certificates:read": View digital certificates.
+            "certificates:upload": Upload new certificates.
+            "certificates:update": Update existing certificates.
+            "documents:read": List and view document details.
+            "documents:create": Create drafts or internal documents.
+            "documents:send": Submit e-CF to the DGII.
+            "documents:receive": Receive e-CF from third parties.
+            "documents:update": Modify document metadata.
+            "approvals:read": View approval statuses.
+            "approvals:commercial": Perform commercial approvals or rejections.
+            "sequences:read": View NCF/e-NCF ranges.
+            "sequences:create": Request or add new sequences.
+            "sequences:update": Modify sequence configurations.
+            "sequences:cancel": Cancel unused sequences.
+            "business_info:read": Access dashboard statistics and metrics.
+            "certification:read": View DGII certification progress.
+            "certification:write": Execute automated DGII certification tests.
+            "reports:read": Generate and export reports (e.g. format 606).
+
+  parameters:
+    TenantIdHeaderOptional:
+      name: x-tenant-id
+      in: header
+      required: false
+      description: |
+        UUID of the associated company (branch). Include ONLY when acting
+        on behalf of a branch. Omit when acting as the main company.
+      schema:
+        type: string
+        format: uuid
+        example: "468a4aa1-1b80-447e-9ecb-400e39f7d798"
+
+    RncPath:
+      name: rnc
+      in: path
+      required: true
+      description: Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+      schema:
+        type: string
+        example: "133190907"
+
+  responses:
+    UnauthorizedError:
+      description: Token missing, expired, or invalid. Call POST /oauth/token to renew.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            statusCode: 401
+            message: "Invalid client credentials"
+            error: "Unauthorized"
+
+    ValidationError:
+      description: Validation error (400). Check the message field for details.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    ForbiddenError:
+      description: The token does not have the required scope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+    RateLimitError:
+      description: Rate limit exceeded. Retry after indicated seconds.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RateLimitErrorResponse"
+
+  schemas:
+    Environment:
+      type: string
+      enum: [TesteCF, CerteCF, eCF]
+      description: "TesteCF=testing no DGII, CerteCF=official certification, eCF=production"
+
+    InvoiceType:
+      type: string
+      enum: ["31", "32", "33", "34", "41", "43", "44", "45", "46", "47"]
+      description: |
+        31=Factura Credito Fiscal, 32=Factura Consumo, 33=Nota Debito,
+        34=Nota Credito, 41=Compras, 43=Gastos Menores,
+        44=Regimenes Especiales, 45=Gubernamental, 46=Exportaciones, 47=Pagos Exterior
+
+    InvoiceTypeSequence:
+      type: string
+      enum: [E31, E32, E33, E34, E41, E43, E44, E45, E46, E47]
+      description: Invoice type with E prefix — used for tax sequence endpoints.
+
+    PaymentMethod:
+      type: string
+      enum: ["1", "2", "3", "4", "5", "6", "7", "8"]
+      description: "1=Cash, 2=Check, 3=Card, 4=Credit, 5=Transfer, 6=Electronic, 7=Bond, 8=Other"
+
+    BillingIndicator:
+      type: string
+      enum: ["0", "1", "2", "3", "4"]
+      description: "0=Non-billable, 1=18% ITBIS, 2=16% ITBIS, 3=0% ITBIS, 4=Exempt"
+
+    WebhookEventType:
+      type: string
+      enum:
+        - document.received
+        - document.status_changed
+        - document.validation_error
+        - document.contingency_activated
+        - commercial.approval
+        - certificate.expiring
+        - security.new_login
+        - security.api_key_rotated
+        - plan.usage_alert
+        - plan.payment_failed
+        - billing.invoice_ready
+        - sequence.depleted
+        - sequence.voided
+        - branch.created
+        - branch.status_changed
+        - member.invited
+        - member.joined
+        - member.removed
+        - certification.completed
+
+    PrintFormat:
+      type: string
+      enum: [A4, thermal_80, thermal_58]
+
+    AccountType:
+      type: string
+      enum: [CT, AH, OT]
+      description: "CT=Current account, AH=Savings, OT=Other"
+
+    DocumentStatus:
+      type: string
+      enum: [IN_PROCESS, APPROVED, REJECTED, ERROR, CONTINGENCY]
+
+    OAuthTokenRequest:
+      type: object
+      required: [clientId, clientSecret]
+      description: Credentials for OAuth 2.0. Get from Pronesoft portal.
+      properties:
+        clientId:
+          type: string
+          example: "app_live_TU_CLIENT_ID"
+        clientSecret:
+          type: string
+          example: "sk_live_TU_CLIENT_SECRET"
+
+    OAuthTokenResponse:
+      type: object
+      description: Bearer token valid for 24 hours (86400 seconds).
+      properties:
+        accessToken:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        tokenType:
+          type: string
+          example: "Bearer"
+        expiresIn:
+          type: integer
+          description: Token lifetime in seconds (24 hours = 86400).
+          example: 86400
+        scope:
+          type: array
+          items: { type: string }
+          example: ["documents:read", "documents:write"]
+
+    PaymentForm:
+      type: object
+      required: [method, amount]
+      properties:
+        method:
+          $ref: "#/components/schemas/PaymentMethod"
+        amount:
+          type: number
+          example: 11800.0
+
+    ElectronicDocument:
+      type: object
+      required: [version, invoiceType, issueDate, items, totals, paymentForms]
+      description: |
+        Electronic tax document (e-CF) payload.
+        Use GET /tax-sequences/next to obtain invoiceNumber.
+        paymentForms is always required.
+      properties:
+        environment:
+          $ref: "#/components/schemas/Environment"
+          description: DGII environment. In Sandbox MUST be TesteCF.
+        version:
+          type: string
+          default: "1.0"
+          example: "1.0"
+          description: Always 1.0.
+        invoiceType:
+          $ref: "#/components/schemas/InvoiceType"
+        invoiceNumber:
+          type: string
+          description: e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+          example: "E310000000001"
+        groupId:
+          type: string
+          description: Optional Group ID for batch processing
+        issueDate:
+          type: string
+          format: date-time
+          example: "2025-01-15T10:30:00Z"
+        expirationDate:
+          type: string
+          format: date-time
+        creditNoteIndicator:
+          type: string
+          enum: ["0", "1"]
+          description: "Credit Notes only: 0=affected invoice <=30 days, 1=>30 days"
+        deferredSendingIndicator:
+          type: string
+          enum: ["1"]
+        taxedAmountIndicator:
+          type: string
+          enum: ["0", "1"]
+        incomeType:
+          type: string
+          enum: ["01", "02", "03", "04", "05", "06"]
+          description: "01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other"
+        paymentType:
+          type: string
+          enum: ["1", "2", "3"]
+          description: "1=Cash, 2=Credit, 3=Mixed"
+        paymentDeadline:
+          type: string
+          format: date-time
+        paymentTerms:
+          type: string
+          maxLength: 15
+        paymentForms:
+          type: array
+          description: Payment breakdown. Required.
+          items:
+            $ref: "#/components/schemas/PaymentForm"
+          example:
+            - method: "1"
+              amount: 11800.0
+        paymentAccountType:
+          $ref: "#/components/schemas/AccountType"
+        paymentAccountNumber:
+          type: string
+          maxLength: 28
+        paymentBank:
+          type: string
+          maxLength: 75
+        serviceStartDate:
+          type: string
+          format: date-time
+        serviceEndDate:
+          type: string
+          format: date-time
+        totalPages:
+          type: integer
+        issuerRNC:
+          type: string
+          description: RNC of the issuing company.
+        issuerBusinessName:
+          type: string
+          maxLength: 150
+        issuerCommercialName:
+          type: string
+          maxLength: 150
+        branchName:
+          type: string
+          maxLength: 20
+        issuerAddress:
+          type: string
+          maxLength: 100
+        municipalityCode:
+          type: string
+          maxLength: 6
+        provinceCode:
+          type: string
+          maxLength: 6
+        issuerPhones:
+          type: array
+          items: { type: string }
+          maxItems: 3
+        issuerEmail:
+          type: string
+          format: email
+          maxLength: 80
+        issuerWebsite:
+          type: string
+          format: uri
+          maxLength: 50
+        issuerEconomicActivity:
+          type: string
+          maxLength: 100
+        sellerCode:
+          type: string
+          maxLength: 60
+        internalInvoiceNumber:
+          type: string
+        internalOrderNumber:
+          type: integer
+        salesZone:
+          type: string
+          maxLength: 20
+        salesRoute:
+          type: string
+          maxLength: 20
+        additionalIssuerInfo:
+          type: string
+          maxLength: 250
+        buyer:
+          $ref: "#/components/schemas/Buyer"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+          minItems: 1
+          maxItems: 1000
+        totals:
+          $ref: "#/components/schemas/Totals"
+        transport:
+          $ref: "#/components/schemas/Transport"
+        additionalInfo:
+          $ref: "#/components/schemas/AdditionalInfo"
+        alternativeCurrency:
+          $ref: "#/components/schemas/AlternativeCurrency"
+        referenceInfo:
+          $ref: "#/components/schemas/ReferenceInfo"
+        subtotals:
+          $ref: "#/components/schemas/Subtotal"
+        discountsOrSurcharges:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiscountOrSurcharge"
+        pages:
+          $ref: "#/components/schemas/Page"
+
+    Buyer:
+      type: object
+      required: [name]
+      properties:
+        taxId:
+          type: string
+          description: RNC (9 digits) or cedula (11 digits). Required for type 31.
+          example: "131415678"
+        foreignId:
+          type: string
+        name:
+          type: string
+          maxLength: 150
+          example: "Cliente Empresa SRL"
+        contact:
+          type: string
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+          maxLength: 100
+        municipalityCode:
+          type: string
+        provinceCode:
+          type: string
+        deliveryDate:
+          type: string
+          format: date-time
+        deliveryContact:
+          type: string
+        deliveryAddress:
+          type: string
+        additionalPhone:
+          type: string
+        purchaseOrderDate:
+          type: string
+          format: date-time
+        purchaseOrderNumber:
+          type: string
+        internalCode:
+          type: string
+        paymentResponsible:
+          type: string
+        additionalInfo:
+          type: string
+
+    Item:
+      type: object
+      required: [billingIndicator, name, type, quantity, unitPrice]
+      properties:
+        lineNumber:
+          type: integer
+          example: 1
+        codes:
+          type: array
+          items:
+            type: object
+            properties:
+              codeType: { type: string }
+              code: { type: string }
+        name:
+          type: string
+          maxLength: 80
+          example: "Servicio profesional"
+        description:
+          type: string
+          maxLength: 1000
+        type:
+          type: string
+          enum: ["1", "2"]
+          description: "1=Good, 2=Service"
+        billingIndicator:
+          $ref: "#/components/schemas/BillingIndicator"
+        withholdingAgentIndicator:
+          type: integer
+        withheldITBISAmount:
+          oneOf: [{ type: number }, { type: string }]
+        withheldISRAmount:
+          oneOf: [{ type: number }, { type: string }]
+        quantity:
+          oneOf: [{ type: number }, { type: string }]
+          example: "1"
+        unitOfMeasure:
+          type: integer
+        referenceQuantity:
+          oneOf: [{ type: number }, { type: string }]
+        referenceUnit:
+          type: integer
+        referenceUnitPrice:
+          oneOf: [{ type: number }, { type: string }]
+        subquantities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Subquantity"
+        alcoholDegree:
+          type: number
+        manufacturingDate:
+          type: string
+          format: date-time
+        expirationDate:
+          type: string
+          format: date-time
+        miningInfo:
+          type: object
+          properties:
+            netWeightKg: { type: number }
+            netWeightMining: { type: number }
+            affiliationType: { type: string, enum: ["1", "2"] }
+            settlement: { type: string, enum: ["1", "2"] }
+        unitPrice:
+          oneOf: [{ type: number }, { type: string }]
+          example: "10000.00"
+        discountAmount:
+          oneOf: [{ type: number }, { type: string }]
+        discount:
+          type: array
+          items:
+            type: object
+            properties:
+              type: { type: string, enum: ["$", "%"] }
+              value: { type: number }
+              amount: { oneOf: [{ type: number }, { type: string }] }
+        surchargeAmount:
+          oneOf: [{ type: number }, { type: string }]
+        surcharge:
+          type: array
+          items:
+            type: object
+            properties:
+              type: { type: string, enum: ["$", "%"] }
+              value: { type: number }
+              amount: { type: number }
+        additionalTaxes:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemAdditionalTax"
+        alternativeCurrency:
+          type: object
+          properties:
+            unitPrice: { type: number }
+            discount: { type: number }
+            surcharge: { type: number }
+            amount: { type: number }
+        amount:
+          oneOf: [{ type: number }, { type: string }]
+          example: 10000.0
+
+    Totals:
+      type: object
+      properties:
+        taxableAmount: { oneOf: [{ type: number }, { type: string }] }
+        taxableAmount1: { oneOf: [{ type: number }, { type: string }] }
+        taxableAmount2: { oneOf: [{ type: number }, { type: string }] }
+        taxableAmount3: { oneOf: [{ type: number }, { type: string }] }
+        exemptAmount: { oneOf: [{ type: number }, { type: string }] }
+        itbisRate1: { oneOf: [{ type: number }, { type: string }], example: 0.18 }
+        itbisRate2: { oneOf: [{ type: number }, { type: string }], example: 0.16 }
+        itbisRate3: { oneOf: [{ type: number }, { type: string }], example: 0.00 }
+        totalITBIS: { oneOf: [{ type: number }, { type: string }] }
+        itbis1: { oneOf: [{ type: number }, { type: string }] }
+        itbis2: { oneOf: [{ type: number }, { type: string }] }
+        itbis3: { oneOf: [{ type: number }, { type: string }] }
+        additionalTaxAmount: { oneOf: [{ type: number }, { type: string }] }
+        additionalTaxes:
+          type: array
+          items: { $ref: "#/components/schemas/AdditionalTax" }
+          maxItems: 20
+        totalAmount:
+          oneOf: [{ type: number }, { type: string }]
+          example: 11800.0
+        nonBillableAmount: { oneOf: [{ type: number }, { type: string }] }
+        periodAmount: { oneOf: [{ type: number }, { type: string }] }
+        previousBalance: { oneOf: [{ type: number }, { type: string }] }
+        advancePaymentAmount: { oneOf: [{ type: number }, { type: string }] }
+        amountToPay: { oneOf: [{ type: number }, { type: string }] }
+        totalWithheldITBIS: { oneOf: [{ type: number }, { type: string }] }
+        totalIncomeTaxWithholding: { oneOf: [{ type: number }, { type: string }] }
+        totalITBISPerception: { oneOf: [{ type: number }, { type: string }] }
+        totalISRPerception: { oneOf: [{ type: number }, { type: string }] }
+
+    EcfStatusResponse:
+      type: object
+      required: [id, status, companyIdentification, sequenceConsumed]
+      properties:
+        id: { type: string, format: uuid }
+        stampDate: { type: string, format: date, nullable: true }
+        status:
+          type: string
+          enum: [REGISTERED, TO_SEND, WAITING_RESPONSE, TO_NOTIFY, FINISHED]
+        legalStatus:
+          type: string
+          nullable: true
+          enum: [ACCEPTED, ACCEPTED_WITH_OBSERVATIONS, REJECTED, ERROR, null]
+        companyIdentification:
+          oneOf:
+            - type: string
+            - type: integer
+        trackId: { type: string, nullable: true }
+        documentNumber: { type: string, nullable: true }
+        encf: { type: string, nullable: true }
+        contingencyMode: { type: boolean }
+        contingencyMessage: { type: string }
+        documentStampUrl: { type: string, format: uri, nullable: true }
+        pdf: { type: string, format: uri, nullable: true }
+        xmlUrl:
+          type: string
+          format: uri
+          nullable: true
+          description: Frontend proxy URL (/api/ecf/view-xml) for authenticated XML access.
+        signatureDate: { type: string, format: date-time, nullable: true }
+        securityCode: { type: string, nullable: true }
+        sequenceConsumed: { type: boolean }
+        governmentResponse:
+          type: object
+          additionalProperties: true
+        source:
+          type: string
+          enum: [dgii_direct, local_database]
+
+    EcfStatsResponse:
+      type: object
+      properties:
+        total: { type: integer }
+        accepted: { type: integer }
+        rejected: { type: integer }
+        processing: { type: integer }
+        error: { type: integer }
+        successRate: { type: string, example: "91.67" }
+        period: { type: string }
+        dateFrom: { type: string, format: date-time }
+        dateTo: { type: string, format: date-time }
+
+    EcfHistoryItem:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        trackId: { type: string }
+        encf: { type: string }
+        documentType: { type: string }
+        status: { $ref: "#/components/schemas/DocumentStatus" }
+        rnc: { type: string }
+        environment: { $ref: "#/components/schemas/Environment" }
+        createdAt: { type: string, format: date-time }
+        logs:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProcessingLog"
+
+    ProcessingLog:
+      type: object
+      properties:
+        timestamp: { type: string, format: date-time }
+        level:
+          type: string
+          enum: [INFO, SUCCESS, WARNING, ERROR]
+        message: { type: string }
+
+    TaxSequence:
+      type: object
+      properties:
+        id: { type: string, example: "seq_sbx_1234567890" }
+        type: { $ref: "#/components/schemas/InvoiceTypeSequence" }
+        startNumber: { type: string, example: "E32000000001" }
+        endNumber: { type: string, example: "E32000010000" }
+        currentNumber: { type: string, example: "E32000005250" }
+        status:
+          type: string
+          enum: [ACTIVE, EXHAUSTED, EXPIRED, VOIDED]
+        totalNumbers: { type: integer }
+        usedNumbers: { type: integer }
+        availableNumbers: { type: integer }
+        createdAt: { type: string, format: date-time }
+        expiresAt: { type: string, format: date-time }
+
+    TaxSequenceCreated:
+      type: object
+      properties:
+        id: { type: string }
+        type: { $ref: "#/components/schemas/InvoiceTypeSequence" }
+        from: { type: integer }
+        to: { type: integer }
+        environment: { $ref: "#/components/schemas/Environment" }
+        createdAt: { type: string, format: date-time }
+
+    CreateTaxSequenceRequest:
+      type: object
+      required: [type, from, to]
+      properties:
+        type: { $ref: "#/components/schemas/InvoiceTypeSequence" }
+        from: { type: integer, example: 1 }
+        to: { type: integer, example: 10000 }
+        quantity: { type: integer, example: 10000 }
+        expiration: { type: string, format: date, example: "2025-12-31" }
+        environment: { $ref: "#/components/schemas/Environment" }
+
+    UpdateTaxSequenceRequest:
+      type: object
+      properties:
+        type: { $ref: "#/components/schemas/InvoiceTypeSequence" }
+        from: { type: integer }
+        to: { type: integer }
+        quantity: { type: integer }
+        expiration: { type: string, format: date }
+        environment: { $ref: "#/components/schemas/Environment" }
+
+    VoidTaxSequenceRequest:
+      type: object
+      required: [sequenceId, startNumber, endNumber, reason]
+      properties:
+        sequenceId: { type: string }
+        startNumber: { type: string, example: "E32000005251" }
+        endNumber: { type: string, example: "E32000005300" }
+        reason: { type: string }
+
+    SentDocumentListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/SentDocumentSummary"
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+        filters:
+          type: object
+
+    SentDocumentSummary:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        encf: { type: string }
+        status: { $ref: "#/components/schemas/DocumentStatus" }
+        statusDisplay: { type: string, example: "Aceptado" }
+        trackId: { type: string }
+        documentType: { type: string }
+        totalAmount: { type: number }
+        receivedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        xmlUrl: { type: string, format: uri }
+        business:
+          type: object
+          properties:
+            name: { type: string }
+            rnc: { type: string }
+
+    SentDocumentDetail:
+      allOf:
+        - $ref: "#/components/schemas/SentDocumentSummary"
+        - type: object
+          properties:
+            logs:
+              type: array
+              items:
+                $ref: "#/components/schemas/ProcessingLog"
+            auditLogs:
+              type: array
+              items:
+                type: object
+
+    DocumentStatsResponse:
+      type: object
+      properties:
+        total: { type: integer }
+        recentActivity: { type: integer }
+        byStatus:
+          type: object
+          additionalProperties:
+            type: integer
+        byEnvironment:
+          type: object
+          additionalProperties:
+            type: integer
+
+    ReceivedDocumentListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReceivedDocument"
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+        filters:
+          type: object
+
+    ReceivedDocument:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        encf: { type: string }
+        receiverRnc: { type: string }
+        senderRnc: { type: string }
+        totalAmount: { type: number }
+        status: { type: integer, description: "1=Valid, 2=Contingency, 3=Rejected" }
+        issueDate: { type: string, format: date-time }
+        receivedAt: { type: string, format: date-time }
+        business:
+          type: object
+          properties:
+            name: { type: string }
+            rnc: { type: string }
+
+    ReceivedDocumentStatsResponse:
+      type: object
+      properties:
+        total: { type: integer }
+        totalAmount: { type: number }
+        byStatus:
+          type: object
+          additionalProperties:
+            type: integer
+
+    ApprovalListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApprovalItem"
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+
+    ApprovalItem:
+      type: object
+      properties:
+        id: { type: string }
+        encf: { type: string }
+        status: { type: integer }
+        issueDate: { type: string, format: date-time }
+        approvalType: { type: string }
+        priority: { type: string }
+        assignedTo: { type: string }
+        comments: { type: string }
+
+    AssociatedCompany:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        rnc: { type: string }
+        logoPath: { type: string, nullable: true }
+        type:
+          type: string
+          enum: [MAIN, ASSOCIATED]
+        city: { type: string }
+        country: { type: string }
+        phone: { type: string }
+        address: { type: string }
+        website: { type: string, format: uri, nullable: true }
+        category: { type: string, nullable: true }
+        monthlySalesRange: { type: string, nullable: true }
+        printerType: { $ref: "#/components/schemas/PrintFormat" }
+        createdAt: { type: string, format: date-time }
+        docsIssuedThisMonth: { type: integer }
+        purchasedDocsConsumedThisMonth: { type: integer }
+        ownerEmail: { type: string, format: email }
+        subscription:
+          type: object
+          nullable: true
+          properties:
+            status: { type: string }
+            expirationDate: { type: string, format: date-time, nullable: true }
+            plan:
+              type: object
+              properties:
+                name: { type: string }
+                maxDocsPerMonth: { type: integer }
+
+    CreateAssociatedCompanyRequest:
+      type: object
+      required: [email, password, name, rnc, phone, address, city, country, printerType]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 8 }
+        firstName: { type: string }
+        lastName: { type: string }
+        jobTitle: { type: string }
+        name: { type: string }
+        rnc: { type: string, example: "SBX133190907" }
+        phone: { type: string }
+        address: { type: string }
+        city: { type: string }
+        country: { type: string }
+        website: { type: string, format: uri }
+        category: { type: string }
+        monthlySalesRange: { type: string }
+        printerType: { $ref: "#/components/schemas/PrintFormat" }
+        logo: { type: string, format: binary }
+
+    UpdateAssociatedCompanyRequest:
+      type: object
+      properties:
+        name: { type: string }
+        phone: { type: string }
+        website: { type: string, format: uri }
+        city: { type: string }
+        country: { type: string }
+        logo: { type: string, format: binary }
+
+    CompanyMetrics:
+      type: object
+      properties:
+        businessId: { type: string, format: uuid }
+        businessName: { type: string }
+        rnc: { type: string }
+        totalDocumentsIssued: { type: integer }
+        documentsThisMonth: { type: integer }
+        documentsStatus:
+          type: object
+          properties:
+            APPROVED: { type: integer }
+            REJECTED: { type: integer }
+            PENDING: { type: integer }
+        consumptionPercentage: { type: number }
+        subscriptionStatus: { type: string }
+        expirationDate: { type: string, format: date-time }
+
+    CompanyDocumentMetrics:
+      type: object
+      properties:
+        mainBusiness:
+          type: object
+          properties:
+            id: { type: string }
+            name: { type: string }
+            rnc: { type: string }
+        associatedBusiness:
+          type: object
+          properties:
+            id: { type: string }
+            name: { type: string }
+            rnc: { type: string }
+        totals:
+          type: object
+          properties:
+            total: { type: integer }
+            last30Days: { type: integer }
+        groupByStatus:
+          type: array
+          items:
+            type: object
+            properties:
+              status: { type: string }
+              _count:
+                type: object
+                properties:
+                  status: { type: integer }
+
+    WebhookConfigResponse:
+      type: object
+      properties:
+        id: { type: string, example: "webhook_sbx_1234567890abcdef" }
+        url: { type: string, format: uri }
+        description: { type: string }
+        eventTypes:
+          type: array
+          items:
+            $ref: "#/components/schemas/WebhookEventType"
+        isActive: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        lastTriggeredAt: { type: string, format: date-time, nullable: true }
+
+    WebhookConfigDetail:
+      allOf:
+        - $ref: "#/components/schemas/WebhookConfigResponse"
+        - type: object
+          properties:
+            deliveries: { type: integer }
+
+    WebhookStats:
+      type: object
+      properties:
+        webhookId: { type: string }
+        period: { type: string }
+        stats:
+          type: object
+          properties:
+            totalAttempts: { type: integer }
+            successful: { type: integer }
+            failed: { type: integer }
+            successRate: { type: string }
+            averageResponseTime: { type: integer }
+            lastAttempt: { type: string, format: date-time }
+
+    WebhookNotificationPayload:
+      type: object
+      description: |
+        Payload sent to your webhook URL when an event occurs.
+        Validate using header X-Webhook-Signature: sha256=<hmac>.
+        Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp.
+      required: [id, event, timestamp, businessRnc, data]
+      properties:
+        id:
+          type: string
+          description: Unique notification ID (evt_xxx format). Use for deduplication.
+          example: "evt_1234567890abcdef"
+        event:
+          $ref: "#/components/schemas/WebhookEventType"
+        timestamp:
+          type: string
+          format: date-time
+        businessRnc:
+          type: string
+        data:
+          type: object
+
+    CertificationNiche:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        description: { type: string }
+        nicheItems:
+          type: array
+          items:
+            type: object
+            properties:
+              documentType: { type: string }
+              count: { type: integer }
+
+    StartCertificationRequest:
+      type: object
+      required: [rnc, businessName, nicheId]
+      properties:
+        rnc: { type: string }
+        businessName: { type: string }
+        nicheId: { type: string }
+        environment: { $ref: "#/components/schemas/Environment" }
+
+    CertificationStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [PENDING, PROCESSING, COMPLETED, FAILED]
+        createdAt: { type: string, format: date-time }
+        errorLog: { type: string, nullable: true }
+
+    UploadCertificateResponse:
+      type: object
+      properties:
+        message: { type: string, example: "Certificado subido correctamente" }
+        representative: { type: string }
+        expirationDate: { type: string, format: date-time }
+
+    PaginationMeta:
+      type: object
+      properties:
+        total: { type: integer }
+        page: { type: integer }
+        limit: { type: integer }
+        totalPages: { type: integer }
+
+    Subtotal:
+      type: object
+      properties:
+        number: { type: integer }
+        description: { type: string }
+        order: { type: integer }
+        taxableAmount: { type: number }
+        taxableAmount1: { type: number }
+        taxableAmount2: { type: number }
+        taxableAmount3: { type: number }
+        totalITBIS: { type: number }
+        itbis1: { type: number }
+        itbis2: { type: number }
+        itbis3: { type: number }
+        additionalTaxes: { type: number }
+        exemptAmount: { type: number }
+        amount: { type: number }
+        lines: { type: integer }
+
+    DiscountOrSurcharge:
+      type: object
+      required: [lineNumber, type, valueType, amount]
+      properties:
+        lineNumber: { type: integer }
+        type:
+          type: string
+          enum: ["D", "R"]
+          description: "D=Discount, R=Surcharge"
+        norm1007Indicator:
+          type: string
+          enum: ["0", "1"]
+        description: { type: string }
+        valueType:
+          type: string
+          enum: ["$", "%"]
+        percentageValue: { type: number }
+        amount: { type: number }
+        alternativeCurrencyAmount: { type: number }
+        billingIndicator: { $ref: "#/components/schemas/BillingIndicator" }
+
+    Page:
+      type: object
+      properties:
+        pageNumber: { type: integer }
+        lineFrom: { type: integer }
+        lineTo: { type: integer }
+        taxableAmount: { type: number }
+        taxableAmount1: { type: number }
+        taxableAmount2: { type: number }
+        taxableAmount3: { type: number }
+        exemptAmount: { type: number }
+        totalITBIS: { type: number }
+        itbis1: { type: number }
+        itbis2: { type: number }
+        itbis3: { type: number }
+        additionalTaxes: { type: number }
+        subtotal: { type: number }
+        nonBillableAmount: { type: number }
+
+    Transport:
+      type: object
+      properties:
+        driver: { type: string }
+        document: { type: string }
+        vehicleId: { type: string }
+        licensePlate: { type: string }
+        route: { type: string }
+        zone: { type: string }
+        deliveryNoteNumber: { type: string }
+        destinationCountry: { type: string }
+
+    AdditionalInfo:
+      type: object
+      properties:
+        shipmentDate: { type: string }
+        shipmentNumber: { type: string }
+        containerNumber: { type: string }
+        referenceNumber: { type: string }
+        grossWeight: { type: number }
+        netWeight: { type: number }
+        grossWeightUnit: { type: integer }
+        netWeightUnit: { type: integer }
+        packageQuantity: { type: number }
+        packageUnit: { type: integer }
+        packageVolume: { type: number }
+        volumeUnit: { type: integer }
+
+    AlternativeCurrency:
+      type: object
+      required: [code, exchangeRate]
+      properties:
+        code: { type: string, maxLength: 3, example: "USD" }
+        exchangeRate: { type: number, example: 58.50 }
+        taxableAmount: { type: number }
+        taxableAmount1: { type: number }
+        taxableAmount2: { type: number }
+        taxableAmount3: { type: number }
+        exemptAmount: { type: number }
+        totalITBIS: { type: number }
+        itbis1: { type: number }
+        itbis2: { type: number }
+        itbis3: { type: number }
+        additionalTaxAmount: { type: number }
+        additionalTaxes:
+          type: array
+          items: { type: string }
+        nonBillableAmount: { type: number }
+        totalAmount: { type: number }
+
+    ReferenceInfo:
+      type: object
+      required: [modifiedInvoiceNumber, modificationCode]
+      description: Reference to previously issued document (for credit/debit notes).
+      properties:
+        modifiedInvoiceNumber: { type: string, example: "E310000000001" }
+        otherContributorRNC: { type: string }
+        modifiedInvoiceDate: { type: string, format: date-time }
+        modificationCode:
+          type: string
+          enum: ["1", "2", "3", "4", "5"]
+          description: "1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other"
+        modificationReason: { type: string }
+
+    ItemAdditionalTax:
+      type: object
+      required: [code]
+      properties:
+        code: { type: string, description: "DGII tax code (e.g. ISC, IECS)" }
+        amount: { oneOf: [{ type: number }, { type: string }] }
+        rate: { type: number }
+        alternativeCurrencyAmount: { type: number }
+
+    AdditionalTax:
+      type: object
+      required: [code, rate]
+      properties:
+        code: { type: string, maxLength: 3 }
+        rate: { type: number }
+        specificConsumptionTaxAmount: { type: number }
+        adValoremConsumptionTaxAmount: { type: number }
+        otherAdditionalTaxesAmount: { type: number }
+
+    DgiiMessage:
+      type: object
+      properties:
+        codigo: { type: number }
+        valor: { type: string }
+
+    Subquantity:
+      type: object
+      required: [quantity, unitCode]
+      properties:
+        quantity: { type: number }
+        unitCode: { type: integer }
+
+    ErrorResponse:
+      type: object
+      properties:
+        statusCode: { type: integer }
+        message: { type: string }
+        error: { type: string }
+        timestamp: { type: string, format: date-time }
+
+    RateLimitErrorResponse:
+      type: object
+      properties:
+        statusCode: { type: integer, example: 429 }
+        message: { type: string, example: "Rate limit exceeded. Retry after 1 second." }
+        error: { type: string, example: "Too Many Requests" }
+        retryAfter: { type: integer, example: 1 }

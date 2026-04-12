@@ -32,6 +32,9 @@ __all__ = [
     "ECFSubmissionApi",
     "ApiResponse",
     "ApiClient",
+    "IntegrationClient",
+    "TenantScopedClient",
+    "TenantSessionClient",
     "Configuration",
     "OpenApiException",
     "ApiTypeError",
@@ -150,6 +153,9 @@ from pronesoft_ecf.api.ecf_submission_api import ECFSubmissionApi as ECFSubmissi
 # import ApiClient
 from pronesoft_ecf.api_response import ApiResponse as ApiResponse
 from pronesoft_ecf.api_client import ApiClient as ApiClient
+from pronesoft_ecf.integration_client import IntegrationClient as IntegrationClient
+from pronesoft_ecf.integration_client import TenantScopedClient as TenantScopedClient
+from pronesoft_ecf.integration_client import TenantSessionClient as TenantSessionClient
 from pronesoft_ecf.configuration import Configuration as Configuration
 from pronesoft_ecf.exceptions import OpenApiException as OpenApiException
 from pronesoft_ecf.exceptions import ApiTypeError as ApiTypeError

@@ -1,12 +1,14 @@
 # pronesoft-ecf-sdk
 
 ## Overview
+
 Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
 Dominican Republic through the Pronesoft platform.
 
 ## Authentication — OAuth 2.0 Client Credentials
 
 ### Steps
+
 1. Get credentials from the portal:
    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App
    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App
@@ -15,16 +17,19 @@ Dominican Republic through the Pronesoft platform.
 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.
 
 ### Multi-company delegation
+
 To act on behalf of an associated company (branch), add:
-  x-tenant-id: <business-uuid>
+x-tenant-id: <business-uuid>
 Do NOT send x-tenant-id when acting as the main company.
 
 ### Sandbox specifics
+
 - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed.
 - Sequences are automatic — no need to create them manually.
 - The environment field in the document body MUST be TesteCF.
 
 ### Scopes
+
 business:read, business:create, business:update,
 members:read, members:invite, members:revoke,
 certificates:read, certificates:upload, certificates:update,
@@ -32,7 +37,6 @@ documents:read, documents:create, documents:send, documents:receive, documents:u
 approvals:read, approvals:commercial,
 sequences:read, sequences:create, sequences:update, sequences:cancel,
 business_info:read, certification:read, certification:write, reports:read
-
 
 For more information, please visit [https://pronesoft.com](https://pronesoft.com).
 
@@ -170,41 +174,41 @@ try {
 
 All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*AssociatedCompaniesApi* | [**createAssociatedCompany**](docs/Api/AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Create associated company / branch
-*AssociatedCompaniesApi* | [**deleteAssociatedCompany**](docs/Api/AssociatedCompaniesApi.md#deleteassociatedcompany) | **DELETE** /associated-companies/{companyId} | Delete associated company
-*AssociatedCompaniesApi* | [**getCompanyDocumentMetrics**](docs/Api/AssociatedCompaniesApi.md#getcompanydocumentmetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics
-*AssociatedCompaniesApi* | [**getCompanyMetrics**](docs/Api/AssociatedCompaniesApi.md#getcompanymetrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics
-*AssociatedCompaniesApi* | [**listAssociatedCompanies**](docs/Api/AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | List associated companies / branches
-*AssociatedCompaniesApi* | [**updateAssociatedCompany**](docs/Api/AssociatedCompaniesApi.md#updateassociatedcompany) | **PUT** /associated-companies/{companyId} | Update associated company
-*AuthenticationApi* | [**getAccessToken**](docs/Api/AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Get access token (OAuth 2.0)
-*AutomatedCertificationApi* | [**downloadCertification**](docs/Api/AutomatedCertificationApi.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP
-*AutomatedCertificationApi* | [**getCertificationStatus**](docs/Api/AutomatedCertificationApi.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status
-*AutomatedCertificationApi* | [**listCertificationNiches**](docs/Api/AutomatedCertificationApi.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches
-*AutomatedCertificationApi* | [**startCertification**](docs/Api/AutomatedCertificationApi.md#startcertification) | **POST** /dgii-ecf/automated-certification/start | Start certification process
-*CommercialApprovalsApi* | [**listApprovals**](docs/Api/CommercialApprovalsApi.md#listapprovals) | **GET** /documents/approvals/all | List commercial approvals
-*DigitalCertificatesApi* | [**uploadCertificate**](docs/Api/DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
-*DocumentsReceivedApi* | [**getReceivedDocumentStats**](docs/Api/DocumentsReceivedApi.md#getreceiveddocumentstats) | **GET** /documents/received/stats/summary | Get received documents statistics
-*DocumentsReceivedApi* | [**listReceivedDocuments**](docs/Api/DocumentsReceivedApi.md#listreceiveddocuments) | **GET** /documents/received/all | List received documents
-*DocumentsSentApi* | [**downloadDocument**](docs/Api/DocumentsSentApi.md#downloaddocument) | **GET** /documents/download | Download document XML
-*DocumentsSentApi* | [**getDocument**](docs/Api/DocumentsSentApi.md#getdocument) | **GET** /documents/{id} | Get document details
-*DocumentsSentApi* | [**getDocumentStats**](docs/Api/DocumentsSentApi.md#getdocumentstats) | **GET** /documents/stats/summary | Get document statistics
-*DocumentsSentApi* | [**listSentDocuments**](docs/Api/DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | List sent documents
-*ECFSubmissionApi* | [**getEcfHistory**](docs/Api/ECFSubmissionApi.md#getecfhistory) | **GET** /{environment}/ecf/responses/history | Get submission history (last 50 documents)
-*ECFSubmissionApi* | [**getEcfStats**](docs/Api/ECFSubmissionApi.md#getecfstats) | **GET** /{environment}/ecf/responses/stats | Get submission statistics (last 30 days)
-*ECFSubmissionApi* | [**getEcfStatus**](docs/Api/ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{trackId} | Get document status by trackId
-*ECFSubmissionApi* | [**submitEcf**](docs/Api/ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII
-*ReportsApi* | [**export606**](docs/Api/ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases)
-*ReportsApi* | [**exportSentDocuments**](docs/Api/ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Export sent documents report
-*TaxSequencesApi* | [**createTaxSequence**](docs/Api/TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences/create | Create new tax sequence
-*TaxSequencesApi* | [**getNextNumber**](docs/Api/TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number
-*TaxSequencesApi* | [**listTaxSequences**](docs/Api/TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences
-*TaxSequencesApi* | [**updateTaxSequence**](docs/Api/TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Update tax sequence
-*TaxSequencesApi* | [**voidTaxSequence**](docs/Api/TaxSequencesApi.md#voidtaxsequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
-*WebhookConfigurationApi* | [**getWebhook**](docs/Api/WebhookConfigurationApi.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
-*WebhookConfigurationApi* | [**getWebhookStats**](docs/Api/WebhookConfigurationApi.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
-*WebhookConfigurationApi* | [**listWebhooks**](docs/Api/WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | List webhook configurations
+| Class                       | Method                                                                                        | HTTP request                                                | Description                                |
+| --------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------ |
+| _AssociatedCompaniesApi_    | [**createAssociatedCompany**](docs/Api/AssociatedCompaniesApi.md#createassociatedcompany)     | **POST** /associated-companies                              | Create associated company / branch         |
+| _AssociatedCompaniesApi_    | [**deleteAssociatedCompany**](docs/Api/AssociatedCompaniesApi.md#deleteassociatedcompany)     | **DELETE** /associated-companies/{companyId}                | Delete associated company                  |
+| _AssociatedCompaniesApi_    | [**getCompanyDocumentMetrics**](docs/Api/AssociatedCompaniesApi.md#getcompanydocumentmetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics               |
+| _AssociatedCompaniesApi_    | [**getCompanyMetrics**](docs/Api/AssociatedCompaniesApi.md#getcompanymetrics)                 | **GET** /associated-companies/{companyId}/metrics           | Get company metrics                        |
+| _AssociatedCompaniesApi_    | [**listAssociatedCompanies**](docs/Api/AssociatedCompaniesApi.md#listassociatedcompanies)     | **GET** /associated-companies                               | List associated companies / branches       |
+| _AssociatedCompaniesApi_    | [**updateAssociatedCompany**](docs/Api/AssociatedCompaniesApi.md#updateassociatedcompany)     | **PUT** /associated-companies/{companyId}                   | Update associated company                  |
+| _AuthenticationApi_         | [**getAccessToken**](docs/Api/AuthenticationApi.md#getaccesstoken)                            | **POST** /oauth/token                                       | Get access token (OAuth 2.0)               |
+| _AutomatedCertificationApi_ | [**downloadCertification**](docs/Api/AutomatedCertificationApi.md#downloadcertification)      | **GET** /dgii-ecf/automated-certification/{id}/download     | Download certification ZIP                 |
+| _AutomatedCertificationApi_ | [**getCertificationStatus**](docs/Api/AutomatedCertificationApi.md#getcertificationstatus)    | **GET** /dgii-ecf/automated-certification/{id}/status       | Get certification process status           |
+| _AutomatedCertificationApi_ | [**listCertificationNiches**](docs/Api/AutomatedCertificationApi.md#listcertificationniches)  | **GET** /dgii-ecf/automated-certification/niches            | List certification niches                  |
+| _AutomatedCertificationApi_ | [**startCertification**](docs/Api/AutomatedCertificationApi.md#startcertification)            | **POST** /dgii-ecf/automated-certification/start            | Start certification process                |
+| _CommercialApprovalsApi_    | [**listApprovals**](docs/Api/CommercialApprovalsApi.md#listapprovals)                         | **GET** /documents/approvals/all                            | List commercial approvals                  |
+| _DigitalCertificatesApi_    | [**uploadCertificate**](docs/Api/DigitalCertificatesApi.md#uploadcertificate)                 | **POST** /{rnc}/certificates                                | Upload digital certificate (P12/PFX)       |
+| _DocumentsReceivedApi_      | [**getReceivedDocumentStats**](docs/Api/DocumentsReceivedApi.md#getreceiveddocumentstats)     | **GET** /documents/received/stats/summary                   | Get received documents statistics          |
+| _DocumentsReceivedApi_      | [**listReceivedDocuments**](docs/Api/DocumentsReceivedApi.md#listreceiveddocuments)           | **GET** /documents/received/all                             | List received documents                    |
+| _DocumentsSentApi_          | [**downloadDocument**](docs/Api/DocumentsSentApi.md#downloaddocument)                         | **GET** /documents/download                                 | Download document XML                      |
+| _DocumentsSentApi_          | [**getDocument**](docs/Api/DocumentsSentApi.md#getdocument)                                   | **GET** /documents/{id}                                     | Get document details                       |
+| _DocumentsSentApi_          | [**getDocumentStats**](docs/Api/DocumentsSentApi.md#getdocumentstats)                         | **GET** /documents/stats/summary                            | Get document statistics                    |
+| _DocumentsSentApi_          | [**listSentDocuments**](docs/Api/DocumentsSentApi.md#listsentdocuments)                       | **GET** /documents/sent                                     | List sent documents                        |
+| _ECFSubmissionApi_          | [**getEcfHistory**](docs/Api/ECFSubmissionApi.md#getecfhistory)                               | **GET** /{environment}/ecf/responses/history                | Get submission history (last 50 documents) |
+| _ECFSubmissionApi_          | [**getEcfStats**](docs/Api/ECFSubmissionApi.md#getecfstats)                                   | **GET** /{environment}/ecf/responses/stats                  | Get submission statistics (last 30 days)   |
+| _ECFSubmissionApi_          | [**getEcfStatus**](docs/Api/ECFSubmissionApi.md#getecfstatus)                                 | **GET** /{environment}/ecf/status/{trackId}                 | Get document status by trackId             |
+| _ECFSubmissionApi_          | [**submitEcf**](docs/Api/ECFSubmissionApi.md#submitecf)                                       | **POST** /{environment}/ecf/submit                          | Submit e-CF document to DGII               |
+| _ReportsApi_                | [**export606**](docs/Api/ReportsApi.md#export606)                                             | **GET** /dgii/606/export                                    | Export Format 606 (Purchases)              |
+| _ReportsApi_                | [**exportSentDocuments**](docs/Api/ReportsApi.md#exportsentdocuments)                         | **GET** /dgii/sent/export                                   | Export sent documents report               |
+| _TaxSequencesApi_           | [**createTaxSequence**](docs/Api/TaxSequencesApi.md#createtaxsequence)                        | **POST** /tax-sequences/create                              | Create new tax sequence                    |
+| _TaxSequencesApi_           | [**getNextNumber**](docs/Api/TaxSequencesApi.md#getnextnumber)                                | **GET** /tax-sequences/next                                 | Get next available fiscal number           |
+| _TaxSequencesApi_           | [**listTaxSequences**](docs/Api/TaxSequencesApi.md#listtaxsequences)                          | **GET** /tax-sequences                                      | List tax sequences                         |
+| _TaxSequencesApi_           | [**updateTaxSequence**](docs/Api/TaxSequencesApi.md#updatetaxsequence)                        | **PATCH** /tax-sequences/update                             | Update tax sequence                        |
+| _TaxSequencesApi_           | [**voidTaxSequence**](docs/Api/TaxSequencesApi.md#voidtaxsequence)                            | **POST** /tax-sequences/void                                | Void a range of fiscal numbers             |
+| _WebhookConfigurationApi_   | [**getWebhook**](docs/Api/WebhookConfigurationApi.md#getwebhook)                              | **GET** /{rnc}/webhooks/{webhookId}                         | Get webhook details                        |
+| _WebhookConfigurationApi_   | [**getWebhookStats**](docs/Api/WebhookConfigurationApi.md#getwebhookstats)                    | **GET** /{rnc}/webhooks/{webhookId}/stats                   | Get webhook delivery statistics            |
+| _WebhookConfigurationApi_   | [**listWebhooks**](docs/Api/WebhookConfigurationApi.md#listwebhooks)                          | **GET** /{rnc}/webhooks                                     | List webhook configurations                |
 
 ## Models
 
@@ -305,6 +309,7 @@ Class | Method | HTTP request | Description
 ## Authorization
 
 Authentication schemes defined for the API:
+
 ### bearerAuth
 
 - **Type**: Bearer authentication (JWT)
@@ -314,31 +319,31 @@ Authentication schemes defined for the API:
 - **Type**: `OAuth`
 - **Flow**: `application`
 - **Authorization URL**: ``
-- **Scopes**: 
-    - **business:read**: Read company data.
-    - **business:create**: Create a new company.
-    - **business:update**: Update company data.
-    - **members:read**: View team members.
-    - **members:invite**: Invite new members.
-    - **members:revoke**: Revoke member access.
-    - **certificates:read**: View digital certificates.
-    - **certificates:upload**: Upload new certificates.
-    - **certificates:update**: Update existing certificates.
-    - **documents:read**: List and view document details.
-    - **documents:create**: Create drafts or internal documents.
-    - **documents:send**: Submit e-CF to the DGII.
-    - **documents:receive**: Receive e-CF from third parties.
-    - **documents:update**: Modify document metadata.
-    - **approvals:read**: View approval statuses.
-    - **approvals:commercial**: Perform commercial approvals or rejections.
-    - **sequences:read**: View NCF/e-NCF ranges.
-    - **sequences:create**: Request or add new sequences.
-    - **sequences:update**: Modify sequence configurations.
-    - **sequences:cancel**: Cancel unused sequences.
-    - **business_info:read**: Access dashboard statistics and metrics.
-    - **certification:read**: View DGII certification progress.
-    - **certification:write**: Execute automated DGII certification tests.
-    - **reports:read**: Generate and export reports (e.g. format 606).
+- **Scopes**:
+  - **business:read**: Read company data.
+  - **business:create**: Create a new company.
+  - **business:update**: Update company data.
+  - **members:read**: View team members.
+  - **members:invite**: Invite new members.
+  - **members:revoke**: Revoke member access.
+  - **certificates:read**: View digital certificates.
+  - **certificates:upload**: Upload new certificates.
+  - **certificates:update**: Update existing certificates.
+  - **documents:read**: List and view document details.
+  - **documents:create**: Create drafts or internal documents.
+  - **documents:send**: Submit e-CF to the DGII.
+  - **documents:receive**: Receive e-CF from third parties.
+  - **documents:update**: Modify document metadata.
+  - **approvals:read**: View approval statuses.
+  - **approvals:commercial**: Perform commercial approvals or rejections.
+  - **sequences:read**: View NCF/e-NCF ranges.
+  - **sequences:create**: Request or add new sequences.
+  - **sequences:update**: Modify sequence configurations.
+  - **sequences:cancel**: Cancel unused sequences.
+  - **business_info:read**: Access dashboard statistics and metrics.
+  - **certification:read**: View DGII certification progress.
+  - **certification:write**: Execute automated DGII certification tests.
+  - **reports:read**: Generate and export reports (e.g. format 606).
 
 ## Tests
 
@@ -358,5 +363,5 @@ support@pronesoft.com
 This PHP package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
 - API version: `1.2.0`
-    - Generator version: `7.21.0`
+  - Generator version: `7.21.0`
 - Build package: `org.openapitools.codegen.languages.PhpClientCodegen`
