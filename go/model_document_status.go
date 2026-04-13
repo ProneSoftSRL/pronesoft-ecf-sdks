@@ -26,6 +26,13 @@ const (
 	REJECTED DocumentStatus = "REJECTED"
 	ERROR DocumentStatus = "ERROR"
 	CONTINGENCY DocumentStatus = "CONTINGENCY"
+	REGISTERED DocumentStatus = "REGISTERED"
+	TO_SEND DocumentStatus = "TO_SEND"
+	WAITING_RESPONSE DocumentStatus = "WAITING_RESPONSE"
+	TO_NOTIFY DocumentStatus = "TO_NOTIFY"
+	FINISHED DocumentStatus = "FINISHED"
+	ACCEPTED DocumentStatus = "ACCEPTED"
+	ACCEPTED_WITH_OBSERVATIONS DocumentStatus = "ACCEPTED_WITH_OBSERVATIONS"
 )
 
 // All allowed values of DocumentStatus enum
@@ -35,6 +42,13 @@ var AllowedDocumentStatusEnumValues = []DocumentStatus{
 	"REJECTED",
 	"ERROR",
 	"CONTINGENCY",
+	"REGISTERED",
+	"TO_SEND",
+	"WAITING_RESPONSE",
+	"TO_NOTIFY",
+	"FINISHED",
+	"ACCEPTED",
+	"ACCEPTED_WITH_OBSERVATIONS",
 }
 
 func (v *DocumentStatus) UnmarshalJSON(src []byte) error {

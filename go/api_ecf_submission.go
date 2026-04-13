@@ -285,11 +285,11 @@ func (r ApiGetEcfStatusRequest) Execute() (*EcfStatusResponse, *http.Response, e
 }
 
 /*
-GetEcfStatus Get document status by trackId
+GetEcfStatus Get document status by internal document id
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param environment
- @param trackId
+ @param trackId Internal document id (legacy parameter name retained for backward compatibility)
  @return ApiGetEcfStatusRequest
 */
 func (a *ECFSubmissionAPIService) GetEcfStatus(ctx context.Context, environment Environment, trackId string) ApiGetEcfStatusRequest {
@@ -299,6 +299,18 @@ func (a *ECFSubmissionAPIService) GetEcfStatus(ctx context.Context, environment 
 		environment: environment,
 		trackId: trackId,
 	}
+}
+
+/*
+GetEcfStatusById Get document status by internal document id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param environment
+ @param id Internal document id returned by submit
+ @return ApiGetEcfStatusRequest
+*/
+func (a *ECFSubmissionAPIService) GetEcfStatusById(ctx context.Context, environment Environment, id string) ApiGetEcfStatusRequest {
+	return a.GetEcfStatus(ctx, environment, id)
 }
 
 // Execute executes the request

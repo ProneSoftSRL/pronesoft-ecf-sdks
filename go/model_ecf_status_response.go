@@ -21,12 +21,28 @@ var _ MappedNullable = &EcfStatusResponse{}
 
 // EcfStatusResponse struct for EcfStatusResponse
 type EcfStatusResponse struct {
+	Id *string `json:"id,omitempty"`
+	DocumentId *string `json:"documentId,omitempty"`
+	StampDate *string `json:"stampDate,omitempty"`
+	LegalStatus *string `json:"legalStatus,omitempty"`
+	CompanyIdentification interface{} `json:"companyIdentification,omitempty"`
 	TrackingId *string `json:"trackingId,omitempty"`
 	Estado *string `json:"estado,omitempty"`
 	TrackId *string `json:"trackId,omitempty"`
 	NumeroControl *string `json:"numeroControl,omitempty"`
+	DocumentNumber *string `json:"documentNumber,omitempty"`
 	Status *DocumentStatus `json:"status,omitempty"`
 	Encf *string `json:"encf,omitempty"`
+	ContingencyMode *bool `json:"contingencyMode,omitempty"`
+	Message *string `json:"message,omitempty"`
+	ContingencyMessage *string `json:"contingencyMessage,omitempty"`
+	DocumentStampUrl *string `json:"documentStampUrl,omitempty"`
+	Pdf *string `json:"pdf,omitempty"`
+	XmlUrl *string `json:"xmlUrl,omitempty"`
+	SignatureDate *time.Time `json:"signatureDate,omitempty"`
+	SecurityCode *string `json:"securityCode,omitempty"`
+	SequenceConsumed *bool `json:"sequenceConsumed,omitempty"`
+	GovernmentResponse interface{} `json:"governmentResponse,omitempty"`
 	BusinessRnc *string `json:"businessRnc,omitempty"`
 	Environment *Environment `json:"environment,omitempty"`
 	ReceivedAt *time.Time `json:"receivedAt,omitempty"`
@@ -446,6 +462,21 @@ func (o EcfStatusResponse) MarshalJSON() ([]byte, error) {
 
 func (o EcfStatusResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Id) {
+		toSerialize["id"] = o.Id
+	}
+	if !IsNil(o.DocumentId) {
+		toSerialize["documentId"] = o.DocumentId
+	}
+	if !IsNil(o.StampDate) {
+		toSerialize["stampDate"] = o.StampDate
+	}
+	if !IsNil(o.LegalStatus) {
+		toSerialize["legalStatus"] = o.LegalStatus
+	}
+	if o.CompanyIdentification != nil {
+		toSerialize["companyIdentification"] = o.CompanyIdentification
+	}
 	if !IsNil(o.TrackingId) {
 		toSerialize["trackingId"] = o.TrackingId
 	}
@@ -458,11 +489,44 @@ func (o EcfStatusResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.NumeroControl) {
 		toSerialize["numeroControl"] = o.NumeroControl
 	}
+	if !IsNil(o.DocumentNumber) {
+		toSerialize["documentNumber"] = o.DocumentNumber
+	}
 	if !IsNil(o.Status) {
 		toSerialize["status"] = o.Status
 	}
 	if !IsNil(o.Encf) {
 		toSerialize["encf"] = o.Encf
+	}
+	if !IsNil(o.ContingencyMode) {
+		toSerialize["contingencyMode"] = o.ContingencyMode
+	}
+	if !IsNil(o.Message) {
+		toSerialize["message"] = o.Message
+	}
+	if !IsNil(o.ContingencyMessage) {
+		toSerialize["contingencyMessage"] = o.ContingencyMessage
+	}
+	if !IsNil(o.DocumentStampUrl) {
+		toSerialize["documentStampUrl"] = o.DocumentStampUrl
+	}
+	if !IsNil(o.Pdf) {
+		toSerialize["pdf"] = o.Pdf
+	}
+	if !IsNil(o.XmlUrl) {
+		toSerialize["xmlUrl"] = o.XmlUrl
+	}
+	if !IsNil(o.SignatureDate) {
+		toSerialize["signatureDate"] = o.SignatureDate
+	}
+	if !IsNil(o.SecurityCode) {
+		toSerialize["securityCode"] = o.SecurityCode
+	}
+	if !IsNil(o.SequenceConsumed) {
+		toSerialize["sequenceConsumed"] = o.SequenceConsumed
+	}
+	if o.GovernmentResponse != nil {
+		toSerialize["governmentResponse"] = o.GovernmentResponse
 	}
 	if !IsNil(o.BusinessRnc) {
 		toSerialize["businessRnc"] = o.BusinessRnc

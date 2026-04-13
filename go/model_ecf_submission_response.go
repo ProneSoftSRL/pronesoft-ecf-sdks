@@ -14,16 +14,23 @@ package ecf
 import (
 	"encoding/json"
 	"time"
-	"bytes"
-	"fmt"
 )
 
 // checks if the EcfSubmissionResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &EcfSubmissionResponse{}
 
-// EcfSubmissionResponse Response after submitting an e-CF. HTTP 200 even when rejected. Check the success field and dgiiResponse.estado for actual result. 
+// EcfSubmissionResponse Response after submitting an e-CF. The submit flow may return an asynchronous 201 response with id/status fields.
 type EcfSubmissionResponse struct {
 	Success bool `json:"success"`
+	Id *string `json:"id,omitempty"`
+	Status *string `json:"status,omitempty"`
+	StampDate *string `json:"stampDate,omitempty"`
+	CompanyIdentification *string `json:"companyIdentification,omitempty"`
+	DocumentStampUrl *string `json:"documentStampUrl,omitempty"`
+	Pdf *string `json:"pdf,omitempty"`
+	XmlUrl *string `json:"xmlUrl,omitempty"`
+	SignatureDate *time.Time `json:"signatureDate,omitempty"`
+	SequenceConsumed *bool `json:"sequenceConsumed,omitempty"`
 	DocumentId *string `json:"documentId,omitempty"`
 	DgiiResponse *EcfSubmissionResponseDgiiResponse `json:"dgiiResponse,omitempty"`
 	QrUrl *string `json:"qrUrl,omitempty"`
@@ -37,6 +44,7 @@ type EcfSubmissionResponse struct {
 	Timestamp *time.Time `json:"timestamp,omitempty"`
 	Message *string `json:"message,omitempty"`
 	ContingencyMode *bool `json:"contingencyMode,omitempty"`
+	ContingencyMessage *string `json:"contingencyMessage,omitempty"`
 	EstimatedProcessTime *string `json:"estimatedProcessTime,omitempty"`
 }
 
@@ -500,6 +508,38 @@ func (o *EcfSubmissionResponse) SetContingencyMode(v bool) {
 	o.ContingencyMode = &v
 }
 
+// GetContingencyMessage returns the ContingencyMessage field value if set, zero value otherwise.
+func (o *EcfSubmissionResponse) GetContingencyMessage() string {
+	if o == nil || IsNil(o.ContingencyMessage) {
+		var ret string
+		return ret
+	}
+	return *o.ContingencyMessage
+}
+
+// GetContingencyMessageOk returns a tuple with the ContingencyMessage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EcfSubmissionResponse) GetContingencyMessageOk() (*string, bool) {
+	if o == nil || IsNil(o.ContingencyMessage) {
+		return nil, false
+	}
+	return o.ContingencyMessage, true
+}
+
+// HasContingencyMessage returns a boolean if a field has been set.
+func (o *EcfSubmissionResponse) HasContingencyMessage() bool {
+	if o != nil && !IsNil(o.ContingencyMessage) {
+		return true
+	}
+
+	return false
+}
+
+// SetContingencyMessage gets a reference to the given string and assigns it to the ContingencyMessage field.
+func (o *EcfSubmissionResponse) SetContingencyMessage(v string) {
+	o.ContingencyMessage = &v
+}
+
 // GetEstimatedProcessTime returns the EstimatedProcessTime field value if set, zero value otherwise.
 func (o *EcfSubmissionResponse) GetEstimatedProcessTime() string {
 	if o == nil || IsNil(o.EstimatedProcessTime) {
@@ -543,6 +583,33 @@ func (o EcfSubmissionResponse) MarshalJSON() ([]byte, error) {
 func (o EcfSubmissionResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["success"] = o.Success
+	if !IsNil(o.Id) {
+		toSerialize["id"] = o.Id
+	}
+	if !IsNil(o.Status) {
+		toSerialize["status"] = o.Status
+	}
+	if !IsNil(o.StampDate) {
+		toSerialize["stampDate"] = o.StampDate
+	}
+	if !IsNil(o.CompanyIdentification) {
+		toSerialize["companyIdentification"] = o.CompanyIdentification
+	}
+	if !IsNil(o.DocumentStampUrl) {
+		toSerialize["documentStampUrl"] = o.DocumentStampUrl
+	}
+	if !IsNil(o.Pdf) {
+		toSerialize["pdf"] = o.Pdf
+	}
+	if !IsNil(o.XmlUrl) {
+		toSerialize["xmlUrl"] = o.XmlUrl
+	}
+	if !IsNil(o.SignatureDate) {
+		toSerialize["signatureDate"] = o.SignatureDate
+	}
+	if !IsNil(o.SequenceConsumed) {
+		toSerialize["sequenceConsumed"] = o.SequenceConsumed
+	}
 	if !IsNil(o.DocumentId) {
 		toSerialize["documentId"] = o.DocumentId
 	}
@@ -582,6 +649,9 @@ func (o EcfSubmissionResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ContingencyMode) {
 		toSerialize["contingencyMode"] = o.ContingencyMode
 	}
+	if !IsNil(o.ContingencyMessage) {
+		toSerialize["contingencyMessage"] = o.ContingencyMessage
+	}
 	if !IsNil(o.EstimatedProcessTime) {
 		toSerialize["estimatedProcessTime"] = o.EstimatedProcessTime
 	}
@@ -589,33 +659,8 @@ func (o EcfSubmissionResponse) ToMap() (map[string]interface{}, error) {
 }
 
 func (o *EcfSubmissionResponse) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"success",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
 	varEcfSubmissionResponse := _EcfSubmissionResponse{}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varEcfSubmissionResponse)
-
+	err = json.Unmarshal(data, &varEcfSubmissionResponse)
 	if err != nil {
 		return err
 	}
