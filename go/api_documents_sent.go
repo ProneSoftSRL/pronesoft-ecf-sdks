@@ -267,6 +267,7 @@ type ApiGetDocumentStatsRequest struct {
 	ApiService *DocumentsSentAPIService
 	xTenantId *string
 	period *string
+	businessId *string
 }
 
 // UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
@@ -277,6 +278,11 @@ func (r ApiGetDocumentStatsRequest) XTenantId(xTenantId string) ApiGetDocumentSt
 
 func (r ApiGetDocumentStatsRequest) Period(period string) ApiGetDocumentStatsRequest {
 	r.period = &period
+	return r
+}
+
+func (r ApiGetDocumentStatsRequest) BusinessId(businessId string) ApiGetDocumentStatsRequest {
+	r.businessId = &businessId
 	return r
 }
 
@@ -324,6 +330,9 @@ func (a *DocumentsSentAPIService) GetDocumentStatsExecute(r ApiGetDocumentStatsR
 		var defaultValue string = "30d"
 		parameterAddToHeaderOrQuery(localVarQueryParams, "period", defaultValue, "form", "")
 		r.period = &defaultValue
+	}
+	if r.businessId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "businessId", r.businessId, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

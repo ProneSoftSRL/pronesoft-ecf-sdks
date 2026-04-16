@@ -32,6 +32,7 @@ type SentDocumentSummary struct {
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	XmlUrl *string `json:"xmlUrl,omitempty"`
 	Business *SentDocumentSummaryBusiness `json:"business,omitempty"`
+	Logs []ProcessingLog `json:"logs,omitempty"`
 }
 
 // NewSentDocumentSummary instantiates a new SentDocumentSummary object
