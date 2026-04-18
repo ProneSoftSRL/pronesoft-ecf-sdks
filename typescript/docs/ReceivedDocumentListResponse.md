@@ -8,18 +8,16 @@ Name | Type
 ------------ | -------------
 `data` | [Array&lt;ReceivedDocument&gt;](ReceivedDocument.md)
 `meta` | [PaginationMeta](PaginationMeta.md)
-`filters` | object
 
 ## Example
 
 ```typescript
-import type { ReceivedDocumentListResponse } from '@pronesoft-rd/ecf-sdk'
+import type { ReceivedDocumentListResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "data": null,
   "meta": null,
-  "filters": null,
 } satisfies ReceivedDocumentListResponse
 
 console.log(example)

@@ -3,7 +3,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -19,12 +19,10 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
-from pronesoft_ecf.models.document_status import DocumentStatus
 from pronesoft_ecf.models.environment import Environment
-from pronesoft_ecf.models.processing_log import ProcessingLog
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -37,12 +35,33 @@ class EcfHistoryItem(BaseModel):
     track_id: Optional[StrictStr] = Field(default=None, alias="trackId")
     encf: Optional[StrictStr] = None
     document_type: Optional[StrictStr] = Field(default=None, alias="documentType")
-    status: Optional[DocumentStatus] = None
-    rnc: Optional[StrictStr] = None
+    status: Optional[StrictStr] = None
+    legal_status: Optional[StrictStr] = Field(default=None, alias="legalStatus")
+    issuer_rnc: Optional[StrictStr] = Field(default=None, alias="issuerRnc")
     environment: Optional[Environment] = None
+    received_at: Optional[datetime] = Field(default=None, alias="receivedAt")
     created_at: Optional[datetime] = Field(default=None, alias="createdAt")
-    logs: Optional[List[ProcessingLog]] = None
-    __properties: ClassVar[List[str]] = ["id", "trackId", "encf", "documentType", "status", "rnc", "environment", "createdAt", "logs"]
+    __properties: ClassVar[List[str]] = ["id", "trackId", "encf", "documentType", "status", "legalStatus", "issuerRnc", "environment", "receivedAt", "createdAt"]
+
+    @field_validator('status')
+    def status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['REGISTERED', 'TO_SEND', 'WAITING_RESPONSE', 'FINISHED']):
+            raise ValueError("must be one of enum values ('REGISTERED', 'TO_SEND', 'WAITING_RESPONSE', 'FINISHED')")
+        return value
+
+    @field_validator('legal_status')
+    def legal_status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['ACCEPTED', 'ACCEPTED_WITH_OBSERVATIONS', 'REJECTED', 'ERROR']):
+            raise ValueError("must be one of enum values ('ACCEPTED', 'ACCEPTED_WITH_OBSERVATIONS', 'REJECTED', 'ERROR')")
+        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -83,13 +102,26 @@ class EcfHistoryItem(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in logs (list)
-        _items = []
-        if self.logs:
-            for _item_logs in self.logs:
-                if _item_logs:
-                    _items.append(_item_logs.to_dict())
-            _dict['logs'] = _items
+        # set to None if track_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.track_id is None and "track_id" in self.model_fields_set:
+            _dict['trackId'] = None
+
+        # set to None if encf (nullable) is None
+        # and model_fields_set contains the field
+        if self.encf is None and "encf" in self.model_fields_set:
+            _dict['encf'] = None
+
+        # set to None if legal_status (nullable) is None
+        # and model_fields_set contains the field
+        if self.legal_status is None and "legal_status" in self.model_fields_set:
+            _dict['legalStatus'] = None
+
+        # set to None if received_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.received_at is None and "received_at" in self.model_fields_set:
+            _dict['receivedAt'] = None
+
         return _dict
 
     @classmethod
@@ -107,10 +139,11 @@ class EcfHistoryItem(BaseModel):
             "encf": obj.get("encf"),
             "documentType": obj.get("documentType"),
             "status": obj.get("status"),
-            "rnc": obj.get("rnc"),
+            "legalStatus": obj.get("legalStatus"),
+            "issuerRnc": obj.get("issuerRnc"),
             "environment": obj.get("environment"),
-            "createdAt": obj.get("createdAt"),
-            "logs": [ProcessingLog.from_dict(_item) for _item in obj["logs"]] if obj.get("logs") is not None else None
+            "receivedAt": obj.get("receivedAt"),
+            "createdAt": obj.get("createdAt")
         })
         return _obj
 

@@ -4,27 +4,27 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases) |
-| [**exportSentDocuments**](ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Export sent documents report |
+| [**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras) |
+| [**exportSentDocuments**](ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados |
 
 
 <a id="export606"></a>
 # **export606**
 > String export606(from, to, format, status, type, encf)
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
-Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.ReportsApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.ReportsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -34,10 +34,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     ReportsApi apiInstance = new ReportsApi(defaultClient);
     LocalDate from = LocalDate.now(); // LocalDate | 
@@ -77,7 +73,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -87,28 +83,28 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Format 606 report |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Reporte Formato 606 |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 | **403** | The token does not have the required scope. |  -  |
 
 <a id="exportSentDocuments"></a>
 # **exportSentDocuments**
 > File exportSentDocuments(from, to, env, encf, type, status, trackId)
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
-Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.ReportsApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.ReportsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -118,10 +114,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     ReportsApi apiInstance = new ReportsApi(defaultClient);
     LocalDate from = LocalDate.parse("2024-01-01"); // LocalDate | 
@@ -163,7 +155,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -173,8 +165,8 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Excel report file |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Archivo Excel del reporte |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 | **403** | The token does not have the required scope. |  -  |
 

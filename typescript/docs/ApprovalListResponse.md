@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ApprovalListResponse } from '@pronesoft-rd/ecf-sdk'
+import type { ApprovalListResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {

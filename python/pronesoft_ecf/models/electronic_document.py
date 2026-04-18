@@ -3,7 +3,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -27,7 +27,6 @@ from pronesoft_ecf.models.additional_info import AdditionalInfo
 from pronesoft_ecf.models.alternative_currency import AlternativeCurrency
 from pronesoft_ecf.models.buyer import Buyer
 from pronesoft_ecf.models.discount_or_surcharge import DiscountOrSurcharge
-from pronesoft_ecf.models.environment import Environment
 from pronesoft_ecf.models.invoice_type import InvoiceType
 from pronesoft_ecf.models.item import Item
 from pronesoft_ecf.models.page import Page
@@ -42,12 +41,11 @@ from pydantic_core import to_jsonable_python
 
 class ElectronicDocument(BaseModel):
     """
-    Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
+    Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el `invoiceType`. Usa `GET /tax-sequences/next?invoiceType=31` solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: `POST /{environment}/ecf/submit` (ej. `TesteCF` o `eCF`). 
     """ # noqa: E501
-    environment: Optional[Environment] = None
-    version: StrictStr = Field(description="Always 1.0.")
+    version: Optional[StrictStr] = Field(default='1.0', description="Siempre \"1.0\".")
     invoice_type: InvoiceType = Field(alias="invoiceType")
-    invoice_number: Optional[StrictStr] = Field(default=None, description="e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).", alias="invoiceNumber")
+    invoice_number: Optional[StrictStr] = Field(default=None, description="Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`. ", alias="invoiceNumber")
     group_id: Optional[StrictStr] = Field(default=None, description="Optional Group ID for batch processing", alias="groupId")
     issue_date: datetime = Field(alias="issueDate")
     expiration_date: Optional[datetime] = Field(default=None, alias="expirationDate")
@@ -92,7 +90,7 @@ class ElectronicDocument(BaseModel):
     subtotals: Optional[Subtotal] = None
     discounts_or_surcharges: Optional[List[DiscountOrSurcharge]] = Field(default=None, alias="discountsOrSurcharges")
     pages: Optional[Page] = None
-    __properties: ClassVar[List[str]] = ["environment", "version", "invoiceType", "invoiceNumber", "groupId", "issueDate", "expirationDate", "creditNoteIndicator", "deferredSendingIndicator", "taxedAmountIndicator", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentForms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "serviceStartDate", "serviceEndDate", "totalPages", "issuerRNC", "issuerBusinessName", "issuerCommercialName", "branchName", "issuerAddress", "municipalityCode", "provinceCode", "issuerPhones", "issuerEmail", "issuerWebsite", "issuerEconomicActivity", "sellerCode", "internalInvoiceNumber", "internalOrderNumber", "salesZone", "salesRoute", "additionalIssuerInfo", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"]
+    __properties: ClassVar[List[str]] = ["version", "invoiceType", "invoiceNumber", "groupId", "issueDate", "expirationDate", "creditNoteIndicator", "deferredSendingIndicator", "taxedAmountIndicator", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentForms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "serviceStartDate", "serviceEndDate", "totalPages", "issuerRNC", "issuerBusinessName", "issuerCommercialName", "branchName", "issuerAddress", "municipalityCode", "provinceCode", "issuerPhones", "issuerEmail", "issuerWebsite", "issuerEconomicActivity", "sellerCode", "internalInvoiceNumber", "internalOrderNumber", "salesZone", "salesRoute", "additionalIssuerInfo", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"]
 
     @field_validator('credit_note_indicator')
     def credit_note_indicator_validate_enum(cls, value):
@@ -240,7 +238,6 @@ class ElectronicDocument(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "environment": obj.get("environment"),
             "version": obj.get("version") if obj.get("version") is not None else '1.0',
             "invoiceType": obj.get("invoiceType"),
             "invoiceNumber": obj.get("invoiceNumber"),

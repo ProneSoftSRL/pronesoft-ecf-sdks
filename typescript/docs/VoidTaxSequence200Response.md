@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { VoidTaxSequence200Response } from '@pronesoft-rd/ecf-sdk'
+import type { VoidTaxSequence200Response } from ''
 
 // TODO: Update the object below with actual values
 const example = {

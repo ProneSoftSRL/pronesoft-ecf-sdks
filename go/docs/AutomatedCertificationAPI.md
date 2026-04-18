@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DownloadCertification**](AutomatedCertificationAPI.md#DownloadCertification) | **Get** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP
-[**GetCertificationStatus**](AutomatedCertificationAPI.md#GetCertificationStatus) | **Get** /dgii-ecf/automated-certification/{id}/status | Get certification process status
-[**ListCertificationNiches**](AutomatedCertificationAPI.md#ListCertificationNiches) | **Get** /dgii-ecf/automated-certification/niches | List certification niches
-[**StartCertification**](AutomatedCertificationAPI.md#StartCertification) | **Post** /dgii-ecf/automated-certification/start | Start certification process
+[**DownloadCertification**](AutomatedCertificationAPI.md#DownloadCertification) | **Get** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación
+[**GetCertificationStatus**](AutomatedCertificationAPI.md#GetCertificationStatus) | **Get** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación
+[**ListCertificationNiches**](AutomatedCertificationAPI.md#ListCertificationNiches) | **Get** /dgii-ecf/automated-certification/niches | Listar nichos de certificación
+[**StartCertification**](AutomatedCertificationAPI.md#StartCertification) | **Post** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación
 
 
 
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 > *os.File DownloadCertification(ctx, id).Execute()
 
-Download certification ZIP
+Descargar ZIP de certificación
 
 
 
@@ -28,7 +28,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 
 > CertificationStatus GetCertificationStatus(ctx, id).Execute()
 
-Get certification process status
+Estado del proceso de certificación
 
 ### Example
 
@@ -96,7 +96,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -137,7 +137,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
 
 > []CertificationNiche ListCertificationNiches(ctx).Execute()
 
-List certification niches
+Listar nichos de certificación
 
 ### Example
 
@@ -164,7 +164,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -196,7 +196,7 @@ Other parameters are passed through a pointer to a apiListCertificationNichesReq
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -212,7 +212,7 @@ Other parameters are passed through a pointer to a apiListCertificationNichesReq
 
 > StartCertification200Response StartCertification(ctx).StartCertificationRequest(startCertificationRequest).Execute()
 
-Start certification process
+Iniciar proceso de certificación
 
 ### Example
 
@@ -223,7 +223,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -260,7 +260,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

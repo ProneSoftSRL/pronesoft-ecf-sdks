@@ -6,11 +6,11 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createTaxSequence()**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Create new tax sequence |
-| [**getNextNumber()**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Get next available fiscal number |
-| [**listTaxSequences()**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | List tax sequences |
-| [**updateTaxSequence()**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Update tax sequence |
-| [**voidTaxSequence()**](TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
+| [**createTaxSequence()**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF |
+| [**getNextNumber()**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible |
+| [**listTaxSequences()**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | Listar secuencias de NCF |
+| [**updateTaxSequence()**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF |
+| [**voidTaxSequence()**](TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Anular rango de números fiscales |
 
 
 ## `createTaxSequence()`
@@ -19,7 +19,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 createTaxSequence($create_tax_sequence_request, $x_tenant_id): \PronesoftEcf\Model\CreateTaxSequence201Response
 ```
 
-Create new tax sequence
+Crear nueva secuencia de NCF
 
 ### Example
 
@@ -31,9 +31,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -42,7 +39,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     $config
 );
 $create_tax_sequence_request = {"type":"E32","from":1,"to":10000,"quantity":10000,"expiration":"2025-12-31","environment":"TesteCF"}; // \PronesoftEcf\Model\CreateTaxSequenceRequest
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
 
 try {
     $result = $apiInstance->createTaxSequence($create_tax_sequence_request, $x_tenant_id);
@@ -57,7 +54,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **create_tax_sequence_request** | [**\PronesoftEcf\Model\CreateTaxSequenceRequest**](../Model/CreateTaxSequenceRequest.md)|  | |
-| **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
 
 ### Return type
 
@@ -65,7 +62,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -82,9 +79,9 @@ try {
 getNextNumber($type, $environment, $x_tenant_id): \PronesoftEcf\Model\GetNextNumber200Response
 ```
 
-Get next available fiscal number
+Obtener siguiente número fiscal disponible
 
-Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
 
 ### Example
 
@@ -96,9 +93,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -108,7 +102,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
 );
 $type = new \PronesoftEcf\Model\\PronesoftEcf\Model\InvoiceTypeSequence(); // \PronesoftEcf\Model\InvoiceTypeSequence
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
 
 try {
     $result = $apiInstance->getNextNumber($type, $environment, $x_tenant_id);
@@ -124,7 +118,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **type** | [**\PronesoftEcf\Model\InvoiceTypeSequence**](../Model/.md)|  | |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
-| **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
 
 ### Return type
 
@@ -132,7 +126,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -149,7 +143,7 @@ try {
 listTaxSequences($x_tenant_id, $type, $environment, $page, $limit): \PronesoftEcf\Model\ListTaxSequences200Response
 ```
 
-List tax sequences
+Listar secuencias de NCF
 
 ### Example
 
@@ -161,9 +155,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -171,7 +162,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     new GuzzleHttp\Client(),
     $config
 );
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
 $type = new \PronesoftEcf\Model\\PronesoftEcf\Model\InvoiceTypeSequence(); // \PronesoftEcf\Model\InvoiceTypeSequence
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 $page = 1; // int
@@ -189,7 +180,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
 | **type** | [**\PronesoftEcf\Model\InvoiceTypeSequence**](../Model/.md)|  | [optional] |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | [optional] |
 | **page** | **int**|  | [optional] [default to 1] |
@@ -201,7 +192,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -218,7 +209,7 @@ try {
 updateTaxSequence($id, $update_tax_sequence_request, $x_tenant_id)
 ```
 
-Update tax sequence
+Actualizar secuencia de NCF
 
 ### Example
 
@@ -230,9 +221,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -242,7 +230,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
 );
 $id = 'id_example'; // string
 $update_tax_sequence_request = new \PronesoftEcf\Model\UpdateTaxSequenceRequest(); // \PronesoftEcf\Model\UpdateTaxSequenceRequest
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
 
 try {
     $apiInstance->updateTaxSequence($id, $update_tax_sequence_request, $x_tenant_id);
@@ -257,7 +245,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
 | **update_tax_sequence_request** | [**\PronesoftEcf\Model\UpdateTaxSequenceRequest**](../Model/UpdateTaxSequenceRequest.md)|  | |
-| **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
 
 ### Return type
 
@@ -265,7 +253,7 @@ void (empty response body)
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -282,9 +270,9 @@ void (empty response body)
 voidTaxSequence($void_tax_sequence_request, $x_tenant_id): \PronesoftEcf\Model\VoidTaxSequence200Response
 ```
 
-Void a range of fiscal numbers
+Anular rango de números fiscales
 
-Cancels unused fiscal numbers and notifies DGII.
+Cancela números fiscales no utilizados y notifica a la DGII.
 
 ### Example
 
@@ -296,9 +284,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -307,7 +292,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     $config
 );
 $void_tax_sequence_request = new \PronesoftEcf\Model\VoidTaxSequenceRequest(); // \PronesoftEcf\Model\VoidTaxSequenceRequest
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
 
 try {
     $result = $apiInstance->voidTaxSequence($void_tax_sequence_request, $x_tenant_id);
@@ -322,7 +307,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **void_tax_sequence_request** | [**\PronesoftEcf\Model\VoidTaxSequenceRequest**](../Model/VoidTaxSequenceRequest.md)|  | |
-| **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
 
 ### Return type
 
@@ -330,7 +315,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 

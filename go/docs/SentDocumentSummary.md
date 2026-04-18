@@ -5,15 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **string** |  | [optional] 
-**Encf** | Pointer to **string** |  | [optional] 
-**Status** | Pointer to [**DocumentStatus**](DocumentStatus.md) |  | [optional] 
-**StatusDisplay** | Pointer to **string** |  | [optional] 
-**TrackId** | Pointer to **string** |  | [optional] 
+**Encf** | Pointer to **NullableString** |  | [optional] 
+**Status** | Pointer to **string** |  | [optional] 
+**StatusLabel** | Pointer to **string** |  | [optional] 
+**TrackId** | Pointer to **NullableString** |  | [optional] 
 **DocumentType** | Pointer to **string** |  | [optional] 
-**TotalAmount** | Pointer to **float32** |  | [optional] 
+**IssuerRnc** | Pointer to **string** |  | [optional] 
+**Environment** | Pointer to [**Environment**](Environment.md) |  | [optional] 
 **ReceivedAt** | Pointer to **time.Time** |  | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**XmlUrl** | Pointer to **string** |  | [optional] 
 **Business** | Pointer to [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  | [optional] 
 
 ## Methods
@@ -85,22 +85,32 @@ SetEncf sets Encf field to given value.
 
 HasEncf returns a boolean if a field has been set.
 
+### SetEncfNil
+
+`func (o *SentDocumentSummary) SetEncfNil(b bool)`
+
+ SetEncfNil sets the value for Encf to be an explicit nil
+
+### UnsetEncf
+`func (o *SentDocumentSummary) UnsetEncf()`
+
+UnsetEncf ensures that no value is present for Encf, not even an explicit nil
 ### GetStatus
 
-`func (o *SentDocumentSummary) GetStatus() DocumentStatus`
+`func (o *SentDocumentSummary) GetStatus() string`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *SentDocumentSummary) GetStatusOk() (*DocumentStatus, bool)`
+`func (o *SentDocumentSummary) GetStatusOk() (*string, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *SentDocumentSummary) SetStatus(v DocumentStatus)`
+`func (o *SentDocumentSummary) SetStatus(v string)`
 
 SetStatus sets Status field to given value.
 
@@ -110,30 +120,30 @@ SetStatus sets Status field to given value.
 
 HasStatus returns a boolean if a field has been set.
 
-### GetStatusDisplay
+### GetStatusLabel
 
-`func (o *SentDocumentSummary) GetStatusDisplay() string`
+`func (o *SentDocumentSummary) GetStatusLabel() string`
 
-GetStatusDisplay returns the StatusDisplay field if non-nil, zero value otherwise.
+GetStatusLabel returns the StatusLabel field if non-nil, zero value otherwise.
 
-### GetStatusDisplayOk
+### GetStatusLabelOk
 
-`func (o *SentDocumentSummary) GetStatusDisplayOk() (*string, bool)`
+`func (o *SentDocumentSummary) GetStatusLabelOk() (*string, bool)`
 
-GetStatusDisplayOk returns a tuple with the StatusDisplay field if it's non-nil, zero value otherwise
+GetStatusLabelOk returns a tuple with the StatusLabel field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetStatusDisplay
+### SetStatusLabel
 
-`func (o *SentDocumentSummary) SetStatusDisplay(v string)`
+`func (o *SentDocumentSummary) SetStatusLabel(v string)`
 
-SetStatusDisplay sets StatusDisplay field to given value.
+SetStatusLabel sets StatusLabel field to given value.
 
-### HasStatusDisplay
+### HasStatusLabel
 
-`func (o *SentDocumentSummary) HasStatusDisplay() bool`
+`func (o *SentDocumentSummary) HasStatusLabel() bool`
 
-HasStatusDisplay returns a boolean if a field has been set.
+HasStatusLabel returns a boolean if a field has been set.
 
 ### GetTrackId
 
@@ -160,6 +170,16 @@ SetTrackId sets TrackId field to given value.
 
 HasTrackId returns a boolean if a field has been set.
 
+### SetTrackIdNil
+
+`func (o *SentDocumentSummary) SetTrackIdNil(b bool)`
+
+ SetTrackIdNil sets the value for TrackId to be an explicit nil
+
+### UnsetTrackId
+`func (o *SentDocumentSummary) UnsetTrackId()`
+
+UnsetTrackId ensures that no value is present for TrackId, not even an explicit nil
 ### GetDocumentType
 
 `func (o *SentDocumentSummary) GetDocumentType() string`
@@ -185,30 +205,55 @@ SetDocumentType sets DocumentType field to given value.
 
 HasDocumentType returns a boolean if a field has been set.
 
-### GetTotalAmount
+### GetIssuerRnc
 
-`func (o *SentDocumentSummary) GetTotalAmount() float32`
+`func (o *SentDocumentSummary) GetIssuerRnc() string`
 
-GetTotalAmount returns the TotalAmount field if non-nil, zero value otherwise.
+GetIssuerRnc returns the IssuerRnc field if non-nil, zero value otherwise.
 
-### GetTotalAmountOk
+### GetIssuerRncOk
 
-`func (o *SentDocumentSummary) GetTotalAmountOk() (*float32, bool)`
+`func (o *SentDocumentSummary) GetIssuerRncOk() (*string, bool)`
 
-GetTotalAmountOk returns a tuple with the TotalAmount field if it's non-nil, zero value otherwise
+GetIssuerRncOk returns a tuple with the IssuerRnc field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTotalAmount
+### SetIssuerRnc
 
-`func (o *SentDocumentSummary) SetTotalAmount(v float32)`
+`func (o *SentDocumentSummary) SetIssuerRnc(v string)`
 
-SetTotalAmount sets TotalAmount field to given value.
+SetIssuerRnc sets IssuerRnc field to given value.
 
-### HasTotalAmount
+### HasIssuerRnc
 
-`func (o *SentDocumentSummary) HasTotalAmount() bool`
+`func (o *SentDocumentSummary) HasIssuerRnc() bool`
 
-HasTotalAmount returns a boolean if a field has been set.
+HasIssuerRnc returns a boolean if a field has been set.
+
+### GetEnvironment
+
+`func (o *SentDocumentSummary) GetEnvironment() Environment`
+
+GetEnvironment returns the Environment field if non-nil, zero value otherwise.
+
+### GetEnvironmentOk
+
+`func (o *SentDocumentSummary) GetEnvironmentOk() (*Environment, bool)`
+
+GetEnvironmentOk returns a tuple with the Environment field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEnvironment
+
+`func (o *SentDocumentSummary) SetEnvironment(v Environment)`
+
+SetEnvironment sets Environment field to given value.
+
+### HasEnvironment
+
+`func (o *SentDocumentSummary) HasEnvironment() bool`
+
+HasEnvironment returns a boolean if a field has been set.
 
 ### GetReceivedAt
 
@@ -259,31 +304,6 @@ SetCreatedAt sets CreatedAt field to given value.
 `func (o *SentDocumentSummary) HasCreatedAt() bool`
 
 HasCreatedAt returns a boolean if a field has been set.
-
-### GetXmlUrl
-
-`func (o *SentDocumentSummary) GetXmlUrl() string`
-
-GetXmlUrl returns the XmlUrl field if non-nil, zero value otherwise.
-
-### GetXmlUrlOk
-
-`func (o *SentDocumentSummary) GetXmlUrlOk() (*string, bool)`
-
-GetXmlUrlOk returns a tuple with the XmlUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetXmlUrl
-
-`func (o *SentDocumentSummary) SetXmlUrl(v string)`
-
-SetXmlUrl sets XmlUrl field to given value.
-
-### HasXmlUrl
-
-`func (o *SentDocumentSummary) HasXmlUrl() bool`
-
-HasXmlUrl returns a boolean if a field has been set.
 
 ### GetBusiness
 

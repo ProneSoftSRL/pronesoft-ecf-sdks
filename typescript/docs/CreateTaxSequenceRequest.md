@@ -16,7 +16,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { CreateTaxSequenceRequest } from '@pronesoft-rd/ecf-sdk'
+import type { CreateTaxSequenceRequest } from ''
 
 // TODO: Update the object below with actual values
 const example = {

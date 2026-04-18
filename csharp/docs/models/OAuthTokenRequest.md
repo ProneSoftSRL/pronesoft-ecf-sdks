@@ -1,4 +1,5 @@
 # Pronesoft.Ecf.Sdk.Model.OAuthTokenRequest
+Credentials for OAuth 2.0. Get from Pronesoft portal.
 
 ## Properties
 

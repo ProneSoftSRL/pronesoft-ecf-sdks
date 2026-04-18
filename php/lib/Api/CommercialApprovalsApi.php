@@ -12,7 +12,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -75,7 +75,10 @@ class CommercialApprovalsApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
-        'listApprovals' => [
+        'getCommercialApprovalById' => [
+            'application/json',
+        ],
+        'listCommercialApprovals' => [
             'application/json',
         ],
     ];
@@ -127,62 +130,348 @@ class CommercialApprovalsApi
     }
 
     /**
-     * Operation listApprovals
+     * Operation getCommercialApprovalById
      *
-     * List commercial approvals
+     * Obtener aprobación comercial por ID
      *
-     * @param  string $business_id business_id (required)
-     * @param  int|null $page page (optional, default to 1)
-     * @param  int|null $limit limit (optional, default to 20)
+     * @param  string $id id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getCommercialApprovalById'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \PronesoftEcf\Model\ApprovalItem|\PronesoftEcf\Model\ErrorResponse
+     */
+    public function getCommercialApprovalById($id, $x_tenant_id = null, string $contentType = self::contentTypes['getCommercialApprovalById'][0])
+    {
+        list($response) = $this->getCommercialApprovalByIdWithHttpInfo($id, $x_tenant_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getCommercialApprovalByIdWithHttpInfo
+     *
+     * Obtener aprobación comercial por ID
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getCommercialApprovalById'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \PronesoftEcf\Model\ApprovalItem|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getCommercialApprovalByIdWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getCommercialApprovalById'][0])
+    {
+        $request = $this->getCommercialApprovalByIdRequest($id, $x_tenant_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ApprovalItem',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\PronesoftEcf\Model\ApprovalItem',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ApprovalItem',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getCommercialApprovalByIdAsync
+     *
+     * Obtener aprobación comercial por ID
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getCommercialApprovalById'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getCommercialApprovalByIdAsync($id, $x_tenant_id = null, string $contentType = self::contentTypes['getCommercialApprovalById'][0])
+    {
+        return $this->getCommercialApprovalByIdAsyncWithHttpInfo($id, $x_tenant_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getCommercialApprovalByIdAsyncWithHttpInfo
+     *
+     * Obtener aprobación comercial por ID
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getCommercialApprovalById'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getCommercialApprovalByIdAsyncWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getCommercialApprovalById'][0])
+    {
+        $returnType = '\PronesoftEcf\Model\ApprovalItem';
+        $request = $this->getCommercialApprovalByIdRequest($id, $x_tenant_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getCommercialApprovalById'
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getCommercialApprovalById'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getCommercialApprovalByIdRequest($id, $x_tenant_id = null, string $contentType = self::contentTypes['getCommercialApprovalById'][0])
+    {
+
+        // verify the required parameter 'id' is set
+        if ($id === null || (is_array($id) && count($id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $id when calling getCommercialApprovalById'
+            );
+        }
+
+
+
+        $resourcePath = '/documents/approvals/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'id' . '}',
+                ObjectSerializer::toPathValue($id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation listCommercialApprovals
+     *
+     * Listar aprobaciones comerciales
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf ecf (optional)
-     * @param  string|null $document_type document_type (optional)
+     * @param  string|null $type Tipo de documento (optional)
      * @param  int|null $status status (optional)
      * @param  \DateTime|null $date_from date_from (optional)
      * @param  \DateTime|null $date_to date_to (optional)
-     * @param  float|null $min_amount min_amount (optional)
-     * @param  float|null $max_amount max_amount (optional)
-     * @param  string|null $search search (optional)
-     * @param  string|null $sort_by sort_by (optional)
-     * @param  string|null $sort_order sort_order (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listApprovals'] to see the possible values for this operation
+     * @param  int|null $page page (optional, default to 1)
+     * @param  int|null $limit limit (optional, default to 10)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listCommercialApprovals'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\ApprovalListResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function listApprovals($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listCommercialApprovals($x_tenant_id = null, $ecf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listCommercialApprovals'][0])
     {
-        list($response) = $this->listApprovalsWithHttpInfo($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
+        list($response) = $this->listCommercialApprovalsWithHttpInfo($x_tenant_id, $ecf, $type, $status, $date_from, $date_to, $page, $limit, $contentType);
         return $response;
     }
 
     /**
-     * Operation listApprovalsWithHttpInfo
+     * Operation listCommercialApprovalsWithHttpInfo
      *
-     * List commercial approvals
+     * Listar aprobaciones comerciales
      *
-     * @param  string $business_id (required)
-     * @param  int|null $page (optional, default to 1)
-     * @param  int|null $limit (optional, default to 20)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf (optional)
-     * @param  string|null $document_type (optional)
+     * @param  string|null $type Tipo de documento (optional)
      * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
-     * @param  float|null $min_amount (optional)
-     * @param  float|null $max_amount (optional)
-     * @param  string|null $search (optional)
-     * @param  string|null $sort_by (optional)
-     * @param  string|null $sort_order (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listApprovals'] to see the possible values for this operation
+     * @param  int|null $page (optional, default to 1)
+     * @param  int|null $limit (optional, default to 10)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listCommercialApprovals'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\ApprovalListResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listApprovalsWithHttpInfo($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listCommercialApprovalsWithHttpInfo($x_tenant_id = null, $ecf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listCommercialApprovals'][0])
     {
-        $request = $this->listApprovalsRequest($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
+        $request = $this->listCommercialApprovalsRequest($x_tenant_id, $ecf, $type, $status, $date_from, $date_to, $page, $limit, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -268,31 +557,26 @@ class CommercialApprovalsApi
     }
 
     /**
-     * Operation listApprovalsAsync
+     * Operation listCommercialApprovalsAsync
      *
-     * List commercial approvals
+     * Listar aprobaciones comerciales
      *
-     * @param  string $business_id (required)
-     * @param  int|null $page (optional, default to 1)
-     * @param  int|null $limit (optional, default to 20)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf (optional)
-     * @param  string|null $document_type (optional)
+     * @param  string|null $type Tipo de documento (optional)
      * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
-     * @param  float|null $min_amount (optional)
-     * @param  float|null $max_amount (optional)
-     * @param  string|null $search (optional)
-     * @param  string|null $sort_by (optional)
-     * @param  string|null $sort_order (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listApprovals'] to see the possible values for this operation
+     * @param  int|null $page (optional, default to 1)
+     * @param  int|null $limit (optional, default to 10)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listCommercialApprovals'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listApprovalsAsync($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listCommercialApprovalsAsync($x_tenant_id = null, $ecf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listCommercialApprovals'][0])
     {
-        return $this->listApprovalsAsyncWithHttpInfo($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType)
+        return $this->listCommercialApprovalsAsyncWithHttpInfo($x_tenant_id, $ecf, $type, $status, $date_from, $date_to, $page, $limit, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -301,32 +585,27 @@ class CommercialApprovalsApi
     }
 
     /**
-     * Operation listApprovalsAsyncWithHttpInfo
+     * Operation listCommercialApprovalsAsyncWithHttpInfo
      *
-     * List commercial approvals
+     * Listar aprobaciones comerciales
      *
-     * @param  string $business_id (required)
-     * @param  int|null $page (optional, default to 1)
-     * @param  int|null $limit (optional, default to 20)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf (optional)
-     * @param  string|null $document_type (optional)
+     * @param  string|null $type Tipo de documento (optional)
      * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
-     * @param  float|null $min_amount (optional)
-     * @param  float|null $max_amount (optional)
-     * @param  string|null $search (optional)
-     * @param  string|null $sort_by (optional)
-     * @param  string|null $sort_order (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listApprovals'] to see the possible values for this operation
+     * @param  int|null $page (optional, default to 1)
+     * @param  int|null $limit (optional, default to 10)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listCommercialApprovals'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listApprovalsAsyncWithHttpInfo($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listCommercialApprovalsAsyncWithHttpInfo($x_tenant_id = null, $ecf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listCommercialApprovals'][0])
     {
         $returnType = '\PronesoftEcf\Model\ApprovalListResponse';
-        $request = $this->listApprovalsRequest($business_id, $page, $limit, $ecf, $document_type, $status, $date_from, $date_to, $min_amount, $max_amount, $search, $sort_by, $sort_order, $contentType);
+        $request = $this->listCommercialApprovalsRequest($x_tenant_id, $ecf, $type, $status, $date_from, $date_to, $page, $limit, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -365,86 +644,43 @@ class CommercialApprovalsApi
     }
 
     /**
-     * Create request for operation 'listApprovals'
+     * Create request for operation 'listCommercialApprovals'
      *
-     * @param  string $business_id (required)
-     * @param  int|null $page (optional, default to 1)
-     * @param  int|null $limit (optional, default to 20)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf (optional)
-     * @param  string|null $document_type (optional)
+     * @param  string|null $type Tipo de documento (optional)
      * @param  int|null $status (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
-     * @param  float|null $min_amount (optional)
-     * @param  float|null $max_amount (optional)
-     * @param  string|null $search (optional)
-     * @param  string|null $sort_by (optional)
-     * @param  string|null $sort_order (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listApprovals'] to see the possible values for this operation
+     * @param  int|null $page (optional, default to 1)
+     * @param  int|null $limit (optional, default to 10)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listCommercialApprovals'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listApprovalsRequest($business_id, $page = 1, $limit = 20, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $min_amount = null, $max_amount = null, $search = null, $sort_by = null, $sort_order = null, string $contentType = self::contentTypes['listApprovals'][0])
+    public function listCommercialApprovalsRequest($x_tenant_id = null, $ecf = null, $type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listCommercialApprovals'][0])
     {
 
-        // verify the required parameter 'business_id' is set
-        if ($business_id === null || (is_array($business_id) && count($business_id) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $business_id when calling listApprovals'
-            );
-        }
+
+
+
+
+
 
 
         if ($limit !== null && $limit > 100) {
-            throw new \InvalidArgumentException('invalid value for "$limit" when calling CommercialApprovalsApi.listApprovals, must be smaller than or equal to 100.');
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling CommercialApprovalsApi.listCommercialApprovals, must be smaller than or equal to 100.');
         }
         
 
-
-
-
-
-
-
-
-
-
-
-        $resourcePath = '/documents/approvals/all';
+        $resourcePath = '/documents/approvals';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
 
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $business_id,
-            'businessId', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            true // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $page,
-            'page', // param base name
-            'integer', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $limit,
-            'limit', // param base name
-            'integer', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $ecf,
@@ -456,8 +692,8 @@ class CommercialApprovalsApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $document_type,
-            'documentType', // param base name
+            $type,
+            'type', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
@@ -492,50 +728,27 @@ class CommercialApprovalsApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $min_amount,
-            'minAmount', // param base name
-            'number', // openApiType
+            $page,
+            'page', // param base name
+            'integer', // openApiType
             'form', // style
             true, // explode
             false // required
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $max_amount,
-            'maxAmount', // param base name
-            'number', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $search,
-            'search', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $sort_by,
-            'sortBy', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $sort_order,
-            'sortOrder', // param base name
-            'string', // openApiType
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
             'form', // style
             true, // explode
             false // required
         ) ?? []);
 
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
 
 
 
@@ -571,10 +784,6 @@ class CommercialApprovalsApi
         }
 
         // this endpoint requires OAuth (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
-        // this endpoint requires Bearer (JWT) authentication (access token)
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }

@@ -8,28 +8,40 @@ Name | Type
 ------------ | -------------
 `id` | string
 `encf` | string
+`type` | string
+`issuerRnc` | string
+`buyerRnc` | string
+`totalAmount` | number
+`approvalStatus` | string
 `status` | number
+`statusLabel` | string
 `issueDate` | Date
-`approvalType` | string
-`priority` | string
-`assignedTo` | string
-`comments` | string
+`receivedAt` | Date
+`createdAt` | Date
+`rejectionDescription` | string
+`business` | [SentDocumentSummaryBusiness](SentDocumentSummaryBusiness.md)
 
 ## Example
 
 ```typescript
-import type { ApprovalItem } from '@pronesoft-rd/ecf-sdk'
+import type { ApprovalItem } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
-  "encf": null,
+  "encf": E31000000003,
+  "type": 31,
+  "issuerRnc": 123456789,
+  "buyerRnc": 987654321,
+  "totalAmount": 15000.0,
+  "approvalStatus": APPROVED,
   "status": null,
+  "statusLabel": Aprobado,
   "issueDate": null,
-  "approvalType": null,
-  "priority": null,
-  "assignedTo": null,
-  "comments": null,
+  "receivedAt": null,
+  "createdAt": null,
+  "rejectionDescription": null,
+  "business": null,
 } satisfies ApprovalItem
 
 console.log(example)

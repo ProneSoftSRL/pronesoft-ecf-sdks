@@ -1,5 +1,5 @@
 # Pronesoft.Ecf.Sdk.Model.InvoiceType
-31: Tax Credit, 32: Consumer, 33: Debit Note, 34: Credit Note, 41: Purchases, 43: Minor Expenses, 44: Special Regimes, 45: Governmental, 46: Exports, 47: Overseas Payments. 
+31=Factura Credito Fiscal, 32=Factura Consumo, 33=Nota Debito, 34=Nota Credito, 41=Compras, 43=Gastos Menores, 44=Regimenes Especiales, 45=Gubernamental, 46=Exportaciones, 47=Pagos Exterior 
 
 ## Properties
 

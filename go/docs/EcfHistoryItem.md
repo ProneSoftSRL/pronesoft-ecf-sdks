@@ -5,14 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **string** |  | [optional] 
-**TrackId** | Pointer to **string** |  | [optional] 
-**Encf** | Pointer to **string** |  | [optional] 
+**TrackId** | Pointer to **NullableString** |  | [optional] 
+**Encf** | Pointer to **NullableString** |  | [optional] 
 **DocumentType** | Pointer to **string** |  | [optional] 
-**Status** | Pointer to [**DocumentStatus**](DocumentStatus.md) |  | [optional] 
-**Rnc** | Pointer to **string** |  | [optional] 
+**Status** | Pointer to **string** |  | [optional] 
+**LegalStatus** | Pointer to **NullableString** |  | [optional] 
+**IssuerRnc** | Pointer to **string** |  | [optional] 
 **Environment** | Pointer to [**Environment**](Environment.md) |  | [optional] 
+**ReceivedAt** | Pointer to **NullableTime** |  | [optional] 
 **CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**Logs** | Pointer to [**[]ProcessingLog**](ProcessingLog.md) |  | [optional] 
 
 ## Methods
 
@@ -83,6 +84,16 @@ SetTrackId sets TrackId field to given value.
 
 HasTrackId returns a boolean if a field has been set.
 
+### SetTrackIdNil
+
+`func (o *EcfHistoryItem) SetTrackIdNil(b bool)`
+
+ SetTrackIdNil sets the value for TrackId to be an explicit nil
+
+### UnsetTrackId
+`func (o *EcfHistoryItem) UnsetTrackId()`
+
+UnsetTrackId ensures that no value is present for TrackId, not even an explicit nil
 ### GetEncf
 
 `func (o *EcfHistoryItem) GetEncf() string`
@@ -108,6 +119,16 @@ SetEncf sets Encf field to given value.
 
 HasEncf returns a boolean if a field has been set.
 
+### SetEncfNil
+
+`func (o *EcfHistoryItem) SetEncfNil(b bool)`
+
+ SetEncfNil sets the value for Encf to be an explicit nil
+
+### UnsetEncf
+`func (o *EcfHistoryItem) UnsetEncf()`
+
+UnsetEncf ensures that no value is present for Encf, not even an explicit nil
 ### GetDocumentType
 
 `func (o *EcfHistoryItem) GetDocumentType() string`
@@ -135,20 +156,20 @@ HasDocumentType returns a boolean if a field has been set.
 
 ### GetStatus
 
-`func (o *EcfHistoryItem) GetStatus() DocumentStatus`
+`func (o *EcfHistoryItem) GetStatus() string`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *EcfHistoryItem) GetStatusOk() (*DocumentStatus, bool)`
+`func (o *EcfHistoryItem) GetStatusOk() (*string, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *EcfHistoryItem) SetStatus(v DocumentStatus)`
+`func (o *EcfHistoryItem) SetStatus(v string)`
 
 SetStatus sets Status field to given value.
 
@@ -158,30 +179,65 @@ SetStatus sets Status field to given value.
 
 HasStatus returns a boolean if a field has been set.
 
-### GetRnc
+### GetLegalStatus
 
-`func (o *EcfHistoryItem) GetRnc() string`
+`func (o *EcfHistoryItem) GetLegalStatus() string`
 
-GetRnc returns the Rnc field if non-nil, zero value otherwise.
+GetLegalStatus returns the LegalStatus field if non-nil, zero value otherwise.
 
-### GetRncOk
+### GetLegalStatusOk
 
-`func (o *EcfHistoryItem) GetRncOk() (*string, bool)`
+`func (o *EcfHistoryItem) GetLegalStatusOk() (*string, bool)`
 
-GetRncOk returns a tuple with the Rnc field if it's non-nil, zero value otherwise
+GetLegalStatusOk returns a tuple with the LegalStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRnc
+### SetLegalStatus
 
-`func (o *EcfHistoryItem) SetRnc(v string)`
+`func (o *EcfHistoryItem) SetLegalStatus(v string)`
 
-SetRnc sets Rnc field to given value.
+SetLegalStatus sets LegalStatus field to given value.
 
-### HasRnc
+### HasLegalStatus
 
-`func (o *EcfHistoryItem) HasRnc() bool`
+`func (o *EcfHistoryItem) HasLegalStatus() bool`
 
-HasRnc returns a boolean if a field has been set.
+HasLegalStatus returns a boolean if a field has been set.
+
+### SetLegalStatusNil
+
+`func (o *EcfHistoryItem) SetLegalStatusNil(b bool)`
+
+ SetLegalStatusNil sets the value for LegalStatus to be an explicit nil
+
+### UnsetLegalStatus
+`func (o *EcfHistoryItem) UnsetLegalStatus()`
+
+UnsetLegalStatus ensures that no value is present for LegalStatus, not even an explicit nil
+### GetIssuerRnc
+
+`func (o *EcfHistoryItem) GetIssuerRnc() string`
+
+GetIssuerRnc returns the IssuerRnc field if non-nil, zero value otherwise.
+
+### GetIssuerRncOk
+
+`func (o *EcfHistoryItem) GetIssuerRncOk() (*string, bool)`
+
+GetIssuerRncOk returns a tuple with the IssuerRnc field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIssuerRnc
+
+`func (o *EcfHistoryItem) SetIssuerRnc(v string)`
+
+SetIssuerRnc sets IssuerRnc field to given value.
+
+### HasIssuerRnc
+
+`func (o *EcfHistoryItem) HasIssuerRnc() bool`
+
+HasIssuerRnc returns a boolean if a field has been set.
 
 ### GetEnvironment
 
@@ -208,6 +264,41 @@ SetEnvironment sets Environment field to given value.
 
 HasEnvironment returns a boolean if a field has been set.
 
+### GetReceivedAt
+
+`func (o *EcfHistoryItem) GetReceivedAt() time.Time`
+
+GetReceivedAt returns the ReceivedAt field if non-nil, zero value otherwise.
+
+### GetReceivedAtOk
+
+`func (o *EcfHistoryItem) GetReceivedAtOk() (*time.Time, bool)`
+
+GetReceivedAtOk returns a tuple with the ReceivedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReceivedAt
+
+`func (o *EcfHistoryItem) SetReceivedAt(v time.Time)`
+
+SetReceivedAt sets ReceivedAt field to given value.
+
+### HasReceivedAt
+
+`func (o *EcfHistoryItem) HasReceivedAt() bool`
+
+HasReceivedAt returns a boolean if a field has been set.
+
+### SetReceivedAtNil
+
+`func (o *EcfHistoryItem) SetReceivedAtNil(b bool)`
+
+ SetReceivedAtNil sets the value for ReceivedAt to be an explicit nil
+
+### UnsetReceivedAt
+`func (o *EcfHistoryItem) UnsetReceivedAt()`
+
+UnsetReceivedAt ensures that no value is present for ReceivedAt, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *EcfHistoryItem) GetCreatedAt() time.Time`
@@ -232,31 +323,6 @@ SetCreatedAt sets CreatedAt field to given value.
 `func (o *EcfHistoryItem) HasCreatedAt() bool`
 
 HasCreatedAt returns a boolean if a field has been set.
-
-### GetLogs
-
-`func (o *EcfHistoryItem) GetLogs() []ProcessingLog`
-
-GetLogs returns the Logs field if non-nil, zero value otherwise.
-
-### GetLogsOk
-
-`func (o *EcfHistoryItem) GetLogsOk() (*[]ProcessingLog, bool)`
-
-GetLogsOk returns a tuple with the Logs field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLogs
-
-`func (o *EcfHistoryItem) SetLogs(v []ProcessingLog)`
-
-SetLogs sets Logs field to given value.
-
-### HasLogs
-
-`func (o *EcfHistoryItem) HasLogs() bool`
-
-HasLogs returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

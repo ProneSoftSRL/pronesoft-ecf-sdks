@@ -4,21 +4,20 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases)
-[**export_sent_documents**](ReportsApi.md#export_sent_documents) | **GET** /dgii/sent/export | Export sent documents report
+[**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras)
+[**export_sent_documents**](ReportsApi.md#export_sent_documents) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
 
 
 # **export606**
 > str export606(var_from, to, format, status=status, type=type, encf=encf)
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
-Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -38,11 +37,6 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -55,7 +49,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     encf = 'encf_example' # str |  (optional)
 
     try:
-        # Export Format 606 (Purchases)
+        # Exportar Formato 606 (Compras)
         api_response = api_instance.export606(var_from, to, format, status=status, type=type, encf=encf)
         print("The response of ReportsApi->export606:\n")
         pprint(api_response)
@@ -83,7 +77,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -94,9 +88,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Format 606 report |  -  |
-**400** | Validation error (400). Check the message field for details. |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Reporte Formato 606 |  -  |
+**400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 **403** | The token does not have the required scope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -104,14 +98,13 @@ Name | Type | Description  | Notes
 # **export_sent_documents**
 > bytes export_sent_documents(var_from, to, env=env, encf=encf, type=type, status=status, track_id=track_id)
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
-Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -132,11 +125,6 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -150,7 +138,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     track_id = 'track_id_example' # str |  (optional)
 
     try:
-        # Export sent documents report
+        # Exportar reporte de documentos enviados
         api_response = api_instance.export_sent_documents(var_from, to, env=env, encf=encf, type=type, status=status, track_id=track_id)
         print("The response of ReportsApi->export_sent_documents:\n")
         pprint(api_response)
@@ -179,7 +167,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -190,9 +178,9 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Excel report file |  -  |
-**400** | Validation error (400). Check the message field for details. |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Archivo Excel del reporte |  -  |
+**400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 **403** | The token does not have the required scope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

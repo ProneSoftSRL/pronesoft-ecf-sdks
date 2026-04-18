@@ -9,7 +9,7 @@
 |------------ | ------------- | ------------- | -------------|
 |**total** | **Integer** |  |  [optional] |
 |**recentActivity** | **Integer** |  |  [optional] |
-|**byStatus** | **Map&lt;String, Integer&gt;** |  |  [optional] |
+|**byStatus** | [**Map&lt;String, DocumentStatsResponseByStatusValue&gt;**](DocumentStatsResponseByStatusValue.md) |  |  [optional] |
 |**byEnvironment** | **Map&lt;String, Integer&gt;** |  |  [optional] |
 
 

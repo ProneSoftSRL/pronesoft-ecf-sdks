@@ -4,11 +4,11 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createTaxSequence**](TaxSequencesApi.md#createtaxsequenceoperation) | **POST** /tax-sequences/create | Create new tax sequence |
-| [**getNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number |
-| [**listTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences |
-| [**updateTaxSequence**](TaxSequencesApi.md#updatetaxsequenceoperation) | **PATCH** /tax-sequences/update | Update tax sequence |
-| [**voidTaxSequence**](TaxSequencesApi.md#voidtaxsequenceoperation) | **POST** /tax-sequences/void | Void a range of fiscal numbers |
+| [**createTaxSequence**](TaxSequencesApi.md#createtaxsequenceoperation) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF |
+| [**getNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible |
+| [**listTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF |
+| [**updateTaxSequence**](TaxSequencesApi.md#updatetaxsequenceoperation) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF |
+| [**voidTaxSequence**](TaxSequencesApi.md#voidtaxsequenceoperation) | **POST** /tax-sequences/void | Anular rango de números fiscales |
 
 
 
@@ -16,7 +16,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 > CreateTaxSequence201Response createTaxSequence(createTaxSequenceRequest, xTenantId)
 
-Create new tax sequence
+Crear nueva secuencia de NCF
 
 ### Example
 
@@ -24,23 +24,21 @@ Create new tax sequence
 import {
   Configuration,
   TaxSequencesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { CreateTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { CreateTaxSequenceOperationRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new TaxSequencesApi(config);
 
   const body = {
     // CreateTaxSequenceRequest
     createTaxSequenceRequest: {"type":"E32","from":1,"to":10000,"quantity":10000,"expiration":"2025-12-31","environment":"TesteCF"},
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies CreateTaxSequenceOperationRequest;
 
@@ -62,7 +60,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **createTaxSequenceRequest** | [CreateTaxSequenceRequest](CreateTaxSequenceRequest.md) |  | |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -70,7 +68,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -81,9 +79,9 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Sequence created successfully |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **201** | Secuencia creada exitosamente |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -92,9 +90,9 @@ example().catch(console.error);
 
 > GetNextNumber200Response getNextNumber(type, environment, xTenantId)
 
-Get next available fiscal number
+Obtener siguiente número fiscal disponible
 
-Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
 
 ### Example
 
@@ -102,16 +100,14 @@ Returns the next e-NCF number. Use this as invoiceNumber when submitting.
 import {
   Configuration,
   TaxSequencesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetNextNumberRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetNextNumberRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new TaxSequencesApi(config);
 
@@ -120,7 +116,7 @@ async function example() {
     type: ...,
     // Environment
     environment: ...,
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies GetNextNumberRequest;
 
@@ -143,7 +139,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **type** | `InvoiceTypeSequence` |  | [Defaults to `undefined`] [Enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
 | **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -151,7 +147,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -162,8 +158,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Next available e-NCF number |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Siguiente número e-NCF disponible |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -172,7 +168,7 @@ example().catch(console.error);
 
 > ListTaxSequences200Response listTaxSequences(xTenantId, type, environment, page, limit)
 
-List tax sequences
+Listar secuencias de NCF
 
 ### Example
 
@@ -180,21 +176,19 @@ List tax sequences
 import {
   Configuration,
   TaxSequencesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { ListTaxSequencesRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { ListTaxSequencesRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new TaxSequencesApi(config);
 
   const body = {
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
     // InvoiceTypeSequence (optional)
     type: ...,
@@ -223,7 +217,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 | **type** | `InvoiceTypeSequence` |  | [Optional] [Defaults to `undefined`] [Enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
 | **environment** | `Environment` |  | [Optional] [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
 | **page** | `number` |  | [Optional] [Defaults to `1`] |
@@ -235,7 +229,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -246,8 +240,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List of tax sequences |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de secuencias de NCF |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -256,7 +250,7 @@ example().catch(console.error);
 
 > updateTaxSequence(id, updateTaxSequenceRequest, xTenantId)
 
-Update tax sequence
+Actualizar secuencia de NCF
 
 ### Example
 
@@ -264,16 +258,14 @@ Update tax sequence
 import {
   Configuration,
   TaxSequencesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { UpdateTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { UpdateTaxSequenceOperationRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new TaxSequencesApi(config);
 
@@ -282,7 +274,7 @@ async function example() {
     id: id_example,
     // UpdateTaxSequenceRequest
     updateTaxSequenceRequest: ...,
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies UpdateTaxSequenceOperationRequest;
 
@@ -305,7 +297,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
 | **updateTaxSequenceRequest** | [UpdateTaxSequenceRequest](UpdateTaxSequenceRequest.md) |  | |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -313,7 +305,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -324,8 +316,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Sequence updated successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Secuencia actualizada exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -334,9 +326,9 @@ example().catch(console.error);
 
 > VoidTaxSequence200Response voidTaxSequence(voidTaxSequenceRequest, xTenantId)
 
-Void a range of fiscal numbers
+Anular rango de números fiscales
 
-Cancels unused fiscal numbers and notifies DGII.
+Cancela números fiscales no utilizados y notifica a la DGII.
 
 ### Example
 
@@ -344,23 +336,21 @@ Cancels unused fiscal numbers and notifies DGII.
 import {
   Configuration,
   TaxSequencesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { VoidTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { VoidTaxSequenceOperationRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new TaxSequencesApi(config);
 
   const body = {
     // VoidTaxSequenceRequest
     voidTaxSequenceRequest: ...,
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies VoidTaxSequenceOperationRequest;
 
@@ -382,7 +372,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **voidTaxSequenceRequest** | [VoidTaxSequenceRequest](VoidTaxSequenceRequest.md) |  | |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -390,7 +380,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -401,8 +391,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Numbers voided successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Números anulados exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

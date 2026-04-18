@@ -1,5 +1,5 @@
 # Pronesoft.Ecf.Sdk.Model.AccountType
-CT: Current, AH: Savings, OT: Others
+CT=Current account, AH=Savings, OT=Other
 
 ## Properties
 

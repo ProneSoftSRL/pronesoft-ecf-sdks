@@ -16,7 +16,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { WebhookStatsStats } from '@pronesoft-rd/ecf-sdk'
+import type { WebhookStatsStats } from ''
 
 // TODO: Update the object below with actual values
 const example = {

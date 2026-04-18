@@ -1,13 +1,12 @@
 
 # ElectronicDocument
 
-Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
+Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el `invoiceType`. Usa `GET /tax-sequences/next?invoiceType=31` solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: `POST /{environment}/ecf/submit` (ej. `TesteCF` o `eCF`). 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`environment` | [Environment](Environment.md)
 `version` | string
 `invoiceType` | [InvoiceType](InvoiceType.md)
 `invoiceNumber` | string
@@ -59,11 +58,10 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ElectronicDocument } from '@pronesoft-rd/ecf-sdk'
+import type { ElectronicDocument } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "environment": null,
   "version": 1.0,
   "invoiceType": null,
   "invoiceNumber": E310000000001,

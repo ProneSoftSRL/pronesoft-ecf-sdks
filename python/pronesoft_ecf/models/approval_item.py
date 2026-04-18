@@ -3,7 +3,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -19,8 +19,10 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from uuid import UUID
+from pronesoft_ecf.models.sent_document_summary_business import SentDocumentSummaryBusiness
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -29,15 +31,31 @@ class ApprovalItem(BaseModel):
     """
     ApprovalItem
     """ # noqa: E501
-    id: Optional[StrictStr] = None
+    id: Optional[UUID] = None
     encf: Optional[StrictStr] = None
-    status: Optional[StrictInt] = None
+    type: Optional[StrictStr] = None
+    issuer_rnc: Optional[StrictStr] = Field(default=None, alias="issuerRnc")
+    buyer_rnc: Optional[StrictStr] = Field(default=None, alias="buyerRnc")
+    total_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalAmount")
+    approval_status: Optional[StrictStr] = Field(default=None, alias="approvalStatus")
+    status: Optional[StrictInt] = Field(default=None, description="1=Approved, 2=Rejected, 3=Pending, 4=Under Review")
+    status_label: Optional[StrictStr] = Field(default=None, alias="statusLabel")
     issue_date: Optional[datetime] = Field(default=None, alias="issueDate")
-    approval_type: Optional[StrictStr] = Field(default=None, alias="approvalType")
-    priority: Optional[StrictStr] = None
-    assigned_to: Optional[StrictStr] = Field(default=None, alias="assignedTo")
-    comments: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["id", "encf", "status", "issueDate", "approvalType", "priority", "assignedTo", "comments"]
+    received_at: Optional[datetime] = Field(default=None, alias="receivedAt")
+    created_at: Optional[datetime] = Field(default=None, alias="createdAt")
+    rejection_description: Optional[StrictStr] = Field(default=None, alias="rejectionDescription")
+    business: Optional[SentDocumentSummaryBusiness] = None
+    __properties: ClassVar[List[str]] = ["id", "encf", "type", "issuerRnc", "buyerRnc", "totalAmount", "approvalStatus", "status", "statusLabel", "issueDate", "receivedAt", "createdAt", "rejectionDescription", "business"]
+
+    @field_validator('status')
+    def status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set([1, 2, 3, 4]):
+            raise ValueError("must be one of enum values (1, 2, 3, 4)")
+        return value
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -78,6 +96,14 @@ class ApprovalItem(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of business
+        if self.business:
+            _dict['business'] = self.business.to_dict()
+        # set to None if rejection_description (nullable) is None
+        # and model_fields_set contains the field
+        if self.rejection_description is None and "rejection_description" in self.model_fields_set:
+            _dict['rejectionDescription'] = None
+
         return _dict
 
     @classmethod
@@ -92,12 +118,18 @@ class ApprovalItem(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "encf": obj.get("encf"),
+            "type": obj.get("type"),
+            "issuerRnc": obj.get("issuerRnc"),
+            "buyerRnc": obj.get("buyerRnc"),
+            "totalAmount": obj.get("totalAmount"),
+            "approvalStatus": obj.get("approvalStatus"),
             "status": obj.get("status"),
+            "statusLabel": obj.get("statusLabel"),
             "issueDate": obj.get("issueDate"),
-            "approvalType": obj.get("approvalType"),
-            "priority": obj.get("priority"),
-            "assignedTo": obj.get("assignedTo"),
-            "comments": obj.get("comments")
+            "receivedAt": obj.get("receivedAt"),
+            "createdAt": obj.get("createdAt"),
+            "rejectionDescription": obj.get("rejectionDescription"),
+            "business": SentDocumentSummaryBusiness.from_dict(obj["business"]) if obj.get("business") is not None else None
         })
         return _obj
 

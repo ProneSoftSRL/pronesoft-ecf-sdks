@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | Unique notification ID (evt_xxx format). Use for deduplication. | 
+**Id** | **string** | ID único de la notificación. Úsalo para deduplicar entregas. | 
 **Event** | [**WebhookEventType**](WebhookEventType.md) |  | 
-**Timestamp** | **time.Time** |  | 
-**BusinessRnc** | **string** |  | 
-**Data** | **map[string]interface{}** |  | 
+**Timestamp** | **time.Time** | Fecha y hora del evento en ISO 8601. | 
+**BusinessRnc** | **string** | RNC de la empresa que generó el evento. | 
+**Data** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  | 
 
 ## Methods
 
 ### NewWebhookNotificationPayload
 
-`func NewWebhookNotificationPayload(id string, event WebhookEventType, timestamp time.Time, businessRnc string, data map[string]interface{}, ) *WebhookNotificationPayload`
+`func NewWebhookNotificationPayload(id string, event WebhookEventType, timestamp time.Time, businessRnc string, data WebhookNotificationPayloadData, ) *WebhookNotificationPayload`
 
 NewWebhookNotificationPayload instantiates a new WebhookNotificationPayload object
 This constructor will assign default values to properties that have it defined,
@@ -111,20 +111,20 @@ SetBusinessRnc sets BusinessRnc field to given value.
 
 ### GetData
 
-`func (o *WebhookNotificationPayload) GetData() map[string]interface{}`
+`func (o *WebhookNotificationPayload) GetData() WebhookNotificationPayloadData`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *WebhookNotificationPayload) GetDataOk() (*map[string]interface{}, bool)`
+`func (o *WebhookNotificationPayload) GetDataOk() (*WebhookNotificationPayloadData, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *WebhookNotificationPayload) SetData(v map[string]interface{})`
+`func (o *WebhookNotificationPayload) SetData(v WebhookNotificationPayloadData)`
 
 SetData sets Data field to given value.
 

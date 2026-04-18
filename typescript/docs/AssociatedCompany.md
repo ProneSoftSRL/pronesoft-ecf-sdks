@@ -28,7 +28,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { AssociatedCompany } from '@pronesoft-rd/ecf-sdk'
+import type { AssociatedCompany } from ''
 
 // TODO: Update the object below with actual values
 const example = {

@@ -4,10 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Environment** | Pointer to [**Environment**](Environment.md) |  | [optional] 
-**Version** | **string** | Always 1.0. | [default to "1.0"]
+**Version** | Pointer to **string** | Siempre \&quot;1.0\&quot;. | [optional] [default to "1.0"]
 **InvoiceType** | [**InvoiceType**](InvoiceType.md) |  | 
-**InvoiceNumber** | Pointer to **string** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional] 
+**InvoiceNumber** | Pointer to **string** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;.  | [optional] 
 **GroupId** | Pointer to **string** | Optional Group ID for batch processing | [optional] 
 **IssueDate** | **time.Time** |  | 
 **ExpirationDate** | Pointer to **time.Time** |  | [optional] 
@@ -57,7 +56,7 @@ Name | Type | Description | Notes
 
 ### NewElectronicDocument
 
-`func NewElectronicDocument(version string, invoiceType InvoiceType, issueDate time.Time, paymentForms []PaymentForm, items []Item, totals Totals, ) *ElectronicDocument`
+`func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, paymentForms []PaymentForm, items []Item, totals Totals, ) *ElectronicDocument`
 
 NewElectronicDocument instantiates a new ElectronicDocument object
 This constructor will assign default values to properties that have it defined,
@@ -71,31 +70,6 @@ will change when the set of required properties is changed
 NewElectronicDocumentWithDefaults instantiates a new ElectronicDocument object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetEnvironment
-
-`func (o *ElectronicDocument) GetEnvironment() Environment`
-
-GetEnvironment returns the Environment field if non-nil, zero value otherwise.
-
-### GetEnvironmentOk
-
-`func (o *ElectronicDocument) GetEnvironmentOk() (*Environment, bool)`
-
-GetEnvironmentOk returns a tuple with the Environment field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEnvironment
-
-`func (o *ElectronicDocument) SetEnvironment(v Environment)`
-
-SetEnvironment sets Environment field to given value.
-
-### HasEnvironment
-
-`func (o *ElectronicDocument) HasEnvironment() bool`
-
-HasEnvironment returns a boolean if a field has been set.
 
 ### GetVersion
 
@@ -116,6 +90,11 @@ and a boolean to check if the value has been set.
 
 SetVersion sets Version field to given value.
 
+### HasVersion
+
+`func (o *ElectronicDocument) HasVersion() bool`
+
+HasVersion returns a boolean if a field has been set.
 
 ### GetInvoiceType
 

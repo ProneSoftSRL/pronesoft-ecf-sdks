@@ -4,8 +4,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Export606**](ReportsAPI.md#Export606) | **Get** /dgii/606/export | Export Format 606 (Purchases)
-[**ExportSentDocuments**](ReportsAPI.md#ExportSentDocuments) | **Get** /dgii/sent/export | Export sent documents report
+[**Export606**](ReportsAPI.md#Export606) | **Get** /dgii/606/export | Exportar Formato 606 (Compras)
+[**ExportSentDocuments**](ReportsAPI.md#ExportSentDocuments) | **Get** /dgii/sent/export | Exportar reporte de documentos enviados
 
 
 
@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 > string Export606(ctx).From(from).To(to).Format(format).Status(status).Type_(type_).Encf(encf).Execute()
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
 
 
@@ -27,7 +27,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -90,7 +90,7 @@ Name | Type | Description  | Notes
 
 > *os.File ExportSentDocuments(ctx).From(from).To(to).Env(env).Encf(encf).Type_(type_).Status(status).TrackId(trackId).Execute()
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
 
 
@@ -104,7 +104,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

@@ -4,22 +4,21 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Create new tax sequence
-[**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number
-[**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences
-[**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Update tax sequence
-[**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
+[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
+[**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+[**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | Listar secuencias de NCF
+[**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
+[**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
 
 
 # **create_tax_sequence**
 > CreateTaxSequence201Response create_tax_sequence(create_tax_sequence_request, x_tenant_id=x_tenant_id)
 
-Create new tax sequence
+Crear nueva secuencia de NCF
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -41,20 +40,15 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
     create_tax_sequence_request = {"type":"E32","from":1,"to":10000,"quantity":10000,"expiration":"2025-12-31","environment":"TesteCF"} # CreateTaxSequenceRequest | 
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
     try:
-        # Create new tax sequence
+        # Crear nueva secuencia de NCF
         api_response = api_instance.create_tax_sequence(create_tax_sequence_request, x_tenant_id=x_tenant_id)
         print("The response of TaxSequencesApi->create_tax_sequence:\n")
         pprint(api_response)
@@ -70,7 +64,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **create_tax_sequence_request** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | 
- **x_tenant_id** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+ **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
 
 ### Return type
 
@@ -78,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -89,23 +83,22 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Sequence created successfully |  -  |
-**400** | Validation error (400). Check the message field for details. |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**201** | Secuencia creada exitosamente |  -  |
+**400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_next_number**
 > GetNextNumber200Response get_next_number(type, environment, x_tenant_id=x_tenant_id)
 
-Get next available fiscal number
+Obtener siguiente número fiscal disponible
 
-Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -128,21 +121,16 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
     type = pronesoft_ecf.InvoiceTypeSequence() # InvoiceTypeSequence | 
     environment = pronesoft_ecf.Environment() # Environment | 
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
     try:
-        # Get next available fiscal number
+        # Obtener siguiente número fiscal disponible
         api_response = api_instance.get_next_number(type, environment, x_tenant_id=x_tenant_id)
         print("The response of TaxSequencesApi->get_next_number:\n")
         pprint(api_response)
@@ -159,7 +147,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **type** | [**InvoiceTypeSequence**](.md)|  | 
  **environment** | [**Environment**](.md)|  | 
- **x_tenant_id** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+ **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
 
 ### Return type
 
@@ -167,7 +155,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -178,20 +166,19 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Next available e-NCF number |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Siguiente número e-NCF disponible |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_tax_sequences**
 > ListTaxSequences200Response list_tax_sequences(x_tenant_id=x_tenant_id, type=type, environment=environment, page=page, limit=limit)
 
-List tax sequences
+Listar secuencias de NCF
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -214,23 +201,18 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     type = pronesoft_ecf.InvoiceTypeSequence() # InvoiceTypeSequence |  (optional)
     environment = pronesoft_ecf.Environment() # Environment |  (optional)
     page = 1 # int |  (optional) (default to 1)
     limit = 10 # int |  (optional) (default to 10)
 
     try:
-        # List tax sequences
+        # Listar secuencias de NCF
         api_response = api_instance.list_tax_sequences(x_tenant_id=x_tenant_id, type=type, environment=environment, page=page, limit=limit)
         print("The response of TaxSequencesApi->list_tax_sequences:\n")
         pprint(api_response)
@@ -245,7 +227,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **x_tenant_id** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+ **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
  **type** | [**InvoiceTypeSequence**](.md)|  | [optional] 
  **environment** | [**Environment**](.md)|  | [optional] 
  **page** | **int**|  | [optional] [default to 1]
@@ -257,7 +239,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -268,20 +250,19 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | List of tax sequences |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Lista de secuencias de NCF |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_tax_sequence**
 > update_tax_sequence(id, update_tax_sequence_request, x_tenant_id=x_tenant_id)
 
-Update tax sequence
+Actualizar secuencia de NCF
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -302,21 +283,16 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
     id = 'id_example' # str | 
     update_tax_sequence_request = pronesoft_ecf.UpdateTaxSequenceRequest() # UpdateTaxSequenceRequest | 
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
     try:
-        # Update tax sequence
+        # Actualizar secuencia de NCF
         api_instance.update_tax_sequence(id, update_tax_sequence_request, x_tenant_id=x_tenant_id)
     except Exception as e:
         print("Exception when calling TaxSequencesApi->update_tax_sequence: %s\n" % e)
@@ -331,7 +307,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**|  | 
  **update_tax_sequence_request** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md)|  | 
- **x_tenant_id** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+ **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
 
 ### Return type
 
@@ -339,7 +315,7 @@ void (empty response body)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -350,22 +326,21 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Sequence updated successfully |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Secuencia actualizada exitosamente |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **void_tax_sequence**
 > VoidTaxSequence200Response void_tax_sequence(void_tax_sequence_request, x_tenant_id=x_tenant_id)
 
-Void a range of fiscal numbers
+Anular rango de números fiscales
 
-Cancels unused fiscal numbers and notifies DGII.
+Cancela números fiscales no utilizados y notifica a la DGII.
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -387,20 +362,15 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
     void_tax_sequence_request = pronesoft_ecf.VoidTaxSequenceRequest() # VoidTaxSequenceRequest | 
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
     try:
-        # Void a range of fiscal numbers
+        # Anular rango de números fiscales
         api_response = api_instance.void_tax_sequence(void_tax_sequence_request, x_tenant_id=x_tenant_id)
         print("The response of TaxSequencesApi->void_tax_sequence:\n")
         pprint(api_response)
@@ -416,7 +386,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **void_tax_sequence_request** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md)|  | 
- **x_tenant_id** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+ **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
 
 ### Return type
 
@@ -424,7 +394,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -435,8 +405,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Numbers voided successfully |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Números anulados exitosamente |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

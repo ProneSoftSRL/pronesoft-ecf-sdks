@@ -4,29 +4,29 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create associated company / branch |
-| [**deleteAssociatedCompany**](AssociatedCompaniesApi.md#deleteAssociatedCompany) | **DELETE** /associated-companies/{companyId} | Delete associated company |
-| [**getCompanyDocumentMetrics**](AssociatedCompaniesApi.md#getCompanyDocumentMetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics |
-| [**getCompanyMetrics**](AssociatedCompaniesApi.md#getCompanyMetrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics |
-| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated companies / branches |
-| [**updateAssociatedCompany**](AssociatedCompaniesApi.md#updateAssociatedCompany) | **PUT** /associated-companies/{companyId} | Update associated company |
+| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Crear empresa asociada / sucursal |
+| [**deleteAssociatedCompany**](AssociatedCompaniesApi.md#deleteAssociatedCompany) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada |
+| [**getCompanyDocumentMetrics**](AssociatedCompaniesApi.md#getCompanyDocumentMetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa |
+| [**getCompanyMetrics**](AssociatedCompaniesApi.md#getCompanyMetrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa |
+| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar empresas asociadas / sucursales |
+| [**updateAssociatedCompany**](AssociatedCompaniesApi.md#updateAssociatedCompany) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada |
 
 
 <a id="createAssociatedCompany"></a>
 # **createAssociatedCompany**
 > CreateAssociatedCompany201Response createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo)
 
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AssociatedCompaniesApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -36,10 +36,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
     String email = "email_example"; // String | 
@@ -99,7 +95,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -109,27 +105,27 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Company created successfully |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **201** | Empresa creada exitosamente |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="deleteAssociatedCompany"></a>
 # **deleteAssociatedCompany**
 > DeleteAssociatedCompany200Response deleteAssociatedCompany(companyId)
 
-Delete associated company
+Eliminar empresa asociada
 
-Permanently deletes an associated company. This action is irreversible.
+Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AssociatedCompaniesApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -139,10 +135,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
     UUID companyId = UUID.randomUUID(); // UUID | 
@@ -172,7 +164,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -182,24 +174,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company deleted successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Empresa eliminada exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="getCompanyDocumentMetrics"></a>
 # **getCompanyDocumentMetrics**
 > CompanyDocumentMetrics getCompanyDocumentMetrics(companyId)
 
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AssociatedCompaniesApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -209,10 +201,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
     UUID companyId = UUID.randomUUID(); // UUID | 
@@ -242,7 +230,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -252,24 +240,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document metrics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Métricas de documentos de la empresa |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="getCompanyMetrics"></a>
 # **getCompanyMetrics**
 > CompanyMetrics getCompanyMetrics(companyId)
 
-Get company metrics
+Métricas de la empresa
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AssociatedCompaniesApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -279,10 +267,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
     UUID companyId = UUID.randomUUID(); // UUID | 
@@ -312,7 +296,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -322,24 +306,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company metrics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Métricas de la empresa |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="listAssociatedCompanies"></a>
 # **listAssociatedCompanies**
 > List&lt;AssociatedCompany&gt; listAssociatedCompanies(page, limit)
 
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AssociatedCompaniesApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -349,10 +333,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
     Integer page = 1; // Integer | 
@@ -384,7 +364,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -394,24 +374,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Array of associated companies |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de empresas asociadas |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="updateAssociatedCompany"></a>
 # **updateAssociatedCompany**
 > CreateAssociatedCompany201Response updateAssociatedCompany(companyId, name, phone, website, city, country, logo)
 
-Update associated company
+Actualizar empresa asociada
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AssociatedCompaniesApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -421,10 +401,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
     UUID companyId = UUID.randomUUID(); // UUID | 
@@ -466,7 +442,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -476,6 +452,6 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company updated successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Empresa actualizada exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 

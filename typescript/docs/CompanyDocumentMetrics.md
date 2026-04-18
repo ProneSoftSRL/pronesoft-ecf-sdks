@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { CompanyDocumentMetrics } from '@pronesoft-rd/ecf-sdk'
+import type { CompanyDocumentMetrics } from ''
 
 // TODO: Update the object below with actual values
 const example = {

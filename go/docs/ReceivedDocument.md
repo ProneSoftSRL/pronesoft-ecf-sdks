@@ -6,12 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **string** |  | [optional] 
 **Encf** | Pointer to **string** |  | [optional] 
-**ReceiverRnc** | Pointer to **string** |  | [optional] 
 **SenderRnc** | Pointer to **string** |  | [optional] 
+**ReceiverRnc** | Pointer to **string** |  | [optional] 
 **TotalAmount** | Pointer to **float32** |  | [optional] 
-**Status** | Pointer to **int32** | 1&#x3D;Valid, 2&#x3D;Contingency, 3&#x3D;Rejected | [optional] 
+**Status** | Pointer to **int32** | 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending | [optional] 
+**StatusLabel** | Pointer to **string** |  | [optional] 
 **IssueDate** | Pointer to **time.Time** |  | [optional] 
 **ReceivedAt** | Pointer to **time.Time** |  | [optional] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] 
+**CommercialApprovalStatus** | Pointer to **NullableString** |  | [optional] 
+**CommercialApprovalRejectionReason** | Pointer to **NullableString** |  | [optional] 
 **Business** | Pointer to [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  | [optional] 
 
 ## Methods
@@ -83,31 +87,6 @@ SetEncf sets Encf field to given value.
 
 HasEncf returns a boolean if a field has been set.
 
-### GetReceiverRnc
-
-`func (o *ReceivedDocument) GetReceiverRnc() string`
-
-GetReceiverRnc returns the ReceiverRnc field if non-nil, zero value otherwise.
-
-### GetReceiverRncOk
-
-`func (o *ReceivedDocument) GetReceiverRncOk() (*string, bool)`
-
-GetReceiverRncOk returns a tuple with the ReceiverRnc field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetReceiverRnc
-
-`func (o *ReceivedDocument) SetReceiverRnc(v string)`
-
-SetReceiverRnc sets ReceiverRnc field to given value.
-
-### HasReceiverRnc
-
-`func (o *ReceivedDocument) HasReceiverRnc() bool`
-
-HasReceiverRnc returns a boolean if a field has been set.
-
 ### GetSenderRnc
 
 `func (o *ReceivedDocument) GetSenderRnc() string`
@@ -132,6 +111,31 @@ SetSenderRnc sets SenderRnc field to given value.
 `func (o *ReceivedDocument) HasSenderRnc() bool`
 
 HasSenderRnc returns a boolean if a field has been set.
+
+### GetReceiverRnc
+
+`func (o *ReceivedDocument) GetReceiverRnc() string`
+
+GetReceiverRnc returns the ReceiverRnc field if non-nil, zero value otherwise.
+
+### GetReceiverRncOk
+
+`func (o *ReceivedDocument) GetReceiverRncOk() (*string, bool)`
+
+GetReceiverRncOk returns a tuple with the ReceiverRnc field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReceiverRnc
+
+`func (o *ReceivedDocument) SetReceiverRnc(v string)`
+
+SetReceiverRnc sets ReceiverRnc field to given value.
+
+### HasReceiverRnc
+
+`func (o *ReceivedDocument) HasReceiverRnc() bool`
+
+HasReceiverRnc returns a boolean if a field has been set.
 
 ### GetTotalAmount
 
@@ -183,6 +187,31 @@ SetStatus sets Status field to given value.
 
 HasStatus returns a boolean if a field has been set.
 
+### GetStatusLabel
+
+`func (o *ReceivedDocument) GetStatusLabel() string`
+
+GetStatusLabel returns the StatusLabel field if non-nil, zero value otherwise.
+
+### GetStatusLabelOk
+
+`func (o *ReceivedDocument) GetStatusLabelOk() (*string, bool)`
+
+GetStatusLabelOk returns a tuple with the StatusLabel field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatusLabel
+
+`func (o *ReceivedDocument) SetStatusLabel(v string)`
+
+SetStatusLabel sets StatusLabel field to given value.
+
+### HasStatusLabel
+
+`func (o *ReceivedDocument) HasStatusLabel() bool`
+
+HasStatusLabel returns a boolean if a field has been set.
+
 ### GetIssueDate
 
 `func (o *ReceivedDocument) GetIssueDate() time.Time`
@@ -233,6 +262,101 @@ SetReceivedAt sets ReceivedAt field to given value.
 
 HasReceivedAt returns a boolean if a field has been set.
 
+### GetCreatedAt
+
+`func (o *ReceivedDocument) GetCreatedAt() time.Time`
+
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+
+### GetCreatedAtOk
+
+`func (o *ReceivedDocument) GetCreatedAtOk() (*time.Time, bool)`
+
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreatedAt
+
+`func (o *ReceivedDocument) SetCreatedAt(v time.Time)`
+
+SetCreatedAt sets CreatedAt field to given value.
+
+### HasCreatedAt
+
+`func (o *ReceivedDocument) HasCreatedAt() bool`
+
+HasCreatedAt returns a boolean if a field has been set.
+
+### GetCommercialApprovalStatus
+
+`func (o *ReceivedDocument) GetCommercialApprovalStatus() string`
+
+GetCommercialApprovalStatus returns the CommercialApprovalStatus field if non-nil, zero value otherwise.
+
+### GetCommercialApprovalStatusOk
+
+`func (o *ReceivedDocument) GetCommercialApprovalStatusOk() (*string, bool)`
+
+GetCommercialApprovalStatusOk returns a tuple with the CommercialApprovalStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCommercialApprovalStatus
+
+`func (o *ReceivedDocument) SetCommercialApprovalStatus(v string)`
+
+SetCommercialApprovalStatus sets CommercialApprovalStatus field to given value.
+
+### HasCommercialApprovalStatus
+
+`func (o *ReceivedDocument) HasCommercialApprovalStatus() bool`
+
+HasCommercialApprovalStatus returns a boolean if a field has been set.
+
+### SetCommercialApprovalStatusNil
+
+`func (o *ReceivedDocument) SetCommercialApprovalStatusNil(b bool)`
+
+ SetCommercialApprovalStatusNil sets the value for CommercialApprovalStatus to be an explicit nil
+
+### UnsetCommercialApprovalStatus
+`func (o *ReceivedDocument) UnsetCommercialApprovalStatus()`
+
+UnsetCommercialApprovalStatus ensures that no value is present for CommercialApprovalStatus, not even an explicit nil
+### GetCommercialApprovalRejectionReason
+
+`func (o *ReceivedDocument) GetCommercialApprovalRejectionReason() string`
+
+GetCommercialApprovalRejectionReason returns the CommercialApprovalRejectionReason field if non-nil, zero value otherwise.
+
+### GetCommercialApprovalRejectionReasonOk
+
+`func (o *ReceivedDocument) GetCommercialApprovalRejectionReasonOk() (*string, bool)`
+
+GetCommercialApprovalRejectionReasonOk returns a tuple with the CommercialApprovalRejectionReason field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCommercialApprovalRejectionReason
+
+`func (o *ReceivedDocument) SetCommercialApprovalRejectionReason(v string)`
+
+SetCommercialApprovalRejectionReason sets CommercialApprovalRejectionReason field to given value.
+
+### HasCommercialApprovalRejectionReason
+
+`func (o *ReceivedDocument) HasCommercialApprovalRejectionReason() bool`
+
+HasCommercialApprovalRejectionReason returns a boolean if a field has been set.
+
+### SetCommercialApprovalRejectionReasonNil
+
+`func (o *ReceivedDocument) SetCommercialApprovalRejectionReasonNil(b bool)`
+
+ SetCommercialApprovalRejectionReasonNil sets the value for CommercialApprovalRejectionReason to be an explicit nil
+
+### UnsetCommercialApprovalRejectionReason
+`func (o *ReceivedDocument) UnsetCommercialApprovalRejectionReason()`
+
+UnsetCommercialApprovalRejectionReason ensures that no value is present for CommercialApprovalRejectionReason, not even an explicit nil
 ### GetBusiness
 
 `func (o *ReceivedDocument) GetBusiness() SentDocumentSummaryBusiness`

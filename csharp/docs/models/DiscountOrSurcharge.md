@@ -5,9 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **LineNumber** | **int** |  | 
-**Type** | **string** |  | 
+**Type** | **string** | D&#x3D;Discount, R&#x3D;Surcharge | 
 **ValueType** | **string** |  | 
 **Amount** | **decimal** |  | 
+**Norm1007Indicator** | **string** |  | [optional] 
 **Description** | **string** |  | [optional] 
 **PercentageValue** | **decimal** |  | [optional] 
 **AlternativeCurrencyAmount** | **decimal** |  | [optional] 

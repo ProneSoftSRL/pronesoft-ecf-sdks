@@ -4,62 +4,27 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**CreateWebhook**](WebhookConfigurationApi.md#createwebhook) | **POST** /{rnc}/webhooks | Register new webhook |
-| [**DeleteWebhook**](WebhookConfigurationApi.md#deletewebhook) | **DELETE** /{rnc}/webhooks/{webhookId} | Delete webhook configuration |
-| [**ListWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | List all webhook configurations |
+| [**GetWebhook**](WebhookConfigurationApi.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook |
+| [**GetWebhookStats**](WebhookConfigurationApi.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook |
+| [**ListWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks |
 
-<a id="createwebhook"></a>
-# **CreateWebhook**
-> WebhookConfigResponse CreateWebhook (string rnc, CreateWebhookConfig createWebhookConfig)
+<a id="getwebhook"></a>
+# **GetWebhook**
+> WebhookConfigDetail GetWebhook (string rnc, string webhookId)
 
-Register new webhook
-
-
-### Parameters
-
-| Name | Type | Description | Notes |
-|------|------|-------------|-------|
-| **rnc** | **string** |  |  |
-| **createWebhookConfig** | [**CreateWebhookConfig**](CreateWebhookConfig.md) |  |  |
-
-### Return type
-
-[**WebhookConfigResponse**](WebhookConfigResponse.md)
-
-### Authorization
-
-[oauth2](../README.md#oauth2)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **201** | Webhook registered |  -  |
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
-
-<a id="deletewebhook"></a>
-# **DeleteWebhook**
-> void DeleteWebhook (string rnc, string webhookId)
-
-Delete webhook configuration
+Detalle de un webhook
 
 
 ### Parameters
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** |  |  |
+| **rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
 | **webhookId** | **string** |  |  |
 
 ### Return type
 
-void (empty response body)
+[**WebhookConfigDetail**](WebhookConfigDetail.md)
 
 ### Authorization
 
@@ -68,13 +33,51 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook deleted |  -  |
+| **200** | Detalle del webhook |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+<a id="getwebhookstats"></a>
+# **GetWebhookStats**
+> WebhookStats GetWebhookStats (string rnc, string webhookId, string period = null)
+
+Estadísticas de entregas del webhook
+
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
+| **webhookId** | **string** |  |  |
+| **period** | **string** |  | [optional] [default to month] |
+
+### Return type
+
+[**WebhookStats**](WebhookStats.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Estadísticas de entregas del webhook |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
@@ -82,14 +85,16 @@ void (empty response body)
 # **ListWebhooks**
 > List&lt;WebhookConfigResponse&gt; ListWebhooks (string rnc)
 
-List all webhook configurations
+Listar configuraciones de webhooks
+
+Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 
 
 ### Parameters
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** |  |  |
+| **rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
 
 ### Return type
 
@@ -108,7 +113,8 @@ List all webhook configurations
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List of webhooks |  -  |
+| **200** | Lista de configuraciones de webhooks |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

@@ -1,8 +1,8 @@
 lazy val root = (project in file(".")).
   settings(
-    organization := "com.pronesoft",
-    name := "ecf-sdk",
-    version := "0.0.3",
+    organization := "org.openapitools",
+    name := "openapi-java-client",
+    version := "1.2.0",
     scalaVersion := "2.11.12",
     scalacOptions ++= Seq("-feature"),
     compile / javacOptions ++= Seq("-Xlint:deprecation"),

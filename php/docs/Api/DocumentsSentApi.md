@@ -6,19 +6,22 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**downloadDocument()**](DocumentsSentApi.md#downloadDocument) | **GET** /documents/download | Download document XML |
-| [**getDocument()**](DocumentsSentApi.md#getDocument) | **GET** /documents/{id} | Get document details |
-| [**getDocumentStats()**](DocumentsSentApi.md#getDocumentStats) | **GET** /documents/stats/summary | Get document statistics |
-| [**listSentDocuments()**](DocumentsSentApi.md#listSentDocuments) | **GET** /documents/sent | List sent documents |
+| [**downloadSentDocumentXml()**](DocumentsSentApi.md#downloadSentDocumentXml) | **GET** /documents/download | Descargar XML del documento |
+| [**getSentDocumentById()**](DocumentsSentApi.md#getSentDocumentById) | **GET** /documents/{id} | Obtener detalle del documento |
+| [**getSentDocumentLogs()**](DocumentsSentApi.md#getSentDocumentLogs) | **GET** /documents/logs/{id} | Logs de procesamiento del documento |
+| [**getSentDocumentStats()**](DocumentsSentApi.md#getSentDocumentStats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados |
+| [**getSentDocumentStatsByEnvironment()**](DocumentsSentApi.md#getSentDocumentStatsByEnvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado |
+| [**getSentDocumentStatusOptions()**](DocumentsSentApi.md#getSentDocumentStatusOptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles |
+| [**listSentDocuments()**](DocumentsSentApi.md#listSentDocuments) | **GET** /documents/sent | Listar documentos enviados |
 
 
-## `downloadDocument()`
+## `downloadSentDocumentXml()`
 
 ```php
-downloadDocument($file_url): string
+downloadSentDocumentXml($id, $file_url, $inline): string
 ```
 
-Download document XML
+Descargar XML del documento
 
 ### Example
 
@@ -30,9 +33,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -40,13 +40,15 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     new GuzzleHttp\Client(),
     $config
 );
+$id = 'id_example'; // string | ID interno del documento
 $file_url = 'file_url_example'; // string
+$inline = 'inline_example'; // string | true para ver en el navegador, false para descargar
 
 try {
-    $result = $apiInstance->downloadDocument($file_url);
+    $result = $apiInstance->downloadSentDocumentXml($id, $file_url, $inline);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling DocumentsSentApi->downloadDocument: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling DocumentsSentApi->downloadSentDocumentXml: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -54,7 +56,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **file_url** | **string**|  | |
+| **id** | **string**| ID interno del documento | [optional] |
+| **file_url** | **string**|  | [optional] |
+| **inline** | **string**| true para ver en el navegador, false para descargar | [optional] |
 
 ### Return type
 
@@ -62,7 +66,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -73,13 +77,13 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `getDocument()`
+## `getSentDocumentById()`
 
 ```php
-getDocument($id, $x_tenant_id): \PronesoftEcf\Model\SentDocumentDetail
+getSentDocumentById($id, $x_tenant_id): \PronesoftEcf\Model\SentDocumentDetail
 ```
 
-Get document details
+Obtener detalle del documento
 
 ### Example
 
@@ -89,9 +93,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -102,13 +103,13 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     $config
 );
 $id = 'id_example'; // string
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
 
 try {
-    $result = $apiInstance->getDocument($id, $x_tenant_id);
+    $result = $apiInstance->getSentDocumentById($id, $x_tenant_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling DocumentsSentApi->getDocument: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling DocumentsSentApi->getSentDocumentById: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -117,7 +118,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
-| **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
 
 ### Return type
 
@@ -125,7 +126,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -136,13 +137,13 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
-## `getDocumentStats()`
+## `getSentDocumentLogs()`
 
 ```php
-getDocumentStats($x_tenant_id, $period): \PronesoftEcf\Model\DocumentStatsResponse
+getSentDocumentLogs($id, $x_tenant_id): \PronesoftEcf\Model\GetSentDocumentLogs200ResponseInner[]
 ```
 
-Get document statistics
+Logs de procesamiento del documento
 
 ### Example
 
@@ -154,7 +155,64 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
+
+$apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$id = 'id_example'; // string
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+
+try {
+    $result = $apiInstance->getSentDocumentLogs($id, $x_tenant_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DocumentsSentApi->getSentDocumentLogs: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **string**|  | |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+
+### Return type
+
+[**\PronesoftEcf\Model\GetSentDocumentLogs200ResponseInner[]**](../Model/GetSentDocumentLogs200ResponseInner.md)
+
+### Authorization
+
+[oauth2](../../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getSentDocumentStats()`
+
+```php
+getSentDocumentStats($x_tenant_id): \PronesoftEcf\Model\DocumentStatsResponse
+```
+
+Estadísticas de documentos enviados
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -164,14 +222,13 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     new GuzzleHttp\Client(),
     $config
 );
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
-$period = '30d'; // string
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
 
 try {
-    $result = $apiInstance->getDocumentStats($x_tenant_id, $period);
+    $result = $apiInstance->getSentDocumentStats($x_tenant_id);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling DocumentsSentApi->getDocumentStats: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling DocumentsSentApi->getSentDocumentStats: ', $e->getMessage(), PHP_EOL;
 }
 ```
 
@@ -179,8 +236,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
-| **period** | **string**|  | [optional] [default to &#39;30d&#39;] |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
 
 ### Return type
 
@@ -188,7 +244,120 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getSentDocumentStatsByEnvironment()`
+
+```php
+getSentDocumentStatsByEnvironment($x_tenant_id): array<string,object>
+```
+
+Estadísticas agrupadas por ambiente y estado
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+
+try {
+    $result = $apiInstance->getSentDocumentStatsByEnvironment($x_tenant_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DocumentsSentApi->getSentDocumentStatsByEnvironment: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+
+### Return type
+
+**array<string,object>**
+
+### Authorization
+
+[oauth2](../../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getSentDocumentStatusOptions()`
+
+```php
+getSentDocumentStatusOptions(): \PronesoftEcf\Model\GetSentDocumentStatusOptions200ResponseInner[]
+```
+
+Opciones de filtro de estado disponibles
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+
+try {
+    $result = $apiInstance->getSentDocumentStatusOptions();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DocumentsSentApi->getSentDocumentStatusOptions: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**\PronesoftEcf\Model\GetSentDocumentStatusOptions200ResponseInner[]**](../Model/GetSentDocumentStatusOptions200ResponseInner.md)
+
+### Authorization
+
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -205,7 +374,7 @@ try {
 listSentDocuments($x_tenant_id, $env, $ecf, $type, $status, $date_from, $date_to, $page, $limit): \PronesoftEcf\Model\SentDocumentListResponse
 ```
 
-List sent documents
+Listar documentos enviados
 
 ### Example
 
@@ -217,9 +386,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -227,7 +393,7 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     new GuzzleHttp\Client(),
     $config
 );
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
 $env = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 $ecf = 'ecf_example'; // string
 $type = 'type_example'; // string
@@ -249,7 +415,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **x_tenant_id** | **string**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. | [optional] |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
 | **env** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | [optional] |
 | **ecf** | **string**|  | [optional] |
 | **type** | **string**|  | [optional] |
@@ -265,7 +431,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 

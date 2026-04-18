@@ -6,12 +6,12 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createAssociatedCompany()**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create associated company / branch |
-| [**deleteAssociatedCompany()**](AssociatedCompaniesApi.md#deleteAssociatedCompany) | **DELETE** /associated-companies/{companyId} | Delete associated company |
-| [**getCompanyDocumentMetrics()**](AssociatedCompaniesApi.md#getCompanyDocumentMetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics |
-| [**getCompanyMetrics()**](AssociatedCompaniesApi.md#getCompanyMetrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics |
-| [**listAssociatedCompanies()**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated companies / branches |
-| [**updateAssociatedCompany()**](AssociatedCompaniesApi.md#updateAssociatedCompany) | **PUT** /associated-companies/{companyId} | Update associated company |
+| [**createAssociatedCompany()**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Crear empresa asociada / sucursal |
+| [**deleteAssociatedCompany()**](AssociatedCompaniesApi.md#deleteAssociatedCompany) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada |
+| [**getCompanyDocumentMetrics()**](AssociatedCompaniesApi.md#getCompanyDocumentMetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa |
+| [**getCompanyMetrics()**](AssociatedCompaniesApi.md#getCompanyMetrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa |
+| [**listAssociatedCompanies()**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar empresas asociadas / sucursales |
+| [**updateAssociatedCompany()**](AssociatedCompaniesApi.md#updateAssociatedCompany) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada |
 
 
 ## `createAssociatedCompany()`
@@ -20,7 +20,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 createAssociatedCompany($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $logo): \PronesoftEcf\Model\CreateAssociatedCompany201Response
 ```
 
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Example
 
@@ -30,9 +30,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -94,7 +91,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -111,9 +108,9 @@ try {
 deleteAssociatedCompany($company_id): \PronesoftEcf\Model\DeleteAssociatedCompany200Response
 ```
 
-Delete associated company
+Eliminar empresa asociada
 
-Permanently deletes an associated company. This action is irreversible.
+Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 
 ### Example
 
@@ -123,9 +120,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -157,7 +151,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -174,7 +168,7 @@ try {
 getCompanyDocumentMetrics($company_id): \PronesoftEcf\Model\CompanyDocumentMetrics
 ```
 
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Example
 
@@ -184,9 +178,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -218,7 +209,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -235,7 +226,7 @@ try {
 getCompanyMetrics($company_id): \PronesoftEcf\Model\CompanyMetrics
 ```
 
-Get company metrics
+Métricas de la empresa
 
 ### Example
 
@@ -245,9 +236,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -279,7 +267,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -296,7 +284,7 @@ try {
 listAssociatedCompanies($page, $limit): \PronesoftEcf\Model\AssociatedCompany[]
 ```
 
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Example
 
@@ -306,9 +294,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -342,7 +327,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -359,7 +344,7 @@ try {
 updateAssociatedCompany($company_id, $name, $phone, $website, $city, $country, $logo): \PronesoftEcf\Model\CreateAssociatedCompany201Response
 ```
 
-Update associated company
+Actualizar empresa asociada
 
 ### Example
 
@@ -369,9 +354,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -415,7 +397,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 

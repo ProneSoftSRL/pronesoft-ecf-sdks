@@ -13,7 +13,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { CompanyMetricsDocumentsStatus } from '@pronesoft-rd/ecf-sdk'
+import type { CompanyMetricsDocumentsStatus } from ''
 
 // TODO: Update the object below with actual values
 const example = {

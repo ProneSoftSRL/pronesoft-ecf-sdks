@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Number** | **int** |  | 
-**Amount** | **decimal** |  | 
+**Number** | **int** |  | [optional] 
 **Description** | **string** |  | [optional] 
+**Order** | **int** |  | [optional] 
 **TaxableAmount** | **decimal** |  | [optional] 
 **TaxableAmount1** | **decimal** |  | [optional] 
 **TaxableAmount2** | **decimal** |  | [optional] 
@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **Itbis3** | **decimal** |  | [optional] 
 **AdditionalTaxes** | **decimal** |  | [optional] 
 **ExemptAmount** | **decimal** |  | [optional] 
+**Amount** | **decimal** |  | [optional] 
 **Lines** | **int** |  | [optional] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)

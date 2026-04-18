@@ -4,23 +4,22 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
+[**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
 
 
 # **upload_certificate**
 > UploadCertificateResponse upload_certificate(rnc, file, password)
 
-Upload digital certificate (P12/PFX)
+Subir certificado digital (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company.
-Stored encrypted with AES-256-CBC. No download endpoint exists.
-Sandbox tip: SBX-prefixed RNCs do not require a certificate.
+Sube el certificado de firma digital emitido por DGII para una empresa.
+Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga.
+Tip Sandbox: Los RNC con prefijo SBX no requieren certificado.
 
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -41,21 +40,16 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.DigitalCertificatesApi(api_client)
-    rnc = '133190907' # str | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-    file = None # bytes | Certificate file in .p12 or .pfx format.
-    password = 'password_example' # str | Password to unlock the certificate.
+    rnc = '133190907' # str | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+    file = None # bytes | Archivo del certificado en formato .p12 o .pfx.
+    password = 'password_example' # str | Contraseña para desbloquear el certificado.
 
     try:
-        # Upload digital certificate (P12/PFX)
+        # Subir certificado digital (P12/PFX)
         api_response = api_instance.upload_certificate(rnc, file, password)
         print("The response of DigitalCertificatesApi->upload_certificate:\n")
         pprint(api_response)
@@ -70,9 +64,9 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **str**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
- **file** | **bytes**| Certificate file in .p12 or .pfx format. | 
- **password** | **str**| Password to unlock the certificate. | 
+ **rnc** | **str**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
+ **file** | **bytes**| Archivo del certificado en formato .p12 o .pfx. | 
+ **password** | **str**| Contraseña para desbloquear el certificado. | 
 
 ### Return type
 
@@ -80,7 +74,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -91,11 +85,11 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Certificate uploaded successfully |  -  |
-**400** | Validation error (400). Check the message field for details. |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**201** | Certificado subido exitosamente |  -  |
+**400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 **403** | The token does not have the required scope. |  -  |
-**404** | Company RNC not found in the system. |  -  |
+**404** | RNC de la empresa no encontrado en el sistema. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

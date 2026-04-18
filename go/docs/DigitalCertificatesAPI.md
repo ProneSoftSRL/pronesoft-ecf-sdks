@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**UploadCertificate**](DigitalCertificatesAPI.md#UploadCertificate) | **Post** /{rnc}/certificates | Upload digital certificate (P12/PFX)
+[**UploadCertificate**](DigitalCertificatesAPI.md#UploadCertificate) | **Post** /{rnc}/certificates | Subir certificado digital (P12/PFX)
 
 
 
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 > UploadCertificateResponse UploadCertificate(ctx, rnc).File(file).Password(password).Execute()
 
-Upload digital certificate (P12/PFX)
+Subir certificado digital (P12/PFX)
 
 
 
@@ -25,13 +25,13 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
-	rnc := "133190907" // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-	file := os.NewFile(1234, "some_file") // *os.File | Certificate file in .p12 or .pfx format.
-	password := "password_example" // string | Password to unlock the certificate.
+	rnc := "133190907" // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+	file := os.NewFile(1234, "some_file") // *os.File | Archivo del certificado en formato .p12 o .pfx.
+	password := "password_example" // string | Contraseña para desbloquear el certificado.
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+**rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
 
 ### Other Parameters
 
@@ -61,8 +61,8 @@ Other parameters are passed through a pointer to a apiUploadCertificateRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **file** | ***os.File** | Certificate file in .p12 or .pfx format. | 
- **password** | **string** | Password to unlock the certificate. | 
+ **file** | ***os.File** | Archivo del certificado en formato .p12 o .pfx. | 
+ **password** | **string** | Contraseña para desbloquear el certificado. | 
 
 ### Return type
 
@@ -70,7 +70,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

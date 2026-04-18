@@ -4,26 +4,26 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getWebhook**](WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
-| [**getWebhookStats**](WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
-| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
+| [**getWebhook**](WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook |
+| [**getWebhookStats**](WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook |
+| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks |
 
 
 <a id="getWebhook"></a>
 # **getWebhook**
 > WebhookConfigDetail getWebhook(rnc, webhookId)
 
-Get webhook details
+Detalle de un webhook
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.WebhookConfigurationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -34,12 +34,8 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
-
     WebhookConfigurationApi apiInstance = new WebhookConfigurationApi(defaultClient);
-    String rnc = "133190907"; // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    String rnc = "133190907"; // String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
     String webhookId = "webhookId_example"; // String | 
     try {
       WebhookConfigDetail result = apiInstance.getWebhook(rnc, webhookId);
@@ -59,7 +55,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | **String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **String**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 | **webhookId** | **String**|  | |
 
 ### Return type
@@ -68,7 +64,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -78,24 +74,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook details |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Detalle del webhook |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="getWebhookStats"></a>
 # **getWebhookStats**
 > WebhookStats getWebhookStats(rnc, webhookId, period)
 
-Get webhook delivery statistics
+Estadísticas de entregas del webhook
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.WebhookConfigurationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -106,12 +102,8 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
-
     WebhookConfigurationApi apiInstance = new WebhookConfigurationApi(defaultClient);
-    String rnc = "133190907"; // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    String rnc = "133190907"; // String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
     String webhookId = "webhookId_example"; // String | 
     String period = "today"; // String | 
     try {
@@ -132,7 +124,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | **String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **String**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 | **webhookId** | **String**|  | |
 | **period** | **String**|  | [optional] [default to month] [enum: today, week, month, all] |
 
@@ -142,7 +134,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -152,26 +144,26 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook delivery statistics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estadísticas de entregas del webhook |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="listWebhooks"></a>
 # **listWebhooks**
 > List&lt;WebhookConfigResponse&gt; listWebhooks(rnc)
 
-List webhook configurations
+Listar configuraciones de webhooks
 
-Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.WebhookConfigurationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -182,12 +174,8 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
-
     WebhookConfigurationApi apiInstance = new WebhookConfigurationApi(defaultClient);
-    String rnc = "133190907"; // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    String rnc = "133190907"; // String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
     try {
       List<WebhookConfigResponse> result = apiInstance.listWebhooks(rnc);
       System.out.println(result);
@@ -206,7 +194,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **rnc** | **String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **String**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 
 ### Return type
 
@@ -214,7 +202,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -224,6 +212,6 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List of webhook configurations |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de configuraciones de webhooks |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 

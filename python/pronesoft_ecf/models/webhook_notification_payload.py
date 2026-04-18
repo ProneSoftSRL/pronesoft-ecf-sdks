@@ -3,7 +3,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -22,19 +22,20 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
 from pronesoft_ecf.models.webhook_event_type import WebhookEventType
+from pronesoft_ecf.models.webhook_notification_payload_data import WebhookNotificationPayloadData
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class WebhookNotificationPayload(BaseModel):
     """
-    Payload sent to your webhook URL when an event occurs. Validate using header X-Webhook-Signature: sha256=<hmac>. Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp. 
+    Envelope enviado a tu URL de webhook cuando ocurre un evento. Valida la autenticidad con el header `X-Webhook-Signature: sha256=<hmac>`. Headers adicionales: `X-Webhook-Event`, `X-Webhook-ID`, `X-Webhook-Timestamp`. 
     """ # noqa: E501
-    id: StrictStr = Field(description="Unique notification ID (evt_xxx format). Use for deduplication.")
+    id: StrictStr = Field(description="ID único de la notificación. Úsalo para deduplicar entregas.")
     event: WebhookEventType
-    timestamp: datetime
-    business_rnc: StrictStr = Field(alias="businessRnc")
-    data: Dict[str, Any]
+    timestamp: datetime = Field(description="Fecha y hora del evento en ISO 8601.")
+    business_rnc: StrictStr = Field(description="RNC de la empresa que generó el evento.", alias="businessRnc")
+    data: WebhookNotificationPayloadData
     __properties: ClassVar[List[str]] = ["id", "event", "timestamp", "businessRnc", "data"]
 
     model_config = ConfigDict(
@@ -76,6 +77,9 @@ class WebhookNotificationPayload(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of data
+        if self.data:
+            _dict['data'] = self.data.to_dict()
         return _dict
 
     @classmethod
@@ -92,7 +96,7 @@ class WebhookNotificationPayload(BaseModel):
             "event": obj.get("event"),
             "timestamp": obj.get("timestamp"),
             "businessRnc": obj.get("businessRnc"),
-            "data": obj.get("data")
+            "data": WebhookNotificationPayloadData.from_dict(obj["data"]) if obj.get("data") is not None else None
         })
         return _obj
 

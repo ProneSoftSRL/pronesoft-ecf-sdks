@@ -9,11 +9,13 @@
 
 * `APPROVED` (value: `"APPROVED"`)
 
+* `CONDITIONALLY_APPROVED` (value: `"CONDITIONALLY_APPROVED"`)
+
 * `REJECTED` (value: `"REJECTED"`)
 
 * `ERROR` (value: `"ERROR"`)
 
-* `CONTINGENCY` (value: `"CONTINGENCY"`)
+* `ERROR_COMUNICATION` (value: `"ERROR_COMUNICATION"`)
 
 
 

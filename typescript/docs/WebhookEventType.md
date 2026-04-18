@@ -10,7 +10,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { WebhookEventType } from '@pronesoft-rd/ecf-sdk'
+import type { WebhookEventType } from ''
 
 // TODO: Update the object below with actual values
 const example = {

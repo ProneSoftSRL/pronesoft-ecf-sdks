@@ -4,24 +4,29 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**TrackingId** | Pointer to **string** |  | [optional] 
-**Estado** | Pointer to **string** |  | [optional] 
-**TrackId** | Pointer to **string** |  | [optional] 
-**NumeroControl** | Pointer to **string** |  | [optional] 
-**Status** | Pointer to [**DocumentStatus**](DocumentStatus.md) |  | [optional] 
-**Encf** | Pointer to **string** |  | [optional] 
-**BusinessRnc** | Pointer to **string** |  | [optional] 
-**Environment** | Pointer to [**Environment**](Environment.md) |  | [optional] 
-**ReceivedAt** | Pointer to **time.Time** |  | [optional] 
-**Mensajes** | Pointer to [**[]DgiiMessage**](DgiiMessage.md) |  | [optional] 
-**Logs** | Pointer to [**[]ProcessingLog**](ProcessingLog.md) |  | [optional] 
-**Source** | Pointer to **string** |  | [optional] 
+**Id** | **string** | ID interno del documento. | 
+**StampDate** | Pointer to **NullableString** | Fecha de emisión del documento (YYYY-MM-DD). | [optional] 
+**Status** | **string** | Estado del proceso de envío a DGII. | 
+**LegalStatus** | Pointer to **NullableString** | Estado fiscal según la respuesta de DGII. null mientras no hay respuesta. | [optional] 
+**CompanyIdentification** | [**EcfSubmitResponseCompanyIdentification**](EcfSubmitResponseCompanyIdentification.md) |  | 
+**TrackId** | Pointer to **NullableString** | ID de seguimiento asignado por DGII. | [optional] 
+**DocumentNumber** | Pointer to **NullableString** | Número de control electrónico (e-NCF). | [optional] 
+**Encf** | Pointer to **NullableString** | Número e-NCF del documento. | [optional] 
+**ContingencyMode** | Pointer to **bool** | true si fue emitido en modo contingencia. | [optional] 
+**ContingencyMessage** | Pointer to **string** | Mensaje oficial DGII cuando contingencyMode es true. | [optional] 
+**DocumentStampUrl** | Pointer to **NullableString** | URL del código QR del documento. | [optional] 
+**Pdf** | Pointer to **NullableString** | URL pre-firmada del PDF (expira en 1 hora). | [optional] 
+**XmlUrl** | Pointer to **NullableString** | URL pre-firmada del XML firmado (expira en 1 hora). | [optional] 
+**SignatureDate** | Pointer to **NullableTime** | Fecha y hora de la firma digital. | [optional] 
+**SecurityCode** | Pointer to **NullableString** | Código de seguridad del documento. | [optional] 
+**SequenceConsumed** | **bool** | true si DGII confirmó el consumo de la secuencia. | 
+**GovernmentResponse** | Pointer to **map[string]interface{}** | Respuesta completa de DGII (disponible cuando status es FINISHED). | [optional] 
 
 ## Methods
 
 ### NewEcfStatusResponse
 
-`func NewEcfStatusResponse() *EcfStatusResponse`
+`func NewEcfStatusResponse(id string, status string, companyIdentification EcfSubmitResponseCompanyIdentification, sequenceConsumed bool, ) *EcfStatusResponse`
 
 NewEcfStatusResponse instantiates a new EcfStatusResponse object
 This constructor will assign default values to properties that have it defined,
@@ -36,55 +41,135 @@ NewEcfStatusResponseWithDefaults instantiates a new EcfStatusResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetTrackingId
+### GetId
 
-`func (o *EcfStatusResponse) GetTrackingId() string`
+`func (o *EcfStatusResponse) GetId() string`
 
-GetTrackingId returns the TrackingId field if non-nil, zero value otherwise.
+GetId returns the Id field if non-nil, zero value otherwise.
 
-### GetTrackingIdOk
+### GetIdOk
 
-`func (o *EcfStatusResponse) GetTrackingIdOk() (*string, bool)`
+`func (o *EcfStatusResponse) GetIdOk() (*string, bool)`
 
-GetTrackingIdOk returns a tuple with the TrackingId field if it's non-nil, zero value otherwise
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTrackingId
+### SetId
 
-`func (o *EcfStatusResponse) SetTrackingId(v string)`
+`func (o *EcfStatusResponse) SetId(v string)`
 
-SetTrackingId sets TrackingId field to given value.
+SetId sets Id field to given value.
 
-### HasTrackingId
 
-`func (o *EcfStatusResponse) HasTrackingId() bool`
+### GetStampDate
 
-HasTrackingId returns a boolean if a field has been set.
+`func (o *EcfStatusResponse) GetStampDate() string`
 
-### GetEstado
+GetStampDate returns the StampDate field if non-nil, zero value otherwise.
 
-`func (o *EcfStatusResponse) GetEstado() string`
+### GetStampDateOk
 
-GetEstado returns the Estado field if non-nil, zero value otherwise.
+`func (o *EcfStatusResponse) GetStampDateOk() (*string, bool)`
 
-### GetEstadoOk
-
-`func (o *EcfStatusResponse) GetEstadoOk() (*string, bool)`
-
-GetEstadoOk returns a tuple with the Estado field if it's non-nil, zero value otherwise
+GetStampDateOk returns a tuple with the StampDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEstado
+### SetStampDate
 
-`func (o *EcfStatusResponse) SetEstado(v string)`
+`func (o *EcfStatusResponse) SetStampDate(v string)`
 
-SetEstado sets Estado field to given value.
+SetStampDate sets StampDate field to given value.
 
-### HasEstado
+### HasStampDate
 
-`func (o *EcfStatusResponse) HasEstado() bool`
+`func (o *EcfStatusResponse) HasStampDate() bool`
 
-HasEstado returns a boolean if a field has been set.
+HasStampDate returns a boolean if a field has been set.
+
+### SetStampDateNil
+
+`func (o *EcfStatusResponse) SetStampDateNil(b bool)`
+
+ SetStampDateNil sets the value for StampDate to be an explicit nil
+
+### UnsetStampDate
+`func (o *EcfStatusResponse) UnsetStampDate()`
+
+UnsetStampDate ensures that no value is present for StampDate, not even an explicit nil
+### GetStatus
+
+`func (o *EcfStatusResponse) GetStatus() string`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *EcfStatusResponse) GetStatusOk() (*string, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *EcfStatusResponse) SetStatus(v string)`
+
+SetStatus sets Status field to given value.
+
+
+### GetLegalStatus
+
+`func (o *EcfStatusResponse) GetLegalStatus() string`
+
+GetLegalStatus returns the LegalStatus field if non-nil, zero value otherwise.
+
+### GetLegalStatusOk
+
+`func (o *EcfStatusResponse) GetLegalStatusOk() (*string, bool)`
+
+GetLegalStatusOk returns a tuple with the LegalStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLegalStatus
+
+`func (o *EcfStatusResponse) SetLegalStatus(v string)`
+
+SetLegalStatus sets LegalStatus field to given value.
+
+### HasLegalStatus
+
+`func (o *EcfStatusResponse) HasLegalStatus() bool`
+
+HasLegalStatus returns a boolean if a field has been set.
+
+### SetLegalStatusNil
+
+`func (o *EcfStatusResponse) SetLegalStatusNil(b bool)`
+
+ SetLegalStatusNil sets the value for LegalStatus to be an explicit nil
+
+### UnsetLegalStatus
+`func (o *EcfStatusResponse) UnsetLegalStatus()`
+
+UnsetLegalStatus ensures that no value is present for LegalStatus, not even an explicit nil
+### GetCompanyIdentification
+
+`func (o *EcfStatusResponse) GetCompanyIdentification() EcfSubmitResponseCompanyIdentification`
+
+GetCompanyIdentification returns the CompanyIdentification field if non-nil, zero value otherwise.
+
+### GetCompanyIdentificationOk
+
+`func (o *EcfStatusResponse) GetCompanyIdentificationOk() (*EcfSubmitResponseCompanyIdentification, bool)`
+
+GetCompanyIdentificationOk returns a tuple with the CompanyIdentification field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCompanyIdentification
+
+`func (o *EcfStatusResponse) SetCompanyIdentification(v EcfSubmitResponseCompanyIdentification)`
+
+SetCompanyIdentification sets CompanyIdentification field to given value.
+
 
 ### GetTrackId
 
@@ -111,56 +196,51 @@ SetTrackId sets TrackId field to given value.
 
 HasTrackId returns a boolean if a field has been set.
 
-### GetNumeroControl
+### SetTrackIdNil
 
-`func (o *EcfStatusResponse) GetNumeroControl() string`
+`func (o *EcfStatusResponse) SetTrackIdNil(b bool)`
 
-GetNumeroControl returns the NumeroControl field if non-nil, zero value otherwise.
+ SetTrackIdNil sets the value for TrackId to be an explicit nil
 
-### GetNumeroControlOk
+### UnsetTrackId
+`func (o *EcfStatusResponse) UnsetTrackId()`
 
-`func (o *EcfStatusResponse) GetNumeroControlOk() (*string, bool)`
+UnsetTrackId ensures that no value is present for TrackId, not even an explicit nil
+### GetDocumentNumber
 
-GetNumeroControlOk returns a tuple with the NumeroControl field if it's non-nil, zero value otherwise
+`func (o *EcfStatusResponse) GetDocumentNumber() string`
+
+GetDocumentNumber returns the DocumentNumber field if non-nil, zero value otherwise.
+
+### GetDocumentNumberOk
+
+`func (o *EcfStatusResponse) GetDocumentNumberOk() (*string, bool)`
+
+GetDocumentNumberOk returns a tuple with the DocumentNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetNumeroControl
+### SetDocumentNumber
 
-`func (o *EcfStatusResponse) SetNumeroControl(v string)`
+`func (o *EcfStatusResponse) SetDocumentNumber(v string)`
 
-SetNumeroControl sets NumeroControl field to given value.
+SetDocumentNumber sets DocumentNumber field to given value.
 
-### HasNumeroControl
+### HasDocumentNumber
 
-`func (o *EcfStatusResponse) HasNumeroControl() bool`
+`func (o *EcfStatusResponse) HasDocumentNumber() bool`
 
-HasNumeroControl returns a boolean if a field has been set.
+HasDocumentNumber returns a boolean if a field has been set.
 
-### GetStatus
+### SetDocumentNumberNil
 
-`func (o *EcfStatusResponse) GetStatus() DocumentStatus`
+`func (o *EcfStatusResponse) SetDocumentNumberNil(b bool)`
 
-GetStatus returns the Status field if non-nil, zero value otherwise.
+ SetDocumentNumberNil sets the value for DocumentNumber to be an explicit nil
 
-### GetStatusOk
+### UnsetDocumentNumber
+`func (o *EcfStatusResponse) UnsetDocumentNumber()`
 
-`func (o *EcfStatusResponse) GetStatusOk() (*DocumentStatus, bool)`
-
-GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetStatus
-
-`func (o *EcfStatusResponse) SetStatus(v DocumentStatus)`
-
-SetStatus sets Status field to given value.
-
-### HasStatus
-
-`func (o *EcfStatusResponse) HasStatus() bool`
-
-HasStatus returns a boolean if a field has been set.
-
+UnsetDocumentNumber ensures that no value is present for DocumentNumber, not even an explicit nil
 ### GetEncf
 
 `func (o *EcfStatusResponse) GetEncf() string`
@@ -186,155 +266,285 @@ SetEncf sets Encf field to given value.
 
 HasEncf returns a boolean if a field has been set.
 
-### GetBusinessRnc
+### SetEncfNil
 
-`func (o *EcfStatusResponse) GetBusinessRnc() string`
+`func (o *EcfStatusResponse) SetEncfNil(b bool)`
 
-GetBusinessRnc returns the BusinessRnc field if non-nil, zero value otherwise.
+ SetEncfNil sets the value for Encf to be an explicit nil
 
-### GetBusinessRncOk
+### UnsetEncf
+`func (o *EcfStatusResponse) UnsetEncf()`
 
-`func (o *EcfStatusResponse) GetBusinessRncOk() (*string, bool)`
+UnsetEncf ensures that no value is present for Encf, not even an explicit nil
+### GetContingencyMode
 
-GetBusinessRncOk returns a tuple with the BusinessRnc field if it's non-nil, zero value otherwise
+`func (o *EcfStatusResponse) GetContingencyMode() bool`
+
+GetContingencyMode returns the ContingencyMode field if non-nil, zero value otherwise.
+
+### GetContingencyModeOk
+
+`func (o *EcfStatusResponse) GetContingencyModeOk() (*bool, bool)`
+
+GetContingencyModeOk returns a tuple with the ContingencyMode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetBusinessRnc
+### SetContingencyMode
 
-`func (o *EcfStatusResponse) SetBusinessRnc(v string)`
+`func (o *EcfStatusResponse) SetContingencyMode(v bool)`
 
-SetBusinessRnc sets BusinessRnc field to given value.
+SetContingencyMode sets ContingencyMode field to given value.
 
-### HasBusinessRnc
+### HasContingencyMode
 
-`func (o *EcfStatusResponse) HasBusinessRnc() bool`
+`func (o *EcfStatusResponse) HasContingencyMode() bool`
 
-HasBusinessRnc returns a boolean if a field has been set.
+HasContingencyMode returns a boolean if a field has been set.
 
-### GetEnvironment
+### GetContingencyMessage
 
-`func (o *EcfStatusResponse) GetEnvironment() Environment`
+`func (o *EcfStatusResponse) GetContingencyMessage() string`
 
-GetEnvironment returns the Environment field if non-nil, zero value otherwise.
+GetContingencyMessage returns the ContingencyMessage field if non-nil, zero value otherwise.
 
-### GetEnvironmentOk
+### GetContingencyMessageOk
 
-`func (o *EcfStatusResponse) GetEnvironmentOk() (*Environment, bool)`
+`func (o *EcfStatusResponse) GetContingencyMessageOk() (*string, bool)`
 
-GetEnvironmentOk returns a tuple with the Environment field if it's non-nil, zero value otherwise
+GetContingencyMessageOk returns a tuple with the ContingencyMessage field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEnvironment
+### SetContingencyMessage
 
-`func (o *EcfStatusResponse) SetEnvironment(v Environment)`
+`func (o *EcfStatusResponse) SetContingencyMessage(v string)`
 
-SetEnvironment sets Environment field to given value.
+SetContingencyMessage sets ContingencyMessage field to given value.
 
-### HasEnvironment
+### HasContingencyMessage
 
-`func (o *EcfStatusResponse) HasEnvironment() bool`
+`func (o *EcfStatusResponse) HasContingencyMessage() bool`
 
-HasEnvironment returns a boolean if a field has been set.
+HasContingencyMessage returns a boolean if a field has been set.
 
-### GetReceivedAt
+### GetDocumentStampUrl
 
-`func (o *EcfStatusResponse) GetReceivedAt() time.Time`
+`func (o *EcfStatusResponse) GetDocumentStampUrl() string`
 
-GetReceivedAt returns the ReceivedAt field if non-nil, zero value otherwise.
+GetDocumentStampUrl returns the DocumentStampUrl field if non-nil, zero value otherwise.
 
-### GetReceivedAtOk
+### GetDocumentStampUrlOk
 
-`func (o *EcfStatusResponse) GetReceivedAtOk() (*time.Time, bool)`
+`func (o *EcfStatusResponse) GetDocumentStampUrlOk() (*string, bool)`
 
-GetReceivedAtOk returns a tuple with the ReceivedAt field if it's non-nil, zero value otherwise
+GetDocumentStampUrlOk returns a tuple with the DocumentStampUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetReceivedAt
+### SetDocumentStampUrl
 
-`func (o *EcfStatusResponse) SetReceivedAt(v time.Time)`
+`func (o *EcfStatusResponse) SetDocumentStampUrl(v string)`
 
-SetReceivedAt sets ReceivedAt field to given value.
+SetDocumentStampUrl sets DocumentStampUrl field to given value.
 
-### HasReceivedAt
+### HasDocumentStampUrl
 
-`func (o *EcfStatusResponse) HasReceivedAt() bool`
+`func (o *EcfStatusResponse) HasDocumentStampUrl() bool`
 
-HasReceivedAt returns a boolean if a field has been set.
+HasDocumentStampUrl returns a boolean if a field has been set.
 
-### GetMensajes
+### SetDocumentStampUrlNil
 
-`func (o *EcfStatusResponse) GetMensajes() []DgiiMessage`
+`func (o *EcfStatusResponse) SetDocumentStampUrlNil(b bool)`
 
-GetMensajes returns the Mensajes field if non-nil, zero value otherwise.
+ SetDocumentStampUrlNil sets the value for DocumentStampUrl to be an explicit nil
 
-### GetMensajesOk
+### UnsetDocumentStampUrl
+`func (o *EcfStatusResponse) UnsetDocumentStampUrl()`
 
-`func (o *EcfStatusResponse) GetMensajesOk() (*[]DgiiMessage, bool)`
+UnsetDocumentStampUrl ensures that no value is present for DocumentStampUrl, not even an explicit nil
+### GetPdf
 
-GetMensajesOk returns a tuple with the Mensajes field if it's non-nil, zero value otherwise
+`func (o *EcfStatusResponse) GetPdf() string`
+
+GetPdf returns the Pdf field if non-nil, zero value otherwise.
+
+### GetPdfOk
+
+`func (o *EcfStatusResponse) GetPdfOk() (*string, bool)`
+
+GetPdfOk returns a tuple with the Pdf field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMensajes
+### SetPdf
 
-`func (o *EcfStatusResponse) SetMensajes(v []DgiiMessage)`
+`func (o *EcfStatusResponse) SetPdf(v string)`
 
-SetMensajes sets Mensajes field to given value.
+SetPdf sets Pdf field to given value.
 
-### HasMensajes
+### HasPdf
 
-`func (o *EcfStatusResponse) HasMensajes() bool`
+`func (o *EcfStatusResponse) HasPdf() bool`
 
-HasMensajes returns a boolean if a field has been set.
+HasPdf returns a boolean if a field has been set.
 
-### GetLogs
+### SetPdfNil
 
-`func (o *EcfStatusResponse) GetLogs() []ProcessingLog`
+`func (o *EcfStatusResponse) SetPdfNil(b bool)`
 
-GetLogs returns the Logs field if non-nil, zero value otherwise.
+ SetPdfNil sets the value for Pdf to be an explicit nil
 
-### GetLogsOk
+### UnsetPdf
+`func (o *EcfStatusResponse) UnsetPdf()`
 
-`func (o *EcfStatusResponse) GetLogsOk() (*[]ProcessingLog, bool)`
+UnsetPdf ensures that no value is present for Pdf, not even an explicit nil
+### GetXmlUrl
 
-GetLogsOk returns a tuple with the Logs field if it's non-nil, zero value otherwise
+`func (o *EcfStatusResponse) GetXmlUrl() string`
+
+GetXmlUrl returns the XmlUrl field if non-nil, zero value otherwise.
+
+### GetXmlUrlOk
+
+`func (o *EcfStatusResponse) GetXmlUrlOk() (*string, bool)`
+
+GetXmlUrlOk returns a tuple with the XmlUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetLogs
+### SetXmlUrl
 
-`func (o *EcfStatusResponse) SetLogs(v []ProcessingLog)`
+`func (o *EcfStatusResponse) SetXmlUrl(v string)`
 
-SetLogs sets Logs field to given value.
+SetXmlUrl sets XmlUrl field to given value.
 
-### HasLogs
+### HasXmlUrl
 
-`func (o *EcfStatusResponse) HasLogs() bool`
+`func (o *EcfStatusResponse) HasXmlUrl() bool`
 
-HasLogs returns a boolean if a field has been set.
+HasXmlUrl returns a boolean if a field has been set.
 
-### GetSource
+### SetXmlUrlNil
 
-`func (o *EcfStatusResponse) GetSource() string`
+`func (o *EcfStatusResponse) SetXmlUrlNil(b bool)`
 
-GetSource returns the Source field if non-nil, zero value otherwise.
+ SetXmlUrlNil sets the value for XmlUrl to be an explicit nil
 
-### GetSourceOk
+### UnsetXmlUrl
+`func (o *EcfStatusResponse) UnsetXmlUrl()`
 
-`func (o *EcfStatusResponse) GetSourceOk() (*string, bool)`
+UnsetXmlUrl ensures that no value is present for XmlUrl, not even an explicit nil
+### GetSignatureDate
 
-GetSourceOk returns a tuple with the Source field if it's non-nil, zero value otherwise
+`func (o *EcfStatusResponse) GetSignatureDate() time.Time`
+
+GetSignatureDate returns the SignatureDate field if non-nil, zero value otherwise.
+
+### GetSignatureDateOk
+
+`func (o *EcfStatusResponse) GetSignatureDateOk() (*time.Time, bool)`
+
+GetSignatureDateOk returns a tuple with the SignatureDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSource
+### SetSignatureDate
 
-`func (o *EcfStatusResponse) SetSource(v string)`
+`func (o *EcfStatusResponse) SetSignatureDate(v time.Time)`
 
-SetSource sets Source field to given value.
+SetSignatureDate sets SignatureDate field to given value.
 
-### HasSource
+### HasSignatureDate
 
-`func (o *EcfStatusResponse) HasSource() bool`
+`func (o *EcfStatusResponse) HasSignatureDate() bool`
 
-HasSource returns a boolean if a field has been set.
+HasSignatureDate returns a boolean if a field has been set.
+
+### SetSignatureDateNil
+
+`func (o *EcfStatusResponse) SetSignatureDateNil(b bool)`
+
+ SetSignatureDateNil sets the value for SignatureDate to be an explicit nil
+
+### UnsetSignatureDate
+`func (o *EcfStatusResponse) UnsetSignatureDate()`
+
+UnsetSignatureDate ensures that no value is present for SignatureDate, not even an explicit nil
+### GetSecurityCode
+
+`func (o *EcfStatusResponse) GetSecurityCode() string`
+
+GetSecurityCode returns the SecurityCode field if non-nil, zero value otherwise.
+
+### GetSecurityCodeOk
+
+`func (o *EcfStatusResponse) GetSecurityCodeOk() (*string, bool)`
+
+GetSecurityCodeOk returns a tuple with the SecurityCode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSecurityCode
+
+`func (o *EcfStatusResponse) SetSecurityCode(v string)`
+
+SetSecurityCode sets SecurityCode field to given value.
+
+### HasSecurityCode
+
+`func (o *EcfStatusResponse) HasSecurityCode() bool`
+
+HasSecurityCode returns a boolean if a field has been set.
+
+### SetSecurityCodeNil
+
+`func (o *EcfStatusResponse) SetSecurityCodeNil(b bool)`
+
+ SetSecurityCodeNil sets the value for SecurityCode to be an explicit nil
+
+### UnsetSecurityCode
+`func (o *EcfStatusResponse) UnsetSecurityCode()`
+
+UnsetSecurityCode ensures that no value is present for SecurityCode, not even an explicit nil
+### GetSequenceConsumed
+
+`func (o *EcfStatusResponse) GetSequenceConsumed() bool`
+
+GetSequenceConsumed returns the SequenceConsumed field if non-nil, zero value otherwise.
+
+### GetSequenceConsumedOk
+
+`func (o *EcfStatusResponse) GetSequenceConsumedOk() (*bool, bool)`
+
+GetSequenceConsumedOk returns a tuple with the SequenceConsumed field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSequenceConsumed
+
+`func (o *EcfStatusResponse) SetSequenceConsumed(v bool)`
+
+SetSequenceConsumed sets SequenceConsumed field to given value.
+
+
+### GetGovernmentResponse
+
+`func (o *EcfStatusResponse) GetGovernmentResponse() map[string]interface{}`
+
+GetGovernmentResponse returns the GovernmentResponse field if non-nil, zero value otherwise.
+
+### GetGovernmentResponseOk
+
+`func (o *EcfStatusResponse) GetGovernmentResponseOk() (*map[string]interface{}, bool)`
+
+GetGovernmentResponseOk returns a tuple with the GovernmentResponse field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetGovernmentResponse
+
+`func (o *EcfStatusResponse) SetGovernmentResponse(v map[string]interface{})`
+
+SetGovernmentResponse sets GovernmentResponse field to given value.
+
+### HasGovernmentResponse
+
+`func (o *EcfStatusResponse) HasGovernmentResponse() bool`
+
+HasGovernmentResponse returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -5,14 +5,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | [optional] 
+**id** | **UUID** |  | [optional] 
 **encf** | **str** |  | [optional] 
-**status** | **int** |  | [optional] 
+**type** | **str** |  | [optional] 
+**issuer_rnc** | **str** |  | [optional] 
+**buyer_rnc** | **str** |  | [optional] 
+**total_amount** | **float** |  | [optional] 
+**approval_status** | **str** |  | [optional] 
+**status** | **int** | 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review | [optional] 
+**status_label** | **str** |  | [optional] 
 **issue_date** | **datetime** |  | [optional] 
-**approval_type** | **str** |  | [optional] 
-**priority** | **str** |  | [optional] 
-**assigned_to** | **str** |  | [optional] 
-**comments** | **str** |  | [optional] 
+**received_at** | **datetime** |  | [optional] 
+**created_at** | **datetime** |  | [optional] 
+**rejection_description** | **str** |  | [optional] 
+**business** | [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  | [optional] 
 
 ## Example
 

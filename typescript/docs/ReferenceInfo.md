@@ -16,7 +16,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ReferenceInfo } from '@pronesoft-rd/ecf-sdk'
+import type { ReferenceInfo } from ''
 
 // TODO: Update the object below with actual values
 const example = {

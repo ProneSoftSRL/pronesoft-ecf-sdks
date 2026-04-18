@@ -13,7 +13,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -60,12 +60,18 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'id' => 'string',
         'encf' => 'string',
+        'type' => 'string',
+        'issuer_rnc' => 'string',
+        'buyer_rnc' => 'string',
+        'total_amount' => 'float',
+        'approval_status' => 'string',
         'status' => 'int',
+        'status_label' => 'string',
         'issue_date' => '\DateTime',
-        'approval_type' => 'string',
-        'priority' => 'string',
-        'assigned_to' => 'string',
-        'comments' => 'string'
+        'received_at' => '\DateTime',
+        'created_at' => '\DateTime',
+        'rejection_description' => 'string',
+        'business' => '\PronesoftEcf\Model\SentDocumentSummaryBusiness'
     ];
 
     /**
@@ -76,14 +82,20 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'id' => null,
+        'id' => 'uuid',
         'encf' => null,
+        'type' => null,
+        'issuer_rnc' => null,
+        'buyer_rnc' => null,
+        'total_amount' => null,
+        'approval_status' => null,
         'status' => null,
+        'status_label' => null,
         'issue_date' => 'date-time',
-        'approval_type' => null,
-        'priority' => null,
-        'assigned_to' => null,
-        'comments' => null
+        'received_at' => 'date-time',
+        'created_at' => 'date-time',
+        'rejection_description' => null,
+        'business' => null
     ];
 
     /**
@@ -94,12 +106,18 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'id' => false,
         'encf' => false,
+        'type' => false,
+        'issuer_rnc' => false,
+        'buyer_rnc' => false,
+        'total_amount' => false,
+        'approval_status' => false,
         'status' => false,
+        'status_label' => false,
         'issue_date' => false,
-        'approval_type' => false,
-        'priority' => false,
-        'assigned_to' => false,
-        'comments' => false
+        'received_at' => false,
+        'created_at' => false,
+        'rejection_description' => true,
+        'business' => false
     ];
 
     /**
@@ -190,12 +208,18 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'id' => 'id',
         'encf' => 'encf',
+        'type' => 'type',
+        'issuer_rnc' => 'issuerRnc',
+        'buyer_rnc' => 'buyerRnc',
+        'total_amount' => 'totalAmount',
+        'approval_status' => 'approvalStatus',
         'status' => 'status',
+        'status_label' => 'statusLabel',
         'issue_date' => 'issueDate',
-        'approval_type' => 'approvalType',
-        'priority' => 'priority',
-        'assigned_to' => 'assignedTo',
-        'comments' => 'comments'
+        'received_at' => 'receivedAt',
+        'created_at' => 'createdAt',
+        'rejection_description' => 'rejectionDescription',
+        'business' => 'business'
     ];
 
     /**
@@ -206,12 +230,18 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'id' => 'setId',
         'encf' => 'setEncf',
+        'type' => 'setType',
+        'issuer_rnc' => 'setIssuerRnc',
+        'buyer_rnc' => 'setBuyerRnc',
+        'total_amount' => 'setTotalAmount',
+        'approval_status' => 'setApprovalStatus',
         'status' => 'setStatus',
+        'status_label' => 'setStatusLabel',
         'issue_date' => 'setIssueDate',
-        'approval_type' => 'setApprovalType',
-        'priority' => 'setPriority',
-        'assigned_to' => 'setAssignedTo',
-        'comments' => 'setComments'
+        'received_at' => 'setReceivedAt',
+        'created_at' => 'setCreatedAt',
+        'rejection_description' => 'setRejectionDescription',
+        'business' => 'setBusiness'
     ];
 
     /**
@@ -222,12 +252,18 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'id' => 'getId',
         'encf' => 'getEncf',
+        'type' => 'getType',
+        'issuer_rnc' => 'getIssuerRnc',
+        'buyer_rnc' => 'getBuyerRnc',
+        'total_amount' => 'getTotalAmount',
+        'approval_status' => 'getApprovalStatus',
         'status' => 'getStatus',
+        'status_label' => 'getStatusLabel',
         'issue_date' => 'getIssueDate',
-        'approval_type' => 'getApprovalType',
-        'priority' => 'getPriority',
-        'assigned_to' => 'getAssignedTo',
-        'comments' => 'getComments'
+        'received_at' => 'getReceivedAt',
+        'created_at' => 'getCreatedAt',
+        'rejection_description' => 'getRejectionDescription',
+        'business' => 'getBusiness'
     ];
 
     /**
@@ -271,6 +307,25 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
+    public const STATUS_NUMBER_1 = 1;
+    public const STATUS_NUMBER_2 = 2;
+    public const STATUS_NUMBER_3 = 3;
+    public const STATUS_NUMBER_4 = 4;
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_NUMBER_1,
+            self::STATUS_NUMBER_2,
+            self::STATUS_NUMBER_3,
+            self::STATUS_NUMBER_4,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -289,12 +344,18 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('encf', $data ?? [], null);
+        $this->setIfExists('type', $data ?? [], null);
+        $this->setIfExists('issuer_rnc', $data ?? [], null);
+        $this->setIfExists('buyer_rnc', $data ?? [], null);
+        $this->setIfExists('total_amount', $data ?? [], null);
+        $this->setIfExists('approval_status', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('status_label', $data ?? [], null);
         $this->setIfExists('issue_date', $data ?? [], null);
-        $this->setIfExists('approval_type', $data ?? [], null);
-        $this->setIfExists('priority', $data ?? [], null);
-        $this->setIfExists('assigned_to', $data ?? [], null);
-        $this->setIfExists('comments', $data ?? [], null);
+        $this->setIfExists('received_at', $data ?? [], null);
+        $this->setIfExists('created_at', $data ?? [], null);
+        $this->setIfExists('rejection_description', $data ?? [], null);
+        $this->setIfExists('business', $data ?? [], null);
     }
 
     /**
@@ -323,6 +384,15 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
 
         return $invalidProperties;
     }
@@ -394,6 +464,141 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets type
+     *
+     * @return string|null
+     */
+    public function getType()
+    {
+        return $this->container['type'];
+    }
+
+    /**
+     * Sets type
+     *
+     * @param string|null $type type
+     *
+     * @return self
+     */
+    public function setType($type)
+    {
+        if (is_null($type)) {
+            throw new \InvalidArgumentException('non-nullable type cannot be null');
+        }
+        $this->container['type'] = $type;
+
+        return $this;
+    }
+
+    /**
+     * Gets issuer_rnc
+     *
+     * @return string|null
+     */
+    public function getIssuerRnc()
+    {
+        return $this->container['issuer_rnc'];
+    }
+
+    /**
+     * Sets issuer_rnc
+     *
+     * @param string|null $issuer_rnc issuer_rnc
+     *
+     * @return self
+     */
+    public function setIssuerRnc($issuer_rnc)
+    {
+        if (is_null($issuer_rnc)) {
+            throw new \InvalidArgumentException('non-nullable issuer_rnc cannot be null');
+        }
+        $this->container['issuer_rnc'] = $issuer_rnc;
+
+        return $this;
+    }
+
+    /**
+     * Gets buyer_rnc
+     *
+     * @return string|null
+     */
+    public function getBuyerRnc()
+    {
+        return $this->container['buyer_rnc'];
+    }
+
+    /**
+     * Sets buyer_rnc
+     *
+     * @param string|null $buyer_rnc buyer_rnc
+     *
+     * @return self
+     */
+    public function setBuyerRnc($buyer_rnc)
+    {
+        if (is_null($buyer_rnc)) {
+            throw new \InvalidArgumentException('non-nullable buyer_rnc cannot be null');
+        }
+        $this->container['buyer_rnc'] = $buyer_rnc;
+
+        return $this;
+    }
+
+    /**
+     * Gets total_amount
+     *
+     * @return float|null
+     */
+    public function getTotalAmount()
+    {
+        return $this->container['total_amount'];
+    }
+
+    /**
+     * Sets total_amount
+     *
+     * @param float|null $total_amount total_amount
+     *
+     * @return self
+     */
+    public function setTotalAmount($total_amount)
+    {
+        if (is_null($total_amount)) {
+            throw new \InvalidArgumentException('non-nullable total_amount cannot be null');
+        }
+        $this->container['total_amount'] = $total_amount;
+
+        return $this;
+    }
+
+    /**
+     * Gets approval_status
+     *
+     * @return string|null
+     */
+    public function getApprovalStatus()
+    {
+        return $this->container['approval_status'];
+    }
+
+    /**
+     * Sets approval_status
+     *
+     * @param string|null $approval_status approval_status
+     *
+     * @return self
+     */
+    public function setApprovalStatus($approval_status)
+    {
+        if (is_null($approval_status)) {
+            throw new \InvalidArgumentException('non-nullable approval_status cannot be null');
+        }
+        $this->container['approval_status'] = $approval_status;
+
+        return $this;
+    }
+
+    /**
      * Gets status
      *
      * @return int|null
@@ -406,7 +611,7 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets status
      *
-     * @param int|null $status status
+     * @param int|null $status 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
      *
      * @return self
      */
@@ -415,7 +620,44 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($status)) {
             throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['status'] = $status;
+
+        return $this;
+    }
+
+    /**
+     * Gets status_label
+     *
+     * @return string|null
+     */
+    public function getStatusLabel()
+    {
+        return $this->container['status_label'];
+    }
+
+    /**
+     * Sets status_label
+     *
+     * @param string|null $status_label status_label
+     *
+     * @return self
+     */
+    public function setStatusLabel($status_label)
+    {
+        if (is_null($status_label)) {
+            throw new \InvalidArgumentException('non-nullable status_label cannot be null');
+        }
+        $this->container['status_label'] = $status_label;
 
         return $this;
     }
@@ -448,109 +690,116 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets approval_type
+     * Gets received_at
      *
-     * @return string|null
+     * @return \DateTime|null
      */
-    public function getApprovalType()
+    public function getReceivedAt()
     {
-        return $this->container['approval_type'];
+        return $this->container['received_at'];
     }
 
     /**
-     * Sets approval_type
+     * Sets received_at
      *
-     * @param string|null $approval_type approval_type
+     * @param \DateTime|null $received_at received_at
      *
      * @return self
      */
-    public function setApprovalType($approval_type)
+    public function setReceivedAt($received_at)
     {
-        if (is_null($approval_type)) {
-            throw new \InvalidArgumentException('non-nullable approval_type cannot be null');
+        if (is_null($received_at)) {
+            throw new \InvalidArgumentException('non-nullable received_at cannot be null');
         }
-        $this->container['approval_type'] = $approval_type;
+        $this->container['received_at'] = $received_at;
 
         return $this;
     }
 
     /**
-     * Gets priority
+     * Gets created_at
      *
-     * @return string|null
+     * @return \DateTime|null
      */
-    public function getPriority()
+    public function getCreatedAt()
     {
-        return $this->container['priority'];
+        return $this->container['created_at'];
     }
 
     /**
-     * Sets priority
+     * Sets created_at
      *
-     * @param string|null $priority priority
+     * @param \DateTime|null $created_at created_at
      *
      * @return self
      */
-    public function setPriority($priority)
+    public function setCreatedAt($created_at)
     {
-        if (is_null($priority)) {
-            throw new \InvalidArgumentException('non-nullable priority cannot be null');
+        if (is_null($created_at)) {
+            throw new \InvalidArgumentException('non-nullable created_at cannot be null');
         }
-        $this->container['priority'] = $priority;
+        $this->container['created_at'] = $created_at;
 
         return $this;
     }
 
     /**
-     * Gets assigned_to
+     * Gets rejection_description
      *
      * @return string|null
      */
-    public function getAssignedTo()
+    public function getRejectionDescription()
     {
-        return $this->container['assigned_to'];
+        return $this->container['rejection_description'];
     }
 
     /**
-     * Sets assigned_to
+     * Sets rejection_description
      *
-     * @param string|null $assigned_to assigned_to
+     * @param string|null $rejection_description rejection_description
      *
      * @return self
      */
-    public function setAssignedTo($assigned_to)
+    public function setRejectionDescription($rejection_description)
     {
-        if (is_null($assigned_to)) {
-            throw new \InvalidArgumentException('non-nullable assigned_to cannot be null');
+        if (is_null($rejection_description)) {
+            array_push($this->openAPINullablesSetToNull, 'rejection_description');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('rejection_description', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['assigned_to'] = $assigned_to;
+        $this->container['rejection_description'] = $rejection_description;
 
         return $this;
     }
 
     /**
-     * Gets comments
+     * Gets business
      *
-     * @return string|null
+     * @return \PronesoftEcf\Model\SentDocumentSummaryBusiness|null
      */
-    public function getComments()
+    public function getBusiness()
     {
-        return $this->container['comments'];
+        return $this->container['business'];
     }
 
     /**
-     * Sets comments
+     * Sets business
      *
-     * @param string|null $comments comments
+     * @param \PronesoftEcf\Model\SentDocumentSummaryBusiness|null $business business
      *
      * @return self
      */
-    public function setComments($comments)
+    public function setBusiness($business)
     {
-        if (is_null($comments)) {
-            throw new \InvalidArgumentException('non-nullable comments cannot be null');
+        if (is_null($business)) {
+            throw new \InvalidArgumentException('non-nullable business cannot be null');
         }
-        $this->container['comments'] = $comments;
+        $this->container['business'] = $business;
 
         return $this;
     }

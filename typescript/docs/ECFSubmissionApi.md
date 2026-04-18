@@ -4,93 +4,18 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getEcfHistory**](ECFSubmissionApi.md#getecfhistory) | **GET** /{environment}/ecf/responses/history | Get submission history (last 50 documents) |
-| [**getEcfStats**](ECFSubmissionApi.md#getecfstats) | **GET** /{environment}/ecf/responses/stats | Get submission statistics (last 30 days) |
-| [**getEcfStatus**](ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{trackId} | Get document status by trackId |
-| [**submitEcf**](ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII |
+| [**getEcfStats**](ECFSubmissionApi.md#getecfstats) | **GET** /{environment}/ecf/responses/stats | Obtener estadísticas de envíos (últimos 30 días) |
+| [**getEcfStatus**](ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{id} | Consultar estado del documento por ID interno |
+| [**getEcfSubmissionHistory**](ECFSubmissionApi.md#getecfsubmissionhistory) | **GET** /{environment}/ecf/responses/history | Historial de envíos (paginado) |
+| [**submitEcf**](ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar documento e-CF a la DGII |
 
-
-
-## getEcfHistory
-
-> Array&lt;EcfHistoryItem&gt; getEcfHistory(environment, xTenantId)
-
-Get submission history (last 50 documents)
-
-### Example
-
-```ts
-import {
-  Configuration,
-  ECFSubmissionApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetEcfHistoryRequest } from '@pronesoft-rd/ecf-sdk';
-
-async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
-  const config = new Configuration({ 
-    // To configure OAuth2 access token for authorization: oauth2 application
-    accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
-  });
-  const api = new ECFSubmissionApi(config);
-
-  const body = {
-    // Environment
-    environment: ...,
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
-  } satisfies GetEcfHistoryRequest;
-
-  try {
-    const data = await api.getEcfHistory(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-[**Array&lt;EcfHistoryItem&gt;**](EcfHistoryItem.md)
-
-### Authorization
-
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Document history |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getEcfStats
 
 > EcfStatsResponse getEcfStats(environment, xTenantId)
 
-Get submission statistics (last 30 days)
+Obtener estadísticas de envíos (últimos 30 días)
 
 ### Example
 
@@ -98,23 +23,21 @@ Get submission statistics (last 30 days)
 import {
   Configuration,
   ECFSubmissionApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetEcfStatsRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetEcfStatsRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new ECFSubmissionApi(config);
 
   const body = {
     // Environment
     environment: ...,
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies GetEcfStatsRequest;
 
@@ -136,7 +59,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -144,7 +67,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -155,17 +78,17 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Submission statistics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estadísticas de envíos |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getEcfStatus
 
-> EcfStatusResponse getEcfStatus(environment, trackId, xTenantId)
+> EcfStatusResponse getEcfStatus(environment, id, xTenantId)
 
-Get document status by trackId
+Consultar estado del documento por ID interno
 
 ### Example
 
@@ -173,16 +96,14 @@ Get document status by trackId
 import {
   Configuration,
   ECFSubmissionApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetEcfStatusRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetEcfStatusRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new ECFSubmissionApi(config);
 
@@ -190,8 +111,8 @@ async function example() {
     // Environment
     environment: ...,
     // string
-    trackId: trackId_example,
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    id: id_example,
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies GetEcfStatusRequest;
 
@@ -213,8 +134,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
-| **trackId** | `string` |  | [Defaults to `undefined`] |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -222,7 +143,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -233,19 +154,17 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document status |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estado del documento |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## submitEcf
+## getEcfSubmissionHistory
 
-> EcfSubmissionResponse submitEcf(environment, electronicDocument, xTenantId)
+> GetEcfSubmissionHistory200Response getEcfSubmissionHistory(environment, xTenantId, page, limit)
 
-Submit e-CF document to DGII
-
-Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+Historial de envíos (paginado)
 
 ### Example
 
@@ -253,16 +172,95 @@ Submits an electronic tax document. Handles XML signing, queuing, contingency mo
 import {
   Configuration,
   ECFSubmissionApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { SubmitEcfRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetEcfSubmissionHistoryRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new ECFSubmissionApi(config);
+
+  const body = {
+    // Environment
+    environment: ...,
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
+    // number (optional)
+    page: 56,
+    // number (optional)
+    limit: 56,
+  } satisfies GetEcfSubmissionHistoryRequest;
+
+  try {
+    const data = await api.getEcfSubmissionHistory(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+| **page** | `number` |  | [Optional] [Defaults to `1`] |
+| **limit** | `number` |  | [Optional] [Defaults to `20`] |
+
+### Return type
+
+[**GetEcfSubmissionHistory200Response**](GetEcfSubmissionHistory200Response.md)
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Historial de documentos paginado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## submitEcf
+
+> EcfSubmitResponse submitEcf(environment, electronicDocument, xTenantId)
+
+Enviar documento e-CF a la DGII
+
+Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
+
+### Example
+
+```ts
+import {
+  Configuration,
+  ECFSubmissionApi,
+} from '';
+import type { SubmitEcfRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
   });
   const api = new ECFSubmissionApi(config);
 
@@ -270,8 +268,8 @@ async function example() {
     // Environment
     environment: ...,
     // ElectronicDocument
-    electronicDocument: ...,
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    electronicDocument: {"invoiceType":"31","issueDate":"2025-06-04","paymentType":"1","incomeType":"01","taxedAmountIndicator":"0","issuerRNC":"133190907","issuerBusinessName":"Mi Empresa SRL","issuerAddress":"Av. Winston Churchill 1099, Santo Domingo","buyer":{"taxId":"101234567","name":"Cliente Corporativo SRL"},"items":[{"name":"Servicio de desarrollo de software","quantity":1,"unitPrice":"50000.00","unitOfMeasure":1,"type":"2","billingIndicator":"1"}],"totals":{"taxableAmount":50000.0,"exemptAmount":0,"totalITBIS":9000.0,"totalAmount":59000.0},"paymentForms":[{"method":"1","amount":59000.0}]},
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies SubmitEcfRequest;
 
@@ -294,15 +292,15 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
 | **electronicDocument** | [ElectronicDocument](ElectronicDocument.md) |  | |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**EcfSubmissionResponse**](EcfSubmissionResponse.md)
+[**EcfSubmitResponse**](EcfSubmitResponse.md)
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -313,9 +311,11 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document submitted (approved, queued, or contingency mode) |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **201** | Documento registrado y en cola de procesamiento |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+| **422** | Error de validación o procesamiento |  -  |
+| **500** | Error interno del servidor |  -  |
 | **429** | Rate limit exceeded. Retry after indicated seconds. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

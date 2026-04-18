@@ -4,20 +4,19 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_webhook**](WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
-[**get_webhook_stats**](WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
-[**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List webhook configurations
+[**get_webhook**](WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook
+[**get_webhook_stats**](WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook
+[**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks
 
 
 # **get_webhook**
 > WebhookConfigDetail get_webhook(rnc, webhook_id)
 
-Get webhook details
+Detalle de un webhook
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -38,20 +37,15 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.WebhookConfigurationApi(api_client)
-    rnc = '133190907' # str | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    rnc = '133190907' # str | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
     webhook_id = 'webhook_id_example' # str | 
 
     try:
-        # Get webhook details
+        # Detalle de un webhook
         api_response = api_instance.get_webhook(rnc, webhook_id)
         print("The response of WebhookConfigurationApi->get_webhook:\n")
         pprint(api_response)
@@ -66,7 +60,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **str**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+ **rnc** | **str**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
  **webhook_id** | **str**|  | 
 
 ### Return type
@@ -75,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -86,20 +80,19 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Webhook details |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Detalle del webhook |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_webhook_stats**
 > WebhookStats get_webhook_stats(rnc, webhook_id, period=period)
 
-Get webhook delivery statistics
+Estadísticas de entregas del webhook
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -120,21 +113,16 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.WebhookConfigurationApi(api_client)
-    rnc = '133190907' # str | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    rnc = '133190907' # str | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
     webhook_id = 'webhook_id_example' # str | 
     period = month # str |  (optional) (default to month)
 
     try:
-        # Get webhook delivery statistics
+        # Estadísticas de entregas del webhook
         api_response = api_instance.get_webhook_stats(rnc, webhook_id, period=period)
         print("The response of WebhookConfigurationApi->get_webhook_stats:\n")
         pprint(api_response)
@@ -149,7 +137,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **str**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+ **rnc** | **str**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
  **webhook_id** | **str**|  | 
  **period** | **str**|  | [optional] [default to month]
 
@@ -159,7 +147,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -170,22 +158,21 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Webhook delivery statistics |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Estadísticas de entregas del webhook |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_webhooks**
 > List[WebhookConfigResponse] list_webhooks(rnc)
 
-List webhook configurations
+Listar configuraciones de webhooks
 
-Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -206,19 +193,14 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.WebhookConfigurationApi(api_client)
-    rnc = '133190907' # str | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+    rnc = '133190907' # str | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 
     try:
-        # List webhook configurations
+        # Listar configuraciones de webhooks
         api_response = api_instance.list_webhooks(rnc)
         print("The response of WebhookConfigurationApi->list_webhooks:\n")
         pprint(api_response)
@@ -233,7 +215,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **str**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+ **rnc** | **str**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
 
 ### Return type
 
@@ -241,7 +223,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -252,8 +234,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | List of webhook configurations |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Lista de configuraciones de webhooks |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

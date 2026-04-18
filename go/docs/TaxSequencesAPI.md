@@ -4,11 +4,11 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateTaxSequence**](TaxSequencesAPI.md#CreateTaxSequence) | **Post** /tax-sequences/create | Create new tax sequence
-[**GetNextNumber**](TaxSequencesAPI.md#GetNextNumber) | **Get** /tax-sequences/next | Get next available fiscal number
-[**ListTaxSequences**](TaxSequencesAPI.md#ListTaxSequences) | **Get** /tax-sequences | List tax sequences
-[**UpdateTaxSequence**](TaxSequencesAPI.md#UpdateTaxSequence) | **Patch** /tax-sequences/update | Update tax sequence
-[**VoidTaxSequence**](TaxSequencesAPI.md#VoidTaxSequence) | **Post** /tax-sequences/void | Void a range of fiscal numbers
+[**CreateTaxSequence**](TaxSequencesAPI.md#CreateTaxSequence) | **Post** /tax-sequences/create | Crear nueva secuencia de NCF
+[**GetNextNumber**](TaxSequencesAPI.md#GetNextNumber) | **Get** /tax-sequences/next | Obtener siguiente número fiscal disponible
+[**ListTaxSequences**](TaxSequencesAPI.md#ListTaxSequences) | **Get** /tax-sequences | Listar secuencias de NCF
+[**UpdateTaxSequence**](TaxSequencesAPI.md#UpdateTaxSequence) | **Patch** /tax-sequences/update | Actualizar secuencia de NCF
+[**VoidTaxSequence**](TaxSequencesAPI.md#VoidTaxSequence) | **Post** /tax-sequences/void | Anular rango de números fiscales
 
 
 
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 > CreateTaxSequence201Response CreateTaxSequence(ctx).CreateTaxSequenceRequest(createTaxSequenceRequest).XTenantId(xTenantId).Execute()
 
-Create new tax sequence
+Crear nueva secuencia de NCF
 
 ### Example
 
@@ -27,12 +27,12 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
 	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceTypeSequence("E31"), int32(1), int32(10000)) // CreateTaxSequenceRequest | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -58,7 +58,7 @@ Other parameters are passed through a pointer to a apiCreateTaxSequenceRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  | 
- **xTenantId** | **string** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | 
+ **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
 
 ### Return type
 
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -82,7 +82,7 @@ Name | Type | Description  | Notes
 
 > GetNextNumber200Response GetNextNumber(ctx).Type_(type_).Environment(environment).XTenantId(xTenantId).Execute()
 
-Get next available fiscal number
+Obtener siguiente número fiscal disponible
 
 
 
@@ -95,13 +95,13 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
 	type_ := openapiclient.InvoiceTypeSequence("E31") // InvoiceTypeSequence | 
 	environment := openapiclient.Environment("TesteCF") // Environment | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **type_** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
  **environment** | [**Environment**](Environment.md) |  | 
- **xTenantId** | **string** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | 
+ **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
 
 ### Return type
 
@@ -136,7 +136,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 
 > ListTaxSequences200Response ListTaxSequences(ctx).XTenantId(xTenantId).Type_(type_).Environment(environment).Page(page).Limit(limit).Execute()
 
-List tax sequences
+Listar secuencias de NCF
 
 ### Example
 
@@ -163,11 +163,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 	type_ := openapiclient.InvoiceTypeSequence("E31") // InvoiceTypeSequence |  (optional)
 	environment := openapiclient.Environment("TesteCF") // Environment |  (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
@@ -196,7 +196,7 @@ Other parameters are passed through a pointer to a apiListTaxSequencesRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **string** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | 
+ **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
  **type_** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
  **environment** | [**Environment**](Environment.md) |  | 
  **page** | **int32** |  | [default to 1]
@@ -208,7 +208,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -224,7 +224,7 @@ Name | Type | Description  | Notes
 
 > UpdateTaxSequence(ctx).Id(id).UpdateTaxSequenceRequest(updateTaxSequenceRequest).XTenantId(xTenantId).Execute()
 
-Update tax sequence
+Actualizar secuencia de NCF
 
 ### Example
 
@@ -235,13 +235,13 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
 	id := "id_example" // string | 
 	updateTaxSequenceRequest := *openapiclient.NewUpdateTaxSequenceRequest() // UpdateTaxSequenceRequest | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -266,7 +266,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string** |  | 
  **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  | 
- **xTenantId** | **string** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | 
+ **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
 
 ### Return type
 
@@ -274,7 +274,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -290,7 +290,7 @@ Name | Type | Description  | Notes
 
 > VoidTaxSequence200Response VoidTaxSequence(ctx).VoidTaxSequenceRequest(voidTaxSequenceRequest).XTenantId(xTenantId).Execute()
 
-Void a range of fiscal numbers
+Anular rango de números fiscales
 
 
 
@@ -303,12 +303,12 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
 	voidTaxSequenceRequest := *openapiclient.NewVoidTaxSequenceRequest("SequenceId_example", "E32000005251", "E32000005300", "Reason_example") // VoidTaxSequenceRequest | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -334,7 +334,7 @@ Other parameters are passed through a pointer to a apiVoidTaxSequenceRequest str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **voidTaxSequenceRequest** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md) |  | 
- **xTenantId** | **string** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | 
+ **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
 
 ### Return type
 
@@ -342,7 +342,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ItemAlternativeCurrency } from '@pronesoft-rd/ecf-sdk'
+import type { ItemAlternativeCurrency } from ''
 
 // TODO: Update the object below with actual values
 const example = {

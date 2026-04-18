@@ -2,16 +2,15 @@
 
 # ElectronicDocument
 
-Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
+Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el `invoiceType`. Usa `GET /tax-sequences/next?invoiceType=31` solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: `POST /{environment}/ecf/submit` (ej. `TesteCF` o `eCF`). 
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**environment** | **Environment** |  |  [optional] |
-|**version** | **String** | Always 1.0. |  |
+|**version** | **String** | Siempre \&quot;1.0\&quot;. |  [optional] |
 |**invoiceType** | **InvoiceType** |  |  |
-|**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  [optional] |
+|**invoiceNumber** | **String** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;.  |  [optional] |
 |**groupId** | **String** | Optional Group ID for batch processing |  [optional] |
 |**issueDate** | **OffsetDateTime** |  |  |
 |**expirationDate** | **OffsetDateTime** |  |  [optional] |

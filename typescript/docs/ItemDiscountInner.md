@@ -13,7 +13,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ItemDiscountInner } from '@pronesoft-rd/ecf-sdk'
+import type { ItemDiscountInner } from ''
 
 // TODO: Update the object below with actual values
 const example = {

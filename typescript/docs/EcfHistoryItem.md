@@ -10,28 +10,30 @@ Name | Type
 `trackId` | string
 `encf` | string
 `documentType` | string
-`status` | [DocumentStatus](DocumentStatus.md)
-`rnc` | string
+`status` | string
+`legalStatus` | string
+`issuerRnc` | string
 `environment` | [Environment](Environment.md)
+`receivedAt` | Date
 `createdAt` | Date
-`logs` | [Array&lt;ProcessingLog&gt;](ProcessingLog.md)
 
 ## Example
 
 ```typescript
-import type { EcfHistoryItem } from '@pronesoft-rd/ecf-sdk'
+import type { EcfHistoryItem } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
   "trackId": null,
   "encf": null,
-  "documentType": null,
+  "documentType": 31,
   "status": null,
-  "rnc": null,
+  "legalStatus": null,
+  "issuerRnc": 133190907,
   "environment": null,
+  "receivedAt": null,
   "createdAt": null,
-  "logs": null,
 } satisfies EcfHistoryItem
 
 console.log(example)

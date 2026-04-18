@@ -12,7 +12,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -75,13 +75,13 @@ class ECFSubmissionApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
-        'getEcfHistory' => [
-            'application/json',
-        ],
         'getEcfStats' => [
             'application/json',
         ],
         'getEcfStatus' => [
+            'application/json',
+        ],
+        'getEcfSubmissionHistory' => [
             'application/json',
         ],
         'submitEcf' => [
@@ -136,312 +136,12 @@ class ECFSubmissionApi
     }
 
     /**
-     * Operation getEcfHistory
-     *
-     * Get submission history (last 50 documents)
-     *
-     * @param  \PronesoftEcf\Model\Environment $environment environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfHistory'] to see the possible values for this operation
-     *
-     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
-     * @throws \InvalidArgumentException
-     * @return \PronesoftEcf\Model\EcfHistoryItem[]|\PronesoftEcf\Model\ErrorResponse
-     */
-    public function getEcfHistory($environment, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfHistory'][0])
-    {
-        list($response) = $this->getEcfHistoryWithHttpInfo($environment, $x_tenant_id, $contentType);
-        return $response;
-    }
-
-    /**
-     * Operation getEcfHistoryWithHttpInfo
-     *
-     * Get submission history (last 50 documents)
-     *
-     * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfHistory'] to see the possible values for this operation
-     *
-     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
-     * @throws \InvalidArgumentException
-     * @return array of \PronesoftEcf\Model\EcfHistoryItem[]|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
-     */
-    public function getEcfHistoryWithHttpInfo($environment, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfHistory'][0])
-    {
-        $request = $this->getEcfHistoryRequest($environment, $x_tenant_id, $contentType);
-
-        try {
-            $options = $this->createHttpClientOption();
-            try {
-                $response = $this->client->send($request, $options);
-            } catch (RequestException $e) {
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
-                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
-                );
-            } catch (ConnectException $e) {
-                throw new ApiException(
-                    "[{$e->getCode()}] {$e->getMessage()}",
-                    (int) $e->getCode(),
-                    null,
-                    null
-                );
-            }
-
-            $statusCode = $response->getStatusCode();
-
-
-            switch($statusCode) {
-                case 200:
-                    return $this->handleResponseWithDataType(
-                        '\PronesoftEcf\Model\EcfHistoryItem[]',
-                        $request,
-                        $response,
-                    );
-                case 401:
-                    return $this->handleResponseWithDataType(
-                        '\PronesoftEcf\Model\ErrorResponse',
-                        $request,
-                        $response,
-                    );
-            }
-
-            
-
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
-
-            return $this->handleResponseWithDataType(
-                '\PronesoftEcf\Model\EcfHistoryItem[]',
-                $request,
-                $response,
-            );
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 200:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\PronesoftEcf\Model\EcfHistoryItem[]',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-                case 401:
-                    $data = ObjectSerializer::deserialize(
-                        $e->getResponseBody(),
-                        '\PronesoftEcf\Model\ErrorResponse',
-                        $e->getResponseHeaders()
-                    );
-                    $e->setResponseObject($data);
-                    throw $e;
-            }
-        
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Operation getEcfHistoryAsync
-     *
-     * Get submission history (last 50 documents)
-     *
-     * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfHistory'] to see the possible values for this operation
-     *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
-     */
-    public function getEcfHistoryAsync($environment, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfHistory'][0])
-    {
-        return $this->getEcfHistoryAsyncWithHttpInfo($environment, $x_tenant_id, $contentType)
-            ->then(
-                function ($response) {
-                    return $response[0];
-                }
-            );
-    }
-
-    /**
-     * Operation getEcfHistoryAsyncWithHttpInfo
-     *
-     * Get submission history (last 50 documents)
-     *
-     * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfHistory'] to see the possible values for this operation
-     *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
-     */
-    public function getEcfHistoryAsyncWithHttpInfo($environment, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfHistory'][0])
-    {
-        $returnType = '\PronesoftEcf\Model\EcfHistoryItem[]';
-        $request = $this->getEcfHistoryRequest($environment, $x_tenant_id, $contentType);
-
-        return $this->client
-            ->sendAsync($request, $this->createHttpClientOption())
-            ->then(
-                function ($response) use ($returnType) {
-                    if ($returnType === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, $returnType, []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
-                },
-                function ($exception) {
-                    $response = $exception->getResponse();
-                    $statusCode = $response->getStatusCode();
-                    throw new ApiException(
-                        sprintf(
-                            '[%d] Error connecting to the API (%s)',
-                            $statusCode,
-                            $exception->getRequest()->getUri()
-                        ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        (string) $response->getBody()
-                    );
-                }
-            );
-    }
-
-    /**
-     * Create request for operation 'getEcfHistory'
-     *
-     * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfHistory'] to see the possible values for this operation
-     *
-     * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
-     */
-    public function getEcfHistoryRequest($environment, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfHistory'][0])
-    {
-
-        // verify the required parameter 'environment' is set
-        if ($environment === null || (is_array($environment) && count($environment) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $environment when calling getEcfHistory'
-            );
-        }
-
-
-
-        $resourcePath = '/{environment}/ecf/responses/history';
-        $formParams = [];
-        $queryParams = [];
-        $headerParams = [];
-        $httpBody = '';
-        $multipart = false;
-
-
-        // header params
-        if ($x_tenant_id !== null) {
-            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
-        }
-
-        // path params
-        if ($environment !== null) {
-            $resourcePath = str_replace(
-                '{' . 'environment' . '}',
-                ObjectSerializer::toPathValue($environment),
-                $resourcePath
-            );
-        }
-
-
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json', ],
-            $contentType,
-            $multipart
-        );
-
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
-                # if Content-Type contains "application/json", json_encode the form parameters
-                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
-        }
-
-        // this endpoint requires OAuth (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
-        // this endpoint requires Bearer (JWT) authentication (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
-
-        $defaultHeaders = [];
-        if ($this->config->getUserAgent()) {
-            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
-        }
-
-        $headers = array_merge(
-            $defaultHeaders,
-            $headerParams,
-            $headers
-        );
-
-        $operationHost = $this->config->getHost();
-        $query = ObjectSerializer::buildQuery($queryParams);
-        return new Request(
-            'GET',
-            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
-            $headers,
-            $httpBody
-        );
-    }
-
-    /**
      * Operation getEcfStats
      *
-     * Get submission statistics (last 30 days)
+     * Obtener estadísticas de envíos (últimos 30 días)
      *
      * @param  \PronesoftEcf\Model\Environment $environment environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStats'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -457,10 +157,10 @@ class ECFSubmissionApi
     /**
      * Operation getEcfStatsWithHttpInfo
      *
-     * Get submission statistics (last 30 days)
+     * Obtener estadísticas de envíos (últimos 30 días)
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStats'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -557,10 +257,10 @@ class ECFSubmissionApi
     /**
      * Operation getEcfStatsAsync
      *
-     * Get submission statistics (last 30 days)
+     * Obtener estadísticas de envíos (últimos 30 días)
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStats'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -579,10 +279,10 @@ class ECFSubmissionApi
     /**
      * Operation getEcfStatsAsyncWithHttpInfo
      *
-     * Get submission statistics (last 30 days)
+     * Obtener estadísticas de envíos (últimos 30 días)
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStats'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -633,7 +333,7 @@ class ECFSubmissionApi
      * Create request for operation 'getEcfStats'
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStats'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -709,10 +409,6 @@ class ECFSubmissionApi
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
-        // this endpoint requires Bearer (JWT) authentication (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -738,40 +434,40 @@ class ECFSubmissionApi
     /**
      * Operation getEcfStatus
      *
-     * Get document status by trackId
+     * Consultar estado del documento por ID interno
      *
      * @param  \PronesoftEcf\Model\Environment $environment environment (required)
-     * @param  string $track_id track_id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string $id id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStatus'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\EcfStatusResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function getEcfStatus($environment, $track_id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
+    public function getEcfStatus($environment, $id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
     {
-        list($response) = $this->getEcfStatusWithHttpInfo($environment, $track_id, $x_tenant_id, $contentType);
+        list($response) = $this->getEcfStatusWithHttpInfo($environment, $id, $x_tenant_id, $contentType);
         return $response;
     }
 
     /**
      * Operation getEcfStatusWithHttpInfo
      *
-     * Get document status by trackId
+     * Consultar estado del documento por ID interno
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string $track_id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStatus'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\EcfStatusResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getEcfStatusWithHttpInfo($environment, $track_id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
+    public function getEcfStatusWithHttpInfo($environment, $id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
     {
-        $request = $this->getEcfStatusRequest($environment, $track_id, $x_tenant_id, $contentType);
+        $request = $this->getEcfStatusRequest($environment, $id, $x_tenant_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -859,19 +555,19 @@ class ECFSubmissionApi
     /**
      * Operation getEcfStatusAsync
      *
-     * Get document status by trackId
+     * Consultar estado del documento por ID interno
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string $track_id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStatus'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getEcfStatusAsync($environment, $track_id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
+    public function getEcfStatusAsync($environment, $id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
     {
-        return $this->getEcfStatusAsyncWithHttpInfo($environment, $track_id, $x_tenant_id, $contentType)
+        return $this->getEcfStatusAsyncWithHttpInfo($environment, $id, $x_tenant_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -882,20 +578,20 @@ class ECFSubmissionApi
     /**
      * Operation getEcfStatusAsyncWithHttpInfo
      *
-     * Get document status by trackId
+     * Consultar estado del documento por ID interno
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string $track_id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStatus'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getEcfStatusAsyncWithHttpInfo($environment, $track_id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
+    public function getEcfStatusAsyncWithHttpInfo($environment, $id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
     {
         $returnType = '\PronesoftEcf\Model\EcfStatusResponse';
-        $request = $this->getEcfStatusRequest($environment, $track_id, $x_tenant_id, $contentType);
+        $request = $this->getEcfStatusRequest($environment, $id, $x_tenant_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -937,14 +633,14 @@ class ECFSubmissionApi
      * Create request for operation 'getEcfStatus'
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string $track_id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfStatus'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getEcfStatusRequest($environment, $track_id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
+    public function getEcfStatusRequest($environment, $id, $x_tenant_id = null, string $contentType = self::contentTypes['getEcfStatus'][0])
     {
 
         // verify the required parameter 'environment' is set
@@ -954,16 +650,16 @@ class ECFSubmissionApi
             );
         }
 
-        // verify the required parameter 'track_id' is set
-        if ($track_id === null || (is_array($track_id) && count($track_id) === 0)) {
+        // verify the required parameter 'id' is set
+        if ($id === null || (is_array($id) && count($id) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $track_id when calling getEcfStatus'
+                'Missing the required parameter $id when calling getEcfStatus'
             );
         }
 
 
 
-        $resourcePath = '/{environment}/ecf/status/{trackId}';
+        $resourcePath = '/{environment}/ecf/status/{id}';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -985,10 +681,10 @@ class ECFSubmissionApi
             );
         }
         // path params
-        if ($track_id !== null) {
+        if ($id !== null) {
             $resourcePath = str_replace(
-                '{' . 'trackId' . '}',
-                ObjectSerializer::toPathValue($track_id),
+                '{' . 'id' . '}',
+                ObjectSerializer::toPathValue($id),
                 $resourcePath
             );
         }
@@ -1029,7 +725,332 @@ class ECFSubmissionApi
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
-        // this endpoint requires Bearer (JWT) authentication (access token)
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getEcfSubmissionHistory
+     *
+     * Historial de envíos (paginado)
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment environment (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  int|null $page page (optional, default to 1)
+     * @param  int|null $limit limit (optional, default to 20)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfSubmissionHistory'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \PronesoftEcf\Model\GetEcfSubmissionHistory200Response|\PronesoftEcf\Model\ErrorResponse
+     */
+    public function getEcfSubmissionHistory($environment, $x_tenant_id = null, $page = 1, $limit = 20, string $contentType = self::contentTypes['getEcfSubmissionHistory'][0])
+    {
+        list($response) = $this->getEcfSubmissionHistoryWithHttpInfo($environment, $x_tenant_id, $page, $limit, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getEcfSubmissionHistoryWithHttpInfo
+     *
+     * Historial de envíos (paginado)
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  int|null $page (optional, default to 1)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfSubmissionHistory'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \PronesoftEcf\Model\GetEcfSubmissionHistory200Response|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getEcfSubmissionHistoryWithHttpInfo($environment, $x_tenant_id = null, $page = 1, $limit = 20, string $contentType = self::contentTypes['getEcfSubmissionHistory'][0])
+    {
+        $request = $this->getEcfSubmissionHistoryRequest($environment, $x_tenant_id, $page, $limit, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\GetEcfSubmissionHistory200Response',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\PronesoftEcf\Model\GetEcfSubmissionHistory200Response',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\GetEcfSubmissionHistory200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getEcfSubmissionHistoryAsync
+     *
+     * Historial de envíos (paginado)
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  int|null $page (optional, default to 1)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfSubmissionHistory'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEcfSubmissionHistoryAsync($environment, $x_tenant_id = null, $page = 1, $limit = 20, string $contentType = self::contentTypes['getEcfSubmissionHistory'][0])
+    {
+        return $this->getEcfSubmissionHistoryAsyncWithHttpInfo($environment, $x_tenant_id, $page, $limit, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getEcfSubmissionHistoryAsyncWithHttpInfo
+     *
+     * Historial de envíos (paginado)
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  int|null $page (optional, default to 1)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfSubmissionHistory'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getEcfSubmissionHistoryAsyncWithHttpInfo($environment, $x_tenant_id = null, $page = 1, $limit = 20, string $contentType = self::contentTypes['getEcfSubmissionHistory'][0])
+    {
+        $returnType = '\PronesoftEcf\Model\GetEcfSubmissionHistory200Response';
+        $request = $this->getEcfSubmissionHistoryRequest($environment, $x_tenant_id, $page, $limit, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getEcfSubmissionHistory'
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  int|null $page (optional, default to 1)
+     * @param  int|null $limit (optional, default to 20)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getEcfSubmissionHistory'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getEcfSubmissionHistoryRequest($environment, $x_tenant_id = null, $page = 1, $limit = 20, string $contentType = self::contentTypes['getEcfSubmissionHistory'][0])
+    {
+
+        // verify the required parameter 'environment' is set
+        if ($environment === null || (is_array($environment) && count($environment) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $environment when calling getEcfSubmissionHistory'
+            );
+        }
+
+
+
+        if ($limit !== null && $limit > 100) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling ECFSubmissionApi.getEcfSubmissionHistory, must be smaller than or equal to 100.');
+        }
+        
+
+        $resourcePath = '/{environment}/ecf/responses/history';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $page,
+            'page', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $limit,
+            'limit', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
+
+        // path params
+        if ($environment !== null) {
+            $resourcePath = str_replace(
+                '{' . 'environment' . '}',
+                ObjectSerializer::toPathValue($environment),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
@@ -1058,16 +1079,16 @@ class ECFSubmissionApi
     /**
      * Operation submitEcf
      *
-     * Submit e-CF document to DGII
+     * Enviar documento e-CF a la DGII
      *
      * @param  \PronesoftEcf\Model\Environment $environment environment (required)
      * @param  \PronesoftEcf\Model\ElectronicDocument $electronic_document electronic_document (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['submitEcf'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \PronesoftEcf\Model\EcfSubmissionResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\RateLimitErrorResponse
+     * @return \PronesoftEcf\Model\EcfSubmitResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\RateLimitErrorResponse
      */
     public function submitEcf($environment, $electronic_document, $x_tenant_id = null, string $contentType = self::contentTypes['submitEcf'][0])
     {
@@ -1078,16 +1099,16 @@ class ECFSubmissionApi
     /**
      * Operation submitEcfWithHttpInfo
      *
-     * Submit e-CF document to DGII
+     * Enviar documento e-CF a la DGII
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
      * @param  \PronesoftEcf\Model\ElectronicDocument $electronic_document (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['submitEcf'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \PronesoftEcf\Model\EcfSubmissionResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\RateLimitErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \PronesoftEcf\Model\EcfSubmitResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\RateLimitErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function submitEcfWithHttpInfo($environment, $electronic_document, $x_tenant_id = null, string $contentType = self::contentTypes['submitEcf'][0])
     {
@@ -1117,9 +1138,9 @@ class ECFSubmissionApi
 
 
             switch($statusCode) {
-                case 200:
+                case 201:
                     return $this->handleResponseWithDataType(
-                        '\PronesoftEcf\Model\EcfSubmissionResponse',
+                        '\PronesoftEcf\Model\EcfSubmitResponse',
                         $request,
                         $response,
                     );
@@ -1130,6 +1151,18 @@ class ECFSubmissionApi
                         $response,
                     );
                 case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 500:
                     return $this->handleResponseWithDataType(
                         '\PronesoftEcf\Model\ErrorResponse',
                         $request,
@@ -1159,16 +1192,16 @@ class ECFSubmissionApi
             }
 
             return $this->handleResponseWithDataType(
-                '\PronesoftEcf\Model\EcfSubmissionResponse',
+                '\PronesoftEcf\Model\EcfSubmitResponse',
                 $request,
                 $response,
             );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 200:
+                case 201:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\PronesoftEcf\Model\EcfSubmissionResponse',
+                        '\PronesoftEcf\Model\EcfSubmitResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1182,6 +1215,22 @@ class ECFSubmissionApi
                     $e->setResponseObject($data);
                     throw $e;
                 case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 500:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\PronesoftEcf\Model\ErrorResponse',
@@ -1207,11 +1256,11 @@ class ECFSubmissionApi
     /**
      * Operation submitEcfAsync
      *
-     * Submit e-CF document to DGII
+     * Enviar documento e-CF a la DGII
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
      * @param  \PronesoftEcf\Model\ElectronicDocument $electronic_document (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['submitEcf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1230,11 +1279,11 @@ class ECFSubmissionApi
     /**
      * Operation submitEcfAsyncWithHttpInfo
      *
-     * Submit e-CF document to DGII
+     * Enviar documento e-CF a la DGII
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
      * @param  \PronesoftEcf\Model\ElectronicDocument $electronic_document (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['submitEcf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1242,7 +1291,7 @@ class ECFSubmissionApi
      */
     public function submitEcfAsyncWithHttpInfo($environment, $electronic_document, $x_tenant_id = null, string $contentType = self::contentTypes['submitEcf'][0])
     {
-        $returnType = '\PronesoftEcf\Model\EcfSubmissionResponse';
+        $returnType = '\PronesoftEcf\Model\EcfSubmitResponse';
         $request = $this->submitEcfRequest($environment, $electronic_document, $x_tenant_id, $contentType);
 
         return $this->client
@@ -1286,7 +1335,7 @@ class ECFSubmissionApi
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
      * @param  \PronesoftEcf\Model\ElectronicDocument $electronic_document (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['submitEcf'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1373,10 +1422,6 @@ class ECFSubmissionApi
         }
 
         // this endpoint requires OAuth (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
-        // this endpoint requires Bearer (JWT) authentication (access token)
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }

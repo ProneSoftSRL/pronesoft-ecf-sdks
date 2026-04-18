@@ -8,29 +8,37 @@ Name | Type
 ------------ | -------------
 `id` | string
 `encf` | string
-`receiverRnc` | string
 `senderRnc` | string
+`receiverRnc` | string
 `totalAmount` | number
 `status` | number
+`statusLabel` | string
 `issueDate` | Date
 `receivedAt` | Date
+`createdAt` | Date
+`commercialApprovalStatus` | string
+`commercialApprovalRejectionReason` | string
 `business` | [SentDocumentSummaryBusiness](SentDocumentSummaryBusiness.md)
 
 ## Example
 
 ```typescript
-import type { ReceivedDocument } from '@pronesoft-rd/ecf-sdk'
+import type { ReceivedDocument } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
   "encf": null,
-  "receiverRnc": null,
-  "senderRnc": null,
-  "totalAmount": null,
+  "senderRnc": 123456789,
+  "receiverRnc": 987654321,
+  "totalAmount": 15000.5,
   "status": null,
+  "statusLabel": Valido,
   "issueDate": null,
   "receivedAt": null,
+  "createdAt": null,
+  "commercialApprovalStatus": null,
+  "commercialApprovalRejectionReason": null,
   "business": null,
 } satisfies ReceivedDocument
 

@@ -25,7 +25,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Subtotal } from '@pronesoft-rd/ecf-sdk'
+import type { Subtotal } from ''
 
 // TODO: Update the object below with actual values
 const example = {

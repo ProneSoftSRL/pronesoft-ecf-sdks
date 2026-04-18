@@ -7,14 +7,31 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **String** |  |  [optional] |
+|**id** | **UUID** |  |  [optional] |
 |**encf** | **String** |  |  [optional] |
-|**status** | **Integer** |  |  [optional] |
+|**type** | **String** |  |  [optional] |
+|**issuerRnc** | **String** |  |  [optional] |
+|**buyerRnc** | **String** |  |  [optional] |
+|**totalAmount** | **BigDecimal** |  |  [optional] |
+|**approvalStatus** | **String** |  |  [optional] |
+|**status** | [**StatusEnum**](#StatusEnum) | 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review |  [optional] |
+|**statusLabel** | **String** |  |  [optional] |
 |**issueDate** | **OffsetDateTime** |  |  [optional] |
-|**approvalType** | **String** |  |  [optional] |
-|**priority** | **String** |  |  [optional] |
-|**assignedTo** | **String** |  |  [optional] |
-|**comments** | **String** |  |  [optional] |
+|**receivedAt** | **OffsetDateTime** |  |  [optional] |
+|**createdAt** | **OffsetDateTime** |  |  [optional] |
+|**rejectionDescription** | **String** |  |  [optional] |
+|**business** | [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  |  [optional] |
+
+
+
+## Enum: StatusEnum
+
+| Name | Value |
+|---- | -----|
+| NUMBER_1 | 1 |
+| NUMBER_2 | 2 |
+| NUMBER_3 | 3 |
+| NUMBER_4 | 4 |
 
 
 

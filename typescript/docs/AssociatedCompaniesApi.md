@@ -4,12 +4,12 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Create associated company / branch |
-| [**deleteAssociatedCompany**](AssociatedCompaniesApi.md#deleteassociatedcompany) | **DELETE** /associated-companies/{companyId} | Delete associated company |
-| [**getCompanyDocumentMetrics**](AssociatedCompaniesApi.md#getcompanydocumentmetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics |
-| [**getCompanyMetrics**](AssociatedCompaniesApi.md#getcompanymetrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics |
-| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | List associated companies / branches |
-| [**updateAssociatedCompany**](AssociatedCompaniesApi.md#updateassociatedcompany) | **PUT** /associated-companies/{companyId} | Update associated company |
+| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Crear empresa asociada / sucursal |
+| [**deleteAssociatedCompany**](AssociatedCompaniesApi.md#deleteassociatedcompany) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada |
+| [**getCompanyDocumentMetrics**](AssociatedCompaniesApi.md#getcompanydocumentmetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa |
+| [**getCompanyMetrics**](AssociatedCompaniesApi.md#getcompanymetrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa |
+| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | Listar empresas asociadas / sucursales |
+| [**updateAssociatedCompany**](AssociatedCompaniesApi.md#updateassociatedcompany) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada |
 
 
 
@@ -17,7 +17,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 > CreateAssociatedCompany201Response createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo)
 
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Example
 
@@ -25,16 +25,14 @@ Create associated company / branch
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { CreateAssociatedCompanyRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { CreateAssociatedCompanyRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AssociatedCompaniesApi(config);
 
@@ -113,7 +111,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -124,9 +122,9 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Company created successfully |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **201** | Empresa creada exitosamente |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -135,9 +133,9 @@ example().catch(console.error);
 
 > DeleteAssociatedCompany200Response deleteAssociatedCompany(companyId)
 
-Delete associated company
+Eliminar empresa asociada
 
-Permanently deletes an associated company. This action is irreversible.
+Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 
 ### Example
 
@@ -145,16 +143,14 @@ Permanently deletes an associated company. This action is irreversible.
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { DeleteAssociatedCompanyRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { DeleteAssociatedCompanyRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AssociatedCompaniesApi(config);
 
@@ -188,7 +184,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -199,8 +195,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company deleted successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Empresa eliminada exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -209,7 +205,7 @@ example().catch(console.error);
 
 > CompanyDocumentMetrics getCompanyDocumentMetrics(companyId)
 
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Example
 
@@ -217,16 +213,14 @@ Get company document metrics
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetCompanyDocumentMetricsRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetCompanyDocumentMetricsRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AssociatedCompaniesApi(config);
 
@@ -260,7 +254,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -271,8 +265,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document metrics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Métricas de documentos de la empresa |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -281,7 +275,7 @@ example().catch(console.error);
 
 > CompanyMetrics getCompanyMetrics(companyId)
 
-Get company metrics
+Métricas de la empresa
 
 ### Example
 
@@ -289,16 +283,14 @@ Get company metrics
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetCompanyMetricsRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetCompanyMetricsRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AssociatedCompaniesApi(config);
 
@@ -332,7 +324,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -343,8 +335,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company metrics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Métricas de la empresa |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -353,7 +345,7 @@ example().catch(console.error);
 
 > Array&lt;AssociatedCompany&gt; listAssociatedCompanies(page, limit)
 
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Example
 
@@ -361,16 +353,14 @@ List associated companies / branches
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { ListAssociatedCompaniesRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { ListAssociatedCompaniesRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AssociatedCompaniesApi(config);
 
@@ -407,7 +397,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -418,8 +408,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Array of associated companies |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de empresas asociadas |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -428,7 +418,7 @@ example().catch(console.error);
 
 > CreateAssociatedCompany201Response updateAssociatedCompany(companyId, name, phone, website, city, country, logo)
 
-Update associated company
+Actualizar empresa asociada
 
 ### Example
 
@@ -436,16 +426,14 @@ Update associated company
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { UpdateAssociatedCompanyRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { UpdateAssociatedCompanyRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AssociatedCompaniesApi(config);
 
@@ -497,7 +485,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -508,8 +496,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company updated successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Empresa actualizada exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

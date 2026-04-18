@@ -12,7 +12,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -75,7 +75,13 @@ class DocumentsReceivedApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
-        'getReceivedDocumentStats' => [
+        'getReceivedDocumentById' => [
+            'application/json',
+        ],
+        'getReceivedDocumentStatsBySupplier' => [
+            'application/json',
+        ],
+        'getReceivedDocumentStatsSummary' => [
             'application/json',
         ],
         'listReceivedDocuments' => [
@@ -130,38 +136,610 @@ class DocumentsReceivedApi
     }
 
     /**
-     * Operation getReceivedDocumentStats
+     * Operation getReceivedDocumentById
      *
-     * Get received documents statistics
+     * Obtener documento recibido por ID
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStats'] to see the possible values for this operation
+     * @param  string $id id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentById'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \PronesoftEcf\Model\ReceivedDocument|\PronesoftEcf\Model\ErrorResponse
+     */
+    public function getReceivedDocumentById($id, $x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentById'][0])
+    {
+        list($response) = $this->getReceivedDocumentByIdWithHttpInfo($id, $x_tenant_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getReceivedDocumentByIdWithHttpInfo
+     *
+     * Obtener documento recibido por ID
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentById'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \PronesoftEcf\Model\ReceivedDocument|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getReceivedDocumentByIdWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentById'][0])
+    {
+        $request = $this->getReceivedDocumentByIdRequest($id, $x_tenant_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ReceivedDocument',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\PronesoftEcf\Model\ReceivedDocument',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ReceivedDocument',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getReceivedDocumentByIdAsync
+     *
+     * Obtener documento recibido por ID
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentById'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getReceivedDocumentByIdAsync($id, $x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentById'][0])
+    {
+        return $this->getReceivedDocumentByIdAsyncWithHttpInfo($id, $x_tenant_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getReceivedDocumentByIdAsyncWithHttpInfo
+     *
+     * Obtener documento recibido por ID
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentById'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getReceivedDocumentByIdAsyncWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentById'][0])
+    {
+        $returnType = '\PronesoftEcf\Model\ReceivedDocument';
+        $request = $this->getReceivedDocumentByIdRequest($id, $x_tenant_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getReceivedDocumentById'
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentById'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getReceivedDocumentByIdRequest($id, $x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentById'][0])
+    {
+
+        // verify the required parameter 'id' is set
+        if ($id === null || (is_array($id) && count($id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $id when calling getReceivedDocumentById'
+            );
+        }
+
+
+
+        $resourcePath = '/documents/received/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'id' . '}',
+                ObjectSerializer::toPathValue($id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getReceivedDocumentStatsBySupplier
+     *
+     * Top 10 proveedores por volumen de documentos recibidos
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsBySupplier'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \PronesoftEcf\Model\GetReceivedDocumentStatsBySupplier200ResponseInner[]|\PronesoftEcf\Model\ErrorResponse
+     */
+    public function getReceivedDocumentStatsBySupplier($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsBySupplier'][0])
+    {
+        list($response) = $this->getReceivedDocumentStatsBySupplierWithHttpInfo($x_tenant_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getReceivedDocumentStatsBySupplierWithHttpInfo
+     *
+     * Top 10 proveedores por volumen de documentos recibidos
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsBySupplier'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \PronesoftEcf\Model\GetReceivedDocumentStatsBySupplier200ResponseInner[]|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getReceivedDocumentStatsBySupplierWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsBySupplier'][0])
+    {
+        $request = $this->getReceivedDocumentStatsBySupplierRequest($x_tenant_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\GetReceivedDocumentStatsBySupplier200ResponseInner[]',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\PronesoftEcf\Model\GetReceivedDocumentStatsBySupplier200ResponseInner[]',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\GetReceivedDocumentStatsBySupplier200ResponseInner[]',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getReceivedDocumentStatsBySupplierAsync
+     *
+     * Top 10 proveedores por volumen de documentos recibidos
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsBySupplier'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getReceivedDocumentStatsBySupplierAsync($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsBySupplier'][0])
+    {
+        return $this->getReceivedDocumentStatsBySupplierAsyncWithHttpInfo($x_tenant_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getReceivedDocumentStatsBySupplierAsyncWithHttpInfo
+     *
+     * Top 10 proveedores por volumen de documentos recibidos
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsBySupplier'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getReceivedDocumentStatsBySupplierAsyncWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsBySupplier'][0])
+    {
+        $returnType = '\PronesoftEcf\Model\GetReceivedDocumentStatsBySupplier200ResponseInner[]';
+        $request = $this->getReceivedDocumentStatsBySupplierRequest($x_tenant_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getReceivedDocumentStatsBySupplier'
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsBySupplier'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getReceivedDocumentStatsBySupplierRequest($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsBySupplier'][0])
+    {
+
+
+
+        $resourcePath = '/documents/received/stats/by-supplier';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getReceivedDocumentStatsSummary
+     *
+     * Estadísticas de documentos recibidos
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsSummary'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\ReceivedDocumentStatsResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function getReceivedDocumentStats($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStats'][0])
+    public function getReceivedDocumentStatsSummary($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsSummary'][0])
     {
-        list($response) = $this->getReceivedDocumentStatsWithHttpInfo($x_tenant_id, $contentType);
+        list($response) = $this->getReceivedDocumentStatsSummaryWithHttpInfo($x_tenant_id, $contentType);
         return $response;
     }
 
     /**
-     * Operation getReceivedDocumentStatsWithHttpInfo
+     * Operation getReceivedDocumentStatsSummaryWithHttpInfo
      *
-     * Get received documents statistics
+     * Estadísticas de documentos recibidos
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsSummary'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\ReceivedDocumentStatsResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getReceivedDocumentStatsWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStats'][0])
+    public function getReceivedDocumentStatsSummaryWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsSummary'][0])
     {
-        $request = $this->getReceivedDocumentStatsRequest($x_tenant_id, $contentType);
+        $request = $this->getReceivedDocumentStatsSummaryRequest($x_tenant_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -247,19 +825,19 @@ class DocumentsReceivedApi
     }
 
     /**
-     * Operation getReceivedDocumentStatsAsync
+     * Operation getReceivedDocumentStatsSummaryAsync
      *
-     * Get received documents statistics
+     * Estadísticas de documentos recibidos
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsSummary'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getReceivedDocumentStatsAsync($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStats'][0])
+    public function getReceivedDocumentStatsSummaryAsync($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsSummary'][0])
     {
-        return $this->getReceivedDocumentStatsAsyncWithHttpInfo($x_tenant_id, $contentType)
+        return $this->getReceivedDocumentStatsSummaryAsyncWithHttpInfo($x_tenant_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -268,20 +846,20 @@ class DocumentsReceivedApi
     }
 
     /**
-     * Operation getReceivedDocumentStatsAsyncWithHttpInfo
+     * Operation getReceivedDocumentStatsSummaryAsyncWithHttpInfo
      *
-     * Get received documents statistics
+     * Estadísticas de documentos recibidos
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsSummary'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getReceivedDocumentStatsAsyncWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStats'][0])
+    public function getReceivedDocumentStatsSummaryAsyncWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsSummary'][0])
     {
         $returnType = '\PronesoftEcf\Model\ReceivedDocumentStatsResponse';
-        $request = $this->getReceivedDocumentStatsRequest($x_tenant_id, $contentType);
+        $request = $this->getReceivedDocumentStatsSummaryRequest($x_tenant_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -320,15 +898,15 @@ class DocumentsReceivedApi
     }
 
     /**
-     * Create request for operation 'getReceivedDocumentStats'
+     * Create request for operation 'getReceivedDocumentStatsSummary'
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getReceivedDocumentStatsSummary'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getReceivedDocumentStatsRequest($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStats'][0])
+    public function getReceivedDocumentStatsSummaryRequest($x_tenant_id = null, string $contentType = self::contentTypes['getReceivedDocumentStatsSummary'][0])
     {
 
 
@@ -383,10 +961,6 @@ class DocumentsReceivedApi
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
-        // this endpoint requires Bearer (JWT) authentication (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -412,12 +986,16 @@ class DocumentsReceivedApi
     /**
      * Operation listReceivedDocuments
      *
-     * List received documents
+     * Listar documentos recibidos
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf ecf (optional)
-     * @param  string|null $document_type document_type (optional)
+     * @param  string|null $type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param  int|null $status status (optional)
+     * @param  string|null $supplier_rnc RNC del emisor/proveedor (optional)
+     * @param  float|null $amount_from amount_from (optional)
+     * @param  float|null $amount_to amount_to (optional)
+     * @param  bool|null $processed processed (optional)
      * @param  \DateTime|null $date_from date_from (optional)
      * @param  \DateTime|null $date_to date_to (optional)
      * @param  int|null $page page (optional, default to 1)
@@ -428,21 +1006,25 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\ReceivedDocumentListResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function listReceivedDocuments($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocuments($x_tenant_id = null, $ecf = null, $type = null, $status = null, $supplier_rnc = null, $amount_from = null, $amount_to = null, $processed = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
-        list($response) = $this->listReceivedDocumentsWithHttpInfo($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit, $contentType);
+        list($response) = $this->listReceivedDocumentsWithHttpInfo($x_tenant_id, $ecf, $type, $status, $supplier_rnc, $amount_from, $amount_to, $processed, $date_from, $date_to, $page, $limit, $contentType);
         return $response;
     }
 
     /**
      * Operation listReceivedDocumentsWithHttpInfo
      *
-     * List received documents
+     * Listar documentos recibidos
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf (optional)
-     * @param  string|null $document_type (optional)
+     * @param  string|null $type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param  int|null $status (optional)
+     * @param  string|null $supplier_rnc RNC del emisor/proveedor (optional)
+     * @param  float|null $amount_from (optional)
+     * @param  float|null $amount_to (optional)
+     * @param  bool|null $processed (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
      * @param  int|null $page (optional, default to 1)
@@ -453,9 +1035,9 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\ReceivedDocumentListResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function listReceivedDocumentsWithHttpInfo($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocumentsWithHttpInfo($x_tenant_id = null, $ecf = null, $type = null, $status = null, $supplier_rnc = null, $amount_from = null, $amount_to = null, $processed = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
-        $request = $this->listReceivedDocumentsRequest($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit, $contentType);
+        $request = $this->listReceivedDocumentsRequest($x_tenant_id, $ecf, $type, $status, $supplier_rnc, $amount_from, $amount_to, $processed, $date_from, $date_to, $page, $limit, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -543,12 +1125,16 @@ class DocumentsReceivedApi
     /**
      * Operation listReceivedDocumentsAsync
      *
-     * List received documents
+     * Listar documentos recibidos
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf (optional)
-     * @param  string|null $document_type (optional)
+     * @param  string|null $type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param  int|null $status (optional)
+     * @param  string|null $supplier_rnc RNC del emisor/proveedor (optional)
+     * @param  float|null $amount_from (optional)
+     * @param  float|null $amount_to (optional)
+     * @param  bool|null $processed (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
      * @param  int|null $page (optional, default to 1)
@@ -558,9 +1144,9 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listReceivedDocumentsAsync($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocumentsAsync($x_tenant_id = null, $ecf = null, $type = null, $status = null, $supplier_rnc = null, $amount_from = null, $amount_to = null, $processed = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
-        return $this->listReceivedDocumentsAsyncWithHttpInfo($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit, $contentType)
+        return $this->listReceivedDocumentsAsyncWithHttpInfo($x_tenant_id, $ecf, $type, $status, $supplier_rnc, $amount_from, $amount_to, $processed, $date_from, $date_to, $page, $limit, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -571,12 +1157,16 @@ class DocumentsReceivedApi
     /**
      * Operation listReceivedDocumentsAsyncWithHttpInfo
      *
-     * List received documents
+     * Listar documentos recibidos
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf (optional)
-     * @param  string|null $document_type (optional)
+     * @param  string|null $type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param  int|null $status (optional)
+     * @param  string|null $supplier_rnc RNC del emisor/proveedor (optional)
+     * @param  float|null $amount_from (optional)
+     * @param  float|null $amount_to (optional)
+     * @param  bool|null $processed (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
      * @param  int|null $page (optional, default to 1)
@@ -586,10 +1176,10 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function listReceivedDocumentsAsyncWithHttpInfo($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocumentsAsyncWithHttpInfo($x_tenant_id = null, $ecf = null, $type = null, $status = null, $supplier_rnc = null, $amount_from = null, $amount_to = null, $processed = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
         $returnType = '\PronesoftEcf\Model\ReceivedDocumentListResponse';
-        $request = $this->listReceivedDocumentsRequest($x_tenant_id, $ecf, $document_type, $status, $date_from, $date_to, $page, $limit, $contentType);
+        $request = $this->listReceivedDocumentsRequest($x_tenant_id, $ecf, $type, $status, $supplier_rnc, $amount_from, $amount_to, $processed, $date_from, $date_to, $page, $limit, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -630,10 +1220,14 @@ class DocumentsReceivedApi
     /**
      * Create request for operation 'listReceivedDocuments'
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  string|null $ecf (optional)
-     * @param  string|null $document_type (optional)
+     * @param  string|null $type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param  int|null $status (optional)
+     * @param  string|null $supplier_rnc RNC del emisor/proveedor (optional)
+     * @param  float|null $amount_from (optional)
+     * @param  float|null $amount_to (optional)
+     * @param  bool|null $processed (optional)
      * @param  \DateTime|null $date_from (optional)
      * @param  \DateTime|null $date_to (optional)
      * @param  int|null $page (optional, default to 1)
@@ -643,7 +1237,7 @@ class DocumentsReceivedApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function listReceivedDocumentsRequest($x_tenant_id = null, $ecf = null, $document_type = null, $status = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
+    public function listReceivedDocumentsRequest($x_tenant_id = null, $ecf = null, $type = null, $status = null, $supplier_rnc = null, $amount_from = null, $amount_to = null, $processed = null, $date_from = null, $date_to = null, $page = 1, $limit = 10, string $contentType = self::contentTypes['listReceivedDocuments'][0])
     {
 
 
@@ -655,7 +1249,14 @@ class DocumentsReceivedApi
 
 
 
-        $resourcePath = '/documents/received/all';
+
+
+        if ($limit !== null && $limit > 100) {
+            throw new \InvalidArgumentException('invalid value for "$limit" when calling DocumentsReceivedApi.listReceivedDocuments, must be smaller than or equal to 100.');
+        }
+        
+
+        $resourcePath = '/documents/received';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -673,8 +1274,8 @@ class DocumentsReceivedApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $document_type,
-            'documentType', // param base name
+            $type,
+            'type', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
@@ -685,6 +1286,42 @@ class DocumentsReceivedApi
             $status,
             'status', // param base name
             'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_rnc,
+            'supplierRnc', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $amount_from,
+            'amountFrom', // param base name
+            'number', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $amount_to,
+            'amountTo', // param base name
+            'number', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $processed,
+            'processed', // param base name
+            'boolean', // openApiType
             'form', // style
             true, // explode
             false // required
@@ -765,10 +1402,6 @@ class DocumentsReceivedApi
         }
 
         // this endpoint requires OAuth (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
-        // this endpoint requires Bearer (JWT) authentication (access token)
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }

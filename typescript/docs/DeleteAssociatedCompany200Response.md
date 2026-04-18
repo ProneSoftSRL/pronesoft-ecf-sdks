@@ -11,7 +11,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { DeleteAssociatedCompany200Response } from '@pronesoft-rd/ecf-sdk'
+import type { DeleteAssociatedCompany200Response } from ''
 
 // TODO: Update the object below with actual values
 const example = {

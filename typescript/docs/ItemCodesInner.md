@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ItemCodesInner } from '@pronesoft-rd/ecf-sdk'
+import type { ItemCodesInner } from ''
 
 // TODO: Update the object below with actual values
 const example = {

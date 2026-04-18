@@ -1,7 +1,7 @@
 
 # WebhookNotificationPayload
 
-Payload sent to your webhook URL when an event occurs. Validate using header X-Webhook-Signature: sha256=<hmac>. Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp. 
+Envelope enviado a tu URL de webhook cuando ocurre un evento. Valida la autenticidad con el header `X-Webhook-Signature: sha256=<hmac>`. Headers adicionales: `X-Webhook-Event`, `X-Webhook-ID`, `X-Webhook-Timestamp`. 
 
 ## Properties
 
@@ -11,19 +11,19 @@ Name | Type
 `event` | [WebhookEventType](WebhookEventType.md)
 `timestamp` | Date
 `businessRnc` | string
-`data` | object
+`data` | [WebhookNotificationPayloadData](WebhookNotificationPayloadData.md)
 
 ## Example
 
 ```typescript
-import type { WebhookNotificationPayload } from '@pronesoft-rd/ecf-sdk'
+import type { WebhookNotificationPayload } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "id": evt_1234567890abcdef,
   "event": null,
-  "timestamp": null,
-  "businessRnc": null,
+  "timestamp": 2025-01-15T10:30Z,
+  "businessRnc": 133190907,
   "data": null,
 } satisfies WebhookNotificationPayload
 

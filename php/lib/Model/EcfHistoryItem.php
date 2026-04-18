@@ -13,7 +13,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -62,11 +62,12 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'track_id' => 'string',
         'encf' => 'string',
         'document_type' => 'string',
-        'status' => '\PronesoftEcf\Model\DocumentStatus',
-        'rnc' => 'string',
+        'status' => 'string',
+        'legal_status' => 'string',
+        'issuer_rnc' => 'string',
         'environment' => '\PronesoftEcf\Model\Environment',
-        'created_at' => '\DateTime',
-        'logs' => '\PronesoftEcf\Model\ProcessingLog[]'
+        'received_at' => '\DateTime',
+        'created_at' => '\DateTime'
     ];
 
     /**
@@ -82,10 +83,11 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'encf' => null,
         'document_type' => null,
         'status' => null,
-        'rnc' => null,
+        'legal_status' => null,
+        'issuer_rnc' => null,
         'environment' => null,
-        'created_at' => 'date-time',
-        'logs' => null
+        'received_at' => 'date-time',
+        'created_at' => 'date-time'
     ];
 
     /**
@@ -95,14 +97,15 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static array $openAPINullables = [
         'id' => false,
-        'track_id' => false,
-        'encf' => false,
+        'track_id' => true,
+        'encf' => true,
         'document_type' => false,
         'status' => false,
-        'rnc' => false,
+        'legal_status' => true,
+        'issuer_rnc' => false,
         'environment' => false,
-        'created_at' => false,
-        'logs' => false
+        'received_at' => true,
+        'created_at' => false
     ];
 
     /**
@@ -196,10 +199,11 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'encf' => 'encf',
         'document_type' => 'documentType',
         'status' => 'status',
-        'rnc' => 'rnc',
+        'legal_status' => 'legalStatus',
+        'issuer_rnc' => 'issuerRnc',
         'environment' => 'environment',
-        'created_at' => 'createdAt',
-        'logs' => 'logs'
+        'received_at' => 'receivedAt',
+        'created_at' => 'createdAt'
     ];
 
     /**
@@ -213,10 +217,11 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'encf' => 'setEncf',
         'document_type' => 'setDocumentType',
         'status' => 'setStatus',
-        'rnc' => 'setRnc',
+        'legal_status' => 'setLegalStatus',
+        'issuer_rnc' => 'setIssuerRnc',
         'environment' => 'setEnvironment',
-        'created_at' => 'setCreatedAt',
-        'logs' => 'setLogs'
+        'received_at' => 'setReceivedAt',
+        'created_at' => 'setCreatedAt'
     ];
 
     /**
@@ -230,10 +235,11 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
         'encf' => 'getEncf',
         'document_type' => 'getDocumentType',
         'status' => 'getStatus',
-        'rnc' => 'getRnc',
+        'legal_status' => 'getLegalStatus',
+        'issuer_rnc' => 'getIssuerRnc',
         'environment' => 'getEnvironment',
-        'created_at' => 'getCreatedAt',
-        'logs' => 'getLogs'
+        'received_at' => 'getReceivedAt',
+        'created_at' => 'getCreatedAt'
     ];
 
     /**
@@ -277,6 +283,44 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
+    public const STATUS_REGISTERED = 'REGISTERED';
+    public const STATUS_TO_SEND = 'TO_SEND';
+    public const STATUS_WAITING_RESPONSE = 'WAITING_RESPONSE';
+    public const STATUS_FINISHED = 'FINISHED';
+    public const LEGAL_STATUS_ACCEPTED = 'ACCEPTED';
+    public const LEGAL_STATUS_ACCEPTED_WITH_OBSERVATIONS = 'ACCEPTED_WITH_OBSERVATIONS';
+    public const LEGAL_STATUS_REJECTED = 'REJECTED';
+    public const LEGAL_STATUS_ERROR = 'ERROR';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_REGISTERED,
+            self::STATUS_TO_SEND,
+            self::STATUS_WAITING_RESPONSE,
+            self::STATUS_FINISHED,
+        ];
+    }
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getLegalStatusAllowableValues()
+    {
+        return [
+            self::LEGAL_STATUS_ACCEPTED,
+            self::LEGAL_STATUS_ACCEPTED_WITH_OBSERVATIONS,
+            self::LEGAL_STATUS_REJECTED,
+            self::LEGAL_STATUS_ERROR,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -298,10 +342,11 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('encf', $data ?? [], null);
         $this->setIfExists('document_type', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
-        $this->setIfExists('rnc', $data ?? [], null);
+        $this->setIfExists('legal_status', $data ?? [], null);
+        $this->setIfExists('issuer_rnc', $data ?? [], null);
         $this->setIfExists('environment', $data ?? [], null);
+        $this->setIfExists('received_at', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
-        $this->setIfExists('logs', $data ?? [], null);
     }
 
     /**
@@ -330,6 +375,24 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
+
+        $allowedValues = $this->getLegalStatusAllowableValues();
+        if (!is_null($this->container['legal_status']) && !in_array($this->container['legal_status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'legal_status', must be one of '%s'",
+                $this->container['legal_status'],
+                implode("', '", $allowedValues)
+            );
+        }
 
         return $invalidProperties;
     }
@@ -393,7 +456,14 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setTrackId($track_id)
     {
         if (is_null($track_id)) {
-            throw new \InvalidArgumentException('non-nullable track_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'track_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('track_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['track_id'] = $track_id;
 
@@ -420,7 +490,14 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
     public function setEncf($encf)
     {
         if (is_null($encf)) {
-            throw new \InvalidArgumentException('non-nullable encf cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'encf');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('encf', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['encf'] = $encf;
 
@@ -457,7 +534,7 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets status
      *
-     * @return \PronesoftEcf\Model\DocumentStatus|null
+     * @return string|null
      */
     public function getStatus()
     {
@@ -467,7 +544,7 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets status
      *
-     * @param \PronesoftEcf\Model\DocumentStatus|null $status status
+     * @param string|null $status status
      *
      * @return self
      */
@@ -476,34 +553,88 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($status)) {
             throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['status'] = $status;
 
         return $this;
     }
 
     /**
-     * Gets rnc
+     * Gets legal_status
      *
      * @return string|null
      */
-    public function getRnc()
+    public function getLegalStatus()
     {
-        return $this->container['rnc'];
+        return $this->container['legal_status'];
     }
 
     /**
-     * Sets rnc
+     * Sets legal_status
      *
-     * @param string|null $rnc rnc
+     * @param string|null $legal_status legal_status
      *
      * @return self
      */
-    public function setRnc($rnc)
+    public function setLegalStatus($legal_status)
     {
-        if (is_null($rnc)) {
-            throw new \InvalidArgumentException('non-nullable rnc cannot be null');
+        if (is_null($legal_status)) {
+            array_push($this->openAPINullablesSetToNull, 'legal_status');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('legal_status', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['rnc'] = $rnc;
+        $allowedValues = $this->getLegalStatusAllowableValues();
+        if (!is_null($legal_status) && !in_array($legal_status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'legal_status', must be one of '%s'",
+                    $legal_status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['legal_status'] = $legal_status;
+
+        return $this;
+    }
+
+    /**
+     * Gets issuer_rnc
+     *
+     * @return string|null
+     */
+    public function getIssuerRnc()
+    {
+        return $this->container['issuer_rnc'];
+    }
+
+    /**
+     * Sets issuer_rnc
+     *
+     * @param string|null $issuer_rnc issuer_rnc
+     *
+     * @return self
+     */
+    public function setIssuerRnc($issuer_rnc)
+    {
+        if (is_null($issuer_rnc)) {
+            throw new \InvalidArgumentException('non-nullable issuer_rnc cannot be null');
+        }
+        $this->container['issuer_rnc'] = $issuer_rnc;
 
         return $this;
     }
@@ -536,6 +667,40 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
+     * Gets received_at
+     *
+     * @return \DateTime|null
+     */
+    public function getReceivedAt()
+    {
+        return $this->container['received_at'];
+    }
+
+    /**
+     * Sets received_at
+     *
+     * @param \DateTime|null $received_at received_at
+     *
+     * @return self
+     */
+    public function setReceivedAt($received_at)
+    {
+        if (is_null($received_at)) {
+            array_push($this->openAPINullablesSetToNull, 'received_at');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('received_at', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['received_at'] = $received_at;
+
+        return $this;
+    }
+
+    /**
      * Gets created_at
      *
      * @return \DateTime|null
@@ -558,33 +723,6 @@ class EcfHistoryItem implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable created_at cannot be null');
         }
         $this->container['created_at'] = $created_at;
-
-        return $this;
-    }
-
-    /**
-     * Gets logs
-     *
-     * @return \PronesoftEcf\Model\ProcessingLog[]|null
-     */
-    public function getLogs()
-    {
-        return $this->container['logs'];
-    }
-
-    /**
-     * Sets logs
-     *
-     * @param \PronesoftEcf\Model\ProcessingLog[]|null $logs logs
-     *
-     * @return self
-     */
-    public function setLogs($logs)
-    {
-        if (is_null($logs)) {
-            throw new \InvalidArgumentException('non-nullable logs cannot be null');
-        }
-        $this->container['logs'] = $logs;
 
         return $this;
     }

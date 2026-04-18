@@ -12,7 +12,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -75,13 +75,22 @@ class DocumentsSentApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
-        'downloadDocument' => [
+        'downloadSentDocumentXml' => [
             'application/json',
         ],
-        'getDocument' => [
+        'getSentDocumentById' => [
             'application/json',
         ],
-        'getDocumentStats' => [
+        'getSentDocumentLogs' => [
+            'application/json',
+        ],
+        'getSentDocumentStats' => [
+            'application/json',
+        ],
+        'getSentDocumentStatsByEnvironment' => [
+            'application/json',
+        ],
+        'getSentDocumentStatusOptions' => [
             'application/json',
         ],
         'listSentDocuments' => [
@@ -136,38 +145,42 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation downloadDocument
+     * Operation downloadSentDocumentXml
      *
-     * Download document XML
+     * Descargar XML del documento
      *
-     * @param  string $file_url file_url (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadDocument'] to see the possible values for this operation
+     * @param  string|null $id ID interno del documento (optional)
+     * @param  string|null $file_url file_url (optional)
+     * @param  string|null $inline true para ver en el navegador, false para descargar (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadSentDocumentXml'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return string|\PronesoftEcf\Model\ErrorResponse
      */
-    public function downloadDocument($file_url, string $contentType = self::contentTypes['downloadDocument'][0])
+    public function downloadSentDocumentXml($id = null, $file_url = null, $inline = null, string $contentType = self::contentTypes['downloadSentDocumentXml'][0])
     {
-        list($response) = $this->downloadDocumentWithHttpInfo($file_url, $contentType);
+        list($response) = $this->downloadSentDocumentXmlWithHttpInfo($id, $file_url, $inline, $contentType);
         return $response;
     }
 
     /**
-     * Operation downloadDocumentWithHttpInfo
+     * Operation downloadSentDocumentXmlWithHttpInfo
      *
-     * Download document XML
+     * Descargar XML del documento
      *
-     * @param  string $file_url (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadDocument'] to see the possible values for this operation
+     * @param  string|null $id ID interno del documento (optional)
+     * @param  string|null $file_url (optional)
+     * @param  string|null $inline true para ver en el navegador, false para descargar (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadSentDocumentXml'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of string|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function downloadDocumentWithHttpInfo($file_url, string $contentType = self::contentTypes['downloadDocument'][0])
+    public function downloadSentDocumentXmlWithHttpInfo($id = null, $file_url = null, $inline = null, string $contentType = self::contentTypes['downloadSentDocumentXml'][0])
     {
-        $request = $this->downloadDocumentRequest($file_url, $contentType);
+        $request = $this->downloadSentDocumentXmlRequest($id, $file_url, $inline, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -253,19 +266,21 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation downloadDocumentAsync
+     * Operation downloadSentDocumentXmlAsync
      *
-     * Download document XML
+     * Descargar XML del documento
      *
-     * @param  string $file_url (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadDocument'] to see the possible values for this operation
+     * @param  string|null $id ID interno del documento (optional)
+     * @param  string|null $file_url (optional)
+     * @param  string|null $inline true para ver en el navegador, false para descargar (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadSentDocumentXml'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function downloadDocumentAsync($file_url, string $contentType = self::contentTypes['downloadDocument'][0])
+    public function downloadSentDocumentXmlAsync($id = null, $file_url = null, $inline = null, string $contentType = self::contentTypes['downloadSentDocumentXml'][0])
     {
-        return $this->downloadDocumentAsyncWithHttpInfo($file_url, $contentType)
+        return $this->downloadSentDocumentXmlAsyncWithHttpInfo($id, $file_url, $inline, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -274,20 +289,22 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation downloadDocumentAsyncWithHttpInfo
+     * Operation downloadSentDocumentXmlAsyncWithHttpInfo
      *
-     * Download document XML
+     * Descargar XML del documento
      *
-     * @param  string $file_url (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadDocument'] to see the possible values for this operation
+     * @param  string|null $id ID interno del documento (optional)
+     * @param  string|null $file_url (optional)
+     * @param  string|null $inline true para ver en el navegador, false para descargar (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadSentDocumentXml'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function downloadDocumentAsyncWithHttpInfo($file_url, string $contentType = self::contentTypes['downloadDocument'][0])
+    public function downloadSentDocumentXmlAsyncWithHttpInfo($id = null, $file_url = null, $inline = null, string $contentType = self::contentTypes['downloadSentDocumentXml'][0])
     {
         $returnType = 'string';
-        $request = $this->downloadDocumentRequest($file_url, $contentType);
+        $request = $this->downloadSentDocumentXmlRequest($id, $file_url, $inline, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -326,23 +343,21 @@ class DocumentsSentApi
     }
 
     /**
-     * Create request for operation 'downloadDocument'
+     * Create request for operation 'downloadSentDocumentXml'
      *
-     * @param  string $file_url (required)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadDocument'] to see the possible values for this operation
+     * @param  string|null $id ID interno del documento (optional)
+     * @param  string|null $file_url (optional)
+     * @param  string|null $inline true para ver en el navegador, false para descargar (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['downloadSentDocumentXml'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function downloadDocumentRequest($file_url, string $contentType = self::contentTypes['downloadDocument'][0])
+    public function downloadSentDocumentXmlRequest($id = null, $file_url = null, $inline = null, string $contentType = self::contentTypes['downloadSentDocumentXml'][0])
     {
 
-        // verify the required parameter 'file_url' is set
-        if ($file_url === null || (is_array($file_url) && count($file_url) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $file_url when calling downloadDocument'
-            );
-        }
+
+
 
 
         $resourcePath = '/documents/download';
@@ -354,12 +369,30 @@ class DocumentsSentApi
 
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $id,
+            'id', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $file_url,
             'fileUrl', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
-            true // required
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $inline,
+            'inline', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
         ) ?? []);
 
 
@@ -400,10 +433,6 @@ class DocumentsSentApi
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
-        // this endpoint requires Bearer (JWT) authentication (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -427,40 +456,40 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation getDocument
+     * Operation getSentDocumentById
      *
-     * Get document details
+     * Obtener detalle del documento
      *
      * @param  string $id id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocument'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentById'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\SentDocumentDetail|\PronesoftEcf\Model\ErrorResponse
      */
-    public function getDocument($id, $x_tenant_id = null, string $contentType = self::contentTypes['getDocument'][0])
+    public function getSentDocumentById($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentById'][0])
     {
-        list($response) = $this->getDocumentWithHttpInfo($id, $x_tenant_id, $contentType);
+        list($response) = $this->getSentDocumentByIdWithHttpInfo($id, $x_tenant_id, $contentType);
         return $response;
     }
 
     /**
-     * Operation getDocumentWithHttpInfo
+     * Operation getSentDocumentByIdWithHttpInfo
      *
-     * Get document details
+     * Obtener detalle del documento
      *
      * @param  string $id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocument'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentById'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\SentDocumentDetail|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getDocumentWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getDocument'][0])
+    public function getSentDocumentByIdWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentById'][0])
     {
-        $request = $this->getDocumentRequest($id, $x_tenant_id, $contentType);
+        $request = $this->getSentDocumentByIdRequest($id, $x_tenant_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -546,20 +575,20 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation getDocumentAsync
+     * Operation getSentDocumentByIdAsync
      *
-     * Get document details
+     * Obtener detalle del documento
      *
      * @param  string $id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocument'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getDocumentAsync($id, $x_tenant_id = null, string $contentType = self::contentTypes['getDocument'][0])
+    public function getSentDocumentByIdAsync($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentById'][0])
     {
-        return $this->getDocumentAsyncWithHttpInfo($id, $x_tenant_id, $contentType)
+        return $this->getSentDocumentByIdAsyncWithHttpInfo($id, $x_tenant_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -568,21 +597,21 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation getDocumentAsyncWithHttpInfo
+     * Operation getSentDocumentByIdAsyncWithHttpInfo
      *
-     * Get document details
+     * Obtener detalle del documento
      *
      * @param  string $id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocument'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getDocumentAsyncWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getDocument'][0])
+    public function getSentDocumentByIdAsyncWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentById'][0])
     {
         $returnType = '\PronesoftEcf\Model\SentDocumentDetail';
-        $request = $this->getDocumentRequest($id, $x_tenant_id, $contentType);
+        $request = $this->getSentDocumentByIdRequest($id, $x_tenant_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -621,22 +650,22 @@ class DocumentsSentApi
     }
 
     /**
-     * Create request for operation 'getDocument'
+     * Create request for operation 'getSentDocumentById'
      *
      * @param  string $id (required)
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocument'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getDocumentRequest($id, $x_tenant_id = null, string $contentType = self::contentTypes['getDocument'][0])
+    public function getSentDocumentByIdRequest($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentById'][0])
     {
 
         // verify the required parameter 'id' is set
         if ($id === null || (is_array($id) && count($id) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $id when calling getDocument'
+                'Missing the required parameter $id when calling getSentDocumentById'
             );
         }
 
@@ -700,7 +729,299 @@ class DocumentsSentApi
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
-        // this endpoint requires Bearer (JWT) authentication (access token)
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getSentDocumentLogs
+     *
+     * Logs de procesamiento del documento
+     *
+     * @param  string $id id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentLogs'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \PronesoftEcf\Model\GetSentDocumentLogs200ResponseInner[]|\PronesoftEcf\Model\ErrorResponse
+     */
+    public function getSentDocumentLogs($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentLogs'][0])
+    {
+        list($response) = $this->getSentDocumentLogsWithHttpInfo($id, $x_tenant_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getSentDocumentLogsWithHttpInfo
+     *
+     * Logs de procesamiento del documento
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentLogs'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \PronesoftEcf\Model\GetSentDocumentLogs200ResponseInner[]|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getSentDocumentLogsWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentLogs'][0])
+    {
+        $request = $this->getSentDocumentLogsRequest($id, $x_tenant_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\GetSentDocumentLogs200ResponseInner[]',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\PronesoftEcf\Model\GetSentDocumentLogs200ResponseInner[]',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\GetSentDocumentLogs200ResponseInner[]',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getSentDocumentLogsAsync
+     *
+     * Logs de procesamiento del documento
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentLogs'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSentDocumentLogsAsync($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentLogs'][0])
+    {
+        return $this->getSentDocumentLogsAsyncWithHttpInfo($id, $x_tenant_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getSentDocumentLogsAsyncWithHttpInfo
+     *
+     * Logs de procesamiento del documento
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentLogs'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSentDocumentLogsAsyncWithHttpInfo($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentLogs'][0])
+    {
+        $returnType = '\PronesoftEcf\Model\GetSentDocumentLogs200ResponseInner[]';
+        $request = $this->getSentDocumentLogsRequest($id, $x_tenant_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getSentDocumentLogs'
+     *
+     * @param  string $id (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentLogs'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getSentDocumentLogsRequest($id, $x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentLogs'][0])
+    {
+
+        // verify the required parameter 'id' is set
+        if ($id === null || (is_array($id) && count($id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $id when calling getSentDocumentLogs'
+            );
+        }
+
+
+
+        $resourcePath = '/documents/logs/{id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'id' . '}',
+                ObjectSerializer::toPathValue($id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
@@ -727,40 +1048,38 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation getDocumentStats
+     * Operation getSentDocumentStats
      *
-     * Get document statistics
+     * Estadísticas de documentos enviados
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $period period (optional, default to '30d')
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStats'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\DocumentStatsResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function getDocumentStats($x_tenant_id = null, $period = '30d', string $contentType = self::contentTypes['getDocumentStats'][0])
+    public function getSentDocumentStats($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStats'][0])
     {
-        list($response) = $this->getDocumentStatsWithHttpInfo($x_tenant_id, $period, $contentType);
+        list($response) = $this->getSentDocumentStatsWithHttpInfo($x_tenant_id, $contentType);
         return $response;
     }
 
     /**
-     * Operation getDocumentStatsWithHttpInfo
+     * Operation getSentDocumentStatsWithHttpInfo
      *
-     * Get document statistics
+     * Estadísticas de documentos enviados
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $period (optional, default to '30d')
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStats'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\DocumentStatsResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getDocumentStatsWithHttpInfo($x_tenant_id = null, $period = '30d', string $contentType = self::contentTypes['getDocumentStats'][0])
+    public function getSentDocumentStatsWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStats'][0])
     {
-        $request = $this->getDocumentStatsRequest($x_tenant_id, $period, $contentType);
+        $request = $this->getSentDocumentStatsRequest($x_tenant_id, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -846,20 +1165,19 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation getDocumentStatsAsync
+     * Operation getSentDocumentStatsAsync
      *
-     * Get document statistics
+     * Estadísticas de documentos enviados
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $period (optional, default to '30d')
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStats'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getDocumentStatsAsync($x_tenant_id = null, $period = '30d', string $contentType = self::contentTypes['getDocumentStats'][0])
+    public function getSentDocumentStatsAsync($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStats'][0])
     {
-        return $this->getDocumentStatsAsyncWithHttpInfo($x_tenant_id, $period, $contentType)
+        return $this->getSentDocumentStatsAsyncWithHttpInfo($x_tenant_id, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -868,21 +1186,20 @@ class DocumentsSentApi
     }
 
     /**
-     * Operation getDocumentStatsAsyncWithHttpInfo
+     * Operation getSentDocumentStatsAsyncWithHttpInfo
      *
-     * Get document statistics
+     * Estadísticas de documentos enviados
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $period (optional, default to '30d')
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStats'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getDocumentStatsAsyncWithHttpInfo($x_tenant_id = null, $period = '30d', string $contentType = self::contentTypes['getDocumentStats'][0])
+    public function getSentDocumentStatsAsyncWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStats'][0])
     {
         $returnType = '\PronesoftEcf\Model\DocumentStatsResponse';
-        $request = $this->getDocumentStatsRequest($x_tenant_id, $period, $contentType);
+        $request = $this->getSentDocumentStatsRequest($x_tenant_id, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -921,18 +1238,16 @@ class DocumentsSentApi
     }
 
     /**
-     * Create request for operation 'getDocumentStats'
+     * Create request for operation 'getSentDocumentStats'
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
-     * @param  string|null $period (optional, default to '30d')
-     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getDocumentStats'] to see the possible values for this operation
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStats'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getDocumentStatsRequest($x_tenant_id = null, $period = '30d', string $contentType = self::contentTypes['getDocumentStats'][0])
+    public function getSentDocumentStatsRequest($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStats'][0])
     {
-
 
 
 
@@ -943,15 +1258,6 @@ class DocumentsSentApi
         $httpBody = '';
         $multipart = false;
 
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $period,
-            'period', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
 
         // header params
         if ($x_tenant_id !== null) {
@@ -995,7 +1301,545 @@ class DocumentsSentApi
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
-        // this endpoint requires Bearer (JWT) authentication (access token)
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getSentDocumentStatsByEnvironment
+     *
+     * Estadísticas agrupadas por ambiente y estado
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatsByEnvironment'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array<string,object>|\PronesoftEcf\Model\ErrorResponse
+     */
+    public function getSentDocumentStatsByEnvironment($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStatsByEnvironment'][0])
+    {
+        list($response) = $this->getSentDocumentStatsByEnvironmentWithHttpInfo($x_tenant_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getSentDocumentStatsByEnvironmentWithHttpInfo
+     *
+     * Estadísticas agrupadas por ambiente y estado
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatsByEnvironment'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of array<string,object>|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getSentDocumentStatsByEnvironmentWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStatsByEnvironment'][0])
+    {
+        $request = $this->getSentDocumentStatsByEnvironmentRequest($x_tenant_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        'array<string,object>',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                'array<string,object>',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        'array<string,object>',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getSentDocumentStatsByEnvironmentAsync
+     *
+     * Estadísticas agrupadas por ambiente y estado
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatsByEnvironment'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSentDocumentStatsByEnvironmentAsync($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStatsByEnvironment'][0])
+    {
+        return $this->getSentDocumentStatsByEnvironmentAsyncWithHttpInfo($x_tenant_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getSentDocumentStatsByEnvironmentAsyncWithHttpInfo
+     *
+     * Estadísticas agrupadas por ambiente y estado
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatsByEnvironment'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSentDocumentStatsByEnvironmentAsyncWithHttpInfo($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStatsByEnvironment'][0])
+    {
+        $returnType = 'array<string,object>';
+        $request = $this->getSentDocumentStatsByEnvironmentRequest($x_tenant_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getSentDocumentStatsByEnvironment'
+     *
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatsByEnvironment'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getSentDocumentStatsByEnvironmentRequest($x_tenant_id = null, string $contentType = self::contentTypes['getSentDocumentStatsByEnvironment'][0])
+    {
+
+
+
+        $resourcePath = '/documents/stats/by-environment';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getSentDocumentStatusOptions
+     *
+     * Opciones de filtro de estado disponibles
+     *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatusOptions'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \PronesoftEcf\Model\GetSentDocumentStatusOptions200ResponseInner[]|\PronesoftEcf\Model\ErrorResponse
+     */
+    public function getSentDocumentStatusOptions(string $contentType = self::contentTypes['getSentDocumentStatusOptions'][0])
+    {
+        list($response) = $this->getSentDocumentStatusOptionsWithHttpInfo($contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getSentDocumentStatusOptionsWithHttpInfo
+     *
+     * Opciones de filtro de estado disponibles
+     *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatusOptions'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \PronesoftEcf\Model\GetSentDocumentStatusOptions200ResponseInner[]|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getSentDocumentStatusOptionsWithHttpInfo(string $contentType = self::contentTypes['getSentDocumentStatusOptions'][0])
+    {
+        $request = $this->getSentDocumentStatusOptionsRequest($contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\GetSentDocumentStatusOptions200ResponseInner[]',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\PronesoftEcf\Model\GetSentDocumentStatusOptions200ResponseInner[]',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\GetSentDocumentStatusOptions200ResponseInner[]',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getSentDocumentStatusOptionsAsync
+     *
+     * Opciones de filtro de estado disponibles
+     *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatusOptions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSentDocumentStatusOptionsAsync(string $contentType = self::contentTypes['getSentDocumentStatusOptions'][0])
+    {
+        return $this->getSentDocumentStatusOptionsAsyncWithHttpInfo($contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getSentDocumentStatusOptionsAsyncWithHttpInfo
+     *
+     * Opciones de filtro de estado disponibles
+     *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatusOptions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSentDocumentStatusOptionsAsyncWithHttpInfo(string $contentType = self::contentTypes['getSentDocumentStatusOptions'][0])
+    {
+        $returnType = '\PronesoftEcf\Model\GetSentDocumentStatusOptions200ResponseInner[]';
+        $request = $this->getSentDocumentStatusOptionsRequest($contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getSentDocumentStatusOptions'
+     *
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getSentDocumentStatusOptions'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getSentDocumentStatusOptionsRequest(string $contentType = self::contentTypes['getSentDocumentStatusOptions'][0])
+    {
+
+
+        $resourcePath = '/documents/status-options';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
@@ -1024,9 +1868,9 @@ class DocumentsSentApi
     /**
      * Operation listSentDocuments
      *
-     * List sent documents
+     * Listar documentos enviados
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  \PronesoftEcf\Model\Environment|null $env env (optional)
      * @param  string|null $ecf ecf (optional)
      * @param  string|null $type type (optional)
@@ -1050,9 +1894,9 @@ class DocumentsSentApi
     /**
      * Operation listSentDocumentsWithHttpInfo
      *
-     * List sent documents
+     * Listar documentos enviados
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  \PronesoftEcf\Model\Environment|null $env (optional)
      * @param  string|null $ecf (optional)
      * @param  string|null $type (optional)
@@ -1157,9 +2001,9 @@ class DocumentsSentApi
     /**
      * Operation listSentDocumentsAsync
      *
-     * List sent documents
+     * Listar documentos enviados
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  \PronesoftEcf\Model\Environment|null $env (optional)
      * @param  string|null $ecf (optional)
      * @param  string|null $type (optional)
@@ -1186,9 +2030,9 @@ class DocumentsSentApi
     /**
      * Operation listSentDocumentsAsyncWithHttpInfo
      *
-     * List sent documents
+     * Listar documentos enviados
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  \PronesoftEcf\Model\Environment|null $env (optional)
      * @param  string|null $ecf (optional)
      * @param  string|null $type (optional)
@@ -1246,7 +2090,7 @@ class DocumentsSentApi
     /**
      * Create request for operation 'listSentDocuments'
      *
-     * @param  string|null $x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. (optional)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
      * @param  \PronesoftEcf\Model\Environment|null $env (optional)
      * @param  string|null $ecf (optional)
      * @param  string|null $type (optional)
@@ -1395,10 +2239,6 @@ class DocumentsSentApi
         }
 
         // this endpoint requires OAuth (access token)
-        if (!empty($this->config->getAccessToken())) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
-        }
-        // this endpoint requires Bearer (JWT) authentication (access token)
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }

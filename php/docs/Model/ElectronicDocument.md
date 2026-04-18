@@ -4,10 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**environment** | [**\PronesoftEcf\Model\Environment**](Environment.md) |  | [optional]
-**version** | **string** | Always 1.0. | [default to '1.0']
+**version** | **string** | Siempre \&quot;1.0\&quot;. | [optional] [default to '1.0']
 **invoice_type** | [**\PronesoftEcf\Model\InvoiceType**](InvoiceType.md) |  |
-**invoice_number** | **string** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional]
+**invoice_number** | **string** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;. | [optional]
 **group_id** | **string** | Optional Group ID for batch processing | [optional]
 **issue_date** | **\DateTime** |  |
 **expiration_date** | **\DateTime** |  | [optional]

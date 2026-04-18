@@ -34,7 +34,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Totals } from '@pronesoft-rd/ecf-sdk'
+import type { Totals } from ''
 
 // TODO: Update the object below with actual values
 const example = {

@@ -25,7 +25,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Page } from '@pronesoft-rd/ecf-sdk'
+import type { Page } from ''
 
 // TODO: Update the object below with actual values
 const example = {

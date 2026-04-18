@@ -1,13 +1,13 @@
 # PronesoftEcf\ReportsApi
 
-Download accounting reports (Sent Files, Format 606) for DGII compliance.
+Descarga reportes contables (Documentos Enviados, Formato 606) para cumplimiento DGII.
 
 All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if the operation defines another base path.
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**export606()**](ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases) |
-| [**exportSentDocuments()**](ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Export sent documents report |
+| [**export606()**](ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras) |
+| [**exportSentDocuments()**](ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados |
 
 
 ## `export606()`
@@ -16,9 +16,9 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 export606($from, $to, $format, $status, $type, $encf): string
 ```
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
-Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 
 ### Example
 
@@ -28,9 +28,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -72,7 +69,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -89,9 +86,9 @@ try {
 exportSentDocuments($from, $to, $env, $encf, $type, $status, $track_id): \SplFileObject
 ```
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
-Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
 
 ### Example
 
@@ -101,9 +98,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -147,7 +141,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 

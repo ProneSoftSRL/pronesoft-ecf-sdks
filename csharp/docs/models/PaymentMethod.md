@@ -1,4 +1,5 @@
 # Pronesoft.Ecf.Sdk.Model.PaymentMethod
+1=Cash, 2=Check, 3=Card, 4=Credit, 5=Transfer, 6=Electronic, 7=Bond, 8=Other
 
 ## Properties
 

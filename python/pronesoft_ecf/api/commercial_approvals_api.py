@@ -1,7 +1,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -16,10 +16,12 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from datetime import datetime
-from pydantic import Field, StrictFloat, StrictInt, StrictStr, field_validator
-from typing import Optional, Union
+from datetime import date
+from pydantic import Field, StrictInt, StrictStr, field_validator
+from typing import Optional
 from typing_extensions import Annotated
+from uuid import UUID
+from pronesoft_ecf.models.approval_item import ApprovalItem
 from pronesoft_ecf.models.approval_list_response import ApprovalListResponse
 
 from pronesoft_ecf.api_client import ApiClient, RequestSerialized
@@ -41,21 +43,10 @@ class CommercialApprovalsApi:
 
 
     @validate_call
-    def list_approvals(
+    def get_commercial_approval_by_id(
         self,
-        business_id: StrictStr,
-        page: Optional[StrictInt] = None,
-        limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
-        ecf: Optional[StrictStr] = None,
-        document_type: Optional[StrictStr] = None,
-        status: Optional[StrictInt] = None,
-        date_from: Optional[datetime] = None,
-        date_to: Optional[datetime] = None,
-        min_amount: Optional[Union[StrictFloat, StrictInt]] = None,
-        max_amount: Optional[Union[StrictFloat, StrictInt]] = None,
-        search: Optional[StrictStr] = None,
-        sort_by: Optional[StrictStr] = None,
-        sort_order: Optional[StrictStr] = None,
+        id: UUID,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -68,36 +59,14 @@ class CommercialApprovalsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApprovalListResponse:
-        """List commercial approvals
+    ) -> ApprovalItem:
+        """Obtener aprobación comercial por ID
 
 
-        :param business_id: (required)
-        :type business_id: str
-        :param page:
-        :type page: int
-        :param limit:
-        :type limit: int
-        :param ecf:
-        :type ecf: str
-        :param document_type:
-        :type document_type: str
-        :param status:
-        :type status: int
-        :param date_from:
-        :type date_from: datetime
-        :param date_to:
-        :type date_to: datetime
-        :param min_amount:
-        :type min_amount: float
-        :param max_amount:
-        :type max_amount: float
-        :param search:
-        :type search: str
-        :param sort_by:
-        :type sort_by: str
-        :param sort_order:
-        :type sort_order: str
+        :param id: (required)
+        :type id: UUID
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -120,20 +89,312 @@ class CommercialApprovalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._list_approvals_serialize(
-            business_id=business_id,
-            page=page,
-            limit=limit,
+        _param = self._get_commercial_approval_by_id_serialize(
+            id=id,
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApprovalItem",
+            '404': None,
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_commercial_approval_by_id_with_http_info(
+        self,
+        id: UUID,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ApprovalItem]:
+        """Obtener aprobación comercial por ID
+
+
+        :param id: (required)
+        :type id: UUID
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_commercial_approval_by_id_serialize(
+            id=id,
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApprovalItem",
+            '404': None,
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_commercial_approval_by_id_without_preload_content(
+        self,
+        id: UUID,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Obtener aprobación comercial por ID
+
+
+        :param id: (required)
+        :type id: UUID
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_commercial_approval_by_id_serialize(
+            id=id,
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ApprovalItem",
+            '404': None,
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_commercial_approval_by_id_serialize(
+        self,
+        id,
+        x_tenant_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        if x_tenant_id is not None:
+            _header_params['x-tenant-id'] = x_tenant_id
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'oauth2'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/documents/approvals/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def list_commercial_approvals(
+        self,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        ecf: Optional[StrictStr] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Tipo de documento")] = None,
+        status: Optional[StrictInt] = None,
+        date_from: Optional[date] = None,
+        date_to: Optional[date] = None,
+        page: Optional[StrictInt] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApprovalListResponse:
+        """Listar aprobaciones comerciales
+
+
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param ecf:
+        :type ecf: str
+        :param type: Tipo de documento
+        :type type: str
+        :param status:
+        :type status: int
+        :param date_from:
+        :type date_from: date
+        :param date_to:
+        :type date_to: date
+        :param page:
+        :type page: int
+        :param limit:
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_commercial_approvals_serialize(
+            x_tenant_id=x_tenant_id,
             ecf=ecf,
-            document_type=document_type,
+            type=type,
             status=status,
             date_from=date_from,
             date_to=date_to,
-            min_amount=min_amount,
-            max_amount=max_amount,
-            search=search,
-            sort_by=sort_by,
-            sort_order=sort_order,
+            page=page,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -156,21 +417,16 @@ class CommercialApprovalsApi:
 
 
     @validate_call
-    def list_approvals_with_http_info(
+    def list_commercial_approvals_with_http_info(
         self,
-        business_id: StrictStr,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        ecf: Optional[StrictStr] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Tipo de documento")] = None,
+        status: Optional[StrictInt] = None,
+        date_from: Optional[date] = None,
+        date_to: Optional[date] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
-        ecf: Optional[StrictStr] = None,
-        document_type: Optional[StrictStr] = None,
-        status: Optional[StrictInt] = None,
-        date_from: Optional[datetime] = None,
-        date_to: Optional[datetime] = None,
-        min_amount: Optional[Union[StrictFloat, StrictInt]] = None,
-        max_amount: Optional[Union[StrictFloat, StrictInt]] = None,
-        search: Optional[StrictStr] = None,
-        sort_by: Optional[StrictStr] = None,
-        sort_order: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -184,35 +440,25 @@ class CommercialApprovalsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ApprovalListResponse]:
-        """List commercial approvals
+        """Listar aprobaciones comerciales
 
 
-        :param business_id: (required)
-        :type business_id: str
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param ecf:
+        :type ecf: str
+        :param type: Tipo de documento
+        :type type: str
+        :param status:
+        :type status: int
+        :param date_from:
+        :type date_from: date
+        :param date_to:
+        :type date_to: date
         :param page:
         :type page: int
         :param limit:
         :type limit: int
-        :param ecf:
-        :type ecf: str
-        :param document_type:
-        :type document_type: str
-        :param status:
-        :type status: int
-        :param date_from:
-        :type date_from: datetime
-        :param date_to:
-        :type date_to: datetime
-        :param min_amount:
-        :type min_amount: float
-        :param max_amount:
-        :type max_amount: float
-        :param search:
-        :type search: str
-        :param sort_by:
-        :type sort_by: str
-        :param sort_order:
-        :type sort_order: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -235,20 +481,15 @@ class CommercialApprovalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._list_approvals_serialize(
-            business_id=business_id,
-            page=page,
-            limit=limit,
+        _param = self._list_commercial_approvals_serialize(
+            x_tenant_id=x_tenant_id,
             ecf=ecf,
-            document_type=document_type,
+            type=type,
             status=status,
             date_from=date_from,
             date_to=date_to,
-            min_amount=min_amount,
-            max_amount=max_amount,
-            search=search,
-            sort_by=sort_by,
-            sort_order=sort_order,
+            page=page,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -271,21 +512,16 @@ class CommercialApprovalsApi:
 
 
     @validate_call
-    def list_approvals_without_preload_content(
+    def list_commercial_approvals_without_preload_content(
         self,
-        business_id: StrictStr,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        ecf: Optional[StrictStr] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Tipo de documento")] = None,
+        status: Optional[StrictInt] = None,
+        date_from: Optional[date] = None,
+        date_to: Optional[date] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
-        ecf: Optional[StrictStr] = None,
-        document_type: Optional[StrictStr] = None,
-        status: Optional[StrictInt] = None,
-        date_from: Optional[datetime] = None,
-        date_to: Optional[datetime] = None,
-        min_amount: Optional[Union[StrictFloat, StrictInt]] = None,
-        max_amount: Optional[Union[StrictFloat, StrictInt]] = None,
-        search: Optional[StrictStr] = None,
-        sort_by: Optional[StrictStr] = None,
-        sort_order: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -299,35 +535,25 @@ class CommercialApprovalsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List commercial approvals
+        """Listar aprobaciones comerciales
 
 
-        :param business_id: (required)
-        :type business_id: str
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param ecf:
+        :type ecf: str
+        :param type: Tipo de documento
+        :type type: str
+        :param status:
+        :type status: int
+        :param date_from:
+        :type date_from: date
+        :param date_to:
+        :type date_to: date
         :param page:
         :type page: int
         :param limit:
         :type limit: int
-        :param ecf:
-        :type ecf: str
-        :param document_type:
-        :type document_type: str
-        :param status:
-        :type status: int
-        :param date_from:
-        :type date_from: datetime
-        :param date_to:
-        :type date_to: datetime
-        :param min_amount:
-        :type min_amount: float
-        :param max_amount:
-        :type max_amount: float
-        :param search:
-        :type search: str
-        :param sort_by:
-        :type sort_by: str
-        :param sort_order:
-        :type sort_order: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -350,20 +576,15 @@ class CommercialApprovalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._list_approvals_serialize(
-            business_id=business_id,
-            page=page,
-            limit=limit,
+        _param = self._list_commercial_approvals_serialize(
+            x_tenant_id=x_tenant_id,
             ecf=ecf,
-            document_type=document_type,
+            type=type,
             status=status,
             date_from=date_from,
             date_to=date_to,
-            min_amount=min_amount,
-            max_amount=max_amount,
-            search=search,
-            sort_by=sort_by,
-            sort_order=sort_order,
+            page=page,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -381,21 +602,16 @@ class CommercialApprovalsApi:
         return response_data.response
 
 
-    def _list_approvals_serialize(
+    def _list_commercial_approvals_serialize(
         self,
-        business_id,
-        page,
-        limit,
+        x_tenant_id,
         ecf,
-        document_type,
+        type,
         status,
         date_from,
         date_to,
-        min_amount,
-        max_amount,
-        search,
-        sort_by,
-        sort_order,
+        page,
+        limit,
         _request_auth,
         _content_type,
         _headers,
@@ -418,9 +634,43 @@ class CommercialApprovalsApi:
 
         # process the path parameters
         # process the query parameters
-        if business_id is not None:
+        if ecf is not None:
             
-            _query_params.append(('businessId', business_id))
+            _query_params.append(('ecf', ecf))
+            
+        if type is not None:
+            
+            _query_params.append(('type', type))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        if date_from is not None:
+            if isinstance(date_from, date):
+                _query_params.append(
+                    (
+                        'dateFrom',
+                        date_from.strftime(
+                            self.api_client.configuration.date_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('dateFrom', date_from))
+            
+        if date_to is not None:
+            if isinstance(date_to, date):
+                _query_params.append(
+                    (
+                        'dateTo',
+                        date_to.strftime(
+                            self.api_client.configuration.date_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('dateTo', date_to))
             
         if page is not None:
             
@@ -430,65 +680,9 @@ class CommercialApprovalsApi:
             
             _query_params.append(('limit', limit))
             
-        if ecf is not None:
-            
-            _query_params.append(('ecf', ecf))
-            
-        if document_type is not None:
-            
-            _query_params.append(('documentType', document_type))
-            
-        if status is not None:
-            
-            _query_params.append(('status', status))
-            
-        if date_from is not None:
-            if isinstance(date_from, datetime):
-                _query_params.append(
-                    (
-                        'dateFrom',
-                        date_from.strftime(
-                            self.api_client.configuration.datetime_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('dateFrom', date_from))
-            
-        if date_to is not None:
-            if isinstance(date_to, datetime):
-                _query_params.append(
-                    (
-                        'dateTo',
-                        date_to.strftime(
-                            self.api_client.configuration.datetime_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('dateTo', date_to))
-            
-        if min_amount is not None:
-            
-            _query_params.append(('minAmount', min_amount))
-            
-        if max_amount is not None:
-            
-            _query_params.append(('maxAmount', max_amount))
-            
-        if search is not None:
-            
-            _query_params.append(('search', search))
-            
-        if sort_by is not None:
-            
-            _query_params.append(('sortBy', sort_by))
-            
-        if sort_order is not None:
-            
-            _query_params.append(('sortOrder', sort_order))
-            
         # process the header parameters
+        if x_tenant_id is not None:
+            _header_params['x-tenant-id'] = x_tenant_id
         # process the form parameters
         # process the body parameter
 
@@ -504,13 +698,12 @@ class CommercialApprovalsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2', 
-            'bearerAuth'
+            'oauth2'
         ]
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/documents/approvals/all',
+            resource_path='/documents/approvals',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -4,23 +4,22 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create associated company / branch
-[**delete_associated_company**](AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Delete associated company
-[**get_company_document_metrics**](AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics
-[**get_company_metrics**](AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics
-[**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated companies / branches
-[**update_associated_company**](AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Update associated company
+[**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Crear empresa asociada / sucursal
+[**delete_associated_company**](AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada
+[**get_company_document_metrics**](AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa
+[**get_company_metrics**](AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa
+[**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | Listar empresas asociadas / sucursales
+[**update_associated_company**](AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada
 
 
 # **create_associated_company**
 > CreateAssociatedCompany201Response create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, first_name=first_name, last_name=last_name, job_title=job_title, website=website, category=category, monthly_sales_range=monthly_sales_range, logo=logo)
 
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -41,11 +40,6 @@ configuration = pronesoft_ecf.Configuration(
 # satisfies your auth use case.
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
-
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
 
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
@@ -69,7 +63,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     logo = None # bytes |  (optional)
 
     try:
-        # Create associated company / branch
+        # Crear empresa asociada / sucursal
         api_response = api_instance.create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, first_name=first_name, last_name=last_name, job_title=job_title, website=website, category=category, monthly_sales_range=monthly_sales_range, logo=logo)
         print("The response of AssociatedCompaniesApi->create_associated_company:\n")
         pprint(api_response)
@@ -107,7 +101,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -118,23 +112,22 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Company created successfully |  -  |
-**400** | Validation error (400). Check the message field for details. |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**201** | Empresa creada exitosamente |  -  |
+**400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_associated_company**
 > DeleteAssociatedCompany200Response delete_associated_company(company_id)
 
-Delete associated company
+Eliminar empresa asociada
 
-Permanently deletes an associated company. This action is irreversible.
+Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -155,11 +148,6 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -167,7 +155,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     company_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
 
     try:
-        # Delete associated company
+        # Eliminar empresa asociada
         api_response = api_instance.delete_associated_company(company_id)
         print("The response of AssociatedCompaniesApi->delete_associated_company:\n")
         pprint(api_response)
@@ -190,7 +178,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -201,20 +189,19 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Company deleted successfully |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Empresa eliminada exitosamente |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_company_document_metrics**
 > CompanyDocumentMetrics get_company_document_metrics(company_id)
 
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -235,11 +222,6 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -247,7 +229,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     company_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
 
     try:
-        # Get company document metrics
+        # Métricas de documentos de la empresa
         api_response = api_instance.get_company_document_metrics(company_id)
         print("The response of AssociatedCompaniesApi->get_company_document_metrics:\n")
         pprint(api_response)
@@ -270,7 +252,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -281,20 +263,19 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Document metrics |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Métricas de documentos de la empresa |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_company_metrics**
 > CompanyMetrics get_company_metrics(company_id)
 
-Get company metrics
+Métricas de la empresa
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -315,11 +296,6 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -327,7 +303,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     company_id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | 
 
     try:
-        # Get company metrics
+        # Métricas de la empresa
         api_response = api_instance.get_company_metrics(company_id)
         print("The response of AssociatedCompaniesApi->get_company_metrics:\n")
         pprint(api_response)
@@ -350,7 +326,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -361,20 +337,19 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Company metrics |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Métricas de la empresa |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_associated_companies**
 > List[AssociatedCompany] list_associated_companies(page=page, limit=limit)
 
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -395,11 +370,6 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -408,7 +378,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     limit = 10 # int |  (optional) (default to 10)
 
     try:
-        # List associated companies / branches
+        # Listar empresas asociadas / sucursales
         api_response = api_instance.list_associated_companies(page=page, limit=limit)
         print("The response of AssociatedCompaniesApi->list_associated_companies:\n")
         pprint(api_response)
@@ -432,7 +402,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -443,20 +413,19 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Array of associated companies |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Lista de empresas asociadas |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_associated_company**
 > CreateAssociatedCompany201Response update_associated_company(company_id, name=name, phone=phone, website=website, city=city, country=country, logo=logo)
 
-Update associated company
+Actualizar empresa asociada
 
 ### Example
 
 * OAuth Authentication (oauth2):
-* Bearer (JWT) Authentication (bearerAuth):
 
 ```python
 import pronesoft_ecf
@@ -477,11 +446,6 @@ configuration = pronesoft_ecf.Configuration(
 
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
-# Configure Bearer authorization (JWT): bearerAuth
-configuration = pronesoft_ecf.Configuration(
-    access_token = os.environ["BEARER_TOKEN"]
-)
-
 # Enter a context with an instance of the API client
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -495,7 +459,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     logo = None # bytes |  (optional)
 
     try:
-        # Update associated company
+        # Actualizar empresa asociada
         api_response = api_instance.update_associated_company(company_id, name=name, phone=phone, website=website, city=city, country=country, logo=logo)
         print("The response of AssociatedCompaniesApi->update_associated_company:\n")
         pprint(api_response)
@@ -524,7 +488,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -535,8 +499,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Company updated successfully |  -  |
-**401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+**200** | Empresa actualizada exitosamente |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -4,8 +4,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases) |
-| [**exportSentDocuments**](ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Export sent documents report |
+| [**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras) |
+| [**exportSentDocuments**](ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados |
 
 
 
@@ -13,9 +13,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 > string export606(from, to, format, status, type, encf)
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
-Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 
 ### Example
 
@@ -23,16 +23,14 @@ Downloads the official Format 606 for DGII in TXT (official) or Excel format.
 import {
   Configuration,
   ReportsApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { Export606Request } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { Export606Request } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new ReportsApi(config);
 
@@ -81,7 +79,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -92,9 +90,9 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Format 606 report |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Reporte Formato 606 |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 | **403** | The token does not have the required scope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -104,9 +102,9 @@ example().catch(console.error);
 
 > Blob exportSentDocuments(from, to, env, encf, type, status, trackId)
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
-Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
 
 ### Example
 
@@ -114,16 +112,14 @@ Downloads submitted documents in a date range as Excel. Requires reports:read sc
 import {
   Configuration,
   ReportsApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { ExportSentDocumentsRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { ExportSentDocumentsRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new ReportsApi(config);
 
@@ -175,7 +171,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -186,9 +182,9 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Excel report file |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Archivo Excel del reporte |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 | **403** | The token does not have the required scope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

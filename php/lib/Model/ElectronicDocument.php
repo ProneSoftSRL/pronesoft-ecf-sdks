@@ -13,7 +13,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -36,7 +36,7 @@ use \PronesoftEcf\ObjectSerializer;
  * ElectronicDocument Class Doc Comment
  *
  * @category Class
- * @description Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required.
+ * @description Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el &#x60;invoiceType&#x60;. Usa &#x60;GET /tax-sequences/next?invoiceType&#x3D;31&#x60; solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: &#x60;POST /{environment}/ecf/submit&#x60; (ej. &#x60;TesteCF&#x60; o &#x60;eCF&#x60;).
  * @package  PronesoftEcf
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -59,7 +59,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
      * @var string[]
      */
     protected static $openAPITypes = [
-        'environment' => '\PronesoftEcf\Model\Environment',
         'version' => 'string',
         'invoice_type' => '\PronesoftEcf\Model\InvoiceType',
         'invoice_number' => 'string',
@@ -117,7 +116,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'environment' => null,
         'version' => null,
         'invoice_type' => null,
         'invoice_number' => null,
@@ -173,7 +171,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'environment' => false,
         'version' => false,
         'invoice_type' => false,
         'invoice_number' => false,
@@ -309,7 +306,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
      * @var string[]
      */
     protected static $attributeMap = [
-        'environment' => 'environment',
         'version' => 'version',
         'invoice_type' => 'invoiceType',
         'invoice_number' => 'invoiceNumber',
@@ -365,7 +361,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
      * @var string[]
      */
     protected static $setters = [
-        'environment' => 'setEnvironment',
         'version' => 'setVersion',
         'invoice_type' => 'setInvoiceType',
         'invoice_number' => 'setInvoiceNumber',
@@ -421,7 +416,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
      * @var string[]
      */
     protected static $getters = [
-        'environment' => 'getEnvironment',
         'version' => 'getVersion',
         'invoice_type' => 'getInvoiceType',
         'invoice_number' => 'getInvoiceNumber',
@@ -611,7 +605,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('environment', $data ?? [], null);
         $this->setIfExists('version', $data ?? [], '1.0');
         $this->setIfExists('invoice_type', $data ?? [], null);
         $this->setIfExists('invoice_number', $data ?? [], null);
@@ -688,9 +681,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     {
         $invalidProperties = [];
 
-        if ($this->container['version'] === null) {
-            $invalidProperties[] = "'version' can't be null";
-        }
         if ($this->container['invoice_type'] === null) {
             $invalidProperties[] = "'invoice_type' can't be null";
         }
@@ -843,36 +833,9 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
 
 
     /**
-     * Gets environment
-     *
-     * @return \PronesoftEcf\Model\Environment|null
-     */
-    public function getEnvironment()
-    {
-        return $this->container['environment'];
-    }
-
-    /**
-     * Sets environment
-     *
-     * @param \PronesoftEcf\Model\Environment|null $environment environment
-     *
-     * @return self
-     */
-    public function setEnvironment($environment)
-    {
-        if (is_null($environment)) {
-            throw new \InvalidArgumentException('non-nullable environment cannot be null');
-        }
-        $this->container['environment'] = $environment;
-
-        return $this;
-    }
-
-    /**
      * Gets version
      *
-     * @return string
+     * @return string|null
      */
     public function getVersion()
     {
@@ -882,7 +845,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets version
      *
-     * @param string $version Always 1.0.
+     * @param string|null $version Siempre \"1.0\".
      *
      * @return self
      */
@@ -936,7 +899,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets invoice_number
      *
-     * @param string|null $invoice_number e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+     * @param string|null $invoice_number Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`.
      *
      * @return self
      */

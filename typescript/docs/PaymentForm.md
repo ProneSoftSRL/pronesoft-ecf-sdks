@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { PaymentForm } from '@pronesoft-rd/ecf-sdk'
+import type { PaymentForm } from ''
 
 // TODO: Update the object below with actual values
 const example = {

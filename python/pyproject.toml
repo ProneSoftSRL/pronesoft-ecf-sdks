@@ -1,6 +1,6 @@
 [project]
 name = "pronesoft_ecf"
-version = "0.0.3"
+version = "1.2.0"
 description = "eCF-Pronesoft Integration API"
 authors = [
   {name = "Pronesoft SRL Support",email = "support@pronesoft.com"},
@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/ProneSoftSRL/pronesoft-ecf-sdks"
+Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 
 [tool.poetry]
 requires-poetry = ">=2.0"

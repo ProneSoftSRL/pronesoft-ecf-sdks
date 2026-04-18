@@ -2,17 +2,17 @@
 
 # WebhookNotificationPayload
 
-Payload sent to your webhook URL when an event occurs. Validate using header X-Webhook-Signature: sha256=<hmac>. Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp. 
+Envelope enviado a tu URL de webhook cuando ocurre un evento. Valida la autenticidad con el header `X-Webhook-Signature: sha256=<hmac>`. Headers adicionales: `X-Webhook-Event`, `X-Webhook-ID`, `X-Webhook-Timestamp`. 
 
 ## Properties
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **String** | Unique notification ID (evt_xxx format). Use for deduplication. |  |
+|**id** | **String** | ID único de la notificación. Úsalo para deduplicar entregas. |  |
 |**event** | **WebhookEventType** |  |  |
-|**timestamp** | **OffsetDateTime** |  |  |
-|**businessRnc** | **String** |  |  |
-|**data** | **Object** |  |  |
+|**timestamp** | **OffsetDateTime** | Fecha y hora del evento en ISO 8601. |  |
+|**businessRnc** | **String** | RNC de la empresa que generó el evento. |  |
+|**data** | [**WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  |  |
 
 
 

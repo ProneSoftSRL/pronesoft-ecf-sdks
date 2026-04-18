@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**downloadCertification**](AutomatedCertificationApi.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP |
-| [**getCertificationStatus**](AutomatedCertificationApi.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status |
-| [**listCertificationNiches**](AutomatedCertificationApi.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches |
-| [**startCertification**](AutomatedCertificationApi.md#startcertificationoperation) | **POST** /dgii-ecf/automated-certification/start | Start certification process |
+| [**downloadCertification**](AutomatedCertificationApi.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación |
+| [**getCertificationStatus**](AutomatedCertificationApi.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación |
+| [**listCertificationNiches**](AutomatedCertificationApi.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación |
+| [**startCertification**](AutomatedCertificationApi.md#startcertificationoperation) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación |
 
 
 
@@ -15,9 +15,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 > Blob downloadCertification(id)
 
-Download certification ZIP
+Descargar ZIP de certificación
 
-Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
 
 ### Example
 
@@ -25,16 +25,14 @@ Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
 import {
   Configuration,
   AutomatedCertificationApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { DownloadCertificationRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { DownloadCertificationRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AutomatedCertificationApi(config);
 
@@ -68,7 +66,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -79,8 +77,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | ZIP file with certification documents |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Archivo ZIP con documentos de certificación |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -89,7 +87,7 @@ example().catch(console.error);
 
 > CertificationStatus getCertificationStatus(id)
 
-Get certification process status
+Estado del proceso de certificación
 
 ### Example
 
@@ -97,16 +95,14 @@ Get certification process status
 import {
   Configuration,
   AutomatedCertificationApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetCertificationStatusRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetCertificationStatusRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AutomatedCertificationApi(config);
 
@@ -140,7 +136,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -151,8 +147,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Certification process status |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estado del proceso de certificación |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -161,7 +157,7 @@ example().catch(console.error);
 
 > Array&lt;CertificationNiche&gt; listCertificationNiches()
 
-List certification niches
+Listar nichos de certificación
 
 ### Example
 
@@ -169,16 +165,14 @@ List certification niches
 import {
   Configuration,
   AutomatedCertificationApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { ListCertificationNichesRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { ListCertificationNichesRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AutomatedCertificationApi(config);
 
@@ -204,7 +198,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -215,8 +209,8 @@ This endpoint does not need any parameter.
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List of available niches |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de nichos disponibles |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -225,7 +219,7 @@ This endpoint does not need any parameter.
 
 > StartCertification200Response startCertification(startCertificationRequest)
 
-Start certification process
+Iniciar proceso de certificación
 
 ### Example
 
@@ -233,16 +227,14 @@ Start certification process
 import {
   Configuration,
   AutomatedCertificationApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { StartCertificationOperationRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { StartCertificationOperationRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new AutomatedCertificationApi(config);
 
@@ -276,7 +268,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -287,8 +279,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Certification process started |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Proceso de certificación iniciado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

@@ -1,7 +1,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -16,16 +16,16 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
-from typing import List, Optional
+from pydantic import Field, StrictInt, StrictStr
+from typing import Optional
 from typing_extensions import Annotated
 from uuid import UUID
-from pronesoft_ecf.models.ecf_history_item import EcfHistoryItem
 from pronesoft_ecf.models.ecf_stats_response import EcfStatsResponse
 from pronesoft_ecf.models.ecf_status_response import EcfStatusResponse
-from pronesoft_ecf.models.ecf_submission_response import EcfSubmissionResponse
+from pronesoft_ecf.models.ecf_submit_response import EcfSubmitResponse
 from pronesoft_ecf.models.electronic_document import ElectronicDocument
 from pronesoft_ecf.models.environment import Environment
+from pronesoft_ecf.models.get_ecf_submission_history200_response import GetEcfSubmissionHistory200Response
 
 from pronesoft_ecf.api_client import ApiClient, RequestSerialized
 from pronesoft_ecf.api_response import ApiResponse
@@ -46,287 +46,10 @@ class ECFSubmissionApi:
 
 
     @validate_call
-    def get_ecf_history(
-        self,
-        environment: Environment,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[EcfHistoryItem]:
-        """Get submission history (last 50 documents)
-
-
-        :param environment: (required)
-        :type environment: Environment
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-        :type x_tenant_id: UUID
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_ecf_history_serialize(
-            environment=environment,
-            x_tenant_id=x_tenant_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[EcfHistoryItem]",
-            '401': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_ecf_history_with_http_info(
-        self,
-        environment: Environment,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[EcfHistoryItem]]:
-        """Get submission history (last 50 documents)
-
-
-        :param environment: (required)
-        :type environment: Environment
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-        :type x_tenant_id: UUID
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_ecf_history_serialize(
-            environment=environment,
-            x_tenant_id=x_tenant_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[EcfHistoryItem]",
-            '401': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_ecf_history_without_preload_content(
-        self,
-        environment: Environment,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Get submission history (last 50 documents)
-
-
-        :param environment: (required)
-        :type environment: Environment
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-        :type x_tenant_id: UUID
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_ecf_history_serialize(
-            environment=environment,
-            x_tenant_id=x_tenant_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[EcfHistoryItem]",
-            '401': "ErrorResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_ecf_history_serialize(
-        self,
-        environment,
-        x_tenant_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if environment is not None:
-            _path_params['environment'] = environment.value
-        # process the query parameters
-        # process the header parameters
-        if x_tenant_id is not None:
-            _header_params['x-tenant-id'] = x_tenant_id
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'oauth2', 
-            'bearerAuth'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/{environment}/ecf/responses/history',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def get_ecf_stats(
         self,
         environment: Environment,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -340,12 +63,12 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EcfStatsResponse:
-        """Get submission statistics (last 30 days)
+        """Obtener estadísticas de envíos (últimos 30 días)
 
 
         :param environment: (required)
         :type environment: Environment
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -397,7 +120,7 @@ class ECFSubmissionApi:
     def get_ecf_stats_with_http_info(
         self,
         environment: Environment,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -411,12 +134,12 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EcfStatsResponse]:
-        """Get submission statistics (last 30 days)
+        """Obtener estadísticas de envíos (últimos 30 días)
 
 
         :param environment: (required)
         :type environment: Environment
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -468,7 +191,7 @@ class ECFSubmissionApi:
     def get_ecf_stats_without_preload_content(
         self,
         environment: Environment,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -482,12 +205,12 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get submission statistics (last 30 days)
+        """Obtener estadísticas de envíos (últimos 30 días)
 
 
         :param environment: (required)
         :type environment: Environment
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -577,8 +300,7 @@ class ECFSubmissionApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2', 
-            'bearerAuth'
+            'oauth2'
         ]
 
         return self.api_client.param_serialize(
@@ -603,8 +325,8 @@ class ECFSubmissionApi:
     def get_ecf_status(
         self,
         environment: Environment,
-        track_id: StrictStr,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        id: StrictStr,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -618,14 +340,14 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EcfStatusResponse:
-        """Get document status by trackId
+        """Consultar estado del documento por ID interno
 
 
         :param environment: (required)
         :type environment: Environment
-        :param track_id: (required)
-        :type track_id: str
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param id: (required)
+        :type id: str
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -651,7 +373,7 @@ class ECFSubmissionApi:
 
         _param = self._get_ecf_status_serialize(
             environment=environment,
-            track_id=track_id,
+            id=id,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -678,8 +400,8 @@ class ECFSubmissionApi:
     def get_ecf_status_with_http_info(
         self,
         environment: Environment,
-        track_id: StrictStr,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        id: StrictStr,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -693,14 +415,14 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EcfStatusResponse]:
-        """Get document status by trackId
+        """Consultar estado del documento por ID interno
 
 
         :param environment: (required)
         :type environment: Environment
-        :param track_id: (required)
-        :type track_id: str
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param id: (required)
+        :type id: str
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -726,7 +448,7 @@ class ECFSubmissionApi:
 
         _param = self._get_ecf_status_serialize(
             environment=environment,
-            track_id=track_id,
+            id=id,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -753,8 +475,8 @@ class ECFSubmissionApi:
     def get_ecf_status_without_preload_content(
         self,
         environment: Environment,
-        track_id: StrictStr,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        id: StrictStr,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -768,14 +490,14 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get document status by trackId
+        """Consultar estado del documento por ID interno
 
 
         :param environment: (required)
         :type environment: Environment
-        :param track_id: (required)
-        :type track_id: str
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param id: (required)
+        :type id: str
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -801,7 +523,7 @@ class ECFSubmissionApi:
 
         _param = self._get_ecf_status_serialize(
             environment=environment,
-            track_id=track_id,
+            id=id,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -823,7 +545,7 @@ class ECFSubmissionApi:
     def _get_ecf_status_serialize(
         self,
         environment,
-        track_id,
+        id,
         x_tenant_id,
         _request_auth,
         _content_type,
@@ -848,8 +570,8 @@ class ECFSubmissionApi:
         # process the path parameters
         if environment is not None:
             _path_params['environment'] = environment.value
-        if track_id is not None:
-            _path_params['trackId'] = track_id
+        if id is not None:
+            _path_params['id'] = id
         # process the query parameters
         # process the header parameters
         if x_tenant_id is not None:
@@ -869,13 +591,322 @@ class ECFSubmissionApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2', 
-            'bearerAuth'
+            'oauth2'
         ]
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/{environment}/ecf/status/{trackId}',
+            resource_path='/{environment}/ecf/status/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_ecf_submission_history(
+        self,
+        environment: Environment,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        page: Optional[StrictInt] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GetEcfSubmissionHistory200Response:
+        """Historial de envíos (paginado)
+
+
+        :param environment: (required)
+        :type environment: Environment
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param page:
+        :type page: int
+        :param limit:
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_ecf_submission_history_serialize(
+            environment=environment,
+            x_tenant_id=x_tenant_id,
+            page=page,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetEcfSubmissionHistory200Response",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_ecf_submission_history_with_http_info(
+        self,
+        environment: Environment,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        page: Optional[StrictInt] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GetEcfSubmissionHistory200Response]:
+        """Historial de envíos (paginado)
+
+
+        :param environment: (required)
+        :type environment: Environment
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param page:
+        :type page: int
+        :param limit:
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_ecf_submission_history_serialize(
+            environment=environment,
+            x_tenant_id=x_tenant_id,
+            page=page,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetEcfSubmissionHistory200Response",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_ecf_submission_history_without_preload_content(
+        self,
+        environment: Environment,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        page: Optional[StrictInt] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Historial de envíos (paginado)
+
+
+        :param environment: (required)
+        :type environment: Environment
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param page:
+        :type page: int
+        :param limit:
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_ecf_submission_history_serialize(
+            environment=environment,
+            x_tenant_id=x_tenant_id,
+            page=page,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetEcfSubmissionHistory200Response",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_ecf_submission_history_serialize(
+        self,
+        environment,
+        x_tenant_id,
+        page,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if environment is not None:
+            _path_params['environment'] = environment.value
+        # process the query parameters
+        if page is not None:
+            
+            _query_params.append(('page', page))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        if x_tenant_id is not None:
+            _header_params['x-tenant-id'] = x_tenant_id
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'oauth2'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/{environment}/ecf/responses/history',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -896,7 +927,7 @@ class ECFSubmissionApi:
         self,
         environment: Environment,
         electronic_document: ElectronicDocument,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -909,16 +940,16 @@ class ECFSubmissionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EcfSubmissionResponse:
-        """Submit e-CF document to DGII
+    ) -> EcfSubmitResponse:
+        """Enviar documento e-CF a la DGII
 
-        Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+        Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
 
         :param environment: (required)
         :type environment: Environment
         :param electronic_document: (required)
         :type electronic_document: ElectronicDocument
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -953,9 +984,11 @@ class ECFSubmissionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EcfSubmissionResponse",
+            '201': "EcfSubmitResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
+            '422': "ErrorResponse",
+            '500': "ErrorResponse",
             '429': "RateLimitErrorResponse",
         }
         response_data = self.api_client.call_api(
@@ -974,7 +1007,7 @@ class ECFSubmissionApi:
         self,
         environment: Environment,
         electronic_document: ElectronicDocument,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -987,16 +1020,16 @@ class ECFSubmissionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EcfSubmissionResponse]:
-        """Submit e-CF document to DGII
+    ) -> ApiResponse[EcfSubmitResponse]:
+        """Enviar documento e-CF a la DGII
 
-        Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+        Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
 
         :param environment: (required)
         :type environment: Environment
         :param electronic_document: (required)
         :type electronic_document: ElectronicDocument
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1031,9 +1064,11 @@ class ECFSubmissionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EcfSubmissionResponse",
+            '201': "EcfSubmitResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
+            '422': "ErrorResponse",
+            '500': "ErrorResponse",
             '429': "RateLimitErrorResponse",
         }
         response_data = self.api_client.call_api(
@@ -1052,7 +1087,7 @@ class ECFSubmissionApi:
         self,
         environment: Environment,
         electronic_document: ElectronicDocument,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1066,15 +1101,15 @@ class ECFSubmissionApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Submit e-CF document to DGII
+        """Enviar documento e-CF a la DGII
 
-        Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+        Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
 
         :param environment: (required)
         :type environment: Environment
         :param electronic_document: (required)
         :type electronic_document: ElectronicDocument
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1109,9 +1144,11 @@ class ECFSubmissionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EcfSubmissionResponse",
+            '201': "EcfSubmitResponse",
             '400': "ErrorResponse",
             '401': "ErrorResponse",
+            '422': "ErrorResponse",
+            '500': "ErrorResponse",
             '429': "RateLimitErrorResponse",
         }
         response_data = self.api_client.call_api(
@@ -1183,8 +1220,7 @@ class ECFSubmissionApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2', 
-            'bearerAuth'
+            'oauth2'
         ]
 
         return self.api_client.param_serialize(

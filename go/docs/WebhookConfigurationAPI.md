@@ -4,9 +4,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetWebhook**](WebhookConfigurationAPI.md#GetWebhook) | **Get** /{rnc}/webhooks/{webhookId} | Get webhook details
-[**GetWebhookStats**](WebhookConfigurationAPI.md#GetWebhookStats) | **Get** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
-[**ListWebhooks**](WebhookConfigurationAPI.md#ListWebhooks) | **Get** /{rnc}/webhooks | List webhook configurations
+[**GetWebhook**](WebhookConfigurationAPI.md#GetWebhook) | **Get** /{rnc}/webhooks/{webhookId} | Detalle de un webhook
+[**GetWebhookStats**](WebhookConfigurationAPI.md#GetWebhookStats) | **Get** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook
+[**ListWebhooks**](WebhookConfigurationAPI.md#ListWebhooks) | **Get** /{rnc}/webhooks | Listar configuraciones de webhooks
 
 
 
@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 > WebhookConfigDetail GetWebhook(ctx, rnc, webhookId).Execute()
 
-Get webhook details
+Detalle de un webhook
 
 ### Example
 
@@ -25,11 +25,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
-	rnc := "133190907" // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+	rnc := "133190907" // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 	webhookId := "webhookId_example" // string | 
 
 	configuration := openapiclient.NewConfiguration()
@@ -50,7 +50,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+**rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
 **webhookId** | **string** |  | 
 
 ### Other Parameters
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 
 > WebhookStats GetWebhookStats(ctx, rnc, webhookId).Period(period).Execute()
 
-Get webhook delivery statistics
+Estadísticas de entregas del webhook
 
 ### Example
 
@@ -96,11 +96,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
-	rnc := "133190907" // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+	rnc := "133190907" // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 	webhookId := "webhookId_example" // string | 
 	period := "period_example" // string |  (optional) (default to "month")
 
@@ -122,7 +122,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+**rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
 **webhookId** | **string** |  | 
 
 ### Other Parameters
@@ -142,7 +142,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -158,7 +158,7 @@ Name | Type | Description  | Notes
 
 > []WebhookConfigResponse ListWebhooks(ctx, rnc).Execute()
 
-List webhook configurations
+Listar configuraciones de webhooks
 
 
 
@@ -171,11 +171,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
-	rnc := "133190907" // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+	rnc := "133190907" // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -195,7 +195,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
+**rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
 
 ### Other Parameters
 
@@ -212,7 +212,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

@@ -20,31 +20,31 @@ info:
   title: eCF-Pronesoft Integration API
   version: 1.2.0
   description: |
-    ## Overview
-    Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
-    Dominican Republic through the Pronesoft platform.
+    ## Descripción general
+    API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la
+    República Dominicana a través de la plataforma Pronesoft.
 
-    ## Authentication — OAuth 2.0 Client Credentials
+    ## Autenticación — OAuth 2.0 Client Credentials
 
-    ### Steps
-    1. Get credentials from the portal:
-       - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App
-       - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App
-    2. Request a token via POST /oauth/token — valid for 24 hours (86400s).
-    3. Use: Authorization: Bearer <accessToken> on every request.
-    4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.
+    ### Pasos
+    1. Obtén tus credenciales desde el portal:
+       - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App
+       - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App
+    2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s).
+    3. Usa: Authorization: Bearer <accessToken> en cada request.
+    4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.
 
-    ### Multi-company delegation
-    To act on behalf of an associated company (branch), add:
+    ### Delegación multi-empresa
+    Para actuar en nombre de una empresa asociada (sucursal), agrega:
       x-tenant-id: <business-uuid>
-    Do NOT send x-tenant-id when acting as the main company.
+    NO envíes x-tenant-id cuando actúes como la empresa principal.
 
-    ### Sandbox specifics
-    - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed.
-    - Sequences are automatic — no need to create them manually.
-    - The environment field in the document body MUST be TesteCF.
+    ### Detalles del Sandbox
+    - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real.
+    - Las secuencias son automáticas — no es necesario crearlas manualmente.
+    - El campo environment en el cuerpo del documento DEBE ser TesteCF.
 
-    ### Scopes
+    ### Scopes disponibles
     business:read, business:create, business:update,
     members:read, members:invite, members:revoke,
     certificates:read, certificates:upload, certificates:update,
@@ -52,7 +52,6 @@ info:
     approvals:read, approvals:commercial,
     sequences:read, sequences:create, sequences:update, sequences:cancel,
     business_info:read, certification:read, certification:write, reports:read
-
 
   contact:
     name: Pronesoft SRL Support
@@ -68,46 +67,46 @@ externalDocs:
 
 servers:
   - url: https://api.ecf.sandbox.pronesoft.com/api/v1
-    description: Sandbox — development and testing
+    description: Sandbox — desarrollo y pruebas
   - url: https://api.ecf.pronesoft.com/api/v1
-    description: Production — live e-CF issuance
+    description: Producción — emisión real de e-CF
 
 security:
   - oauth2: []
 
 tags:
   - name: Authentication
-    description: OAuth 2.0 token endpoint. No Authorization header needed here. Tokens are valid for 24 hours.
+    description: Endpoint de token OAuth 2.0. No requiere cabecera de autorización. Los tokens son válidos por 24 horas.
   - name: Digital Certificates
-    description: Upload and manage DGII digital signing certificates (P12/PFX format).
+    description: Sube y gestiona los certificados digitales de firma emitidos por DGII (formato P12/PFX).
   - name: Tax Sequences
-    description: Manage e-NCF fiscal number sequences (E31-E47). Automatic in Sandbox.
+    description: Gestiona los rangos de números de comprobante fiscal e-NCF (E31-E47). Automático en Sandbox.
   - name: eCF Submission
-    description: Core endpoint for submitting e-CF documents to DGII via Pronesoft.
+    description: Endpoint principal para enviar documentos e-CF a la DGII a través de Pronesoft.
   - name: Documents Sent
-    description: Query, download, and get statistics on submitted documents.
+    description: Consulta, descarga y obtén estadísticas de los documentos enviados.
   - name: Documents Received
-    description: Manage and query e-CF documents received from third parties.
+    description: Gestiona y consulta los documentos e-CF recibidos de terceros.
   - name: Commercial Approvals
-    description: Manage internal commercial approval workflows for received documents.
+    description: Gestiona el flujo interno de aprobación comercial de documentos recibidos.
   - name: Associated Companies
-    description: Manage branches and associated companies under your main account.
+    description: Gestiona sucursales y empresas asociadas bajo tu cuenta principal.
   - name: Webhook Configuration
-    description: Read webhook configurations (webhooks are managed from the Dashboard UI).
+    description: Consulta las configuraciones de webhooks (los webhooks se crean desde el Portal).
   - name: Automated Certification
-    description: Automate the DGII certification process for ERPs.
+    description: Automatiza el proceso de certificación con la DGII para ERPs.
   - name: Reports
-    description: Download accounting reports (Sent Files, Format 606) for DGII compliance.
+    description: Descarga reportes contables (Documentos Enviados, Formato 606) para cumplimiento DGII.
 
 paths:
   /oauth/token:
     post:
       tags: [Authentication]
-      summary: Get access token (OAuth 2.0)
+      summary: Obtener token de acceso (OAuth 2.0)
       description: |
-        Authenticates using OAuth 2.0 Client Credentials flow.
-        Returns a Bearer token valid for 24 hours (86400 seconds).
-        This endpoint is public — no Authorization header needed.
+        Autenticación mediante el flujo OAuth 2.0 Client Credentials.
+        Retorna un token Bearer válido por 24 horas (86400 segundos).
+        Este endpoint es público — no requiere cabecera de Authorization.
       operationId: getAccessToken
       security: []
       requestBody:
@@ -121,7 +120,7 @@ paths:
               clientSecret: "sk_live_TU_CLIENT_SECRET"
       responses:
         "200":
-          description: Token generated successfully
+          description: Token generado exitosamente
           content:
             application/json:
               schema:
@@ -136,11 +135,11 @@ paths:
   /{rnc}/certificates:
     post:
       tags: [Digital Certificates]
-      summary: Upload digital certificate (P12/PFX)
+      summary: Subir certificado digital (P12/PFX)
       description: |
-        Uploads the DGII-issued digital signing certificate for a company.
-        Stored encrypted with AES-256-CBC. No download endpoint exists.
-        Sandbox tip: SBX-prefixed RNCs do not require a certificate.
+        Sube el certificado de firma digital emitido por DGII para una empresa.
+        Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga.
+        Tip Sandbox: Los RNC con prefijo SBX no requieren certificado.
       operationId: uploadCertificate
       security:
         - oauth2: [certificates:upload]
@@ -157,14 +156,14 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: Certificate file in .p12 or .pfx format.
+                  description: Archivo del certificado en formato .p12 o .pfx.
                 password:
                   type: string
                   format: password
-                  description: Password to unlock the certificate.
+                  description: Contraseña para desbloquear el certificado.
       responses:
         "201":
-          description: Certificate uploaded successfully
+          description: Certificado subido exitosamente
           content:
             application/json:
               schema:
@@ -176,12 +175,12 @@ paths:
         "403":
           $ref: "#/components/responses/ForbiddenError"
         "404":
-          description: Company RNC not found in the system.
+          description: RNC de la empresa no encontrado en el sistema.
 
   /tax-sequences:
     get:
       tags: [Tax Sequences]
-      summary: List tax sequences
+      summary: Listar secuencias de NCF
       operationId: listTaxSequences
       security:
         - oauth2: [sequences:read]
@@ -203,7 +202,7 @@ paths:
           schema: { type: integer, default: 10 }
       responses:
         "200":
-          description: List of tax sequences
+          description: Lista de secuencias de NCF
           content:
             application/json:
               schema:
@@ -222,7 +221,7 @@ paths:
   /tax-sequences/create:
     post:
       tags: [Tax Sequences]
-      summary: Create new tax sequence
+      summary: Crear nueva secuencia de NCF
       operationId: createTaxSequence
       security:
         - oauth2: [sequences:create]
@@ -243,7 +242,7 @@ paths:
               environment: "TesteCF"
       responses:
         "201":
-          description: Sequence created successfully
+          description: Secuencia creada exitosamente
           content:
             application/json:
               schema:
@@ -260,8 +259,8 @@ paths:
   /tax-sequences/next:
     get:
       tags: [Tax Sequences]
-      summary: Get next available fiscal number
-      description: Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+      summary: Obtener siguiente número fiscal disponible
+      description: Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
       operationId: getNextNumber
       security:
         - oauth2: [sequences:read]
@@ -279,7 +278,7 @@ paths:
             $ref: "#/components/schemas/Environment"
       responses:
         "200":
-          description: Next available e-NCF number
+          description: Siguiente número e-NCF disponible
           content:
             application/json:
               schema:
@@ -304,7 +303,7 @@ paths:
   /tax-sequences/update:
     patch:
       tags: [Tax Sequences]
-      summary: Update tax sequence
+      summary: Actualizar secuencia de NCF
       operationId: updateTaxSequence
       security:
         - oauth2: [sequences:update]
@@ -322,15 +321,15 @@ paths:
               $ref: "#/components/schemas/UpdateTaxSequenceRequest"
       responses:
         "200":
-          description: Sequence updated successfully
+          description: Secuencia actualizada exitosamente
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
   /tax-sequences/void:
     post:
       tags: [Tax Sequences]
-      summary: Void a range of fiscal numbers
-      description: Cancels unused fiscal numbers and notifies DGII.
+      summary: Anular rango de números fiscales
+      description: Cancela números fiscales no utilizados y notifica a la DGII.
       operationId: voidTaxSequence
       security:
         - oauth2: [sequences:cancel]
@@ -344,7 +343,7 @@ paths:
               $ref: "#/components/schemas/VoidTaxSequenceRequest"
       responses:
         "200":
-          description: Numbers voided successfully
+          description: Números anulados exitosamente
           content:
             application/json:
               schema:
@@ -363,11 +362,11 @@ paths:
   /{environment}/ecf/submit:
     post:
       tags: [eCF Submission]
-      summary: Submit e-CF document to DGII
+      summary: Enviar documento e-CF a la DGII
       description: |
-        Submits an electronic tax document. Handles XML signing, queuing,
-        contingency mode, and DGII communication automatically.
-        IMPORTANT: In Sandbox the environment field in body MUST be TesteCF.
+        Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML,
+        la cola de envío, el modo contingencia y la comunicación con la DGII.
+        IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF.
       operationId: submitEcf
       security:
         - oauth2: [documents:send]
@@ -384,25 +383,339 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ElectronicDocument"
+            examples:
+              tipo31_credito_fiscal:
+                summary: "Tipo 31 — Factura de Crédito Fiscal"
+                description: Para ventas a empresas con RNC. El comprador puede deducir el ITBIS.
+                value:
+                  invoiceType: "31"
+                  issueDate: "2025-06-04"
+                  paymentType: "1"
+                  incomeType: "01"
+                  taxedAmountIndicator: "0"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  buyer:
+                    taxId: "101234567"
+                    name: "Cliente Corporativo SRL"
+                  items:
+                    - name: "Servicio de desarrollo de software"
+                      quantity: 1
+                      unitPrice: "50000.00"
+                      unitOfMeasure: 1
+                      type: "2"
+                      billingIndicator: "1"
+                  totals:
+                    taxableAmount: 50000.00
+                    exemptAmount: 0
+                    totalITBIS: 9000.00
+                    totalAmount: 59000.00
+                  paymentForms:
+                    - method: "1"
+                      amount: 59000.00
+
+              tipo32_consumo:
+                summary: "Tipo 32 — Factura de Consumo"
+                description: Para ventas al consumidor final. Comprador opcional si el total es menor a RD$250,000.
+                value:
+                  invoiceType: "32"
+                  issueDate: "2025-06-04"
+                  paymentType: "1"
+                  incomeType: "01"
+                  taxedAmountIndicator: "0"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  buyer:
+                    name: "Consumidor Final"
+                  items:
+                    - name: "Producto electrónico"
+                      quantity: 2
+                      unitPrice: "5500.00"
+                      unitOfMeasure: 1
+                      type: "1"
+                      billingIndicator: "1"
+                  totals:
+                    taxableAmount: 11000.00
+                    exemptAmount: 0
+                    totalITBIS: 1980.00
+                    totalAmount: 12980.00
+                  paymentForms:
+                    - method: "1"
+                      amount: 12980.00
+
+              tipo33_nota_debito:
+                summary: "Tipo 33 — Nota de Débito"
+                description: Aumenta el valor de una factura previamente emitida. Requiere referenceInfo.
+                value:
+                  invoiceType: "33"
+                  issueDate: "2025-06-04"
+                  paymentType: "1"
+                  incomeType: "01"
+                  taxedAmountIndicator: "0"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  referenceInfo:
+                    modifiedInvoiceNumber: "E310000000001"
+                    modifiedInvoiceDate: "2025-05-20"
+                    modificationCode: "3"
+                  buyer:
+                    taxId: "101234567"
+                    name: "Cliente Corporativo SRL"
+                  items:
+                    - name: "Ajuste por diferencia de precio"
+                      quantity: 1
+                      unitPrice: "2000.00"
+                      unitOfMeasure: 1
+                      type: "2"
+                      billingIndicator: "1"
+                  totals:
+                    taxableAmount: 2000.00
+                    exemptAmount: 0
+                    totalITBIS: 360.00
+                    totalAmount: 2360.00
+                  paymentForms:
+                    - method: "1"
+                      amount: 2360.00
+
+              tipo34_nota_credito:
+                summary: "Tipo 34 — Nota de Crédito"
+                description: Reduce el valor de una factura previamente emitida. Requiere creditNoteIndicator y referenceInfo.
+                value:
+                  invoiceType: "34"
+                  issueDate: "2025-06-04"
+                  paymentType: "1"
+                  incomeType: "01"
+                  creditNoteIndicator: "0"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  referenceInfo:
+                    modifiedInvoiceNumber: "E310000000001"
+                    modifiedInvoiceDate: "2025-05-20"
+                    modificationCode: "3"
+                  buyer:
+                    taxId: "101234567"
+                    name: "Cliente Corporativo SRL"
+                  items:
+                    - name: "Devolución parcial de servicio"
+                      quantity: 1
+                      unitPrice: "10000.00"
+                      unitOfMeasure: 1
+                      type: "2"
+                      billingIndicator: "1"
+                  totals:
+                    taxableAmount: 10000.00
+                    exemptAmount: 0
+                    totalITBIS: 1800.00
+                    totalAmount: 11800.00
+                  paymentForms:
+                    - method: "7"
+                      amount: 11800.00
+
+              tipo41_compras:
+                summary: "Tipo 41 — Comprobante de Compras"
+                description: Registro de compras a proveedores. Requiere retención de ITBIS e ISR según tipo de ítem.
+                value:
+                  invoiceType: "41"
+                  issueDate: "2025-06-04"
+                  paymentType: "1"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  buyer:
+                    taxId: "109876543"
+                    name: "Proveedor de Servicios SRL"
+                  items:
+                    - name: "Servicio de consultoría"
+                      quantity: 1
+                      unitPrice: "30000.00"
+                      unitOfMeasure: 1
+                      type: "2"
+                      billingIndicator: "1"
+                      withholdingAgentIndicator: 1
+                      withheldITBISAmount: 5400.00
+                      withheldISRAmount: 3000.00
+                  totals:
+                    taxableAmount: 30000.00
+                    exemptAmount: 0
+                    totalITBIS: 5400.00
+                    totalAmount: 35400.00
+                    totalWithheldITBIS: 5400.00
+                    totalIncomeTaxWithholding: 3000.00
+                  paymentForms:
+                    - method: "1"
+                      amount: 35400.00
+
+              tipo43_gastos_menores:
+                summary: "Tipo 43 — Gastos Menores"
+                description: Gastos pequeños sin comprobante fiscal. No requiere comprador, paymentType ni incomeType.
+                value:
+                  invoiceType: "43"
+                  issueDate: "2025-06-04"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  items:
+                    - name: "Combustible vehículo corporativo"
+                      quantity: 1
+                      unitPrice: "3500.00"
+                      unitOfMeasure: 1
+                      type: "1"
+                      billingIndicator: "4"
+                  totals:
+                    taxableAmount: 0
+                    exemptAmount: 3500.00
+                    totalITBIS: 0
+                    totalAmount: 3500.00
+                  paymentForms:
+                    - method: "1"
+                      amount: 3500.00
+
+              tipo44_regimenes_especiales:
+                summary: "Tipo 44 — Regímenes Especiales"
+                description: Para empresas en zonas francas u otros regímenes de exención.
+                value:
+                  invoiceType: "44"
+                  issueDate: "2025-06-04"
+                  paymentType: "1"
+                  incomeType: "01"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  buyer:
+                    taxId: "101234567"
+                    name: "Empresa Zona Franca SRL"
+                  items:
+                    - name: "Materia prima importada"
+                      quantity: 100
+                      unitPrice: "250.00"
+                      unitOfMeasure: 1
+                      type: "1"
+                      billingIndicator: "4"
+                  totals:
+                    taxableAmount: 0
+                    exemptAmount: 25000.00
+                    totalITBIS: 0
+                    totalAmount: 25000.00
+                  paymentForms:
+                    - method: "1"
+                      amount: 25000.00
+
+              tipo45_gubernamental:
+                summary: "Tipo 45 — Gubernamental"
+                description: Para ventas a instituciones del Estado. Ejemplo con pago a crédito.
+                value:
+                  invoiceType: "45"
+                  issueDate: "2025-06-04"
+                  paymentType: "2"
+                  incomeType: "01"
+                  paymentTerms: "30 días"
+                  paymentDeadline: "2025-07-04"
+                  taxedAmountIndicator: "0"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  buyer:
+                    taxId: "401123456"
+                    name: "Ministerio de Hacienda"
+                  items:
+                    - name: "Equipos de cómputo"
+                      quantity: 10
+                      unitPrice: "45000.00"
+                      unitOfMeasure: 1
+                      type: "1"
+                      billingIndicator: "1"
+                  totals:
+                    taxableAmount: 450000.00
+                    exemptAmount: 0
+                    totalITBIS: 81000.00
+                    totalAmount: 531000.00
+                  paymentForms:
+                    - method: "4"
+                      amount: 531000.00
+
+              tipo46_exportaciones:
+                summary: "Tipo 46 — Exportaciones"
+                description: Para ventas al exterior. ITBIS siempre 0% (tasa cero).
+                value:
+                  invoiceType: "46"
+                  issueDate: "2025-06-04"
+                  paymentType: "1"
+                  incomeType: "01"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  buyer:
+                    foreignId: "US123456789"
+                    name: "Foreign Client LLC"
+                  items:
+                    - name: "Software de gestión empresarial"
+                      quantity: 1
+                      unitPrice: "150000.00"
+                      unitOfMeasure: 1
+                      type: "2"
+                      billingIndicator: "3"
+                  totals:
+                    taxableAmount: 150000.00
+                    exemptAmount: 0
+                    totalITBIS: 0
+                    totalAmount: 150000.00
+                  paymentForms:
+                    - method: "1"
+                      amount: 150000.00
+
+              tipo47_pagos_exterior:
+                summary: "Tipo 47 — Pagos al Exterior"
+                description: Servicios contratados a proveedores extranjeros. Requiere buyer.foreignId y retención ISR obligatoria.
+                value:
+                  invoiceType: "47"
+                  issueDate: "2025-06-04"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: "Mi Empresa SRL"
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  buyer:
+                    foreignId: "US987654321"
+                    name: "Tech Services Inc."
+                  items:
+                    - name: "Licencia de software anual"
+                      quantity: 1
+                      unitPrice: "80000.00"
+                      unitOfMeasure: 1
+                      type: "2"
+                      billingIndicator: "4"
+                      withholdingAgentIndicator: 1
+                      withheldISRAmount: 8000.00
+                  totals:
+                    taxableAmount: 0
+                    exemptAmount: 80000.00
+                    totalITBIS: 0
+                    totalAmount: 80000.00
+                    totalIncomeTaxWithholding: 8000.00
+                  paymentForms:
+                    - method: "1"
+                      amount: 80000.00
       responses:
         "201":
-          description: Document registered and queued for processing
+          description: Documento registrado y en cola de procesamiento
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EcfStatusResponse"
+                $ref: "#/components/schemas/EcfSubmitResponse"
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "422":
-          description: Validation or processing error
+          description: Error de validación o procesamiento
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "500":
-          description: Internal server error
+          description: Error interno del servidor
           content:
             application/json:
               schema:
@@ -413,7 +726,7 @@ paths:
   /{environment}/ecf/status/{id}:
     get:
       tags: [eCF Submission]
-      summary: Get document status by internal id
+      summary: Consultar estado del documento por ID interno
       operationId: getEcfStatus
       security:
         - oauth2: [documents:read]
@@ -430,7 +743,7 @@ paths:
           schema: { type: string }
       responses:
         "200":
-          description: Document status
+          description: Estado del documento
           content:
             application/json:
               schema:
@@ -441,7 +754,7 @@ paths:
   /{environment}/ecf/responses/stats:
     get:
       tags: [eCF Submission]
-      summary: Get submission statistics (last 30 days)
+      summary: Obtener estadísticas de envíos (últimos 30 días)
       operationId: getEcfStats
       security:
         - oauth2: [documents:read]
@@ -454,7 +767,7 @@ paths:
             $ref: "#/components/schemas/Environment"
       responses:
         "200":
-          description: Submission statistics
+          description: Estadísticas de envíos
           content:
             application/json:
               schema:
@@ -465,8 +778,8 @@ paths:
   /{environment}/ecf/responses/history:
     get:
       tags: [eCF Submission]
-      summary: Get submission history (last 50 documents)
-      operationId: getEcfHistory
+      summary: Historial de envíos (paginado)
+      operationId: getEcfSubmissionHistory
       security:
         - oauth2: [documents:read]
       parameters:
@@ -476,22 +789,33 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/Environment"
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20, maximum: 100 }
       responses:
         "200":
-          description: Document history
+          description: Historial de documentos paginado
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/EcfHistoryItem"
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/EcfHistoryItem"
+                  meta:
+                    $ref: "#/components/schemas/PaginationMeta"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
   /documents/sent:
     get:
       tags: [Documents Sent]
-      summary: List sent documents
+      summary: Listar documentos enviados
       operationId: listSentDocuments
       security:
         - oauth2: [documents:read]
@@ -526,7 +850,7 @@ paths:
           schema: { type: integer, default: 10, maximum: 100 }
       responses:
         "200":
-          description: Paginated list of sent documents
+          description: Lista paginada de documentos enviados
           content:
             application/json:
               schema:
@@ -537,8 +861,8 @@ paths:
   /documents/{id}:
     get:
       tags: [Documents Sent]
-      summary: Get document details
-      operationId: getDocument
+      summary: Obtener detalle del documento
+      operationId: getSentDocumentById
       security:
         - oauth2: [documents:read]
       parameters:
@@ -549,7 +873,7 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200":
-          description: Document details
+          description: Detalle del documento
           content:
             application/json:
               schema:
@@ -560,18 +884,28 @@ paths:
   /documents/download:
     get:
       tags: [Documents Sent]
-      summary: Download document XML
-      operationId: downloadDocument
+      summary: Descargar XML del documento
+      operationId: downloadSentDocumentXml
       security:
         - oauth2: [documents:read]
       parameters:
+        - name: id
+          in: query
+          required: false
+          description: ID interno del documento
+          schema: { type: string, format: uuid }
         - name: fileUrl
           in: query
-          required: true
+          required: false
           schema: { type: string, format: uri }
+        - name: inline
+          in: query
+          required: false
+          description: "true para ver en el navegador, false para descargar"
+          schema: { type: string, enum: ["true", "false"] }
       responses:
         "200":
-          description: XML file content
+          description: Contenido del archivo XML
           content:
             application/xml:
               schema:
@@ -579,24 +913,40 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
+  /documents/status-options:
+    get:
+      tags: [Documents Sent]
+      summary: Opciones de filtro de estado disponibles
+      operationId: getSentDocumentStatusOptions
+      security:
+        - oauth2: [documents:read]
+      responses:
+        "200":
+          description: Lista de opciones de estado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    value: { type: string }
+                    label: { type: string }
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
   /documents/stats/summary:
     get:
       tags: [Documents Sent]
-      summary: Get document statistics
-      operationId: getDocumentStats
+      summary: Estadísticas de documentos enviados
+      operationId: getSentDocumentStats
       security:
         - oauth2: [documents:read]
       parameters:
         - $ref: "#/components/parameters/TenantIdHeaderOptional"
-        - name: period
-          in: query
-          schema:
-            type: string
-            enum: [7d, 30d, 90d]
-            default: 30d
       responses:
         "200":
-          description: Document statistics
+          description: Estadísticas de documentos
           content:
             application/json:
               schema:
@@ -604,10 +954,63 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
-  /documents/received/all:
+  /documents/stats/by-environment:
+    get:
+      tags: [Documents Sent]
+      summary: Estadísticas agrupadas por ambiente y estado
+      operationId: getSentDocumentStatsByEnvironment
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+      responses:
+        "200":
+          description: Estadísticas por ambiente
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/logs/{id}:
+    get:
+      tags: [Documents Sent]
+      summary: Logs de procesamiento del documento
+      operationId: getSentDocumentLogs
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Logs de procesamiento del documento
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: string, format: uuid }
+                    message: { type: string }
+                    type: { type: string }
+                    createdAt: { type: string, format: date-time }
+        "404":
+          description: Documento no encontrado
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/received:
     get:
       tags: [Documents Received]
-      summary: List received documents
+      summary: Listar documentos recibidos
       operationId: listReceivedDocuments
       security:
         - oauth2: [documents:receive]
@@ -616,12 +1019,29 @@ paths:
         - name: ecf
           in: query
           schema: { type: string }
-        - name: documentType
+        - name: type
           in: query
+          description: "Tipo de documento (31, 32, 33, etc.)"
           schema: { type: string }
         - name: status
           in: query
-          schema: { type: integer, description: "1=Válido, 2=Anulado, 3=Pendiente" }
+          schema:
+            type: integer
+            enum: [1, 2, 3]
+            description: "1=Válido, 2=Anulado, 3=Pendiente"
+        - name: supplierRnc
+          in: query
+          description: RNC del emisor/proveedor
+          schema: { type: string }
+        - name: amountFrom
+          in: query
+          schema: { type: number }
+        - name: amountTo
+          in: query
+          schema: { type: number }
+        - name: processed
+          in: query
+          schema: { type: boolean }
         - name: dateFrom
           in: query
           schema: { type: string, format: date }
@@ -633,10 +1053,10 @@ paths:
           schema: { type: integer, default: 1 }
         - name: limit
           in: query
-          schema: { type: integer, default: 10 }
+          schema: { type: integer, default: 10, maximum: 100 }
       responses:
         "200":
-          description: Paginated list of received documents
+          description: Lista paginada de documentos recibidos
           content:
             application/json:
               schema:
@@ -647,15 +1067,15 @@ paths:
   /documents/received/stats/summary:
     get:
       tags: [Documents Received]
-      summary: Get received documents statistics
-      operationId: getReceivedDocumentStats
+      summary: Estadísticas de documentos recibidos
+      operationId: getReceivedDocumentStatsSummary
       security:
         - oauth2: [documents:receive]
       parameters:
         - $ref: "#/components/parameters/TenantIdHeaderOptional"
       responses:
         "200":
-          description: Received document statistics
+          description: Estadísticas de documentos recibidos
           content:
             application/json:
               schema:
@@ -663,65 +1083,94 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
-  /documents/approvals/all:
+  /documents/received/stats/by-supplier:
+    get:
+      tags: [Documents Received]
+      summary: Top 10 proveedores por volumen de documentos recibidos
+      operationId: getReceivedDocumentStatsBySupplier
+      security:
+        - oauth2: [documents:receive]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+      responses:
+        "200":
+          description: Top proveedores por volumen
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    supplierRnc: { type: string, example: "123456789" }
+                    count: { type: integer, example: 25 }
+                    totalAmount: { type: number, example: 125000.50 }
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/received/{id}:
+    get:
+      tags: [Documents Received]
+      summary: Obtener documento recibido por ID
+      operationId: getReceivedDocumentById
+      security:
+        - oauth2: [documents:receive]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Detalle del documento recibido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReceivedDocument"
+        "404":
+          description: Documento no encontrado
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /documents/approvals:
     get:
       tags: [Commercial Approvals]
-      summary: List commercial approvals
-      operationId: listApprovals
+      summary: Listar aprobaciones comerciales
+      operationId: listCommercialApprovals
       security:
         - oauth2: [approvals:read]
       parameters:
-        - name: businessId
-          in: query
-          required: true
-          schema: { type: string }
-        - name: page
-          in: query
-          schema: { type: integer, default: 1 }
-        - name: limit
-          in: query
-          schema: { type: integer, default: 20, maximum: 100 }
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
         - name: ecf
           in: query
           required: false
           schema: { type: string }
-        - name: documentType
+        - name: type
           in: query
+          description: Tipo de documento
           schema: { type: string }
         - name: status
           in: query
           schema:
             type: integer
             enum: [1, 2, 3, 4]
-            description: "1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En Revisión"
+            description: "1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión"
         - name: dateFrom
           in: query
-          schema: { type: string, format: date-time }
+          schema: { type: string, format: date }
         - name: dateTo
           in: query
-          schema: { type: string, format: date-time }
-        - name: minAmount
+          schema: { type: string, format: date }
+        - name: page
           in: query
-          schema: { type: number }
-        - name: maxAmount
+          schema: { type: integer, default: 1 }
+        - name: limit
           in: query
-          schema: { type: number }
-        - name: search
-          in: query
-          schema: { type: string }
-        - name: sortBy
-          in: query
-          schema:
-            type: string
-            enum: [createdAt, amount, status]
-        - name: sortOrder
-          in: query
-          schema:
-            type: string
-            enum: [asc, desc]
+          schema: { type: integer, default: 10, maximum: 100 }
       responses:
         "200":
-          description: Paginated list of commercial approvals
+          description: Lista paginada de aprobaciones comerciales
           content:
             application/json:
               schema:
@@ -729,10 +1178,35 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
+  /documents/approvals/{id}:
+    get:
+      tags: [Commercial Approvals]
+      summary: Obtener aprobación comercial por ID
+      operationId: getCommercialApprovalById
+      security:
+        - oauth2: [approvals:read]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Detalle de la aprobación comercial
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalItem"
+        "404":
+          description: Aprobación no encontrada
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
   /associated-companies:
     get:
       tags: [Associated Companies]
-      summary: List associated companies / branches
+      summary: Listar empresas asociadas / sucursales
       operationId: listAssociatedCompanies
       security:
         - oauth2: [business:read]
@@ -745,7 +1219,7 @@ paths:
           schema: { type: integer, default: 10 }
       responses:
         "200":
-          description: Array of associated companies
+          description: Lista de empresas asociadas
           content:
             application/json:
               schema:
@@ -756,7 +1230,7 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
     post:
       tags: [Associated Companies]
-      summary: Create associated company / branch
+      summary: Crear empresa asociada / sucursal
       operationId: createAssociatedCompany
       security:
         - oauth2: [business:create]
@@ -768,7 +1242,7 @@ paths:
               $ref: "#/components/schemas/CreateAssociatedCompanyRequest"
       responses:
         "201":
-          description: Company created successfully
+          description: Empresa creada exitosamente
           content:
             application/json:
               schema:
@@ -785,7 +1259,7 @@ paths:
   /associated-companies/{companyId}:
     put:
       tags: [Associated Companies]
-      summary: Update associated company
+      summary: Actualizar empresa asociada
       operationId: updateAssociatedCompany
       security:
         - oauth2: [business:update]
@@ -802,7 +1276,7 @@ paths:
               $ref: "#/components/schemas/UpdateAssociatedCompanyRequest"
       responses:
         "200":
-          description: Company updated successfully
+          description: Empresa actualizada exitosamente
           content:
             application/json:
               schema:
@@ -815,8 +1289,8 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
     delete:
       tags: [Associated Companies]
-      summary: Delete associated company
-      description: Permanently deletes an associated company. This action is irreversible.
+      summary: Eliminar empresa asociada
+      description: Elimina permanentemente una empresa asociada. Esta acción es irreversible.
       operationId: deleteAssociatedCompany
       security:
         - oauth2: [business:update]
@@ -827,7 +1301,7 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200":
-          description: Company deleted successfully
+          description: Empresa eliminada exitosamente
           content:
             application/json:
               schema:
@@ -840,7 +1314,7 @@ paths:
   /associated-companies/{companyId}/metrics:
     get:
       tags: [Associated Companies]
-      summary: Get company metrics
+      summary: Métricas de la empresa
       operationId: getCompanyMetrics
       security:
         - oauth2: [business:read]
@@ -851,7 +1325,7 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200":
-          description: Company metrics
+          description: Métricas de la empresa
           content:
             application/json:
               schema:
@@ -862,7 +1336,7 @@ paths:
   /associated-companies/{companyId}/documents-metrics:
     get:
       tags: [Associated Companies]
-      summary: Get company document metrics
+      summary: Métricas de documentos de la empresa
       operationId: getCompanyDocumentMetrics
       security:
         - oauth2: [business:read]
@@ -873,7 +1347,7 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200":
-          description: Document metrics
+          description: Métricas de documentos de la empresa
           content:
             application/json:
               schema:
@@ -884,8 +1358,8 @@ paths:
   /{rnc}/webhooks:
     get:
       tags: [Webhook Configuration]
-      summary: List webhook configurations
-      description: Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+      summary: Listar configuraciones de webhooks
+      description: Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
       operationId: listWebhooks
       security:
         - oauth2: [business:read]
@@ -893,7 +1367,7 @@ paths:
         - $ref: "#/components/parameters/RncPath"
       responses:
         "200":
-          description: List of webhook configurations
+          description: Lista de configuraciones de webhooks
           content:
             application/json:
               schema:
@@ -906,7 +1380,7 @@ paths:
   /{rnc}/webhooks/{webhookId}:
     get:
       tags: [Webhook Configuration]
-      summary: Get webhook details
+      summary: Detalle de un webhook
       operationId: getWebhook
       security:
         - oauth2: [business:read]
@@ -918,7 +1392,7 @@ paths:
           schema: { type: string }
       responses:
         "200":
-          description: Webhook details
+          description: Detalle del webhook
           content:
             application/json:
               schema:
@@ -929,7 +1403,7 @@ paths:
   /{rnc}/webhooks/{webhookId}/stats:
     get:
       tags: [Webhook Configuration]
-      summary: Get webhook delivery statistics
+      summary: Estadísticas de entregas del webhook
       operationId: getWebhookStats
       security:
         - oauth2: [business:read]
@@ -947,7 +1421,7 @@ paths:
             default: month
       responses:
         "200":
-          description: Webhook delivery statistics
+          description: Estadísticas de entregas del webhook
           content:
             application/json:
               schema:
@@ -958,13 +1432,13 @@ paths:
   /dgii-ecf/automated-certification/niches:
     get:
       tags: [Automated Certification]
-      summary: List certification niches
+      summary: Listar nichos de certificación
       operationId: listCertificationNiches
       security:
         - oauth2: [certification:read]
       responses:
         "200":
-          description: List of available niches
+          description: Lista de nichos disponibles
           content:
             application/json:
               schema:
@@ -977,7 +1451,7 @@ paths:
   /dgii-ecf/automated-certification/start:
     post:
       tags: [Automated Certification]
-      summary: Start certification process
+      summary: Iniciar proceso de certificación
       operationId: startCertification
       security:
         - oauth2: [certification:write]
@@ -989,7 +1463,7 @@ paths:
               $ref: "#/components/schemas/StartCertificationRequest"
       responses:
         "200":
-          description: Certification process started
+          description: Proceso de certificación iniciado
           content:
             application/json:
               schema:
@@ -1004,7 +1478,7 @@ paths:
   /dgii-ecf/automated-certification/{id}/status:
     get:
       tags: [Automated Certification]
-      summary: Get certification process status
+      summary: Estado del proceso de certificación
       operationId: getCertificationStatus
       security:
         - oauth2: [certification:read]
@@ -1015,7 +1489,7 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200":
-          description: Certification process status
+          description: Estado del proceso de certificación
           content:
             application/json:
               schema:
@@ -1026,8 +1500,8 @@ paths:
   /dgii-ecf/automated-certification/{id}/download:
     get:
       tags: [Automated Certification]
-      summary: Download certification ZIP
-      description: Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+      summary: Descargar ZIP de certificación
+      description: Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
       operationId: downloadCertification
       security:
         - oauth2: [certification:read]
@@ -1038,7 +1512,7 @@ paths:
           schema: { type: string, format: uuid }
       responses:
         "200":
-          description: ZIP file with certification documents
+          description: Archivo ZIP con documentos de certificación
           content:
             application/zip:
               schema:
@@ -1050,8 +1524,8 @@ paths:
   /dgii/sent/export:
     get:
       tags: [Reports]
-      summary: Export sent documents report
-      description: Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+      summary: Exportar reporte de documentos enviados
+      description: Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
       operationId: exportSentDocuments
       security:
         - oauth2: [reports:read]
@@ -1086,7 +1560,7 @@ paths:
           schema: { type: string }
       responses:
         "200":
-          description: Excel report file
+          description: Archivo Excel del reporte
           content:
             application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
               schema:
@@ -1102,8 +1576,8 @@ paths:
   /dgii/606/export:
     get:
       tags: [Reports]
-      summary: Export Format 606 (Purchases)
-      description: Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+      summary: Exportar Formato 606 (Compras)
+      description: Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
       operationId: export606
       security:
         - oauth2: [reports:read]
@@ -1133,7 +1607,7 @@ paths:
           schema: { type: string }
       responses:
         "200":
-          description: Format 606 report
+          description: Reporte Formato 606
           content:
             text/plain:
               schema:
@@ -1170,30 +1644,30 @@ components:
         clientCredentials:
           tokenUrl: /oauth/token
           scopes:
-            "business:read": Read company data.
-            "business:create": Create a new company.
-            "business:update": Update company data.
-            "members:read": View team members.
-            "members:invite": Invite new members.
-            "members:revoke": Revoke member access.
-            "certificates:read": View digital certificates.
-            "certificates:upload": Upload new certificates.
-            "certificates:update": Update existing certificates.
-            "documents:read": List and view document details.
-            "documents:create": Create drafts or internal documents.
-            "documents:send": Submit e-CF to the DGII.
-            "documents:receive": Receive e-CF from third parties.
-            "documents:update": Modify document metadata.
-            "approvals:read": View approval statuses.
-            "approvals:commercial": Perform commercial approvals or rejections.
-            "sequences:read": View NCF/e-NCF ranges.
-            "sequences:create": Request or add new sequences.
-            "sequences:update": Modify sequence configurations.
-            "sequences:cancel": Cancel unused sequences.
-            "business_info:read": Access dashboard statistics and metrics.
-            "certification:read": View DGII certification progress.
-            "certification:write": Execute automated DGII certification tests.
-            "reports:read": Generate and export reports (e.g. format 606).
+            "business:read": Consultar datos de la empresa.
+            "business:create": Crear una nueva empresa.
+            "business:update": Actualizar datos de la empresa.
+            "members:read": Ver miembros del equipo.
+            "members:invite": Invitar nuevos miembros.
+            "members:revoke": Revocar acceso de miembros.
+            "certificates:read": Ver certificados digitales.
+            "certificates:upload": Subir nuevos certificados.
+            "certificates:update": Actualizar certificados existentes.
+            "documents:read": Listar y consultar detalles de documentos.
+            "documents:create": Crear borradores o documentos internos.
+            "documents:send": Enviar e-CF a la DGII.
+            "documents:receive": Recibir e-CF de terceros.
+            "documents:update": Modificar metadatos de documentos.
+            "approvals:read": Ver estados de aprobación.
+            "approvals:commercial": Realizar aprobaciones o rechazos comerciales.
+            "sequences:read": Ver rangos de NCF/e-NCF.
+            "sequences:create": Solicitar o agregar nuevas secuencias.
+            "sequences:update": Modificar configuraciones de secuencias.
+            "sequences:cancel": Cancelar secuencias no utilizadas.
+            "business_info:read": Acceder a estadísticas y métricas del dashboard.
+            "certification:read": Ver progreso de certificación DGII.
+            "certification:write": Ejecutar pruebas de certificación automática DGII.
+            "reports:read": Generar y exportar reportes (ej. formato 606).
 
   parameters:
     TenantIdHeaderOptional:
@@ -1201,8 +1675,8 @@ components:
       in: header
       required: false
       description: |
-        UUID of the associated company (branch). Include ONLY when acting
-        on behalf of a branch. Omit when acting as the main company.
+        UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+        en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
       schema:
         type: string
         format: uuid
@@ -1212,14 +1686,14 @@ components:
       name: rnc
       in: path
       required: true
-      description: Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+      description: RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
       schema:
         type: string
         example: "133190907"
 
   responses:
     UnauthorizedError:
-      description: Token missing, expired, or invalid. Call POST /oauth/token to renew.
+      description: Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo.
       content:
         application/json:
           schema:
@@ -1230,7 +1704,7 @@ components:
             error: "Unauthorized"
 
     ValidationError:
-      description: Validation error (400). Check the message field for details.
+      description: Error de validación (400). Revisa el campo message para más detalles.
       content:
         application/json:
           schema:
@@ -1313,7 +1787,17 @@ components:
 
     DocumentStatus:
       type: string
-      enum: [IN_PROCESS, APPROVED, REJECTED, ERROR, CONTINGENCY]
+      enum: [IN_PROCESS, APPROVED, CONDITIONALLY_APPROVED, REJECTED, ERROR, ERROR_COMUNICATION]
+
+    PublicDocumentStatus:
+      type: string
+      description: Lifecycle status visible to integrators.
+      enum: [REGISTERED, TO_SEND, WAITING_RESPONSE, FINISHED]
+
+    LegalStatus:
+      type: string
+      description: Fiscal result from DGII. Only meaningful when PublicDocumentStatus=FINISHED.
+      enum: [ACCEPTED, ACCEPTED_WITH_OBSERVATIONS, REJECTED, ERROR]
 
     OAuthTokenRequest:
       type: object
@@ -1358,25 +1842,29 @@ components:
 
     ElectronicDocument:
       type: object
-      required: [version, invoiceType, issueDate, items, totals, paymentForms]
+      required: [invoiceType, issueDate, items, totals, paymentForms]
       description: |
-        Electronic tax document (e-CF) payload.
-        Use GET /tax-sequences/next to obtain invoiceNumber.
-        paymentForms is always required.
+        Payload del comprobante fiscal electrónico (e-CF).
+
+        **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema
+        asigna el siguiente e-NCF automáticamente según el `invoiceType`. Usa
+        `GET /tax-sequences/next?invoiceType=31` solo si necesitas conocer el número antes de enviar.
+
+        **environment**: NO va en el body. Se especifica en el path del endpoint:
+        `POST /{environment}/ecf/submit` (ej. `TesteCF` o `eCF`).
       properties:
-        environment:
-          $ref: "#/components/schemas/Environment"
-          description: DGII environment. In Sandbox MUST be TesteCF.
         version:
           type: string
           default: "1.0"
           example: "1.0"
-          description: Always 1.0.
+          description: Siempre "1.0".
         invoiceType:
           $ref: "#/components/schemas/InvoiceType"
         invoiceNumber:
           type: string
-          description: e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+          description: |
+            Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia).
+            **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`.
           example: "E310000000001"
         groupId:
           type: string
@@ -1696,44 +2184,138 @@ components:
         totalITBISPerception: { oneOf: [{ type: number }, { type: string }] }
         totalISRPerception: { oneOf: [{ type: number }, { type: string }] }
 
-    EcfStatusResponse:
+    EcfSubmitResponse:
+      description: |
+        Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente.
+        `status` siempre es `REGISTERED`. `legalStatus` y `trackId` siempre son `null` en este momento
+        — se populan una vez que la DGII procesa el documento. Usa `GET /ecf/status/{id}` o
+        escucha el webhook `document.status_changed` para obtener el resultado fiscal final.
       type: object
       required: [id, status, companyIdentification, sequenceConsumed]
+      example:
+        id: "550e8400-e29b-41d4-a716-446655440000"
+        stampDate: "2025-06-04"
+        status: "REGISTERED"
+        legalStatus: null
+        companyIdentification: "133190907"
+        trackId: null
+        documentNumber: null
+        encf: "E310000000001"
+        contingencyMode: false
+        documentStampUrl: null
+        pdf: "https://storage.ecf.pronesoft.com/133190907/E310000000001.pdf?token=..."
+        xmlUrl: "https://storage.ecf.pronesoft.com/133190907/E310000000001.xml?token=..."
+        signatureDate: "2025-06-04T14:30:00.000Z"
+        securityCode: "ABC123XYZ"
+        sequenceConsumed: false
       properties:
-        id: { type: string, format: uuid }
-        stampDate: { type: string, format: date, nullable: true }
+        id:
+          type: string
+          format: uuid
+          description: ID interno del documento. Úsalo para `GET /ecf/status/{id}`.
+        stampDate:
+          type: string
+          format: date
+          nullable: true
+          description: Fecha de emisión del documento (YYYY-MM-DD).
         status:
           type: string
-          enum: [REGISTERED, TO_SEND, WAITING_RESPONSE, TO_NOTIFY, FINISHED]
+          enum: [REGISTERED]
+          description: Siempre `REGISTERED` al enviar. El estado fiscal llega vía webhook o polling.
         legalStatus:
           type: string
           nullable: true
           enum: [ACCEPTED, ACCEPTED_WITH_OBSERVATIONS, REJECTED, ERROR, null]
+          description: Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
         companyIdentification:
+          description: RNC de la empresa emisora.
           oneOf:
             - type: string
             - type: integer
-        trackId: { type: string, nullable: true }
-        documentNumber: { type: string, nullable: true }
-        encf: { type: string, nullable: true }
-        contingencyMode: { type: boolean }
-        contingencyMessage: { type: string }
-        documentStampUrl: { type: string, format: uri, nullable: true }
-        pdf: { type: string, format: uri, nullable: true }
+        trackId:
+          type: string
+          nullable: true
+          description: Siempre `null` al enviar. Lo asigna DGII al procesar el documento.
+        documentNumber:
+          type: string
+          nullable: true
+          description: Número de control electrónico (e-NCF). Igual a `encf`.
+        encf:
+          type: string
+          nullable: true
+          description: Número e-NCF asignado al documento (ej. E310000000001).
+        contingencyMode:
+          type: boolean
+          description: "`true` si el documento fue emitido en modo contingencia (DGII no disponible)."
+        contingencyMessage:
+          type: string
+          nullable: true
+          description: Mensaje oficial DGII cuando `contingencyMode` es `true`.
+        documentStampUrl:
+          type: string
+          format: uri
+          nullable: true
+          description: URL del código QR del documento.
+        pdf:
+          type: string
+          format: uri
+          nullable: true
+          description: URL pre-firmada del PDF (expira en 1 hora).
         xmlUrl:
           type: string
           format: uri
           nullable: true
-          description: Frontend proxy URL (/api/ecf/view-xml) for authenticated XML access.
-        signatureDate: { type: string, format: date-time, nullable: true }
-        securityCode: { type: string, nullable: true }
-        sequenceConsumed: { type: boolean }
+          description: URL pre-firmada del XML firmado (expira en 1 hora).
+        signatureDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Fecha y hora de la firma digital.
+        securityCode:
+          type: string
+          nullable: true
+          description: Código de seguridad del documento.
+        sequenceConsumed:
+          type: boolean
+          enum: [false]
+          description: Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
+
+    EcfStatusResponse:
+      description: Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
+      type: object
+      required: [id, status, companyIdentification, sequenceConsumed]
+      properties:
+        id: { type: string, format: uuid, description: ID interno del documento. }
+        stampDate: { type: string, format: date, nullable: true, description: Fecha de emisión del documento (YYYY-MM-DD). }
+        status:
+          type: string
+          enum: [REGISTERED, TO_SEND, WAITING_RESPONSE, TO_NOTIFY, FINISHED]
+          description: Estado del proceso de envío a DGII.
+        legalStatus:
+          type: string
+          nullable: true
+          enum: [ACCEPTED, ACCEPTED_WITH_OBSERVATIONS, REJECTED, ERROR]
+          description: Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+        companyIdentification:
+          description: RNC de la empresa emisora.
+          oneOf:
+            - type: string
+            - type: integer
+        trackId: { type: string, nullable: true, description: ID de seguimiento asignado por DGII. }
+        documentNumber: { type: string, nullable: true, description: Número de control electrónico (e-NCF). }
+        encf: { type: string, nullable: true, description: Número e-NCF del documento. }
+        contingencyMode: { type: boolean, description: true si fue emitido en modo contingencia. }
+        contingencyMessage: { type: string, description: Mensaje oficial DGII cuando contingencyMode es true. }
+        documentStampUrl: { type: string, format: uri, nullable: true, description: URL del código QR del documento. }
+        pdf: { type: string, format: uri, nullable: true, description: URL pre-firmada del PDF (expira en 1 hora). }
+        xmlUrl: { type: string, format: uri, nullable: true, description: URL pre-firmada del XML firmado (expira en 1 hora). }
+        signatureDate: { type: string, format: date-time, nullable: true, description: Fecha y hora de la firma digital. }
+        securityCode: { type: string, nullable: true, description: Código de seguridad del documento. }
+        sequenceConsumed: { type: boolean, description: true si DGII confirmó el consumo de la secuencia. }
         governmentResponse:
           type: object
           additionalProperties: true
-        source:
-          type: string
-          enum: [dgii_direct, local_database]
+          description: Respuesta completa de DGII (disponible cuando status es FINISHED).
 
     EcfStatsResponse:
       type: object
@@ -1752,17 +2334,20 @@ components:
       type: object
       properties:
         id: { type: string, format: uuid }
-        trackId: { type: string }
-        encf: { type: string }
-        documentType: { type: string }
-        status: { $ref: "#/components/schemas/DocumentStatus" }
-        rnc: { type: string }
+        trackId: { type: string, nullable: true }
+        encf: { type: string, nullable: true }
+        documentType: { type: string, example: "31" }
+        status:
+          type: string
+          enum: [REGISTERED, TO_SEND, WAITING_RESPONSE, FINISHED]
+        legalStatus:
+          type: string
+          nullable: true
+          enum: [ACCEPTED, ACCEPTED_WITH_OBSERVATIONS, REJECTED, ERROR, null]
+        issuerRnc: { type: string, example: "133190907" }
         environment: { $ref: "#/components/schemas/Environment" }
+        receivedAt: { type: string, format: date-time, nullable: true }
         createdAt: { type: string, format: date-time }
-        logs:
-          type: array
-          items:
-            $ref: "#/components/schemas/ProcessingLog"
 
     ProcessingLog:
       type: object
@@ -1839,22 +2424,22 @@ components:
             $ref: "#/components/schemas/SentDocumentSummary"
         meta:
           $ref: "#/components/schemas/PaginationMeta"
-        filters:
-          type: object
 
     SentDocumentSummary:
       type: object
       properties:
         id: { type: string, format: uuid }
-        encf: { type: string }
-        status: { $ref: "#/components/schemas/DocumentStatus" }
-        statusDisplay: { type: string, example: "Aceptado" }
-        trackId: { type: string }
-        documentType: { type: string }
-        totalAmount: { type: number }
+        encf: { type: string, nullable: true }
+        status:
+          type: string
+          enum: [APPROVED, REJECTED, IN_PROCESS, CONDITIONALLY_APPROVED, ERROR, ERROR_COMUNICATION]
+        statusLabel: { type: string, example: "Aceptado" }
+        trackId: { type: string, nullable: true }
+        documentType: { type: string, example: "31" }
+        issuerRnc: { type: string, example: "133190907" }
+        environment: { $ref: "#/components/schemas/Environment" }
         receivedAt: { type: string, format: date-time }
         createdAt: { type: string, format: date-time }
-        xmlUrl: { type: string, format: uri }
         business:
           type: object
           properties:
@@ -1866,14 +2451,17 @@ components:
         - $ref: "#/components/schemas/SentDocumentSummary"
         - type: object
           properties:
-            logs:
-              type: array
-              items:
-                $ref: "#/components/schemas/ProcessingLog"
-            auditLogs:
-              type: array
-              items:
-                type: object
+            legalStatus:
+              type: string
+              nullable: true
+              enum: [ACCEPTED, ACCEPTED_WITH_OBSERVATIONS, REJECTED, ERROR, null]
+            documentStampUrl: { type: string, format: uri, nullable: true }
+            securityCode: { type: string, nullable: true }
+            contingencyMode: { type: boolean }
+            governmentResponse:
+              type: object
+              additionalProperties: true
+              nullable: true
 
     DocumentStatsResponse:
       type: object
@@ -1883,7 +2471,10 @@ components:
         byStatus:
           type: object
           additionalProperties:
-            type: integer
+            type: object
+            properties:
+              count: { type: integer }
+              label: { type: string }
         byEnvironment:
           type: object
           additionalProperties:
@@ -1898,20 +2489,22 @@ components:
             $ref: "#/components/schemas/ReceivedDocument"
         meta:
           $ref: "#/components/schemas/PaginationMeta"
-        filters:
-          type: object
 
     ReceivedDocument:
       type: object
       properties:
         id: { type: string, format: uuid }
         encf: { type: string }
-        receiverRnc: { type: string }
-        senderRnc: { type: string }
-        totalAmount: { type: number }
-        status: { type: integer, description: "1=Valid, 2=Contingency, 3=Rejected" }
+        senderRnc: { type: string, example: "123456789" }
+        receiverRnc: { type: string, example: "987654321" }
+        totalAmount: { type: number, example: 15000.50 }
+        status: { type: integer, enum: [1, 2, 3], description: "1=Valid, 2=Voided, 3=Pending" }
+        statusLabel: { type: string, example: "Valido" }
         issueDate: { type: string, format: date-time }
         receivedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        commercialApprovalStatus: { type: string, nullable: true }
+        commercialApprovalRejectionReason: { type: string, nullable: true }
         business:
           type: object
           properties:
@@ -1941,14 +2534,24 @@ components:
     ApprovalItem:
       type: object
       properties:
-        id: { type: string }
-        encf: { type: string }
-        status: { type: integer }
+        id: { type: string, format: uuid }
+        encf: { type: string, example: "E31000000003" }
+        type: { type: string, example: "31" }
+        issuerRnc: { type: string, example: "123456789" }
+        buyerRnc: { type: string, example: "987654321" }
+        totalAmount: { type: number, example: 15000.00 }
+        approvalStatus: { type: string, example: "APPROVED" }
+        status: { type: integer, enum: [1, 2, 3, 4], description: "1=Approved, 2=Rejected, 3=Pending, 4=Under Review" }
+        statusLabel: { type: string, example: "Aprobado" }
         issueDate: { type: string, format: date-time }
-        approvalType: { type: string }
-        priority: { type: string }
-        assignedTo: { type: string }
-        comments: { type: string }
+        receivedAt: { type: string, format: date-time }
+        createdAt: { type: string, format: date-time }
+        rejectionDescription: { type: string, nullable: true }
+        business:
+          type: object
+          properties:
+            name: { type: string }
+            rnc: { type: string }
 
     AssociatedCompany:
       type: object
@@ -2101,27 +2704,471 @@ components:
             averageResponseTime: { type: integer }
             lastAttempt: { type: string, format: date-time }
 
+    DocumentStatusChangedPayload:
+      type: object
+      description: |
+        Payload inside `data` when event is `document.status_changed`.
+        Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed.
+        `issuerRnc` identifies the company that issued the document
+        (useful in multi-company setups where an associated company sent it).
+      required: [documentId, encf, issuerRnc, status]
+      properties:
+        documentId:
+          type: string
+          format: uuid
+          description: Internal document ID for polling.
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        encf:
+          type: string
+          description: e-NCF fiscal number.
+          example: "E31000000001"
+        issuerRnc:
+          type: string
+          description: RNC of the issuing company (associated or main).
+          example: "133190907"
+        status:
+          type: string
+          description: Public lifecycle status.
+          enum: [REGISTERED, TO_SEND, WAITING_RESPONSE, FINISHED]
+        legalStatus:
+          type: string
+          nullable: true
+          description: Fiscal result from DGII. Only present when status=FINISHED.
+          enum: [ACCEPTED, ACCEPTED_WITH_OBSERVATIONS, REJECTED, ERROR, null]
+        documentType:
+          type: string
+          nullable: true
+          description: Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+          example: "31"
+        trackId:
+          type: string
+          nullable: true
+          description: DGII tracking ID.
+        dgiiMessage:
+          type: string
+          nullable: true
+          description: Human-readable DGII response message.
+
+    DocumentReceivedPayload:
+      type: object
+      description: Payload del evento `document.received`. Se dispara cuando tu empresa recibe un e-CF de un proveedor.
+      required: [encf, senderRnc, receiverRnc, totalAmount, issueDate, receivedAt, status]
+      properties:
+        encf:
+          type: string
+          description: Número de comprobante fiscal electrónico.
+          example: "E310000000001"
+        senderRnc:
+          type: string
+          description: RNC del emisor del documento.
+          example: "123456789"
+        receiverRnc:
+          type: string
+          description: RNC del receptor del documento.
+          example: "133190907"
+        totalAmount:
+          type: number
+          description: Monto total del documento.
+          example: 1500.50
+        issueDate:
+          type: string
+          format: date-time
+          description: Fecha de emisión del documento.
+          example: "2025-06-04T10:30:00.000Z"
+        receivedAt:
+          type: string
+          format: date-time
+          description: Fecha de recepción del documento.
+          example: "2025-06-04T14:30:00.000Z"
+        status:
+          type: string
+          enum: [received, rejected]
+          description: Estado del documento recibido.
+          example: "received"
+        rejectionReason:
+          type: string
+          nullable: true
+          description: Razón del rechazo (solo si status es 'rejected').
+          example: "Error de Firma Digital"
+
+    CommercialApprovalPayload:
+      type: object
+      description: Payload del evento `commercial.approval`. Se dispara cuando una aprobación comercial es actualizada.
+      required: [encf, senderRnc, receiverRnc, totalAmount, issueDate, approvalStatus, approvalDate]
+      properties:
+        encf:
+          type: string
+          example: "E310000000001"
+        senderRnc:
+          type: string
+          example: "123456789"
+        receiverRnc:
+          type: string
+          example: "133190907"
+        totalAmount:
+          type: number
+          example: 1500.50
+        issueDate:
+          type: string
+          format: date-time
+          example: "2025-06-04T10:30:00.000Z"
+        approvalStatus:
+          type: string
+          enum: [approved, rejected]
+          example: "approved"
+        approvalDate:
+          type: string
+          format: date-time
+          example: "2025-06-04T14:35:00.000Z"
+        rejectionCode:
+          type: string
+          nullable: true
+          description: Código de rechazo (solo si approvalStatus es 'rejected').
+        rejectionDescription:
+          type: string
+          nullable: true
+          description: Descripción del rechazo (solo si approvalStatus es 'rejected').
+
+    DocumentValidationErrorPayload:
+      type: object
+      description: Payload del evento `document.validation_error`. El documento fue rechazado por validación local antes de enviarse a la DGII.
+      required: [encf, errorCode, message]
+      properties:
+        encf:
+          type: string
+          example: "E31000000001"
+        errorCode:
+          type: string
+          description: Código de error de validación.
+          example: "SCHEMA_VALIDATION_FAILED"
+        message:
+          type: string
+          description: Descripción del error.
+          example: "El campo FechaVencimientoSecuencia es requerido"
+
+    ContingencyActivatedPayload:
+      type: object
+      description: Payload del evento `document.contingency_activated`. Un documento fue emitido en modo contingencia porque la DGII no estaba disponible.
+      required: [encf, reason]
+      properties:
+        encf:
+          type: string
+          example: "E31000000001"
+        reason:
+          type: string
+          description: Motivo de la activación de contingencia.
+          example: "DGII no disponible"
+        retryAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: Fecha estimada de reintento de envío.
+          example: "2025-01-15T13:00:00Z"
+
+    CertificateExpiringPayload:
+      type: object
+      description: Payload del evento `certificate.expiring`. Tu certificado P12 vence en menos de 30 días.
+      required: [expirationDate, daysLeft]
+      properties:
+        expirationDate:
+          type: string
+          format: date-time
+          example: "2025-02-10T00:00:00Z"
+        daysLeft:
+          type: integer
+          description: Días restantes hasta el vencimiento.
+          example: 15
+
+    SecurityNewLoginPayload:
+      type: object
+      description: Payload del evento `security.new_login`. Se detectó un inicio de sesión desde una IP o dispositivo nuevo.
+      required: [ip, userAgent]
+      properties:
+        ip:
+          type: string
+          example: "192.168.1.100"
+        userAgent:
+          type: string
+          example: "Chrome/120"
+        city:
+          type: string
+          nullable: true
+          description: Ciudad detectada por geolocalización.
+          example: "Santo Domingo"
+
+    SecurityApiKeyRotatedPayload:
+      type: object
+      description: Payload del evento `security.api_key_rotated`. Una App rotó su clientSecret.
+      required: [appId, rotatedAt]
+      properties:
+        appId:
+          type: string
+          description: ID de la aplicación cuya clave fue rotada.
+          example: "app_abc123"
+        rotatedAt:
+          type: string
+          format: date-time
+          example: "2025-01-15T10:00:00Z"
+
+    PlanUsageAlertPayload:
+      type: object
+      description: Payload del evento `plan.usage_alert`. El consumo de documentos superó el umbral configurado.
+      required: [usagePercent, remainingDocs]
+      properties:
+        usagePercent:
+          type: number
+          description: Porcentaje de uso del plan.
+          example: 90
+        remainingDocs:
+          type: integer
+          description: Documentos restantes en el plan.
+          example: 150
+
+    PlanPaymentFailedPayload:
+      type: object
+      description: Payload del evento `plan.payment_failed`. Falló el pago automático del plan mensual.
+      required: [amount, reason]
+      properties:
+        invoiceId:
+          type: string
+          nullable: true
+          example: "inv_abc123"
+        amount:
+          type: number
+          description: Monto del pago fallido.
+          example: 4500.00
+        reason:
+          type: string
+          description: Razón del fallo.
+          example: "Fondos insuficientes"
+
+    BillingInvoiceReadyPayload:
+      type: object
+      description: Payload del evento `billing.invoice_ready`. Una factura mensual está disponible para descarga.
+      required: [invoiceId, amount, pdfUrl]
+      properties:
+        invoiceId:
+          type: string
+          example: "inv_abc123"
+        amount:
+          type: number
+          example: 4500.00
+        pdfUrl:
+          type: string
+          description: URL de descarga del PDF de la factura.
+          example: "https://storage.ecf.pronesoft.com/invoices/inv_abc123.pdf"
+
+    SequenceDepletedPayload:
+      type: object
+      description: Payload del evento `sequence.depleted`. Una secuencia de NCF está por agotarse.
+      required: [sequenceType, remaining, alertLevel]
+      properties:
+        sequenceType:
+          type: string
+          description: Tipo de secuencia NCF.
+          example: "E31"
+        remaining:
+          type: integer
+          description: Cantidad de NCF restantes.
+          example: 50
+        alertLevel:
+          type: string
+          enum: [warning, danger]
+          description: Nivel de alerta. `warning` = bajo; `danger` = crítico.
+          example: "danger"
+
+    SequenceVoidedPayload:
+      type: object
+      description: Payload del evento `sequence.voided`. Se anuló un rango de secuencias.
+      required: [sequenceType, voidedRange, reason]
+      properties:
+        sequenceType:
+          type: string
+          example: "E31"
+        voidedRange:
+          type: string
+          description: Rango de NCF anulados.
+          example: "E310000000100-E310000000200"
+        reason:
+          type: string
+          description: Motivo de la anulación.
+          example: "Secuencias no utilizadas"
+
+    BranchCreatedPayload:
+      type: object
+      description: Payload del evento `branch.created`. Se creó una nueva empresa asociada.
+      required: [branchId, rnc, name]
+      properties:
+        branchId:
+          type: string
+          example: "branch_abc123"
+        rnc:
+          type: string
+          description: RNC de la empresa asociada creada.
+          example: "133190907"
+        name:
+          type: string
+          description: Nombre de la empresa asociada.
+          example: "Sucursal Norte SRL"
+
+    BranchStatusChangedPayload:
+      type: object
+      description: Payload del evento `branch.status_changed`. Una empresa asociada cambió de estado.
+      required: [branchId, newStatus]
+      properties:
+        branchId:
+          type: string
+          example: "branch_abc123"
+        newStatus:
+          type: string
+          description: Nuevo estado de la sucursal.
+          example: "ACTIVE"
+
+    MemberInvitedPayload:
+      type: object
+      description: Payload del evento `member.invited`. Se invitó un nuevo usuario a la empresa.
+      required: [email, role, invitedBy]
+      properties:
+        email:
+          type: string
+          example: "nuevo@empresa.com"
+        role:
+          type: string
+          description: Rol asignado al usuario invitado.
+          example: "VIEWER"
+        invitedBy:
+          type: string
+          description: Email del usuario que realizó la invitación.
+          example: "admin@empresa.com"
+
+    MemberJoinedPayload:
+      type: object
+      description: Payload del evento `member.joined`. Un usuario aceptó la invitación y se unió a la empresa.
+      required: [userId, email, role, joinedAt]
+      properties:
+        userId:
+          type: string
+          example: "usr_abc123"
+        email:
+          type: string
+          example: "nuevo@empresa.com"
+        role:
+          type: string
+          example: "VIEWER"
+        joinedAt:
+          type: string
+          format: date-time
+          example: "2025-01-15T10:00:00Z"
+
+    MemberRemovedPayload:
+      type: object
+      description: Payload del evento `member.removed`. Un usuario fue removido de la empresa.
+      required: [userId, email, removedBy]
+      properties:
+        userId:
+          type: string
+          example: "usr_abc123"
+        email:
+          type: string
+          example: "removido@empresa.com"
+        removedBy:
+          type: string
+          description: Email del usuario que realizó la remoción.
+          example: "admin@empresa.com"
+
+    CertificationCompletedPayload:
+      type: object
+      description: Payload del evento `certification.completed`. El proceso de certificación automática con DGII fue completado.
+      required: [processId, rnc, businessName, status, completedAt]
+      properties:
+        processId:
+          type: string
+          example: "abc123"
+        rnc:
+          type: string
+          example: "133190907"
+        businessName:
+          type: string
+          example: "Mi Empresa SRL"
+        status:
+          type: string
+          description: Estado final del proceso.
+          example: "COMPLETED"
+        downloadUrl:
+          type: string
+          nullable: true
+          description: URL de descarga del certificado (si aplica).
+          example: "https://..."
+        completedAt:
+          type: string
+          format: date-time
+          example: "2025-01-15T16:00:00Z"
+
     WebhookNotificationPayload:
       type: object
       description: |
-        Payload sent to your webhook URL when an event occurs.
-        Validate using header X-Webhook-Signature: sha256=<hmac>.
-        Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp.
+        Envelope enviado a tu URL de webhook cuando ocurre un evento.
+        Valida la autenticidad con el header `X-Webhook-Signature: sha256=<hmac>`.
+        Headers adicionales: `X-Webhook-Event`, `X-Webhook-ID`, `X-Webhook-Timestamp`.
       required: [id, event, timestamp, businessRnc, data]
       properties:
         id:
           type: string
-          description: Unique notification ID (evt_xxx format). Use for deduplication.
+          description: ID único de la notificación. Úsalo para deduplicar entregas.
           example: "evt_1234567890abcdef"
         event:
           $ref: "#/components/schemas/WebhookEventType"
         timestamp:
           type: string
           format: date-time
+          description: Fecha y hora del evento en ISO 8601.
+          example: "2025-01-15T10:30:00.000Z"
         businessRnc:
           type: string
+          description: RNC de la empresa que generó el evento.
+          example: "133190907"
         data:
-          type: object
+          description: |
+            Payload específico del evento. El tipo varía según el campo `event`:
+            - `document.status_changed` → DocumentStatusChangedPayload
+            - `document.received` → DocumentReceivedPayload
+            - `document.validation_error` → DocumentValidationErrorPayload
+            - `document.contingency_activated` → ContingencyActivatedPayload
+            - `commercial.approval` → CommercialApprovalPayload
+            - `certificate.expiring` → CertificateExpiringPayload
+            - `security.new_login` → SecurityNewLoginPayload
+            - `security.api_key_rotated` → SecurityApiKeyRotatedPayload
+            - `plan.usage_alert` → PlanUsageAlertPayload
+            - `plan.payment_failed` → PlanPaymentFailedPayload
+            - `billing.invoice_ready` → BillingInvoiceReadyPayload
+            - `sequence.depleted` → SequenceDepletedPayload
+            - `sequence.voided` → SequenceVoidedPayload
+            - `branch.created` → BranchCreatedPayload
+            - `branch.status_changed` → BranchStatusChangedPayload
+            - `member.invited` → MemberInvitedPayload
+            - `member.joined` → MemberJoinedPayload
+            - `member.removed` → MemberRemovedPayload
+            - `certification.completed` → CertificationCompletedPayload
+          oneOf:
+            - $ref: "#/components/schemas/DocumentStatusChangedPayload"
+            - $ref: "#/components/schemas/DocumentReceivedPayload"
+            - $ref: "#/components/schemas/DocumentValidationErrorPayload"
+            - $ref: "#/components/schemas/ContingencyActivatedPayload"
+            - $ref: "#/components/schemas/CommercialApprovalPayload"
+            - $ref: "#/components/schemas/CertificateExpiringPayload"
+            - $ref: "#/components/schemas/SecurityNewLoginPayload"
+            - $ref: "#/components/schemas/SecurityApiKeyRotatedPayload"
+            - $ref: "#/components/schemas/PlanUsageAlertPayload"
+            - $ref: "#/components/schemas/PlanPaymentFailedPayload"
+            - $ref: "#/components/schemas/BillingInvoiceReadyPayload"
+            - $ref: "#/components/schemas/SequenceDepletedPayload"
+            - $ref: "#/components/schemas/SequenceVoidedPayload"
+            - $ref: "#/components/schemas/BranchCreatedPayload"
+            - $ref: "#/components/schemas/BranchStatusChangedPayload"
+            - $ref: "#/components/schemas/MemberInvitedPayload"
+            - $ref: "#/components/schemas/MemberJoinedPayload"
+            - $ref: "#/components/schemas/MemberRemovedPayload"
+            - $ref: "#/components/schemas/CertificationCompletedPayload"
 
     CertificationNiche:
       type: object

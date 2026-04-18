@@ -1,43 +1,54 @@
 
 # EcfStatusResponse
 
+Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`trackingId` | string
-`estado` | string
+`id` | string
+`stampDate` | Date
+`status` | string
+`legalStatus` | string
+`companyIdentification` | [EcfSubmitResponseCompanyIdentification](EcfSubmitResponseCompanyIdentification.md)
 `trackId` | string
-`numeroControl` | string
-`status` | [DocumentStatus](DocumentStatus.md)
+`documentNumber` | string
 `encf` | string
-`businessRnc` | string
-`environment` | [Environment](Environment.md)
-`receivedAt` | Date
-`mensajes` | [Array&lt;DgiiMessage&gt;](DgiiMessage.md)
-`logs` | [Array&lt;ProcessingLog&gt;](ProcessingLog.md)
-`source` | string
+`contingencyMode` | boolean
+`contingencyMessage` | string
+`documentStampUrl` | string
+`pdf` | string
+`xmlUrl` | string
+`signatureDate` | Date
+`securityCode` | string
+`sequenceConsumed` | boolean
+`governmentResponse` | { [key: string]: any; }
 
 ## Example
 
 ```typescript
-import type { EcfStatusResponse } from '@pronesoft-rd/ecf-sdk'
+import type { EcfStatusResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
-  "trackingId": null,
-  "estado": null,
-  "trackId": null,
-  "numeroControl": null,
+  "id": null,
+  "stampDate": null,
   "status": null,
+  "legalStatus": null,
+  "companyIdentification": null,
+  "trackId": null,
+  "documentNumber": null,
   "encf": null,
-  "businessRnc": null,
-  "environment": null,
-  "receivedAt": null,
-  "mensajes": null,
-  "logs": null,
-  "source": null,
+  "contingencyMode": null,
+  "contingencyMessage": null,
+  "documentStampUrl": null,
+  "pdf": null,
+  "xmlUrl": null,
+  "signatureDate": null,
+  "securityCode": null,
+  "sequenceConsumed": null,
+  "governmentResponse": null,
 } satisfies EcfStatusResponse
 
 console.log(example)

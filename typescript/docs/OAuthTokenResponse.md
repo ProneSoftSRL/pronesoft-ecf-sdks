@@ -15,7 +15,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { OAuthTokenResponse } from '@pronesoft-rd/ecf-sdk'
+import type { OAuthTokenResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {

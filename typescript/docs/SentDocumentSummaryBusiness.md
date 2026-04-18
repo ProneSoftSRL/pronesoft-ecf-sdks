@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { SentDocumentSummaryBusiness } from '@pronesoft-rd/ecf-sdk'
+import type { SentDocumentSummaryBusiness } from ''
 
 // TODO: Update the object below with actual values
 const example = {

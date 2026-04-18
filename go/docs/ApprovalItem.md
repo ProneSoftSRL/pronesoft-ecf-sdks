@@ -6,12 +6,18 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **string** |  | [optional] 
 **Encf** | Pointer to **string** |  | [optional] 
-**Status** | Pointer to **int32** |  | [optional] 
+**Type** | Pointer to **string** |  | [optional] 
+**IssuerRnc** | Pointer to **string** |  | [optional] 
+**BuyerRnc** | Pointer to **string** |  | [optional] 
+**TotalAmount** | Pointer to **float32** |  | [optional] 
+**ApprovalStatus** | Pointer to **string** |  | [optional] 
+**Status** | Pointer to **int32** | 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review | [optional] 
+**StatusLabel** | Pointer to **string** |  | [optional] 
 **IssueDate** | Pointer to **time.Time** |  | [optional] 
-**ApprovalType** | Pointer to **string** |  | [optional] 
-**Priority** | Pointer to **string** |  | [optional] 
-**AssignedTo** | Pointer to **string** |  | [optional] 
-**Comments** | Pointer to **string** |  | [optional] 
+**ReceivedAt** | Pointer to **time.Time** |  | [optional] 
+**CreatedAt** | Pointer to **time.Time** |  | [optional] 
+**RejectionDescription** | Pointer to **NullableString** |  | [optional] 
+**Business** | Pointer to [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  | [optional] 
 
 ## Methods
 
@@ -82,6 +88,131 @@ SetEncf sets Encf field to given value.
 
 HasEncf returns a boolean if a field has been set.
 
+### GetType
+
+`func (o *ApprovalItem) GetType() string`
+
+GetType returns the Type field if non-nil, zero value otherwise.
+
+### GetTypeOk
+
+`func (o *ApprovalItem) GetTypeOk() (*string, bool)`
+
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetType
+
+`func (o *ApprovalItem) SetType(v string)`
+
+SetType sets Type field to given value.
+
+### HasType
+
+`func (o *ApprovalItem) HasType() bool`
+
+HasType returns a boolean if a field has been set.
+
+### GetIssuerRnc
+
+`func (o *ApprovalItem) GetIssuerRnc() string`
+
+GetIssuerRnc returns the IssuerRnc field if non-nil, zero value otherwise.
+
+### GetIssuerRncOk
+
+`func (o *ApprovalItem) GetIssuerRncOk() (*string, bool)`
+
+GetIssuerRncOk returns a tuple with the IssuerRnc field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIssuerRnc
+
+`func (o *ApprovalItem) SetIssuerRnc(v string)`
+
+SetIssuerRnc sets IssuerRnc field to given value.
+
+### HasIssuerRnc
+
+`func (o *ApprovalItem) HasIssuerRnc() bool`
+
+HasIssuerRnc returns a boolean if a field has been set.
+
+### GetBuyerRnc
+
+`func (o *ApprovalItem) GetBuyerRnc() string`
+
+GetBuyerRnc returns the BuyerRnc field if non-nil, zero value otherwise.
+
+### GetBuyerRncOk
+
+`func (o *ApprovalItem) GetBuyerRncOk() (*string, bool)`
+
+GetBuyerRncOk returns a tuple with the BuyerRnc field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBuyerRnc
+
+`func (o *ApprovalItem) SetBuyerRnc(v string)`
+
+SetBuyerRnc sets BuyerRnc field to given value.
+
+### HasBuyerRnc
+
+`func (o *ApprovalItem) HasBuyerRnc() bool`
+
+HasBuyerRnc returns a boolean if a field has been set.
+
+### GetTotalAmount
+
+`func (o *ApprovalItem) GetTotalAmount() float32`
+
+GetTotalAmount returns the TotalAmount field if non-nil, zero value otherwise.
+
+### GetTotalAmountOk
+
+`func (o *ApprovalItem) GetTotalAmountOk() (*float32, bool)`
+
+GetTotalAmountOk returns a tuple with the TotalAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTotalAmount
+
+`func (o *ApprovalItem) SetTotalAmount(v float32)`
+
+SetTotalAmount sets TotalAmount field to given value.
+
+### HasTotalAmount
+
+`func (o *ApprovalItem) HasTotalAmount() bool`
+
+HasTotalAmount returns a boolean if a field has been set.
+
+### GetApprovalStatus
+
+`func (o *ApprovalItem) GetApprovalStatus() string`
+
+GetApprovalStatus returns the ApprovalStatus field if non-nil, zero value otherwise.
+
+### GetApprovalStatusOk
+
+`func (o *ApprovalItem) GetApprovalStatusOk() (*string, bool)`
+
+GetApprovalStatusOk returns a tuple with the ApprovalStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetApprovalStatus
+
+`func (o *ApprovalItem) SetApprovalStatus(v string)`
+
+SetApprovalStatus sets ApprovalStatus field to given value.
+
+### HasApprovalStatus
+
+`func (o *ApprovalItem) HasApprovalStatus() bool`
+
+HasApprovalStatus returns a boolean if a field has been set.
+
 ### GetStatus
 
 `func (o *ApprovalItem) GetStatus() int32`
@@ -106,6 +237,31 @@ SetStatus sets Status field to given value.
 `func (o *ApprovalItem) HasStatus() bool`
 
 HasStatus returns a boolean if a field has been set.
+
+### GetStatusLabel
+
+`func (o *ApprovalItem) GetStatusLabel() string`
+
+GetStatusLabel returns the StatusLabel field if non-nil, zero value otherwise.
+
+### GetStatusLabelOk
+
+`func (o *ApprovalItem) GetStatusLabelOk() (*string, bool)`
+
+GetStatusLabelOk returns a tuple with the StatusLabel field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatusLabel
+
+`func (o *ApprovalItem) SetStatusLabel(v string)`
+
+SetStatusLabel sets StatusLabel field to given value.
+
+### HasStatusLabel
+
+`func (o *ApprovalItem) HasStatusLabel() bool`
+
+HasStatusLabel returns a boolean if a field has been set.
 
 ### GetIssueDate
 
@@ -132,105 +288,115 @@ SetIssueDate sets IssueDate field to given value.
 
 HasIssueDate returns a boolean if a field has been set.
 
-### GetApprovalType
+### GetReceivedAt
 
-`func (o *ApprovalItem) GetApprovalType() string`
+`func (o *ApprovalItem) GetReceivedAt() time.Time`
 
-GetApprovalType returns the ApprovalType field if non-nil, zero value otherwise.
+GetReceivedAt returns the ReceivedAt field if non-nil, zero value otherwise.
 
-### GetApprovalTypeOk
+### GetReceivedAtOk
 
-`func (o *ApprovalItem) GetApprovalTypeOk() (*string, bool)`
+`func (o *ApprovalItem) GetReceivedAtOk() (*time.Time, bool)`
 
-GetApprovalTypeOk returns a tuple with the ApprovalType field if it's non-nil, zero value otherwise
+GetReceivedAtOk returns a tuple with the ReceivedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetApprovalType
+### SetReceivedAt
 
-`func (o *ApprovalItem) SetApprovalType(v string)`
+`func (o *ApprovalItem) SetReceivedAt(v time.Time)`
 
-SetApprovalType sets ApprovalType field to given value.
+SetReceivedAt sets ReceivedAt field to given value.
 
-### HasApprovalType
+### HasReceivedAt
 
-`func (o *ApprovalItem) HasApprovalType() bool`
+`func (o *ApprovalItem) HasReceivedAt() bool`
 
-HasApprovalType returns a boolean if a field has been set.
+HasReceivedAt returns a boolean if a field has been set.
 
-### GetPriority
+### GetCreatedAt
 
-`func (o *ApprovalItem) GetPriority() string`
+`func (o *ApprovalItem) GetCreatedAt() time.Time`
 
-GetPriority returns the Priority field if non-nil, zero value otherwise.
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
-### GetPriorityOk
+### GetCreatedAtOk
 
-`func (o *ApprovalItem) GetPriorityOk() (*string, bool)`
+`func (o *ApprovalItem) GetCreatedAtOk() (*time.Time, bool)`
 
-GetPriorityOk returns a tuple with the Priority field if it's non-nil, zero value otherwise
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPriority
+### SetCreatedAt
 
-`func (o *ApprovalItem) SetPriority(v string)`
+`func (o *ApprovalItem) SetCreatedAt(v time.Time)`
 
-SetPriority sets Priority field to given value.
+SetCreatedAt sets CreatedAt field to given value.
 
-### HasPriority
+### HasCreatedAt
 
-`func (o *ApprovalItem) HasPriority() bool`
+`func (o *ApprovalItem) HasCreatedAt() bool`
 
-HasPriority returns a boolean if a field has been set.
+HasCreatedAt returns a boolean if a field has been set.
 
-### GetAssignedTo
+### GetRejectionDescription
 
-`func (o *ApprovalItem) GetAssignedTo() string`
+`func (o *ApprovalItem) GetRejectionDescription() string`
 
-GetAssignedTo returns the AssignedTo field if non-nil, zero value otherwise.
+GetRejectionDescription returns the RejectionDescription field if non-nil, zero value otherwise.
 
-### GetAssignedToOk
+### GetRejectionDescriptionOk
 
-`func (o *ApprovalItem) GetAssignedToOk() (*string, bool)`
+`func (o *ApprovalItem) GetRejectionDescriptionOk() (*string, bool)`
 
-GetAssignedToOk returns a tuple with the AssignedTo field if it's non-nil, zero value otherwise
+GetRejectionDescriptionOk returns a tuple with the RejectionDescription field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAssignedTo
+### SetRejectionDescription
 
-`func (o *ApprovalItem) SetAssignedTo(v string)`
+`func (o *ApprovalItem) SetRejectionDescription(v string)`
 
-SetAssignedTo sets AssignedTo field to given value.
+SetRejectionDescription sets RejectionDescription field to given value.
 
-### HasAssignedTo
+### HasRejectionDescription
 
-`func (o *ApprovalItem) HasAssignedTo() bool`
+`func (o *ApprovalItem) HasRejectionDescription() bool`
 
-HasAssignedTo returns a boolean if a field has been set.
+HasRejectionDescription returns a boolean if a field has been set.
 
-### GetComments
+### SetRejectionDescriptionNil
 
-`func (o *ApprovalItem) GetComments() string`
+`func (o *ApprovalItem) SetRejectionDescriptionNil(b bool)`
 
-GetComments returns the Comments field if non-nil, zero value otherwise.
+ SetRejectionDescriptionNil sets the value for RejectionDescription to be an explicit nil
 
-### GetCommentsOk
+### UnsetRejectionDescription
+`func (o *ApprovalItem) UnsetRejectionDescription()`
 
-`func (o *ApprovalItem) GetCommentsOk() (*string, bool)`
+UnsetRejectionDescription ensures that no value is present for RejectionDescription, not even an explicit nil
+### GetBusiness
 
-GetCommentsOk returns a tuple with the Comments field if it's non-nil, zero value otherwise
+`func (o *ApprovalItem) GetBusiness() SentDocumentSummaryBusiness`
+
+GetBusiness returns the Business field if non-nil, zero value otherwise.
+
+### GetBusinessOk
+
+`func (o *ApprovalItem) GetBusinessOk() (*SentDocumentSummaryBusiness, bool)`
+
+GetBusinessOk returns a tuple with the Business field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetComments
+### SetBusiness
 
-`func (o *ApprovalItem) SetComments(v string)`
+`func (o *ApprovalItem) SetBusiness(v SentDocumentSummaryBusiness)`
 
-SetComments sets Comments field to given value.
+SetBusiness sets Business field to given value.
 
-### HasComments
+### HasBusiness
 
-`func (o *ApprovalItem) HasComments() bool`
+`func (o *ApprovalItem) HasBusiness() bool`
 
-HasComments returns a boolean if a field has been set.
+HasBusiness returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

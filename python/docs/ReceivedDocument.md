@@ -7,12 +7,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **UUID** |  | [optional] 
 **encf** | **str** |  | [optional] 
-**receiver_rnc** | **str** |  | [optional] 
 **sender_rnc** | **str** |  | [optional] 
+**receiver_rnc** | **str** |  | [optional] 
 **total_amount** | **float** |  | [optional] 
-**status** | **int** | 1&#x3D;Valid, 2&#x3D;Contingency, 3&#x3D;Rejected | [optional] 
+**status** | **int** | 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending | [optional] 
+**status_label** | **str** |  | [optional] 
 **issue_date** | **datetime** |  | [optional] 
 **received_at** | **datetime** |  | [optional] 
+**created_at** | **datetime** |  | [optional] 
+**commercial_approval_status** | **str** |  | [optional] 
+**commercial_approval_rejection_reason** | **str** |  | [optional] 
 **business** | [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  | [optional] 
 
 ## Example

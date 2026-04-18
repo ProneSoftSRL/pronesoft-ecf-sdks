@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** | Unique notification ID (evt_xxx format). Use for deduplication. |
+**id** | **string** | ID único de la notificación. Úsalo para deduplicar entregas. |
 **event** | [**\PronesoftEcf\Model\WebhookEventType**](WebhookEventType.md) |  |
-**timestamp** | **\DateTime** |  |
-**business_rnc** | **string** |  |
-**data** | **object** |  |
+**timestamp** | **\DateTime** | Fecha y hora del evento en ISO 8601. |
+**business_rnc** | **string** | RNC de la empresa que generó el evento. |
+**data** | [**\PronesoftEcf\Model\WebhookNotificationPayloadData**](WebhookNotificationPayloadData.md) |  |
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

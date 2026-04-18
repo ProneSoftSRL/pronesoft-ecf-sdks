@@ -1,7 +1,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -17,10 +17,12 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from datetime import date
-from pydantic import Field, StrictInt, StrictStr
-from typing import Optional
+from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, field_validator
+from typing import List, Optional, Union
 from typing_extensions import Annotated
 from uuid import UUID
+from pronesoft_ecf.models.get_received_document_stats_by_supplier200_response_inner import GetReceivedDocumentStatsBySupplier200ResponseInner
+from pronesoft_ecf.models.received_document import ReceivedDocument
 from pronesoft_ecf.models.received_document_list_response import ReceivedDocumentListResponse
 from pronesoft_ecf.models.received_document_stats_response import ReceivedDocumentStatsResponse
 
@@ -43,9 +45,10 @@ class DocumentsReceivedApi:
 
 
     @validate_call
-    def get_received_document_stats(
+    def get_received_document_by_id(
         self,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        id: UUID,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58,11 +61,13 @@ class DocumentsReceivedApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReceivedDocumentStatsResponse:
-        """Get received documents statistics
+    ) -> ReceivedDocument:
+        """Obtener documento recibido por ID
 
 
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param id: (required)
+        :type id: UUID
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -86,7 +91,8 @@ class DocumentsReceivedApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_received_document_stats_serialize(
+        _param = self._get_received_document_by_id_serialize(
+            id=id,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -95,7 +101,8 @@ class DocumentsReceivedApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReceivedDocumentStatsResponse",
+            '200': "ReceivedDocument",
+            '404': None,
             '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
@@ -110,9 +117,10 @@ class DocumentsReceivedApi:
 
 
     @validate_call
-    def get_received_document_stats_with_http_info(
+    def get_received_document_by_id_with_http_info(
         self,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        id: UUID,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -125,11 +133,13 @@ class DocumentsReceivedApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReceivedDocumentStatsResponse]:
-        """Get received documents statistics
+    ) -> ApiResponse[ReceivedDocument]:
+        """Obtener documento recibido por ID
 
 
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param id: (required)
+        :type id: UUID
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -153,7 +163,8 @@ class DocumentsReceivedApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_received_document_stats_serialize(
+        _param = self._get_received_document_by_id_serialize(
+            id=id,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -162,7 +173,8 @@ class DocumentsReceivedApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReceivedDocumentStatsResponse",
+            '200': "ReceivedDocument",
+            '404': None,
             '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
@@ -177,9 +189,10 @@ class DocumentsReceivedApi:
 
 
     @validate_call
-    def get_received_document_stats_without_preload_content(
+    def get_received_document_by_id_without_preload_content(
         self,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        id: UUID,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -193,10 +206,12 @@ class DocumentsReceivedApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get received documents statistics
+        """Obtener documento recibido por ID
 
 
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param id: (required)
+        :type id: UUID
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -220,7 +235,8 @@ class DocumentsReceivedApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_received_document_stats_serialize(
+        _param = self._get_received_document_by_id_serialize(
+            id=id,
             x_tenant_id=x_tenant_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -229,7 +245,8 @@ class DocumentsReceivedApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReceivedDocumentStatsResponse",
+            '200': "ReceivedDocument",
+            '404': None,
             '401': "ErrorResponse",
         }
         response_data = self.api_client.call_api(
@@ -239,7 +256,271 @@ class DocumentsReceivedApi:
         return response_data.response
 
 
-    def _get_received_document_stats_serialize(
+    def _get_received_document_by_id_serialize(
+        self,
+        id,
+        x_tenant_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        if x_tenant_id is not None:
+            _header_params['x-tenant-id'] = x_tenant_id
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'oauth2'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/documents/received/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_received_document_stats_by_supplier(
+        self,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[GetReceivedDocumentStatsBySupplier200ResponseInner]:
+        """Top 10 proveedores por volumen de documentos recibidos
+
+
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_received_document_stats_by_supplier_serialize(
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[GetReceivedDocumentStatsBySupplier200ResponseInner]",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_received_document_stats_by_supplier_with_http_info(
+        self,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[GetReceivedDocumentStatsBySupplier200ResponseInner]]:
+        """Top 10 proveedores por volumen de documentos recibidos
+
+
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_received_document_stats_by_supplier_serialize(
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[GetReceivedDocumentStatsBySupplier200ResponseInner]",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_received_document_stats_by_supplier_without_preload_content(
+        self,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Top 10 proveedores por volumen de documentos recibidos
+
+
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_received_document_stats_by_supplier_serialize(
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[GetReceivedDocumentStatsBySupplier200ResponseInner]",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_received_document_stats_by_supplier_serialize(
         self,
         x_tenant_id,
         _request_auth,
@@ -282,8 +563,268 @@ class DocumentsReceivedApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2', 
-            'bearerAuth'
+            'oauth2'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/documents/received/stats/by-supplier',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_received_document_stats_summary(
+        self,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ReceivedDocumentStatsResponse:
+        """Estadísticas de documentos recibidos
+
+
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_received_document_stats_summary_serialize(
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ReceivedDocumentStatsResponse",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_received_document_stats_summary_with_http_info(
+        self,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ReceivedDocumentStatsResponse]:
+        """Estadísticas de documentos recibidos
+
+
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_received_document_stats_summary_serialize(
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ReceivedDocumentStatsResponse",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_received_document_stats_summary_without_preload_content(
+        self,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Estadísticas de documentos recibidos
+
+
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_received_document_stats_summary_serialize(
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ReceivedDocumentStatsResponse",
+            '401': "ErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_received_document_stats_summary_serialize(
+        self,
+        x_tenant_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        if x_tenant_id is not None:
+            _header_params['x-tenant-id'] = x_tenant_id
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'oauth2'
         ]
 
         return self.api_client.param_serialize(
@@ -307,14 +848,18 @@ class DocumentsReceivedApi:
     @validate_call
     def list_received_documents(
         self,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         ecf: Optional[StrictStr] = None,
-        document_type: Optional[StrictStr] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Tipo de documento (31, 32, 33, etc.)")] = None,
         status: Optional[StrictInt] = None,
+        supplier_rnc: Annotated[Optional[StrictStr], Field(description="RNC del emisor/proveedor")] = None,
+        amount_from: Optional[Union[StrictFloat, StrictInt]] = None,
+        amount_to: Optional[Union[StrictFloat, StrictInt]] = None,
+        processed: Optional[StrictBool] = None,
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
         page: Optional[StrictInt] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -328,17 +873,25 @@ class DocumentsReceivedApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ReceivedDocumentListResponse:
-        """List received documents
+        """Listar documentos recibidos
 
 
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param ecf:
         :type ecf: str
-        :param document_type:
-        :type document_type: str
+        :param type: Tipo de documento (31, 32, 33, etc.)
+        :type type: str
         :param status:
         :type status: int
+        :param supplier_rnc: RNC del emisor/proveedor
+        :type supplier_rnc: str
+        :param amount_from:
+        :type amount_from: float
+        :param amount_to:
+        :type amount_to: float
+        :param processed:
+        :type processed: bool
         :param date_from:
         :type date_from: date
         :param date_to:
@@ -372,8 +925,12 @@ class DocumentsReceivedApi:
         _param = self._list_received_documents_serialize(
             x_tenant_id=x_tenant_id,
             ecf=ecf,
-            document_type=document_type,
+            type=type,
             status=status,
+            supplier_rnc=supplier_rnc,
+            amount_from=amount_from,
+            amount_to=amount_to,
+            processed=processed,
             date_from=date_from,
             date_to=date_to,
             page=page,
@@ -402,14 +959,18 @@ class DocumentsReceivedApi:
     @validate_call
     def list_received_documents_with_http_info(
         self,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         ecf: Optional[StrictStr] = None,
-        document_type: Optional[StrictStr] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Tipo de documento (31, 32, 33, etc.)")] = None,
         status: Optional[StrictInt] = None,
+        supplier_rnc: Annotated[Optional[StrictStr], Field(description="RNC del emisor/proveedor")] = None,
+        amount_from: Optional[Union[StrictFloat, StrictInt]] = None,
+        amount_to: Optional[Union[StrictFloat, StrictInt]] = None,
+        processed: Optional[StrictBool] = None,
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
         page: Optional[StrictInt] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -423,17 +984,25 @@ class DocumentsReceivedApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ReceivedDocumentListResponse]:
-        """List received documents
+        """Listar documentos recibidos
 
 
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param ecf:
         :type ecf: str
-        :param document_type:
-        :type document_type: str
+        :param type: Tipo de documento (31, 32, 33, etc.)
+        :type type: str
         :param status:
         :type status: int
+        :param supplier_rnc: RNC del emisor/proveedor
+        :type supplier_rnc: str
+        :param amount_from:
+        :type amount_from: float
+        :param amount_to:
+        :type amount_to: float
+        :param processed:
+        :type processed: bool
         :param date_from:
         :type date_from: date
         :param date_to:
@@ -467,8 +1036,12 @@ class DocumentsReceivedApi:
         _param = self._list_received_documents_serialize(
             x_tenant_id=x_tenant_id,
             ecf=ecf,
-            document_type=document_type,
+            type=type,
             status=status,
+            supplier_rnc=supplier_rnc,
+            amount_from=amount_from,
+            amount_to=amount_to,
+            processed=processed,
             date_from=date_from,
             date_to=date_to,
             page=page,
@@ -497,14 +1070,18 @@ class DocumentsReceivedApi:
     @validate_call
     def list_received_documents_without_preload_content(
         self,
-        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. ")] = None,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
         ecf: Optional[StrictStr] = None,
-        document_type: Optional[StrictStr] = None,
+        type: Annotated[Optional[StrictStr], Field(description="Tipo de documento (31, 32, 33, etc.)")] = None,
         status: Optional[StrictInt] = None,
+        supplier_rnc: Annotated[Optional[StrictStr], Field(description="RNC del emisor/proveedor")] = None,
+        amount_from: Optional[Union[StrictFloat, StrictInt]] = None,
+        amount_to: Optional[Union[StrictFloat, StrictInt]] = None,
+        processed: Optional[StrictBool] = None,
         date_from: Optional[date] = None,
         date_to: Optional[date] = None,
         page: Optional[StrictInt] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -518,17 +1095,25 @@ class DocumentsReceivedApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List received documents
+        """Listar documentos recibidos
 
 
-        :param x_tenant_id: UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
         :type x_tenant_id: UUID
         :param ecf:
         :type ecf: str
-        :param document_type:
-        :type document_type: str
+        :param type: Tipo de documento (31, 32, 33, etc.)
+        :type type: str
         :param status:
         :type status: int
+        :param supplier_rnc: RNC del emisor/proveedor
+        :type supplier_rnc: str
+        :param amount_from:
+        :type amount_from: float
+        :param amount_to:
+        :type amount_to: float
+        :param processed:
+        :type processed: bool
         :param date_from:
         :type date_from: date
         :param date_to:
@@ -562,8 +1147,12 @@ class DocumentsReceivedApi:
         _param = self._list_received_documents_serialize(
             x_tenant_id=x_tenant_id,
             ecf=ecf,
-            document_type=document_type,
+            type=type,
             status=status,
+            supplier_rnc=supplier_rnc,
+            amount_from=amount_from,
+            amount_to=amount_to,
+            processed=processed,
             date_from=date_from,
             date_to=date_to,
             page=page,
@@ -589,8 +1178,12 @@ class DocumentsReceivedApi:
         self,
         x_tenant_id,
         ecf,
-        document_type,
+        type,
         status,
+        supplier_rnc,
+        amount_from,
+        amount_to,
+        processed,
         date_from,
         date_to,
         page,
@@ -621,13 +1214,29 @@ class DocumentsReceivedApi:
             
             _query_params.append(('ecf', ecf))
             
-        if document_type is not None:
+        if type is not None:
             
-            _query_params.append(('documentType', document_type))
+            _query_params.append(('type', type))
             
         if status is not None:
             
             _query_params.append(('status', status))
+            
+        if supplier_rnc is not None:
+            
+            _query_params.append(('supplierRnc', supplier_rnc))
+            
+        if amount_from is not None:
+            
+            _query_params.append(('amountFrom', amount_from))
+            
+        if amount_to is not None:
+            
+            _query_params.append(('amountTo', amount_to))
+            
+        if processed is not None:
+            
+            _query_params.append(('processed', processed))
             
         if date_from is not None:
             if isinstance(date_from, date):
@@ -681,13 +1290,12 @@ class DocumentsReceivedApi:
 
         # authentication setting
         _auth_settings: List[str] = [
-            'oauth2', 
-            'bearerAuth'
+            'oauth2'
         ]
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/documents/received/all',
+            resource_path='/documents/received',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

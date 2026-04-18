@@ -4,12 +4,12 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateAssociatedCompany**](AssociatedCompaniesAPI.md#CreateAssociatedCompany) | **Post** /associated-companies | Create associated company / branch
-[**DeleteAssociatedCompany**](AssociatedCompaniesAPI.md#DeleteAssociatedCompany) | **Delete** /associated-companies/{companyId} | Delete associated company
-[**GetCompanyDocumentMetrics**](AssociatedCompaniesAPI.md#GetCompanyDocumentMetrics) | **Get** /associated-companies/{companyId}/documents-metrics | Get company document metrics
-[**GetCompanyMetrics**](AssociatedCompaniesAPI.md#GetCompanyMetrics) | **Get** /associated-companies/{companyId}/metrics | Get company metrics
-[**ListAssociatedCompanies**](AssociatedCompaniesAPI.md#ListAssociatedCompanies) | **Get** /associated-companies | List associated companies / branches
-[**UpdateAssociatedCompany**](AssociatedCompaniesAPI.md#UpdateAssociatedCompany) | **Put** /associated-companies/{companyId} | Update associated company
+[**CreateAssociatedCompany**](AssociatedCompaniesAPI.md#CreateAssociatedCompany) | **Post** /associated-companies | Crear empresa asociada / sucursal
+[**DeleteAssociatedCompany**](AssociatedCompaniesAPI.md#DeleteAssociatedCompany) | **Delete** /associated-companies/{companyId} | Eliminar empresa asociada
+[**GetCompanyDocumentMetrics**](AssociatedCompaniesAPI.md#GetCompanyDocumentMetrics) | **Get** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa
+[**GetCompanyMetrics**](AssociatedCompaniesAPI.md#GetCompanyMetrics) | **Get** /associated-companies/{companyId}/metrics | Métricas de la empresa
+[**ListAssociatedCompanies**](AssociatedCompaniesAPI.md#ListAssociatedCompanies) | **Get** /associated-companies | Listar empresas asociadas / sucursales
+[**UpdateAssociatedCompany**](AssociatedCompaniesAPI.md#UpdateAssociatedCompany) | **Put** /associated-companies/{companyId} | Actualizar empresa asociada
 
 
 
@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 > CreateAssociatedCompany201Response CreateAssociatedCompany(ctx).Email(email).Password(password).Name(name).Rnc(rnc).Phone(phone).Address(address).City(city).Country(country).PrinterType(printerType).FirstName(firstName).LastName(lastName).JobTitle(jobTitle).Website(website).Category(category).MonthlySalesRange(monthlySalesRange).Logo(logo).Execute()
 
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Example
 
@@ -28,7 +28,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -111,7 +111,7 @@ Name | Type | Description  | Notes
 
 > DeleteAssociatedCompany200Response DeleteAssociatedCompany(ctx, companyId).Execute()
 
-Delete associated company
+Eliminar empresa asociada
 
 
 
@@ -124,7 +124,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -165,7 +165,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -181,7 +181,7 @@ Name | Type | Description  | Notes
 
 > CompanyDocumentMetrics GetCompanyDocumentMetrics(ctx, companyId).Execute()
 
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Example
 
@@ -192,7 +192,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -233,7 +233,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -249,7 +249,7 @@ Name | Type | Description  | Notes
 
 > CompanyMetrics GetCompanyMetrics(ctx, companyId).Execute()
 
-Get company metrics
+Métricas de la empresa
 
 ### Example
 
@@ -260,7 +260,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -301,7 +301,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -317,7 +317,7 @@ Name | Type | Description  | Notes
 
 > []AssociatedCompany ListAssociatedCompanies(ctx).Page(page).Limit(limit).Execute()
 
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Example
 
@@ -328,7 +328,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -367,7 +367,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -383,7 +383,7 @@ Name | Type | Description  | Notes
 
 > CreateAssociatedCompany201Response UpdateAssociatedCompany(ctx, companyId).Name(name).Phone(phone).Website(website).City(city).Country(country).Logo(logo).Execute()
 
-Update associated company
+Actualizar empresa asociada
 
 ### Example
 
@@ -394,7 +394,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
 )
 
 func main() {
@@ -447,7 +447,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

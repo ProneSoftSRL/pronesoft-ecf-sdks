@@ -8,18 +8,16 @@ Name | Type
 ------------ | -------------
 `data` | [Array&lt;SentDocumentSummary&gt;](SentDocumentSummary.md)
 `meta` | [PaginationMeta](PaginationMeta.md)
-`filters` | object
 
 ## Example
 
 ```typescript
-import type { SentDocumentListResponse } from '@pronesoft-rd/ecf-sdk'
+import type { SentDocumentListResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "data": null,
   "meta": null,
-  "filters": null,
 } satisfies SentDocumentListResponse
 
 console.log(example)

@@ -1,12 +1,12 @@
 # PronesoftEcf\AuthenticationApi
 
-OAuth 2.0 token endpoint. No Authorization header needed here. Tokens are valid for 24 hours.
+Endpoint de token OAuth 2.0. No requiere cabecera de autorización. Los tokens son válidos por 24 horas.
 
 All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if the operation defines another base path.
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**getAccessToken()**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token (OAuth 2.0) |
+| [**getAccessToken()**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0) |
 
 
 ## `getAccessToken()`
@@ -15,9 +15,9 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 getAccessToken($o_auth_token_request): \PronesoftEcf\Model\OAuthTokenResponse
 ```
 
-Get access token (OAuth 2.0)
+Obtener token de acceso (OAuth 2.0)
 
-Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed.
+Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token Bearer válido por 24 horas (86400 segundos). Este endpoint es público — no requiere cabecera de Authorization.
 
 ### Example
 

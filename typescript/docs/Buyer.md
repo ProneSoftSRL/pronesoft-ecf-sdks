@@ -27,7 +27,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { Buyer } from '@pronesoft-rd/ecf-sdk'
+import type { Buyer } from ''
 
 // TODO: Update the object below with actual values
 const example = {

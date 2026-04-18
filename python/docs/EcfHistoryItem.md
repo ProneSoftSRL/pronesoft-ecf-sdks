@@ -9,11 +9,12 @@ Name | Type | Description | Notes
 **track_id** | **str** |  | [optional] 
 **encf** | **str** |  | [optional] 
 **document_type** | **str** |  | [optional] 
-**status** | [**DocumentStatus**](DocumentStatus.md) |  | [optional] 
-**rnc** | **str** |  | [optional] 
+**status** | **str** |  | [optional] 
+**legal_status** | **str** |  | [optional] 
+**issuer_rnc** | **str** |  | [optional] 
 **environment** | [**Environment**](Environment.md) |  | [optional] 
+**received_at** | **datetime** |  | [optional] 
 **created_at** | **datetime** |  | [optional] 
-**logs** | [**List[ProcessingLog]**](ProcessingLog.md) |  | [optional] 
 
 ## Example
 

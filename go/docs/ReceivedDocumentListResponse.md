@@ -6,7 +6,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Data** | Pointer to [**[]ReceivedDocument**](ReceivedDocument.md) |  | [optional] 
 **Meta** | Pointer to [**PaginationMeta**](PaginationMeta.md) |  | [optional] 
-**Filters** | Pointer to **map[string]interface{}** |  | [optional] 
 
 ## Methods
 
@@ -76,31 +75,6 @@ SetMeta sets Meta field to given value.
 `func (o *ReceivedDocumentListResponse) HasMeta() bool`
 
 HasMeta returns a boolean if a field has been set.
-
-### GetFilters
-
-`func (o *ReceivedDocumentListResponse) GetFilters() map[string]interface{}`
-
-GetFilters returns the Filters field if non-nil, zero value otherwise.
-
-### GetFiltersOk
-
-`func (o *ReceivedDocumentListResponse) GetFiltersOk() (*map[string]interface{}, bool)`
-
-GetFiltersOk returns a tuple with the Filters field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFilters
-
-`func (o *ReceivedDocumentListResponse) SetFilters(v map[string]interface{})`
-
-SetFilters sets Filters field to given value.
-
-### HasFilters
-
-`func (o *ReceivedDocumentListResponse) HasFilters() bool`
-
-HasFilters returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

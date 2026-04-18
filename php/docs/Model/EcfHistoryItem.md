@@ -8,10 +8,11 @@ Name | Type | Description | Notes
 **track_id** | **string** |  | [optional]
 **encf** | **string** |  | [optional]
 **document_type** | **string** |  | [optional]
-**status** | [**\PronesoftEcf\Model\DocumentStatus**](DocumentStatus.md) |  | [optional]
-**rnc** | **string** |  | [optional]
+**status** | **string** |  | [optional]
+**legal_status** | **string** |  | [optional]
+**issuer_rnc** | **string** |  | [optional]
 **environment** | [**\PronesoftEcf\Model\Environment**](Environment.md) |  | [optional]
+**received_at** | **\DateTime** |  | [optional]
 **created_at** | **\DateTime** |  | [optional]
-**logs** | [**\PronesoftEcf\Model\ProcessingLog[]**](ProcessingLog.md) |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Total** | Pointer to **int32** |  | [optional] 
 **RecentActivity** | Pointer to **int32** |  | [optional] 
-**ByStatus** | Pointer to **map[string]int32** |  | [optional] 
+**ByStatus** | Pointer to [**map[string]DocumentStatsResponseByStatusValue**](DocumentStatsResponseByStatusValue.md) |  | [optional] 
 **ByEnvironment** | Pointer to **map[string]int32** |  | [optional] 
 
 ## Methods
@@ -80,20 +80,20 @@ HasRecentActivity returns a boolean if a field has been set.
 
 ### GetByStatus
 
-`func (o *DocumentStatsResponse) GetByStatus() map[string]int32`
+`func (o *DocumentStatsResponse) GetByStatus() map[string]DocumentStatsResponseByStatusValue`
 
 GetByStatus returns the ByStatus field if non-nil, zero value otherwise.
 
 ### GetByStatusOk
 
-`func (o *DocumentStatsResponse) GetByStatusOk() (*map[string]int32, bool)`
+`func (o *DocumentStatsResponse) GetByStatusOk() (*map[string]DocumentStatsResponseByStatusValue, bool)`
 
 GetByStatusOk returns a tuple with the ByStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetByStatus
 
-`func (o *DocumentStatsResponse) SetByStatus(v map[string]int32)`
+`func (o *DocumentStatsResponse) SetByStatus(v map[string]DocumentStatsResponseByStatusValue)`
 
 SetByStatus sets ByStatus field to given value.
 

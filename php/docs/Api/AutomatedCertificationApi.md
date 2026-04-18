@@ -6,10 +6,10 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**downloadCertification()**](AutomatedCertificationApi.md#downloadCertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP |
-| [**getCertificationStatus()**](AutomatedCertificationApi.md#getCertificationStatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status |
-| [**listCertificationNiches()**](AutomatedCertificationApi.md#listCertificationNiches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches |
-| [**startCertification()**](AutomatedCertificationApi.md#startCertification) | **POST** /dgii-ecf/automated-certification/start | Start certification process |
+| [**downloadCertification()**](AutomatedCertificationApi.md#downloadCertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación |
+| [**getCertificationStatus()**](AutomatedCertificationApi.md#getCertificationStatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación |
+| [**listCertificationNiches()**](AutomatedCertificationApi.md#listCertificationNiches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación |
+| [**startCertification()**](AutomatedCertificationApi.md#startCertification) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación |
 
 
 ## `downloadCertification()`
@@ -18,9 +18,9 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 downloadCertification($id): \SplFileObject
 ```
 
-Download certification ZIP
+Descargar ZIP de certificación
 
-Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
 
 ### Example
 
@@ -30,9 +30,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -64,7 +61,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -81,7 +78,7 @@ try {
 getCertificationStatus($id): \PronesoftEcf\Model\CertificationStatus
 ```
 
-Get certification process status
+Estado del proceso de certificación
 
 ### Example
 
@@ -91,9 +88,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -125,7 +119,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -142,7 +136,7 @@ try {
 listCertificationNiches(): \PronesoftEcf\Model\CertificationNiche[]
 ```
 
-List certification niches
+Listar nichos de certificación
 
 ### Example
 
@@ -152,9 +146,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -183,7 +174,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -200,7 +191,7 @@ This endpoint does not need any parameter.
 startCertification($start_certification_request): \PronesoftEcf\Model\StartCertification200Response
 ```
 
-Start certification process
+Iniciar proceso de certificación
 
 ### Example
 
@@ -210,9 +201,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure OAuth2 access token for authorization: oauth2
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-// Configure Bearer (JWT) authorization: bearerAuth
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 
@@ -244,7 +232,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 

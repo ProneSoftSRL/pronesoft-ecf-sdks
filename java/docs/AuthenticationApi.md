@@ -4,25 +4,25 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getAccessToken**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Get access token (OAuth 2.0) |
+| [**getAccessToken**](AuthenticationApi.md#getAccessToken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0) |
 
 
 <a id="getAccessToken"></a>
 # **getAccessToken**
 > OAuthTokenResponse getAccessToken(oauthTokenRequest)
 
-Get access token (OAuth 2.0)
+Obtener token de acceso (OAuth 2.0)
 
-Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
+Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token Bearer válido por 24 horas (86400 segundos). Este endpoint es público — no requiere cabecera de Authorization. 
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AuthenticationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AuthenticationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -67,6 +67,6 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Token generated successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Token generado exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 

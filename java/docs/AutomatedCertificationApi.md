@@ -4,29 +4,29 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**downloadCertification**](AutomatedCertificationApi.md#downloadCertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP |
-| [**getCertificationStatus**](AutomatedCertificationApi.md#getCertificationStatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status |
-| [**listCertificationNiches**](AutomatedCertificationApi.md#listCertificationNiches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches |
-| [**startCertification**](AutomatedCertificationApi.md#startCertification) | **POST** /dgii-ecf/automated-certification/start | Start certification process |
+| [**downloadCertification**](AutomatedCertificationApi.md#downloadCertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación |
+| [**getCertificationStatus**](AutomatedCertificationApi.md#getCertificationStatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación |
+| [**listCertificationNiches**](AutomatedCertificationApi.md#listCertificationNiches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación |
+| [**startCertification**](AutomatedCertificationApi.md#startCertification) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación |
 
 
 <a id="downloadCertification"></a>
 # **downloadCertification**
 > File downloadCertification(id)
 
-Download certification ZIP
+Descargar ZIP de certificación
 
-Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AutomatedCertificationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AutomatedCertificationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -36,10 +36,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AutomatedCertificationApi apiInstance = new AutomatedCertificationApi(defaultClient);
     UUID id = UUID.randomUUID(); // UUID | 
@@ -69,7 +65,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -79,24 +75,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | ZIP file with certification documents |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Archivo ZIP con documentos de certificación |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="getCertificationStatus"></a>
 # **getCertificationStatus**
 > CertificationStatus getCertificationStatus(id)
 
-Get certification process status
+Estado del proceso de certificación
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AutomatedCertificationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AutomatedCertificationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -106,10 +102,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AutomatedCertificationApi apiInstance = new AutomatedCertificationApi(defaultClient);
     UUID id = UUID.randomUUID(); // UUID | 
@@ -139,7 +131,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -149,24 +141,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Certification process status |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estado del proceso de certificación |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="listCertificationNiches"></a>
 # **listCertificationNiches**
 > List&lt;CertificationNiche&gt; listCertificationNiches()
 
-List certification niches
+Listar nichos de certificación
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AutomatedCertificationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AutomatedCertificationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -176,10 +168,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AutomatedCertificationApi apiInstance = new AutomatedCertificationApi(defaultClient);
     try {
@@ -205,7 +193,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -215,24 +203,24 @@ This endpoint does not need any parameter.
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List of available niches |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de nichos disponibles |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="startCertification"></a>
 # **startCertification**
 > StartCertification200Response startCertification(startCertificationRequest)
 
-Start certification process
+Iniciar proceso de certificación
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.AutomatedCertificationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AutomatedCertificationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -242,10 +230,6 @@ public class Example {
     // Configure OAuth2 access token for authorization: oauth2
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
 
     AutomatedCertificationApi apiInstance = new AutomatedCertificationApi(defaultClient);
     StartCertificationRequest startCertificationRequest = new StartCertificationRequest(); // StartCertificationRequest | 
@@ -275,7 +259,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -285,6 +269,6 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Certification process started |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Proceso de certificación iniciado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 

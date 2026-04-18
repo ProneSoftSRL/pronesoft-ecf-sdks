@@ -8,33 +8,33 @@ Name | Type
 ------------ | -------------
 `id` | string
 `encf` | string
-`status` | [DocumentStatus](DocumentStatus.md)
-`statusDisplay` | string
+`status` | string
+`statusLabel` | string
 `trackId` | string
 `documentType` | string
-`totalAmount` | number
+`issuerRnc` | string
+`environment` | [Environment](Environment.md)
 `receivedAt` | Date
 `createdAt` | Date
-`xmlUrl` | string
 `business` | [SentDocumentSummaryBusiness](SentDocumentSummaryBusiness.md)
 
 ## Example
 
 ```typescript
-import type { SentDocumentSummary } from '@pronesoft-rd/ecf-sdk'
+import type { SentDocumentSummary } from ''
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
   "encf": null,
   "status": null,
-  "statusDisplay": Aceptado,
+  "statusLabel": Aceptado,
   "trackId": null,
-  "documentType": null,
-  "totalAmount": null,
+  "documentType": 31,
+  "issuerRnc": 133190907,
+  "environment": null,
   "receivedAt": null,
   "createdAt": null,
-  "xmlUrl": null,
   "business": null,
 } satisfies SentDocumentSummary
 

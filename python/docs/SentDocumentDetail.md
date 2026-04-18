@@ -7,17 +7,20 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **UUID** |  | [optional] 
 **encf** | **str** |  | [optional] 
-**status** | [**DocumentStatus**](DocumentStatus.md) |  | [optional] 
-**status_display** | **str** |  | [optional] 
+**status** | **str** |  | [optional] 
+**status_label** | **str** |  | [optional] 
 **track_id** | **str** |  | [optional] 
 **document_type** | **str** |  | [optional] 
-**total_amount** | **float** |  | [optional] 
+**issuer_rnc** | **str** |  | [optional] 
+**environment** | [**Environment**](Environment.md) |  | [optional] 
 **received_at** | **datetime** |  | [optional] 
 **created_at** | **datetime** |  | [optional] 
-**xml_url** | **str** |  | [optional] 
 **business** | [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  | [optional] 
-**logs** | [**List[ProcessingLog]**](ProcessingLog.md) |  | [optional] 
-**audit_logs** | **List[object]** |  | [optional] 
+**legal_status** | **str** |  | [optional] 
+**document_stamp_url** | **str** |  | [optional] 
+**security_code** | **str** |  | [optional] 
+**contingency_mode** | **bool** |  | [optional] 
+**government_response** | **Dict[str, object]** |  | [optional] 
 
 ## Example
 

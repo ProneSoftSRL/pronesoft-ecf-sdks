@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **data** | [**List[ReceivedDocument]**](ReceivedDocument.md) |  | [optional] 
 **meta** | [**PaginationMeta**](PaginationMeta.md) |  | [optional] 
-**filters** | **object** |  | [optional] 
 
 ## Example
 

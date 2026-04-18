@@ -5,7 +5,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "0.0.3"
+__version__ = "1.2.0"
 
 # Define package exports
 __all__ = [
@@ -32,9 +32,6 @@ __all__ = [
     "ECFSubmissionApi",
     "ApiResponse",
     "ApiClient",
-    "IntegrationClient",
-    "TenantScopedClient",
-    "TenantSessionClient",
     "Configuration",
     "OpenApiException",
     "ApiTypeError",
@@ -52,10 +49,16 @@ __all__ = [
     "AssociatedCompanySubscription",
     "AssociatedCompanySubscriptionPlan",
     "BillingIndicator",
+    "BillingInvoiceReadyPayload",
+    "BranchCreatedPayload",
+    "BranchStatusChangedPayload",
     "Buyer",
+    "CertificateExpiringPayload",
+    "CertificationCompletedPayload",
     "CertificationNiche",
     "CertificationNicheNicheItemsInner",
     "CertificationStatus",
+    "CommercialApprovalPayload",
     "CompanyDocumentMetrics",
     "CompanyDocumentMetricsGroupByStatusInner",
     "CompanyDocumentMetricsGroupByStatusInnerCount",
@@ -63,24 +66,33 @@ __all__ = [
     "CompanyDocumentMetricsTotals",
     "CompanyMetrics",
     "CompanyMetricsDocumentsStatus",
+    "ContingencyActivatedPayload",
     "CreateAssociatedCompany201Response",
     "CreateTaxSequence201Response",
     "CreateTaxSequenceRequest",
     "DeleteAssociatedCompany200Response",
     "DgiiMessage",
     "DiscountOrSurcharge",
+    "DocumentReceivedPayload",
     "DocumentStatsResponse",
+    "DocumentStatsResponseByStatusValue",
     "DocumentStatus",
+    "DocumentStatusChangedPayload",
+    "DocumentValidationErrorPayload",
     "EcfHistoryItem",
     "EcfStatsResponse",
     "EcfStatusResponse",
-    "EcfSubmissionResponse",
-    "EcfSubmissionResponseDgiiResponse",
+    "EcfSubmitResponse",
+    "EcfSubmitResponseCompanyIdentification",
     "ElectronicDocument",
     "Environment",
     "ErrorResponse",
+    "GetEcfSubmissionHistory200Response",
     "GetNextNumber200Response",
     "GetNextNumber200ResponseData",
+    "GetReceivedDocumentStatsBySupplier200ResponseInner",
+    "GetSentDocumentLogs200ResponseInner",
+    "GetSentDocumentStatusOptions200ResponseInner",
     "InvoiceType",
     "InvoiceTypeSequence",
     "Item",
@@ -94,24 +106,35 @@ __all__ = [
     "ItemSurchargeInner",
     "ItemUnitPrice",
     "ItemWithheldITBISAmount",
+    "LegalStatus",
     "ListTaxSequences200Response",
+    "MemberInvitedPayload",
+    "MemberJoinedPayload",
+    "MemberRemovedPayload",
     "OAuthTokenRequest",
     "OAuthTokenResponse",
     "Page",
     "PaginationMeta",
     "PaymentForm",
     "PaymentMethod",
+    "PlanPaymentFailedPayload",
+    "PlanUsageAlertPayload",
     "PrintFormat",
     "ProcessingLog",
+    "PublicDocumentStatus",
     "RateLimitErrorResponse",
     "ReceivedDocument",
     "ReceivedDocumentListResponse",
     "ReceivedDocumentStatsResponse",
     "ReferenceInfo",
+    "SecurityApiKeyRotatedPayload",
+    "SecurityNewLoginPayload",
     "SentDocumentDetail",
     "SentDocumentListResponse",
     "SentDocumentSummary",
     "SentDocumentSummaryBusiness",
+    "SequenceDepletedPayload",
+    "SequenceVoidedPayload",
     "StartCertification200Response",
     "StartCertificationRequest",
     "Subquantity",
@@ -133,6 +156,7 @@ __all__ = [
     "WebhookConfigResponse",
     "WebhookEventType",
     "WebhookNotificationPayload",
+    "WebhookNotificationPayloadData",
     "WebhookStats",
     "WebhookStatsStats",
 ]
@@ -153,9 +177,6 @@ from pronesoft_ecf.api.ecf_submission_api import ECFSubmissionApi as ECFSubmissi
 # import ApiClient
 from pronesoft_ecf.api_response import ApiResponse as ApiResponse
 from pronesoft_ecf.api_client import ApiClient as ApiClient
-from pronesoft_ecf.integration_client import IntegrationClient as IntegrationClient
-from pronesoft_ecf.integration_client import TenantScopedClient as TenantScopedClient
-from pronesoft_ecf.integration_client import TenantSessionClient as TenantSessionClient
 from pronesoft_ecf.configuration import Configuration as Configuration
 from pronesoft_ecf.exceptions import OpenApiException as OpenApiException
 from pronesoft_ecf.exceptions import ApiTypeError as ApiTypeError
@@ -175,10 +196,16 @@ from pronesoft_ecf.models.associated_company import AssociatedCompany as Associa
 from pronesoft_ecf.models.associated_company_subscription import AssociatedCompanySubscription as AssociatedCompanySubscription
 from pronesoft_ecf.models.associated_company_subscription_plan import AssociatedCompanySubscriptionPlan as AssociatedCompanySubscriptionPlan
 from pronesoft_ecf.models.billing_indicator import BillingIndicator as BillingIndicator
+from pronesoft_ecf.models.billing_invoice_ready_payload import BillingInvoiceReadyPayload as BillingInvoiceReadyPayload
+from pronesoft_ecf.models.branch_created_payload import BranchCreatedPayload as BranchCreatedPayload
+from pronesoft_ecf.models.branch_status_changed_payload import BranchStatusChangedPayload as BranchStatusChangedPayload
 from pronesoft_ecf.models.buyer import Buyer as Buyer
+from pronesoft_ecf.models.certificate_expiring_payload import CertificateExpiringPayload as CertificateExpiringPayload
+from pronesoft_ecf.models.certification_completed_payload import CertificationCompletedPayload as CertificationCompletedPayload
 from pronesoft_ecf.models.certification_niche import CertificationNiche as CertificationNiche
 from pronesoft_ecf.models.certification_niche_niche_items_inner import CertificationNicheNicheItemsInner as CertificationNicheNicheItemsInner
 from pronesoft_ecf.models.certification_status import CertificationStatus as CertificationStatus
+from pronesoft_ecf.models.commercial_approval_payload import CommercialApprovalPayload as CommercialApprovalPayload
 from pronesoft_ecf.models.company_document_metrics import CompanyDocumentMetrics as CompanyDocumentMetrics
 from pronesoft_ecf.models.company_document_metrics_group_by_status_inner import CompanyDocumentMetricsGroupByStatusInner as CompanyDocumentMetricsGroupByStatusInner
 from pronesoft_ecf.models.company_document_metrics_group_by_status_inner_count import CompanyDocumentMetricsGroupByStatusInnerCount as CompanyDocumentMetricsGroupByStatusInnerCount
@@ -186,24 +213,33 @@ from pronesoft_ecf.models.company_document_metrics_main_business import CompanyD
 from pronesoft_ecf.models.company_document_metrics_totals import CompanyDocumentMetricsTotals as CompanyDocumentMetricsTotals
 from pronesoft_ecf.models.company_metrics import CompanyMetrics as CompanyMetrics
 from pronesoft_ecf.models.company_metrics_documents_status import CompanyMetricsDocumentsStatus as CompanyMetricsDocumentsStatus
+from pronesoft_ecf.models.contingency_activated_payload import ContingencyActivatedPayload as ContingencyActivatedPayload
 from pronesoft_ecf.models.create_associated_company201_response import CreateAssociatedCompany201Response as CreateAssociatedCompany201Response
 from pronesoft_ecf.models.create_tax_sequence201_response import CreateTaxSequence201Response as CreateTaxSequence201Response
 from pronesoft_ecf.models.create_tax_sequence_request import CreateTaxSequenceRequest as CreateTaxSequenceRequest
 from pronesoft_ecf.models.delete_associated_company200_response import DeleteAssociatedCompany200Response as DeleteAssociatedCompany200Response
 from pronesoft_ecf.models.dgii_message import DgiiMessage as DgiiMessage
 from pronesoft_ecf.models.discount_or_surcharge import DiscountOrSurcharge as DiscountOrSurcharge
+from pronesoft_ecf.models.document_received_payload import DocumentReceivedPayload as DocumentReceivedPayload
 from pronesoft_ecf.models.document_stats_response import DocumentStatsResponse as DocumentStatsResponse
+from pronesoft_ecf.models.document_stats_response_by_status_value import DocumentStatsResponseByStatusValue as DocumentStatsResponseByStatusValue
 from pronesoft_ecf.models.document_status import DocumentStatus as DocumentStatus
+from pronesoft_ecf.models.document_status_changed_payload import DocumentStatusChangedPayload as DocumentStatusChangedPayload
+from pronesoft_ecf.models.document_validation_error_payload import DocumentValidationErrorPayload as DocumentValidationErrorPayload
 from pronesoft_ecf.models.ecf_history_item import EcfHistoryItem as EcfHistoryItem
 from pronesoft_ecf.models.ecf_stats_response import EcfStatsResponse as EcfStatsResponse
 from pronesoft_ecf.models.ecf_status_response import EcfStatusResponse as EcfStatusResponse
-from pronesoft_ecf.models.ecf_submission_response import EcfSubmissionResponse as EcfSubmissionResponse
-from pronesoft_ecf.models.ecf_submission_response_dgii_response import EcfSubmissionResponseDgiiResponse as EcfSubmissionResponseDgiiResponse
+from pronesoft_ecf.models.ecf_submit_response import EcfSubmitResponse as EcfSubmitResponse
+from pronesoft_ecf.models.ecf_submit_response_company_identification import EcfSubmitResponseCompanyIdentification as EcfSubmitResponseCompanyIdentification
 from pronesoft_ecf.models.electronic_document import ElectronicDocument as ElectronicDocument
 from pronesoft_ecf.models.environment import Environment as Environment
 from pronesoft_ecf.models.error_response import ErrorResponse as ErrorResponse
+from pronesoft_ecf.models.get_ecf_submission_history200_response import GetEcfSubmissionHistory200Response as GetEcfSubmissionHistory200Response
 from pronesoft_ecf.models.get_next_number200_response import GetNextNumber200Response as GetNextNumber200Response
 from pronesoft_ecf.models.get_next_number200_response_data import GetNextNumber200ResponseData as GetNextNumber200ResponseData
+from pronesoft_ecf.models.get_received_document_stats_by_supplier200_response_inner import GetReceivedDocumentStatsBySupplier200ResponseInner as GetReceivedDocumentStatsBySupplier200ResponseInner
+from pronesoft_ecf.models.get_sent_document_logs200_response_inner import GetSentDocumentLogs200ResponseInner as GetSentDocumentLogs200ResponseInner
+from pronesoft_ecf.models.get_sent_document_status_options200_response_inner import GetSentDocumentStatusOptions200ResponseInner as GetSentDocumentStatusOptions200ResponseInner
 from pronesoft_ecf.models.invoice_type import InvoiceType as InvoiceType
 from pronesoft_ecf.models.invoice_type_sequence import InvoiceTypeSequence as InvoiceTypeSequence
 from pronesoft_ecf.models.item import Item as Item
@@ -217,24 +253,35 @@ from pronesoft_ecf.models.item_quantity import ItemQuantity as ItemQuantity
 from pronesoft_ecf.models.item_surcharge_inner import ItemSurchargeInner as ItemSurchargeInner
 from pronesoft_ecf.models.item_unit_price import ItemUnitPrice as ItemUnitPrice
 from pronesoft_ecf.models.item_withheld_itbis_amount import ItemWithheldITBISAmount as ItemWithheldITBISAmount
+from pronesoft_ecf.models.legal_status import LegalStatus as LegalStatus
 from pronesoft_ecf.models.list_tax_sequences200_response import ListTaxSequences200Response as ListTaxSequences200Response
+from pronesoft_ecf.models.member_invited_payload import MemberInvitedPayload as MemberInvitedPayload
+from pronesoft_ecf.models.member_joined_payload import MemberJoinedPayload as MemberJoinedPayload
+from pronesoft_ecf.models.member_removed_payload import MemberRemovedPayload as MemberRemovedPayload
 from pronesoft_ecf.models.o_auth_token_request import OAuthTokenRequest as OAuthTokenRequest
 from pronesoft_ecf.models.o_auth_token_response import OAuthTokenResponse as OAuthTokenResponse
 from pronesoft_ecf.models.page import Page as Page
 from pronesoft_ecf.models.pagination_meta import PaginationMeta as PaginationMeta
 from pronesoft_ecf.models.payment_form import PaymentForm as PaymentForm
 from pronesoft_ecf.models.payment_method import PaymentMethod as PaymentMethod
+from pronesoft_ecf.models.plan_payment_failed_payload import PlanPaymentFailedPayload as PlanPaymentFailedPayload
+from pronesoft_ecf.models.plan_usage_alert_payload import PlanUsageAlertPayload as PlanUsageAlertPayload
 from pronesoft_ecf.models.print_format import PrintFormat as PrintFormat
 from pronesoft_ecf.models.processing_log import ProcessingLog as ProcessingLog
+from pronesoft_ecf.models.public_document_status import PublicDocumentStatus as PublicDocumentStatus
 from pronesoft_ecf.models.rate_limit_error_response import RateLimitErrorResponse as RateLimitErrorResponse
 from pronesoft_ecf.models.received_document import ReceivedDocument as ReceivedDocument
 from pronesoft_ecf.models.received_document_list_response import ReceivedDocumentListResponse as ReceivedDocumentListResponse
 from pronesoft_ecf.models.received_document_stats_response import ReceivedDocumentStatsResponse as ReceivedDocumentStatsResponse
 from pronesoft_ecf.models.reference_info import ReferenceInfo as ReferenceInfo
+from pronesoft_ecf.models.security_api_key_rotated_payload import SecurityApiKeyRotatedPayload as SecurityApiKeyRotatedPayload
+from pronesoft_ecf.models.security_new_login_payload import SecurityNewLoginPayload as SecurityNewLoginPayload
 from pronesoft_ecf.models.sent_document_detail import SentDocumentDetail as SentDocumentDetail
 from pronesoft_ecf.models.sent_document_list_response import SentDocumentListResponse as SentDocumentListResponse
 from pronesoft_ecf.models.sent_document_summary import SentDocumentSummary as SentDocumentSummary
 from pronesoft_ecf.models.sent_document_summary_business import SentDocumentSummaryBusiness as SentDocumentSummaryBusiness
+from pronesoft_ecf.models.sequence_depleted_payload import SequenceDepletedPayload as SequenceDepletedPayload
+from pronesoft_ecf.models.sequence_voided_payload import SequenceVoidedPayload as SequenceVoidedPayload
 from pronesoft_ecf.models.start_certification200_response import StartCertification200Response as StartCertification200Response
 from pronesoft_ecf.models.start_certification_request import StartCertificationRequest as StartCertificationRequest
 from pronesoft_ecf.models.subquantity import Subquantity as Subquantity
@@ -256,6 +303,7 @@ from pronesoft_ecf.models.webhook_config_detail import WebhookConfigDetail as We
 from pronesoft_ecf.models.webhook_config_response import WebhookConfigResponse as WebhookConfigResponse
 from pronesoft_ecf.models.webhook_event_type import WebhookEventType as WebhookEventType
 from pronesoft_ecf.models.webhook_notification_payload import WebhookNotificationPayload as WebhookNotificationPayload
+from pronesoft_ecf.models.webhook_notification_payload_data import WebhookNotificationPayloadData as WebhookNotificationPayloadData
 from pronesoft_ecf.models.webhook_stats import WebhookStats as WebhookStats
 from pronesoft_ecf.models.webhook_stats_stats import WebhookStatsStats as WebhookStatsStats
 

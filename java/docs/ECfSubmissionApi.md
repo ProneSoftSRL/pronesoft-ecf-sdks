@@ -4,99 +4,27 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getEcfHistory**](ECfSubmissionApi.md#getEcfHistory) | **GET** /{environment}/ecf/responses/history | Get submission history (last 50 documents) |
-| [**getEcfStats**](ECfSubmissionApi.md#getEcfStats) | **GET** /{environment}/ecf/responses/stats | Get submission statistics (last 30 days) |
-| [**getEcfStatus**](ECfSubmissionApi.md#getEcfStatus) | **GET** /{environment}/ecf/status/{trackId} | Get document status by trackId |
-| [**submitEcf**](ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII |
+| [**getEcfStats**](ECfSubmissionApi.md#getEcfStats) | **GET** /{environment}/ecf/responses/stats | Obtener estadísticas de envíos (últimos 30 días) |
+| [**getEcfStatus**](ECfSubmissionApi.md#getEcfStatus) | **GET** /{environment}/ecf/status/{id} | Consultar estado del documento por ID interno |
+| [**getEcfSubmissionHistory**](ECfSubmissionApi.md#getEcfSubmissionHistory) | **GET** /{environment}/ecf/responses/history | Historial de envíos (paginado) |
+| [**submitEcf**](ECfSubmissionApi.md#submitEcf) | **POST** /{environment}/ecf/submit | Enviar documento e-CF a la DGII |
 
-
-<a id="getEcfHistory"></a>
-# **getEcfHistory**
-> List&lt;EcfHistoryItem&gt; getEcfHistory(environment, xTenantId)
-
-Get submission history (last 50 documents)
-
-### Example
-```java
-// Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.ECfSubmissionApi;
-
-public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
-    
-    // Configure OAuth2 access token for authorization: oauth2
-    OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
-    oauth2.setAccessToken("YOUR ACCESS TOKEN");
-
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
-
-    ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
-    Environment environment = Environment.fromValue("TesteCF"); // Environment | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    try {
-      List<EcfHistoryItem> result = apiInstance.getEcfHistory(environment, xTenantId);
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling ECfSubmissionApi#getEcfHistory");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
-    }
-  }
-}
-```
-
-### Parameters
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
-| **xTenantId** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
-
-### Return type
-
-[**List&lt;EcfHistoryItem&gt;**](EcfHistoryItem.md)
-
-### Authorization
-
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Document history |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
 
 <a id="getEcfStats"></a>
 # **getEcfStats**
 > EcfStatsResponse getEcfStats(environment, xTenantId)
 
-Get submission statistics (last 30 days)
+Obtener estadísticas de envíos (últimos 30 días)
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.ECfSubmissionApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.ECfSubmissionApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -107,13 +35,9 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
-
     ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
     Environment environment = Environment.fromValue("TesteCF"); // Environment | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     try {
       EcfStatsResponse result = apiInstance.getEcfStats(environment, xTenantId);
       System.out.println(result);
@@ -133,7 +57,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
-| **xTenantId** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
 
 ### Return type
 
@@ -141,7 +65,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -151,24 +75,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Submission statistics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estadísticas de envíos |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 <a id="getEcfStatus"></a>
 # **getEcfStatus**
-> EcfStatusResponse getEcfStatus(environment, trackId, xTenantId)
+> EcfStatusResponse getEcfStatus(environment, id, xTenantId)
 
-Get document status by trackId
+Consultar estado del documento por ID interno
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.ECfSubmissionApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.ECfSubmissionApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -179,16 +103,12 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
-
     ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
     Environment environment = Environment.fromValue("TesteCF"); // Environment | 
-    String trackId = "trackId_example"; // String | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    String id = "id_example"; // String | 
+    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     try {
-      EcfStatusResponse result = apiInstance.getEcfStatus(environment, trackId, xTenantId);
+      EcfStatusResponse result = apiInstance.getEcfStatus(environment, id, xTenantId);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling ECfSubmissionApi#getEcfStatus");
@@ -206,8 +126,8 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
-| **trackId** | **String**|  | |
-| **xTenantId** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+| **id** | **String**|  | |
+| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
 
 ### Return type
 
@@ -215,7 +135,7 @@ public class Example {
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -225,26 +145,24 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document status |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estado del documento |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
-<a id="submitEcf"></a>
-# **submitEcf**
-> EcfSubmissionResponse submitEcf(environment, electronicDocument, xTenantId)
+<a id="getEcfSubmissionHistory"></a>
+# **getEcfSubmissionHistory**
+> GetEcfSubmissionHistory200Response getEcfSubmissionHistory(environment, xTenantId, page, limit)
 
-Submit e-CF document to DGII
-
-Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+Historial de envíos (paginado)
 
 ### Example
 ```java
 // Import classes:
-import com.pronesoft.ecf.ApiClient;
-import com.pronesoft.ecf.ApiException;
-import com.pronesoft.ecf.Configuration;
-import com.pronesoft.ecf.auth.*;
-import com.pronesoft.ecf.models.*;
-import com.pronesoft.ecf.api.ECfSubmissionApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.ECfSubmissionApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -255,16 +173,86 @@ public class Example {
     OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
-    // Configure HTTP bearer authorization: bearerAuth
-    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
-    bearerAuth.setBearerToken("BEARER TOKEN");
+    ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
+    Environment environment = Environment.fromValue("TesteCF"); // Environment | 
+    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    Integer page = 1; // Integer | 
+    Integer limit = 20; // Integer | 
+    try {
+      GetEcfSubmissionHistory200Response result = apiInstance.getEcfSubmissionHistory(environment, xTenantId, page, limit);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling ECfSubmissionApi#getEcfSubmissionHistory");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
+| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **page** | **Integer**|  | [optional] [default to 1] |
+| **limit** | **Integer**|  | [optional] [default to 20] |
+
+### Return type
+
+[**GetEcfSubmissionHistory200Response**](GetEcfSubmissionHistory200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Historial de documentos paginado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+<a id="submitEcf"></a>
+# **submitEcf**
+> EcfSubmitResponse submitEcf(environment, electronicDocument, xTenantId)
+
+Enviar documento e-CF a la DGII
+
+Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.ECfSubmissionApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
+    
+    // Configure OAuth2 access token for authorization: oauth2
+    OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
+    oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
     Environment environment = Environment.fromValue("TesteCF"); // Environment | 
     ElectronicDocument electronicDocument = new ElectronicDocument(); // ElectronicDocument | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     try {
-      EcfSubmissionResponse result = apiInstance.submitEcf(environment, electronicDocument, xTenantId);
+      EcfSubmitResponse result = apiInstance.submitEcf(environment, electronicDocument, xTenantId);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling ECfSubmissionApi#submitEcf");
@@ -283,15 +271,15 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
 | **electronicDocument** | [**ElectronicDocument**](ElectronicDocument.md)|  | |
-| **xTenantId** | **UUID**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] |
+| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
 
 ### Return type
 
-[**EcfSubmissionResponse**](EcfSubmissionResponse.md)
+[**EcfSubmitResponse**](EcfSubmitResponse.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -301,8 +289,10 @@ public class Example {
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document submitted (approved, queued, or contingency mode) |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **201** | Documento registrado y en cola de procesamiento |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+| **422** | Error de validación o procesamiento |  -  |
+| **500** | Error interno del servidor |  -  |
 | **429** | Rate limit exceeded. Retry after indicated seconds. |  -  |
 

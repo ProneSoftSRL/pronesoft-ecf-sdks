@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getAccessToken**](AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Get access token (OAuth 2.0) |
+| [**getAccessToken**](AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0) |
 
 
 
@@ -12,9 +12,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 > OAuthTokenResponse getAccessToken(oAuthTokenRequest)
 
-Get access token (OAuth 2.0)
+Obtener token de acceso (OAuth 2.0)
 
-Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
+Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token Bearer válido por 24 horas (86400 segundos). Este endpoint es público — no requiere cabecera de Authorization. 
 
 ### Example
 
@@ -22,11 +22,11 @@ Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token va
 import {
   Configuration,
   AuthenticationApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetAccessTokenRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetAccessTokenRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const api = new AuthenticationApi();
 
   const body = {
@@ -70,8 +70,8 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Token generated successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Token generado exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

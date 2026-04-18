@@ -13,7 +13,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -60,12 +60,16 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'id' => 'string',
         'encf' => 'string',
-        'receiver_rnc' => 'string',
         'sender_rnc' => 'string',
+        'receiver_rnc' => 'string',
         'total_amount' => 'float',
         'status' => 'int',
+        'status_label' => 'string',
         'issue_date' => '\DateTime',
         'received_at' => '\DateTime',
+        'created_at' => '\DateTime',
+        'commercial_approval_status' => 'string',
+        'commercial_approval_rejection_reason' => 'string',
         'business' => '\PronesoftEcf\Model\SentDocumentSummaryBusiness'
     ];
 
@@ -79,12 +83,16 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'id' => 'uuid',
         'encf' => null,
-        'receiver_rnc' => null,
         'sender_rnc' => null,
+        'receiver_rnc' => null,
         'total_amount' => null,
         'status' => null,
+        'status_label' => null,
         'issue_date' => 'date-time',
         'received_at' => 'date-time',
+        'created_at' => 'date-time',
+        'commercial_approval_status' => null,
+        'commercial_approval_rejection_reason' => null,
         'business' => null
     ];
 
@@ -96,12 +104,16 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'id' => false,
         'encf' => false,
-        'receiver_rnc' => false,
         'sender_rnc' => false,
+        'receiver_rnc' => false,
         'total_amount' => false,
         'status' => false,
+        'status_label' => false,
         'issue_date' => false,
         'received_at' => false,
+        'created_at' => false,
+        'commercial_approval_status' => true,
+        'commercial_approval_rejection_reason' => true,
         'business' => false
     ];
 
@@ -193,12 +205,16 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'id' => 'id',
         'encf' => 'encf',
-        'receiver_rnc' => 'receiverRnc',
         'sender_rnc' => 'senderRnc',
+        'receiver_rnc' => 'receiverRnc',
         'total_amount' => 'totalAmount',
         'status' => 'status',
+        'status_label' => 'statusLabel',
         'issue_date' => 'issueDate',
         'received_at' => 'receivedAt',
+        'created_at' => 'createdAt',
+        'commercial_approval_status' => 'commercialApprovalStatus',
+        'commercial_approval_rejection_reason' => 'commercialApprovalRejectionReason',
         'business' => 'business'
     ];
 
@@ -210,12 +226,16 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'id' => 'setId',
         'encf' => 'setEncf',
-        'receiver_rnc' => 'setReceiverRnc',
         'sender_rnc' => 'setSenderRnc',
+        'receiver_rnc' => 'setReceiverRnc',
         'total_amount' => 'setTotalAmount',
         'status' => 'setStatus',
+        'status_label' => 'setStatusLabel',
         'issue_date' => 'setIssueDate',
         'received_at' => 'setReceivedAt',
+        'created_at' => 'setCreatedAt',
+        'commercial_approval_status' => 'setCommercialApprovalStatus',
+        'commercial_approval_rejection_reason' => 'setCommercialApprovalRejectionReason',
         'business' => 'setBusiness'
     ];
 
@@ -227,12 +247,16 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'id' => 'getId',
         'encf' => 'getEncf',
-        'receiver_rnc' => 'getReceiverRnc',
         'sender_rnc' => 'getSenderRnc',
+        'receiver_rnc' => 'getReceiverRnc',
         'total_amount' => 'getTotalAmount',
         'status' => 'getStatus',
+        'status_label' => 'getStatusLabel',
         'issue_date' => 'getIssueDate',
         'received_at' => 'getReceivedAt',
+        'created_at' => 'getCreatedAt',
+        'commercial_approval_status' => 'getCommercialApprovalStatus',
+        'commercial_approval_rejection_reason' => 'getCommercialApprovalRejectionReason',
         'business' => 'getBusiness'
     ];
 
@@ -277,6 +301,23 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
+    public const STATUS_NUMBER_1 = 1;
+    public const STATUS_NUMBER_2 = 2;
+    public const STATUS_NUMBER_3 = 3;
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_NUMBER_1,
+            self::STATUS_NUMBER_2,
+            self::STATUS_NUMBER_3,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -295,12 +336,16 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('encf', $data ?? [], null);
-        $this->setIfExists('receiver_rnc', $data ?? [], null);
         $this->setIfExists('sender_rnc', $data ?? [], null);
+        $this->setIfExists('receiver_rnc', $data ?? [], null);
         $this->setIfExists('total_amount', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
+        $this->setIfExists('status_label', $data ?? [], null);
         $this->setIfExists('issue_date', $data ?? [], null);
         $this->setIfExists('received_at', $data ?? [], null);
+        $this->setIfExists('created_at', $data ?? [], null);
+        $this->setIfExists('commercial_approval_status', $data ?? [], null);
+        $this->setIfExists('commercial_approval_rejection_reason', $data ?? [], null);
         $this->setIfExists('business', $data ?? [], null);
     }
 
@@ -330,6 +375,15 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
 
         return $invalidProperties;
     }
@@ -401,33 +455,6 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets receiver_rnc
-     *
-     * @return string|null
-     */
-    public function getReceiverRnc()
-    {
-        return $this->container['receiver_rnc'];
-    }
-
-    /**
-     * Sets receiver_rnc
-     *
-     * @param string|null $receiver_rnc receiver_rnc
-     *
-     * @return self
-     */
-    public function setReceiverRnc($receiver_rnc)
-    {
-        if (is_null($receiver_rnc)) {
-            throw new \InvalidArgumentException('non-nullable receiver_rnc cannot be null');
-        }
-        $this->container['receiver_rnc'] = $receiver_rnc;
-
-        return $this;
-    }
-
-    /**
      * Gets sender_rnc
      *
      * @return string|null
@@ -450,6 +477,33 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable sender_rnc cannot be null');
         }
         $this->container['sender_rnc'] = $sender_rnc;
+
+        return $this;
+    }
+
+    /**
+     * Gets receiver_rnc
+     *
+     * @return string|null
+     */
+    public function getReceiverRnc()
+    {
+        return $this->container['receiver_rnc'];
+    }
+
+    /**
+     * Sets receiver_rnc
+     *
+     * @param string|null $receiver_rnc receiver_rnc
+     *
+     * @return self
+     */
+    public function setReceiverRnc($receiver_rnc)
+    {
+        if (is_null($receiver_rnc)) {
+            throw new \InvalidArgumentException('non-nullable receiver_rnc cannot be null');
+        }
+        $this->container['receiver_rnc'] = $receiver_rnc;
 
         return $this;
     }
@@ -494,7 +548,7 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets status
      *
-     * @param int|null $status 1=Valid, 2=Contingency, 3=Rejected
+     * @param int|null $status 1=Valid, 2=Voided, 3=Pending
      *
      * @return self
      */
@@ -503,7 +557,44 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
         if (is_null($status)) {
             throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['status'] = $status;
+
+        return $this;
+    }
+
+    /**
+     * Gets status_label
+     *
+     * @return string|null
+     */
+    public function getStatusLabel()
+    {
+        return $this->container['status_label'];
+    }
+
+    /**
+     * Sets status_label
+     *
+     * @param string|null $status_label status_label
+     *
+     * @return self
+     */
+    public function setStatusLabel($status_label)
+    {
+        if (is_null($status_label)) {
+            throw new \InvalidArgumentException('non-nullable status_label cannot be null');
+        }
+        $this->container['status_label'] = $status_label;
 
         return $this;
     }
@@ -558,6 +649,101 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable received_at cannot be null');
         }
         $this->container['received_at'] = $received_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets created_at
+     *
+     * @return \DateTime|null
+     */
+    public function getCreatedAt()
+    {
+        return $this->container['created_at'];
+    }
+
+    /**
+     * Sets created_at
+     *
+     * @param \DateTime|null $created_at created_at
+     *
+     * @return self
+     */
+    public function setCreatedAt($created_at)
+    {
+        if (is_null($created_at)) {
+            throw new \InvalidArgumentException('non-nullable created_at cannot be null');
+        }
+        $this->container['created_at'] = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Gets commercial_approval_status
+     *
+     * @return string|null
+     */
+    public function getCommercialApprovalStatus()
+    {
+        return $this->container['commercial_approval_status'];
+    }
+
+    /**
+     * Sets commercial_approval_status
+     *
+     * @param string|null $commercial_approval_status commercial_approval_status
+     *
+     * @return self
+     */
+    public function setCommercialApprovalStatus($commercial_approval_status)
+    {
+        if (is_null($commercial_approval_status)) {
+            array_push($this->openAPINullablesSetToNull, 'commercial_approval_status');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('commercial_approval_status', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['commercial_approval_status'] = $commercial_approval_status;
+
+        return $this;
+    }
+
+    /**
+     * Gets commercial_approval_rejection_reason
+     *
+     * @return string|null
+     */
+    public function getCommercialApprovalRejectionReason()
+    {
+        return $this->container['commercial_approval_rejection_reason'];
+    }
+
+    /**
+     * Sets commercial_approval_rejection_reason
+     *
+     * @param string|null $commercial_approval_rejection_reason commercial_approval_rejection_reason
+     *
+     * @return self
+     */
+    public function setCommercialApprovalRejectionReason($commercial_approval_rejection_reason)
+    {
+        if (is_null($commercial_approval_rejection_reason)) {
+            array_push($this->openAPINullablesSetToNull, 'commercial_approval_rejection_reason');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('commercial_approval_rejection_reason', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['commercial_approval_rejection_reason'] = $commercial_approval_rejection_reason;
 
         return $this;
     }

@@ -13,7 +13,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -60,14 +60,14 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
     protected static $openAPITypes = [
         'id' => 'string',
         'encf' => 'string',
-        'status' => '\PronesoftEcf\Model\DocumentStatus',
-        'status_display' => 'string',
+        'status' => 'string',
+        'status_label' => 'string',
         'track_id' => 'string',
         'document_type' => 'string',
-        'total_amount' => 'float',
+        'issuer_rnc' => 'string',
+        'environment' => '\PronesoftEcf\Model\Environment',
         'received_at' => '\DateTime',
         'created_at' => '\DateTime',
-        'xml_url' => 'string',
         'business' => '\PronesoftEcf\Model\SentDocumentSummaryBusiness'
     ];
 
@@ -82,13 +82,13 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
         'id' => 'uuid',
         'encf' => null,
         'status' => null,
-        'status_display' => null,
+        'status_label' => null,
         'track_id' => null,
         'document_type' => null,
-        'total_amount' => null,
+        'issuer_rnc' => null,
+        'environment' => null,
         'received_at' => 'date-time',
         'created_at' => 'date-time',
-        'xml_url' => 'uri',
         'business' => null
     ];
 
@@ -99,15 +99,15 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
      */
     protected static array $openAPINullables = [
         'id' => false,
-        'encf' => false,
+        'encf' => true,
         'status' => false,
-        'status_display' => false,
-        'track_id' => false,
+        'status_label' => false,
+        'track_id' => true,
         'document_type' => false,
-        'total_amount' => false,
+        'issuer_rnc' => false,
+        'environment' => false,
         'received_at' => false,
         'created_at' => false,
-        'xml_url' => false,
         'business' => false
     ];
 
@@ -200,13 +200,13 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
         'id' => 'id',
         'encf' => 'encf',
         'status' => 'status',
-        'status_display' => 'statusDisplay',
+        'status_label' => 'statusLabel',
         'track_id' => 'trackId',
         'document_type' => 'documentType',
-        'total_amount' => 'totalAmount',
+        'issuer_rnc' => 'issuerRnc',
+        'environment' => 'environment',
         'received_at' => 'receivedAt',
         'created_at' => 'createdAt',
-        'xml_url' => 'xmlUrl',
         'business' => 'business'
     ];
 
@@ -219,13 +219,13 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
         'id' => 'setId',
         'encf' => 'setEncf',
         'status' => 'setStatus',
-        'status_display' => 'setStatusDisplay',
+        'status_label' => 'setStatusLabel',
         'track_id' => 'setTrackId',
         'document_type' => 'setDocumentType',
-        'total_amount' => 'setTotalAmount',
+        'issuer_rnc' => 'setIssuerRnc',
+        'environment' => 'setEnvironment',
         'received_at' => 'setReceivedAt',
         'created_at' => 'setCreatedAt',
-        'xml_url' => 'setXmlUrl',
         'business' => 'setBusiness'
     ];
 
@@ -238,13 +238,13 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
         'id' => 'getId',
         'encf' => 'getEncf',
         'status' => 'getStatus',
-        'status_display' => 'getStatusDisplay',
+        'status_label' => 'getStatusLabel',
         'track_id' => 'getTrackId',
         'document_type' => 'getDocumentType',
-        'total_amount' => 'getTotalAmount',
+        'issuer_rnc' => 'getIssuerRnc',
+        'environment' => 'getEnvironment',
         'received_at' => 'getReceivedAt',
         'created_at' => 'getCreatedAt',
-        'xml_url' => 'getXmlUrl',
         'business' => 'getBusiness'
     ];
 
@@ -289,6 +289,29 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
         return self::$openAPIModelName;
     }
 
+    public const STATUS_APPROVED = 'APPROVED';
+    public const STATUS_REJECTED = 'REJECTED';
+    public const STATUS_IN_PROCESS = 'IN_PROCESS';
+    public const STATUS_CONDITIONALLY_APPROVED = 'CONDITIONALLY_APPROVED';
+    public const STATUS_ERROR = 'ERROR';
+    public const STATUS_ERROR_COMUNICATION = 'ERROR_COMUNICATION';
+
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStatusAllowableValues()
+    {
+        return [
+            self::STATUS_APPROVED,
+            self::STATUS_REJECTED,
+            self::STATUS_IN_PROCESS,
+            self::STATUS_CONDITIONALLY_APPROVED,
+            self::STATUS_ERROR,
+            self::STATUS_ERROR_COMUNICATION,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -308,13 +331,13 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('encf', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
-        $this->setIfExists('status_display', $data ?? [], null);
+        $this->setIfExists('status_label', $data ?? [], null);
         $this->setIfExists('track_id', $data ?? [], null);
         $this->setIfExists('document_type', $data ?? [], null);
-        $this->setIfExists('total_amount', $data ?? [], null);
+        $this->setIfExists('issuer_rnc', $data ?? [], null);
+        $this->setIfExists('environment', $data ?? [], null);
         $this->setIfExists('received_at', $data ?? [], null);
         $this->setIfExists('created_at', $data ?? [], null);
-        $this->setIfExists('xml_url', $data ?? [], null);
         $this->setIfExists('business', $data ?? [], null);
     }
 
@@ -344,6 +367,15 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
     public function listInvalidProperties()
     {
         $invalidProperties = [];
+
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'status', must be one of '%s'",
+                $this->container['status'],
+                implode("', '", $allowedValues)
+            );
+        }
 
         return $invalidProperties;
     }
@@ -407,7 +439,14 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
     public function setEncf($encf)
     {
         if (is_null($encf)) {
-            throw new \InvalidArgumentException('non-nullable encf cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'encf');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('encf', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['encf'] = $encf;
 
@@ -417,7 +456,7 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Gets status
      *
-     * @return \PronesoftEcf\Model\DocumentStatus|null
+     * @return string|null
      */
     public function getStatus()
     {
@@ -427,7 +466,7 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Sets status
      *
-     * @param \PronesoftEcf\Model\DocumentStatus|null $status status
+     * @param string|null $status status
      *
      * @return self
      */
@@ -436,34 +475,44 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
         if (is_null($status)) {
             throw new \InvalidArgumentException('non-nullable status cannot be null');
         }
+        $allowedValues = $this->getStatusAllowableValues();
+        if (!in_array($status, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'status', must be one of '%s'",
+                    $status,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['status'] = $status;
 
         return $this;
     }
 
     /**
-     * Gets status_display
+     * Gets status_label
      *
      * @return string|null
      */
-    public function getStatusDisplay()
+    public function getStatusLabel()
     {
-        return $this->container['status_display'];
+        return $this->container['status_label'];
     }
 
     /**
-     * Sets status_display
+     * Sets status_label
      *
-     * @param string|null $status_display status_display
+     * @param string|null $status_label status_label
      *
      * @return self
      */
-    public function setStatusDisplay($status_display)
+    public function setStatusLabel($status_label)
     {
-        if (is_null($status_display)) {
-            throw new \InvalidArgumentException('non-nullable status_display cannot be null');
+        if (is_null($status_label)) {
+            throw new \InvalidArgumentException('non-nullable status_label cannot be null');
         }
-        $this->container['status_display'] = $status_display;
+        $this->container['status_label'] = $status_label;
 
         return $this;
     }
@@ -488,7 +537,14 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
     public function setTrackId($track_id)
     {
         if (is_null($track_id)) {
-            throw new \InvalidArgumentException('non-nullable track_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'track_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('track_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['track_id'] = $track_id;
 
@@ -523,28 +579,55 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
     }
 
     /**
-     * Gets total_amount
+     * Gets issuer_rnc
      *
-     * @return float|null
+     * @return string|null
      */
-    public function getTotalAmount()
+    public function getIssuerRnc()
     {
-        return $this->container['total_amount'];
+        return $this->container['issuer_rnc'];
     }
 
     /**
-     * Sets total_amount
+     * Sets issuer_rnc
      *
-     * @param float|null $total_amount total_amount
+     * @param string|null $issuer_rnc issuer_rnc
      *
      * @return self
      */
-    public function setTotalAmount($total_amount)
+    public function setIssuerRnc($issuer_rnc)
     {
-        if (is_null($total_amount)) {
-            throw new \InvalidArgumentException('non-nullable total_amount cannot be null');
+        if (is_null($issuer_rnc)) {
+            throw new \InvalidArgumentException('non-nullable issuer_rnc cannot be null');
         }
-        $this->container['total_amount'] = $total_amount;
+        $this->container['issuer_rnc'] = $issuer_rnc;
+
+        return $this;
+    }
+
+    /**
+     * Gets environment
+     *
+     * @return \PronesoftEcf\Model\Environment|null
+     */
+    public function getEnvironment()
+    {
+        return $this->container['environment'];
+    }
+
+    /**
+     * Sets environment
+     *
+     * @param \PronesoftEcf\Model\Environment|null $environment environment
+     *
+     * @return self
+     */
+    public function setEnvironment($environment)
+    {
+        if (is_null($environment)) {
+            throw new \InvalidArgumentException('non-nullable environment cannot be null');
+        }
+        $this->container['environment'] = $environment;
 
         return $this;
     }
@@ -599,33 +682,6 @@ class SentDocumentSummary implements ModelInterface, ArrayAccess, \JsonSerializa
             throw new \InvalidArgumentException('non-nullable created_at cannot be null');
         }
         $this->container['created_at'] = $created_at;
-
-        return $this;
-    }
-
-    /**
-     * Gets xml_url
-     *
-     * @return string|null
-     */
-    public function getXmlUrl()
-    {
-        return $this->container['xml_url'];
-    }
-
-    /**
-     * Sets xml_url
-     *
-     * @param string|null $xml_url xml_url
-     *
-     * @return self
-     */
-    public function setXmlUrl($xml_url)
-    {
-        if (is_null($xml_url)) {
-            throw new \InvalidArgumentException('non-nullable xml_url cannot be null');
-        }
-        $this->container['xml_url'] = $xml_url;
 
         return $this;
     }

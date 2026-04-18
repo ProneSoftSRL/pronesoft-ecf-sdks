@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { PaginationMeta } from '@pronesoft-rd/ecf-sdk'
+import type { PaginationMeta } from ''
 
 // TODO: Update the object below with actual values
 const example = {

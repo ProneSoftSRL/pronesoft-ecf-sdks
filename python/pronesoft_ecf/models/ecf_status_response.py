@@ -3,7 +3,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -18,43 +18,53 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from datetime import date, datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from pronesoft_ecf.models.dgii_message import DgiiMessage
-from pronesoft_ecf.models.document_status import DocumentStatus
-from pronesoft_ecf.models.environment import Environment
-from pronesoft_ecf.models.processing_log import ProcessingLog
+from uuid import UUID
+from pronesoft_ecf.models.ecf_submit_response_company_identification import EcfSubmitResponseCompanyIdentification
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class EcfStatusResponse(BaseModel):
     """
-    EcfStatusResponse
+    Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
     """ # noqa: E501
-    tracking_id: Optional[StrictStr] = Field(default=None, alias="trackingId")
-    estado: Optional[StrictStr] = None
-    track_id: Optional[StrictStr] = Field(default=None, alias="trackId")
-    numero_control: Optional[StrictStr] = Field(default=None, alias="numeroControl")
-    status: Optional[DocumentStatus] = None
-    encf: Optional[StrictStr] = None
-    business_rnc: Optional[StrictStr] = Field(default=None, alias="businessRnc")
-    environment: Optional[Environment] = None
-    received_at: Optional[datetime] = Field(default=None, alias="receivedAt")
-    mensajes: Optional[List[DgiiMessage]] = None
-    logs: Optional[List[ProcessingLog]] = None
-    source: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["trackingId", "estado", "trackId", "numeroControl", "status", "encf", "businessRnc", "environment", "receivedAt", "mensajes", "logs", "source"]
+    id: UUID = Field(description="ID interno del documento.")
+    stamp_date: Optional[date] = Field(default=None, description="Fecha de emisión del documento (YYYY-MM-DD).", alias="stampDate")
+    status: StrictStr = Field(description="Estado del proceso de envío a DGII.")
+    legal_status: Optional[StrictStr] = Field(default=None, description="Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.", alias="legalStatus")
+    company_identification: EcfSubmitResponseCompanyIdentification = Field(alias="companyIdentification")
+    track_id: Optional[StrictStr] = Field(default=None, description="ID de seguimiento asignado por DGII.", alias="trackId")
+    document_number: Optional[StrictStr] = Field(default=None, description="Número de control electrónico (e-NCF).", alias="documentNumber")
+    encf: Optional[StrictStr] = Field(default=None, description="Número e-NCF del documento.")
+    contingency_mode: Optional[StrictBool] = Field(default=None, description="true si fue emitido en modo contingencia.", alias="contingencyMode")
+    contingency_message: Optional[StrictStr] = Field(default=None, description="Mensaje oficial DGII cuando contingencyMode es true.", alias="contingencyMessage")
+    document_stamp_url: Optional[StrictStr] = Field(default=None, description="URL del código QR del documento.", alias="documentStampUrl")
+    pdf: Optional[StrictStr] = Field(default=None, description="URL pre-firmada del PDF (expira en 1 hora).")
+    xml_url: Optional[StrictStr] = Field(default=None, description="URL pre-firmada del XML firmado (expira en 1 hora).", alias="xmlUrl")
+    signature_date: Optional[datetime] = Field(default=None, description="Fecha y hora de la firma digital.", alias="signatureDate")
+    security_code: Optional[StrictStr] = Field(default=None, description="Código de seguridad del documento.", alias="securityCode")
+    sequence_consumed: StrictBool = Field(description="true si DGII confirmó el consumo de la secuencia.", alias="sequenceConsumed")
+    government_response: Optional[Dict[str, Any]] = Field(default=None, description="Respuesta completa de DGII (disponible cuando status es FINISHED).", alias="governmentResponse")
+    __properties: ClassVar[List[str]] = ["id", "stampDate", "status", "legalStatus", "companyIdentification", "trackId", "documentNumber", "encf", "contingencyMode", "contingencyMessage", "documentStampUrl", "pdf", "xmlUrl", "signatureDate", "securityCode", "sequenceConsumed", "governmentResponse"]
 
-    @field_validator('source')
-    def source_validate_enum(cls, value):
+    @field_validator('status')
+    def status_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['REGISTERED', 'TO_SEND', 'WAITING_RESPONSE', 'TO_NOTIFY', 'FINISHED']):
+            raise ValueError("must be one of enum values ('REGISTERED', 'TO_SEND', 'WAITING_RESPONSE', 'TO_NOTIFY', 'FINISHED')")
+        return value
+
+    @field_validator('legal_status')
+    def legal_status_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
             return value
 
-        if value not in set(['dgii_direct', 'local_database']):
-            raise ValueError("must be one of enum values ('dgii_direct', 'local_database')")
+        if value not in set(['ACCEPTED', 'ACCEPTED_WITH_OBSERVATIONS', 'REJECTED', 'ERROR']):
+            raise ValueError("must be one of enum values ('ACCEPTED', 'ACCEPTED_WITH_OBSERVATIONS', 'REJECTED', 'ERROR')")
         return value
 
     model_config = ConfigDict(
@@ -96,20 +106,59 @@ class EcfStatusResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in mensajes (list)
-        _items = []
-        if self.mensajes:
-            for _item_mensajes in self.mensajes:
-                if _item_mensajes:
-                    _items.append(_item_mensajes.to_dict())
-            _dict['mensajes'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in logs (list)
-        _items = []
-        if self.logs:
-            for _item_logs in self.logs:
-                if _item_logs:
-                    _items.append(_item_logs.to_dict())
-            _dict['logs'] = _items
+        # override the default output from pydantic by calling `to_dict()` of company_identification
+        if self.company_identification:
+            _dict['companyIdentification'] = self.company_identification.to_dict()
+        # set to None if stamp_date (nullable) is None
+        # and model_fields_set contains the field
+        if self.stamp_date is None and "stamp_date" in self.model_fields_set:
+            _dict['stampDate'] = None
+
+        # set to None if legal_status (nullable) is None
+        # and model_fields_set contains the field
+        if self.legal_status is None and "legal_status" in self.model_fields_set:
+            _dict['legalStatus'] = None
+
+        # set to None if track_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.track_id is None and "track_id" in self.model_fields_set:
+            _dict['trackId'] = None
+
+        # set to None if document_number (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_number is None and "document_number" in self.model_fields_set:
+            _dict['documentNumber'] = None
+
+        # set to None if encf (nullable) is None
+        # and model_fields_set contains the field
+        if self.encf is None and "encf" in self.model_fields_set:
+            _dict['encf'] = None
+
+        # set to None if document_stamp_url (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_stamp_url is None and "document_stamp_url" in self.model_fields_set:
+            _dict['documentStampUrl'] = None
+
+        # set to None if pdf (nullable) is None
+        # and model_fields_set contains the field
+        if self.pdf is None and "pdf" in self.model_fields_set:
+            _dict['pdf'] = None
+
+        # set to None if xml_url (nullable) is None
+        # and model_fields_set contains the field
+        if self.xml_url is None and "xml_url" in self.model_fields_set:
+            _dict['xmlUrl'] = None
+
+        # set to None if signature_date (nullable) is None
+        # and model_fields_set contains the field
+        if self.signature_date is None and "signature_date" in self.model_fields_set:
+            _dict['signatureDate'] = None
+
+        # set to None if security_code (nullable) is None
+        # and model_fields_set contains the field
+        if self.security_code is None and "security_code" in self.model_fields_set:
+            _dict['securityCode'] = None
+
         return _dict
 
     @classmethod
@@ -122,18 +171,23 @@ class EcfStatusResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "trackingId": obj.get("trackingId"),
-            "estado": obj.get("estado"),
-            "trackId": obj.get("trackId"),
-            "numeroControl": obj.get("numeroControl"),
+            "id": obj.get("id"),
+            "stampDate": obj.get("stampDate"),
             "status": obj.get("status"),
+            "legalStatus": obj.get("legalStatus"),
+            "companyIdentification": EcfSubmitResponseCompanyIdentification.from_dict(obj["companyIdentification"]) if obj.get("companyIdentification") is not None else None,
+            "trackId": obj.get("trackId"),
+            "documentNumber": obj.get("documentNumber"),
             "encf": obj.get("encf"),
-            "businessRnc": obj.get("businessRnc"),
-            "environment": obj.get("environment"),
-            "receivedAt": obj.get("receivedAt"),
-            "mensajes": [DgiiMessage.from_dict(_item) for _item in obj["mensajes"]] if obj.get("mensajes") is not None else None,
-            "logs": [ProcessingLog.from_dict(_item) for _item in obj["logs"]] if obj.get("logs") is not None else None,
-            "source": obj.get("source")
+            "contingencyMode": obj.get("contingencyMode"),
+            "contingencyMessage": obj.get("contingencyMessage"),
+            "documentStampUrl": obj.get("documentStampUrl"),
+            "pdf": obj.get("pdf"),
+            "xmlUrl": obj.get("xmlUrl"),
+            "signatureDate": obj.get("signatureDate"),
+            "securityCode": obj.get("securityCode"),
+            "sequenceConsumed": obj.get("sequenceConsumed"),
+            "governmentResponse": obj.get("governmentResponse")
         })
         return _obj
 

@@ -6,9 +6,9 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**getWebhook()**](WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
-| [**getWebhookStats()**](WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
-| [**listWebhooks()**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
+| [**getWebhook()**](WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook |
+| [**getWebhookStats()**](WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook |
+| [**listWebhooks()**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks |
 
 
 ## `getWebhook()`
@@ -17,7 +17,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 getWebhook($rnc, $webhook_id): \PronesoftEcf\Model\WebhookConfigDetail
 ```
 
-Get webhook details
+Detalle de un webhook
 
 ### Example
 
@@ -29,9 +29,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -39,7 +36,7 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 133190907; // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+$rnc = 133190907; // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 $webhook_id = 'webhook_id_example'; // string
 
 try {
@@ -54,7 +51,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **string**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 | **webhook_id** | **string**|  | |
 
 ### Return type
@@ -63,7 +60,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -80,7 +77,7 @@ try {
 getWebhookStats($rnc, $webhook_id, $period): \PronesoftEcf\Model\WebhookStats
 ```
 
-Get webhook delivery statistics
+Estadísticas de entregas del webhook
 
 ### Example
 
@@ -92,9 +89,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -102,7 +96,7 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 133190907; // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+$rnc = 133190907; // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 $webhook_id = 'webhook_id_example'; // string
 $period = 'month'; // string
 
@@ -118,7 +112,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **string**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 | **webhook_id** | **string**|  | |
 | **period** | **string**|  | [optional] [default to &#39;month&#39;] |
 
@@ -128,7 +122,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -145,9 +139,9 @@ try {
 listWebhooks($rnc): \PronesoftEcf\Model\WebhookConfigResponse[]
 ```
 
-List webhook configurations
+Listar configuraciones de webhooks
 
-Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 
 ### Example
 
@@ -159,9 +153,6 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure OAuth2 access token for authorization: oauth2
 $config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-// Configure Bearer (JWT) authorization: bearerAuth
-$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
 
 $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -169,7 +160,7 @@ $apiInstance = new PronesoftEcf\Api\WebhookConfigurationApi(
     new GuzzleHttp\Client(),
     $config
 );
-$rnc = 133190907; // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+$rnc = 133190907; // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 
 try {
     $result = $apiInstance->listWebhooks($rnc);
@@ -183,7 +174,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **string**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **string**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 
 ### Return type
 
@@ -191,7 +182,7 @@ try {
 
 ### Authorization
 
-[oauth2](../../README.md#oauth2), [bearerAuth](../../README.md#bearerAuth)
+[oauth2](../../README.md#oauth2)
 
 ### HTTP request headers
 

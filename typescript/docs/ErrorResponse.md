@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ErrorResponse } from '@pronesoft-rd/ecf-sdk'
+import type { ErrorResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {

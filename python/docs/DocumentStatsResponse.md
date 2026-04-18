@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **total** | **int** |  | [optional] 
 **recent_activity** | **int** |  | [optional] 
-**by_status** | **Dict[str, int]** |  | [optional] 
+**by_status** | [**Dict[str, DocumentStatsResponseByStatusValue]**](DocumentStatsResponseByStatusValue.md) |  | [optional] 
 **by_environment** | **Dict[str, int]** |  | [optional] 
 
 ## Example

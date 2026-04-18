@@ -10,7 +10,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { TotalsItbisRate1 } from '@pronesoft-rd/ecf-sdk'
+import type { TotalsItbisRate1 } from ''
 
 // TODO: Update the object below with actual values
 const example = {

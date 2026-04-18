@@ -1,4 +1,5 @@
 # Pronesoft.Ecf.Sdk.Model.ModelEnvironment
+TesteCF=testing no DGII, CerteCF=official certification, eCF=production
 
 ## Properties
 

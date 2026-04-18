@@ -8,13 +8,13 @@ Name | Type
 ------------ | -------------
 `total` | number
 `recentActivity` | number
-`byStatus` | { [key: string]: number; }
+`byStatus` | [{ [key: string]: DocumentStatsResponseByStatusValue; }](DocumentStatsResponseByStatusValue.md)
 `byEnvironment` | { [key: string]: number; }
 
 ## Example
 
 ```typescript
-import type { DocumentStatsResponse } from '@pronesoft-rd/ecf-sdk'
+import type { DocumentStatsResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {

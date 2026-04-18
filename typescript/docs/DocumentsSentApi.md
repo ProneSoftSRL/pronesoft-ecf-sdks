@@ -4,18 +4,21 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**downloadDocument**](DocumentsSentApi.md#downloaddocument) | **GET** /documents/download | Download document XML |
-| [**getDocument**](DocumentsSentApi.md#getdocument) | **GET** /documents/{id} | Get document details |
-| [**getDocumentStats**](DocumentsSentApi.md#getdocumentstats) | **GET** /documents/stats/summary | Get document statistics |
-| [**listSentDocuments**](DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | List sent documents |
+| [**downloadSentDocumentXml**](DocumentsSentApi.md#downloadsentdocumentxml) | **GET** /documents/download | Descargar XML del documento |
+| [**getSentDocumentById**](DocumentsSentApi.md#getsentdocumentbyid) | **GET** /documents/{id} | Obtener detalle del documento |
+| [**getSentDocumentLogs**](DocumentsSentApi.md#getsentdocumentlogs) | **GET** /documents/logs/{id} | Logs de procesamiento del documento |
+| [**getSentDocumentStats**](DocumentsSentApi.md#getsentdocumentstats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados |
+| [**getSentDocumentStatsByEnvironment**](DocumentsSentApi.md#getsentdocumentstatsbyenvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado |
+| [**getSentDocumentStatusOptions**](DocumentsSentApi.md#getsentdocumentstatusoptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles |
+| [**listSentDocuments**](DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | Listar documentos enviados |
 
 
 
-## downloadDocument
+## downloadSentDocumentXml
 
-> string downloadDocument(fileUrl)
+> string downloadSentDocumentXml(id, fileUrl, inline)
 
-Download document XML
+Descargar XML del documento
 
 ### Example
 
@@ -23,26 +26,28 @@ Download document XML
 import {
   Configuration,
   DocumentsSentApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { DownloadDocumentRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { DownloadSentDocumentXmlRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new DocumentsSentApi(config);
 
   const body = {
-    // string
+    // string | ID interno del documento (optional)
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string (optional)
     fileUrl: fileUrl_example,
-  } satisfies DownloadDocumentRequest;
+    // 'true' | 'false' | true para ver en el navegador, false para descargar (optional)
+    inline: inline_example,
+  } satisfies DownloadSentDocumentXmlRequest;
 
   try {
-    const data = await api.downloadDocument(body);
+    const data = await api.downloadSentDocumentXml(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -58,7 +63,9 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **fileUrl** | `string` |  | [Defaults to `undefined`] |
+| **id** | `string` | ID interno del documento | [Optional] [Defaults to `undefined`] |
+| **fileUrl** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **inline** | `true`, `false` | true para ver en el navegador, false para descargar | [Optional] [Defaults to `undefined`] [Enum: true, false] |
 
 ### Return type
 
@@ -66,7 +73,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -77,17 +84,17 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | XML file content |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Contenido del archivo XML |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## getDocument
+## getSentDocumentById
 
-> SentDocumentDetail getDocument(id, xTenantId)
+> SentDocumentDetail getSentDocumentById(id, xTenantId)
 
-Get document details
+Obtener detalle del documento
 
 ### Example
 
@@ -95,28 +102,26 @@ Get document details
 import {
   Configuration,
   DocumentsSentApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetDocumentRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetSentDocumentByIdRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new DocumentsSentApi(config);
 
   const body = {
     // string
     id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
-  } satisfies GetDocumentRequest;
+  } satisfies GetSentDocumentByIdRequest;
 
   try {
-    const data = await api.getDocument(body);
+    const data = await api.getSentDocumentById(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -133,7 +138,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -141,7 +146,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -152,17 +157,17 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document details |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Detalle del documento |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## getDocumentStats
+## getSentDocumentLogs
 
-> DocumentStatsResponse getDocumentStats(xTenantId, period)
+> Array&lt;GetSentDocumentLogs200ResponseInner&gt; getSentDocumentLogs(id, xTenantId)
 
-Get document statistics
+Logs de procesamiento del documento
 
 ### Example
 
@@ -170,28 +175,26 @@ Get document statistics
 import {
   Configuration,
   DocumentsSentApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { GetDocumentStatsRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { GetSentDocumentLogsRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new DocumentsSentApi(config);
 
   const body = {
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
-    // '7d' | '30d' | '90d' (optional)
-    period: period_example,
-  } satisfies GetDocumentStatsRequest;
+  } satisfies GetSentDocumentLogsRequest;
 
   try {
-    const data = await api.getDocumentStats(body);
+    const data = await api.getSentDocumentLogs(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -207,16 +210,16 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
-| **period** | `7d`, `30d`, `90d` |  | [Optional] [Defaults to `&#39;30d&#39;`] [Enum: 7d, 30d, 90d] |
+| **id** | `string` |  | [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**DocumentStatsResponse**](DocumentStatsResponse.md)
+[**Array&lt;GetSentDocumentLogs200ResponseInner&gt;**](GetSentDocumentLogs200ResponseInner.md)
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -227,8 +230,211 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document statistics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Logs de procesamiento del documento |  -  |
+| **404** | Documento no encontrado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getSentDocumentStats
+
+> DocumentStatsResponse getSentDocumentStats(xTenantId)
+
+Estadísticas de documentos enviados
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DocumentsSentApi,
+} from '';
+import type { GetSentDocumentStatsRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new DocumentsSentApi(config);
+
+  const body = {
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
+  } satisfies GetSentDocumentStatsRequest;
+
+  try {
+    const data = await api.getSentDocumentStats(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**DocumentStatsResponse**](DocumentStatsResponse.md)
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Estadísticas de documentos |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getSentDocumentStatsByEnvironment
+
+> { [key: string]: object; } getSentDocumentStatsByEnvironment(xTenantId)
+
+Estadísticas agrupadas por ambiente y estado
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DocumentsSentApi,
+} from '';
+import type { GetSentDocumentStatsByEnvironmentRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new DocumentsSentApi(config);
+
+  const body = {
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
+  } satisfies GetSentDocumentStatsByEnvironmentRequest;
+
+  try {
+    const data = await api.getSentDocumentStatsByEnvironment(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+**{ [key: string]: object; }**
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Estadísticas por ambiente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getSentDocumentStatusOptions
+
+> Array&lt;GetSentDocumentStatusOptions200ResponseInner&gt; getSentDocumentStatusOptions()
+
+Opciones de filtro de estado disponibles
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DocumentsSentApi,
+} from '';
+import type { GetSentDocumentStatusOptionsRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new DocumentsSentApi(config);
+
+  try {
+    const data = await api.getSentDocumentStatusOptions();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Array&lt;GetSentDocumentStatusOptions200ResponseInner&gt;**](GetSentDocumentStatusOptions200ResponseInner.md)
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Lista de opciones de estado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -237,7 +443,7 @@ example().catch(console.error);
 
 > SentDocumentListResponse listSentDocuments(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit)
 
-List sent documents
+Listar documentos enviados
 
 ### Example
 
@@ -245,21 +451,19 @@ List sent documents
 import {
   Configuration,
   DocumentsSentApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { ListSentDocumentsRequest } from '@pronesoft-rd/ecf-sdk';
+} from '';
+import type { ListSentDocumentsRequest } from '';
 
 async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  console.log("🚀 Testing  SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
-    // Configure HTTP bearer authorization: bearerAuth
-    accessToken: "YOUR BEARER TOKEN",
   });
   const api = new DocumentsSentApi(config);
 
   const body = {
-    // string | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
     // Environment (optional)
     env: ...,
@@ -296,7 +500,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
 | **env** | `Environment` |  | [Optional] [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
 | **ecf** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **type** | `string` |  | [Optional] [Defaults to `undefined`] |
@@ -312,7 +516,7 @@ example().catch(console.error);
 
 ### Authorization
 
-[oauth2 application](../README.md#oauth2-application), [bearerAuth](../README.md#bearerAuth)
+[oauth2 application](../README.md#oauth2-application)
 
 ### HTTP request headers
 
@@ -323,8 +527,8 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Paginated list of sent documents |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista paginada de documentos enviados |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

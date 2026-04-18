@@ -18,7 +18,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { WebhookConfigResponse } from '@pronesoft-rd/ecf-sdk'
+import type { WebhookConfigResponse } from ''
 
 // TODO: Update the object below with actual values
 const example = {
