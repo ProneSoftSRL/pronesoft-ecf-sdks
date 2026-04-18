@@ -1,0 +1,29 @@
+name: Publish C# SDK a NuGet
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-nuget:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Prender Servidor Microsoft .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Empaquetar Librería
+      working-directory: ./csharp
+      run: |
+        dotnet build src/Pronesoft.Ecf.Sdk/Pronesoft.Ecf.Sdk.csproj -c Release
+        dotnet pack src/Pronesoft.Ecf.Sdk/Pronesoft.Ecf.Sdk.csproj -c Release
+        
+    - name: Disparar hacia la vitrina de NuGet
+      working-directory: ./csharp
+      run: |
+        dotnet nuget push "src/Pronesoft.Ecf.Sdk/bin/Release/*.nupkg" \
+          --api-key ${{ secrets.NUGET_API_KEY }} \
+          --source https://api.nuget.org/v3/index.json \
+          --skip-duplicate
