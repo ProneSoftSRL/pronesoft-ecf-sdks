@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -14,16 +14,14 @@ require 'date'
 require 'time'
 
 module PronesoftEcf
-  # Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
+  # Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el `invoiceType`. Usa `GET /tax-sequences/next?invoiceType=31` solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: `POST /{environment}/ecf/submit` (ej. `TesteCF` o `eCF`). 
   class ElectronicDocument < ApiModelBase
-    attr_accessor :environment
-
-    # Always 1.0.
+    # Siempre \"1.0\".
     attr_accessor :version
 
     attr_accessor :invoice_type
 
-    # e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+    # Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`. 
     attr_accessor :invoice_number
 
     # Optional Group ID for batch processing
@@ -145,7 +143,6 @@ module PronesoftEcf
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'environment' => :'environment',
         :'version' => :'version',
         :'invoice_type' => :'invoiceType',
         :'invoice_number' => :'invoiceNumber',
@@ -209,7 +206,6 @@ module PronesoftEcf
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'environment' => :'Environment',
         :'version' => :'String',
         :'invoice_type' => :'InvoiceType',
         :'invoice_number' => :'String',
@@ -281,10 +277,6 @@ module PronesoftEcf
         end
         h[k.to_sym] = v
       }
-
-      if attributes.key?(:'environment')
-        self.environment = attributes[:'environment']
-      end
 
       if attributes.key?(:'version')
         self.version = attributes[:'version']
@@ -500,10 +492,6 @@ module PronesoftEcf
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if @version.nil?
-        invalid_properties.push('invalid value for "version", version cannot be nil.')
-      end
-
       if @invoice_type.nil?
         invalid_properties.push('invalid value for "invoice_type", invoice_type cannot be nil.')
       end
@@ -607,7 +595,6 @@ module PronesoftEcf
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if @version.nil?
       return false if @invoice_type.nil?
       return false if @issue_date.nil?
       credit_note_indicator_validator = EnumAttributeValidator.new('String', ["0", "1"])
@@ -643,16 +630,6 @@ module PronesoftEcf
       return false if @items.length < 1
       return false if @totals.nil?
       true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] version Value to be assigned
-    def version=(version)
-      if version.nil?
-        fail ArgumentError, 'version cannot be nil'
-      end
-
-      @version = version
     end
 
     # Custom attribute writer method with validation
@@ -1006,7 +983,6 @@ module PronesoftEcf
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          environment == o.environment &&
           version == o.version &&
           invoice_type == o.invoice_type &&
           invoice_number == o.invoice_number &&
@@ -1065,7 +1041,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [environment, version, invoice_type, invoice_number, group_id, issue_date, expiration_date, credit_note_indicator, deferred_sending_indicator, taxed_amount_indicator, income_type, payment_type, payment_deadline, payment_terms, payment_forms, payment_account_type, payment_account_number, payment_bank, service_start_date, service_end_date, total_pages, issuer_rnc, issuer_business_name, issuer_commercial_name, branch_name, issuer_address, municipality_code, province_code, issuer_phones, issuer_email, issuer_website, issuer_economic_activity, seller_code, internal_invoice_number, internal_order_number, sales_zone, sales_route, additional_issuer_info, buyer, items, totals, transport, additional_info, alternative_currency, reference_info, subtotals, discounts_or_surcharges, pages].hash
+      [version, invoice_type, invoice_number, group_id, issue_date, expiration_date, credit_note_indicator, deferred_sending_indicator, taxed_amount_indicator, income_type, payment_type, payment_deadline, payment_terms, payment_forms, payment_account_type, payment_account_number, payment_bank, service_start_date, service_end_date, total_pages, issuer_rnc, issuer_business_name, issuer_commercial_name, branch_name, issuer_address, municipality_code, province_code, issuer_phones, issuer_email, issuer_website, issuer_economic_activity, seller_code, internal_invoice_number, internal_order_number, sales_zone, sales_route, additional_issuer_info, buyer, items, totals, transport, additional_info, alternative_currency, reference_info, subtotals, discounts_or_surcharges, pages].hash
     end
 
     # Builds the object from hash

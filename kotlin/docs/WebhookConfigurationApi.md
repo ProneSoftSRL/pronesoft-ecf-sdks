@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**getWebhook**](WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
-| [**getWebhookStats**](WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
-| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
+| [**getWebhook**](WebhookConfigurationApi.md#getWebhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook |
+| [**getWebhookStats**](WebhookConfigurationApi.md#getWebhookStats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook |
+| [**listWebhooks**](WebhookConfigurationApi.md#listWebhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks |
 
 
 <a id="getWebhook"></a>
 # **getWebhook**
 > WebhookConfigDetail getWebhook(rnc, webhookId)
 
-Get webhook details
+Detalle de un webhook
 
 ### Example
 ```kotlin
@@ -22,7 +22,7 @@ Get webhook details
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = 133190907 // kotlin.String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+val rnc : kotlin.String = 133190907 // kotlin.String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 val webhookId : kotlin.String = webhookId_example // kotlin.String | 
 try {
     val result : WebhookConfigDetail = apiInstance.getWebhook(rnc, webhookId)
@@ -37,7 +37,7 @@ try {
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **kotlin.String**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **webhookId** | **kotlin.String**|  | |
@@ -51,8 +51,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -63,7 +61,7 @@ Configure bearerAuth:
 # **getWebhookStats**
 > WebhookStats getWebhookStats(rnc, webhookId, period)
 
-Get webhook delivery statistics
+Estadísticas de entregas del webhook
 
 ### Example
 ```kotlin
@@ -72,7 +70,7 @@ Get webhook delivery statistics
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = 133190907 // kotlin.String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+val rnc : kotlin.String = 133190907 // kotlin.String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 val webhookId : kotlin.String = webhookId_example // kotlin.String | 
 val period : kotlin.String = period_example // kotlin.String | 
 try {
@@ -88,7 +86,7 @@ try {
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **kotlin.String**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 | **webhookId** | **kotlin.String**|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
@@ -103,8 +101,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -115,9 +111,9 @@ Configure bearerAuth:
 # **listWebhooks**
 > kotlin.collections.List&lt;WebhookConfigResponse&gt; listWebhooks(rnc)
 
-List webhook configurations
+Listar configuraciones de webhooks
 
-Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 
 ### Example
 ```kotlin
@@ -126,7 +122,7 @@ Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI onl
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = WebhookConfigurationApi()
-val rnc : kotlin.String = 133190907 // kotlin.String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+val rnc : kotlin.String = 133190907 // kotlin.String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 try {
     val result : kotlin.collections.List<WebhookConfigResponse> = apiInstance.listWebhooks(rnc)
     println(result)
@@ -142,7 +138,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **rnc** | **kotlin.String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
+| **rnc** | **kotlin.String**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
 
 ### Return type
 
@@ -152,8 +148,6 @@ try {
 
 
 Configure oauth2:
-    ApiClient.accessToken = ""
-Configure bearerAuth:
     ApiClient.accessToken = ""
 
 ### HTTP request headers

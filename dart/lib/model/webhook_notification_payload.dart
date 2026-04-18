@@ -20,16 +20,18 @@ class WebhookNotificationPayload {
     required this.data,
   });
 
-  /// Unique notification ID (evt_xxx format). Use for deduplication.
+  /// ID único de la notificación. Úsalo para deduplicar entregas.
   String id;
 
   WebhookEventType event;
 
+  /// Fecha y hora del evento en ISO 8601.
   DateTime timestamp;
 
+  /// RNC de la empresa que generó el evento.
   String businessRnc;
 
-  Object data;
+  WebhookNotificationPayloadData data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is WebhookNotificationPayload &&
@@ -90,7 +92,7 @@ class WebhookNotificationPayload {
         event: WebhookEventType.fromJson(json[r'event'])!,
         timestamp: mapDateTime(json, r'timestamp', r'')!,
         businessRnc: mapValueOfType<String>(json, r'businessRnc')!,
-        data: mapValueOfType<Object>(json, r'data')!,
+        data: WebhookNotificationPayloadData.fromJson(json[r'data'])!,
       );
     }
     return null;

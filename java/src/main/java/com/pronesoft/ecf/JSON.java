@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -104,10 +104,16 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.AssociatedCompany.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.AssociatedCompanySubscription.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.AssociatedCompanySubscriptionPlan.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.BillingInvoiceReadyPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.BranchCreatedPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.BranchStatusChangedPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.Buyer.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CertificateExpiringPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CertificationCompletedPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CertificationNiche.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CertificationNicheNicheItemsInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CertificationStatus.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CommercialApprovalPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CompanyDocumentMetrics.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CompanyDocumentMetricsGroupByStatusInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CompanyDocumentMetricsGroupByStatusInnerCount.CustomTypeAdapterFactory());
@@ -115,22 +121,31 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CompanyDocumentMetricsTotals.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CompanyMetrics.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CompanyMetricsDocumentsStatus.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ContingencyActivatedPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CreateAssociatedCompany201Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CreateTaxSequence201Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CreateTaxSequenceRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DeleteAssociatedCompany200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DgiiMessage.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DiscountOrSurcharge.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DocumentReceivedPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DocumentStatsResponse.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DocumentStatsResponseByStatusValue.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DocumentStatusChangedPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DocumentValidationErrorPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfHistoryItem.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfStatsResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfStatusResponse.CustomTypeAdapterFactory());
-        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfSubmissionResponse.CustomTypeAdapterFactory());
-        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfSubmissionResponseDgiiResponse.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfSubmitResponse.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfSubmitResponseCompanyIdentification.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ElectronicDocument.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ErrorResponse.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetEcfSubmissionHistory200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetNextNumber200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetNextNumber200ResponseData.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetReceivedDocumentStatsBySupplier200ResponseInner.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetSentDocumentLogs200ResponseInner.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetSentDocumentStatusOptions200ResponseInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.Item.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ItemAdditionalTax.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ItemAlternativeCurrency.CustomTypeAdapterFactory());
@@ -143,21 +158,30 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ItemUnitPrice.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ItemWithheldITBISAmount.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ListTaxSequences200Response.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.MemberInvitedPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.MemberJoinedPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.MemberRemovedPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.OAuthTokenRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.OAuthTokenResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.Page.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.PaginationMeta.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.PaymentForm.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.PlanPaymentFailedPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.PlanUsageAlertPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ProcessingLog.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.RateLimitErrorResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ReceivedDocument.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ReceivedDocumentListResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ReceivedDocumentStatsResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ReferenceInfo.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.SecurityApiKeyRotatedPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.SecurityNewLoginPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.SentDocumentDetail.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.SentDocumentListResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.SentDocumentSummary.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.SentDocumentSummaryBusiness.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.SequenceDepletedPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.SequenceVoidedPayload.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.StartCertification200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.StartCertificationRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.Subquantity.CustomTypeAdapterFactory());
@@ -178,6 +202,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.WebhookConfigDetail.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.WebhookConfigResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.WebhookNotificationPayload.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.WebhookNotificationPayloadData.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.WebhookStats.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.WebhookStatsStats.CustomTypeAdapterFactory());
         gson = gsonBuilder.create();

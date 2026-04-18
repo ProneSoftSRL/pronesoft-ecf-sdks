@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -118,7 +118,7 @@ export interface AssociatedCompaniesApiInterface {
 
     /**
      * 
-     * @summary Create associated company / branch
+     * @summary Crear empresa asociada / sucursal
      * @param {string} email 
      * @param {string} password 
      * @param {string} name 
@@ -142,7 +142,7 @@ export interface AssociatedCompaniesApiInterface {
     createAssociatedCompanyRaw(requestParameters: CreateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAssociatedCompany201Response>>;
 
     /**
-     * Create associated company / branch
+     * Crear empresa asociada / sucursal
      */
     createAssociatedCompany(requestParameters: CreateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAssociatedCompany201Response>;
 
@@ -155,8 +155,8 @@ export interface AssociatedCompaniesApiInterface {
     deleteAssociatedCompanyRequestOpts(requestParameters: DeleteAssociatedCompanyRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Permanently deletes an associated company. This action is irreversible.
-     * @summary Delete associated company
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
+     * @summary Eliminar empresa asociada
      * @param {string} companyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -165,8 +165,8 @@ export interface AssociatedCompaniesApiInterface {
     deleteAssociatedCompanyRaw(requestParameters: DeleteAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteAssociatedCompany200Response>>;
 
     /**
-     * Permanently deletes an associated company. This action is irreversible.
-     * Delete associated company
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
+     * Eliminar empresa asociada
      */
     deleteAssociatedCompany(requestParameters: DeleteAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteAssociatedCompany200Response>;
 
@@ -180,7 +180,7 @@ export interface AssociatedCompaniesApiInterface {
 
     /**
      * 
-     * @summary Get company document metrics
+     * @summary Métricas de documentos de la empresa
      * @param {string} companyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -189,7 +189,7 @@ export interface AssociatedCompaniesApiInterface {
     getCompanyDocumentMetricsRaw(requestParameters: GetCompanyDocumentMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CompanyDocumentMetrics>>;
 
     /**
-     * Get company document metrics
+     * Métricas de documentos de la empresa
      */
     getCompanyDocumentMetrics(requestParameters: GetCompanyDocumentMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CompanyDocumentMetrics>;
 
@@ -203,7 +203,7 @@ export interface AssociatedCompaniesApiInterface {
 
     /**
      * 
-     * @summary Get company metrics
+     * @summary Métricas de la empresa
      * @param {string} companyId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -212,7 +212,7 @@ export interface AssociatedCompaniesApiInterface {
     getCompanyMetricsRaw(requestParameters: GetCompanyMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CompanyMetrics>>;
 
     /**
-     * Get company metrics
+     * Métricas de la empresa
      */
     getCompanyMetrics(requestParameters: GetCompanyMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CompanyMetrics>;
 
@@ -227,7 +227,7 @@ export interface AssociatedCompaniesApiInterface {
 
     /**
      * 
-     * @summary List associated companies / branches
+     * @summary Listar empresas asociadas / sucursales
      * @param {number} [page] 
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
@@ -237,7 +237,7 @@ export interface AssociatedCompaniesApiInterface {
     listAssociatedCompaniesRaw(requestParameters: ListAssociatedCompaniesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AssociatedCompany>>>;
 
     /**
-     * List associated companies / branches
+     * Listar empresas asociadas / sucursales
      */
     listAssociatedCompanies(requestParameters: ListAssociatedCompaniesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AssociatedCompany>>;
 
@@ -257,7 +257,7 @@ export interface AssociatedCompaniesApiInterface {
 
     /**
      * 
-     * @summary Update associated company
+     * @summary Actualizar empresa asociada
      * @param {string} companyId 
      * @param {string} [name] 
      * @param {string} [phone] 
@@ -272,7 +272,7 @@ export interface AssociatedCompaniesApiInterface {
     updateAssociatedCompanyRaw(requestParameters: UpdateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAssociatedCompany201Response>>;
 
     /**
-     * Update associated company
+     * Actualizar empresa asociada
      */
     updateAssociatedCompany(requestParameters: UpdateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAssociatedCompany201Response>;
 
@@ -359,14 +359,6 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:create"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const consumes: runtime.Consume[] = [
             { contentType: 'multipart/form-data' },
         ];
@@ -460,7 +452,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Create associated company / branch
+     * Crear empresa asociada / sucursal
      */
     async createAssociatedCompanyRaw(requestParameters: CreateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAssociatedCompany201Response>> {
         const requestOptions = await this.createAssociatedCompanyRequestOpts(requestParameters);
@@ -470,7 +462,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Create associated company / branch
+     * Crear empresa asociada / sucursal
      */
     async createAssociatedCompany(requestParameters: CreateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAssociatedCompany201Response> {
         const response = await this.createAssociatedCompanyRaw(requestParameters, initOverrides);
@@ -497,14 +489,6 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:update"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/associated-companies/{companyId}`;
         urlPath = urlPath.replace(`{${"companyId"}}`, encodeURIComponent(String(requestParameters['companyId'])));
@@ -518,8 +502,8 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Permanently deletes an associated company. This action is irreversible.
-     * Delete associated company
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
+     * Eliminar empresa asociada
      */
     async deleteAssociatedCompanyRaw(requestParameters: DeleteAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteAssociatedCompany200Response>> {
         const requestOptions = await this.deleteAssociatedCompanyRequestOpts(requestParameters);
@@ -529,8 +513,8 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Permanently deletes an associated company. This action is irreversible.
-     * Delete associated company
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
+     * Eliminar empresa asociada
      */
     async deleteAssociatedCompany(requestParameters: DeleteAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteAssociatedCompany200Response> {
         const response = await this.deleteAssociatedCompanyRaw(requestParameters, initOverrides);
@@ -557,14 +541,6 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/associated-companies/{companyId}/documents-metrics`;
         urlPath = urlPath.replace(`{${"companyId"}}`, encodeURIComponent(String(requestParameters['companyId'])));
@@ -578,7 +554,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Get company document metrics
+     * Métricas de documentos de la empresa
      */
     async getCompanyDocumentMetricsRaw(requestParameters: GetCompanyDocumentMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CompanyDocumentMetrics>> {
         const requestOptions = await this.getCompanyDocumentMetricsRequestOpts(requestParameters);
@@ -588,7 +564,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Get company document metrics
+     * Métricas de documentos de la empresa
      */
     async getCompanyDocumentMetrics(requestParameters: GetCompanyDocumentMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CompanyDocumentMetrics> {
         const response = await this.getCompanyDocumentMetricsRaw(requestParameters, initOverrides);
@@ -615,14 +591,6 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/associated-companies/{companyId}/metrics`;
         urlPath = urlPath.replace(`{${"companyId"}}`, encodeURIComponent(String(requestParameters['companyId'])));
@@ -636,7 +604,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Get company metrics
+     * Métricas de la empresa
      */
     async getCompanyMetricsRaw(requestParameters: GetCompanyMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CompanyMetrics>> {
         const requestOptions = await this.getCompanyMetricsRequestOpts(requestParameters);
@@ -646,7 +614,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Get company metrics
+     * Métricas de la empresa
      */
     async getCompanyMetrics(requestParameters: GetCompanyMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CompanyMetrics> {
         const response = await this.getCompanyMetricsRaw(requestParameters, initOverrides);
@@ -674,14 +642,6 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/associated-companies`;
 
@@ -694,7 +654,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * List associated companies / branches
+     * Listar empresas asociadas / sucursales
      */
     async listAssociatedCompaniesRaw(requestParameters: ListAssociatedCompaniesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AssociatedCompany>>> {
         const requestOptions = await this.listAssociatedCompaniesRequestOpts(requestParameters);
@@ -704,7 +664,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * List associated companies / branches
+     * Listar empresas asociadas / sucursales
      */
     async listAssociatedCompanies(requestParameters: ListAssociatedCompaniesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AssociatedCompany>> {
         const response = await this.listAssociatedCompaniesRaw(requestParameters, initOverrides);
@@ -731,14 +691,6 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:update"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
         const consumes: runtime.Consume[] = [
             { contentType: 'multipart/form-data' },
         ];
@@ -793,7 +745,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Update associated company
+     * Actualizar empresa asociada
      */
     async updateAssociatedCompanyRaw(requestParameters: UpdateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateAssociatedCompany201Response>> {
         const requestOptions = await this.updateAssociatedCompanyRequestOpts(requestParameters);
@@ -803,7 +755,7 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
     }
 
     /**
-     * Update associated company
+     * Actualizar empresa asociada
      */
     async updateAssociatedCompany(requestParameters: UpdateAssociatedCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateAssociatedCompany201Response> {
         const response = await this.updateAssociatedCompanyRaw(requestParameters, initOverrides);

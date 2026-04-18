@@ -4,19 +4,19 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**download_certification**](AutomatedCertificationApi.md#download_certification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP |
-| [**get_certification_status**](AutomatedCertificationApi.md#get_certification_status) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status |
-| [**list_certification_niches**](AutomatedCertificationApi.md#list_certification_niches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches |
-| [**start_certification**](AutomatedCertificationApi.md#start_certification) | **POST** /dgii-ecf/automated-certification/start | Start certification process |
+| [**download_certification**](AutomatedCertificationApi.md#download_certification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación |
+| [**get_certification_status**](AutomatedCertificationApi.md#get_certification_status) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación |
+| [**list_certification_niches**](AutomatedCertificationApi.md#list_certification_niches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación |
+| [**start_certification**](AutomatedCertificationApi.md#start_certification) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación |
 
 
 ## download_certification
 
 > File download_certification(id)
 
-Download certification ZIP
+Descargar ZIP de certificación
 
-Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
 
 ### Examples
 
@@ -27,16 +27,13 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AutomatedCertificationApi.new
 id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 
 begin
-  # Download certification ZIP
+  # Descargar ZIP de certificación
   result = api_instance.download_certification(id)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -52,7 +49,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Download certification ZIP
+  # Descargar ZIP de certificación
   data, status_code, headers = api_instance.download_certification_with_http_info(id)
   p status_code # => 2xx
   p headers # => { ... }
@@ -74,7 +71,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -86,7 +83,7 @@ end
 
 > <CertificationStatus> get_certification_status(id)
 
-Get certification process status
+Estado del proceso de certificación
 
 ### Examples
 
@@ -97,16 +94,13 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AutomatedCertificationApi.new
 id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 
 begin
-  # Get certification process status
+  # Estado del proceso de certificación
   result = api_instance.get_certification_status(id)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -122,7 +116,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Get certification process status
+  # Estado del proceso de certificación
   data, status_code, headers = api_instance.get_certification_status_with_http_info(id)
   p status_code # => 2xx
   p headers # => { ... }
@@ -144,7 +138,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -156,7 +150,7 @@ end
 
 > <Array<CertificationNiche>> list_certification_niches
 
-List certification niches
+Listar nichos de certificación
 
 ### Examples
 
@@ -167,15 +161,12 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AutomatedCertificationApi.new
 
 begin
-  # List certification niches
+  # Listar nichos de certificación
   result = api_instance.list_certification_niches
   p result
 rescue PronesoftEcf::ApiError => e
@@ -191,7 +182,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # List certification niches
+  # Listar nichos de certificación
   data, status_code, headers = api_instance.list_certification_niches_with_http_info
   p status_code # => 2xx
   p headers # => { ... }
@@ -211,7 +202,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -223,7 +214,7 @@ This endpoint does not need any parameter.
 
 > <StartCertification200Response> start_certification(start_certification_request)
 
-Start certification process
+Iniciar proceso de certificación
 
 ### Examples
 
@@ -234,16 +225,13 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AutomatedCertificationApi.new
 start_certification_request = PronesoftEcf::StartCertificationRequest.new({rnc: 'rnc_example', business_name: 'business_name_example', niche_id: 'niche_id_example'}) # StartCertificationRequest | 
 
 begin
-  # Start certification process
+  # Iniciar proceso de certificación
   result = api_instance.start_certification(start_certification_request)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -259,7 +247,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Start certification process
+  # Iniciar proceso de certificación
   data, status_code, headers = api_instance.start_certification_with_http_info(start_certification_request)
   p status_code # => 2xx
   p headers # => { ... }
@@ -281,7 +269,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

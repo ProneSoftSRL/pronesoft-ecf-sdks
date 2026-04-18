@@ -22,11 +22,11 @@ Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token 
 import {
   Configuration,
   AuthenticationApi,
-} from '';
-import type { GetAccessTokenRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetAccessTokenRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const api = new AuthenticationApi();
 
   const body = {

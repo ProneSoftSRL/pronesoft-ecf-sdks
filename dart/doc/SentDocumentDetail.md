@@ -10,17 +10,20 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | [optional] 
 **encf** | **String** |  | [optional] 
-**status** | [**DocumentStatus**](DocumentStatus.md) |  | [optional] 
-**statusDisplay** | **String** |  | [optional] 
+**status** | **String** |  | [optional] 
+**statusLabel** | **String** |  | [optional] 
 **trackId** | **String** |  | [optional] 
 **documentType** | **String** |  | [optional] 
-**totalAmount** | **num** |  | [optional] 
+**issuerRnc** | **String** |  | [optional] 
+**environment** | [**Environment**](Environment.md) |  | [optional] 
 **receivedAt** | [**DateTime**](DateTime.md) |  | [optional] 
 **createdAt** | [**DateTime**](DateTime.md) |  | [optional] 
-**xmlUrl** | **String** |  | [optional] 
 **business** | [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  | [optional] 
-**logs** | [**List<ProcessingLog>**](ProcessingLog.md) |  | [optional] [default to const []]
-**auditLogs** | **List<Object>** |  | [optional] [default to const []]
+**legalStatus** | **String** |  | [optional] 
+**documentStampUrl** | **String** |  | [optional] 
+**securityCode** | **String** |  | [optional] 
+**contingencyMode** | **bool** |  | [optional] 
+**governmentResponse** | **Map<String, Object>** |  | [optional] [default to const {}]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

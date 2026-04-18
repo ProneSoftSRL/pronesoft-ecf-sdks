@@ -22,7 +22,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { AdditionalInfo } from ''
+import type { AdditionalInfo } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

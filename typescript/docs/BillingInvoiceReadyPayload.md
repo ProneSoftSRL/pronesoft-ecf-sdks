@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { BillingInvoiceReadyPayload } from ''
+import type { BillingInvoiceReadyPayload } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

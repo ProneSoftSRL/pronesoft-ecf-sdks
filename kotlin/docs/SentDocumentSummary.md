@@ -6,15 +6,22 @@
 | ------------ | ------------- | ------------- | ------------- |
 | **id** | [**java.util.UUID**](java.util.UUID.md) |  |  [optional] |
 | **encf** | **kotlin.String** |  |  [optional] |
-| **status** | [**DocumentStatus**](DocumentStatus.md) |  |  [optional] |
-| **statusDisplay** | **kotlin.String** |  |  [optional] |
+| **status** | [**inline**](#Status) |  |  [optional] |
+| **statusLabel** | **kotlin.String** |  |  [optional] |
 | **trackId** | **kotlin.String** |  |  [optional] |
 | **documentType** | **kotlin.String** |  |  [optional] |
-| **totalAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
+| **issuerRnc** | **kotlin.String** |  |  [optional] |
+| **environment** | [**Environment**](Environment.md) |  |  [optional] |
 | **receivedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **xmlUrl** | [**java.net.URI**](java.net.URI.md) |  |  [optional] |
 | **business** | [**SentDocumentSummaryBusiness**](SentDocumentSummaryBusiness.md) |  |  [optional] |
+
+
+<a id="Status"></a>
+## Enum: status
+| Name | Value |
+| ---- | ----- |
+| status | APPROVED, REJECTED, IN_PROCESS, CONDITIONALLY_APPROVED, ERROR, ERROR_COMUNICATION |
 
 
 

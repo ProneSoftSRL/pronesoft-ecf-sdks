@@ -23,8 +23,7 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.DocumentStatus
-import com.pronesoft.ecf.models.ProcessingLog
+import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.SentDocumentSummaryBusiness
 
 import com.google.gson.annotations.SerializedName
@@ -35,16 +34,19 @@ import com.google.gson.annotations.SerializedName
  * @param id 
  * @param encf 
  * @param status 
- * @param statusDisplay 
+ * @param statusLabel 
  * @param trackId 
  * @param documentType 
- * @param totalAmount 
+ * @param issuerRnc 
+ * @param environment 
  * @param receivedAt 
  * @param createdAt 
- * @param xmlUrl 
  * @param business 
- * @param logs 
- * @param auditLogs 
+ * @param legalStatus 
+ * @param documentStampUrl 
+ * @param securityCode 
+ * @param contingencyMode 
+ * @param governmentResponse 
  */
 
 
@@ -57,10 +59,10 @@ data class SentDocumentDetail (
     val encf: kotlin.String? = null,
 
     @SerializedName("status")
-    val status: DocumentStatus? = null,
+    val status: SentDocumentDetail.Status? = null,
 
-    @SerializedName("statusDisplay")
-    val statusDisplay: kotlin.String? = null,
+    @SerializedName("statusLabel")
+    val statusLabel: kotlin.String? = null,
 
     @SerializedName("trackId")
     val trackId: kotlin.String? = null,
@@ -68,8 +70,11 @@ data class SentDocumentDetail (
     @SerializedName("documentType")
     val documentType: kotlin.String? = null,
 
-    @SerializedName("totalAmount")
-    val totalAmount: java.math.BigDecimal? = null,
+    @SerializedName("issuerRnc")
+    val issuerRnc: kotlin.String? = null,
+
+    @SerializedName("environment")
+    val environment: Environment? = null,
 
     @SerializedName("receivedAt")
     val receivedAt: java.time.OffsetDateTime? = null,
@@ -77,20 +82,50 @@ data class SentDocumentDetail (
     @SerializedName("createdAt")
     val createdAt: java.time.OffsetDateTime? = null,
 
-    @SerializedName("xmlUrl")
-    val xmlUrl: java.net.URI? = null,
-
     @SerializedName("business")
     val business: SentDocumentSummaryBusiness? = null,
 
-    @SerializedName("logs")
-    val logs: kotlin.collections.List<ProcessingLog>? = null,
+    @SerializedName("legalStatus")
+    val legalStatus: SentDocumentDetail.LegalStatus? = null,
 
-    @SerializedName("auditLogs")
-    val auditLogs: kotlin.collections.List<kotlin.Any>? = null
+    @SerializedName("documentStampUrl")
+    val documentStampUrl: java.net.URI? = null,
+
+    @SerializedName("securityCode")
+    val securityCode: kotlin.String? = null,
+
+    @SerializedName("contingencyMode")
+    val contingencyMode: kotlin.Boolean? = null,
+
+    @SerializedName("governmentResponse")
+    val governmentResponse: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: APPROVED,REJECTED,IN_PROCESS,CONDITIONALLY_APPROVED,ERROR,ERROR_COMUNICATION
+     */
+    enum class Status(val value: kotlin.String) {
+        @SerializedName(value = "APPROVED") APPROVED("APPROVED"),
+        @SerializedName(value = "REJECTED") REJECTED("REJECTED"),
+        @SerializedName(value = "IN_PROCESS") IN_PROCESS("IN_PROCESS"),
+        @SerializedName(value = "CONDITIONALLY_APPROVED") CONDITIONALLY_APPROVED("CONDITIONALLY_APPROVED"),
+        @SerializedName(value = "ERROR") ERROR("ERROR"),
+        @SerializedName(value = "ERROR_COMUNICATION") ERROR_COMUNICATION("ERROR_COMUNICATION");
+    }
+    /**
+     * 
+     *
+     * Values: ACCEPTED,ACCEPTED_WITH_OBSERVATIONS,REJECTED,ERROR
+     */
+    enum class LegalStatus(val value: kotlin.String) {
+        @SerializedName(value = "ACCEPTED") ACCEPTED("ACCEPTED"),
+        @SerializedName(value = "ACCEPTED_WITH_OBSERVATIONS") ACCEPTED_WITH_OBSERVATIONS("ACCEPTED_WITH_OBSERVATIONS"),
+        @SerializedName(value = "REJECTED") REJECTED("REJECTED"),
+        @SerializedName(value = "ERROR") ERROR("ERROR");
+    }
 
 }
 

@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -19,29 +19,70 @@ module PronesoftEcf
 
     attr_accessor :encf
 
+    attr_accessor :type
+
+    attr_accessor :issuer_rnc
+
+    attr_accessor :buyer_rnc
+
+    attr_accessor :total_amount
+
+    attr_accessor :approval_status
+
+    # 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
     attr_accessor :status
+
+    attr_accessor :status_label
 
     attr_accessor :issue_date
 
-    attr_accessor :approval_type
+    attr_accessor :received_at
 
-    attr_accessor :priority
+    attr_accessor :created_at
 
-    attr_accessor :assigned_to
+    attr_accessor :rejection_description
 
-    attr_accessor :comments
+    attr_accessor :business
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'id' => :'id',
         :'encf' => :'encf',
+        :'type' => :'type',
+        :'issuer_rnc' => :'issuerRnc',
+        :'buyer_rnc' => :'buyerRnc',
+        :'total_amount' => :'totalAmount',
+        :'approval_status' => :'approvalStatus',
         :'status' => :'status',
+        :'status_label' => :'statusLabel',
         :'issue_date' => :'issueDate',
-        :'approval_type' => :'approvalType',
-        :'priority' => :'priority',
-        :'assigned_to' => :'assignedTo',
-        :'comments' => :'comments'
+        :'received_at' => :'receivedAt',
+        :'created_at' => :'createdAt',
+        :'rejection_description' => :'rejectionDescription',
+        :'business' => :'business'
       }
     end
 
@@ -60,18 +101,25 @@ module PronesoftEcf
       {
         :'id' => :'String',
         :'encf' => :'String',
+        :'type' => :'String',
+        :'issuer_rnc' => :'String',
+        :'buyer_rnc' => :'String',
+        :'total_amount' => :'Float',
+        :'approval_status' => :'String',
         :'status' => :'Integer',
+        :'status_label' => :'String',
         :'issue_date' => :'Time',
-        :'approval_type' => :'String',
-        :'priority' => :'String',
-        :'assigned_to' => :'String',
-        :'comments' => :'String'
+        :'received_at' => :'Time',
+        :'created_at' => :'Time',
+        :'rejection_description' => :'String',
+        :'business' => :'SentDocumentSummaryBusiness'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'rejection_description',
       ])
     end
 
@@ -99,28 +147,52 @@ module PronesoftEcf
         self.encf = attributes[:'encf']
       end
 
+      if attributes.key?(:'type')
+        self.type = attributes[:'type']
+      end
+
+      if attributes.key?(:'issuer_rnc')
+        self.issuer_rnc = attributes[:'issuer_rnc']
+      end
+
+      if attributes.key?(:'buyer_rnc')
+        self.buyer_rnc = attributes[:'buyer_rnc']
+      end
+
+      if attributes.key?(:'total_amount')
+        self.total_amount = attributes[:'total_amount']
+      end
+
+      if attributes.key?(:'approval_status')
+        self.approval_status = attributes[:'approval_status']
+      end
+
       if attributes.key?(:'status')
         self.status = attributes[:'status']
+      end
+
+      if attributes.key?(:'status_label')
+        self.status_label = attributes[:'status_label']
       end
 
       if attributes.key?(:'issue_date')
         self.issue_date = attributes[:'issue_date']
       end
 
-      if attributes.key?(:'approval_type')
-        self.approval_type = attributes[:'approval_type']
+      if attributes.key?(:'received_at')
+        self.received_at = attributes[:'received_at']
       end
 
-      if attributes.key?(:'priority')
-        self.priority = attributes[:'priority']
+      if attributes.key?(:'created_at')
+        self.created_at = attributes[:'created_at']
       end
 
-      if attributes.key?(:'assigned_to')
-        self.assigned_to = attributes[:'assigned_to']
+      if attributes.key?(:'rejection_description')
+        self.rejection_description = attributes[:'rejection_description']
       end
 
-      if attributes.key?(:'comments')
-        self.comments = attributes[:'comments']
+      if attributes.key?(:'business')
+        self.business = attributes[:'business']
       end
     end
 
@@ -136,7 +208,19 @@ module PronesoftEcf
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      status_validator = EnumAttributeValidator.new('Integer', [1, 2, 3, 4])
+      return false unless status_validator.valid?(@status)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] status Object to be assigned
+    def status=(status)
+      validator = EnumAttributeValidator.new('Integer', [1, 2, 3, 4])
+      unless validator.valid?(status)
+        fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
+      end
+      @status = status
     end
 
     # Checks equality by comparing each attribute.
@@ -146,12 +230,18 @@ module PronesoftEcf
       self.class == o.class &&
           id == o.id &&
           encf == o.encf &&
+          type == o.type &&
+          issuer_rnc == o.issuer_rnc &&
+          buyer_rnc == o.buyer_rnc &&
+          total_amount == o.total_amount &&
+          approval_status == o.approval_status &&
           status == o.status &&
+          status_label == o.status_label &&
           issue_date == o.issue_date &&
-          approval_type == o.approval_type &&
-          priority == o.priority &&
-          assigned_to == o.assigned_to &&
-          comments == o.comments
+          received_at == o.received_at &&
+          created_at == o.created_at &&
+          rejection_description == o.rejection_description &&
+          business == o.business
     end
 
     # @see the `==` method
@@ -163,7 +253,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, encf, status, issue_date, approval_type, priority, assigned_to, comments].hash
+      [id, encf, type, issuer_rnc, buyer_rnc, total_amount, approval_status, status, status_label, issue_date, received_at, created_at, rejection_description, business].hash
     end
 
     # Builds the object from hash

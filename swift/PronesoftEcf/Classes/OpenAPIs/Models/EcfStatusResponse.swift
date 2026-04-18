@@ -15,72 +15,121 @@ public typealias EcfStatusResponse = PronesoftEcfAPI.EcfStatusResponse
 
 extension PronesoftEcfAPI {
 
+/** Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII. */
 public struct EcfStatusResponse: Codable, JSONEncodable, Hashable {
 
-    public enum Source: String, Codable, CaseIterable {
-        case dgiiDirect = "dgii_direct"
-        case localDatabase = "local_database"
+    public enum Status: String, Codable, CaseIterable {
+        case registered = "REGISTERED"
+        case toSend = "TO_SEND"
+        case waitingResponse = "WAITING_RESPONSE"
+        case toNotify = "TO_NOTIFY"
+        case finished = "FINISHED"
     }
-    public var trackingId: String?
-    public var estado: String?
+    public enum LegalStatus: String, Codable, CaseIterable {
+        case accepted = "ACCEPTED"
+        case acceptedWithObservations = "ACCEPTED_WITH_OBSERVATIONS"
+        case rejected = "REJECTED"
+        case error = "ERROR"
+    }
+    /** ID interno del documento. */
+    public var id: UUID
+    /** Fecha de emisión del documento (YYYY-MM-DD). */
+    public var stampDate: Date?
+    /** Estado del proceso de envío a DGII. */
+    public var status: Status
+    /** Estado fiscal según la respuesta de DGII. null mientras no hay respuesta. */
+    public var legalStatus: LegalStatus?
+    public var companyIdentification: EcfSubmitResponseCompanyIdentification
+    /** ID de seguimiento asignado por DGII. */
     public var trackId: String?
-    public var numeroControl: String?
-    public var status: DocumentStatus?
+    /** Número de control electrónico (e-NCF). */
+    public var documentNumber: String?
+    /** Número e-NCF del documento. */
     public var encf: String?
-    public var businessRnc: String?
-    public var environment: Environment?
-    public var receivedAt: Date?
-    public var mensajes: [DgiiMessage]?
-    public var logs: [ProcessingLog]?
-    public var source: Source?
+    /** true si fue emitido en modo contingencia. */
+    public var contingencyMode: Bool?
+    /** Mensaje oficial DGII cuando contingencyMode es true. */
+    public var contingencyMessage: String?
+    /** URL del código QR del documento. */
+    public var documentStampUrl: String?
+    /** URL pre-firmada del PDF (expira en 1 hora). */
+    public var pdf: String?
+    /** URL pre-firmada del XML firmado (expira en 1 hora). */
+    public var xmlUrl: String?
+    /** Fecha y hora de la firma digital. */
+    public var signatureDate: Date?
+    /** Código de seguridad del documento. */
+    public var securityCode: String?
+    /** true si DGII confirmó el consumo de la secuencia. */
+    public var sequenceConsumed: Bool
+    /** Respuesta completa de DGII (disponible cuando status es FINISHED). */
+    public var governmentResponse: [String: AnyCodable]?
 
-    public init(trackingId: String? = nil, estado: String? = nil, trackId: String? = nil, numeroControl: String? = nil, status: DocumentStatus? = nil, encf: String? = nil, businessRnc: String? = nil, environment: Environment? = nil, receivedAt: Date? = nil, mensajes: [DgiiMessage]? = nil, logs: [ProcessingLog]? = nil, source: Source? = nil) {
-        self.trackingId = trackingId
-        self.estado = estado
-        self.trackId = trackId
-        self.numeroControl = numeroControl
+    public init(id: UUID, stampDate: Date? = nil, status: Status, legalStatus: LegalStatus? = nil, companyIdentification: EcfSubmitResponseCompanyIdentification, trackId: String? = nil, documentNumber: String? = nil, encf: String? = nil, contingencyMode: Bool? = nil, contingencyMessage: String? = nil, documentStampUrl: String? = nil, pdf: String? = nil, xmlUrl: String? = nil, signatureDate: Date? = nil, securityCode: String? = nil, sequenceConsumed: Bool, governmentResponse: [String: AnyCodable]? = nil) {
+        self.id = id
+        self.stampDate = stampDate
         self.status = status
+        self.legalStatus = legalStatus
+        self.companyIdentification = companyIdentification
+        self.trackId = trackId
+        self.documentNumber = documentNumber
         self.encf = encf
-        self.businessRnc = businessRnc
-        self.environment = environment
-        self.receivedAt = receivedAt
-        self.mensajes = mensajes
-        self.logs = logs
-        self.source = source
+        self.contingencyMode = contingencyMode
+        self.contingencyMessage = contingencyMessage
+        self.documentStampUrl = documentStampUrl
+        self.pdf = pdf
+        self.xmlUrl = xmlUrl
+        self.signatureDate = signatureDate
+        self.securityCode = securityCode
+        self.sequenceConsumed = sequenceConsumed
+        self.governmentResponse = governmentResponse
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case trackingId
-        case estado
-        case trackId
-        case numeroControl
+        case id
+        case stampDate
         case status
+        case legalStatus
+        case companyIdentification
+        case trackId
+        case documentNumber
         case encf
-        case businessRnc
-        case environment
-        case receivedAt
-        case mensajes
-        case logs
-        case source
+        case contingencyMode
+        case contingencyMessage
+        case documentStampUrl
+        case pdf
+        case xmlUrl
+        case signatureDate
+        case securityCode
+        case sequenceConsumed
+        case governmentResponse
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(trackingId, forKey: .trackingId)
-        try container.encodeIfPresent(estado, forKey: .estado)
+        try container.encode(id, forKey: .id)
+        try container.encodeIfPresent(stampDate, forKey: .stampDate)
+        try container.encode(status, forKey: .status)
+        try container.encodeIfPresent(legalStatus, forKey: .legalStatus)
+        try container.encode(companyIdentification, forKey: .companyIdentification)
         try container.encodeIfPresent(trackId, forKey: .trackId)
-        try container.encodeIfPresent(numeroControl, forKey: .numeroControl)
-        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(documentNumber, forKey: .documentNumber)
         try container.encodeIfPresent(encf, forKey: .encf)
-        try container.encodeIfPresent(businessRnc, forKey: .businessRnc)
-        try container.encodeIfPresent(environment, forKey: .environment)
-        try container.encodeIfPresent(receivedAt, forKey: .receivedAt)
-        try container.encodeIfPresent(mensajes, forKey: .mensajes)
-        try container.encodeIfPresent(logs, forKey: .logs)
-        try container.encodeIfPresent(source, forKey: .source)
+        try container.encodeIfPresent(contingencyMode, forKey: .contingencyMode)
+        try container.encodeIfPresent(contingencyMessage, forKey: .contingencyMessage)
+        try container.encodeIfPresent(documentStampUrl, forKey: .documentStampUrl)
+        try container.encodeIfPresent(pdf, forKey: .pdf)
+        try container.encodeIfPresent(xmlUrl, forKey: .xmlUrl)
+        try container.encodeIfPresent(signatureDate, forKey: .signatureDate)
+        try container.encodeIfPresent(securityCode, forKey: .securityCode)
+        try container.encode(sequenceConsumed, forKey: .sequenceConsumed)
+        try container.encodeIfPresent(governmentResponse, forKey: .governmentResponse)
     }
 }
 
 }
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension PronesoftEcfAPI.EcfStatusResponse: Identifiable {}

@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -90,9 +90,9 @@ public class ReportsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Format 606 report </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Reporte Formato 606 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
@@ -162,7 +162,7 @@ public class ReportsApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -188,8 +188,8 @@ public class ReportsApi {
     }
 
     /**
-     * Export Format 606 (Purchases)
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+     * Exportar Formato 606 (Compras)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
      * @param from  (required)
      * @param to  (required)
      * @param format  (required)
@@ -202,9 +202,9 @@ public class ReportsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Format 606 report </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Reporte Formato 606 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
@@ -214,8 +214,8 @@ public class ReportsApi {
     }
 
     /**
-     * Export Format 606 (Purchases)
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+     * Exportar Formato 606 (Compras)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
      * @param from  (required)
      * @param to  (required)
      * @param format  (required)
@@ -228,9 +228,9 @@ public class ReportsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Format 606 report </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Reporte Formato 606 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
@@ -241,8 +241,8 @@ public class ReportsApi {
     }
 
     /**
-     * Export Format 606 (Purchases) (asynchronously)
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+     * Exportar Formato 606 (Compras) (asynchronously)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
      * @param from  (required)
      * @param to  (required)
      * @param format  (required)
@@ -256,9 +256,9 @@ public class ReportsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Format 606 report </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Reporte Formato 606 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
@@ -285,9 +285,9 @@ public class ReportsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Excel report file </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Archivo Excel del reporte </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
@@ -360,7 +360,7 @@ public class ReportsApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -381,8 +381,8 @@ public class ReportsApi {
     }
 
     /**
-     * Export sent documents report
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+     * Exportar reporte de documentos enviados
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
      * @param from  (required)
      * @param to  (required)
      * @param env  (optional)
@@ -396,9 +396,9 @@ public class ReportsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Excel report file </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Archivo Excel del reporte </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
@@ -408,8 +408,8 @@ public class ReportsApi {
     }
 
     /**
-     * Export sent documents report
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+     * Exportar reporte de documentos enviados
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
      * @param from  (required)
      * @param to  (required)
      * @param env  (optional)
@@ -423,9 +423,9 @@ public class ReportsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Excel report file </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Archivo Excel del reporte </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */
@@ -436,8 +436,8 @@ public class ReportsApi {
     }
 
     /**
-     * Export sent documents report (asynchronously)
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+     * Exportar reporte de documentos enviados (asynchronously)
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
      * @param from  (required)
      * @param to  (required)
      * @param env  (optional)
@@ -452,9 +452,9 @@ public class ReportsApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Excel report file </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Archivo Excel del reporte </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
      </table>
      */

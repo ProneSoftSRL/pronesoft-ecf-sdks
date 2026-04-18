@@ -16,9 +16,9 @@ class ReportsApi {
 
   final ApiClient apiClient;
 
-  /// Export Format 606 (Purchases)
+  /// Exportar Formato 606 (Compras)
   ///
-  /// Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+  /// Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -73,9 +73,9 @@ class ReportsApi {
     );
   }
 
-  /// Export Format 606 (Purchases)
+  /// Exportar Formato 606 (Compras)
   ///
-  /// Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+  /// Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
   ///
   /// Parameters:
   ///
@@ -105,9 +105,9 @@ class ReportsApi {
     return null;
   }
 
-  /// Export sent documents report
+  /// Exportar reporte de documentos enviados
   ///
-  /// Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+  /// Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -169,9 +169,9 @@ class ReportsApi {
     );
   }
 
-  /// Export sent documents report
+  /// Exportar reporte de documentos enviados
   ///
-  /// Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+  /// Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
   ///
   /// Parameters:
   ///

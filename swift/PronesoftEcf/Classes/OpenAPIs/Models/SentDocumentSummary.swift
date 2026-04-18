@@ -17,29 +17,37 @@ extension PronesoftEcfAPI {
 
 public struct SentDocumentSummary: Codable, JSONEncodable, Hashable {
 
+    public enum Status: String, Codable, CaseIterable {
+        case approved = "APPROVED"
+        case rejected = "REJECTED"
+        case inProcess = "IN_PROCESS"
+        case conditionallyApproved = "CONDITIONALLY_APPROVED"
+        case error = "ERROR"
+        case errorComunication = "ERROR_COMUNICATION"
+    }
     public var id: UUID?
     public var encf: String?
-    public var status: DocumentStatus?
-    public var statusDisplay: String?
+    public var status: Status?
+    public var statusLabel: String?
     public var trackId: String?
     public var documentType: String?
-    public var totalAmount: Double?
+    public var issuerRnc: String?
+    public var environment: Environment?
     public var receivedAt: Date?
     public var createdAt: Date?
-    public var xmlUrl: String?
     public var business: SentDocumentSummaryBusiness?
 
-    public init(id: UUID? = nil, encf: String? = nil, status: DocumentStatus? = nil, statusDisplay: String? = nil, trackId: String? = nil, documentType: String? = nil, totalAmount: Double? = nil, receivedAt: Date? = nil, createdAt: Date? = nil, xmlUrl: String? = nil, business: SentDocumentSummaryBusiness? = nil) {
+    public init(id: UUID? = nil, encf: String? = nil, status: Status? = nil, statusLabel: String? = nil, trackId: String? = nil, documentType: String? = nil, issuerRnc: String? = nil, environment: Environment? = nil, receivedAt: Date? = nil, createdAt: Date? = nil, business: SentDocumentSummaryBusiness? = nil) {
         self.id = id
         self.encf = encf
         self.status = status
-        self.statusDisplay = statusDisplay
+        self.statusLabel = statusLabel
         self.trackId = trackId
         self.documentType = documentType
-        self.totalAmount = totalAmount
+        self.issuerRnc = issuerRnc
+        self.environment = environment
         self.receivedAt = receivedAt
         self.createdAt = createdAt
-        self.xmlUrl = xmlUrl
         self.business = business
     }
 
@@ -47,13 +55,13 @@ public struct SentDocumentSummary: Codable, JSONEncodable, Hashable {
         case id
         case encf
         case status
-        case statusDisplay
+        case statusLabel
         case trackId
         case documentType
-        case totalAmount
+        case issuerRnc
+        case environment
         case receivedAt
         case createdAt
-        case xmlUrl
         case business
     }
 
@@ -64,13 +72,13 @@ public struct SentDocumentSummary: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(encf, forKey: .encf)
         try container.encodeIfPresent(status, forKey: .status)
-        try container.encodeIfPresent(statusDisplay, forKey: .statusDisplay)
+        try container.encodeIfPresent(statusLabel, forKey: .statusLabel)
         try container.encodeIfPresent(trackId, forKey: .trackId)
         try container.encodeIfPresent(documentType, forKey: .documentType)
-        try container.encodeIfPresent(totalAmount, forKey: .totalAmount)
+        try container.encodeIfPresent(issuerRnc, forKey: .issuerRnc)
+        try container.encodeIfPresent(environment, forKey: .environment)
         try container.encodeIfPresent(receivedAt, forKey: .receivedAt)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
-        try container.encodeIfPresent(xmlUrl, forKey: .xmlUrl)
         try container.encodeIfPresent(business, forKey: .business)
     }
 }

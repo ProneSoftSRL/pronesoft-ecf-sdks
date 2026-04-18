@@ -27,6 +27,7 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import com.pronesoft.ecf.models.ApprovalItem
 import com.pronesoft.ecf.models.ApprovalListResponse
 import com.pronesoft.ecf.models.ErrorResponse
 
@@ -55,9 +56,86 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
     }
 
     /**
+     * GET /documents/approvals/{id}
+     * Obtener aprobación comercial por ID
+     * 
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApprovalItem
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getCommercialApprovalById(id: java.util.UUID, xTenantId: java.util.UUID? = null) : ApprovalItem {
+        val localVarResponse = getCommercialApprovalByIdWithHttpInfo(id = id, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ApprovalItem
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /documents/approvals/{id}
+     * Obtener aprobación comercial por ID
+     * 
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse<ApprovalItem?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getCommercialApprovalByIdWithHttpInfo(id: java.util.UUID, xTenantId: java.util.UUID?) : ApiResponse<ApprovalItem?> {
+        val localVariableConfig = getCommercialApprovalByIdRequestConfig(id = id, xTenantId = xTenantId)
+
+        return request<Unit, ApprovalItem>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getCommercialApprovalById
+     *
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return RequestConfig
+     */
+    fun getCommercialApprovalByIdRequestConfig(id: java.util.UUID, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/documents/approvals/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
      * enum for parameter status
      */
-     enum class StatusListApprovals(val value: kotlin.Int) {
+     enum class StatusListCommercialApprovals(val value: kotlin.Int) {
          @SerializedName(value = "1") _1(1),
          @SerializedName(value = "2") _2(2),
          @SerializedName(value = "3") _3(3),
@@ -74,57 +152,17 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      }
 
     /**
-     * enum for parameter sortBy
-     */
-     enum class SortByListApprovals(val value: kotlin.String) {
-         @SerializedName(value = "createdAt") createdAt("createdAt"),
-         @SerializedName(value = "amount") amount("amount"),
-         @SerializedName(value = "status") status("status");
-
-        /**
-         * Override [toString()] to avoid using the enum variable name as the value, and instead use
-         * the actual value defined in the API spec file.
-         *
-         * This solves a problem when the variable name and its value are different, and ensures that
-         * the client sends the correct enum values to the server always.
-         */
-        override fun toString(): kotlin.String = "$value"
-     }
-
-    /**
-     * enum for parameter sortOrder
-     */
-     enum class SortOrderListApprovals(val value: kotlin.String) {
-         @SerializedName(value = "asc") asc("asc"),
-         @SerializedName(value = "desc") desc("desc");
-
-        /**
-         * Override [toString()] to avoid using the enum variable name as the value, and instead use
-         * the actual value defined in the API spec file.
-         *
-         * This solves a problem when the variable name and its value are different, and ensures that
-         * the client sends the correct enum values to the server always.
-         */
-        override fun toString(): kotlin.String = "$value"
-     }
-
-    /**
-     * GET /documents/approvals/all
-     * List commercial approvals
+     * GET /documents/approvals
+     * Listar aprobaciones comerciales
      * 
-     * @param businessId 
-     * @param page  (optional, default to 1)
-     * @param limit  (optional, default to 20)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param ecf  (optional)
-     * @param documentType  (optional)
+     * @param type Tipo de documento (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
-     * @param minAmount  (optional)
-     * @param maxAmount  (optional)
-     * @param search  (optional)
-     * @param sortBy  (optional)
-     * @param sortOrder  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return ApprovalListResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -134,8 +172,8 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listApprovals(businessId: kotlin.String, page: kotlin.Int? = 1, limit: kotlin.Int? = 20, ecf: kotlin.String? = null, documentType: kotlin.String? = null, status: StatusListApprovals? = null, dateFrom: java.time.OffsetDateTime? = null, dateTo: java.time.OffsetDateTime? = null, minAmount: java.math.BigDecimal? = null, maxAmount: java.math.BigDecimal? = null, search: kotlin.String? = null, sortBy: SortByListApprovals? = null, sortOrder: SortOrderListApprovals? = null) : ApprovalListResponse {
-        val localVarResponse = listApprovalsWithHttpInfo(businessId = businessId, page = page, limit = limit, ecf = ecf, documentType = documentType, status = status, dateFrom = dateFrom, dateTo = dateTo, minAmount = minAmount, maxAmount = maxAmount, search = search, sortBy = sortBy, sortOrder = sortOrder)
+    fun listCommercialApprovals(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListCommercialApprovals? = null, dateFrom: java.time.LocalDate? = null, dateTo: java.time.LocalDate? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ApprovalListResponse {
+        val localVarResponse = listCommercialApprovalsWithHttpInfo(xTenantId = xTenantId, ecf = ecf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ApprovalListResponse
@@ -153,30 +191,25 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
     }
 
     /**
-     * GET /documents/approvals/all
-     * List commercial approvals
+     * GET /documents/approvals
+     * Listar aprobaciones comerciales
      * 
-     * @param businessId 
-     * @param page  (optional, default to 1)
-     * @param limit  (optional, default to 20)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param ecf  (optional)
-     * @param documentType  (optional)
+     * @param type Tipo de documento (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
-     * @param minAmount  (optional)
-     * @param maxAmount  (optional)
-     * @param search  (optional)
-     * @param sortBy  (optional)
-     * @param sortOrder  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return ApiResponse<ApprovalListResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listApprovalsWithHttpInfo(businessId: kotlin.String, page: kotlin.Int?, limit: kotlin.Int?, ecf: kotlin.String?, documentType: kotlin.String?, status: StatusListApprovals?, dateFrom: java.time.OffsetDateTime?, dateTo: java.time.OffsetDateTime?, minAmount: java.math.BigDecimal?, maxAmount: java.math.BigDecimal?, search: kotlin.String?, sortBy: SortByListApprovals?, sortOrder: SortOrderListApprovals?) : ApiResponse<ApprovalListResponse?> {
-        val localVariableConfig = listApprovalsRequestConfig(businessId = businessId, page = page, limit = limit, ecf = ecf, documentType = documentType, status = status, dateFrom = dateFrom, dateTo = dateTo, minAmount = minAmount, maxAmount = maxAmount, search = search, sortBy = sortBy, sortOrder = sortOrder)
+    fun listCommercialApprovalsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ApprovalListResponse?> {
+        val localVariableConfig = listCommercialApprovalsRequestConfig(xTenantId = xTenantId, ecf = ecf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return request<Unit, ApprovalListResponse>(
             localVariableConfig
@@ -184,39 +217,27 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
     }
 
     /**
-     * To obtain the request config of the operation listApprovals
+     * To obtain the request config of the operation listCommercialApprovals
      *
-     * @param businessId 
-     * @param page  (optional, default to 1)
-     * @param limit  (optional, default to 20)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param ecf  (optional)
-     * @param documentType  (optional)
+     * @param type Tipo de documento (optional)
      * @param status  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
-     * @param minAmount  (optional)
-     * @param maxAmount  (optional)
-     * @param search  (optional)
-     * @param sortBy  (optional)
-     * @param sortOrder  (optional)
+     * @param page  (optional, default to 1)
+     * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listApprovalsRequestConfig(businessId: kotlin.String, page: kotlin.Int?, limit: kotlin.Int?, ecf: kotlin.String?, documentType: kotlin.String?, status: StatusListApprovals?, dateFrom: java.time.OffsetDateTime?, dateTo: java.time.OffsetDateTime?, minAmount: java.math.BigDecimal?, maxAmount: java.math.BigDecimal?, search: kotlin.String?, sortBy: SortByListApprovals?, sortOrder: SortOrderListApprovals?) : RequestConfig<Unit> {
+    fun listCommercialApprovalsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
-                put("businessId", listOf(businessId.toString()))
-                if (page != null) {
-                    put("page", listOf(page.toString()))
-                }
-                if (limit != null) {
-                    put("limit", listOf(limit.toString()))
-                }
                 if (ecf != null) {
                     put("ecf", listOf(ecf.toString()))
                 }
-                if (documentType != null) {
-                    put("documentType", listOf(documentType.toString()))
+                if (type != null) {
+                    put("type", listOf(type.toString()))
                 }
                 if (status != null) {
                     put("status", listOf(status.toString()))
@@ -227,28 +248,20 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
                 if (dateTo != null) {
                     put("dateTo", listOf(parseDateToQueryString(dateTo)))
                 }
-                if (minAmount != null) {
-                    put("minAmount", listOf(minAmount.toString()))
+                if (page != null) {
+                    put("page", listOf(page.toString()))
                 }
-                if (maxAmount != null) {
-                    put("maxAmount", listOf(maxAmount.toString()))
-                }
-                if (search != null) {
-                    put("search", listOf(search.toString()))
-                }
-                if (sortBy != null) {
-                    put("sortBy", listOf(sortBy.value))
-                }
-                if (sortOrder != null) {
-                    put("sortOrder", listOf(sortOrder.value))
+                if (limit != null) {
+                    put("limit", listOf(limit.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/documents/approvals/all",
+            path = "/documents/approvals",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

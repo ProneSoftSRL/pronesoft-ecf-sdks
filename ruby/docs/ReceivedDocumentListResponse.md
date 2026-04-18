@@ -6,7 +6,6 @@
 | ---- | ---- | ----------- | ----- |
 | **data** | [**Array&lt;ReceivedDocument&gt;**](ReceivedDocument.md) |  | [optional] |
 | **meta** | [**PaginationMeta**](PaginationMeta.md) |  | [optional] |
-| **filters** | **Object** |  | [optional] |
 
 ## Example
 
@@ -15,8 +14,7 @@ require 'pronesoft_ecf'
 
 instance = PronesoftEcf::ReceivedDocumentListResponse.new(
   data: null,
-  meta: null,
-  filters: null
+  meta: null
 )
 ```
 

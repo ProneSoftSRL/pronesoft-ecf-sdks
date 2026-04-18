@@ -9,37 +9,36 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**downloadDocument**](DocumentsSentApi.md#downloaddocument) | **GET** /documents/download | Download document XML
-[**getDocument**](DocumentsSentApi.md#getdocument) | **GET** /documents/{id} | Get document details
-[**getDocumentStats**](DocumentsSentApi.md#getdocumentstats) | **GET** /documents/stats/summary | Get document statistics
-[**listSentDocuments**](DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | List sent documents
+[**downloadSentDocumentXml**](DocumentsSentApi.md#downloadsentdocumentxml) | **GET** /documents/download | Descargar XML del documento
+[**getSentDocumentById**](DocumentsSentApi.md#getsentdocumentbyid) | **GET** /documents/{id} | Obtener detalle del documento
+[**getSentDocumentLogs**](DocumentsSentApi.md#getsentdocumentlogs) | **GET** /documents/logs/{id} | Logs de procesamiento del documento
+[**getSentDocumentStats**](DocumentsSentApi.md#getsentdocumentstats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
+[**getSentDocumentStatsByEnvironment**](DocumentsSentApi.md#getsentdocumentstatsbyenvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
+[**getSentDocumentStatusOptions**](DocumentsSentApi.md#getsentdocumentstatusoptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+[**listSentDocuments**](DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | Listar documentos enviados
 
 
-# **downloadDocument**
-> String downloadDocument(fileUrl)
+# **downloadSentDocumentXml**
+> String downloadSentDocumentXml(id, fileUrl, inline)
 
-Download document XML
+Descargar XML del documento
 
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
 // TODO Configure OAuth2 access token for authorization: oauth2
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = DocumentsSentApi();
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | ID interno del documento
 final fileUrl = fileUrl_example; // String | 
+final inline = inline_example; // String | true para ver en el navegador, false para descargar
 
 try {
-    final result = api_instance.downloadDocument(fileUrl);
+    final result = api_instance.downloadSentDocumentXml(id, fileUrl, inline);
     print(result);
 } catch (e) {
-    print('Exception when calling DocumentsSentApi->downloadDocument: $e\n');
+    print('Exception when calling DocumentsSentApi->downloadSentDocumentXml: $e\n');
 }
 ```
 
@@ -47,7 +46,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileUrl** | **String**|  | 
+ **id** | **String**| ID interno del documento | [optional] 
+ **fileUrl** | **String**|  | [optional] 
+ **inline** | **String**| true para ver en el navegador, false para descargar | [optional] 
 
 ### Return type
 
@@ -55,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -64,32 +65,26 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDocument**
-> SentDocumentDetail getDocument(id, xTenantId)
+# **getSentDocumentById**
+> SentDocumentDetail getSentDocumentById(id, xTenantId)
 
-Get document details
+Obtener detalle del documento
 
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
 // TODO Configure OAuth2 access token for authorization: oauth2
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = DocumentsSentApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
 
 try {
-    final result = api_instance.getDocument(id, xTenantId);
+    final result = api_instance.getSentDocumentById(id, xTenantId);
     print(result);
 } catch (e) {
-    print('Exception when calling DocumentsSentApi->getDocument: $e\n');
+    print('Exception when calling DocumentsSentApi->getSentDocumentById: $e\n');
 }
 ```
 
@@ -98,7 +93,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String**|  | 
- **xTenantId** | **String**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+ **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
 
 ### Return type
 
@@ -106,7 +101,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -115,32 +110,26 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDocumentStats**
-> DocumentStatsResponse getDocumentStats(xTenantId, period)
+# **getSentDocumentLogs**
+> List<GetSentDocumentLogs200ResponseInner> getSentDocumentLogs(id, xTenantId)
 
-Get document statistics
+Logs de procesamiento del documento
 
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
 // TODO Configure OAuth2 access token for authorization: oauth2
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = DocumentsSentApi();
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-final period = period_example; // String | 
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
 
 try {
-    final result = api_instance.getDocumentStats(xTenantId, period);
+    final result = api_instance.getSentDocumentLogs(id, xTenantId);
     print(result);
 } catch (e) {
-    print('Exception when calling DocumentsSentApi->getDocumentStats: $e\n');
+    print('Exception when calling DocumentsSentApi->getSentDocumentLogs: $e\n');
 }
 ```
 
@@ -148,8 +137,51 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **String**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
- **period** | **String**|  | [optional] [default to '30d']
+ **id** | **String**|  | 
+ **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+
+### Return type
+
+[**List<GetSentDocumentLogs200ResponseInner>**](GetSentDocumentLogs200ResponseInner.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getSentDocumentStats**
+> DocumentStatsResponse getSentDocumentStats(xTenantId)
+
+Estadísticas de documentos enviados
+
+### Example
+```dart
+import 'package:pronesoft_ecf/api.dart';
+// TODO Configure OAuth2 access token for authorization: oauth2
+//defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
+
+final api_instance = DocumentsSentApi();
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+
+try {
+    final result = api_instance.getSentDocumentStats(xTenantId);
+    print(result);
+} catch (e) {
+    print('Exception when calling DocumentsSentApi->getSentDocumentStats: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
 
 ### Return type
 
@@ -157,7 +189,89 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getSentDocumentStatsByEnvironment**
+> Map<String, Object> getSentDocumentStatsByEnvironment(xTenantId)
+
+Estadísticas agrupadas por ambiente y estado
+
+### Example
+```dart
+import 'package:pronesoft_ecf/api.dart';
+// TODO Configure OAuth2 access token for authorization: oauth2
+//defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
+
+final api_instance = DocumentsSentApi();
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+
+try {
+    final result = api_instance.getSentDocumentStatsByEnvironment(xTenantId);
+    print(result);
+} catch (e) {
+    print('Exception when calling DocumentsSentApi->getSentDocumentStatsByEnvironment: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+
+### Return type
+
+**Map<String, Object>**
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getSentDocumentStatusOptions**
+> List<GetSentDocumentStatusOptions200ResponseInner> getSentDocumentStatusOptions()
+
+Opciones de filtro de estado disponibles
+
+### Example
+```dart
+import 'package:pronesoft_ecf/api.dart';
+// TODO Configure OAuth2 access token for authorization: oauth2
+//defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
+
+final api_instance = DocumentsSentApi();
+
+try {
+    final result = api_instance.getSentDocumentStatusOptions();
+    print(result);
+} catch (e) {
+    print('Exception when calling DocumentsSentApi->getSentDocumentStatusOptions: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List<GetSentDocumentStatusOptions200ResponseInner>**](GetSentDocumentStatusOptions200ResponseInner.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -169,22 +283,16 @@ Name | Type | Description  | Notes
 # **listSentDocuments**
 > SentDocumentListResponse listSentDocuments(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit)
 
-List sent documents
+Listar documentos enviados
 
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
 // TODO Configure OAuth2 access token for authorization: oauth2
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = DocumentsSentApi();
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
 final env = ; // Environment | 
 final ecf = ecf_example; // String | 
 final type = type_example; // String | 
@@ -206,7 +314,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **String**| UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional] 
+ **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
  **env** | [**Environment**](.md)|  | [optional] 
  **ecf** | **String**|  | [optional] 
  **type** | **String**|  | [optional] 
@@ -222,7 +330,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

@@ -28,7 +28,6 @@ import com.pronesoft.ecf.models.AdditionalInfo
 import com.pronesoft.ecf.models.AlternativeCurrency
 import com.pronesoft.ecf.models.Buyer
 import com.pronesoft.ecf.models.DiscountOrSurcharge
-import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.InvoiceType
 import com.pronesoft.ecf.models.Item
 import com.pronesoft.ecf.models.Page
@@ -41,16 +40,15 @@ import com.pronesoft.ecf.models.Transport
 import com.google.gson.annotations.SerializedName
 
 /**
- * Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
+ * Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el `invoiceType`. Usa `GET /tax-sequences/next?invoiceType=31` solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: `POST /{environment}/ecf/submit` (ej. `TesteCF` o `eCF`). 
  *
- * @param version Always 1.0.
  * @param invoiceType 
  * @param issueDate 
  * @param paymentForms Payment breakdown. Required.
  * @param items 
  * @param totals 
- * @param environment 
- * @param invoiceNumber e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+ * @param version Siempre \"1.0\".
+ * @param invoiceNumber Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`. 
  * @param groupId Optional Group ID for batch processing
  * @param expirationDate 
  * @param creditNoteIndicator Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
@@ -96,10 +94,6 @@ import com.google.gson.annotations.SerializedName
 
 data class ElectronicDocument (
 
-    /* Always 1.0. */
-    @SerializedName("version")
-    val version: kotlin.String = "1.0",
-
     @SerializedName("invoiceType")
     val invoiceType: InvoiceType,
 
@@ -116,10 +110,11 @@ data class ElectronicDocument (
     @SerializedName("totals")
     val totals: Totals,
 
-    @SerializedName("environment")
-    val environment: Environment? = null,
+    /* Siempre \"1.0\". */
+    @SerializedName("version")
+    val version: kotlin.String? = "1.0",
 
-    /* e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). */
+    /* Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`.  */
     @SerializedName("invoiceNumber")
     val invoiceNumber: kotlin.String? = null,
 

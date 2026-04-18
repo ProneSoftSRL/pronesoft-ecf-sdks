@@ -25,11 +25,11 @@ Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
 import {
   Configuration,
   AutomatedCertificationApi,
-} from '';
-import type { DownloadCertificationRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { DownloadCertificationRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -95,11 +95,11 @@ Estado del proceso de certificación
 import {
   Configuration,
   AutomatedCertificationApi,
-} from '';
-import type { GetCertificationStatusRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetCertificationStatusRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -165,11 +165,11 @@ Listar nichos de certificación
 import {
   Configuration,
   AutomatedCertificationApi,
-} from '';
-import type { ListCertificationNichesRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListCertificationNichesRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -227,11 +227,11 @@ Iniciar proceso de certificación
 import {
   Configuration,
   AutomatedCertificationApi,
-} from '';
-import type { StartCertificationOperationRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { StartCertificationOperationRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -19,9 +19,13 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.pronesoft.ecf.model.SentDocumentSummaryBusiness;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.UUID;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,52 +53,138 @@ import com.pronesoft.ecf.JSON;
 /**
  * ApprovalItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ApprovalItem {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   @javax.annotation.Nullable
-  private String id;
+  private UUID id;
 
   public static final String SERIALIZED_NAME_ENCF = "encf";
   @SerializedName(SERIALIZED_NAME_ENCF)
   @javax.annotation.Nullable
   private String encf;
 
+  public static final String SERIALIZED_NAME_TYPE = "type";
+  @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
+  private String type;
+
+  public static final String SERIALIZED_NAME_ISSUER_RNC = "issuerRnc";
+  @SerializedName(SERIALIZED_NAME_ISSUER_RNC)
+  @javax.annotation.Nullable
+  private String issuerRnc;
+
+  public static final String SERIALIZED_NAME_BUYER_RNC = "buyerRnc";
+  @SerializedName(SERIALIZED_NAME_BUYER_RNC)
+  @javax.annotation.Nullable
+  private String buyerRnc;
+
+  public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "totalAmount";
+  @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)
+  @javax.annotation.Nullable
+  private BigDecimal totalAmount;
+
+  public static final String SERIALIZED_NAME_APPROVAL_STATUS = "approvalStatus";
+  @SerializedName(SERIALIZED_NAME_APPROVAL_STATUS)
+  @javax.annotation.Nullable
+  private String approvalStatus;
+
+  /**
+   * 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review
+   */
+  @JsonAdapter(StatusEnum.Adapter.class)
+  public enum StatusEnum {
+    NUMBER_1(1),
+    
+    NUMBER_2(2),
+    
+    NUMBER_3(3),
+    
+    NUMBER_4(4);
+
+    private Integer value;
+
+    StatusEnum(Integer value) {
+      this.value = value;
+    }
+
+    public Integer getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static StatusEnum fromValue(Integer value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<StatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
+        Integer value =  jsonReader.nextInt();
+        return StatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      Integer value = jsonElement.getAsInt();
+      StatusEnum.fromValue(value);
+    }
+  }
+
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
   @javax.annotation.Nullable
-  private Integer status;
+  private StatusEnum status;
+
+  public static final String SERIALIZED_NAME_STATUS_LABEL = "statusLabel";
+  @SerializedName(SERIALIZED_NAME_STATUS_LABEL)
+  @javax.annotation.Nullable
+  private String statusLabel;
 
   public static final String SERIALIZED_NAME_ISSUE_DATE = "issueDate";
   @SerializedName(SERIALIZED_NAME_ISSUE_DATE)
   @javax.annotation.Nullable
   private OffsetDateTime issueDate;
 
-  public static final String SERIALIZED_NAME_APPROVAL_TYPE = "approvalType";
-  @SerializedName(SERIALIZED_NAME_APPROVAL_TYPE)
+  public static final String SERIALIZED_NAME_RECEIVED_AT = "receivedAt";
+  @SerializedName(SERIALIZED_NAME_RECEIVED_AT)
   @javax.annotation.Nullable
-  private String approvalType;
+  private OffsetDateTime receivedAt;
 
-  public static final String SERIALIZED_NAME_PRIORITY = "priority";
-  @SerializedName(SERIALIZED_NAME_PRIORITY)
+  public static final String SERIALIZED_NAME_CREATED_AT = "createdAt";
+  @SerializedName(SERIALIZED_NAME_CREATED_AT)
   @javax.annotation.Nullable
-  private String priority;
+  private OffsetDateTime createdAt;
 
-  public static final String SERIALIZED_NAME_ASSIGNED_TO = "assignedTo";
-  @SerializedName(SERIALIZED_NAME_ASSIGNED_TO)
+  public static final String SERIALIZED_NAME_REJECTION_DESCRIPTION = "rejectionDescription";
+  @SerializedName(SERIALIZED_NAME_REJECTION_DESCRIPTION)
   @javax.annotation.Nullable
-  private String assignedTo;
+  private String rejectionDescription;
 
-  public static final String SERIALIZED_NAME_COMMENTS = "comments";
-  @SerializedName(SERIALIZED_NAME_COMMENTS)
+  public static final String SERIALIZED_NAME_BUSINESS = "business";
+  @SerializedName(SERIALIZED_NAME_BUSINESS)
   @javax.annotation.Nullable
-  private String comments;
+  private SentDocumentSummaryBusiness business;
 
   public ApprovalItem() {
   }
 
-  public ApprovalItem id(@javax.annotation.Nullable String id) {
+  public ApprovalItem id(@javax.annotation.Nullable UUID id) {
     this.id = id;
     return this;
   }
@@ -104,11 +194,11 @@ public class ApprovalItem {
    * @return id
    */
   @javax.annotation.Nullable
-  public String getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(@javax.annotation.Nullable String id) {
+  public void setId(@javax.annotation.Nullable UUID id) {
     this.id = id;
   }
 
@@ -132,22 +222,136 @@ public class ApprovalItem {
   }
 
 
-  public ApprovalItem status(@javax.annotation.Nullable Integer status) {
+  public ApprovalItem type(@javax.annotation.Nullable String type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+   */
+  @javax.annotation.Nullable
+  public String getType() {
+    return type;
+  }
+
+  public void setType(@javax.annotation.Nullable String type) {
+    this.type = type;
+  }
+
+
+  public ApprovalItem issuerRnc(@javax.annotation.Nullable String issuerRnc) {
+    this.issuerRnc = issuerRnc;
+    return this;
+  }
+
+  /**
+   * Get issuerRnc
+   * @return issuerRnc
+   */
+  @javax.annotation.Nullable
+  public String getIssuerRnc() {
+    return issuerRnc;
+  }
+
+  public void setIssuerRnc(@javax.annotation.Nullable String issuerRnc) {
+    this.issuerRnc = issuerRnc;
+  }
+
+
+  public ApprovalItem buyerRnc(@javax.annotation.Nullable String buyerRnc) {
+    this.buyerRnc = buyerRnc;
+    return this;
+  }
+
+  /**
+   * Get buyerRnc
+   * @return buyerRnc
+   */
+  @javax.annotation.Nullable
+  public String getBuyerRnc() {
+    return buyerRnc;
+  }
+
+  public void setBuyerRnc(@javax.annotation.Nullable String buyerRnc) {
+    this.buyerRnc = buyerRnc;
+  }
+
+
+  public ApprovalItem totalAmount(@javax.annotation.Nullable BigDecimal totalAmount) {
+    this.totalAmount = totalAmount;
+    return this;
+  }
+
+  /**
+   * Get totalAmount
+   * @return totalAmount
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getTotalAmount() {
+    return totalAmount;
+  }
+
+  public void setTotalAmount(@javax.annotation.Nullable BigDecimal totalAmount) {
+    this.totalAmount = totalAmount;
+  }
+
+
+  public ApprovalItem approvalStatus(@javax.annotation.Nullable String approvalStatus) {
+    this.approvalStatus = approvalStatus;
+    return this;
+  }
+
+  /**
+   * Get approvalStatus
+   * @return approvalStatus
+   */
+  @javax.annotation.Nullable
+  public String getApprovalStatus() {
+    return approvalStatus;
+  }
+
+  public void setApprovalStatus(@javax.annotation.Nullable String approvalStatus) {
+    this.approvalStatus = approvalStatus;
+  }
+
+
+  public ApprovalItem status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
 
   /**
-   * Get status
+   * 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review
    * @return status
    */
   @javax.annotation.Nullable
-  public Integer getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(@javax.annotation.Nullable Integer status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
+  }
+
+
+  public ApprovalItem statusLabel(@javax.annotation.Nullable String statusLabel) {
+    this.statusLabel = statusLabel;
+    return this;
+  }
+
+  /**
+   * Get statusLabel
+   * @return statusLabel
+   */
+  @javax.annotation.Nullable
+  public String getStatusLabel() {
+    return statusLabel;
+  }
+
+  public void setStatusLabel(@javax.annotation.Nullable String statusLabel) {
+    this.statusLabel = statusLabel;
   }
 
 
@@ -170,79 +374,79 @@ public class ApprovalItem {
   }
 
 
-  public ApprovalItem approvalType(@javax.annotation.Nullable String approvalType) {
-    this.approvalType = approvalType;
+  public ApprovalItem receivedAt(@javax.annotation.Nullable OffsetDateTime receivedAt) {
+    this.receivedAt = receivedAt;
     return this;
   }
 
   /**
-   * Get approvalType
-   * @return approvalType
+   * Get receivedAt
+   * @return receivedAt
    */
   @javax.annotation.Nullable
-  public String getApprovalType() {
-    return approvalType;
+  public OffsetDateTime getReceivedAt() {
+    return receivedAt;
   }
 
-  public void setApprovalType(@javax.annotation.Nullable String approvalType) {
-    this.approvalType = approvalType;
+  public void setReceivedAt(@javax.annotation.Nullable OffsetDateTime receivedAt) {
+    this.receivedAt = receivedAt;
   }
 
 
-  public ApprovalItem priority(@javax.annotation.Nullable String priority) {
-    this.priority = priority;
+  public ApprovalItem createdAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
     return this;
   }
 
   /**
-   * Get priority
-   * @return priority
+   * Get createdAt
+   * @return createdAt
    */
   @javax.annotation.Nullable
-  public String getPriority() {
-    return priority;
+  public OffsetDateTime getCreatedAt() {
+    return createdAt;
   }
 
-  public void setPriority(@javax.annotation.Nullable String priority) {
-    this.priority = priority;
+  public void setCreatedAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
   }
 
 
-  public ApprovalItem assignedTo(@javax.annotation.Nullable String assignedTo) {
-    this.assignedTo = assignedTo;
+  public ApprovalItem rejectionDescription(@javax.annotation.Nullable String rejectionDescription) {
+    this.rejectionDescription = rejectionDescription;
     return this;
   }
 
   /**
-   * Get assignedTo
-   * @return assignedTo
+   * Get rejectionDescription
+   * @return rejectionDescription
    */
   @javax.annotation.Nullable
-  public String getAssignedTo() {
-    return assignedTo;
+  public String getRejectionDescription() {
+    return rejectionDescription;
   }
 
-  public void setAssignedTo(@javax.annotation.Nullable String assignedTo) {
-    this.assignedTo = assignedTo;
+  public void setRejectionDescription(@javax.annotation.Nullable String rejectionDescription) {
+    this.rejectionDescription = rejectionDescription;
   }
 
 
-  public ApprovalItem comments(@javax.annotation.Nullable String comments) {
-    this.comments = comments;
+  public ApprovalItem business(@javax.annotation.Nullable SentDocumentSummaryBusiness business) {
+    this.business = business;
     return this;
   }
 
   /**
-   * Get comments
-   * @return comments
+   * Get business
+   * @return business
    */
   @javax.annotation.Nullable
-  public String getComments() {
-    return comments;
+  public SentDocumentSummaryBusiness getBusiness() {
+    return business;
   }
 
-  public void setComments(@javax.annotation.Nullable String comments) {
-    this.comments = comments;
+  public void setBusiness(@javax.annotation.Nullable SentDocumentSummaryBusiness business) {
+    this.business = business;
   }
 
 
@@ -258,17 +462,34 @@ public class ApprovalItem {
     ApprovalItem approvalItem = (ApprovalItem) o;
     return Objects.equals(this.id, approvalItem.id) &&
         Objects.equals(this.encf, approvalItem.encf) &&
+        Objects.equals(this.type, approvalItem.type) &&
+        Objects.equals(this.issuerRnc, approvalItem.issuerRnc) &&
+        Objects.equals(this.buyerRnc, approvalItem.buyerRnc) &&
+        Objects.equals(this.totalAmount, approvalItem.totalAmount) &&
+        Objects.equals(this.approvalStatus, approvalItem.approvalStatus) &&
         Objects.equals(this.status, approvalItem.status) &&
+        Objects.equals(this.statusLabel, approvalItem.statusLabel) &&
         Objects.equals(this.issueDate, approvalItem.issueDate) &&
-        Objects.equals(this.approvalType, approvalItem.approvalType) &&
-        Objects.equals(this.priority, approvalItem.priority) &&
-        Objects.equals(this.assignedTo, approvalItem.assignedTo) &&
-        Objects.equals(this.comments, approvalItem.comments);
+        Objects.equals(this.receivedAt, approvalItem.receivedAt) &&
+        Objects.equals(this.createdAt, approvalItem.createdAt) &&
+        Objects.equals(this.rejectionDescription, approvalItem.rejectionDescription) &&
+        Objects.equals(this.business, approvalItem.business);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, encf, status, issueDate, approvalType, priority, assignedTo, comments);
+    return Objects.hash(id, encf, type, issuerRnc, buyerRnc, totalAmount, approvalStatus, status, statusLabel, issueDate, receivedAt, createdAt, rejectionDescription, business);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -277,12 +498,18 @@ public class ApprovalItem {
     sb.append("class ApprovalItem {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    encf: ").append(toIndentedString(encf)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    issuerRnc: ").append(toIndentedString(issuerRnc)).append("\n");
+    sb.append("    buyerRnc: ").append(toIndentedString(buyerRnc)).append("\n");
+    sb.append("    totalAmount: ").append(toIndentedString(totalAmount)).append("\n");
+    sb.append("    approvalStatus: ").append(toIndentedString(approvalStatus)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    statusLabel: ").append(toIndentedString(statusLabel)).append("\n");
     sb.append("    issueDate: ").append(toIndentedString(issueDate)).append("\n");
-    sb.append("    approvalType: ").append(toIndentedString(approvalType)).append("\n");
-    sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
-    sb.append("    assignedTo: ").append(toIndentedString(assignedTo)).append("\n");
-    sb.append("    comments: ").append(toIndentedString(comments)).append("\n");
+    sb.append("    receivedAt: ").append(toIndentedString(receivedAt)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    rejectionDescription: ").append(toIndentedString(rejectionDescription)).append("\n");
+    sb.append("    business: ").append(toIndentedString(business)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -301,7 +528,7 @@ public class ApprovalItem {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "encf", "status", "issueDate", "approvalType", "priority", "assignedTo", "comments"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "encf", "type", "issuerRnc", "buyerRnc", "totalAmount", "approvalStatus", "status", "statusLabel", "issueDate", "receivedAt", "createdAt", "rejectionDescription", "business"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -334,17 +561,31 @@ public class ApprovalItem {
       if ((jsonObj.get("encf") != null && !jsonObj.get("encf").isJsonNull()) && !jsonObj.get("encf").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `encf` to be a primitive type in the JSON string but got `%s`", jsonObj.get("encf").toString()));
       }
-      if ((jsonObj.get("approvalType") != null && !jsonObj.get("approvalType").isJsonNull()) && !jsonObj.get("approvalType").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `approvalType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("approvalType").toString()));
+      if ((jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) && !jsonObj.get("type").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
       }
-      if ((jsonObj.get("priority") != null && !jsonObj.get("priority").isJsonNull()) && !jsonObj.get("priority").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `priority` to be a primitive type in the JSON string but got `%s`", jsonObj.get("priority").toString()));
+      if ((jsonObj.get("issuerRnc") != null && !jsonObj.get("issuerRnc").isJsonNull()) && !jsonObj.get("issuerRnc").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerRnc").toString()));
       }
-      if ((jsonObj.get("assignedTo") != null && !jsonObj.get("assignedTo").isJsonNull()) && !jsonObj.get("assignedTo").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `assignedTo` to be a primitive type in the JSON string but got `%s`", jsonObj.get("assignedTo").toString()));
+      if ((jsonObj.get("buyerRnc") != null && !jsonObj.get("buyerRnc").isJsonNull()) && !jsonObj.get("buyerRnc").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `buyerRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("buyerRnc").toString()));
       }
-      if ((jsonObj.get("comments") != null && !jsonObj.get("comments").isJsonNull()) && !jsonObj.get("comments").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `comments` to be a primitive type in the JSON string but got `%s`", jsonObj.get("comments").toString()));
+      if ((jsonObj.get("approvalStatus") != null && !jsonObj.get("approvalStatus").isJsonNull()) && !jsonObj.get("approvalStatus").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `approvalStatus` to be a primitive type in the JSON string but got `%s`", jsonObj.get("approvalStatus").toString()));
+      }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
+      }
+      if ((jsonObj.get("statusLabel") != null && !jsonObj.get("statusLabel").isJsonNull()) && !jsonObj.get("statusLabel").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `statusLabel` to be a primitive type in the JSON string but got `%s`", jsonObj.get("statusLabel").toString()));
+      }
+      if ((jsonObj.get("rejectionDescription") != null && !jsonObj.get("rejectionDescription").isJsonNull()) && !jsonObj.get("rejectionDescription").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `rejectionDescription` to be a primitive type in the JSON string but got `%s`", jsonObj.get("rejectionDescription").toString()));
+      }
+      // validate the optional field `business`
+      if (jsonObj.get("business") != null && !jsonObj.get("business").isJsonNull()) {
+        SentDocumentSummaryBusiness.validateJsonElement(jsonObj.get("business"));
       }
   }
 

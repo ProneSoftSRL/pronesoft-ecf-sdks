@@ -4,19 +4,19 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create associated company / branch
-[**delete_associated_company**](AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Delete associated company
-[**get_company_document_metrics**](AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics
-[**get_company_metrics**](AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics
-[**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated companies / branches
-[**update_associated_company**](AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Update associated company
+[**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Crear empresa asociada / sucursal
+[**delete_associated_company**](AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada
+[**get_company_document_metrics**](AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa
+[**get_company_metrics**](AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa
+[**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | Listar empresas asociadas / sucursales
+[**update_associated_company**](AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada
 
 
 
 ## create_associated_company
 
 > models::CreateAssociatedCompany201Response create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, first_name, last_name, job_title, website, category, monthly_sales_range, logo)
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Parameters
 
@@ -46,7 +46,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -59,9 +59,9 @@ Name | Type | Description  | Required | Notes
 ## delete_associated_company
 
 > models::DeleteAssociatedCompany200Response delete_associated_company(company_id)
-Delete associated company
+Eliminar empresa asociada
 
-Permanently deletes an associated company. This action is irreversible.
+Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 
 ### Parameters
 
@@ -76,7 +76,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -89,7 +89,7 @@ Name | Type | Description  | Required | Notes
 ## get_company_document_metrics
 
 > models::CompanyDocumentMetrics get_company_document_metrics(company_id)
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Parameters
 
@@ -104,7 +104,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -117,7 +117,7 @@ Name | Type | Description  | Required | Notes
 ## get_company_metrics
 
 > models::CompanyMetrics get_company_metrics(company_id)
-Get company metrics
+Métricas de la empresa
 
 ### Parameters
 
@@ -132,7 +132,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -145,7 +145,7 @@ Name | Type | Description  | Required | Notes
 ## list_associated_companies
 
 > Vec<models::AssociatedCompany> list_associated_companies(page, limit)
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Parameters
 
@@ -161,7 +161,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -174,7 +174,7 @@ Name | Type | Description  | Required | Notes
 ## update_associated_company
 
 > models::CreateAssociatedCompany201Response update_associated_company(company_id, name, phone, website, city, country, logo)
-Update associated company
+Actualizar empresa asociada
 
 ### Parameters
 
@@ -195,7 +195,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **total** | **int** |  | [optional] 
 **recentActivity** | **int** |  | [optional] 
-**byStatus** | **Map<String, int>** |  | [optional] [default to const {}]
+**byStatus** | [**Map<String, DocumentStatsResponseByStatusValue>**](DocumentStatsResponseByStatusValue.md) |  | [optional] [default to const {}]
 **byEnvironment** | **Map<String, int>** |  | [optional] [default to const {}]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

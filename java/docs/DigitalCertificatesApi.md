@@ -18,12 +18,12 @@ Sube el certificado de firma digital emitido por DGII para una empresa. Se almac
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.DigitalCertificatesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.DigitalCertificatesApi;
 
 public class Example {
   public static void main(String[] args) {

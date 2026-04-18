@@ -4,24 +4,29 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**download_document**](DocumentsSentApi.md#download_document) | **GET** /documents/download | Download document XML
-[**get_document**](DocumentsSentApi.md#get_document) | **GET** /documents/{id} | Get document details
-[**get_document_stats**](DocumentsSentApi.md#get_document_stats) | **GET** /documents/stats/summary | Get document statistics
-[**list_sent_documents**](DocumentsSentApi.md#list_sent_documents) | **GET** /documents/sent | List sent documents
+[**download_sent_document_xml**](DocumentsSentApi.md#download_sent_document_xml) | **GET** /documents/download | Descargar XML del documento
+[**get_sent_document_by_id**](DocumentsSentApi.md#get_sent_document_by_id) | **GET** /documents/{id} | Obtener detalle del documento
+[**get_sent_document_logs**](DocumentsSentApi.md#get_sent_document_logs) | **GET** /documents/logs/{id} | Logs de procesamiento del documento
+[**get_sent_document_stats**](DocumentsSentApi.md#get_sent_document_stats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
+[**get_sent_document_stats_by_environment**](DocumentsSentApi.md#get_sent_document_stats_by_environment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
+[**get_sent_document_status_options**](DocumentsSentApi.md#get_sent_document_status_options) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+[**list_sent_documents**](DocumentsSentApi.md#list_sent_documents) | **GET** /documents/sent | Listar documentos enviados
 
 
 
-## download_document
+## download_sent_document_xml
 
-> String download_document(file_url)
-Download document XML
+> String download_sent_document_xml(id, file_url, inline)
+Descargar XML del documento
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**file_url** | **String** |  | [required] |
+**id** | Option<**uuid::Uuid**> | ID interno del documento |  |
+**file_url** | Option<**String**> |  |  |
+**inline** | Option<**String**> | true para ver en el navegador, false para descargar |  |
 
 ### Return type
 
@@ -29,7 +34,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -39,10 +44,10 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## get_document
+## get_sent_document_by_id
 
-> models::SentDocumentDetail get_document(id, x_tenant_id)
-Get document details
+> models::SentDocumentDetail get_sent_document_by_id(id, x_tenant_id)
+Obtener detalle del documento
 
 ### Parameters
 
@@ -50,7 +55,7 @@ Get document details
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **id** | **uuid::Uuid** |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
@@ -58,7 +63,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -68,18 +73,46 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## get_document_stats
+## get_sent_document_logs
 
-> models::DocumentStatsResponse get_document_stats(x_tenant_id, period)
-Get document statistics
+> Vec<models::GetSentDocumentLogs200ResponseInner> get_sent_document_logs(id, x_tenant_id)
+Logs de procesamiento del documento
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
-**period** | Option<**String**> |  |  |[default to 30d]
+**id** | **uuid::Uuid** |  | [required] |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
+
+### Return type
+
+[**Vec<models::GetSentDocumentLogs200ResponseInner>**](getSentDocumentLogs_200_response_inner.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_sent_document_stats
+
+> models::DocumentStatsResponse get_sent_document_stats(x_tenant_id)
+Estadísticas de documentos enviados
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
@@ -87,7 +120,60 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_sent_document_stats_by_environment
+
+> std::collections::HashMap<String, serde_json::Value> get_sent_document_stats_by_environment(x_tenant_id)
+Estadísticas agrupadas por ambiente y estado
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
+
+### Return type
+
+[**std::collections::HashMap<String, serde_json::Value>**](serde_json::Value.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_sent_document_status_options
+
+> Vec<models::GetSentDocumentStatusOptions200ResponseInner> get_sent_document_status_options()
+Opciones de filtro de estado disponibles
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Vec<models::GetSentDocumentStatusOptions200ResponseInner>**](getSentDocumentStatusOptions_200_response_inner.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -100,14 +186,14 @@ Name | Type | Description  | Required | Notes
 ## list_sent_documents
 
 > models::SentDocumentListResponse list_sent_documents(x_tenant_id, env, ecf, r#type, status, date_from, date_to, page, limit)
-List sent documents
+Listar documentos enviados
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 **env** | Option<[**Environment**](Environment.md)> |  |  |
 **ecf** | Option<**String**> |  |  |
 **r#type** | Option<**String**> |  |  |
@@ -123,7 +209,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

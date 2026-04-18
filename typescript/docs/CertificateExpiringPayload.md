@@ -13,7 +13,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { CertificateExpiringPayload } from ''
+import type { CertificateExpiringPayload } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

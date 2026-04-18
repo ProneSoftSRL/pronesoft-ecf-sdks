@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.SentDocumentSummaryBusiness
 
 import com.google.gson.annotations.SerializedName
 
@@ -31,43 +32,79 @@ import com.google.gson.annotations.SerializedName
  *
  * @param id 
  * @param encf 
- * @param status 
+ * @param type 
+ * @param issuerRnc 
+ * @param buyerRnc 
+ * @param totalAmount 
+ * @param approvalStatus 
+ * @param status 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+ * @param statusLabel 
  * @param issueDate 
- * @param approvalType 
- * @param priority 
- * @param assignedTo 
- * @param comments 
+ * @param receivedAt 
+ * @param createdAt 
+ * @param rejectionDescription 
+ * @param business 
  */
 
 
 data class ApprovalItem (
 
     @SerializedName("id")
-    val id: kotlin.String? = null,
+    val id: java.util.UUID? = null,
 
     @SerializedName("encf")
     val encf: kotlin.String? = null,
 
+    @SerializedName("type")
+    val type: kotlin.String? = null,
+
+    @SerializedName("issuerRnc")
+    val issuerRnc: kotlin.String? = null,
+
+    @SerializedName("buyerRnc")
+    val buyerRnc: kotlin.String? = null,
+
+    @SerializedName("totalAmount")
+    val totalAmount: java.math.BigDecimal? = null,
+
+    @SerializedName("approvalStatus")
+    val approvalStatus: kotlin.String? = null,
+
+    /* 1=Approved, 2=Rejected, 3=Pending, 4=Under Review */
     @SerializedName("status")
-    val status: kotlin.Int? = null,
+    val status: ApprovalItem.Status? = null,
+
+    @SerializedName("statusLabel")
+    val statusLabel: kotlin.String? = null,
 
     @SerializedName("issueDate")
     val issueDate: java.time.OffsetDateTime? = null,
 
-    @SerializedName("approvalType")
-    val approvalType: kotlin.String? = null,
+    @SerializedName("receivedAt")
+    val receivedAt: java.time.OffsetDateTime? = null,
 
-    @SerializedName("priority")
-    val priority: kotlin.String? = null,
+    @SerializedName("createdAt")
+    val createdAt: java.time.OffsetDateTime? = null,
 
-    @SerializedName("assignedTo")
-    val assignedTo: kotlin.String? = null,
+    @SerializedName("rejectionDescription")
+    val rejectionDescription: kotlin.String? = null,
 
-    @SerializedName("comments")
-    val comments: kotlin.String? = null
+    @SerializedName("business")
+    val business: SentDocumentSummaryBusiness? = null
 
 ) {
 
+    /**
+     * 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+     *
+     * Values: _1,_2,_3,_4
+     */
+    enum class Status(val value: kotlin.Int) {
+        @SerializedName(value = "1") _1(1),
+        @SerializedName(value = "2") _2(2),
+        @SerializedName(value = "3") _3(3),
+        @SerializedName(value = "4") _4(4);
+    }
 
 }
 

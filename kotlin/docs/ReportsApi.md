@@ -4,17 +4,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases) |
-| [**exportSentDocuments**](ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Export sent documents report |
+| [**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras) |
+| [**exportSentDocuments**](ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados |
 
 
 <a id="export606"></a>
 # **export606**
 > kotlin.String export606(from, to, format, status, type, encf)
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
-Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 
 ### Example
 ```kotlin
@@ -60,8 +60,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -72,9 +70,9 @@ Configure bearerAuth:
 # **exportSentDocuments**
 > java.io.File exportSentDocuments(from, to, env, encf, type, status, trackId)
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
-Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
 
 ### Example
 ```kotlin
@@ -121,8 +119,6 @@ try {
 
 
 Configure oauth2:
-    ApiClient.accessToken = ""
-Configure bearerAuth:
     ApiClient.accessToken = ""
 
 ### HTTP request headers

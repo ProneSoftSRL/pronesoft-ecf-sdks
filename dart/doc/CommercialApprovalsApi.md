@@ -9,46 +9,30 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**listApprovals**](CommercialApprovalsApi.md#listapprovals) | **GET** /documents/approvals/all | List commercial approvals
+[**getCommercialApprovalById**](CommercialApprovalsApi.md#getcommercialapprovalbyid) | **GET** /documents/approvals/{id} | Obtener aprobación comercial por ID
+[**listCommercialApprovals**](CommercialApprovalsApi.md#listcommercialapprovals) | **GET** /documents/approvals | Listar aprobaciones comerciales
 
 
-# **listApprovals**
-> ApprovalListResponse listApprovals(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder)
+# **getCommercialApprovalById**
+> ApprovalItem getCommercialApprovalById(id, xTenantId)
 
-List commercial approvals
+Obtener aprobación comercial por ID
 
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
 // TODO Configure OAuth2 access token for authorization: oauth2
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = CommercialApprovalsApi();
-final businessId = businessId_example; // String | 
-final page = 56; // int | 
-final limit = 56; // int | 
-final ecf = ecf_example; // String | 
-final documentType = documentType_example; // String | 
-final status = 56; // int | 
-final dateFrom = 2013-10-20T19:20:30+01:00; // DateTime | 
-final dateTo = 2013-10-20T19:20:30+01:00; // DateTime | 
-final minAmount = 8.14; // num | 
-final maxAmount = 8.14; // num | 
-final search = search_example; // String | 
-final sortBy = sortBy_example; // String | 
-final sortOrder = sortOrder_example; // String | 
+final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
 
 try {
-    final result = api_instance.listApprovals(businessId, page, limit, ecf, documentType, status, dateFrom, dateTo, minAmount, maxAmount, search, sortBy, sortOrder);
+    final result = api_instance.getCommercialApprovalById(id, xTenantId);
     print(result);
 } catch (e) {
-    print('Exception when calling CommercialApprovalsApi->listApprovals: $e\n');
+    print('Exception when calling CommercialApprovalsApi->getCommercialApprovalById: $e\n');
 }
 ```
 
@@ -56,19 +40,65 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **businessId** | **String**|  | 
- **page** | **int**|  | [optional] [default to 1]
- **limit** | **int**|  | [optional] [default to 20]
+ **id** | **String**|  | 
+ **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+
+### Return type
+
+[**ApprovalItem**](ApprovalItem.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **listCommercialApprovals**
+> ApprovalListResponse listCommercialApprovals(xTenantId, ecf, type, status, dateFrom, dateTo, page, limit)
+
+Listar aprobaciones comerciales
+
+### Example
+```dart
+import 'package:pronesoft_ecf/api.dart';
+// TODO Configure OAuth2 access token for authorization: oauth2
+//defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
+
+final api_instance = CommercialApprovalsApi();
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final ecf = ecf_example; // String | 
+final type = type_example; // String | Tipo de documento
+final status = 56; // int | 
+final dateFrom = 2013-10-20; // DateTime | 
+final dateTo = 2013-10-20; // DateTime | 
+final page = 56; // int | 
+final limit = 56; // int | 
+
+try {
+    final result = api_instance.listCommercialApprovals(xTenantId, ecf, type, status, dateFrom, dateTo, page, limit);
+    print(result);
+} catch (e) {
+    print('Exception when calling CommercialApprovalsApi->listCommercialApprovals: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
  **ecf** | **String**|  | [optional] 
- **documentType** | **String**|  | [optional] 
+ **type** | **String**| Tipo de documento | [optional] 
  **status** | **int**|  | [optional] 
  **dateFrom** | **DateTime**|  | [optional] 
  **dateTo** | **DateTime**|  | [optional] 
- **minAmount** | **num**|  | [optional] 
- **maxAmount** | **num**|  | [optional] 
- **search** | **String**|  | [optional] 
- **sortBy** | **String**|  | [optional] 
- **sortOrder** | **String**|  | [optional] 
+ **page** | **int**|  | [optional] [default to 1]
+ **limit** | **int**|  | [optional] [default to 10]
 
 ### Return type
 
@@ -76,7 +106,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

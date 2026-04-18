@@ -13,7 +13,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ListTaxSequences200Response } from ''
+import type { ListTaxSequences200Response } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

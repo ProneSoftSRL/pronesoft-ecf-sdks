@@ -16,9 +16,9 @@ class AuthenticationApi {
 
   final ApiClient apiClient;
 
-  /// Get access token (OAuth 2.0)
+  /// Obtener token de acceso (OAuth 2.0)
   ///
-  /// Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
+  /// Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token Bearer válido por 24 horas (86400 segundos). Este endpoint es público — no requiere cabecera de Authorization. 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -50,9 +50,9 @@ class AuthenticationApi {
     );
   }
 
-  /// Get access token (OAuth 2.0)
+  /// Obtener token de acceso (OAuth 2.0)
   ///
-  /// Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
+  /// Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token Bearer válido por 24 horas (86400 segundos). Este endpoint es público — no requiere cabecera de Authorization. 
   ///
   /// Parameters:
   ///

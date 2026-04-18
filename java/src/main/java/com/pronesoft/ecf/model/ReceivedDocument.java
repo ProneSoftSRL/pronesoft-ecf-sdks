@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,7 +53,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * ReceivedDocument
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ReceivedDocument {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -64,25 +65,84 @@ public class ReceivedDocument {
   @javax.annotation.Nullable
   private String encf;
 
-  public static final String SERIALIZED_NAME_RECEIVER_RNC = "receiverRnc";
-  @SerializedName(SERIALIZED_NAME_RECEIVER_RNC)
-  @javax.annotation.Nullable
-  private String receiverRnc;
-
   public static final String SERIALIZED_NAME_SENDER_RNC = "senderRnc";
   @SerializedName(SERIALIZED_NAME_SENDER_RNC)
   @javax.annotation.Nullable
   private String senderRnc;
+
+  public static final String SERIALIZED_NAME_RECEIVER_RNC = "receiverRnc";
+  @SerializedName(SERIALIZED_NAME_RECEIVER_RNC)
+  @javax.annotation.Nullable
+  private String receiverRnc;
 
   public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "totalAmount";
   @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)
   @javax.annotation.Nullable
   private BigDecimal totalAmount;
 
+  /**
+   * 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending
+   */
+  @JsonAdapter(StatusEnum.Adapter.class)
+  public enum StatusEnum {
+    NUMBER_1(1),
+    
+    NUMBER_2(2),
+    
+    NUMBER_3(3);
+
+    private Integer value;
+
+    StatusEnum(Integer value) {
+      this.value = value;
+    }
+
+    public Integer getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static StatusEnum fromValue(Integer value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<StatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
+        Integer value =  jsonReader.nextInt();
+        return StatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      Integer value = jsonElement.getAsInt();
+      StatusEnum.fromValue(value);
+    }
+  }
+
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
   @javax.annotation.Nullable
-  private Integer status;
+  private StatusEnum status;
+
+  public static final String SERIALIZED_NAME_STATUS_LABEL = "statusLabel";
+  @SerializedName(SERIALIZED_NAME_STATUS_LABEL)
+  @javax.annotation.Nullable
+  private String statusLabel;
 
   public static final String SERIALIZED_NAME_ISSUE_DATE = "issueDate";
   @SerializedName(SERIALIZED_NAME_ISSUE_DATE)
@@ -93,6 +153,21 @@ public class ReceivedDocument {
   @SerializedName(SERIALIZED_NAME_RECEIVED_AT)
   @javax.annotation.Nullable
   private OffsetDateTime receivedAt;
+
+  public static final String SERIALIZED_NAME_CREATED_AT = "createdAt";
+  @SerializedName(SERIALIZED_NAME_CREATED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime createdAt;
+
+  public static final String SERIALIZED_NAME_COMMERCIAL_APPROVAL_STATUS = "commercialApprovalStatus";
+  @SerializedName(SERIALIZED_NAME_COMMERCIAL_APPROVAL_STATUS)
+  @javax.annotation.Nullable
+  private String commercialApprovalStatus;
+
+  public static final String SERIALIZED_NAME_COMMERCIAL_APPROVAL_REJECTION_REASON = "commercialApprovalRejectionReason";
+  @SerializedName(SERIALIZED_NAME_COMMERCIAL_APPROVAL_REJECTION_REASON)
+  @javax.annotation.Nullable
+  private String commercialApprovalRejectionReason;
 
   public static final String SERIALIZED_NAME_BUSINESS = "business";
   @SerializedName(SERIALIZED_NAME_BUSINESS)
@@ -140,25 +215,6 @@ public class ReceivedDocument {
   }
 
 
-  public ReceivedDocument receiverRnc(@javax.annotation.Nullable String receiverRnc) {
-    this.receiverRnc = receiverRnc;
-    return this;
-  }
-
-  /**
-   * Get receiverRnc
-   * @return receiverRnc
-   */
-  @javax.annotation.Nullable
-  public String getReceiverRnc() {
-    return receiverRnc;
-  }
-
-  public void setReceiverRnc(@javax.annotation.Nullable String receiverRnc) {
-    this.receiverRnc = receiverRnc;
-  }
-
-
   public ReceivedDocument senderRnc(@javax.annotation.Nullable String senderRnc) {
     this.senderRnc = senderRnc;
     return this;
@@ -175,6 +231,25 @@ public class ReceivedDocument {
 
   public void setSenderRnc(@javax.annotation.Nullable String senderRnc) {
     this.senderRnc = senderRnc;
+  }
+
+
+  public ReceivedDocument receiverRnc(@javax.annotation.Nullable String receiverRnc) {
+    this.receiverRnc = receiverRnc;
+    return this;
+  }
+
+  /**
+   * Get receiverRnc
+   * @return receiverRnc
+   */
+  @javax.annotation.Nullable
+  public String getReceiverRnc() {
+    return receiverRnc;
+  }
+
+  public void setReceiverRnc(@javax.annotation.Nullable String receiverRnc) {
+    this.receiverRnc = receiverRnc;
   }
 
 
@@ -197,22 +272,41 @@ public class ReceivedDocument {
   }
 
 
-  public ReceivedDocument status(@javax.annotation.Nullable Integer status) {
+  public ReceivedDocument status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
 
   /**
-   * 1&#x3D;Valid, 2&#x3D;Contingency, 3&#x3D;Rejected
+   * 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending
    * @return status
    */
   @javax.annotation.Nullable
-  public Integer getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(@javax.annotation.Nullable Integer status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
+  }
+
+
+  public ReceivedDocument statusLabel(@javax.annotation.Nullable String statusLabel) {
+    this.statusLabel = statusLabel;
+    return this;
+  }
+
+  /**
+   * Get statusLabel
+   * @return statusLabel
+   */
+  @javax.annotation.Nullable
+  public String getStatusLabel() {
+    return statusLabel;
+  }
+
+  public void setStatusLabel(@javax.annotation.Nullable String statusLabel) {
+    this.statusLabel = statusLabel;
   }
 
 
@@ -254,6 +348,63 @@ public class ReceivedDocument {
   }
 
 
+  public ReceivedDocument createdAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+    return this;
+  }
+
+  /**
+   * Get createdAt
+   * @return createdAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+
+  public ReceivedDocument commercialApprovalStatus(@javax.annotation.Nullable String commercialApprovalStatus) {
+    this.commercialApprovalStatus = commercialApprovalStatus;
+    return this;
+  }
+
+  /**
+   * Get commercialApprovalStatus
+   * @return commercialApprovalStatus
+   */
+  @javax.annotation.Nullable
+  public String getCommercialApprovalStatus() {
+    return commercialApprovalStatus;
+  }
+
+  public void setCommercialApprovalStatus(@javax.annotation.Nullable String commercialApprovalStatus) {
+    this.commercialApprovalStatus = commercialApprovalStatus;
+  }
+
+
+  public ReceivedDocument commercialApprovalRejectionReason(@javax.annotation.Nullable String commercialApprovalRejectionReason) {
+    this.commercialApprovalRejectionReason = commercialApprovalRejectionReason;
+    return this;
+  }
+
+  /**
+   * Get commercialApprovalRejectionReason
+   * @return commercialApprovalRejectionReason
+   */
+  @javax.annotation.Nullable
+  public String getCommercialApprovalRejectionReason() {
+    return commercialApprovalRejectionReason;
+  }
+
+  public void setCommercialApprovalRejectionReason(@javax.annotation.Nullable String commercialApprovalRejectionReason) {
+    this.commercialApprovalRejectionReason = commercialApprovalRejectionReason;
+  }
+
+
   public ReceivedDocument business(@javax.annotation.Nullable SentDocumentSummaryBusiness business) {
     this.business = business;
     return this;
@@ -285,18 +436,33 @@ public class ReceivedDocument {
     ReceivedDocument receivedDocument = (ReceivedDocument) o;
     return Objects.equals(this.id, receivedDocument.id) &&
         Objects.equals(this.encf, receivedDocument.encf) &&
-        Objects.equals(this.receiverRnc, receivedDocument.receiverRnc) &&
         Objects.equals(this.senderRnc, receivedDocument.senderRnc) &&
+        Objects.equals(this.receiverRnc, receivedDocument.receiverRnc) &&
         Objects.equals(this.totalAmount, receivedDocument.totalAmount) &&
         Objects.equals(this.status, receivedDocument.status) &&
+        Objects.equals(this.statusLabel, receivedDocument.statusLabel) &&
         Objects.equals(this.issueDate, receivedDocument.issueDate) &&
         Objects.equals(this.receivedAt, receivedDocument.receivedAt) &&
+        Objects.equals(this.createdAt, receivedDocument.createdAt) &&
+        Objects.equals(this.commercialApprovalStatus, receivedDocument.commercialApprovalStatus) &&
+        Objects.equals(this.commercialApprovalRejectionReason, receivedDocument.commercialApprovalRejectionReason) &&
         Objects.equals(this.business, receivedDocument.business);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, encf, receiverRnc, senderRnc, totalAmount, status, issueDate, receivedAt, business);
+    return Objects.hash(id, encf, senderRnc, receiverRnc, totalAmount, status, statusLabel, issueDate, receivedAt, createdAt, commercialApprovalStatus, commercialApprovalRejectionReason, business);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -305,12 +471,16 @@ public class ReceivedDocument {
     sb.append("class ReceivedDocument {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    encf: ").append(toIndentedString(encf)).append("\n");
-    sb.append("    receiverRnc: ").append(toIndentedString(receiverRnc)).append("\n");
     sb.append("    senderRnc: ").append(toIndentedString(senderRnc)).append("\n");
+    sb.append("    receiverRnc: ").append(toIndentedString(receiverRnc)).append("\n");
     sb.append("    totalAmount: ").append(toIndentedString(totalAmount)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    statusLabel: ").append(toIndentedString(statusLabel)).append("\n");
     sb.append("    issueDate: ").append(toIndentedString(issueDate)).append("\n");
     sb.append("    receivedAt: ").append(toIndentedString(receivedAt)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    commercialApprovalStatus: ").append(toIndentedString(commercialApprovalStatus)).append("\n");
+    sb.append("    commercialApprovalRejectionReason: ").append(toIndentedString(commercialApprovalRejectionReason)).append("\n");
     sb.append("    business: ").append(toIndentedString(business)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -330,7 +500,7 @@ public class ReceivedDocument {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "encf", "receiverRnc", "senderRnc", "totalAmount", "status", "issueDate", "receivedAt", "business"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "encf", "senderRnc", "receiverRnc", "totalAmount", "status", "statusLabel", "issueDate", "receivedAt", "createdAt", "commercialApprovalStatus", "commercialApprovalRejectionReason", "business"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -363,11 +533,24 @@ public class ReceivedDocument {
       if ((jsonObj.get("encf") != null && !jsonObj.get("encf").isJsonNull()) && !jsonObj.get("encf").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `encf` to be a primitive type in the JSON string but got `%s`", jsonObj.get("encf").toString()));
       }
+      if ((jsonObj.get("senderRnc") != null && !jsonObj.get("senderRnc").isJsonNull()) && !jsonObj.get("senderRnc").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `senderRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("senderRnc").toString()));
+      }
       if ((jsonObj.get("receiverRnc") != null && !jsonObj.get("receiverRnc").isJsonNull()) && !jsonObj.get("receiverRnc").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `receiverRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("receiverRnc").toString()));
       }
-      if ((jsonObj.get("senderRnc") != null && !jsonObj.get("senderRnc").isJsonNull()) && !jsonObj.get("senderRnc").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `senderRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("senderRnc").toString()));
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
+      }
+      if ((jsonObj.get("statusLabel") != null && !jsonObj.get("statusLabel").isJsonNull()) && !jsonObj.get("statusLabel").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `statusLabel` to be a primitive type in the JSON string but got `%s`", jsonObj.get("statusLabel").toString()));
+      }
+      if ((jsonObj.get("commercialApprovalStatus") != null && !jsonObj.get("commercialApprovalStatus").isJsonNull()) && !jsonObj.get("commercialApprovalStatus").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `commercialApprovalStatus` to be a primitive type in the JSON string but got `%s`", jsonObj.get("commercialApprovalStatus").toString()));
+      }
+      if ((jsonObj.get("commercialApprovalRejectionReason") != null && !jsonObj.get("commercialApprovalRejectionReason").isJsonNull()) && !jsonObj.get("commercialApprovalRejectionReason").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `commercialApprovalRejectionReason` to be a primitive type in the JSON string but got `%s`", jsonObj.get("commercialApprovalRejectionReason").toString()));
       }
       // validate the optional field `business`
       if (jsonObj.get("business") != null && !jsonObj.get("business").isJsonNull()) {

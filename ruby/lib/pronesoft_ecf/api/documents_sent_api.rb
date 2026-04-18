@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -19,33 +19,39 @@ module PronesoftEcf
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # Download document XML
-    # @param file_url [String] 
+    # Descargar XML del documento
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :id ID interno del documento
+    # @option opts [String] :file_url 
+    # @option opts [String] :inline true para ver en el navegador, false para descargar
     # @return [String]
-    def download_document(file_url, opts = {})
-      data, _status_code, _headers = download_document_with_http_info(file_url, opts)
+    def download_sent_document_xml(opts = {})
+      data, _status_code, _headers = download_sent_document_xml_with_http_info(opts)
       data
     end
 
-    # Download document XML
-    # @param file_url [String] 
+    # Descargar XML del documento
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :id ID interno del documento
+    # @option opts [String] :file_url 
+    # @option opts [String] :inline true para ver en el navegador, false para descargar
     # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
-    def download_document_with_http_info(file_url, opts = {})
+    def download_sent_document_xml_with_http_info(opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.download_document ...'
+        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.download_sent_document_xml ...'
       end
-      # verify the required parameter 'file_url' is set
-      if @api_client.config.client_side_validation && file_url.nil?
-        fail ArgumentError, "Missing the required parameter 'file_url' when calling DocumentsSentApi.download_document"
+      allowable_values = ["true", "false"]
+      if @api_client.config.client_side_validation && opts[:'inline'] && !allowable_values.include?(opts[:'inline'])
+        fail ArgumentError, "invalid value for \"inline\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/documents/download'
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'fileUrl'] = file_url
+      query_params[:'id'] = opts[:'id'] if !opts[:'id'].nil?
+      query_params[:'fileUrl'] = opts[:'file_url'] if !opts[:'file_url'].nil?
+      query_params[:'inline'] = opts[:'inline'] if !opts[:'inline'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -62,10 +68,10 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'String'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
-        :operation => :"DocumentsSentApi.download_document",
+        :operation => :"DocumentsSentApi.download_sent_document_xml",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -76,33 +82,33 @@ module PronesoftEcf
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: DocumentsSentApi#download_document\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: DocumentsSentApi#download_sent_document_xml\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
 
-    # Get document details
+    # Obtener detalle del documento
     # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     # @return [SentDocumentDetail]
-    def get_document(id, opts = {})
-      data, _status_code, _headers = get_document_with_http_info(id, opts)
+    def get_sent_document_by_id(id, opts = {})
+      data, _status_code, _headers = get_sent_document_by_id_with_http_info(id, opts)
       data
     end
 
-    # Get document details
+    # Obtener detalle del documento
     # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     # @return [Array<(SentDocumentDetail, Integer, Hash)>] SentDocumentDetail data, response status code and response headers
-    def get_document_with_http_info(id, opts = {})
+    def get_sent_document_by_id_with_http_info(id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.get_document ...'
+        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.get_sent_document_by_id ...'
       end
       # verify the required parameter 'id' is set
       if @api_client.config.client_side_validation && id.nil?
-        fail ArgumentError, "Missing the required parameter 'id' when calling DocumentsSentApi.get_document"
+        fail ArgumentError, "Missing the required parameter 'id' when calling DocumentsSentApi.get_sent_document_by_id"
       end
       # resource path
       local_var_path = '/documents/{id}'.sub('{' + 'id' + '}', CGI.escape(id.to_s))
@@ -126,10 +132,10 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'SentDocumentDetail'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
-        :operation => :"DocumentsSentApi.get_document",
+        :operation => :"DocumentsSentApi.get_sent_document_by_id",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -140,40 +146,97 @@ module PronesoftEcf
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: DocumentsSentApi#get_document\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: DocumentsSentApi#get_sent_document_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
 
-    # Get document statistics
+    # Logs de procesamiento del documento
+    # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    # @option opts [String] :period  (default to '30d')
-    # @return [DocumentStatsResponse]
-    def get_document_stats(opts = {})
-      data, _status_code, _headers = get_document_stats_with_http_info(opts)
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Array<GetSentDocumentLogs200ResponseInner>]
+    def get_sent_document_logs(id, opts = {})
+      data, _status_code, _headers = get_sent_document_logs_with_http_info(id, opts)
       data
     end
 
-    # Get document statistics
+    # Logs de procesamiento del documento
+    # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    # @option opts [String] :period  (default to '30d')
-    # @return [Array<(DocumentStatsResponse, Integer, Hash)>] DocumentStatsResponse data, response status code and response headers
-    def get_document_stats_with_http_info(opts = {})
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Array<(Array<GetSentDocumentLogs200ResponseInner>, Integer, Hash)>] Array<GetSentDocumentLogs200ResponseInner> data, response status code and response headers
+    def get_sent_document_logs_with_http_info(id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.get_document_stats ...'
+        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.get_sent_document_logs ...'
       end
-      allowable_values = ["7d", "30d", "90d"]
-      if @api_client.config.client_side_validation && opts[:'period'] && !allowable_values.include?(opts[:'period'])
-        fail ArgumentError, "invalid value for \"period\", must be one of #{allowable_values}"
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling DocumentsSentApi.get_sent_document_logs"
+      end
+      # resource path
+      local_var_path = '/documents/logs/{id}'.sub('{' + 'id' + '}', CGI.escape(id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'x-tenant-id'] = opts[:'x_tenant_id'] if !opts[:'x_tenant_id'].nil?
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Array<GetSentDocumentLogs200ResponseInner>'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['oauth2']
+
+      new_options = opts.merge(
+        :operation => :"DocumentsSentApi.get_sent_document_logs",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: DocumentsSentApi#get_sent_document_logs\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Estadísticas de documentos enviados
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [DocumentStatsResponse]
+    def get_sent_document_stats(opts = {})
+      data, _status_code, _headers = get_sent_document_stats_with_http_info(opts)
+      data
+    end
+
+    # Estadísticas de documentos enviados
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Array<(DocumentStatsResponse, Integer, Hash)>] DocumentStatsResponse data, response status code and response headers
+    def get_sent_document_stats_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.get_sent_document_stats ...'
       end
       # resource path
       local_var_path = '/documents/stats/summary'
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'period'] = opts[:'period'] if !opts[:'period'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -191,10 +254,10 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'DocumentStatsResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
-        :operation => :"DocumentsSentApi.get_document_stats",
+        :operation => :"DocumentsSentApi.get_sent_document_stats",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -205,14 +268,127 @@ module PronesoftEcf
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: DocumentsSentApi#get_document_stats\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: DocumentsSentApi#get_sent_document_stats\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
 
-    # List sent documents
+    # Estadísticas agrupadas por ambiente y estado
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Hash<String, Object>]
+    def get_sent_document_stats_by_environment(opts = {})
+      data, _status_code, _headers = get_sent_document_stats_by_environment_with_http_info(opts)
+      data
+    end
+
+    # Estadísticas agrupadas por ambiente y estado
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Array<(Hash<String, Object>, Integer, Hash)>] Hash<String, Object> data, response status code and response headers
+    def get_sent_document_stats_by_environment_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.get_sent_document_stats_by_environment ...'
+      end
+      # resource path
+      local_var_path = '/documents/stats/by-environment'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'x-tenant-id'] = opts[:'x_tenant_id'] if !opts[:'x_tenant_id'].nil?
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Hash<String, Object>'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['oauth2']
+
+      new_options = opts.merge(
+        :operation => :"DocumentsSentApi.get_sent_document_stats_by_environment",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: DocumentsSentApi#get_sent_document_stats_by_environment\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Opciones de filtro de estado disponibles
+    # @param [Hash] opts the optional parameters
+    # @return [Array<GetSentDocumentStatusOptions200ResponseInner>]
+    def get_sent_document_status_options(opts = {})
+      data, _status_code, _headers = get_sent_document_status_options_with_http_info(opts)
+      data
+    end
+
+    # Opciones de filtro de estado disponibles
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(Array<GetSentDocumentStatusOptions200ResponseInner>, Integer, Hash)>] Array<GetSentDocumentStatusOptions200ResponseInner> data, response status code and response headers
+    def get_sent_document_status_options_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.get_sent_document_status_options ...'
+      end
+      # resource path
+      local_var_path = '/documents/status-options'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'Array<GetSentDocumentStatusOptions200ResponseInner>'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['oauth2']
+
+      new_options = opts.merge(
+        :operation => :"DocumentsSentApi.get_sent_document_status_options",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: DocumentsSentApi#get_sent_document_status_options\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Listar documentos enviados
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     # @option opts [Environment] :env 
     # @option opts [String] :ecf 
     # @option opts [String] :type 
@@ -227,9 +403,9 @@ module PronesoftEcf
       data
     end
 
-    # List sent documents
+    # Listar documentos enviados
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     # @option opts [Environment] :env 
     # @option opts [String] :ecf 
     # @option opts [String] :type 
@@ -281,7 +457,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'SentDocumentListResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
         :operation => :"DocumentsSentApi.list_sent_documents",

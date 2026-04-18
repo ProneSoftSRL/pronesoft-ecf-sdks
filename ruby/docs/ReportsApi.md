@@ -4,17 +4,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases) |
-| [**export_sent_documents**](ReportsApi.md#export_sent_documents) | **GET** /dgii/sent/export | Export sent documents report |
+| [**export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras) |
+| [**export_sent_documents**](ReportsApi.md#export_sent_documents) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados |
 
 
 ## export606
 
 > String export606(from, to, format, opts)
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
-Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 
 ### Examples
 
@@ -25,9 +25,6 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::ReportsApi.new
@@ -41,7 +38,7 @@ opts = {
 }
 
 begin
-  # Export Format 606 (Purchases)
+  # Exportar Formato 606 (Compras)
   result = api_instance.export606(from, to, format, opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -57,7 +54,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Export Format 606 (Purchases)
+  # Exportar Formato 606 (Compras)
   data, status_code, headers = api_instance.export606_with_http_info(from, to, format, opts)
   p status_code # => 2xx
   p headers # => { ... }
@@ -84,7 +81,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -96,9 +93,9 @@ end
 
 > File export_sent_documents(from, to, opts)
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
-Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
 
 ### Examples
 
@@ -109,9 +106,6 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::ReportsApi.new
@@ -126,7 +120,7 @@ opts = {
 }
 
 begin
-  # Export sent documents report
+  # Exportar reporte de documentos enviados
   result = api_instance.export_sent_documents(from, to, opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -142,7 +136,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Export sent documents report
+  # Exportar reporte de documentos enviados
   data, status_code, headers = api_instance.export_sent_documents_with_http_info(from, to, opts)
   p status_code # => 2xx
   p headers # => { ... }
@@ -170,7 +164,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

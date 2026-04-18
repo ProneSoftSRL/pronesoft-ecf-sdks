@@ -58,7 +58,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ElectronicDocument } from ''
+import type { ElectronicDocument } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

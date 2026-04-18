@@ -18,8 +18,9 @@ extension PronesoftEcfAPI {
 public enum DocumentStatus: String, Codable, CaseIterable {
     case inProcess = "IN_PROCESS"
     case approved = "APPROVED"
+    case conditionallyApproved = "CONDITIONALLY_APPROVED"
     case rejected = "REJECTED"
     case error = "ERROR"
-    case contingency = "CONTINGENCY"
+    case errorComunication = "ERROR_COMUNICATION"
 }
 }

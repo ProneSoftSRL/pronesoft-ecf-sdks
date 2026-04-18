@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**Export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases) |
-| [**ExportSentDocuments**](ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Export sent documents report |
+| [**Export606**](ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras) |
+| [**ExportSentDocuments**](ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados |
 
 <a id="export606"></a>
 # **Export606**
 > string Export606 (DateOnly from, DateOnly to, string format, string? status = null, string? type = null, string? encf = null)
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
-Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 
 ### Example
 ```csharp
@@ -34,8 +34,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -50,7 +48,7 @@ namespace Example
 
             try
             {
-                // Export Format 606 (Purchases)
+                // Exportar Formato 606 (Compras)
                 string result = apiInstance.Export606(from, to, format, status, type, encf);
                 Debug.WriteLine(result);
             }
@@ -71,7 +69,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Export Format 606 (Purchases)
+    // Exportar Formato 606 (Compras)
     ApiResponse<string> response = apiInstance.Export606WithHttpInfo(from, to, format, status, type, encf);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -102,7 +100,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -113,9 +111,9 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Format 606 report |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Reporte Formato 606 |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 | **403** | The token does not have the required scope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -124,9 +122,9 @@ catch (ApiException e)
 # **ExportSentDocuments**
 > FileParameter ExportSentDocuments (DateOnly from, DateOnly to, ModelEnvironment? env = null, string? encf = null, string? type = null, string? status = null, string? trackId = null)
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
-Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
 
 ### Example
 ```csharp
@@ -147,8 +145,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -164,7 +160,7 @@ namespace Example
 
             try
             {
-                // Export sent documents report
+                // Exportar reporte de documentos enviados
                 FileParameter result = apiInstance.ExportSentDocuments(from, to, env, encf, type, status, trackId);
                 Debug.WriteLine(result);
             }
@@ -185,7 +181,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Export sent documents report
+    // Exportar reporte de documentos enviados
     ApiResponse<FileParameter> response = apiInstance.ExportSentDocumentsWithHttpInfo(from, to, env, encf, type, status, trackId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -217,7 +213,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -228,9 +224,9 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Excel report file |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Archivo Excel del reporte |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 | **403** | The token does not have the required scope. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

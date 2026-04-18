@@ -23,7 +23,7 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.DocumentStatus
+import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.SentDocumentSummaryBusiness
 
 import com.google.gson.annotations.SerializedName
@@ -34,13 +34,13 @@ import com.google.gson.annotations.SerializedName
  * @param id 
  * @param encf 
  * @param status 
- * @param statusDisplay 
+ * @param statusLabel 
  * @param trackId 
  * @param documentType 
- * @param totalAmount 
+ * @param issuerRnc 
+ * @param environment 
  * @param receivedAt 
  * @param createdAt 
- * @param xmlUrl 
  * @param business 
  */
 
@@ -54,10 +54,10 @@ data class SentDocumentSummary (
     val encf: kotlin.String? = null,
 
     @SerializedName("status")
-    val status: DocumentStatus? = null,
+    val status: SentDocumentSummary.Status? = null,
 
-    @SerializedName("statusDisplay")
-    val statusDisplay: kotlin.String? = null,
+    @SerializedName("statusLabel")
+    val statusLabel: kotlin.String? = null,
 
     @SerializedName("trackId")
     val trackId: kotlin.String? = null,
@@ -65,8 +65,11 @@ data class SentDocumentSummary (
     @SerializedName("documentType")
     val documentType: kotlin.String? = null,
 
-    @SerializedName("totalAmount")
-    val totalAmount: java.math.BigDecimal? = null,
+    @SerializedName("issuerRnc")
+    val issuerRnc: kotlin.String? = null,
+
+    @SerializedName("environment")
+    val environment: Environment? = null,
 
     @SerializedName("receivedAt")
     val receivedAt: java.time.OffsetDateTime? = null,
@@ -74,14 +77,24 @@ data class SentDocumentSummary (
     @SerializedName("createdAt")
     val createdAt: java.time.OffsetDateTime? = null,
 
-    @SerializedName("xmlUrl")
-    val xmlUrl: java.net.URI? = null,
-
     @SerializedName("business")
     val business: SentDocumentSummaryBusiness? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: APPROVED,REJECTED,IN_PROCESS,CONDITIONALLY_APPROVED,ERROR,ERROR_COMUNICATION
+     */
+    enum class Status(val value: kotlin.String) {
+        @SerializedName(value = "APPROVED") APPROVED("APPROVED"),
+        @SerializedName(value = "REJECTED") REJECTED("REJECTED"),
+        @SerializedName(value = "IN_PROCESS") IN_PROCESS("IN_PROCESS"),
+        @SerializedName(value = "CONDITIONALLY_APPROVED") CONDITIONALLY_APPROVED("CONDITIONALLY_APPROVED"),
+        @SerializedName(value = "ERROR") ERROR("ERROR"),
+        @SerializedName(value = "ERROR_COMUNICATION") ERROR_COMUNICATION("ERROR_COMUNICATION");
+    }
 
 }
 

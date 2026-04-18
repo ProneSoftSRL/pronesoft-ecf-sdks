@@ -23,79 +23,126 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.DgiiMessage
-import com.pronesoft.ecf.models.DocumentStatus
-import com.pronesoft.ecf.models.Environment
-import com.pronesoft.ecf.models.ProcessingLog
+import com.pronesoft.ecf.models.EcfSubmitResponseCompanyIdentification
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * 
+ * Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
  *
- * @param trackingId 
- * @param estado 
- * @param trackId 
- * @param numeroControl 
- * @param status 
- * @param encf 
- * @param businessRnc 
- * @param environment 
- * @param receivedAt 
- * @param mensajes 
- * @param logs 
- * @param source 
+ * @param id ID interno del documento.
+ * @param status Estado del proceso de envío a DGII.
+ * @param companyIdentification 
+ * @param sequenceConsumed true si DGII confirmó el consumo de la secuencia.
+ * @param stampDate Fecha de emisión del documento (YYYY-MM-DD).
+ * @param legalStatus Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+ * @param trackId ID de seguimiento asignado por DGII.
+ * @param documentNumber Número de control electrónico (e-NCF).
+ * @param encf Número e-NCF del documento.
+ * @param contingencyMode true si fue emitido en modo contingencia.
+ * @param contingencyMessage Mensaje oficial DGII cuando contingencyMode es true.
+ * @param documentStampUrl URL del código QR del documento.
+ * @param pdf URL pre-firmada del PDF (expira en 1 hora).
+ * @param xmlUrl URL pre-firmada del XML firmado (expira en 1 hora).
+ * @param signatureDate Fecha y hora de la firma digital.
+ * @param securityCode Código de seguridad del documento.
+ * @param governmentResponse Respuesta completa de DGII (disponible cuando status es FINISHED).
  */
 
 
 data class EcfStatusResponse (
 
-    @SerializedName("trackingId")
-    val trackingId: kotlin.String? = null,
+    /* ID interno del documento. */
+    @SerializedName("id")
+    val id: java.util.UUID,
 
-    @SerializedName("estado")
-    val estado: kotlin.String? = null,
+    /* Estado del proceso de envío a DGII. */
+    @SerializedName("status")
+    val status: EcfStatusResponse.Status,
 
+    @SerializedName("companyIdentification")
+    val companyIdentification: EcfSubmitResponseCompanyIdentification,
+
+    /* true si DGII confirmó el consumo de la secuencia. */
+    @SerializedName("sequenceConsumed")
+    val sequenceConsumed: kotlin.Boolean,
+
+    /* Fecha de emisión del documento (YYYY-MM-DD). */
+    @SerializedName("stampDate")
+    val stampDate: java.time.LocalDate? = null,
+
+    /* Estado fiscal según la respuesta de DGII. null mientras no hay respuesta. */
+    @SerializedName("legalStatus")
+    val legalStatus: EcfStatusResponse.LegalStatus? = null,
+
+    /* ID de seguimiento asignado por DGII. */
     @SerializedName("trackId")
     val trackId: kotlin.String? = null,
 
-    @SerializedName("numeroControl")
-    val numeroControl: kotlin.String? = null,
+    /* Número de control electrónico (e-NCF). */
+    @SerializedName("documentNumber")
+    val documentNumber: kotlin.String? = null,
 
-    @SerializedName("status")
-    val status: DocumentStatus? = null,
-
+    /* Número e-NCF del documento. */
     @SerializedName("encf")
     val encf: kotlin.String? = null,
 
-    @SerializedName("businessRnc")
-    val businessRnc: kotlin.String? = null,
+    /* true si fue emitido en modo contingencia. */
+    @SerializedName("contingencyMode")
+    val contingencyMode: kotlin.Boolean? = null,
 
-    @SerializedName("environment")
-    val environment: Environment? = null,
+    /* Mensaje oficial DGII cuando contingencyMode es true. */
+    @SerializedName("contingencyMessage")
+    val contingencyMessage: kotlin.String? = null,
 
-    @SerializedName("receivedAt")
-    val receivedAt: java.time.OffsetDateTime? = null,
+    /* URL del código QR del documento. */
+    @SerializedName("documentStampUrl")
+    val documentStampUrl: java.net.URI? = null,
 
-    @SerializedName("mensajes")
-    val mensajes: kotlin.collections.List<DgiiMessage>? = null,
+    /* URL pre-firmada del PDF (expira en 1 hora). */
+    @SerializedName("pdf")
+    val pdf: java.net.URI? = null,
 
-    @SerializedName("logs")
-    val logs: kotlin.collections.List<ProcessingLog>? = null,
+    /* URL pre-firmada del XML firmado (expira en 1 hora). */
+    @SerializedName("xmlUrl")
+    val xmlUrl: java.net.URI? = null,
 
-    @SerializedName("source")
-    val source: EcfStatusResponse.Source? = null
+    /* Fecha y hora de la firma digital. */
+    @SerializedName("signatureDate")
+    val signatureDate: java.time.OffsetDateTime? = null,
+
+    /* Código de seguridad del documento. */
+    @SerializedName("securityCode")
+    val securityCode: kotlin.String? = null,
+
+    /* Respuesta completa de DGII (disponible cuando status es FINISHED). */
+    @SerializedName("governmentResponse")
+    val governmentResponse: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
 
 ) {
 
     /**
-     * 
+     * Estado del proceso de envío a DGII.
      *
-     * Values: dgii_direct,local_database
+     * Values: REGISTERED,TO_SEND,WAITING_RESPONSE,TO_NOTIFY,FINISHED
      */
-    enum class Source(val value: kotlin.String) {
-        @SerializedName(value = "dgii_direct") dgii_direct("dgii_direct"),
-        @SerializedName(value = "local_database") local_database("local_database");
+    enum class Status(val value: kotlin.String) {
+        @SerializedName(value = "REGISTERED") REGISTERED("REGISTERED"),
+        @SerializedName(value = "TO_SEND") TO_SEND("TO_SEND"),
+        @SerializedName(value = "WAITING_RESPONSE") WAITING_RESPONSE("WAITING_RESPONSE"),
+        @SerializedName(value = "TO_NOTIFY") TO_NOTIFY("TO_NOTIFY"),
+        @SerializedName(value = "FINISHED") FINISHED("FINISHED");
+    }
+    /**
+     * Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+     *
+     * Values: ACCEPTED,ACCEPTED_WITH_OBSERVATIONS,REJECTED,ERROR
+     */
+    enum class LegalStatus(val value: kotlin.String) {
+        @SerializedName(value = "ACCEPTED") ACCEPTED("ACCEPTED"),
+        @SerializedName(value = "ACCEPTED_WITH_OBSERVATIONS") ACCEPTED_WITH_OBSERVATIONS("ACCEPTED_WITH_OBSERVATIONS"),
+        @SerializedName(value = "REJECTED") REJECTED("REJECTED"),
+        @SerializedName(value = "ERROR") ERROR("ERROR");
     }
 
 }

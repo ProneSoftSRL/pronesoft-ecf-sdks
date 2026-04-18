@@ -28,7 +28,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { EcfStatusResponse } from ''
+import type { EcfStatusResponse } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

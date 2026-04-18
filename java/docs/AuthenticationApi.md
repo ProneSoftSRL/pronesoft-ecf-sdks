@@ -18,11 +18,11 @@ Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token 
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.AuthenticationApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AuthenticationApi;
 
 public class Example {
   public static void main(String[] args) {

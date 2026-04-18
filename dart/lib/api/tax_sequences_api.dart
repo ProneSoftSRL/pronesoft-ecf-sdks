@@ -16,7 +16,7 @@ class TaxSequencesApi {
 
   final ApiClient apiClient;
 
-  /// Create new tax sequence
+  /// Crear nueva secuencia de NCF
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -25,7 +25,7 @@ class TaxSequencesApi {
   /// * [CreateTaxSequenceRequest] createTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<Response> createTaxSequenceWithHttpInfo(CreateTaxSequenceRequest createTaxSequenceRequest, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/create';
@@ -55,14 +55,14 @@ class TaxSequencesApi {
     );
   }
 
-  /// Create new tax sequence
+  /// Crear nueva secuencia de NCF
   ///
   /// Parameters:
   ///
   /// * [CreateTaxSequenceRequest] createTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<CreateTaxSequence201Response?> createTaxSequence(CreateTaxSequenceRequest createTaxSequenceRequest, { String? xTenantId, }) async {
     final response = await createTaxSequenceWithHttpInfo(createTaxSequenceRequest,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -78,9 +78,9 @@ class TaxSequencesApi {
     return null;
   }
 
-  /// Get next available fiscal number
+  /// Obtener siguiente número fiscal disponible
   ///
-  /// Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+  /// Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -91,7 +91,7 @@ class TaxSequencesApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<Response> getNextNumberWithHttpInfo(InvoiceTypeSequence type, Environment environment, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/next';
@@ -124,9 +124,9 @@ class TaxSequencesApi {
     );
   }
 
-  /// Get next available fiscal number
+  /// Obtener siguiente número fiscal disponible
   ///
-  /// Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+  /// Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
   ///
   /// Parameters:
   ///
@@ -135,7 +135,7 @@ class TaxSequencesApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<GetNextNumber200Response?> getNextNumber(InvoiceTypeSequence type, Environment environment, { String? xTenantId, }) async {
     final response = await getNextNumberWithHttpInfo(type, environment,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -151,14 +151,14 @@ class TaxSequencesApi {
     return null;
   }
 
-  /// List tax sequences
+  /// Listar secuencias de NCF
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   ///
   /// * [InvoiceTypeSequence] type:
   ///
@@ -209,12 +209,12 @@ class TaxSequencesApi {
     );
   }
 
-  /// List tax sequences
+  /// Listar secuencias de NCF
   ///
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   ///
   /// * [InvoiceTypeSequence] type:
   ///
@@ -238,7 +238,7 @@ class TaxSequencesApi {
     return null;
   }
 
-  /// Update tax sequence
+  /// Actualizar secuencia de NCF
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -249,7 +249,7 @@ class TaxSequencesApi {
   /// * [UpdateTaxSequenceRequest] updateTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<Response> updateTaxSequenceWithHttpInfo(String id, UpdateTaxSequenceRequest updateTaxSequenceRequest, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/update';
@@ -281,7 +281,7 @@ class TaxSequencesApi {
     );
   }
 
-  /// Update tax sequence
+  /// Actualizar secuencia de NCF
   ///
   /// Parameters:
   ///
@@ -290,7 +290,7 @@ class TaxSequencesApi {
   /// * [UpdateTaxSequenceRequest] updateTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<void> updateTaxSequence(String id, UpdateTaxSequenceRequest updateTaxSequenceRequest, { String? xTenantId, }) async {
     final response = await updateTaxSequenceWithHttpInfo(id, updateTaxSequenceRequest,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -298,9 +298,9 @@ class TaxSequencesApi {
     }
   }
 
-  /// Void a range of fiscal numbers
+  /// Anular rango de números fiscales
   ///
-  /// Cancels unused fiscal numbers and notifies DGII.
+  /// Cancela números fiscales no utilizados y notifica a la DGII.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -309,7 +309,7 @@ class TaxSequencesApi {
   /// * [VoidTaxSequenceRequest] voidTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<Response> voidTaxSequenceWithHttpInfo(VoidTaxSequenceRequest voidTaxSequenceRequest, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/void';
@@ -339,16 +339,16 @@ class TaxSequencesApi {
     );
   }
 
-  /// Void a range of fiscal numbers
+  /// Anular rango de números fiscales
   ///
-  /// Cancels unused fiscal numbers and notifies DGII.
+  /// Cancela números fiscales no utilizados y notifica a la DGII.
   ///
   /// Parameters:
   ///
   /// * [VoidTaxSequenceRequest] voidTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<VoidTaxSequence200Response?> voidTaxSequence(VoidTaxSequenceRequest voidTaxSequenceRequest, { String? xTenantId, }) async {
     final response = await voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {

@@ -23,11 +23,11 @@ Obtener documento recibido por ID
 import {
   Configuration,
   DocumentsReceivedApi,
-} from '';
-import type { GetReceivedDocumentByIdRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetReceivedDocumentByIdRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -97,11 +97,11 @@ Top 10 proveedores por volumen de documentos recibidos
 import {
   Configuration,
   DocumentsReceivedApi,
-} from '';
-import type { GetReceivedDocumentStatsBySupplierRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetReceivedDocumentStatsBySupplierRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -167,11 +167,11 @@ Estadísticas de documentos recibidos
 import {
   Configuration,
   DocumentsReceivedApi,
-} from '';
-import type { GetReceivedDocumentStatsSummaryRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetReceivedDocumentStatsSummaryRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -237,11 +237,11 @@ Listar documentos recibidos
 import {
   Configuration,
   DocumentsReceivedApi,
-} from '';
-import type { ListReceivedDocumentsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListReceivedDocumentsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

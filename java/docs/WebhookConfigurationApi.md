@@ -18,12 +18,12 @@ Detalle de un webhook
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.WebhookConfigurationApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -86,12 +86,12 @@ Estadísticas de entregas del webhook
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.WebhookConfigurationApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -158,12 +158,12 @@ Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.WebhookConfigurationApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.WebhookConfigurationApi;
 
 public class Example {
   public static void main(String[] args) {

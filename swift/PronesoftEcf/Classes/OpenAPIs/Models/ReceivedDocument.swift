@@ -17,38 +17,55 @@ extension PronesoftEcfAPI {
 
 public struct ReceivedDocument: Codable, JSONEncodable, Hashable {
 
+    public enum Status: Int, Codable, CaseIterable {
+        case _1 = 1
+        case _2 = 2
+        case _3 = 3
+    }
     public var id: UUID?
     public var encf: String?
-    public var receiverRnc: String?
     public var senderRnc: String?
+    public var receiverRnc: String?
     public var totalAmount: Double?
-    /** 1=Valid, 2=Contingency, 3=Rejected */
-    public var status: Int?
+    /** 1=Valid, 2=Voided, 3=Pending */
+    public var status: Status?
+    public var statusLabel: String?
     public var issueDate: Date?
     public var receivedAt: Date?
+    public var createdAt: Date?
+    public var commercialApprovalStatus: String?
+    public var commercialApprovalRejectionReason: String?
     public var business: SentDocumentSummaryBusiness?
 
-    public init(id: UUID? = nil, encf: String? = nil, receiverRnc: String? = nil, senderRnc: String? = nil, totalAmount: Double? = nil, status: Int? = nil, issueDate: Date? = nil, receivedAt: Date? = nil, business: SentDocumentSummaryBusiness? = nil) {
+    public init(id: UUID? = nil, encf: String? = nil, senderRnc: String? = nil, receiverRnc: String? = nil, totalAmount: Double? = nil, status: Status? = nil, statusLabel: String? = nil, issueDate: Date? = nil, receivedAt: Date? = nil, createdAt: Date? = nil, commercialApprovalStatus: String? = nil, commercialApprovalRejectionReason: String? = nil, business: SentDocumentSummaryBusiness? = nil) {
         self.id = id
         self.encf = encf
-        self.receiverRnc = receiverRnc
         self.senderRnc = senderRnc
+        self.receiverRnc = receiverRnc
         self.totalAmount = totalAmount
         self.status = status
+        self.statusLabel = statusLabel
         self.issueDate = issueDate
         self.receivedAt = receivedAt
+        self.createdAt = createdAt
+        self.commercialApprovalStatus = commercialApprovalStatus
+        self.commercialApprovalRejectionReason = commercialApprovalRejectionReason
         self.business = business
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case encf
-        case receiverRnc
         case senderRnc
+        case receiverRnc
         case totalAmount
         case status
+        case statusLabel
         case issueDate
         case receivedAt
+        case createdAt
+        case commercialApprovalStatus
+        case commercialApprovalRejectionReason
         case business
     }
 
@@ -58,12 +75,16 @@ public struct ReceivedDocument: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(encf, forKey: .encf)
-        try container.encodeIfPresent(receiverRnc, forKey: .receiverRnc)
         try container.encodeIfPresent(senderRnc, forKey: .senderRnc)
+        try container.encodeIfPresent(receiverRnc, forKey: .receiverRnc)
         try container.encodeIfPresent(totalAmount, forKey: .totalAmount)
         try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(statusLabel, forKey: .statusLabel)
         try container.encodeIfPresent(issueDate, forKey: .issueDate)
         try container.encodeIfPresent(receivedAt, forKey: .receivedAt)
+        try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(commercialApprovalStatus, forKey: .commercialApprovalStatus)
+        try container.encodeIfPresent(commercialApprovalRejectionReason, forKey: .commercialApprovalRejectionReason)
         try container.encodeIfPresent(business, forKey: .business)
     }
 }

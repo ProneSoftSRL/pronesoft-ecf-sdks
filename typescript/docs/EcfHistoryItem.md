@@ -20,7 +20,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { EcfHistoryItem } from ''
+import type { EcfHistoryItem } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

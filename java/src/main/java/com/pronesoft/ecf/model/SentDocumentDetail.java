@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -19,17 +19,16 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.pronesoft.ecf.model.DocumentStatus;
-import com.pronesoft.ecf.model.ProcessingLog;
+import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.SentDocumentSummaryBusiness;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,7 +56,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * SentDocumentDetail
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class SentDocumentDetail {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -69,15 +68,75 @@ public class SentDocumentDetail {
   @javax.annotation.Nullable
   private String encf;
 
+  /**
+   * Gets or Sets status
+   */
+  @JsonAdapter(StatusEnum.Adapter.class)
+  public enum StatusEnum {
+    APPROVED("APPROVED"),
+    
+    REJECTED("REJECTED"),
+    
+    IN_PROCESS("IN_PROCESS"),
+    
+    CONDITIONALLY_APPROVED("CONDITIONALLY_APPROVED"),
+    
+    ERROR("ERROR"),
+    
+    ERROR_COMUNICATION("ERROR_COMUNICATION");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<StatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return StatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
+  }
+
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
   @javax.annotation.Nullable
-  private DocumentStatus status;
+  private StatusEnum status;
 
-  public static final String SERIALIZED_NAME_STATUS_DISPLAY = "statusDisplay";
-  @SerializedName(SERIALIZED_NAME_STATUS_DISPLAY)
+  public static final String SERIALIZED_NAME_STATUS_LABEL = "statusLabel";
+  @SerializedName(SERIALIZED_NAME_STATUS_LABEL)
   @javax.annotation.Nullable
-  private String statusDisplay;
+  private String statusLabel;
 
   public static final String SERIALIZED_NAME_TRACK_ID = "trackId";
   @SerializedName(SERIALIZED_NAME_TRACK_ID)
@@ -89,10 +148,15 @@ public class SentDocumentDetail {
   @javax.annotation.Nullable
   private String documentType;
 
-  public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "totalAmount";
-  @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)
+  public static final String SERIALIZED_NAME_ISSUER_RNC = "issuerRnc";
+  @SerializedName(SERIALIZED_NAME_ISSUER_RNC)
   @javax.annotation.Nullable
-  private BigDecimal totalAmount;
+  private String issuerRnc;
+
+  public static final String SERIALIZED_NAME_ENVIRONMENT = "environment";
+  @SerializedName(SERIALIZED_NAME_ENVIRONMENT)
+  @javax.annotation.Nullable
+  private Environment environment;
 
   public static final String SERIALIZED_NAME_RECEIVED_AT = "receivedAt";
   @SerializedName(SERIALIZED_NAME_RECEIVED_AT)
@@ -104,25 +168,91 @@ public class SentDocumentDetail {
   @javax.annotation.Nullable
   private OffsetDateTime createdAt;
 
-  public static final String SERIALIZED_NAME_XML_URL = "xmlUrl";
-  @SerializedName(SERIALIZED_NAME_XML_URL)
-  @javax.annotation.Nullable
-  private URI xmlUrl;
-
   public static final String SERIALIZED_NAME_BUSINESS = "business";
   @SerializedName(SERIALIZED_NAME_BUSINESS)
   @javax.annotation.Nullable
   private SentDocumentSummaryBusiness business;
 
-  public static final String SERIALIZED_NAME_LOGS = "logs";
-  @SerializedName(SERIALIZED_NAME_LOGS)
-  @javax.annotation.Nullable
-  private List<ProcessingLog> logs = new ArrayList<>();
+  /**
+   * Gets or Sets legalStatus
+   */
+  @JsonAdapter(LegalStatusEnum.Adapter.class)
+  public enum LegalStatusEnum {
+    ACCEPTED("ACCEPTED"),
+    
+    ACCEPTED_WITH_OBSERVATIONS("ACCEPTED_WITH_OBSERVATIONS"),
+    
+    REJECTED("REJECTED"),
+    
+    ERROR("ERROR");
 
-  public static final String SERIALIZED_NAME_AUDIT_LOGS = "auditLogs";
-  @SerializedName(SERIALIZED_NAME_AUDIT_LOGS)
+    private String value;
+
+    LegalStatusEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static LegalStatusEnum fromValue(String value) {
+      for (LegalStatusEnum b : LegalStatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      return null;
+    }
+
+    public static class Adapter extends TypeAdapter<LegalStatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final LegalStatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public LegalStatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return LegalStatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      LegalStatusEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_LEGAL_STATUS = "legalStatus";
+  @SerializedName(SERIALIZED_NAME_LEGAL_STATUS)
   @javax.annotation.Nullable
-  private List<Object> auditLogs = new ArrayList<>();
+  private LegalStatusEnum legalStatus;
+
+  public static final String SERIALIZED_NAME_DOCUMENT_STAMP_URL = "documentStampUrl";
+  @SerializedName(SERIALIZED_NAME_DOCUMENT_STAMP_URL)
+  @javax.annotation.Nullable
+  private URI documentStampUrl;
+
+  public static final String SERIALIZED_NAME_SECURITY_CODE = "securityCode";
+  @SerializedName(SERIALIZED_NAME_SECURITY_CODE)
+  @javax.annotation.Nullable
+  private String securityCode;
+
+  public static final String SERIALIZED_NAME_CONTINGENCY_MODE = "contingencyMode";
+  @SerializedName(SERIALIZED_NAME_CONTINGENCY_MODE)
+  @javax.annotation.Nullable
+  private Boolean contingencyMode;
+
+  public static final String SERIALIZED_NAME_GOVERNMENT_RESPONSE = "governmentResponse";
+  @SerializedName(SERIALIZED_NAME_GOVERNMENT_RESPONSE)
+  @javax.annotation.Nullable
+  private Map<String, Object> governmentResponse;
 
   public SentDocumentDetail() {
   }
@@ -165,7 +295,7 @@ public class SentDocumentDetail {
   }
 
 
-  public SentDocumentDetail status(@javax.annotation.Nullable DocumentStatus status) {
+  public SentDocumentDetail status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -175,31 +305,31 @@ public class SentDocumentDetail {
    * @return status
    */
   @javax.annotation.Nullable
-  public DocumentStatus getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(@javax.annotation.Nullable DocumentStatus status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 
 
-  public SentDocumentDetail statusDisplay(@javax.annotation.Nullable String statusDisplay) {
-    this.statusDisplay = statusDisplay;
+  public SentDocumentDetail statusLabel(@javax.annotation.Nullable String statusLabel) {
+    this.statusLabel = statusLabel;
     return this;
   }
 
   /**
-   * Get statusDisplay
-   * @return statusDisplay
+   * Get statusLabel
+   * @return statusLabel
    */
   @javax.annotation.Nullable
-  public String getStatusDisplay() {
-    return statusDisplay;
+  public String getStatusLabel() {
+    return statusLabel;
   }
 
-  public void setStatusDisplay(@javax.annotation.Nullable String statusDisplay) {
-    this.statusDisplay = statusDisplay;
+  public void setStatusLabel(@javax.annotation.Nullable String statusLabel) {
+    this.statusLabel = statusLabel;
   }
 
 
@@ -241,22 +371,41 @@ public class SentDocumentDetail {
   }
 
 
-  public SentDocumentDetail totalAmount(@javax.annotation.Nullable BigDecimal totalAmount) {
-    this.totalAmount = totalAmount;
+  public SentDocumentDetail issuerRnc(@javax.annotation.Nullable String issuerRnc) {
+    this.issuerRnc = issuerRnc;
     return this;
   }
 
   /**
-   * Get totalAmount
-   * @return totalAmount
+   * Get issuerRnc
+   * @return issuerRnc
    */
   @javax.annotation.Nullable
-  public BigDecimal getTotalAmount() {
-    return totalAmount;
+  public String getIssuerRnc() {
+    return issuerRnc;
   }
 
-  public void setTotalAmount(@javax.annotation.Nullable BigDecimal totalAmount) {
-    this.totalAmount = totalAmount;
+  public void setIssuerRnc(@javax.annotation.Nullable String issuerRnc) {
+    this.issuerRnc = issuerRnc;
+  }
+
+
+  public SentDocumentDetail environment(@javax.annotation.Nullable Environment environment) {
+    this.environment = environment;
+    return this;
+  }
+
+  /**
+   * Get environment
+   * @return environment
+   */
+  @javax.annotation.Nullable
+  public Environment getEnvironment() {
+    return environment;
+  }
+
+  public void setEnvironment(@javax.annotation.Nullable Environment environment) {
+    this.environment = environment;
   }
 
 
@@ -298,25 +447,6 @@ public class SentDocumentDetail {
   }
 
 
-  public SentDocumentDetail xmlUrl(@javax.annotation.Nullable URI xmlUrl) {
-    this.xmlUrl = xmlUrl;
-    return this;
-  }
-
-  /**
-   * Get xmlUrl
-   * @return xmlUrl
-   */
-  @javax.annotation.Nullable
-  public URI getXmlUrl() {
-    return xmlUrl;
-  }
-
-  public void setXmlUrl(@javax.annotation.Nullable URI xmlUrl) {
-    this.xmlUrl = xmlUrl;
-  }
-
-
   public SentDocumentDetail business(@javax.annotation.Nullable SentDocumentSummaryBusiness business) {
     this.business = business;
     return this;
@@ -336,57 +466,106 @@ public class SentDocumentDetail {
   }
 
 
-  public SentDocumentDetail logs(@javax.annotation.Nullable List<ProcessingLog> logs) {
-    this.logs = logs;
-    return this;
-  }
-
-  public SentDocumentDetail addLogsItem(ProcessingLog logsItem) {
-    if (this.logs == null) {
-      this.logs = new ArrayList<>();
-    }
-    this.logs.add(logsItem);
+  public SentDocumentDetail legalStatus(@javax.annotation.Nullable LegalStatusEnum legalStatus) {
+    this.legalStatus = legalStatus;
     return this;
   }
 
   /**
-   * Get logs
-   * @return logs
+   * Get legalStatus
+   * @return legalStatus
    */
   @javax.annotation.Nullable
-  public List<ProcessingLog> getLogs() {
-    return logs;
+  public LegalStatusEnum getLegalStatus() {
+    return legalStatus;
   }
 
-  public void setLogs(@javax.annotation.Nullable List<ProcessingLog> logs) {
-    this.logs = logs;
+  public void setLegalStatus(@javax.annotation.Nullable LegalStatusEnum legalStatus) {
+    this.legalStatus = legalStatus;
   }
 
 
-  public SentDocumentDetail auditLogs(@javax.annotation.Nullable List<Object> auditLogs) {
-    this.auditLogs = auditLogs;
-    return this;
-  }
-
-  public SentDocumentDetail addAuditLogsItem(Object auditLogsItem) {
-    if (this.auditLogs == null) {
-      this.auditLogs = new ArrayList<>();
-    }
-    this.auditLogs.add(auditLogsItem);
+  public SentDocumentDetail documentStampUrl(@javax.annotation.Nullable URI documentStampUrl) {
+    this.documentStampUrl = documentStampUrl;
     return this;
   }
 
   /**
-   * Get auditLogs
-   * @return auditLogs
+   * Get documentStampUrl
+   * @return documentStampUrl
    */
   @javax.annotation.Nullable
-  public List<Object> getAuditLogs() {
-    return auditLogs;
+  public URI getDocumentStampUrl() {
+    return documentStampUrl;
   }
 
-  public void setAuditLogs(@javax.annotation.Nullable List<Object> auditLogs) {
-    this.auditLogs = auditLogs;
+  public void setDocumentStampUrl(@javax.annotation.Nullable URI documentStampUrl) {
+    this.documentStampUrl = documentStampUrl;
+  }
+
+
+  public SentDocumentDetail securityCode(@javax.annotation.Nullable String securityCode) {
+    this.securityCode = securityCode;
+    return this;
+  }
+
+  /**
+   * Get securityCode
+   * @return securityCode
+   */
+  @javax.annotation.Nullable
+  public String getSecurityCode() {
+    return securityCode;
+  }
+
+  public void setSecurityCode(@javax.annotation.Nullable String securityCode) {
+    this.securityCode = securityCode;
+  }
+
+
+  public SentDocumentDetail contingencyMode(@javax.annotation.Nullable Boolean contingencyMode) {
+    this.contingencyMode = contingencyMode;
+    return this;
+  }
+
+  /**
+   * Get contingencyMode
+   * @return contingencyMode
+   */
+  @javax.annotation.Nullable
+  public Boolean getContingencyMode() {
+    return contingencyMode;
+  }
+
+  public void setContingencyMode(@javax.annotation.Nullable Boolean contingencyMode) {
+    this.contingencyMode = contingencyMode;
+  }
+
+
+  public SentDocumentDetail governmentResponse(@javax.annotation.Nullable Map<String, Object> governmentResponse) {
+    this.governmentResponse = governmentResponse;
+    return this;
+  }
+
+  public SentDocumentDetail putGovernmentResponseItem(String key, Object governmentResponseItem) {
+    if (this.governmentResponse == null) {
+      this.governmentResponse = new HashMap<>();
+    }
+    this.governmentResponse.put(key, governmentResponseItem);
+    return this;
+  }
+
+  /**
+   * Get governmentResponse
+   * @return governmentResponse
+   */
+  @javax.annotation.Nullable
+  public Map<String, Object> getGovernmentResponse() {
+    return governmentResponse;
+  }
+
+  public void setGovernmentResponse(@javax.annotation.Nullable Map<String, Object> governmentResponse) {
+    this.governmentResponse = governmentResponse;
   }
 
 
@@ -403,21 +582,35 @@ public class SentDocumentDetail {
     return Objects.equals(this.id, sentDocumentDetail.id) &&
         Objects.equals(this.encf, sentDocumentDetail.encf) &&
         Objects.equals(this.status, sentDocumentDetail.status) &&
-        Objects.equals(this.statusDisplay, sentDocumentDetail.statusDisplay) &&
+        Objects.equals(this.statusLabel, sentDocumentDetail.statusLabel) &&
         Objects.equals(this.trackId, sentDocumentDetail.trackId) &&
         Objects.equals(this.documentType, sentDocumentDetail.documentType) &&
-        Objects.equals(this.totalAmount, sentDocumentDetail.totalAmount) &&
+        Objects.equals(this.issuerRnc, sentDocumentDetail.issuerRnc) &&
+        Objects.equals(this.environment, sentDocumentDetail.environment) &&
         Objects.equals(this.receivedAt, sentDocumentDetail.receivedAt) &&
         Objects.equals(this.createdAt, sentDocumentDetail.createdAt) &&
-        Objects.equals(this.xmlUrl, sentDocumentDetail.xmlUrl) &&
         Objects.equals(this.business, sentDocumentDetail.business) &&
-        Objects.equals(this.logs, sentDocumentDetail.logs) &&
-        Objects.equals(this.auditLogs, sentDocumentDetail.auditLogs);
+        Objects.equals(this.legalStatus, sentDocumentDetail.legalStatus) &&
+        Objects.equals(this.documentStampUrl, sentDocumentDetail.documentStampUrl) &&
+        Objects.equals(this.securityCode, sentDocumentDetail.securityCode) &&
+        Objects.equals(this.contingencyMode, sentDocumentDetail.contingencyMode) &&
+        Objects.equals(this.governmentResponse, sentDocumentDetail.governmentResponse);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, encf, status, statusDisplay, trackId, documentType, totalAmount, receivedAt, createdAt, xmlUrl, business, logs, auditLogs);
+    return Objects.hash(id, encf, status, statusLabel, trackId, documentType, issuerRnc, environment, receivedAt, createdAt, business, legalStatus, documentStampUrl, securityCode, contingencyMode, governmentResponse);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -427,16 +620,19 @@ public class SentDocumentDetail {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    encf: ").append(toIndentedString(encf)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    statusDisplay: ").append(toIndentedString(statusDisplay)).append("\n");
+    sb.append("    statusLabel: ").append(toIndentedString(statusLabel)).append("\n");
     sb.append("    trackId: ").append(toIndentedString(trackId)).append("\n");
     sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
-    sb.append("    totalAmount: ").append(toIndentedString(totalAmount)).append("\n");
+    sb.append("    issuerRnc: ").append(toIndentedString(issuerRnc)).append("\n");
+    sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
     sb.append("    receivedAt: ").append(toIndentedString(receivedAt)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    xmlUrl: ").append(toIndentedString(xmlUrl)).append("\n");
     sb.append("    business: ").append(toIndentedString(business)).append("\n");
-    sb.append("    logs: ").append(toIndentedString(logs)).append("\n");
-    sb.append("    auditLogs: ").append(toIndentedString(auditLogs)).append("\n");
+    sb.append("    legalStatus: ").append(toIndentedString(legalStatus)).append("\n");
+    sb.append("    documentStampUrl: ").append(toIndentedString(documentStampUrl)).append("\n");
+    sb.append("    securityCode: ").append(toIndentedString(securityCode)).append("\n");
+    sb.append("    contingencyMode: ").append(toIndentedString(contingencyMode)).append("\n");
+    sb.append("    governmentResponse: ").append(toIndentedString(governmentResponse)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -455,7 +651,7 @@ public class SentDocumentDetail {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "encf", "status", "statusDisplay", "trackId", "documentType", "totalAmount", "receivedAt", "createdAt", "xmlUrl", "business", "logs", "auditLogs"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "encf", "status", "statusLabel", "trackId", "documentType", "issuerRnc", "environment", "receivedAt", "createdAt", "business", "legalStatus", "documentStampUrl", "securityCode", "contingencyMode", "governmentResponse"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -488,12 +684,15 @@ public class SentDocumentDetail {
       if ((jsonObj.get("encf") != null && !jsonObj.get("encf").isJsonNull()) && !jsonObj.get("encf").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `encf` to be a primitive type in the JSON string but got `%s`", jsonObj.get("encf").toString()));
       }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
       // validate the optional field `status`
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
-        DocumentStatus.validateJsonElement(jsonObj.get("status"));
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
-      if ((jsonObj.get("statusDisplay") != null && !jsonObj.get("statusDisplay").isJsonNull()) && !jsonObj.get("statusDisplay").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `statusDisplay` to be a primitive type in the JSON string but got `%s`", jsonObj.get("statusDisplay").toString()));
+      if ((jsonObj.get("statusLabel") != null && !jsonObj.get("statusLabel").isJsonNull()) && !jsonObj.get("statusLabel").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `statusLabel` to be a primitive type in the JSON string but got `%s`", jsonObj.get("statusLabel").toString()));
       }
       if ((jsonObj.get("trackId") != null && !jsonObj.get("trackId").isJsonNull()) && !jsonObj.get("trackId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `trackId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("trackId").toString()));
@@ -501,30 +700,29 @@ public class SentDocumentDetail {
       if ((jsonObj.get("documentType") != null && !jsonObj.get("documentType").isJsonNull()) && !jsonObj.get("documentType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentType").toString()));
       }
-      if ((jsonObj.get("xmlUrl") != null && !jsonObj.get("xmlUrl").isJsonNull()) && !jsonObj.get("xmlUrl").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `xmlUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("xmlUrl").toString()));
+      if ((jsonObj.get("issuerRnc") != null && !jsonObj.get("issuerRnc").isJsonNull()) && !jsonObj.get("issuerRnc").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerRnc").toString()));
+      }
+      // validate the optional field `environment`
+      if (jsonObj.get("environment") != null && !jsonObj.get("environment").isJsonNull()) {
+        Environment.validateJsonElement(jsonObj.get("environment"));
       }
       // validate the optional field `business`
       if (jsonObj.get("business") != null && !jsonObj.get("business").isJsonNull()) {
         SentDocumentSummaryBusiness.validateJsonElement(jsonObj.get("business"));
       }
-      if (jsonObj.get("logs") != null && !jsonObj.get("logs").isJsonNull()) {
-        JsonArray jsonArraylogs = jsonObj.getAsJsonArray("logs");
-        if (jsonArraylogs != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("logs").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `logs` to be an array in the JSON string but got `%s`", jsonObj.get("logs").toString()));
-          }
-
-          // validate the optional field `logs` (array)
-          for (int i = 0; i < jsonArraylogs.size(); i++) {
-            ProcessingLog.validateJsonElement(jsonArraylogs.get(i));
-          };
-        }
+      if ((jsonObj.get("legalStatus") != null && !jsonObj.get("legalStatus").isJsonNull()) && !jsonObj.get("legalStatus").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `legalStatus` to be a primitive type in the JSON string but got `%s`", jsonObj.get("legalStatus").toString()));
       }
-      // ensure the optional json data is an array if present
-      if (jsonObj.get("auditLogs") != null && !jsonObj.get("auditLogs").isJsonNull() && !jsonObj.get("auditLogs").isJsonArray()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `auditLogs` to be an array in the JSON string but got `%s`", jsonObj.get("auditLogs").toString()));
+      // validate the optional field `legalStatus`
+      if (jsonObj.get("legalStatus") != null && !jsonObj.get("legalStatus").isJsonNull()) {
+        LegalStatusEnum.validateJsonElement(jsonObj.get("legalStatus"));
+      }
+      if ((jsonObj.get("documentStampUrl") != null && !jsonObj.get("documentStampUrl").isJsonNull()) && !jsonObj.get("documentStampUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentStampUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentStampUrl").toString()));
+      }
+      if ((jsonObj.get("securityCode") != null && !jsonObj.get("securityCode").isJsonNull()) && !jsonObj.get("securityCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `securityCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("securityCode").toString()));
       }
   }
 

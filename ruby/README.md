@@ -2,31 +2,31 @@
 
 PronesoftEcf - the Ruby gem for the eCF-Pronesoft Integration API
 
-## Overview
-Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
-Dominican Republic through the Pronesoft platform.
+## Descripción general
+API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la
+República Dominicana a través de la plataforma Pronesoft.
 
-## Authentication — OAuth 2.0 Client Credentials
+## Autenticación — OAuth 2.0 Client Credentials
 
-### Steps
-1. Get credentials from the portal:
-   - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App
-   - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App
-2. Request a token via POST /oauth/token — valid for 24 hours (86400s).
-3. Use: Authorization: Bearer <accessToken> on every request.
-4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.
+### Pasos
+1. Obtén tus credenciales desde el portal:
+   - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App
+   - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App
+2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s).
+3. Usa: Authorization: Bearer <accessToken> en cada request.
+4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.
 
-### Multi-company delegation
-To act on behalf of an associated company (branch), add:
+### Delegación multi-empresa
+Para actuar en nombre de una empresa asociada (sucursal), agrega:
   x-tenant-id: <business-uuid>
-Do NOT send x-tenant-id when acting as the main company.
+NO envíes x-tenant-id cuando actúes como la empresa principal.
 
-### Sandbox specifics
-- Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed.
-- Sequences are automatic — no need to create them manually.
-- The environment field in the document body MUST be TesteCF.
+### Detalles del Sandbox
+- Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real.
+- Las secuencias son automáticas — no es necesario crearlas manualmente.
+- El campo environment en el cuerpo del documento DEBE ser TesteCF.
 
-### Scopes
+### Scopes disponibles
 business:read, business:create, business:update,
 members:read, members:invite, members:revoke,
 certificates:read, certificates:upload, certificates:update,
@@ -96,11 +96,6 @@ PronesoftEcf.configure do |config|
   config.access_token = 'YOUR ACCESS TOKEN'
   # Configure a proc to get access tokens in lieu of the static access_token configuration
   config.access_token_getter = -> { 'YOUR TOKEN GETTER PROC' } 
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
-  # Configure a proc to get access tokens in lieu of the static access_token configuration
-  config.access_token_getter = -> { 'YOUR TOKEN GETTER PROC' } 
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
@@ -124,7 +119,7 @@ opts = {
 }
 
 begin
-  #Create associated company / branch
+  #Crear empresa asociada / sucursal
   result = api_instance.create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -139,39 +134,45 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*PronesoftEcf::AssociatedCompaniesApi* | [**create_associated_company**](docs/AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create associated company / branch
-*PronesoftEcf::AssociatedCompaniesApi* | [**delete_associated_company**](docs/AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Delete associated company
-*PronesoftEcf::AssociatedCompaniesApi* | [**get_company_document_metrics**](docs/AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics
-*PronesoftEcf::AssociatedCompaniesApi* | [**get_company_metrics**](docs/AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics
-*PronesoftEcf::AssociatedCompaniesApi* | [**list_associated_companies**](docs/AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated companies / branches
-*PronesoftEcf::AssociatedCompaniesApi* | [**update_associated_company**](docs/AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Update associated company
-*PronesoftEcf::AuthenticationApi* | [**get_access_token**](docs/AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Get access token (OAuth 2.0)
-*PronesoftEcf::AutomatedCertificationApi* | [**download_certification**](docs/AutomatedCertificationApi.md#download_certification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP
-*PronesoftEcf::AutomatedCertificationApi* | [**get_certification_status**](docs/AutomatedCertificationApi.md#get_certification_status) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status
-*PronesoftEcf::AutomatedCertificationApi* | [**list_certification_niches**](docs/AutomatedCertificationApi.md#list_certification_niches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches
-*PronesoftEcf::AutomatedCertificationApi* | [**start_certification**](docs/AutomatedCertificationApi.md#start_certification) | **POST** /dgii-ecf/automated-certification/start | Start certification process
-*PronesoftEcf::CommercialApprovalsApi* | [**list_approvals**](docs/CommercialApprovalsApi.md#list_approvals) | **GET** /documents/approvals/all | List commercial approvals
-*PronesoftEcf::DigitalCertificatesApi* | [**upload_certificate**](docs/DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
-*PronesoftEcf::DocumentsReceivedApi* | [**get_received_document_stats**](docs/DocumentsReceivedApi.md#get_received_document_stats) | **GET** /documents/received/stats/summary | Get received documents statistics
-*PronesoftEcf::DocumentsReceivedApi* | [**list_received_documents**](docs/DocumentsReceivedApi.md#list_received_documents) | **GET** /documents/received/all | List received documents
-*PronesoftEcf::DocumentsSentApi* | [**download_document**](docs/DocumentsSentApi.md#download_document) | **GET** /documents/download | Download document XML
-*PronesoftEcf::DocumentsSentApi* | [**get_document**](docs/DocumentsSentApi.md#get_document) | **GET** /documents/{id} | Get document details
-*PronesoftEcf::DocumentsSentApi* | [**get_document_stats**](docs/DocumentsSentApi.md#get_document_stats) | **GET** /documents/stats/summary | Get document statistics
-*PronesoftEcf::DocumentsSentApi* | [**list_sent_documents**](docs/DocumentsSentApi.md#list_sent_documents) | **GET** /documents/sent | List sent documents
-*PronesoftEcf::ECFSubmissionApi* | [**get_ecf_history**](docs/ECFSubmissionApi.md#get_ecf_history) | **GET** /{environment}/ecf/responses/history | Get submission history (last 50 documents)
-*PronesoftEcf::ECFSubmissionApi* | [**get_ecf_stats**](docs/ECFSubmissionApi.md#get_ecf_stats) | **GET** /{environment}/ecf/responses/stats | Get submission statistics (last 30 days)
-*PronesoftEcf::ECFSubmissionApi* | [**get_ecf_status**](docs/ECFSubmissionApi.md#get_ecf_status) | **GET** /{environment}/ecf/status/{trackId} | Get document status by trackId
-*PronesoftEcf::ECFSubmissionApi* | [**submit_ecf**](docs/ECFSubmissionApi.md#submit_ecf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII
-*PronesoftEcf::ReportsApi* | [**export606**](docs/ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases)
-*PronesoftEcf::ReportsApi* | [**export_sent_documents**](docs/ReportsApi.md#export_sent_documents) | **GET** /dgii/sent/export | Export sent documents report
-*PronesoftEcf::TaxSequencesApi* | [**create_tax_sequence**](docs/TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Create new tax sequence
-*PronesoftEcf::TaxSequencesApi* | [**get_next_number**](docs/TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number
-*PronesoftEcf::TaxSequencesApi* | [**list_tax_sequences**](docs/TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences
-*PronesoftEcf::TaxSequencesApi* | [**update_tax_sequence**](docs/TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Update tax sequence
-*PronesoftEcf::TaxSequencesApi* | [**void_tax_sequence**](docs/TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
-*PronesoftEcf::WebhookConfigurationApi* | [**get_webhook**](docs/WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
-*PronesoftEcf::WebhookConfigurationApi* | [**get_webhook_stats**](docs/WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
-*PronesoftEcf::WebhookConfigurationApi* | [**list_webhooks**](docs/WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List webhook configurations
+*PronesoftEcf::AssociatedCompaniesApi* | [**create_associated_company**](docs/AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Crear empresa asociada / sucursal
+*PronesoftEcf::AssociatedCompaniesApi* | [**delete_associated_company**](docs/AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada
+*PronesoftEcf::AssociatedCompaniesApi* | [**get_company_document_metrics**](docs/AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa
+*PronesoftEcf::AssociatedCompaniesApi* | [**get_company_metrics**](docs/AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa
+*PronesoftEcf::AssociatedCompaniesApi* | [**list_associated_companies**](docs/AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | Listar empresas asociadas / sucursales
+*PronesoftEcf::AssociatedCompaniesApi* | [**update_associated_company**](docs/AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada
+*PronesoftEcf::AuthenticationApi* | [**get_access_token**](docs/AuthenticationApi.md#get_access_token) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
+*PronesoftEcf::AutomatedCertificationApi* | [**download_certification**](docs/AutomatedCertificationApi.md#download_certification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación
+*PronesoftEcf::AutomatedCertificationApi* | [**get_certification_status**](docs/AutomatedCertificationApi.md#get_certification_status) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación
+*PronesoftEcf::AutomatedCertificationApi* | [**list_certification_niches**](docs/AutomatedCertificationApi.md#list_certification_niches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación
+*PronesoftEcf::AutomatedCertificationApi* | [**start_certification**](docs/AutomatedCertificationApi.md#start_certification) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación
+*PronesoftEcf::CommercialApprovalsApi* | [**get_commercial_approval_by_id**](docs/CommercialApprovalsApi.md#get_commercial_approval_by_id) | **GET** /documents/approvals/{id} | Obtener aprobación comercial por ID
+*PronesoftEcf::CommercialApprovalsApi* | [**list_commercial_approvals**](docs/CommercialApprovalsApi.md#list_commercial_approvals) | **GET** /documents/approvals | Listar aprobaciones comerciales
+*PronesoftEcf::DigitalCertificatesApi* | [**upload_certificate**](docs/DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
+*PronesoftEcf::DocumentsReceivedApi* | [**get_received_document_by_id**](docs/DocumentsReceivedApi.md#get_received_document_by_id) | **GET** /documents/received/{id} | Obtener documento recibido por ID
+*PronesoftEcf::DocumentsReceivedApi* | [**get_received_document_stats_by_supplier**](docs/DocumentsReceivedApi.md#get_received_document_stats_by_supplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
+*PronesoftEcf::DocumentsReceivedApi* | [**get_received_document_stats_summary**](docs/DocumentsReceivedApi.md#get_received_document_stats_summary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos
+*PronesoftEcf::DocumentsReceivedApi* | [**list_received_documents**](docs/DocumentsReceivedApi.md#list_received_documents) | **GET** /documents/received | Listar documentos recibidos
+*PronesoftEcf::DocumentsSentApi* | [**download_sent_document_xml**](docs/DocumentsSentApi.md#download_sent_document_xml) | **GET** /documents/download | Descargar XML del documento
+*PronesoftEcf::DocumentsSentApi* | [**get_sent_document_by_id**](docs/DocumentsSentApi.md#get_sent_document_by_id) | **GET** /documents/{id} | Obtener detalle del documento
+*PronesoftEcf::DocumentsSentApi* | [**get_sent_document_logs**](docs/DocumentsSentApi.md#get_sent_document_logs) | **GET** /documents/logs/{id} | Logs de procesamiento del documento
+*PronesoftEcf::DocumentsSentApi* | [**get_sent_document_stats**](docs/DocumentsSentApi.md#get_sent_document_stats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
+*PronesoftEcf::DocumentsSentApi* | [**get_sent_document_stats_by_environment**](docs/DocumentsSentApi.md#get_sent_document_stats_by_environment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
+*PronesoftEcf::DocumentsSentApi* | [**get_sent_document_status_options**](docs/DocumentsSentApi.md#get_sent_document_status_options) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+*PronesoftEcf::DocumentsSentApi* | [**list_sent_documents**](docs/DocumentsSentApi.md#list_sent_documents) | **GET** /documents/sent | Listar documentos enviados
+*PronesoftEcf::ECFSubmissionApi* | [**get_ecf_stats**](docs/ECFSubmissionApi.md#get_ecf_stats) | **GET** /{environment}/ecf/responses/stats | Obtener estadísticas de envíos (últimos 30 días)
+*PronesoftEcf::ECFSubmissionApi* | [**get_ecf_status**](docs/ECFSubmissionApi.md#get_ecf_status) | **GET** /{environment}/ecf/status/{id} | Consultar estado del documento por ID interno
+*PronesoftEcf::ECFSubmissionApi* | [**get_ecf_submission_history**](docs/ECFSubmissionApi.md#get_ecf_submission_history) | **GET** /{environment}/ecf/responses/history | Historial de envíos (paginado)
+*PronesoftEcf::ECFSubmissionApi* | [**submit_ecf**](docs/ECFSubmissionApi.md#submit_ecf) | **POST** /{environment}/ecf/submit | Enviar documento e-CF a la DGII
+*PronesoftEcf::ReportsApi* | [**export606**](docs/ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras)
+*PronesoftEcf::ReportsApi* | [**export_sent_documents**](docs/ReportsApi.md#export_sent_documents) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
+*PronesoftEcf::TaxSequencesApi* | [**create_tax_sequence**](docs/TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
+*PronesoftEcf::TaxSequencesApi* | [**get_next_number**](docs/TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+*PronesoftEcf::TaxSequencesApi* | [**list_tax_sequences**](docs/TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | Listar secuencias de NCF
+*PronesoftEcf::TaxSequencesApi* | [**update_tax_sequence**](docs/TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
+*PronesoftEcf::TaxSequencesApi* | [**void_tax_sequence**](docs/TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
+*PronesoftEcf::WebhookConfigurationApi* | [**get_webhook**](docs/WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook
+*PronesoftEcf::WebhookConfigurationApi* | [**get_webhook_stats**](docs/WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook
+*PronesoftEcf::WebhookConfigurationApi* | [**list_webhooks**](docs/WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks
 
 
 ## Documentation for Models
@@ -186,10 +187,16 @@ Class | Method | HTTP request | Description
  - [PronesoftEcf::AssociatedCompanySubscription](docs/AssociatedCompanySubscription.md)
  - [PronesoftEcf::AssociatedCompanySubscriptionPlan](docs/AssociatedCompanySubscriptionPlan.md)
  - [PronesoftEcf::BillingIndicator](docs/BillingIndicator.md)
+ - [PronesoftEcf::BillingInvoiceReadyPayload](docs/BillingInvoiceReadyPayload.md)
+ - [PronesoftEcf::BranchCreatedPayload](docs/BranchCreatedPayload.md)
+ - [PronesoftEcf::BranchStatusChangedPayload](docs/BranchStatusChangedPayload.md)
  - [PronesoftEcf::Buyer](docs/Buyer.md)
+ - [PronesoftEcf::CertificateExpiringPayload](docs/CertificateExpiringPayload.md)
+ - [PronesoftEcf::CertificationCompletedPayload](docs/CertificationCompletedPayload.md)
  - [PronesoftEcf::CertificationNiche](docs/CertificationNiche.md)
  - [PronesoftEcf::CertificationNicheNicheItemsInner](docs/CertificationNicheNicheItemsInner.md)
  - [PronesoftEcf::CertificationStatus](docs/CertificationStatus.md)
+ - [PronesoftEcf::CommercialApprovalPayload](docs/CommercialApprovalPayload.md)
  - [PronesoftEcf::CompanyDocumentMetrics](docs/CompanyDocumentMetrics.md)
  - [PronesoftEcf::CompanyDocumentMetricsGroupByStatusInner](docs/CompanyDocumentMetricsGroupByStatusInner.md)
  - [PronesoftEcf::CompanyDocumentMetricsGroupByStatusInnerCount](docs/CompanyDocumentMetricsGroupByStatusInnerCount.md)
@@ -197,24 +204,33 @@ Class | Method | HTTP request | Description
  - [PronesoftEcf::CompanyDocumentMetricsTotals](docs/CompanyDocumentMetricsTotals.md)
  - [PronesoftEcf::CompanyMetrics](docs/CompanyMetrics.md)
  - [PronesoftEcf::CompanyMetricsDocumentsStatus](docs/CompanyMetricsDocumentsStatus.md)
+ - [PronesoftEcf::ContingencyActivatedPayload](docs/ContingencyActivatedPayload.md)
  - [PronesoftEcf::CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
  - [PronesoftEcf::CreateTaxSequence201Response](docs/CreateTaxSequence201Response.md)
  - [PronesoftEcf::CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
  - [PronesoftEcf::DeleteAssociatedCompany200Response](docs/DeleteAssociatedCompany200Response.md)
  - [PronesoftEcf::DgiiMessage](docs/DgiiMessage.md)
  - [PronesoftEcf::DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
+ - [PronesoftEcf::DocumentReceivedPayload](docs/DocumentReceivedPayload.md)
  - [PronesoftEcf::DocumentStatsResponse](docs/DocumentStatsResponse.md)
+ - [PronesoftEcf::DocumentStatsResponseByStatusValue](docs/DocumentStatsResponseByStatusValue.md)
  - [PronesoftEcf::DocumentStatus](docs/DocumentStatus.md)
+ - [PronesoftEcf::DocumentStatusChangedPayload](docs/DocumentStatusChangedPayload.md)
+ - [PronesoftEcf::DocumentValidationErrorPayload](docs/DocumentValidationErrorPayload.md)
  - [PronesoftEcf::EcfHistoryItem](docs/EcfHistoryItem.md)
  - [PronesoftEcf::EcfStatsResponse](docs/EcfStatsResponse.md)
  - [PronesoftEcf::EcfStatusResponse](docs/EcfStatusResponse.md)
- - [PronesoftEcf::EcfSubmissionResponse](docs/EcfSubmissionResponse.md)
- - [PronesoftEcf::EcfSubmissionResponseDgiiResponse](docs/EcfSubmissionResponseDgiiResponse.md)
+ - [PronesoftEcf::EcfSubmitResponse](docs/EcfSubmitResponse.md)
+ - [PronesoftEcf::EcfSubmitResponseCompanyIdentification](docs/EcfSubmitResponseCompanyIdentification.md)
  - [PronesoftEcf::ElectronicDocument](docs/ElectronicDocument.md)
  - [PronesoftEcf::Environment](docs/Environment.md)
  - [PronesoftEcf::ErrorResponse](docs/ErrorResponse.md)
+ - [PronesoftEcf::GetEcfSubmissionHistory200Response](docs/GetEcfSubmissionHistory200Response.md)
  - [PronesoftEcf::GetNextNumber200Response](docs/GetNextNumber200Response.md)
  - [PronesoftEcf::GetNextNumber200ResponseData](docs/GetNextNumber200ResponseData.md)
+ - [PronesoftEcf::GetReceivedDocumentStatsBySupplier200ResponseInner](docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md)
+ - [PronesoftEcf::GetSentDocumentLogs200ResponseInner](docs/GetSentDocumentLogs200ResponseInner.md)
+ - [PronesoftEcf::GetSentDocumentStatusOptions200ResponseInner](docs/GetSentDocumentStatusOptions200ResponseInner.md)
  - [PronesoftEcf::InvoiceType](docs/InvoiceType.md)
  - [PronesoftEcf::InvoiceTypeSequence](docs/InvoiceTypeSequence.md)
  - [PronesoftEcf::Item](docs/Item.md)
@@ -228,24 +244,35 @@ Class | Method | HTTP request | Description
  - [PronesoftEcf::ItemSurchargeInner](docs/ItemSurchargeInner.md)
  - [PronesoftEcf::ItemUnitPrice](docs/ItemUnitPrice.md)
  - [PronesoftEcf::ItemWithheldITBISAmount](docs/ItemWithheldITBISAmount.md)
+ - [PronesoftEcf::LegalStatus](docs/LegalStatus.md)
  - [PronesoftEcf::ListTaxSequences200Response](docs/ListTaxSequences200Response.md)
+ - [PronesoftEcf::MemberInvitedPayload](docs/MemberInvitedPayload.md)
+ - [PronesoftEcf::MemberJoinedPayload](docs/MemberJoinedPayload.md)
+ - [PronesoftEcf::MemberRemovedPayload](docs/MemberRemovedPayload.md)
  - [PronesoftEcf::OAuthTokenRequest](docs/OAuthTokenRequest.md)
  - [PronesoftEcf::OAuthTokenResponse](docs/OAuthTokenResponse.md)
  - [PronesoftEcf::Page](docs/Page.md)
  - [PronesoftEcf::PaginationMeta](docs/PaginationMeta.md)
  - [PronesoftEcf::PaymentForm](docs/PaymentForm.md)
  - [PronesoftEcf::PaymentMethod](docs/PaymentMethod.md)
+ - [PronesoftEcf::PlanPaymentFailedPayload](docs/PlanPaymentFailedPayload.md)
+ - [PronesoftEcf::PlanUsageAlertPayload](docs/PlanUsageAlertPayload.md)
  - [PronesoftEcf::PrintFormat](docs/PrintFormat.md)
  - [PronesoftEcf::ProcessingLog](docs/ProcessingLog.md)
+ - [PronesoftEcf::PublicDocumentStatus](docs/PublicDocumentStatus.md)
  - [PronesoftEcf::RateLimitErrorResponse](docs/RateLimitErrorResponse.md)
  - [PronesoftEcf::ReceivedDocument](docs/ReceivedDocument.md)
  - [PronesoftEcf::ReceivedDocumentListResponse](docs/ReceivedDocumentListResponse.md)
  - [PronesoftEcf::ReceivedDocumentStatsResponse](docs/ReceivedDocumentStatsResponse.md)
  - [PronesoftEcf::ReferenceInfo](docs/ReferenceInfo.md)
+ - [PronesoftEcf::SecurityApiKeyRotatedPayload](docs/SecurityApiKeyRotatedPayload.md)
+ - [PronesoftEcf::SecurityNewLoginPayload](docs/SecurityNewLoginPayload.md)
  - [PronesoftEcf::SentDocumentDetail](docs/SentDocumentDetail.md)
  - [PronesoftEcf::SentDocumentListResponse](docs/SentDocumentListResponse.md)
  - [PronesoftEcf::SentDocumentSummary](docs/SentDocumentSummary.md)
  - [PronesoftEcf::SentDocumentSummaryBusiness](docs/SentDocumentSummaryBusiness.md)
+ - [PronesoftEcf::SequenceDepletedPayload](docs/SequenceDepletedPayload.md)
+ - [PronesoftEcf::SequenceVoidedPayload](docs/SequenceVoidedPayload.md)
  - [PronesoftEcf::StartCertification200Response](docs/StartCertification200Response.md)
  - [PronesoftEcf::StartCertificationRequest](docs/StartCertificationRequest.md)
  - [PronesoftEcf::Subquantity](docs/Subquantity.md)
@@ -267,6 +294,7 @@ Class | Method | HTTP request | Description
  - [PronesoftEcf::WebhookConfigResponse](docs/WebhookConfigResponse.md)
  - [PronesoftEcf::WebhookEventType](docs/WebhookEventType.md)
  - [PronesoftEcf::WebhookNotificationPayload](docs/WebhookNotificationPayload.md)
+ - [PronesoftEcf::WebhookNotificationPayloadData](docs/WebhookNotificationPayloadData.md)
  - [PronesoftEcf::WebhookStats](docs/WebhookStats.md)
  - [PronesoftEcf::WebhookStatsStats](docs/WebhookStatsStats.md)
 
@@ -286,28 +314,28 @@ Authentication schemes defined for the API:
 - **Flow**: application
 - **Authorization URL**: 
 - **Scopes**: 
-  - business:read: Read company data.
-  - business:create: Create a new company.
-  - business:update: Update company data.
-  - members:read: View team members.
-  - members:invite: Invite new members.
-  - members:revoke: Revoke member access.
-  - certificates:read: View digital certificates.
-  - certificates:upload: Upload new certificates.
-  - certificates:update: Update existing certificates.
-  - documents:read: List and view document details.
-  - documents:create: Create drafts or internal documents.
-  - documents:send: Submit e-CF to the DGII.
-  - documents:receive: Receive e-CF from third parties.
-  - documents:update: Modify document metadata.
-  - approvals:read: View approval statuses.
-  - approvals:commercial: Perform commercial approvals or rejections.
-  - sequences:read: View NCF/e-NCF ranges.
-  - sequences:create: Request or add new sequences.
-  - sequences:update: Modify sequence configurations.
-  - sequences:cancel: Cancel unused sequences.
-  - business_info:read: Access dashboard statistics and metrics.
-  - certification:read: View DGII certification progress.
-  - certification:write: Execute automated DGII certification tests.
-  - reports:read: Generate and export reports (e.g. format 606).
+  - business:read: Consultar datos de la empresa.
+  - business:create: Crear una nueva empresa.
+  - business:update: Actualizar datos de la empresa.
+  - members:read: Ver miembros del equipo.
+  - members:invite: Invitar nuevos miembros.
+  - members:revoke: Revocar acceso de miembros.
+  - certificates:read: Ver certificados digitales.
+  - certificates:upload: Subir nuevos certificados.
+  - certificates:update: Actualizar certificados existentes.
+  - documents:read: Listar y consultar detalles de documentos.
+  - documents:create: Crear borradores o documentos internos.
+  - documents:send: Enviar e-CF a la DGII.
+  - documents:receive: Recibir e-CF de terceros.
+  - documents:update: Modificar metadatos de documentos.
+  - approvals:read: Ver estados de aprobación.
+  - approvals:commercial: Realizar aprobaciones o rechazos comerciales.
+  - sequences:read: Ver rangos de NCF/e-NCF.
+  - sequences:create: Solicitar o agregar nuevas secuencias.
+  - sequences:update: Modificar configuraciones de secuencias.
+  - sequences:cancel: Cancelar secuencias no utilizadas.
+  - business_info:read: Acceder a estadísticas y métricas del dashboard.
+  - certification:read: Ver progreso de certificación DGII.
+  - certification:write: Ejecutar pruebas de certificación automática DGII.
+  - reports:read: Generar y exportar reportes (ej. formato 606).
 

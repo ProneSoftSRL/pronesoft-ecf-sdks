@@ -4,18 +4,23 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **tracking_id** | **String** |  | [optional] |
-| **estado** | **String** |  | [optional] |
-| **track_id** | **String** |  | [optional] |
-| **numero_control** | **String** |  | [optional] |
-| **status** | [**DocumentStatus**](DocumentStatus.md) |  | [optional] |
-| **encf** | **String** |  | [optional] |
-| **business_rnc** | **String** |  | [optional] |
-| **environment** | [**Environment**](Environment.md) |  | [optional] |
-| **received_at** | **Time** |  | [optional] |
-| **mensajes** | [**Array&lt;DgiiMessage&gt;**](DgiiMessage.md) |  | [optional] |
-| **logs** | [**Array&lt;ProcessingLog&gt;**](ProcessingLog.md) |  | [optional] |
-| **source** | **String** |  | [optional] |
+| **id** | **String** | ID interno del documento. |  |
+| **stamp_date** | **Date** | Fecha de emisión del documento (YYYY-MM-DD). | [optional] |
+| **status** | **String** | Estado del proceso de envío a DGII. |  |
+| **legal_status** | **String** | Estado fiscal según la respuesta de DGII. null mientras no hay respuesta. | [optional] |
+| **company_identification** | [**EcfSubmitResponseCompanyIdentification**](EcfSubmitResponseCompanyIdentification.md) |  |  |
+| **track_id** | **String** | ID de seguimiento asignado por DGII. | [optional] |
+| **document_number** | **String** | Número de control electrónico (e-NCF). | [optional] |
+| **encf** | **String** | Número e-NCF del documento. | [optional] |
+| **contingency_mode** | **Boolean** | true si fue emitido en modo contingencia. | [optional] |
+| **contingency_message** | **String** | Mensaje oficial DGII cuando contingencyMode es true. | [optional] |
+| **document_stamp_url** | **String** | URL del código QR del documento. | [optional] |
+| **pdf** | **String** | URL pre-firmada del PDF (expira en 1 hora). | [optional] |
+| **xml_url** | **String** | URL pre-firmada del XML firmado (expira en 1 hora). | [optional] |
+| **signature_date** | **Time** | Fecha y hora de la firma digital. | [optional] |
+| **security_code** | **String** | Código de seguridad del documento. | [optional] |
+| **sequence_consumed** | **Boolean** | true si DGII confirmó el consumo de la secuencia. |  |
+| **government_response** | **Hash&lt;String, Object&gt;** | Respuesta completa de DGII (disponible cuando status es FINISHED). | [optional] |
 
 ## Example
 
@@ -23,18 +28,23 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::EcfStatusResponse.new(
-  tracking_id: null,
-  estado: null,
-  track_id: null,
-  numero_control: null,
+  id: null,
+  stamp_date: null,
   status: null,
+  legal_status: null,
+  company_identification: null,
+  track_id: null,
+  document_number: null,
   encf: null,
-  business_rnc: null,
-  environment: null,
-  received_at: null,
-  mensajes: null,
-  logs: null,
-  source: null
+  contingency_mode: null,
+  contingency_message: null,
+  document_stamp_url: null,
+  pdf: null,
+  xml_url: null,
+  signature_date: null,
+  security_code: null,
+  sequence_consumed: null,
+  government_response: null
 )
 ```
 

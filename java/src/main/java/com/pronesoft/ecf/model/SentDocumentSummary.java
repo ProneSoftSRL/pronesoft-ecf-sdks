@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -19,14 +19,13 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.pronesoft.ecf.model.DocumentStatus;
+import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.SentDocumentSummaryBusiness;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,7 +53,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * SentDocumentSummary
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class SentDocumentSummary {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -66,15 +65,75 @@ public class SentDocumentSummary {
   @javax.annotation.Nullable
   private String encf;
 
+  /**
+   * Gets or Sets status
+   */
+  @JsonAdapter(StatusEnum.Adapter.class)
+  public enum StatusEnum {
+    APPROVED("APPROVED"),
+    
+    REJECTED("REJECTED"),
+    
+    IN_PROCESS("IN_PROCESS"),
+    
+    CONDITIONALLY_APPROVED("CONDITIONALLY_APPROVED"),
+    
+    ERROR("ERROR"),
+    
+    ERROR_COMUNICATION("ERROR_COMUNICATION");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<StatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return StatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
+  }
+
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
   @javax.annotation.Nullable
-  private DocumentStatus status;
+  private StatusEnum status;
 
-  public static final String SERIALIZED_NAME_STATUS_DISPLAY = "statusDisplay";
-  @SerializedName(SERIALIZED_NAME_STATUS_DISPLAY)
+  public static final String SERIALIZED_NAME_STATUS_LABEL = "statusLabel";
+  @SerializedName(SERIALIZED_NAME_STATUS_LABEL)
   @javax.annotation.Nullable
-  private String statusDisplay;
+  private String statusLabel;
 
   public static final String SERIALIZED_NAME_TRACK_ID = "trackId";
   @SerializedName(SERIALIZED_NAME_TRACK_ID)
@@ -86,10 +145,15 @@ public class SentDocumentSummary {
   @javax.annotation.Nullable
   private String documentType;
 
-  public static final String SERIALIZED_NAME_TOTAL_AMOUNT = "totalAmount";
-  @SerializedName(SERIALIZED_NAME_TOTAL_AMOUNT)
+  public static final String SERIALIZED_NAME_ISSUER_RNC = "issuerRnc";
+  @SerializedName(SERIALIZED_NAME_ISSUER_RNC)
   @javax.annotation.Nullable
-  private BigDecimal totalAmount;
+  private String issuerRnc;
+
+  public static final String SERIALIZED_NAME_ENVIRONMENT = "environment";
+  @SerializedName(SERIALIZED_NAME_ENVIRONMENT)
+  @javax.annotation.Nullable
+  private Environment environment;
 
   public static final String SERIALIZED_NAME_RECEIVED_AT = "receivedAt";
   @SerializedName(SERIALIZED_NAME_RECEIVED_AT)
@@ -100,11 +164,6 @@ public class SentDocumentSummary {
   @SerializedName(SERIALIZED_NAME_CREATED_AT)
   @javax.annotation.Nullable
   private OffsetDateTime createdAt;
-
-  public static final String SERIALIZED_NAME_XML_URL = "xmlUrl";
-  @SerializedName(SERIALIZED_NAME_XML_URL)
-  @javax.annotation.Nullable
-  private URI xmlUrl;
 
   public static final String SERIALIZED_NAME_BUSINESS = "business";
   @SerializedName(SERIALIZED_NAME_BUSINESS)
@@ -152,7 +211,7 @@ public class SentDocumentSummary {
   }
 
 
-  public SentDocumentSummary status(@javax.annotation.Nullable DocumentStatus status) {
+  public SentDocumentSummary status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -162,31 +221,31 @@ public class SentDocumentSummary {
    * @return status
    */
   @javax.annotation.Nullable
-  public DocumentStatus getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(@javax.annotation.Nullable DocumentStatus status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 
 
-  public SentDocumentSummary statusDisplay(@javax.annotation.Nullable String statusDisplay) {
-    this.statusDisplay = statusDisplay;
+  public SentDocumentSummary statusLabel(@javax.annotation.Nullable String statusLabel) {
+    this.statusLabel = statusLabel;
     return this;
   }
 
   /**
-   * Get statusDisplay
-   * @return statusDisplay
+   * Get statusLabel
+   * @return statusLabel
    */
   @javax.annotation.Nullable
-  public String getStatusDisplay() {
-    return statusDisplay;
+  public String getStatusLabel() {
+    return statusLabel;
   }
 
-  public void setStatusDisplay(@javax.annotation.Nullable String statusDisplay) {
-    this.statusDisplay = statusDisplay;
+  public void setStatusLabel(@javax.annotation.Nullable String statusLabel) {
+    this.statusLabel = statusLabel;
   }
 
 
@@ -228,22 +287,41 @@ public class SentDocumentSummary {
   }
 
 
-  public SentDocumentSummary totalAmount(@javax.annotation.Nullable BigDecimal totalAmount) {
-    this.totalAmount = totalAmount;
+  public SentDocumentSummary issuerRnc(@javax.annotation.Nullable String issuerRnc) {
+    this.issuerRnc = issuerRnc;
     return this;
   }
 
   /**
-   * Get totalAmount
-   * @return totalAmount
+   * Get issuerRnc
+   * @return issuerRnc
    */
   @javax.annotation.Nullable
-  public BigDecimal getTotalAmount() {
-    return totalAmount;
+  public String getIssuerRnc() {
+    return issuerRnc;
   }
 
-  public void setTotalAmount(@javax.annotation.Nullable BigDecimal totalAmount) {
-    this.totalAmount = totalAmount;
+  public void setIssuerRnc(@javax.annotation.Nullable String issuerRnc) {
+    this.issuerRnc = issuerRnc;
+  }
+
+
+  public SentDocumentSummary environment(@javax.annotation.Nullable Environment environment) {
+    this.environment = environment;
+    return this;
+  }
+
+  /**
+   * Get environment
+   * @return environment
+   */
+  @javax.annotation.Nullable
+  public Environment getEnvironment() {
+    return environment;
+  }
+
+  public void setEnvironment(@javax.annotation.Nullable Environment environment) {
+    this.environment = environment;
   }
 
 
@@ -285,25 +363,6 @@ public class SentDocumentSummary {
   }
 
 
-  public SentDocumentSummary xmlUrl(@javax.annotation.Nullable URI xmlUrl) {
-    this.xmlUrl = xmlUrl;
-    return this;
-  }
-
-  /**
-   * Get xmlUrl
-   * @return xmlUrl
-   */
-  @javax.annotation.Nullable
-  public URI getXmlUrl() {
-    return xmlUrl;
-  }
-
-  public void setXmlUrl(@javax.annotation.Nullable URI xmlUrl) {
-    this.xmlUrl = xmlUrl;
-  }
-
-
   public SentDocumentSummary business(@javax.annotation.Nullable SentDocumentSummaryBusiness business) {
     this.business = business;
     return this;
@@ -336,19 +395,30 @@ public class SentDocumentSummary {
     return Objects.equals(this.id, sentDocumentSummary.id) &&
         Objects.equals(this.encf, sentDocumentSummary.encf) &&
         Objects.equals(this.status, sentDocumentSummary.status) &&
-        Objects.equals(this.statusDisplay, sentDocumentSummary.statusDisplay) &&
+        Objects.equals(this.statusLabel, sentDocumentSummary.statusLabel) &&
         Objects.equals(this.trackId, sentDocumentSummary.trackId) &&
         Objects.equals(this.documentType, sentDocumentSummary.documentType) &&
-        Objects.equals(this.totalAmount, sentDocumentSummary.totalAmount) &&
+        Objects.equals(this.issuerRnc, sentDocumentSummary.issuerRnc) &&
+        Objects.equals(this.environment, sentDocumentSummary.environment) &&
         Objects.equals(this.receivedAt, sentDocumentSummary.receivedAt) &&
         Objects.equals(this.createdAt, sentDocumentSummary.createdAt) &&
-        Objects.equals(this.xmlUrl, sentDocumentSummary.xmlUrl) &&
         Objects.equals(this.business, sentDocumentSummary.business);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, encf, status, statusDisplay, trackId, documentType, totalAmount, receivedAt, createdAt, xmlUrl, business);
+    return Objects.hash(id, encf, status, statusLabel, trackId, documentType, issuerRnc, environment, receivedAt, createdAt, business);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -358,13 +428,13 @@ public class SentDocumentSummary {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    encf: ").append(toIndentedString(encf)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    statusDisplay: ").append(toIndentedString(statusDisplay)).append("\n");
+    sb.append("    statusLabel: ").append(toIndentedString(statusLabel)).append("\n");
     sb.append("    trackId: ").append(toIndentedString(trackId)).append("\n");
     sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
-    sb.append("    totalAmount: ").append(toIndentedString(totalAmount)).append("\n");
+    sb.append("    issuerRnc: ").append(toIndentedString(issuerRnc)).append("\n");
+    sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
     sb.append("    receivedAt: ").append(toIndentedString(receivedAt)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    xmlUrl: ").append(toIndentedString(xmlUrl)).append("\n");
     sb.append("    business: ").append(toIndentedString(business)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -384,7 +454,7 @@ public class SentDocumentSummary {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "encf", "status", "statusDisplay", "trackId", "documentType", "totalAmount", "receivedAt", "createdAt", "xmlUrl", "business"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "encf", "status", "statusLabel", "trackId", "documentType", "issuerRnc", "environment", "receivedAt", "createdAt", "business"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -417,12 +487,15 @@ public class SentDocumentSummary {
       if ((jsonObj.get("encf") != null && !jsonObj.get("encf").isJsonNull()) && !jsonObj.get("encf").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `encf` to be a primitive type in the JSON string but got `%s`", jsonObj.get("encf").toString()));
       }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
       // validate the optional field `status`
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
-        DocumentStatus.validateJsonElement(jsonObj.get("status"));
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
-      if ((jsonObj.get("statusDisplay") != null && !jsonObj.get("statusDisplay").isJsonNull()) && !jsonObj.get("statusDisplay").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `statusDisplay` to be a primitive type in the JSON string but got `%s`", jsonObj.get("statusDisplay").toString()));
+      if ((jsonObj.get("statusLabel") != null && !jsonObj.get("statusLabel").isJsonNull()) && !jsonObj.get("statusLabel").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `statusLabel` to be a primitive type in the JSON string but got `%s`", jsonObj.get("statusLabel").toString()));
       }
       if ((jsonObj.get("trackId") != null && !jsonObj.get("trackId").isJsonNull()) && !jsonObj.get("trackId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `trackId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("trackId").toString()));
@@ -430,8 +503,12 @@ public class SentDocumentSummary {
       if ((jsonObj.get("documentType") != null && !jsonObj.get("documentType").isJsonNull()) && !jsonObj.get("documentType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentType").toString()));
       }
-      if ((jsonObj.get("xmlUrl") != null && !jsonObj.get("xmlUrl").isJsonNull()) && !jsonObj.get("xmlUrl").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `xmlUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("xmlUrl").toString()));
+      if ((jsonObj.get("issuerRnc") != null && !jsonObj.get("issuerRnc").isJsonNull()) && !jsonObj.get("issuerRnc").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerRnc").toString()));
+      }
+      // validate the optional field `environment`
+      if (jsonObj.get("environment") != null && !jsonObj.get("environment").isJsonNull()) {
+        Environment.validateJsonElement(jsonObj.get("environment"));
       }
       // validate the optional field `business`
       if (jsonObj.get("business") != null && !jsonObj.get("business").isJsonNull()) {

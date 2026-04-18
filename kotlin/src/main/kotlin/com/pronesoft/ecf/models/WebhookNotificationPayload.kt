@@ -24,37 +24,40 @@
 package com.pronesoft.ecf.models
 
 import com.pronesoft.ecf.models.WebhookEventType
+import com.pronesoft.ecf.models.WebhookNotificationPayloadData
 
 import com.google.gson.annotations.SerializedName
 
 /**
- * Payload sent to your webhook URL when an event occurs. Validate using header X-Webhook-Signature: sha256=<hmac>. Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp. 
+ * Envelope enviado a tu URL de webhook cuando ocurre un evento. Valida la autenticidad con el header `X-Webhook-Signature: sha256=<hmac>`. Headers adicionales: `X-Webhook-Event`, `X-Webhook-ID`, `X-Webhook-Timestamp`. 
  *
- * @param id Unique notification ID (evt_xxx format). Use for deduplication.
+ * @param id ID único de la notificación. Úsalo para deduplicar entregas.
  * @param event 
- * @param timestamp 
- * @param businessRnc 
+ * @param timestamp Fecha y hora del evento en ISO 8601.
+ * @param businessRnc RNC de la empresa que generó el evento.
  * @param `data` 
  */
 
 
 data class WebhookNotificationPayload (
 
-    /* Unique notification ID (evt_xxx format). Use for deduplication. */
+    /* ID único de la notificación. Úsalo para deduplicar entregas. */
     @SerializedName("id")
     val id: kotlin.String,
 
     @SerializedName("event")
     val event: WebhookEventType,
 
+    /* Fecha y hora del evento en ISO 8601. */
     @SerializedName("timestamp")
     val timestamp: java.time.OffsetDateTime,
 
+    /* RNC de la empresa que generó el evento. */
     @SerializedName("businessRnc")
     val businessRnc: kotlin.String,
 
     @SerializedName("data")
-    val `data`: kotlin.Any
+    val `data`: WebhookNotificationPayloadData
 
 ) {
 

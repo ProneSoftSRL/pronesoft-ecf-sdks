@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -15,30 +15,33 @@
 
 import * as runtime from '../runtime';
 import type {
+  ApprovalItem,
   ApprovalListResponse,
   ErrorResponse,
 } from '../models/index';
 import {
+    ApprovalItemFromJSON,
+    ApprovalItemToJSON,
     ApprovalListResponseFromJSON,
     ApprovalListResponseToJSON,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
 } from '../models/index';
 
-export interface ListApprovalsRequest {
-    businessId: string;
-    page?: number;
-    limit?: number;
+export interface GetCommercialApprovalByIdRequest {
+    id: string;
+    xTenantId?: string;
+}
+
+export interface ListCommercialApprovalsRequest {
+    xTenantId?: string;
     ecf?: string;
-    documentType?: string;
-    status?: ListApprovalsStatusEnum;
+    type?: string;
+    status?: ListCommercialApprovalsStatusEnum;
     dateFrom?: Date;
     dateTo?: Date;
-    minAmount?: number;
-    maxAmount?: number;
-    search?: string;
-    sortBy?: ListApprovalsSortByEnum;
-    sortOrder?: ListApprovalsSortOrderEnum;
+    page?: number;
+    limit?: number;
 }
 
 /**
@@ -49,51 +52,66 @@ export interface ListApprovalsRequest {
  */
 export interface CommercialApprovalsApiInterface {
     /**
-     * Creates request options for listApprovals without sending the request
-     * @param {string} businessId 
-     * @param {number} [page] 
-     * @param {number} [limit] 
-     * @param {string} [ecf] 
-     * @param {string} [documentType] 
-     * @param {1 | 2 | 3 | 4} [status] 
-     * @param {Date} [dateFrom] 
-     * @param {Date} [dateTo] 
-     * @param {number} [minAmount] 
-     * @param {number} [maxAmount] 
-     * @param {string} [search] 
-     * @param {'createdAt' | 'amount' | 'status'} [sortBy] 
-     * @param {'asc' | 'desc'} [sortOrder] 
+     * Creates request options for getCommercialApprovalById without sending the request
+     * @param {string} id 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
      * @throws {RequiredError}
      * @memberof CommercialApprovalsApiInterface
      */
-    listApprovalsRequestOpts(requestParameters: ListApprovalsRequest): Promise<runtime.RequestOpts>;
+    getCommercialApprovalByIdRequestOpts(requestParameters: GetCommercialApprovalByIdRequest): Promise<runtime.RequestOpts>;
 
     /**
      * 
-     * @summary List commercial approvals
-     * @param {string} businessId 
-     * @param {number} [page] 
-     * @param {number} [limit] 
-     * @param {string} [ecf] 
-     * @param {string} [documentType] 
-     * @param {1 | 2 | 3 | 4} [status] 
-     * @param {Date} [dateFrom] 
-     * @param {Date} [dateTo] 
-     * @param {number} [minAmount] 
-     * @param {number} [maxAmount] 
-     * @param {string} [search] 
-     * @param {'createdAt' | 'amount' | 'status'} [sortBy] 
-     * @param {'asc' | 'desc'} [sortOrder] 
+     * @summary Obtener aprobación comercial por ID
+     * @param {string} id 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CommercialApprovalsApiInterface
      */
-    listApprovalsRaw(requestParameters: ListApprovalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApprovalListResponse>>;
+    getCommercialApprovalByIdRaw(requestParameters: GetCommercialApprovalByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApprovalItem>>;
 
     /**
-     * List commercial approvals
+     * Obtener aprobación comercial por ID
      */
-    listApprovals(requestParameters: ListApprovalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApprovalListResponse>;
+    getCommercialApprovalById(requestParameters: GetCommercialApprovalByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApprovalItem>;
+
+    /**
+     * Creates request options for listCommercialApprovals without sending the request
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [ecf] 
+     * @param {string} [type] Tipo de documento
+     * @param {1 | 2 | 3 | 4} [status] 
+     * @param {Date} [dateFrom] 
+     * @param {Date} [dateTo] 
+     * @param {number} [page] 
+     * @param {number} [limit] 
+     * @throws {RequiredError}
+     * @memberof CommercialApprovalsApiInterface
+     */
+    listCommercialApprovalsRequestOpts(requestParameters: ListCommercialApprovalsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Listar aprobaciones comerciales
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [ecf] 
+     * @param {string} [type] Tipo de documento
+     * @param {1 | 2 | 3 | 4} [status] 
+     * @param {Date} [dateFrom] 
+     * @param {Date} [dateTo] 
+     * @param {number} [page] 
+     * @param {number} [limit] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CommercialApprovalsApiInterface
+     */
+    listCommercialApprovalsRaw(requestParameters: ListCommercialApprovalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApprovalListResponse>>;
+
+    /**
+     * Listar aprobaciones comerciales
+     */
+    listCommercialApprovals(requestParameters: ListCommercialApprovalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApprovalListResponse>;
 
 }
 
@@ -103,87 +121,32 @@ export interface CommercialApprovalsApiInterface {
 export class CommercialApprovalsApi extends runtime.BaseAPI implements CommercialApprovalsApiInterface {
 
     /**
-     * Creates request options for listApprovals without sending the request
+     * Creates request options for getCommercialApprovalById without sending the request
      */
-    async listApprovalsRequestOpts(requestParameters: ListApprovalsRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['businessId'] == null) {
+    async getCommercialApprovalByIdRequestOpts(requestParameters: GetCommercialApprovalByIdRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
-                'businessId',
-                'Required parameter "businessId" was null or undefined when calling listApprovals().'
+                'id',
+                'Required parameter "id" was null or undefined when calling getCommercialApprovalById().'
             );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters['businessId'] != null) {
-            queryParameters['businessId'] = requestParameters['businessId'];
-        }
-
-        if (requestParameters['page'] != null) {
-            queryParameters['page'] = requestParameters['page'];
-        }
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        if (requestParameters['ecf'] != null) {
-            queryParameters['ecf'] = requestParameters['ecf'];
-        }
-
-        if (requestParameters['documentType'] != null) {
-            queryParameters['documentType'] = requestParameters['documentType'];
-        }
-
-        if (requestParameters['status'] != null) {
-            queryParameters['status'] = requestParameters['status'];
-        }
-
-        if (requestParameters['dateFrom'] != null) {
-            queryParameters['dateFrom'] = (requestParameters['dateFrom'] as any).toISOString();
-        }
-
-        if (requestParameters['dateTo'] != null) {
-            queryParameters['dateTo'] = (requestParameters['dateTo'] as any).toISOString();
-        }
-
-        if (requestParameters['minAmount'] != null) {
-            queryParameters['minAmount'] = requestParameters['minAmount'];
-        }
-
-        if (requestParameters['maxAmount'] != null) {
-            queryParameters['maxAmount'] = requestParameters['maxAmount'];
-        }
-
-        if (requestParameters['search'] != null) {
-            queryParameters['search'] = requestParameters['search'];
-        }
-
-        if (requestParameters['sortBy'] != null) {
-            queryParameters['sortBy'] = requestParameters['sortBy'];
-        }
-
-        if (requestParameters['sortOrder'] != null) {
-            queryParameters['sortOrder'] = requestParameters['sortOrder'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
+        }
 
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["approvals:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
 
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/documents/approvals/all`;
+        let urlPath = `/documents/approvals/{id}`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
 
         return {
             path: urlPath,
@@ -194,20 +157,94 @@ export class CommercialApprovalsApi extends runtime.BaseAPI implements Commercia
     }
 
     /**
-     * List commercial approvals
+     * Obtener aprobación comercial por ID
      */
-    async listApprovalsRaw(requestParameters: ListApprovalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApprovalListResponse>> {
-        const requestOptions = await this.listApprovalsRequestOpts(requestParameters);
+    async getCommercialApprovalByIdRaw(requestParameters: GetCommercialApprovalByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApprovalItem>> {
+        const requestOptions = await this.getCommercialApprovalByIdRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ApprovalItemFromJSON(jsonValue));
+    }
+
+    /**
+     * Obtener aprobación comercial por ID
+     */
+    async getCommercialApprovalById(requestParameters: GetCommercialApprovalByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApprovalItem> {
+        const response = await this.getCommercialApprovalByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for listCommercialApprovals without sending the request
+     */
+    async listCommercialApprovalsRequestOpts(requestParameters: ListCommercialApprovalsRequest): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        if (requestParameters['ecf'] != null) {
+            queryParameters['ecf'] = requestParameters['ecf'];
+        }
+
+        if (requestParameters['type'] != null) {
+            queryParameters['type'] = requestParameters['type'];
+        }
+
+        if (requestParameters['status'] != null) {
+            queryParameters['status'] = requestParameters['status'];
+        }
+
+        if (requestParameters['dateFrom'] != null) {
+            queryParameters['dateFrom'] = (requestParameters['dateFrom'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['dateTo'] != null) {
+            queryParameters['dateTo'] = (requestParameters['dateTo'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["approvals:read"]);
+        }
+
+
+        let urlPath = `/documents/approvals`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Listar aprobaciones comerciales
+     */
+    async listCommercialApprovalsRaw(requestParameters: ListCommercialApprovalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApprovalListResponse>> {
+        const requestOptions = await this.listCommercialApprovalsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ApprovalListResponseFromJSON(jsonValue));
     }
 
     /**
-     * List commercial approvals
+     * Listar aprobaciones comerciales
      */
-    async listApprovals(requestParameters: ListApprovalsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApprovalListResponse> {
-        const response = await this.listApprovalsRaw(requestParameters, initOverrides);
+    async listCommercialApprovals(requestParameters: ListCommercialApprovalsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ApprovalListResponse> {
+        const response = await this.listCommercialApprovalsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -216,27 +253,10 @@ export class CommercialApprovalsApi extends runtime.BaseAPI implements Commercia
 /**
  * @export
  */
-export const ListApprovalsStatusEnum = {
+export const ListCommercialApprovalsStatusEnum = {
     NUMBER_1: 1,
     NUMBER_2: 2,
     NUMBER_3: 3,
     NUMBER_4: 4
 } as const;
-export type ListApprovalsStatusEnum = typeof ListApprovalsStatusEnum[keyof typeof ListApprovalsStatusEnum];
-/**
- * @export
- */
-export const ListApprovalsSortByEnum = {
-    CreatedAt: 'createdAt',
-    Amount: 'amount',
-    Status: 'status'
-} as const;
-export type ListApprovalsSortByEnum = typeof ListApprovalsSortByEnum[keyof typeof ListApprovalsSortByEnum];
-/**
- * @export
- */
-export const ListApprovalsSortOrderEnum = {
-    Asc: 'asc',
-    Desc: 'desc'
-} as const;
-export type ListApprovalsSortOrderEnum = typeof ListApprovalsSortOrderEnum[keyof typeof ListApprovalsSortOrderEnum];
+export type ListCommercialApprovalsStatusEnum = typeof ListCommercialApprovalsStatusEnum[keyof typeof ListCommercialApprovalsStatusEnum];

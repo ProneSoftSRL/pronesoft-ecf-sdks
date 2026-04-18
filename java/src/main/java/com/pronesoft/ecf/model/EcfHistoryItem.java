@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -19,15 +19,12 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.pronesoft.ecf.model.DocumentStatus;
 import com.pronesoft.ecf.model.Environment;
-import com.pronesoft.ecf.model.ProcessingLog;
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,7 +52,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * EcfHistoryItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class EcfHistoryItem {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -77,30 +74,147 @@ public class EcfHistoryItem {
   @javax.annotation.Nullable
   private String documentType;
 
+  /**
+   * Gets or Sets status
+   */
+  @JsonAdapter(StatusEnum.Adapter.class)
+  public enum StatusEnum {
+    REGISTERED("REGISTERED"),
+    
+    TO_SEND("TO_SEND"),
+    
+    WAITING_RESPONSE("WAITING_RESPONSE"),
+    
+    FINISHED("FINISHED");
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<StatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return StatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
+  }
+
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
   @javax.annotation.Nullable
-  private DocumentStatus status;
+  private StatusEnum status;
 
-  public static final String SERIALIZED_NAME_RNC = "rnc";
-  @SerializedName(SERIALIZED_NAME_RNC)
+  /**
+   * Gets or Sets legalStatus
+   */
+  @JsonAdapter(LegalStatusEnum.Adapter.class)
+  public enum LegalStatusEnum {
+    ACCEPTED("ACCEPTED"),
+    
+    ACCEPTED_WITH_OBSERVATIONS("ACCEPTED_WITH_OBSERVATIONS"),
+    
+    REJECTED("REJECTED"),
+    
+    ERROR("ERROR");
+
+    private String value;
+
+    LegalStatusEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static LegalStatusEnum fromValue(String value) {
+      for (LegalStatusEnum b : LegalStatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      return null;
+    }
+
+    public static class Adapter extends TypeAdapter<LegalStatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final LegalStatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public LegalStatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return LegalStatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      LegalStatusEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_LEGAL_STATUS = "legalStatus";
+  @SerializedName(SERIALIZED_NAME_LEGAL_STATUS)
   @javax.annotation.Nullable
-  private String rnc;
+  private LegalStatusEnum legalStatus;
+
+  public static final String SERIALIZED_NAME_ISSUER_RNC = "issuerRnc";
+  @SerializedName(SERIALIZED_NAME_ISSUER_RNC)
+  @javax.annotation.Nullable
+  private String issuerRnc;
 
   public static final String SERIALIZED_NAME_ENVIRONMENT = "environment";
   @SerializedName(SERIALIZED_NAME_ENVIRONMENT)
   @javax.annotation.Nullable
   private Environment environment;
 
+  public static final String SERIALIZED_NAME_RECEIVED_AT = "receivedAt";
+  @SerializedName(SERIALIZED_NAME_RECEIVED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime receivedAt;
+
   public static final String SERIALIZED_NAME_CREATED_AT = "createdAt";
   @SerializedName(SERIALIZED_NAME_CREATED_AT)
   @javax.annotation.Nullable
   private OffsetDateTime createdAt;
-
-  public static final String SERIALIZED_NAME_LOGS = "logs";
-  @SerializedName(SERIALIZED_NAME_LOGS)
-  @javax.annotation.Nullable
-  private List<ProcessingLog> logs = new ArrayList<>();
 
   public EcfHistoryItem() {
   }
@@ -181,7 +295,7 @@ public class EcfHistoryItem {
   }
 
 
-  public EcfHistoryItem status(@javax.annotation.Nullable DocumentStatus status) {
+  public EcfHistoryItem status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -191,31 +305,50 @@ public class EcfHistoryItem {
    * @return status
    */
   @javax.annotation.Nullable
-  public DocumentStatus getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(@javax.annotation.Nullable DocumentStatus status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 
 
-  public EcfHistoryItem rnc(@javax.annotation.Nullable String rnc) {
-    this.rnc = rnc;
+  public EcfHistoryItem legalStatus(@javax.annotation.Nullable LegalStatusEnum legalStatus) {
+    this.legalStatus = legalStatus;
     return this;
   }
 
   /**
-   * Get rnc
-   * @return rnc
+   * Get legalStatus
+   * @return legalStatus
    */
   @javax.annotation.Nullable
-  public String getRnc() {
-    return rnc;
+  public LegalStatusEnum getLegalStatus() {
+    return legalStatus;
   }
 
-  public void setRnc(@javax.annotation.Nullable String rnc) {
-    this.rnc = rnc;
+  public void setLegalStatus(@javax.annotation.Nullable LegalStatusEnum legalStatus) {
+    this.legalStatus = legalStatus;
+  }
+
+
+  public EcfHistoryItem issuerRnc(@javax.annotation.Nullable String issuerRnc) {
+    this.issuerRnc = issuerRnc;
+    return this;
+  }
+
+  /**
+   * Get issuerRnc
+   * @return issuerRnc
+   */
+  @javax.annotation.Nullable
+  public String getIssuerRnc() {
+    return issuerRnc;
+  }
+
+  public void setIssuerRnc(@javax.annotation.Nullable String issuerRnc) {
+    this.issuerRnc = issuerRnc;
   }
 
 
@@ -238,6 +371,25 @@ public class EcfHistoryItem {
   }
 
 
+  public EcfHistoryItem receivedAt(@javax.annotation.Nullable OffsetDateTime receivedAt) {
+    this.receivedAt = receivedAt;
+    return this;
+  }
+
+  /**
+   * Get receivedAt
+   * @return receivedAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getReceivedAt() {
+    return receivedAt;
+  }
+
+  public void setReceivedAt(@javax.annotation.Nullable OffsetDateTime receivedAt) {
+    this.receivedAt = receivedAt;
+  }
+
+
   public EcfHistoryItem createdAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -257,33 +409,6 @@ public class EcfHistoryItem {
   }
 
 
-  public EcfHistoryItem logs(@javax.annotation.Nullable List<ProcessingLog> logs) {
-    this.logs = logs;
-    return this;
-  }
-
-  public EcfHistoryItem addLogsItem(ProcessingLog logsItem) {
-    if (this.logs == null) {
-      this.logs = new ArrayList<>();
-    }
-    this.logs.add(logsItem);
-    return this;
-  }
-
-  /**
-   * Get logs
-   * @return logs
-   */
-  @javax.annotation.Nullable
-  public List<ProcessingLog> getLogs() {
-    return logs;
-  }
-
-  public void setLogs(@javax.annotation.Nullable List<ProcessingLog> logs) {
-    this.logs = logs;
-  }
-
-
 
   @Override
   public boolean equals(Object o) {
@@ -299,15 +424,27 @@ public class EcfHistoryItem {
         Objects.equals(this.encf, ecfHistoryItem.encf) &&
         Objects.equals(this.documentType, ecfHistoryItem.documentType) &&
         Objects.equals(this.status, ecfHistoryItem.status) &&
-        Objects.equals(this.rnc, ecfHistoryItem.rnc) &&
+        Objects.equals(this.legalStatus, ecfHistoryItem.legalStatus) &&
+        Objects.equals(this.issuerRnc, ecfHistoryItem.issuerRnc) &&
         Objects.equals(this.environment, ecfHistoryItem.environment) &&
-        Objects.equals(this.createdAt, ecfHistoryItem.createdAt) &&
-        Objects.equals(this.logs, ecfHistoryItem.logs);
+        Objects.equals(this.receivedAt, ecfHistoryItem.receivedAt) &&
+        Objects.equals(this.createdAt, ecfHistoryItem.createdAt);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, trackId, encf, documentType, status, rnc, environment, createdAt, logs);
+    return Objects.hash(id, trackId, encf, documentType, status, legalStatus, issuerRnc, environment, receivedAt, createdAt);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -319,10 +456,11 @@ public class EcfHistoryItem {
     sb.append("    encf: ").append(toIndentedString(encf)).append("\n");
     sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    rnc: ").append(toIndentedString(rnc)).append("\n");
+    sb.append("    legalStatus: ").append(toIndentedString(legalStatus)).append("\n");
+    sb.append("    issuerRnc: ").append(toIndentedString(issuerRnc)).append("\n");
     sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
+    sb.append("    receivedAt: ").append(toIndentedString(receivedAt)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    logs: ").append(toIndentedString(logs)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -341,7 +479,7 @@ public class EcfHistoryItem {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "trackId", "encf", "documentType", "status", "rnc", "environment", "createdAt", "logs"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "trackId", "encf", "documentType", "status", "legalStatus", "issuerRnc", "environment", "receivedAt", "createdAt"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -380,30 +518,26 @@ public class EcfHistoryItem {
       if ((jsonObj.get("documentType") != null && !jsonObj.get("documentType").isJsonNull()) && !jsonObj.get("documentType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentType").toString()));
       }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
       // validate the optional field `status`
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
-        DocumentStatus.validateJsonElement(jsonObj.get("status"));
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
-      if ((jsonObj.get("rnc") != null && !jsonObj.get("rnc").isJsonNull()) && !jsonObj.get("rnc").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `rnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("rnc").toString()));
+      if ((jsonObj.get("legalStatus") != null && !jsonObj.get("legalStatus").isJsonNull()) && !jsonObj.get("legalStatus").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `legalStatus` to be a primitive type in the JSON string but got `%s`", jsonObj.get("legalStatus").toString()));
+      }
+      // validate the optional field `legalStatus`
+      if (jsonObj.get("legalStatus") != null && !jsonObj.get("legalStatus").isJsonNull()) {
+        LegalStatusEnum.validateJsonElement(jsonObj.get("legalStatus"));
+      }
+      if ((jsonObj.get("issuerRnc") != null && !jsonObj.get("issuerRnc").isJsonNull()) && !jsonObj.get("issuerRnc").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerRnc").toString()));
       }
       // validate the optional field `environment`
       if (jsonObj.get("environment") != null && !jsonObj.get("environment").isJsonNull()) {
         Environment.validateJsonElement(jsonObj.get("environment"));
-      }
-      if (jsonObj.get("logs") != null && !jsonObj.get("logs").isJsonNull()) {
-        JsonArray jsonArraylogs = jsonObj.getAsJsonArray("logs");
-        if (jsonArraylogs != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("logs").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `logs` to be an array in the JSON string but got `%s`", jsonObj.get("logs").toString()));
-          }
-
-          // validate the optional field `logs` (array)
-          for (int i = 0; i < jsonArraylogs.size(); i++) {
-            ProcessingLog.validateJsonElement(jsonArraylogs.get(i));
-          };
-        }
       }
   }
 

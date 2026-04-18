@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -15,26 +15,51 @@ use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
 
-/// struct for typed errors of method [`download_document`]
+/// struct for typed errors of method [`download_sent_document_xml`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum DownloadDocumentError {
+pub enum DownloadSentDocumentXmlError {
     Status401(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_document`]
+/// struct for typed errors of method [`get_sent_document_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GetDocumentError {
+pub enum GetSentDocumentByIdError {
     Status401(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_document_stats`]
+/// struct for typed errors of method [`get_sent_document_logs`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GetDocumentStatsError {
+pub enum GetSentDocumentLogsError {
+    Status404(),
+    Status401(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_sent_document_stats`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetSentDocumentStatsError {
+    Status401(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_sent_document_stats_by_environment`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetSentDocumentStatsByEnvironmentError {
+    Status401(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_sent_document_status_options`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetSentDocumentStatusOptionsError {
     Status401(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
@@ -48,21 +73,28 @@ pub enum ListSentDocumentsError {
 }
 
 
-pub async fn download_document(configuration: &configuration::Configuration, file_url: &str) -> Result<String, Error<DownloadDocumentError>> {
+pub async fn download_sent_document_xml(configuration: &configuration::Configuration, id: Option<&str>, file_url: Option<&str>, inline: Option<&str>) -> Result<String, Error<DownloadSentDocumentXmlError>> {
     // add a prefix to parameters to efficiently prevent name collisions
+    let p_query_id = id;
     let p_query_file_url = file_url;
+    let p_query_inline = inline;
 
     let uri_str = format!("{}/documents/download", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("fileUrl", &p_query_file_url.to_string())]);
+    if let Some(ref param_value) = p_query_id {
+        req_builder = req_builder.query(&[("id", &param_value.to_string())]);
+    }
+    if let Some(ref param_value) = p_query_file_url {
+        req_builder = req_builder.query(&[("fileUrl", &param_value.to_string())]);
+    }
+    if let Some(ref param_value) = p_query_inline {
+        req_builder = req_builder.query(&[("inline", &param_value.to_string())]);
+    }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
     if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
 
@@ -86,12 +118,12 @@ pub async fn download_document(configuration: &configuration::Configuration, fil
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<DownloadDocumentError> = serde_json::from_str(&content).ok();
+        let entity: Option<DownloadSentDocumentXmlError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn get_document(configuration: &configuration::Configuration, id: &str, x_tenant_id: Option<&str>) -> Result<models::SentDocumentDetail, Error<GetDocumentError>> {
+pub async fn get_sent_document_by_id(configuration: &configuration::Configuration, id: &str, x_tenant_id: Option<&str>) -> Result<models::SentDocumentDetail, Error<GetSentDocumentByIdError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_id = id;
     let p_header_x_tenant_id = x_tenant_id;
@@ -106,9 +138,6 @@ pub async fn get_document(configuration: &configuration::Configuration, id: &str
         req_builder = req_builder.header("x-tenant-id", param_value.to_string());
     }
     if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
 
@@ -132,22 +161,19 @@ pub async fn get_document(configuration: &configuration::Configuration, id: &str
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<GetDocumentError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetSentDocumentByIdError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn get_document_stats(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, period: Option<&str>) -> Result<models::DocumentStatsResponse, Error<GetDocumentStatsError>> {
+pub async fn get_sent_document_logs(configuration: &configuration::Configuration, id: &str, x_tenant_id: Option<&str>) -> Result<Vec<models::GetSentDocumentLogs200ResponseInner>, Error<GetSentDocumentLogsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_id = id;
     let p_header_x_tenant_id = x_tenant_id;
-    let p_query_period = period;
 
-    let uri_str = format!("{}/documents/stats/summary", configuration.base_path);
+    let uri_str = format!("{}/documents/logs/{id}", configuration.base_path, id=crate::apis::urlencode(p_path_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_query_period {
-        req_builder = req_builder.query(&[("period", &param_value.to_string())]);
-    }
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -157,7 +183,46 @@ pub async fn get_document_stats(configuration: &configuration::Configuration, x_
     if let Some(ref token) = configuration.oauth_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    if let Some(ref token) = configuration.bearer_access_token {
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::GetSentDocumentLogs200ResponseInner&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::GetSentDocumentLogs200ResponseInner&gt;`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GetSentDocumentLogsError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn get_sent_document_stats(configuration: &configuration::Configuration, x_tenant_id: Option<&str>) -> Result<models::DocumentStatsResponse, Error<GetSentDocumentStatsError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_header_x_tenant_id = x_tenant_id;
+
+    let uri_str = format!("{}/documents/stats/summary", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(param_value) = p_header_x_tenant_id {
+        req_builder = req_builder.header("x-tenant-id", param_value.to_string());
+    }
+    if let Some(ref token) = configuration.oauth_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
 
@@ -181,7 +246,86 @@ pub async fn get_document_stats(configuration: &configuration::Configuration, x_
         }
     } else {
         let content = resp.text().await?;
-        let entity: Option<GetDocumentStatsError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetSentDocumentStatsError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn get_sent_document_stats_by_environment(configuration: &configuration::Configuration, x_tenant_id: Option<&str>) -> Result<std::collections::HashMap<String, serde_json::Value>, Error<GetSentDocumentStatsByEnvironmentError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_header_x_tenant_id = x_tenant_id;
+
+    let uri_str = format!("{}/documents/stats/by-environment", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(param_value) = p_header_x_tenant_id {
+        req_builder = req_builder.header("x-tenant-id", param_value.to_string());
+    }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `std::collections::HashMap&lt;String, serde_json::Value&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `std::collections::HashMap&lt;String, serde_json::Value&gt;`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GetSentDocumentStatsByEnvironmentError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+pub async fn get_sent_document_status_options(configuration: &configuration::Configuration, ) -> Result<Vec<models::GetSentDocumentStatusOptions200ResponseInner>, Error<GetSentDocumentStatusOptionsError>> {
+
+    let uri_str = format!("{}/documents/status-options", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::GetSentDocumentStatusOptions200ResponseInner&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::GetSentDocumentStatusOptions200ResponseInner&gt;`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GetSentDocumentStatusOptionsError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
@@ -232,9 +376,6 @@ pub async fn list_sent_documents(configuration: &configuration::Configuration, x
         req_builder = req_builder.header("x-tenant-id", param_value.to_string());
     }
     if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
 

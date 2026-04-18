@@ -8,11 +8,12 @@
 | **track_id** | **String** |  | [optional] |
 | **encf** | **String** |  | [optional] |
 | **document_type** | **String** |  | [optional] |
-| **status** | [**DocumentStatus**](DocumentStatus.md) |  | [optional] |
-| **rnc** | **String** |  | [optional] |
+| **status** | **String** |  | [optional] |
+| **legal_status** | **String** |  | [optional] |
+| **issuer_rnc** | **String** |  | [optional] |
 | **environment** | [**Environment**](Environment.md) |  | [optional] |
+| **received_at** | **Time** |  | [optional] |
 | **created_at** | **Time** |  | [optional] |
-| **logs** | [**Array&lt;ProcessingLog&gt;**](ProcessingLog.md) |  | [optional] |
 
 ## Example
 
@@ -23,12 +24,13 @@ instance = PronesoftEcf::EcfHistoryItem.new(
   id: null,
   track_id: null,
   encf: null,
-  document_type: null,
+  document_type: 31,
   status: null,
-  rnc: null,
+  legal_status: null,
+  issuer_rnc: 133190907,
   environment: null,
-  created_at: null,
-  logs: null
+  received_at: null,
+  created_at: null
 )
 ```
 

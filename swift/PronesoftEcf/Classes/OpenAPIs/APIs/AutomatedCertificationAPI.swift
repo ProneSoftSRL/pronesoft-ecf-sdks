@@ -16,7 +16,7 @@ extension PronesoftEcfAPI {
 open class AutomatedCertificationAPI {
 
     /**
-     Download certification ZIP
+     Descargar ZIP de certificación
      
      - parameter id: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -35,15 +35,12 @@ open class AutomatedCertificationAPI {
     }
 
     /**
-     Download certification ZIP
+     Descargar ZIP de certificación
      - GET /dgii-ecf/automated-certification/{id}/download
-     - Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+     - Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter id: (path)  
      - returns: RequestBuilder<URL> 
      */
@@ -69,7 +66,7 @@ open class AutomatedCertificationAPI {
     }
 
     /**
-     Get certification process status
+     Estado del proceso de certificación
      
      - parameter id: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -88,14 +85,11 @@ open class AutomatedCertificationAPI {
     }
 
     /**
-     Get certification process status
+     Estado del proceso de certificación
      - GET /dgii-ecf/automated-certification/{id}/status
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter id: (path)  
      - returns: RequestBuilder<CertificationStatus> 
      */
@@ -121,7 +115,7 @@ open class AutomatedCertificationAPI {
     }
 
     /**
-     List certification niches
+     Listar nichos de certificación
      
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -139,14 +133,11 @@ open class AutomatedCertificationAPI {
     }
 
     /**
-     List certification niches
+     Listar nichos de certificación
      - GET /dgii-ecf/automated-certification/niches
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - returns: RequestBuilder<[CertificationNiche]> 
      */
     open class func listCertificationNichesWithRequestBuilder() -> RequestBuilder<[CertificationNiche]> {
@@ -168,7 +159,7 @@ open class AutomatedCertificationAPI {
     }
 
     /**
-     Start certification process
+     Iniciar proceso de certificación
      
      - parameter startCertificationRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -187,14 +178,11 @@ open class AutomatedCertificationAPI {
     }
 
     /**
-     Start certification process
+     Iniciar proceso de certificación
      - POST /dgii-ecf/automated-certification/start
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter startCertificationRequest: (body)  
      - returns: RequestBuilder<StartCertification200Response> 
      */

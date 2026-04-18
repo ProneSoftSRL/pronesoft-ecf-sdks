@@ -73,8 +73,8 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
 
     /**
      * GET /dgii/606/export
-     * Export Format 606 (Purchases)
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+     * Exportar Formato 606 (Compras)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
      * @param from 
      * @param to 
      * @param format 
@@ -110,8 +110,8 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
 
     /**
      * GET /dgii/606/export
-     * Export Format 606 (Purchases)
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+     * Exportar Formato 606 (Compras)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
      * @param from 
      * @param to 
      * @param format 
@@ -193,8 +193,8 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
 
     /**
      * GET /dgii/sent/export
-     * Export sent documents report
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+     * Exportar reporte de documentos enviados
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
      * @param from 
      * @param to 
      * @param env  (optional)
@@ -231,8 +231,8 @@ open class ReportsApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
 
     /**
      * GET /dgii/sent/export
-     * Export sent documents report
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+     * Exportar reporte de documentos enviados
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
      * @param from 
      * @param to 
      * @param env  (optional)

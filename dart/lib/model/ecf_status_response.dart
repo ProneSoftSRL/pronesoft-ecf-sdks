@@ -13,186 +13,198 @@ part of openapi.api;
 class EcfStatusResponse {
   /// Returns a new [EcfStatusResponse] instance.
   EcfStatusResponse({
-    this.trackingId,
-    this.estado,
+    required this.id,
+    this.stampDate,
+    required this.status,
+    this.legalStatus,
+    required this.companyIdentification,
     this.trackId,
-    this.numeroControl,
-    this.status,
+    this.documentNumber,
     this.encf,
-    this.businessRnc,
-    this.environment,
-    this.receivedAt,
-    this.mensajes = const [],
-    this.logs = const [],
-    this.source_,
+    this.contingencyMode,
+    this.contingencyMessage,
+    this.documentStampUrl,
+    this.pdf,
+    this.xmlUrl,
+    this.signatureDate,
+    this.securityCode,
+    required this.sequenceConsumed,
+    this.governmentResponse = const {},
   });
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? trackingId;
+  /// ID interno del documento.
+  String id;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? estado;
+  /// Fecha de emisión del documento (YYYY-MM-DD).
+  DateTime? stampDate;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
+  /// Estado del proceso de envío a DGII.
+  EcfStatusResponseStatusEnum status;
+
+  /// Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+  EcfStatusResponseLegalStatusEnum? legalStatus;
+
+  EcfSubmitResponseCompanyIdentification companyIdentification;
+
+  /// ID de seguimiento asignado por DGII.
   String? trackId;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? numeroControl;
+  /// Número de control electrónico (e-NCF).
+  String? documentNumber;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DocumentStatus? status;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
+  /// Número e-NCF del documento.
   String? encf;
 
+  /// true si fue emitido en modo contingencia.
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? businessRnc;
+  bool? contingencyMode;
 
+  /// Mensaje oficial DGII cuando contingencyMode es true.
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  Environment? environment;
+  String? contingencyMessage;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DateTime? receivedAt;
+  /// URL del código QR del documento.
+  String? documentStampUrl;
 
-  List<DgiiMessage> mensajes;
+  /// URL pre-firmada del PDF (expira en 1 hora).
+  String? pdf;
 
-  List<ProcessingLog> logs;
+  /// URL pre-firmada del XML firmado (expira en 1 hora).
+  String? xmlUrl;
 
-  EcfStatusResponseSource_Enum? source_;
+  /// Fecha y hora de la firma digital.
+  DateTime? signatureDate;
+
+  /// Código de seguridad del documento.
+  String? securityCode;
+
+  /// true si DGII confirmó el consumo de la secuencia.
+  bool sequenceConsumed;
+
+  /// Respuesta completa de DGII (disponible cuando status es FINISHED).
+  Map<String, Object> governmentResponse;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EcfStatusResponse &&
-    other.trackingId == trackingId &&
-    other.estado == estado &&
-    other.trackId == trackId &&
-    other.numeroControl == numeroControl &&
+    other.id == id &&
+    other.stampDate == stampDate &&
     other.status == status &&
+    other.legalStatus == legalStatus &&
+    other.companyIdentification == companyIdentification &&
+    other.trackId == trackId &&
+    other.documentNumber == documentNumber &&
     other.encf == encf &&
-    other.businessRnc == businessRnc &&
-    other.environment == environment &&
-    other.receivedAt == receivedAt &&
-    _deepEquality.equals(other.mensajes, mensajes) &&
-    _deepEquality.equals(other.logs, logs) &&
-    other.source_ == source_;
+    other.contingencyMode == contingencyMode &&
+    other.contingencyMessage == contingencyMessage &&
+    other.documentStampUrl == documentStampUrl &&
+    other.pdf == pdf &&
+    other.xmlUrl == xmlUrl &&
+    other.signatureDate == signatureDate &&
+    other.securityCode == securityCode &&
+    other.sequenceConsumed == sequenceConsumed &&
+    _deepEquality.equals(other.governmentResponse, governmentResponse);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (trackingId == null ? 0 : trackingId!.hashCode) +
-    (estado == null ? 0 : estado!.hashCode) +
+    (id.hashCode) +
+    (stampDate == null ? 0 : stampDate!.hashCode) +
+    (status.hashCode) +
+    (legalStatus == null ? 0 : legalStatus!.hashCode) +
+    (companyIdentification.hashCode) +
     (trackId == null ? 0 : trackId!.hashCode) +
-    (numeroControl == null ? 0 : numeroControl!.hashCode) +
-    (status == null ? 0 : status!.hashCode) +
+    (documentNumber == null ? 0 : documentNumber!.hashCode) +
     (encf == null ? 0 : encf!.hashCode) +
-    (businessRnc == null ? 0 : businessRnc!.hashCode) +
-    (environment == null ? 0 : environment!.hashCode) +
-    (receivedAt == null ? 0 : receivedAt!.hashCode) +
-    (mensajes.hashCode) +
-    (logs.hashCode) +
-    (source_ == null ? 0 : source_!.hashCode);
+    (contingencyMode == null ? 0 : contingencyMode!.hashCode) +
+    (contingencyMessage == null ? 0 : contingencyMessage!.hashCode) +
+    (documentStampUrl == null ? 0 : documentStampUrl!.hashCode) +
+    (pdf == null ? 0 : pdf!.hashCode) +
+    (xmlUrl == null ? 0 : xmlUrl!.hashCode) +
+    (signatureDate == null ? 0 : signatureDate!.hashCode) +
+    (securityCode == null ? 0 : securityCode!.hashCode) +
+    (sequenceConsumed.hashCode) +
+    (governmentResponse.hashCode);
 
   @override
-  String toString() => 'EcfStatusResponse[trackingId=$trackingId, estado=$estado, trackId=$trackId, numeroControl=$numeroControl, status=$status, encf=$encf, businessRnc=$businessRnc, environment=$environment, receivedAt=$receivedAt, mensajes=$mensajes, logs=$logs, source_=$source_]';
+  String toString() => 'EcfStatusResponse[id=$id, stampDate=$stampDate, status=$status, legalStatus=$legalStatus, companyIdentification=$companyIdentification, trackId=$trackId, documentNumber=$documentNumber, encf=$encf, contingencyMode=$contingencyMode, contingencyMessage=$contingencyMessage, documentStampUrl=$documentStampUrl, pdf=$pdf, xmlUrl=$xmlUrl, signatureDate=$signatureDate, securityCode=$securityCode, sequenceConsumed=$sequenceConsumed, governmentResponse=$governmentResponse]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.trackingId != null) {
-      json[r'trackingId'] = this.trackingId;
+      json[r'id'] = this.id;
+    if (this.stampDate != null) {
+      json[r'stampDate'] = _dateFormatter.format(this.stampDate!.toUtc());
     } else {
-      json[r'trackingId'] = null;
+      json[r'stampDate'] = null;
     }
-    if (this.estado != null) {
-      json[r'estado'] = this.estado;
+      json[r'status'] = this.status;
+    if (this.legalStatus != null) {
+      json[r'legalStatus'] = this.legalStatus;
     } else {
-      json[r'estado'] = null;
+      json[r'legalStatus'] = null;
     }
+      json[r'companyIdentification'] = this.companyIdentification;
     if (this.trackId != null) {
       json[r'trackId'] = this.trackId;
     } else {
       json[r'trackId'] = null;
     }
-    if (this.numeroControl != null) {
-      json[r'numeroControl'] = this.numeroControl;
+    if (this.documentNumber != null) {
+      json[r'documentNumber'] = this.documentNumber;
     } else {
-      json[r'numeroControl'] = null;
-    }
-    if (this.status != null) {
-      json[r'status'] = this.status;
-    } else {
-      json[r'status'] = null;
+      json[r'documentNumber'] = null;
     }
     if (this.encf != null) {
       json[r'encf'] = this.encf;
     } else {
       json[r'encf'] = null;
     }
-    if (this.businessRnc != null) {
-      json[r'businessRnc'] = this.businessRnc;
+    if (this.contingencyMode != null) {
+      json[r'contingencyMode'] = this.contingencyMode;
     } else {
-      json[r'businessRnc'] = null;
+      json[r'contingencyMode'] = null;
     }
-    if (this.environment != null) {
-      json[r'environment'] = this.environment;
+    if (this.contingencyMessage != null) {
+      json[r'contingencyMessage'] = this.contingencyMessage;
     } else {
-      json[r'environment'] = null;
+      json[r'contingencyMessage'] = null;
     }
-    if (this.receivedAt != null) {
-      json[r'receivedAt'] = this.receivedAt!.toUtc().toIso8601String();
+    if (this.documentStampUrl != null) {
+      json[r'documentStampUrl'] = this.documentStampUrl;
     } else {
-      json[r'receivedAt'] = null;
+      json[r'documentStampUrl'] = null;
     }
-      json[r'mensajes'] = this.mensajes;
-      json[r'logs'] = this.logs;
-    if (this.source_ != null) {
-      json[r'source'] = this.source_;
+    if (this.pdf != null) {
+      json[r'pdf'] = this.pdf;
     } else {
-      json[r'source'] = null;
+      json[r'pdf'] = null;
     }
+    if (this.xmlUrl != null) {
+      json[r'xmlUrl'] = this.xmlUrl;
+    } else {
+      json[r'xmlUrl'] = null;
+    }
+    if (this.signatureDate != null) {
+      json[r'signatureDate'] = this.signatureDate!.toUtc().toIso8601String();
+    } else {
+      json[r'signatureDate'] = null;
+    }
+    if (this.securityCode != null) {
+      json[r'securityCode'] = this.securityCode;
+    } else {
+      json[r'securityCode'] = null;
+    }
+      json[r'sequenceConsumed'] = this.sequenceConsumed;
+      json[r'governmentResponse'] = this.governmentResponse;
     return json;
   }
 
@@ -207,22 +219,35 @@ class EcfStatusResponse {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
+        assert(json.containsKey(r'id'), 'Required key "EcfStatusResponse[id]" is missing from JSON.');
+        assert(json[r'id'] != null, 'Required key "EcfStatusResponse[id]" has a null value in JSON.');
+        assert(json.containsKey(r'status'), 'Required key "EcfStatusResponse[status]" is missing from JSON.');
+        assert(json[r'status'] != null, 'Required key "EcfStatusResponse[status]" has a null value in JSON.');
+        assert(json.containsKey(r'companyIdentification'), 'Required key "EcfStatusResponse[companyIdentification]" is missing from JSON.');
+        assert(json[r'companyIdentification'] != null, 'Required key "EcfStatusResponse[companyIdentification]" has a null value in JSON.');
+        assert(json.containsKey(r'sequenceConsumed'), 'Required key "EcfStatusResponse[sequenceConsumed]" is missing from JSON.');
+        assert(json[r'sequenceConsumed'] != null, 'Required key "EcfStatusResponse[sequenceConsumed]" has a null value in JSON.');
         return true;
       }());
 
       return EcfStatusResponse(
-        trackingId: mapValueOfType<String>(json, r'trackingId'),
-        estado: mapValueOfType<String>(json, r'estado'),
+        id: mapValueOfType<String>(json, r'id')!,
+        stampDate: mapDateTime(json, r'stampDate', r''),
+        status: EcfStatusResponseStatusEnum.fromJson(json[r'status'])!,
+        legalStatus: EcfStatusResponseLegalStatusEnum.fromJson(json[r'legalStatus']),
+        companyIdentification: EcfSubmitResponseCompanyIdentification.fromJson(json[r'companyIdentification'])!,
         trackId: mapValueOfType<String>(json, r'trackId'),
-        numeroControl: mapValueOfType<String>(json, r'numeroControl'),
-        status: DocumentStatus.fromJson(json[r'status']),
+        documentNumber: mapValueOfType<String>(json, r'documentNumber'),
         encf: mapValueOfType<String>(json, r'encf'),
-        businessRnc: mapValueOfType<String>(json, r'businessRnc'),
-        environment: Environment.fromJson(json[r'environment']),
-        receivedAt: mapDateTime(json, r'receivedAt', r''),
-        mensajes: DgiiMessage.listFromJson(json[r'mensajes']),
-        logs: ProcessingLog.listFromJson(json[r'logs']),
-        source_: EcfStatusResponseSource_Enum.fromJson(json[r'source']),
+        contingencyMode: mapValueOfType<bool>(json, r'contingencyMode'),
+        contingencyMessage: mapValueOfType<String>(json, r'contingencyMessage'),
+        documentStampUrl: mapValueOfType<String>(json, r'documentStampUrl'),
+        pdf: mapValueOfType<String>(json, r'pdf'),
+        xmlUrl: mapValueOfType<String>(json, r'xmlUrl'),
+        signatureDate: mapDateTime(json, r'signatureDate', r''),
+        securityCode: mapValueOfType<String>(json, r'securityCode'),
+        sequenceConsumed: mapValueOfType<bool>(json, r'sequenceConsumed')!,
+        governmentResponse: mapCastOfType<String, Object>(json, r'governmentResponse') ?? const {},
       );
     }
     return null;
@@ -270,13 +295,17 @@ class EcfStatusResponse {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
+    'id',
+    'status',
+    'companyIdentification',
+    'sequenceConsumed',
   };
 }
 
-
-class EcfStatusResponseSource_Enum {
+/// Estado del proceso de envío a DGII.
+class EcfStatusResponseStatusEnum {
   /// Instantiate a new enum with the provided [value].
-  const EcfStatusResponseSource_Enum._(this.value);
+  const EcfStatusResponseStatusEnum._(this.value);
 
   /// The underlying value of this enum member.
   final String value;
@@ -286,22 +315,28 @@ class EcfStatusResponseSource_Enum {
 
   String toJson() => value;
 
-  static const dgiiDirect = EcfStatusResponseSource_Enum._(r'dgii_direct');
-  static const localDatabase = EcfStatusResponseSource_Enum._(r'local_database');
+  static const REGISTERED = EcfStatusResponseStatusEnum._(r'REGISTERED');
+  static const TO_SEND = EcfStatusResponseStatusEnum._(r'TO_SEND');
+  static const WAITING_RESPONSE = EcfStatusResponseStatusEnum._(r'WAITING_RESPONSE');
+  static const TO_NOTIFY = EcfStatusResponseStatusEnum._(r'TO_NOTIFY');
+  static const FINISHED = EcfStatusResponseStatusEnum._(r'FINISHED');
 
-  /// List of all possible values in this [enum][EcfStatusResponseSource_Enum].
-  static const values = <EcfStatusResponseSource_Enum>[
-    dgiiDirect,
-    localDatabase,
+  /// List of all possible values in this [enum][EcfStatusResponseStatusEnum].
+  static const values = <EcfStatusResponseStatusEnum>[
+    REGISTERED,
+    TO_SEND,
+    WAITING_RESPONSE,
+    TO_NOTIFY,
+    FINISHED,
   ];
 
-  static EcfStatusResponseSource_Enum? fromJson(dynamic value) => EcfStatusResponseSource_EnumTypeTransformer().decode(value);
+  static EcfStatusResponseStatusEnum? fromJson(dynamic value) => EcfStatusResponseStatusEnumTypeTransformer().decode(value);
 
-  static List<EcfStatusResponseSource_Enum> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <EcfStatusResponseSource_Enum>[];
+  static List<EcfStatusResponseStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <EcfStatusResponseStatusEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = EcfStatusResponseSource_Enum.fromJson(row);
+        final value = EcfStatusResponseStatusEnum.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -311,16 +346,16 @@ class EcfStatusResponseSource_Enum {
   }
 }
 
-/// Transformation class that can [encode] an instance of [EcfStatusResponseSource_Enum] to String,
-/// and [decode] dynamic data back to [EcfStatusResponseSource_Enum].
-class EcfStatusResponseSource_EnumTypeTransformer {
-  factory EcfStatusResponseSource_EnumTypeTransformer() => _instance ??= const EcfStatusResponseSource_EnumTypeTransformer._();
+/// Transformation class that can [encode] an instance of [EcfStatusResponseStatusEnum] to String,
+/// and [decode] dynamic data back to [EcfStatusResponseStatusEnum].
+class EcfStatusResponseStatusEnumTypeTransformer {
+  factory EcfStatusResponseStatusEnumTypeTransformer() => _instance ??= const EcfStatusResponseStatusEnumTypeTransformer._();
 
-  const EcfStatusResponseSource_EnumTypeTransformer._();
+  const EcfStatusResponseStatusEnumTypeTransformer._();
 
-  String encode(EcfStatusResponseSource_Enum data) => data.value;
+  String encode(EcfStatusResponseStatusEnum data) => data.value;
 
-  /// Decodes a [dynamic value][data] to a EcfStatusResponseSource_Enum.
+  /// Decodes a [dynamic value][data] to a EcfStatusResponseStatusEnum.
   ///
   /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
   /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
@@ -328,11 +363,14 @@ class EcfStatusResponseSource_EnumTypeTransformer {
   ///
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
-  EcfStatusResponseSource_Enum? decode(dynamic data, {bool allowNull = true}) {
+  EcfStatusResponseStatusEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
       switch (data) {
-        case r'dgii_direct': return EcfStatusResponseSource_Enum.dgiiDirect;
-        case r'local_database': return EcfStatusResponseSource_Enum.localDatabase;
+        case r'REGISTERED': return EcfStatusResponseStatusEnum.REGISTERED;
+        case r'TO_SEND': return EcfStatusResponseStatusEnum.TO_SEND;
+        case r'WAITING_RESPONSE': return EcfStatusResponseStatusEnum.WAITING_RESPONSE;
+        case r'TO_NOTIFY': return EcfStatusResponseStatusEnum.TO_NOTIFY;
+        case r'FINISHED': return EcfStatusResponseStatusEnum.FINISHED;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');
@@ -342,8 +380,88 @@ class EcfStatusResponseSource_EnumTypeTransformer {
     return null;
   }
 
-  /// Singleton [EcfStatusResponseSource_EnumTypeTransformer] instance.
-  static EcfStatusResponseSource_EnumTypeTransformer? _instance;
+  /// Singleton [EcfStatusResponseStatusEnumTypeTransformer] instance.
+  static EcfStatusResponseStatusEnumTypeTransformer? _instance;
+}
+
+
+/// Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+class EcfStatusResponseLegalStatusEnum {
+  /// Instantiate a new enum with the provided [value].
+  const EcfStatusResponseLegalStatusEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const ACCEPTED = EcfStatusResponseLegalStatusEnum._(r'ACCEPTED');
+  static const ACCEPTED_WITH_OBSERVATIONS = EcfStatusResponseLegalStatusEnum._(r'ACCEPTED_WITH_OBSERVATIONS');
+  static const REJECTED = EcfStatusResponseLegalStatusEnum._(r'REJECTED');
+  static const ERROR = EcfStatusResponseLegalStatusEnum._(r'ERROR');
+
+  /// List of all possible values in this [enum][EcfStatusResponseLegalStatusEnum].
+  static const values = <EcfStatusResponseLegalStatusEnum>[
+    ACCEPTED,
+    ACCEPTED_WITH_OBSERVATIONS,
+    REJECTED,
+    ERROR,
+  ];
+
+  static EcfStatusResponseLegalStatusEnum? fromJson(dynamic value) => EcfStatusResponseLegalStatusEnumTypeTransformer().decode(value);
+
+  static List<EcfStatusResponseLegalStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <EcfStatusResponseLegalStatusEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = EcfStatusResponseLegalStatusEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [EcfStatusResponseLegalStatusEnum] to String,
+/// and [decode] dynamic data back to [EcfStatusResponseLegalStatusEnum].
+class EcfStatusResponseLegalStatusEnumTypeTransformer {
+  factory EcfStatusResponseLegalStatusEnumTypeTransformer() => _instance ??= const EcfStatusResponseLegalStatusEnumTypeTransformer._();
+
+  const EcfStatusResponseLegalStatusEnumTypeTransformer._();
+
+  String encode(EcfStatusResponseLegalStatusEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a EcfStatusResponseLegalStatusEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  EcfStatusResponseLegalStatusEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'ACCEPTED': return EcfStatusResponseLegalStatusEnum.ACCEPTED;
+        case r'ACCEPTED_WITH_OBSERVATIONS': return EcfStatusResponseLegalStatusEnum.ACCEPTED_WITH_OBSERVATIONS;
+        case r'REJECTED': return EcfStatusResponseLegalStatusEnum.REJECTED;
+        case r'ERROR': return EcfStatusResponseLegalStatusEnum.ERROR;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [EcfStatusResponseLegalStatusEnumTypeTransformer] instance.
+  static EcfStatusResponseLegalStatusEnumTypeTransformer? _instance;
 }
 
 

@@ -19,18 +19,15 @@ public struct SentDocumentListResponse: Codable, JSONEncodable, Hashable {
 
     public var data: [SentDocumentSummary]?
     public var meta: PaginationMeta?
-    public var filters: AnyCodable?
 
-    public init(data: [SentDocumentSummary]? = nil, meta: PaginationMeta? = nil, filters: AnyCodable? = nil) {
+    public init(data: [SentDocumentSummary]? = nil, meta: PaginationMeta? = nil) {
         self.data = data
         self.meta = meta
-        self.filters = filters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case data
         case meta
-        case filters
     }
 
     // Encodable protocol methods
@@ -39,7 +36,6 @@ public struct SentDocumentListResponse: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(data, forKey: .data)
         try container.encodeIfPresent(meta, forKey: .meta)
-        try container.encodeIfPresent(filters, forKey: .filters)
     }
 }
 

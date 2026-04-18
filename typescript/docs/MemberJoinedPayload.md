@@ -15,7 +15,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { MemberJoinedPayload } from ''
+import type { MemberJoinedPayload } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

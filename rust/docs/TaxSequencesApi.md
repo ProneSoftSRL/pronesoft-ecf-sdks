@@ -4,18 +4,18 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Create new tax sequence
-[**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Get next available fiscal number
-[**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | List tax sequences
-[**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Update tax sequence
-[**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
+[**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
+[**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+[**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | Listar secuencias de NCF
+[**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
+[**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
 
 
 
 ## create_tax_sequence
 
 > models::CreateTaxSequence201Response create_tax_sequence(create_tax_sequence_request, x_tenant_id)
-Create new tax sequence
+Crear nueva secuencia de NCF
 
 ### Parameters
 
@@ -23,7 +23,7 @@ Create new tax sequence
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **create_tax_sequence_request** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
@@ -31,7 +31,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -44,9 +44,9 @@ Name | Type | Description  | Required | Notes
 ## get_next_number
 
 > models::GetNextNumber200Response get_next_number(r#type, environment, x_tenant_id)
-Get next available fiscal number
+Obtener siguiente número fiscal disponible
 
-Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
 
 ### Parameters
 
@@ -55,7 +55,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **r#type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | [required] |
 **environment** | [**Environment**](Environment.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
@@ -63,7 +63,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -76,14 +76,14 @@ Name | Type | Description  | Required | Notes
 ## list_tax_sequences
 
 > models::ListTaxSequences200Response list_tax_sequences(x_tenant_id, r#type, environment, page, limit)
-List tax sequences
+Listar secuencias de NCF
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 **r#type** | Option<[**InvoiceTypeSequence**](InvoiceTypeSequence.md)> |  |  |
 **environment** | Option<[**Environment**](Environment.md)> |  |  |
 **page** | Option<**i32**> |  |  |[default to 1]
@@ -95,7 +95,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -108,7 +108,7 @@ Name | Type | Description  | Required | Notes
 ## update_tax_sequence
 
 > update_tax_sequence(id, update_tax_sequence_request, x_tenant_id)
-Update tax sequence
+Actualizar secuencia de NCF
 
 ### Parameters
 
@@ -117,7 +117,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **id** | **String** |  | [required] |
 **update_tax_sequence_request** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
@@ -125,7 +125,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -138,9 +138,9 @@ Name | Type | Description  | Required | Notes
 ## void_tax_sequence
 
 > models::VoidTaxSequence200Response void_tax_sequence(void_tax_sequence_request, x_tenant_id)
-Void a range of fiscal numbers
+Anular rango de números fiscales
 
-Cancels unused fiscal numbers and notifies DGII.
+Cancela números fiscales no utilizados y notifica a la DGII.
 
 ### Parameters
 
@@ -148,7 +148,7 @@ Cancels unused fiscal numbers and notifies DGII.
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **void_tax_sequence_request** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
@@ -156,7 +156,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

@@ -61,7 +61,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /associated-companies
-     * Create associated company / branch
+     * Crear empresa asociada / sucursal
      * 
      * @param email 
      * @param password 
@@ -108,7 +108,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /associated-companies
-     * Create associated company / branch
+     * Crear empresa asociada / sucursal
      * 
      * @param email 
      * @param password 
@@ -195,8 +195,8 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * DELETE /associated-companies/{companyId}
-     * Delete associated company
-     * Permanently deletes an associated company. This action is irreversible.
+     * Eliminar empresa asociada
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
      * @param companyId 
      * @return DeleteAssociatedCompany200Response
      * @throws IllegalStateException If the request is not correctly configured
@@ -227,8 +227,8 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * DELETE /associated-companies/{companyId}
-     * Delete associated company
-     * Permanently deletes an associated company. This action is irreversible.
+     * Eliminar empresa asociada
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
      * @param companyId 
      * @return ApiResponse<DeleteAssociatedCompany200Response?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -268,7 +268,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies/{companyId}/documents-metrics
-     * Get company document metrics
+     * Métricas de documentos de la empresa
      * 
      * @param companyId 
      * @return CompanyDocumentMetrics
@@ -300,7 +300,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies/{companyId}/documents-metrics
-     * Get company document metrics
+     * Métricas de documentos de la empresa
      * 
      * @param companyId 
      * @return ApiResponse<CompanyDocumentMetrics?>
@@ -341,7 +341,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies/{companyId}/metrics
-     * Get company metrics
+     * Métricas de la empresa
      * 
      * @param companyId 
      * @return CompanyMetrics
@@ -373,7 +373,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies/{companyId}/metrics
-     * Get company metrics
+     * Métricas de la empresa
      * 
      * @param companyId 
      * @return ApiResponse<CompanyMetrics?>
@@ -414,7 +414,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies
-     * List associated companies / branches
+     * Listar empresas asociadas / sucursales
      * 
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
@@ -447,7 +447,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * GET /associated-companies
-     * List associated companies / branches
+     * Listar empresas asociadas / sucursales
      * 
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
@@ -498,7 +498,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * PUT /associated-companies/{companyId}
-     * Update associated company
+     * Actualizar empresa asociada
      * 
      * @param companyId 
      * @param name  (optional)
@@ -536,7 +536,7 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * PUT /associated-companies/{companyId}
-     * Update associated company
+     * Actualizar empresa asociada
      * 
      * @param companyId 
      * @param name  (optional)

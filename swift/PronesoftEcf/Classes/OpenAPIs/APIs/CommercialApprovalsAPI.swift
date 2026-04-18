@@ -16,54 +16,16 @@ extension PronesoftEcfAPI {
 open class CommercialApprovalsAPI {
 
     /**
-     * enum for parameter status
-     */
-    public enum Status_listApprovals: Int, CaseIterable {
-        case _1 = 1
-        case _2 = 2
-        case _3 = 3
-        case _4 = 4
-    }
-
-    /**
-     * enum for parameter sortBy
-     */
-    public enum SortBy_listApprovals: String, CaseIterable {
-        case createdat = "createdAt"
-        case amount = "amount"
-        case status = "status"
-    }
-
-    /**
-     * enum for parameter sortOrder
-     */
-    public enum SortOrder_listApprovals: String, CaseIterable {
-        case asc = "asc"
-        case desc = "desc"
-    }
-
-    /**
-     List commercial approvals
+     Obtener aprobación comercial por ID
      
-     - parameter businessId: (query)  
-     - parameter page: (query)  (optional, default to 1)
-     - parameter limit: (query)  (optional, default to 20)
-     - parameter ecf: (query)  (optional)
-     - parameter documentType: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter dateFrom: (query)  (optional)
-     - parameter dateTo: (query)  (optional)
-     - parameter minAmount: (query)  (optional)
-     - parameter maxAmount: (query)  (optional)
-     - parameter search: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter sortOrder: (query)  (optional)
+     - parameter id: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listApprovals(businessId: String, page: Int? = nil, limit: Int? = nil, ecf: String? = nil, documentType: String? = nil, status: Status_listApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, minAmount: Double? = nil, maxAmount: Double? = nil, search: String? = nil, sortBy: SortBy_listApprovals? = nil, sortOrder: SortOrder_listApprovals? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return listApprovalsWithRequestBuilder(businessId: businessId, page: page, limit: limit, ecf: ecf, documentType: documentType, status: status, dateFrom: dateFrom, dateTo: dateTo, minAmount: minAmount, maxAmount: maxAmount, search: search, sortBy: sortBy, sortOrder: sortOrder).execute(apiResponseQueue) { result in
+    open class func getCommercialApprovalById(id: UUID, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalItem?, _ error: Error?) -> Void)) -> RequestTask {
+        return getCommercialApprovalByIdWithRequestBuilder(id: id, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -74,53 +36,106 @@ open class CommercialApprovalsAPI {
     }
 
     /**
-     List commercial approvals
-     - GET /documents/approvals/all
+     Obtener aprobación comercial por ID
+     - GET /documents/approvals/{id}
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter businessId: (query)  
-     - parameter page: (query)  (optional, default to 1)
-     - parameter limit: (query)  (optional, default to 20)
+     - parameter id: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - returns: RequestBuilder<ApprovalItem> 
+     */
+    open class func getCommercialApprovalByIdWithRequestBuilder(id: UUID, xTenantId: UUID? = nil) -> RequestBuilder<ApprovalItem> {
+        var localVariablePath = "/documents/approvals/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ApprovalItem>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     * enum for parameter status
+     */
+    public enum Status_listCommercialApprovals: Int, CaseIterable {
+        case _1 = 1
+        case _2 = 2
+        case _3 = 3
+        case _4 = 4
+    }
+
+    /**
+     Listar aprobaciones comerciales
+     
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter ecf: (query)  (optional)
-     - parameter documentType: (query)  (optional)
+     - parameter type: (query) Tipo de documento (optional)
      - parameter status: (query)  (optional)
      - parameter dateFrom: (query)  (optional)
      - parameter dateTo: (query)  (optional)
-     - parameter minAmount: (query)  (optional)
-     - parameter maxAmount: (query)  (optional)
-     - parameter search: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter sortOrder: (query)  (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter limit: (query)  (optional, default to 10)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func listCommercialApprovals(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return listCommercialApprovalsWithRequestBuilder(xTenantId: xTenantId, ecf: ecf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Listar aprobaciones comerciales
+     - GET /documents/approvals
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter ecf: (query)  (optional)
+     - parameter type: (query) Tipo de documento (optional)
+     - parameter status: (query)  (optional)
+     - parameter dateFrom: (query)  (optional)
+     - parameter dateTo: (query)  (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<ApprovalListResponse> 
      */
-    open class func listApprovalsWithRequestBuilder(businessId: String, page: Int? = nil, limit: Int? = nil, ecf: String? = nil, documentType: String? = nil, status: Status_listApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, minAmount: Double? = nil, maxAmount: Double? = nil, search: String? = nil, sortBy: SortBy_listApprovals? = nil, sortOrder: SortOrder_listApprovals? = nil) -> RequestBuilder<ApprovalListResponse> {
-        let localVariablePath = "/documents/approvals/all"
+    open class func listCommercialApprovalsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ApprovalListResponse> {
+        let localVariablePath = "/documents/approvals"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "businessId": (wrappedValue: businessId.encodeToJSON(), isExplode: true),
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
             "ecf": (wrappedValue: ecf?.encodeToJSON(), isExplode: true),
-            "documentType": (wrappedValue: documentType?.encodeToJSON(), isExplode: true),
+            "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
             "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
             "dateFrom": (wrappedValue: dateFrom?.encodeToJSON(), isExplode: true),
             "dateTo": (wrappedValue: dateTo?.encodeToJSON(), isExplode: true),
-            "minAmount": (wrappedValue: minAmount?.encodeToJSON(), isExplode: true),
-            "maxAmount": (wrappedValue: maxAmount?.encodeToJSON(), isExplode: true),
-            "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-            "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
-            "sortOrder": (wrappedValue: sortOrder?.encodeToJSON(), isExplode: true),
+            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
-            :
+            "x-tenant-id": xTenantId?.encodeToJSON(),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

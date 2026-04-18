@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -18,6 +18,8 @@ import type {
   DocumentStatsResponse,
   Environment,
   ErrorResponse,
+  GetSentDocumentLogs200ResponseInner,
+  GetSentDocumentStatusOptions200ResponseInner,
   SentDocumentDetail,
   SentDocumentListResponse,
 } from '../models/index';
@@ -28,24 +30,38 @@ import {
     EnvironmentToJSON,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
+    GetSentDocumentLogs200ResponseInnerFromJSON,
+    GetSentDocumentLogs200ResponseInnerToJSON,
+    GetSentDocumentStatusOptions200ResponseInnerFromJSON,
+    GetSentDocumentStatusOptions200ResponseInnerToJSON,
     SentDocumentDetailFromJSON,
     SentDocumentDetailToJSON,
     SentDocumentListResponseFromJSON,
     SentDocumentListResponseToJSON,
 } from '../models/index';
 
-export interface DownloadDocumentRequest {
-    fileUrl: string;
+export interface DownloadSentDocumentXmlRequest {
+    id?: string;
+    fileUrl?: string;
+    inline?: DownloadSentDocumentXmlInlineEnum;
 }
 
-export interface GetDocumentRequest {
+export interface GetSentDocumentByIdRequest {
     id: string;
     xTenantId?: string;
 }
 
-export interface GetDocumentStatsRequest {
+export interface GetSentDocumentLogsRequest {
+    id: string;
     xTenantId?: string;
-    period?: GetDocumentStatsPeriodEnum;
+}
+
+export interface GetSentDocumentStatsRequest {
+    xTenantId?: string;
+}
+
+export interface GetSentDocumentStatsByEnvironmentRequest {
+    xTenantId?: string;
 }
 
 export interface ListSentDocumentsRequest {
@@ -68,81 +84,152 @@ export interface ListSentDocumentsRequest {
  */
 export interface DocumentsSentApiInterface {
     /**
-     * Creates request options for downloadDocument without sending the request
-     * @param {string} fileUrl 
+     * Creates request options for downloadSentDocumentXml without sending the request
+     * @param {string} [id] ID interno del documento
+     * @param {string} [fileUrl] 
+     * @param {'true' | 'false'} [inline] true para ver en el navegador, false para descargar
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
-    downloadDocumentRequestOpts(requestParameters: DownloadDocumentRequest): Promise<runtime.RequestOpts>;
+    downloadSentDocumentXmlRequestOpts(requestParameters: DownloadSentDocumentXmlRequest): Promise<runtime.RequestOpts>;
 
     /**
      * 
-     * @summary Download document XML
-     * @param {string} fileUrl 
+     * @summary Descargar XML del documento
+     * @param {string} [id] ID interno del documento
+     * @param {string} [fileUrl] 
+     * @param {'true' | 'false'} [inline] true para ver en el navegador, false para descargar
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
-    downloadDocumentRaw(requestParameters: DownloadDocumentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
+    downloadSentDocumentXmlRaw(requestParameters: DownloadSentDocumentXmlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
 
     /**
-     * Download document XML
+     * Descargar XML del documento
      */
-    downloadDocument(requestParameters: DownloadDocumentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
+    downloadSentDocumentXml(requestParameters: DownloadSentDocumentXmlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
 
     /**
-     * Creates request options for getDocument without sending the request
+     * Creates request options for getSentDocumentById without sending the request
      * @param {string} id 
-     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
-    getDocumentRequestOpts(requestParameters: GetDocumentRequest): Promise<runtime.RequestOpts>;
+    getSentDocumentByIdRequestOpts(requestParameters: GetSentDocumentByIdRequest): Promise<runtime.RequestOpts>;
 
     /**
      * 
-     * @summary Get document details
+     * @summary Obtener detalle del documento
      * @param {string} id 
-     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
-    getDocumentRaw(requestParameters: GetDocumentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SentDocumentDetail>>;
+    getSentDocumentByIdRaw(requestParameters: GetSentDocumentByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SentDocumentDetail>>;
 
     /**
-     * Get document details
+     * Obtener detalle del documento
      */
-    getDocument(requestParameters: GetDocumentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SentDocumentDetail>;
+    getSentDocumentById(requestParameters: GetSentDocumentByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SentDocumentDetail>;
 
     /**
-     * Creates request options for getDocumentStats without sending the request
-     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-     * @param {'7d' | '30d' | '90d'} [period] 
+     * Creates request options for getSentDocumentLogs without sending the request
+     * @param {string} id 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
-    getDocumentStatsRequestOpts(requestParameters: GetDocumentStatsRequest): Promise<runtime.RequestOpts>;
+    getSentDocumentLogsRequestOpts(requestParameters: GetSentDocumentLogsRequest): Promise<runtime.RequestOpts>;
 
     /**
      * 
-     * @summary Get document statistics
-     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-     * @param {'7d' | '30d' | '90d'} [period] 
+     * @summary Logs de procesamiento del documento
+     * @param {string} id 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
-    getDocumentStatsRaw(requestParameters: GetDocumentStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DocumentStatsResponse>>;
+    getSentDocumentLogsRaw(requestParameters: GetSentDocumentLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetSentDocumentLogs200ResponseInner>>>;
 
     /**
-     * Get document statistics
+     * Logs de procesamiento del documento
      */
-    getDocumentStats(requestParameters: GetDocumentStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DocumentStatsResponse>;
+    getSentDocumentLogs(requestParameters: GetSentDocumentLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetSentDocumentLogs200ResponseInner>>;
+
+    /**
+     * Creates request options for getSentDocumentStats without sending the request
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @throws {RequiredError}
+     * @memberof DocumentsSentApiInterface
+     */
+    getSentDocumentStatsRequestOpts(requestParameters: GetSentDocumentStatsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Estadísticas de documentos enviados
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DocumentsSentApiInterface
+     */
+    getSentDocumentStatsRaw(requestParameters: GetSentDocumentStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DocumentStatsResponse>>;
+
+    /**
+     * Estadísticas de documentos enviados
+     */
+    getSentDocumentStats(requestParameters: GetSentDocumentStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DocumentStatsResponse>;
+
+    /**
+     * Creates request options for getSentDocumentStatsByEnvironment without sending the request
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @throws {RequiredError}
+     * @memberof DocumentsSentApiInterface
+     */
+    getSentDocumentStatsByEnvironmentRequestOpts(requestParameters: GetSentDocumentStatsByEnvironmentRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Estadísticas agrupadas por ambiente y estado
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DocumentsSentApiInterface
+     */
+    getSentDocumentStatsByEnvironmentRaw(requestParameters: GetSentDocumentStatsByEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: object; }>>;
+
+    /**
+     * Estadísticas agrupadas por ambiente y estado
+     */
+    getSentDocumentStatsByEnvironment(requestParameters: GetSentDocumentStatsByEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: object; }>;
+
+    /**
+     * Creates request options for getSentDocumentStatusOptions without sending the request
+     * @throws {RequiredError}
+     * @memberof DocumentsSentApiInterface
+     */
+    getSentDocumentStatusOptionsRequestOpts(): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Opciones de filtro de estado disponibles
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DocumentsSentApiInterface
+     */
+    getSentDocumentStatusOptionsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetSentDocumentStatusOptions200ResponseInner>>>;
+
+    /**
+     * Opciones de filtro de estado disponibles
+     */
+    getSentDocumentStatusOptions(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetSentDocumentStatusOptions200ResponseInner>>;
 
     /**
      * Creates request options for listSentDocuments without sending the request
-     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
      * @param {Environment} [env] 
      * @param {string} [ecf] 
      * @param {string} [type] 
@@ -158,8 +245,8 @@ export interface DocumentsSentApiInterface {
 
     /**
      * 
-     * @summary List sent documents
-     * @param {string} [xTenantId] UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+     * @summary Listar documentos enviados
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
      * @param {Environment} [env] 
      * @param {string} [ecf] 
      * @param {string} [type] 
@@ -175,7 +262,7 @@ export interface DocumentsSentApiInterface {
     listSentDocumentsRaw(requestParameters: ListSentDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SentDocumentListResponse>>;
 
     /**
-     * List sent documents
+     * Listar documentos enviados
      */
     listSentDocuments(requestParameters: ListSentDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SentDocumentListResponse>;
 
@@ -187,20 +274,21 @@ export interface DocumentsSentApiInterface {
 export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentApiInterface {
 
     /**
-     * Creates request options for downloadDocument without sending the request
+     * Creates request options for downloadSentDocumentXml without sending the request
      */
-    async downloadDocumentRequestOpts(requestParameters: DownloadDocumentRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['fileUrl'] == null) {
-            throw new runtime.RequiredError(
-                'fileUrl',
-                'Required parameter "fileUrl" was null or undefined when calling downloadDocument().'
-            );
-        }
-
+    async downloadSentDocumentXmlRequestOpts(requestParameters: DownloadSentDocumentXmlRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
+
+        if (requestParameters['id'] != null) {
+            queryParameters['id'] = requestParameters['id'];
+        }
 
         if (requestParameters['fileUrl'] != null) {
             queryParameters['fileUrl'] = requestParameters['fileUrl'];
+        }
+
+        if (requestParameters['inline'] != null) {
+            queryParameters['inline'] = requestParameters['inline'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -210,14 +298,6 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/documents/download`;
 
@@ -230,10 +310,10 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
     }
 
     /**
-     * Download document XML
+     * Descargar XML del documento
      */
-    async downloadDocumentRaw(requestParameters: DownloadDocumentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const requestOptions = await this.downloadDocumentRequestOpts(requestParameters);
+    async downloadSentDocumentXmlRaw(requestParameters: DownloadSentDocumentXmlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const requestOptions = await this.downloadSentDocumentXmlRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -244,21 +324,21 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
     }
 
     /**
-     * Download document XML
+     * Descargar XML del documento
      */
-    async downloadDocument(requestParameters: DownloadDocumentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
-        const response = await this.downloadDocumentRaw(requestParameters, initOverrides);
+    async downloadSentDocumentXml(requestParameters: DownloadSentDocumentXmlRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.downloadSentDocumentXmlRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for getDocument without sending the request
+     * Creates request options for getSentDocumentById without sending the request
      */
-    async getDocumentRequestOpts(requestParameters: GetDocumentRequest): Promise<runtime.RequestOpts> {
+    async getSentDocumentByIdRequestOpts(requestParameters: GetSentDocumentByIdRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
-                'Required parameter "id" was null or undefined when calling getDocument().'
+                'Required parameter "id" was null or undefined when calling getSentDocumentById().'
             );
         }
 
@@ -275,14 +355,6 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/documents/{id}`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
@@ -296,32 +368,35 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
     }
 
     /**
-     * Get document details
+     * Obtener detalle del documento
      */
-    async getDocumentRaw(requestParameters: GetDocumentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SentDocumentDetail>> {
-        const requestOptions = await this.getDocumentRequestOpts(requestParameters);
+    async getSentDocumentByIdRaw(requestParameters: GetSentDocumentByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SentDocumentDetail>> {
+        const requestOptions = await this.getSentDocumentByIdRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SentDocumentDetailFromJSON(jsonValue));
     }
 
     /**
-     * Get document details
+     * Obtener detalle del documento
      */
-    async getDocument(requestParameters: GetDocumentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SentDocumentDetail> {
-        const response = await this.getDocumentRaw(requestParameters, initOverrides);
+    async getSentDocumentById(requestParameters: GetSentDocumentByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SentDocumentDetail> {
+        const response = await this.getSentDocumentByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for getDocumentStats without sending the request
+     * Creates request options for getSentDocumentLogs without sending the request
      */
-    async getDocumentStatsRequestOpts(requestParameters: GetDocumentStatsRequest): Promise<runtime.RequestOpts> {
-        const queryParameters: any = {};
-
-        if (requestParameters['period'] != null) {
-            queryParameters['period'] = requestParameters['period'];
+    async getSentDocumentLogsRequestOpts(requestParameters: GetSentDocumentLogsRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getSentDocumentLogs().'
+            );
         }
+
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -334,14 +409,53 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
 
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
+        let urlPath = `/documents/logs/{id}`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Logs de procesamiento del documento
+     */
+    async getSentDocumentLogsRaw(requestParameters: GetSentDocumentLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetSentDocumentLogs200ResponseInner>>> {
+        const requestOptions = await this.getSentDocumentLogsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetSentDocumentLogs200ResponseInnerFromJSON));
+    }
+
+    /**
+     * Logs de procesamiento del documento
+     */
+    async getSentDocumentLogs(requestParameters: GetSentDocumentLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetSentDocumentLogs200ResponseInner>> {
+        const response = await this.getSentDocumentLogsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getSentDocumentStats without sending the request
+     */
+    async getSentDocumentStatsRequestOpts(requestParameters: GetSentDocumentStatsRequest): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
         }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
+        }
+
 
         let urlPath = `/documents/stats/summary`;
 
@@ -354,20 +468,108 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
     }
 
     /**
-     * Get document statistics
+     * Estadísticas de documentos enviados
      */
-    async getDocumentStatsRaw(requestParameters: GetDocumentStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DocumentStatsResponse>> {
-        const requestOptions = await this.getDocumentStatsRequestOpts(requestParameters);
+    async getSentDocumentStatsRaw(requestParameters: GetSentDocumentStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DocumentStatsResponse>> {
+        const requestOptions = await this.getSentDocumentStatsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DocumentStatsResponseFromJSON(jsonValue));
     }
 
     /**
-     * Get document statistics
+     * Estadísticas de documentos enviados
      */
-    async getDocumentStats(requestParameters: GetDocumentStatsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DocumentStatsResponse> {
-        const response = await this.getDocumentStatsRaw(requestParameters, initOverrides);
+    async getSentDocumentStats(requestParameters: GetSentDocumentStatsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DocumentStatsResponse> {
+        const response = await this.getSentDocumentStatsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getSentDocumentStatsByEnvironment without sending the request
+     */
+    async getSentDocumentStatsByEnvironmentRequestOpts(requestParameters: GetSentDocumentStatsByEnvironmentRequest): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
+        }
+
+
+        let urlPath = `/documents/stats/by-environment`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Estadísticas agrupadas por ambiente y estado
+     */
+    async getSentDocumentStatsByEnvironmentRaw(requestParameters: GetSentDocumentStatsByEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: object; }>> {
+        const requestOptions = await this.getSentDocumentStatsByEnvironmentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Estadísticas agrupadas por ambiente y estado
+     */
+    async getSentDocumentStatsByEnvironment(requestParameters: GetSentDocumentStatsByEnvironmentRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: object; }> {
+        const response = await this.getSentDocumentStatsByEnvironmentRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getSentDocumentStatusOptions without sending the request
+     */
+    async getSentDocumentStatusOptionsRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
+        }
+
+
+        let urlPath = `/documents/status-options`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Opciones de filtro de estado disponibles
+     */
+    async getSentDocumentStatusOptionsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetSentDocumentStatusOptions200ResponseInner>>> {
+        const requestOptions = await this.getSentDocumentStatusOptionsRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetSentDocumentStatusOptions200ResponseInnerFromJSON));
+    }
+
+    /**
+     * Opciones de filtro de estado disponibles
+     */
+    async getSentDocumentStatusOptions(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetSentDocumentStatusOptions200ResponseInner>> {
+        const response = await this.getSentDocumentStatusOptionsRaw(initOverrides);
         return await response.value();
     }
 
@@ -420,14 +622,6 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/documents/sent`;
 
@@ -440,7 +634,7 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
     }
 
     /**
-     * List sent documents
+     * Listar documentos enviados
      */
     async listSentDocumentsRaw(requestParameters: ListSentDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SentDocumentListResponse>> {
         const requestOptions = await this.listSentDocumentsRequestOpts(requestParameters);
@@ -450,7 +644,7 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
     }
 
     /**
-     * List sent documents
+     * Listar documentos enviados
      */
     async listSentDocuments(requestParameters: ListSentDocumentsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SentDocumentListResponse> {
         const response = await this.listSentDocumentsRaw(requestParameters, initOverrides);
@@ -462,12 +656,11 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
 /**
  * @export
  */
-export const GetDocumentStatsPeriodEnum = {
-    _7d: '7d',
-    _30d: '30d',
-    _90d: '90d'
+export const DownloadSentDocumentXmlInlineEnum = {
+    True: 'true',
+    False: 'false'
 } as const;
-export type GetDocumentStatsPeriodEnum = typeof GetDocumentStatsPeriodEnum[keyof typeof GetDocumentStatsPeriodEnum];
+export type DownloadSentDocumentXmlInlineEnum = typeof DownloadSentDocumentXmlInlineEnum[keyof typeof DownloadSentDocumentXmlInlineEnum];
 /**
  * @export
  */

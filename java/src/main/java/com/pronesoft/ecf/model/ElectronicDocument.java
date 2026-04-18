@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -24,7 +24,6 @@ import com.pronesoft.ecf.model.AdditionalInfo;
 import com.pronesoft.ecf.model.AlternativeCurrency;
 import com.pronesoft.ecf.model.Buyer;
 import com.pronesoft.ecf.model.DiscountOrSurcharge;
-import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.InvoiceType;
 import com.pronesoft.ecf.model.Item;
 import com.pronesoft.ecf.model.Page;
@@ -64,18 +63,13 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required. 
+ * Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el &#x60;invoiceType&#x60;. Usa &#x60;GET /tax-sequences/next?invoiceType&#x3D;31&#x60; solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: &#x60;POST /{environment}/ecf/submit&#x60; (ej. &#x60;TesteCF&#x60; o &#x60;eCF&#x60;). 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ElectronicDocument {
-  public static final String SERIALIZED_NAME_ENVIRONMENT = "environment";
-  @SerializedName(SERIALIZED_NAME_ENVIRONMENT)
-  @javax.annotation.Nullable
-  private Environment environment;
-
   public static final String SERIALIZED_NAME_VERSION = "version";
   @SerializedName(SERIALIZED_NAME_VERSION)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String version = "1.0";
 
   public static final String SERIALIZED_NAME_INVOICE_TYPE = "invoiceType";
@@ -579,40 +573,21 @@ public class ElectronicDocument {
   public ElectronicDocument() {
   }
 
-  public ElectronicDocument environment(@javax.annotation.Nullable Environment environment) {
-    this.environment = environment;
-    return this;
-  }
-
-  /**
-   * Get environment
-   * @return environment
-   */
-  @javax.annotation.Nullable
-  public Environment getEnvironment() {
-    return environment;
-  }
-
-  public void setEnvironment(@javax.annotation.Nullable Environment environment) {
-    this.environment = environment;
-  }
-
-
-  public ElectronicDocument version(@javax.annotation.Nonnull String version) {
+  public ElectronicDocument version(@javax.annotation.Nullable String version) {
     this.version = version;
     return this;
   }
 
   /**
-   * Always 1.0.
+   * Siempre \&quot;1.0\&quot;.
    * @return version
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getVersion() {
     return version;
   }
 
-  public void setVersion(@javax.annotation.Nonnull String version) {
+  public void setVersion(@javax.annotation.Nullable String version) {
     this.version = version;
   }
 
@@ -642,7 +617,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+   * Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;. 
    * @return invoiceNumber
    */
   @javax.annotation.Nullable
@@ -1533,8 +1508,7 @@ public class ElectronicDocument {
       return false;
     }
     ElectronicDocument electronicDocument = (ElectronicDocument) o;
-    return Objects.equals(this.environment, electronicDocument.environment) &&
-        Objects.equals(this.version, electronicDocument.version) &&
+    return Objects.equals(this.version, electronicDocument.version) &&
         Objects.equals(this.invoiceType, electronicDocument.invoiceType) &&
         Objects.equals(this.invoiceNumber, electronicDocument.invoiceNumber) &&
         Objects.equals(this.groupId, electronicDocument.groupId) &&
@@ -1585,14 +1559,13 @@ public class ElectronicDocument {
 
   @Override
   public int hashCode() {
-    return Objects.hash(environment, version, invoiceType, invoiceNumber, groupId, issueDate, expirationDate, creditNoteIndicator, deferredSendingIndicator, taxedAmountIndicator, incomeType, paymentType, paymentDeadline, paymentTerms, paymentForms, paymentAccountType, paymentAccountNumber, paymentBank, serviceStartDate, serviceEndDate, totalPages, issuerRNC, issuerBusinessName, issuerCommercialName, branchName, issuerAddress, municipalityCode, provinceCode, issuerPhones, issuerEmail, issuerWebsite, issuerEconomicActivity, sellerCode, internalInvoiceNumber, internalOrderNumber, salesZone, salesRoute, additionalIssuerInfo, buyer, items, totals, transport, additionalInfo, alternativeCurrency, referenceInfo, subtotals, discountsOrSurcharges, pages);
+    return Objects.hash(version, invoiceType, invoiceNumber, groupId, issueDate, expirationDate, creditNoteIndicator, deferredSendingIndicator, taxedAmountIndicator, incomeType, paymentType, paymentDeadline, paymentTerms, paymentForms, paymentAccountType, paymentAccountNumber, paymentBank, serviceStartDate, serviceEndDate, totalPages, issuerRNC, issuerBusinessName, issuerCommercialName, branchName, issuerAddress, municipalityCode, provinceCode, issuerPhones, issuerEmail, issuerWebsite, issuerEconomicActivity, sellerCode, internalInvoiceNumber, internalOrderNumber, salesZone, salesRoute, additionalIssuerInfo, buyer, items, totals, transport, additionalInfo, alternativeCurrency, referenceInfo, subtotals, discountsOrSurcharges, pages);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ElectronicDocument {\n");
-    sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    invoiceType: ").append(toIndentedString(invoiceType)).append("\n");
     sb.append("    invoiceNumber: ").append(toIndentedString(invoiceNumber)).append("\n");
@@ -1658,10 +1631,10 @@ public class ElectronicDocument {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("environment", "version", "invoiceType", "invoiceNumber", "groupId", "issueDate", "expirationDate", "creditNoteIndicator", "deferredSendingIndicator", "taxedAmountIndicator", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentForms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "serviceStartDate", "serviceEndDate", "totalPages", "issuerRNC", "issuerBusinessName", "issuerCommercialName", "branchName", "issuerAddress", "municipalityCode", "provinceCode", "issuerPhones", "issuerEmail", "issuerWebsite", "issuerEconomicActivity", "sellerCode", "internalInvoiceNumber", "internalOrderNumber", "salesZone", "salesRoute", "additionalIssuerInfo", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"));
+    openapiFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "groupId", "issueDate", "expirationDate", "creditNoteIndicator", "deferredSendingIndicator", "taxedAmountIndicator", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentForms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "serviceStartDate", "serviceEndDate", "totalPages", "issuerRNC", "issuerBusinessName", "issuerCommercialName", "branchName", "issuerAddress", "municipalityCode", "provinceCode", "issuerPhones", "issuerEmail", "issuerWebsite", "issuerEconomicActivity", "sellerCode", "internalInvoiceNumber", "internalOrderNumber", "salesZone", "salesRoute", "additionalIssuerInfo", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "issueDate", "paymentForms", "items", "totals"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("invoiceType", "issueDate", "paymentForms", "items", "totals"));
   }
 
   /**
@@ -1692,11 +1665,7 @@ public class ElectronicDocument {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      // validate the optional field `environment`
-      if (jsonObj.get("environment") != null && !jsonObj.get("environment").isJsonNull()) {
-        Environment.validateJsonElement(jsonObj.get("environment"));
-      }
-      if (!jsonObj.get("version").isJsonPrimitive()) {
+      if ((jsonObj.get("version") != null && !jsonObj.get("version").isJsonNull()) && !jsonObj.get("version").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `version` to be a primitive type in the JSON string but got `%s`", jsonObj.get("version").toString()));
       }
       // validate the required field `invoiceType`

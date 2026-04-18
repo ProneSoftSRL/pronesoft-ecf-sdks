@@ -4,14 +4,13 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **version** | **kotlin.String** | Always 1.0. |  |
 | **invoiceType** | [**InvoiceType**](InvoiceType.md) |  |  |
 | **issueDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
 | **paymentForms** | [**kotlin.collections.List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
 | **items** | [**kotlin.collections.List&lt;Item&gt;**](Item.md) |  |  |
 | **totals** | [**Totals**](Totals.md) |  |  |
-| **environment** | [**Environment**](Environment.md) |  |  [optional] |
-| **invoiceNumber** | **kotlin.String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). |  [optional] |
+| **version** | **kotlin.String** | Siempre \&quot;1.0\&quot;. |  [optional] |
+| **invoiceNumber** | **kotlin.String** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;.  |  [optional] |
 | **groupId** | **kotlin.String** | Optional Group ID for batch processing |  [optional] |
 | **expirationDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **creditNoteIndicator** | [**inline**](#CreditNoteIndicator) | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days |  [optional] |

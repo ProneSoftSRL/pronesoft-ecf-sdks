@@ -16,7 +16,7 @@ class ECFSubmissionApi {
 
   final ApiClient apiClient;
 
-  /// Get submission history (last 50 documents)
+  /// Obtener estadísticas de envíos (últimos 30 días)
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -25,73 +25,7 @@ class ECFSubmissionApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-  Future<Response> getEcfHistoryWithHttpInfo(Environment environment, { String? xTenantId, }) async {
-    // ignore: prefer_const_declarations
-    final path = r'/{environment}/ecf/responses/history'
-      .replaceAll('{environment}', environment.toString());
-
-    // ignore: prefer_final_locals
-    Object? postBody;
-
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-
-    if (xTenantId != null) {
-      headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
-    }
-
-    const contentTypes = <String>[];
-
-
-    return apiClient.invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
-    );
-  }
-
-  /// Get submission history (last 50 documents)
-  ///
-  /// Parameters:
-  ///
-  /// * [Environment] environment (required):
-  ///
-  /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-  Future<List<EcfHistoryItem>?> getEcfHistory(Environment environment, { String? xTenantId, }) async {
-    final response = await getEcfHistoryWithHttpInfo(environment,  xTenantId: xTenantId, );
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      final responseBody = await _decodeBodyBytes(response);
-      return (await apiClient.deserializeAsync(responseBody, 'List<EcfHistoryItem>') as List)
-        .cast<EcfHistoryItem>()
-        .toList(growable: false);
-
-    }
-    return null;
-  }
-
-  /// Get submission statistics (last 30 days)
-  ///
-  /// Note: This method returns the HTTP [Response].
-  ///
-  /// Parameters:
-  ///
-  /// * [Environment] environment (required):
-  ///
-  /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<Response> getEcfStatsWithHttpInfo(Environment environment, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/{environment}/ecf/responses/stats'
@@ -122,14 +56,14 @@ class ECFSubmissionApi {
     );
   }
 
-  /// Get submission statistics (last 30 days)
+  /// Obtener estadísticas de envíos (últimos 30 días)
   ///
   /// Parameters:
   ///
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<EcfStatsResponse?> getEcfStats(Environment environment, { String? xTenantId, }) async {
     final response = await getEcfStatsWithHttpInfo(environment,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -145,7 +79,7 @@ class ECFSubmissionApi {
     return null;
   }
 
-  /// Get document status by trackId
+  /// Consultar estado del documento por ID interno
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -153,15 +87,15 @@ class ECFSubmissionApi {
   ///
   /// * [Environment] environment (required):
   ///
-  /// * [String] trackId (required):
+  /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-  Future<Response> getEcfStatusWithHttpInfo(Environment environment, String trackId, { String? xTenantId, }) async {
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<Response> getEcfStatusWithHttpInfo(Environment environment, String id, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/{environment}/ecf/status/{trackId}'
+    final path = r'/{environment}/ecf/status/{id}'
       .replaceAll('{environment}', environment.toString())
-      .replaceAll('{trackId}', trackId);
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -188,18 +122,18 @@ class ECFSubmissionApi {
     );
   }
 
-  /// Get document status by trackId
+  /// Consultar estado del documento por ID interno
   ///
   /// Parameters:
   ///
   /// * [Environment] environment (required):
   ///
-  /// * [String] trackId (required):
+  /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-  Future<EcfStatusResponse?> getEcfStatus(Environment environment, String trackId, { String? xTenantId, }) async {
-    final response = await getEcfStatusWithHttpInfo(environment, trackId,  xTenantId: xTenantId, );
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<EcfStatusResponse?> getEcfStatus(Environment environment, String id, { String? xTenantId, }) async {
+    final response = await getEcfStatusWithHttpInfo(environment, id,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -213,9 +147,87 @@ class ECFSubmissionApi {
     return null;
   }
 
-  /// Submit e-CF document to DGII
+  /// Historial de envíos (paginado)
   ///
-  /// Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Environment] environment (required):
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///
+  /// * [int] page:
+  ///
+  /// * [int] limit:
+  Future<Response> getEcfSubmissionHistoryWithHttpInfo(Environment environment, { String? xTenantId, int? page, int? limit, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/{environment}/ecf/responses/history'
+      .replaceAll('{environment}', environment.toString());
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (page != null) {
+      queryParams.addAll(_queryParams('', 'page', page));
+    }
+    if (limit != null) {
+      queryParams.addAll(_queryParams('', 'limit', limit));
+    }
+
+    if (xTenantId != null) {
+      headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Historial de envíos (paginado)
+  ///
+  /// Parameters:
+  ///
+  /// * [Environment] environment (required):
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///
+  /// * [int] page:
+  ///
+  /// * [int] limit:
+  Future<GetEcfSubmissionHistory200Response?> getEcfSubmissionHistory(Environment environment, { String? xTenantId, int? page, int? limit, }) async {
+    final response = await getEcfSubmissionHistoryWithHttpInfo(environment,  xTenantId: xTenantId, page: page, limit: limit, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'GetEcfSubmissionHistory200Response',) as GetEcfSubmissionHistory200Response;
+    
+    }
+    return null;
+  }
+
+  /// Enviar documento e-CF a la DGII
+  ///
+  /// Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -226,7 +238,7 @@ class ECFSubmissionApi {
   /// * [ElectronicDocument] electronicDocument (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   Future<Response> submitEcfWithHttpInfo(Environment environment, ElectronicDocument electronicDocument, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/{environment}/ecf/submit'
@@ -257,9 +269,9 @@ class ECFSubmissionApi {
     );
   }
 
-  /// Submit e-CF document to DGII
+  /// Enviar documento e-CF a la DGII
   ///
-  /// Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+  /// Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
   ///
   /// Parameters:
   ///
@@ -268,8 +280,8 @@ class ECFSubmissionApi {
   /// * [ElectronicDocument] electronicDocument (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-  Future<EcfSubmissionResponse?> submitEcf(Environment environment, ElectronicDocument electronicDocument, { String? xTenantId, }) async {
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<EcfSubmitResponse?> submitEcf(Environment environment, ElectronicDocument electronicDocument, { String? xTenantId, }) async {
     final response = await submitEcfWithHttpInfo(environment, electronicDocument,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -278,7 +290,7 @@ class ECFSubmissionApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'EcfSubmissionResponse',) as EcfSubmissionResponse;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'EcfSubmitResponse',) as EcfSubmitResponse;
     
     }
     return null;

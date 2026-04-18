@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -84,8 +84,8 @@ public class AuthenticationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Token generated successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Token generado exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getAccessTokenCall(@javax.annotation.Nonnull OAuthTokenRequest oauthTokenRequest, final ApiCallback _callback) throws ApiException {
@@ -145,8 +145,8 @@ public class AuthenticationApi {
     }
 
     /**
-     * Get access token (OAuth 2.0)
-     * Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
+     * Obtener token de acceso (OAuth 2.0)
+     * Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token Bearer válido por 24 horas (86400 segundos). Este endpoint es público — no requiere cabecera de Authorization. 
      * @param oauthTokenRequest  (required)
      * @return OAuthTokenResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -154,8 +154,8 @@ public class AuthenticationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Token generated successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Token generado exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public OAuthTokenResponse getAccessToken(@javax.annotation.Nonnull OAuthTokenRequest oauthTokenRequest) throws ApiException {
@@ -164,8 +164,8 @@ public class AuthenticationApi {
     }
 
     /**
-     * Get access token (OAuth 2.0)
-     * Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
+     * Obtener token de acceso (OAuth 2.0)
+     * Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token Bearer válido por 24 horas (86400 segundos). Este endpoint es público — no requiere cabecera de Authorization. 
      * @param oauthTokenRequest  (required)
      * @return ApiResponse&lt;OAuthTokenResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -173,8 +173,8 @@ public class AuthenticationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Token generated successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Token generado exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<OAuthTokenResponse> getAccessTokenWithHttpInfo(@javax.annotation.Nonnull OAuthTokenRequest oauthTokenRequest) throws ApiException {
@@ -184,8 +184,8 @@ public class AuthenticationApi {
     }
 
     /**
-     * Get access token (OAuth 2.0) (asynchronously)
-     * Authenticates using OAuth 2.0 Client Credentials flow. Returns a Bearer token valid for 24 hours (86400 seconds). This endpoint is public — no Authorization header needed. 
+     * Obtener token de acceso (OAuth 2.0) (asynchronously)
+     * Autenticación mediante el flujo OAuth 2.0 Client Credentials. Retorna un token Bearer válido por 24 horas (86400 segundos). Este endpoint es público — no requiere cabecera de Authorization. 
      * @param oauthTokenRequest  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -194,8 +194,8 @@ public class AuthenticationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Token generated successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Token generado exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getAccessTokenAsync(@javax.annotation.Nonnull OAuthTokenRequest oauthTokenRequest, final ApiCallback<OAuthTokenResponse> _callback) throws ApiException {

@@ -1,29 +1,29 @@
 # pronesoft_ecf
-## Overview
-Production-grade API for issuing Electronic Tax Receipts (e-CF) in the
-Dominican Republic through the Pronesoft platform.
+## Descripción general
+API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la
+República Dominicana a través de la plataforma Pronesoft.
 
-## Authentication — OAuth 2.0 Client Credentials
+## Autenticación — OAuth 2.0 Client Credentials
 
-### Steps
-1. Get credentials from the portal:
-   - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App
-   - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App
-2. Request a token via POST /oauth/token — valid for 24 hours (86400s).
-3. Use: Authorization: Bearer <accessToken> on every request.
-4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.
+### Pasos
+1. Obtén tus credenciales desde el portal:
+   - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App
+   - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App
+2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s).
+3. Usa: Authorization: Bearer <accessToken> en cada request.
+4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.
 
-### Multi-company delegation
-To act on behalf of an associated company (branch), add:
+### Delegación multi-empresa
+Para actuar en nombre de una empresa asociada (sucursal), agrega:
   x-tenant-id: <business-uuid>
-Do NOT send x-tenant-id when acting as the main company.
+NO envíes x-tenant-id cuando actúes como la empresa principal.
 
-### Sandbox specifics
-- Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed.
-- Sequences are automatic — no need to create them manually.
-- The environment field in the document body MUST be TesteCF.
+### Detalles del Sandbox
+- Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real.
+- Las secuencias son automáticas — no es necesario crearlas manualmente.
+- El campo environment en el cuerpo del documento DEBE ser TesteCF.
 
-### Scopes
+### Scopes disponibles
 business:read, business:create, business:update,
 members:read, members:invite, members:revoke,
 certificates:read, certificates:upload, certificates:update,
@@ -75,12 +75,6 @@ import 'package:pronesoft_ecf/api.dart';
 
 // TODO Configure OAuth2 access token for authorization: oauth2
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AssociatedCompaniesApi();
 final email = email_example; // String | 
@@ -115,39 +109,45 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AssociatedCompaniesApi* | [**createAssociatedCompany**](doc//AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Create associated company / branch
-*AssociatedCompaniesApi* | [**deleteAssociatedCompany**](doc//AssociatedCompaniesApi.md#deleteassociatedcompany) | **DELETE** /associated-companies/{companyId} | Delete associated company
-*AssociatedCompaniesApi* | [**getCompanyDocumentMetrics**](doc//AssociatedCompaniesApi.md#getcompanydocumentmetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics
-*AssociatedCompaniesApi* | [**getCompanyMetrics**](doc//AssociatedCompaniesApi.md#getcompanymetrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics
-*AssociatedCompaniesApi* | [**listAssociatedCompanies**](doc//AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | List associated companies / branches
-*AssociatedCompaniesApi* | [**updateAssociatedCompany**](doc//AssociatedCompaniesApi.md#updateassociatedcompany) | **PUT** /associated-companies/{companyId} | Update associated company
-*AuthenticationApi* | [**getAccessToken**](doc//AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Get access token (OAuth 2.0)
-*AutomatedCertificationApi* | [**downloadCertification**](doc//AutomatedCertificationApi.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP
-*AutomatedCertificationApi* | [**getCertificationStatus**](doc//AutomatedCertificationApi.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status
-*AutomatedCertificationApi* | [**listCertificationNiches**](doc//AutomatedCertificationApi.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches
-*AutomatedCertificationApi* | [**startCertification**](doc//AutomatedCertificationApi.md#startcertification) | **POST** /dgii-ecf/automated-certification/start | Start certification process
-*CommercialApprovalsApi* | [**listApprovals**](doc//CommercialApprovalsApi.md#listapprovals) | **GET** /documents/approvals/all | List commercial approvals
-*DigitalCertificatesApi* | [**uploadCertificate**](doc//DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
-*DocumentsReceivedApi* | [**getReceivedDocumentStats**](doc//DocumentsReceivedApi.md#getreceiveddocumentstats) | **GET** /documents/received/stats/summary | Get received documents statistics
-*DocumentsReceivedApi* | [**listReceivedDocuments**](doc//DocumentsReceivedApi.md#listreceiveddocuments) | **GET** /documents/received/all | List received documents
-*DocumentsSentApi* | [**downloadDocument**](doc//DocumentsSentApi.md#downloaddocument) | **GET** /documents/download | Download document XML
-*DocumentsSentApi* | [**getDocument**](doc//DocumentsSentApi.md#getdocument) | **GET** /documents/{id} | Get document details
-*DocumentsSentApi* | [**getDocumentStats**](doc//DocumentsSentApi.md#getdocumentstats) | **GET** /documents/stats/summary | Get document statistics
-*DocumentsSentApi* | [**listSentDocuments**](doc//DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | List sent documents
-*ECFSubmissionApi* | [**getEcfHistory**](doc//ECFSubmissionApi.md#getecfhistory) | **GET** /{environment}/ecf/responses/history | Get submission history (last 50 documents)
-*ECFSubmissionApi* | [**getEcfStats**](doc//ECFSubmissionApi.md#getecfstats) | **GET** /{environment}/ecf/responses/stats | Get submission statistics (last 30 days)
-*ECFSubmissionApi* | [**getEcfStatus**](doc//ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{trackId} | Get document status by trackId
-*ECFSubmissionApi* | [**submitEcf**](doc//ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII
-*ReportsApi* | [**export606**](doc//ReportsApi.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases)
-*ReportsApi* | [**exportSentDocuments**](doc//ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Export sent documents report
-*TaxSequencesApi* | [**createTaxSequence**](doc//TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences/create | Create new tax sequence
-*TaxSequencesApi* | [**getNextNumber**](doc//TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Get next available fiscal number
-*TaxSequencesApi* | [**listTaxSequences**](doc//TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | List tax sequences
-*TaxSequencesApi* | [**updateTaxSequence**](doc//TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Update tax sequence
-*TaxSequencesApi* | [**voidTaxSequence**](doc//TaxSequencesApi.md#voidtaxsequence) | **POST** /tax-sequences/void | Void a range of fiscal numbers
-*WebhookConfigurationApi* | [**getWebhook**](doc//WebhookConfigurationApi.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details
-*WebhookConfigurationApi* | [**getWebhookStats**](doc//WebhookConfigurationApi.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics
-*WebhookConfigurationApi* | [**listWebhooks**](doc//WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | List webhook configurations
+*AssociatedCompaniesApi* | [**createAssociatedCompany**](doc//AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Crear empresa asociada / sucursal
+*AssociatedCompaniesApi* | [**deleteAssociatedCompany**](doc//AssociatedCompaniesApi.md#deleteassociatedcompany) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada
+*AssociatedCompaniesApi* | [**getCompanyDocumentMetrics**](doc//AssociatedCompaniesApi.md#getcompanydocumentmetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa
+*AssociatedCompaniesApi* | [**getCompanyMetrics**](doc//AssociatedCompaniesApi.md#getcompanymetrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa
+*AssociatedCompaniesApi* | [**listAssociatedCompanies**](doc//AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | Listar empresas asociadas / sucursales
+*AssociatedCompaniesApi* | [**updateAssociatedCompany**](doc//AssociatedCompaniesApi.md#updateassociatedcompany) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada
+*AuthenticationApi* | [**getAccessToken**](doc//AuthenticationApi.md#getaccesstoken) | **POST** /oauth/token | Obtener token de acceso (OAuth 2.0)
+*AutomatedCertificationApi* | [**downloadCertification**](doc//AutomatedCertificationApi.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación
+*AutomatedCertificationApi* | [**getCertificationStatus**](doc//AutomatedCertificationApi.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación
+*AutomatedCertificationApi* | [**listCertificationNiches**](doc//AutomatedCertificationApi.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación
+*AutomatedCertificationApi* | [**startCertification**](doc//AutomatedCertificationApi.md#startcertification) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación
+*CommercialApprovalsApi* | [**getCommercialApprovalById**](doc//CommercialApprovalsApi.md#getcommercialapprovalbyid) | **GET** /documents/approvals/{id} | Obtener aprobación comercial por ID
+*CommercialApprovalsApi* | [**listCommercialApprovals**](doc//CommercialApprovalsApi.md#listcommercialapprovals) | **GET** /documents/approvals | Listar aprobaciones comerciales
+*DigitalCertificatesApi* | [**uploadCertificate**](doc//DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
+*DocumentsReceivedApi* | [**getReceivedDocumentById**](doc//DocumentsReceivedApi.md#getreceiveddocumentbyid) | **GET** /documents/received/{id} | Obtener documento recibido por ID
+*DocumentsReceivedApi* | [**getReceivedDocumentStatsBySupplier**](doc//DocumentsReceivedApi.md#getreceiveddocumentstatsbysupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
+*DocumentsReceivedApi* | [**getReceivedDocumentStatsSummary**](doc//DocumentsReceivedApi.md#getreceiveddocumentstatssummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos
+*DocumentsReceivedApi* | [**listReceivedDocuments**](doc//DocumentsReceivedApi.md#listreceiveddocuments) | **GET** /documents/received | Listar documentos recibidos
+*DocumentsSentApi* | [**downloadSentDocumentXml**](doc//DocumentsSentApi.md#downloadsentdocumentxml) | **GET** /documents/download | Descargar XML del documento
+*DocumentsSentApi* | [**getSentDocumentById**](doc//DocumentsSentApi.md#getsentdocumentbyid) | **GET** /documents/{id} | Obtener detalle del documento
+*DocumentsSentApi* | [**getSentDocumentLogs**](doc//DocumentsSentApi.md#getsentdocumentlogs) | **GET** /documents/logs/{id} | Logs de procesamiento del documento
+*DocumentsSentApi* | [**getSentDocumentStats**](doc//DocumentsSentApi.md#getsentdocumentstats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
+*DocumentsSentApi* | [**getSentDocumentStatsByEnvironment**](doc//DocumentsSentApi.md#getsentdocumentstatsbyenvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
+*DocumentsSentApi* | [**getSentDocumentStatusOptions**](doc//DocumentsSentApi.md#getsentdocumentstatusoptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+*DocumentsSentApi* | [**listSentDocuments**](doc//DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | Listar documentos enviados
+*ECFSubmissionApi* | [**getEcfStats**](doc//ECFSubmissionApi.md#getecfstats) | **GET** /{environment}/ecf/responses/stats | Obtener estadísticas de envíos (últimos 30 días)
+*ECFSubmissionApi* | [**getEcfStatus**](doc//ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{id} | Consultar estado del documento por ID interno
+*ECFSubmissionApi* | [**getEcfSubmissionHistory**](doc//ECFSubmissionApi.md#getecfsubmissionhistory) | **GET** /{environment}/ecf/responses/history | Historial de envíos (paginado)
+*ECFSubmissionApi* | [**submitEcf**](doc//ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar documento e-CF a la DGII
+*ReportsApi* | [**export606**](doc//ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras)
+*ReportsApi* | [**exportSentDocuments**](doc//ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
+*TaxSequencesApi* | [**createTaxSequence**](doc//TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
+*TaxSequencesApi* | [**getNextNumber**](doc//TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+*TaxSequencesApi* | [**listTaxSequences**](doc//TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF
+*TaxSequencesApi* | [**updateTaxSequence**](doc//TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
+*TaxSequencesApi* | [**voidTaxSequence**](doc//TaxSequencesApi.md#voidtaxsequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
+*WebhookConfigurationApi* | [**getWebhook**](doc//WebhookConfigurationApi.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook
+*WebhookConfigurationApi* | [**getWebhookStats**](doc//WebhookConfigurationApi.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook
+*WebhookConfigurationApi* | [**listWebhooks**](doc//WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks
 
 
 ## Documentation For Models
@@ -162,10 +162,16 @@ Class | Method | HTTP request | Description
  - [AssociatedCompanySubscription](doc//AssociatedCompanySubscription.md)
  - [AssociatedCompanySubscriptionPlan](doc//AssociatedCompanySubscriptionPlan.md)
  - [BillingIndicator](doc//BillingIndicator.md)
+ - [BillingInvoiceReadyPayload](doc//BillingInvoiceReadyPayload.md)
+ - [BranchCreatedPayload](doc//BranchCreatedPayload.md)
+ - [BranchStatusChangedPayload](doc//BranchStatusChangedPayload.md)
  - [Buyer](doc//Buyer.md)
+ - [CertificateExpiringPayload](doc//CertificateExpiringPayload.md)
+ - [CertificationCompletedPayload](doc//CertificationCompletedPayload.md)
  - [CertificationNiche](doc//CertificationNiche.md)
  - [CertificationNicheNicheItemsInner](doc//CertificationNicheNicheItemsInner.md)
  - [CertificationStatus](doc//CertificationStatus.md)
+ - [CommercialApprovalPayload](doc//CommercialApprovalPayload.md)
  - [CompanyDocumentMetrics](doc//CompanyDocumentMetrics.md)
  - [CompanyDocumentMetricsGroupByStatusInner](doc//CompanyDocumentMetricsGroupByStatusInner.md)
  - [CompanyDocumentMetricsGroupByStatusInnerCount](doc//CompanyDocumentMetricsGroupByStatusInnerCount.md)
@@ -173,24 +179,33 @@ Class | Method | HTTP request | Description
  - [CompanyDocumentMetricsTotals](doc//CompanyDocumentMetricsTotals.md)
  - [CompanyMetrics](doc//CompanyMetrics.md)
  - [CompanyMetricsDocumentsStatus](doc//CompanyMetricsDocumentsStatus.md)
+ - [ContingencyActivatedPayload](doc//ContingencyActivatedPayload.md)
  - [CreateAssociatedCompany201Response](doc//CreateAssociatedCompany201Response.md)
  - [CreateTaxSequence201Response](doc//CreateTaxSequence201Response.md)
  - [CreateTaxSequenceRequest](doc//CreateTaxSequenceRequest.md)
  - [DeleteAssociatedCompany200Response](doc//DeleteAssociatedCompany200Response.md)
  - [DgiiMessage](doc//DgiiMessage.md)
  - [DiscountOrSurcharge](doc//DiscountOrSurcharge.md)
+ - [DocumentReceivedPayload](doc//DocumentReceivedPayload.md)
  - [DocumentStatsResponse](doc//DocumentStatsResponse.md)
+ - [DocumentStatsResponseByStatusValue](doc//DocumentStatsResponseByStatusValue.md)
  - [DocumentStatus](doc//DocumentStatus.md)
+ - [DocumentStatusChangedPayload](doc//DocumentStatusChangedPayload.md)
+ - [DocumentValidationErrorPayload](doc//DocumentValidationErrorPayload.md)
  - [EcfHistoryItem](doc//EcfHistoryItem.md)
  - [EcfStatsResponse](doc//EcfStatsResponse.md)
  - [EcfStatusResponse](doc//EcfStatusResponse.md)
- - [EcfSubmissionResponse](doc//EcfSubmissionResponse.md)
- - [EcfSubmissionResponseDgiiResponse](doc//EcfSubmissionResponseDgiiResponse.md)
+ - [EcfSubmitResponse](doc//EcfSubmitResponse.md)
+ - [EcfSubmitResponseCompanyIdentification](doc//EcfSubmitResponseCompanyIdentification.md)
  - [ElectronicDocument](doc//ElectronicDocument.md)
  - [Environment](doc//Environment.md)
  - [ErrorResponse](doc//ErrorResponse.md)
+ - [GetEcfSubmissionHistory200Response](doc//GetEcfSubmissionHistory200Response.md)
  - [GetNextNumber200Response](doc//GetNextNumber200Response.md)
  - [GetNextNumber200ResponseData](doc//GetNextNumber200ResponseData.md)
+ - [GetReceivedDocumentStatsBySupplier200ResponseInner](doc//GetReceivedDocumentStatsBySupplier200ResponseInner.md)
+ - [GetSentDocumentLogs200ResponseInner](doc//GetSentDocumentLogs200ResponseInner.md)
+ - [GetSentDocumentStatusOptions200ResponseInner](doc//GetSentDocumentStatusOptions200ResponseInner.md)
  - [InvoiceType](doc//InvoiceType.md)
  - [InvoiceTypeSequence](doc//InvoiceTypeSequence.md)
  - [Item](doc//Item.md)
@@ -204,24 +219,35 @@ Class | Method | HTTP request | Description
  - [ItemSurchargeInner](doc//ItemSurchargeInner.md)
  - [ItemUnitPrice](doc//ItemUnitPrice.md)
  - [ItemWithheldITBISAmount](doc//ItemWithheldITBISAmount.md)
+ - [LegalStatus](doc//LegalStatus.md)
  - [ListTaxSequences200Response](doc//ListTaxSequences200Response.md)
+ - [MemberInvitedPayload](doc//MemberInvitedPayload.md)
+ - [MemberJoinedPayload](doc//MemberJoinedPayload.md)
+ - [MemberRemovedPayload](doc//MemberRemovedPayload.md)
  - [OAuthTokenRequest](doc//OAuthTokenRequest.md)
  - [OAuthTokenResponse](doc//OAuthTokenResponse.md)
  - [Page](doc//Page.md)
  - [PaginationMeta](doc//PaginationMeta.md)
  - [PaymentForm](doc//PaymentForm.md)
  - [PaymentMethod](doc//PaymentMethod.md)
+ - [PlanPaymentFailedPayload](doc//PlanPaymentFailedPayload.md)
+ - [PlanUsageAlertPayload](doc//PlanUsageAlertPayload.md)
  - [PrintFormat](doc//PrintFormat.md)
  - [ProcessingLog](doc//ProcessingLog.md)
+ - [PublicDocumentStatus](doc//PublicDocumentStatus.md)
  - [RateLimitErrorResponse](doc//RateLimitErrorResponse.md)
  - [ReceivedDocument](doc//ReceivedDocument.md)
  - [ReceivedDocumentListResponse](doc//ReceivedDocumentListResponse.md)
  - [ReceivedDocumentStatsResponse](doc//ReceivedDocumentStatsResponse.md)
  - [ReferenceInfo](doc//ReferenceInfo.md)
+ - [SecurityApiKeyRotatedPayload](doc//SecurityApiKeyRotatedPayload.md)
+ - [SecurityNewLoginPayload](doc//SecurityNewLoginPayload.md)
  - [SentDocumentDetail](doc//SentDocumentDetail.md)
  - [SentDocumentListResponse](doc//SentDocumentListResponse.md)
  - [SentDocumentSummary](doc//SentDocumentSummary.md)
  - [SentDocumentSummaryBusiness](doc//SentDocumentSummaryBusiness.md)
+ - [SequenceDepletedPayload](doc//SequenceDepletedPayload.md)
+ - [SequenceVoidedPayload](doc//SequenceVoidedPayload.md)
  - [StartCertification200Response](doc//StartCertification200Response.md)
  - [StartCertificationRequest](doc//StartCertificationRequest.md)
  - [Subquantity](doc//Subquantity.md)
@@ -243,6 +269,7 @@ Class | Method | HTTP request | Description
  - [WebhookConfigResponse](doc//WebhookConfigResponse.md)
  - [WebhookEventType](doc//WebhookEventType.md)
  - [WebhookNotificationPayload](doc//WebhookNotificationPayload.md)
+ - [WebhookNotificationPayloadData](doc//WebhookNotificationPayloadData.md)
  - [WebhookStats](doc//WebhookStats.md)
  - [WebhookStatsStats](doc//WebhookStatsStats.md)
 
@@ -261,30 +288,30 @@ Authentication schemes defined for the API:
 - **Flow**: application
 - **Authorization URL**: 
 - **Scopes**: 
- - **business:read**: Read company data.
- - **business:create**: Create a new company.
- - **business:update**: Update company data.
- - **members:read**: View team members.
- - **members:invite**: Invite new members.
- - **members:revoke**: Revoke member access.
- - **certificates:read**: View digital certificates.
- - **certificates:upload**: Upload new certificates.
- - **certificates:update**: Update existing certificates.
- - **documents:read**: List and view document details.
- - **documents:create**: Create drafts or internal documents.
- - **documents:send**: Submit e-CF to the DGII.
- - **documents:receive**: Receive e-CF from third parties.
- - **documents:update**: Modify document metadata.
- - **approvals:read**: View approval statuses.
- - **approvals:commercial**: Perform commercial approvals or rejections.
- - **sequences:read**: View NCF/e-NCF ranges.
- - **sequences:create**: Request or add new sequences.
- - **sequences:update**: Modify sequence configurations.
- - **sequences:cancel**: Cancel unused sequences.
- - **business_info:read**: Access dashboard statistics and metrics.
- - **certification:read**: View DGII certification progress.
- - **certification:write**: Execute automated DGII certification tests.
- - **reports:read**: Generate and export reports (e.g. format 606).
+ - **business:read**: Consultar datos de la empresa.
+ - **business:create**: Crear una nueva empresa.
+ - **business:update**: Actualizar datos de la empresa.
+ - **members:read**: Ver miembros del equipo.
+ - **members:invite**: Invitar nuevos miembros.
+ - **members:revoke**: Revocar acceso de miembros.
+ - **certificates:read**: Ver certificados digitales.
+ - **certificates:upload**: Subir nuevos certificados.
+ - **certificates:update**: Actualizar certificados existentes.
+ - **documents:read**: Listar y consultar detalles de documentos.
+ - **documents:create**: Crear borradores o documentos internos.
+ - **documents:send**: Enviar e-CF a la DGII.
+ - **documents:receive**: Recibir e-CF de terceros.
+ - **documents:update**: Modificar metadatos de documentos.
+ - **approvals:read**: Ver estados de aprobación.
+ - **approvals:commercial**: Realizar aprobaciones o rechazos comerciales.
+ - **sequences:read**: Ver rangos de NCF/e-NCF.
+ - **sequences:create**: Solicitar o agregar nuevas secuencias.
+ - **sequences:update**: Modificar configuraciones de secuencias.
+ - **sequences:cancel**: Cancelar secuencias no utilizadas.
+ - **business_info:read**: Acceder a estadísticas y métricas del dashboard.
+ - **certification:read**: Ver progreso de certificación DGII.
+ - **certification:write**: Ejecutar pruebas de certificación automática DGII.
+ - **reports:read**: Generar y exportar reportes (ej. formato 606).
 
 
 ## Author

@@ -16,40 +16,20 @@ class CommercialApprovalsApi {
 
   final ApiClient apiClient;
 
-  /// List commercial approvals
+  /// Obtener aprobación comercial por ID
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
-  /// * [String] businessId (required):
+  /// * [String] id (required):
   ///
-  /// * [int] page:
-  ///
-  /// * [int] limit:
-  ///
-  /// * [String] ecf:
-  ///
-  /// * [String] documentType:
-  ///
-  /// * [int] status:
-  ///
-  /// * [DateTime] dateFrom:
-  ///
-  /// * [DateTime] dateTo:
-  ///
-  /// * [num] minAmount:
-  ///
-  /// * [num] maxAmount:
-  ///
-  /// * [String] search:
-  ///
-  /// * [String] sortBy:
-  ///
-  /// * [String] sortOrder:
-  Future<Response> listApprovalsWithHttpInfo(String businessId, { int? page, int? limit, String? ecf, String? documentType, int? status, DateTime? dateFrom, DateTime? dateTo, num? minAmount, num? maxAmount, String? search, String? sortBy, String? sortOrder, }) async {
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<Response> getCommercialApprovalByIdWithHttpInfo(String id, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/documents/approvals/all';
+    final path = r'/documents/approvals/{id}'
+      .replaceAll('{id}', id);
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -58,42 +38,8 @@ class CommercialApprovalsApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_queryParams('', 'businessId', businessId));
-    if (page != null) {
-      queryParams.addAll(_queryParams('', 'page', page));
-    }
-    if (limit != null) {
-      queryParams.addAll(_queryParams('', 'limit', limit));
-    }
-    if (ecf != null) {
-      queryParams.addAll(_queryParams('', 'ecf', ecf));
-    }
-    if (documentType != null) {
-      queryParams.addAll(_queryParams('', 'documentType', documentType));
-    }
-    if (status != null) {
-      queryParams.addAll(_queryParams('', 'status', status));
-    }
-    if (dateFrom != null) {
-      queryParams.addAll(_queryParams('', 'dateFrom', dateFrom));
-    }
-    if (dateTo != null) {
-      queryParams.addAll(_queryParams('', 'dateTo', dateTo));
-    }
-    if (minAmount != null) {
-      queryParams.addAll(_queryParams('', 'minAmount', minAmount));
-    }
-    if (maxAmount != null) {
-      queryParams.addAll(_queryParams('', 'maxAmount', maxAmount));
-    }
-    if (search != null) {
-      queryParams.addAll(_queryParams('', 'search', search));
-    }
-    if (sortBy != null) {
-      queryParams.addAll(_queryParams('', 'sortBy', sortBy));
-    }
-    if (sortOrder != null) {
-      queryParams.addAll(_queryParams('', 'sortOrder', sortOrder));
+    if (xTenantId != null) {
+      headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
     }
 
     const contentTypes = <String>[];
@@ -110,19 +56,42 @@ class CommercialApprovalsApi {
     );
   }
 
-  /// List commercial approvals
+  /// Obtener aprobación comercial por ID
   ///
   /// Parameters:
   ///
-  /// * [String] businessId (required):
+  /// * [String] id (required):
   ///
-  /// * [int] page:
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<ApprovalItem?> getCommercialApprovalById(String id, { String? xTenantId, }) async {
+    final response = await getCommercialApprovalByIdWithHttpInfo(id,  xTenantId: xTenantId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApprovalItem',) as ApprovalItem;
+    
+    }
+    return null;
+  }
+
+  /// Listar aprobaciones comerciales
   ///
-  /// * [int] limit:
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   ///
   /// * [String] ecf:
   ///
-  /// * [String] documentType:
+  /// * [String] type:
+  ///   Tipo de documento
   ///
   /// * [int] status:
   ///
@@ -130,17 +99,83 @@ class CommercialApprovalsApi {
   ///
   /// * [DateTime] dateTo:
   ///
-  /// * [num] minAmount:
+  /// * [int] page:
   ///
-  /// * [num] maxAmount:
+  /// * [int] limit:
+  Future<Response> listCommercialApprovalsWithHttpInfo({ String? xTenantId, String? ecf, String? type, int? status, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/documents/approvals';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (ecf != null) {
+      queryParams.addAll(_queryParams('', 'ecf', ecf));
+    }
+    if (type != null) {
+      queryParams.addAll(_queryParams('', 'type', type));
+    }
+    if (status != null) {
+      queryParams.addAll(_queryParams('', 'status', status));
+    }
+    if (dateFrom != null) {
+      queryParams.addAll(_queryParams('', 'dateFrom', dateFrom));
+    }
+    if (dateTo != null) {
+      queryParams.addAll(_queryParams('', 'dateTo', dateTo));
+    }
+    if (page != null) {
+      queryParams.addAll(_queryParams('', 'page', page));
+    }
+    if (limit != null) {
+      queryParams.addAll(_queryParams('', 'limit', limit));
+    }
+
+    if (xTenantId != null) {
+      headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Listar aprobaciones comerciales
   ///
-  /// * [String] search:
+  /// Parameters:
   ///
-  /// * [String] sortBy:
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   ///
-  /// * [String] sortOrder:
-  Future<ApprovalListResponse?> listApprovals(String businessId, { int? page, int? limit, String? ecf, String? documentType, int? status, DateTime? dateFrom, DateTime? dateTo, num? minAmount, num? maxAmount, String? search, String? sortBy, String? sortOrder, }) async {
-    final response = await listApprovalsWithHttpInfo(businessId,  page: page, limit: limit, ecf: ecf, documentType: documentType, status: status, dateFrom: dateFrom, dateTo: dateTo, minAmount: minAmount, maxAmount: maxAmount, search: search, sortBy: sortBy, sortOrder: sortOrder, );
+  /// * [String] ecf:
+  ///
+  /// * [String] type:
+  ///   Tipo de documento
+  ///
+  /// * [int] status:
+  ///
+  /// * [DateTime] dateFrom:
+  ///
+  /// * [DateTime] dateTo:
+  ///
+  /// * [int] page:
+  ///
+  /// * [int] limit:
+  Future<ApprovalListResponse?> listCommercialApprovals({ String? xTenantId, String? ecf, String? type, int? status, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+    final response = await listCommercialApprovalsWithHttpInfo( xTenantId: xTenantId, ecf: ecf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

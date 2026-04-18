@@ -10,7 +10,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { PrintFormat } from ''
+import type { PrintFormat } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

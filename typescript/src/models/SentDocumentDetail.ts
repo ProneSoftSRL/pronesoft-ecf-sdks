@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { DocumentStatus } from './DocumentStatus';
-import {
-    DocumentStatusFromJSON,
-    DocumentStatusFromJSONTyped,
-    DocumentStatusToJSON,
-    DocumentStatusToJSONTyped,
-} from './DocumentStatus';
 import type { SentDocumentSummaryBusiness } from './SentDocumentSummaryBusiness';
 import {
     SentDocumentSummaryBusinessFromJSON,
@@ -27,13 +20,13 @@ import {
     SentDocumentSummaryBusinessToJSON,
     SentDocumentSummaryBusinessToJSONTyped,
 } from './SentDocumentSummaryBusiness';
-import type { ProcessingLog } from './ProcessingLog';
+import type { Environment } from './Environment';
 import {
-    ProcessingLogFromJSON,
-    ProcessingLogFromJSONTyped,
-    ProcessingLogToJSON,
-    ProcessingLogToJSONTyped,
-} from './ProcessingLog';
+    EnvironmentFromJSON,
+    EnvironmentFromJSONTyped,
+    EnvironmentToJSON,
+    EnvironmentToJSONTyped,
+} from './Environment';
 
 /**
  * 
@@ -52,25 +45,25 @@ export interface SentDocumentDetail {
      * @type {string}
      * @memberof SentDocumentDetail
      */
-    encf?: string;
+    encf?: string | null;
     /**
      * 
-     * @type {DocumentStatus}
+     * @type {SentDocumentDetailStatusEnum}
      * @memberof SentDocumentDetail
      */
-    status?: DocumentStatus;
-    /**
-     * 
-     * @type {string}
-     * @memberof SentDocumentDetail
-     */
-    statusDisplay?: string;
+    status?: SentDocumentDetailStatusEnum;
     /**
      * 
      * @type {string}
      * @memberof SentDocumentDetail
      */
-    trackId?: string;
+    statusLabel?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SentDocumentDetail
+     */
+    trackId?: string | null;
     /**
      * 
      * @type {string}
@@ -79,10 +72,16 @@ export interface SentDocumentDetail {
     documentType?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof SentDocumentDetail
      */
-    totalAmount?: number;
+    issuerRnc?: string;
+    /**
+     * 
+     * @type {Environment}
+     * @memberof SentDocumentDetail
+     */
+    environment?: Environment;
     /**
      * 
      * @type {Date}
@@ -97,30 +96,66 @@ export interface SentDocumentDetail {
     createdAt?: Date;
     /**
      * 
-     * @type {string}
-     * @memberof SentDocumentDetail
-     */
-    xmlUrl?: string;
-    /**
-     * 
      * @type {SentDocumentSummaryBusiness}
      * @memberof SentDocumentDetail
      */
     business?: SentDocumentSummaryBusiness;
     /**
      * 
-     * @type {Array<ProcessingLog>}
+     * @type {SentDocumentDetailLegalStatusEnum}
      * @memberof SentDocumentDetail
      */
-    logs?: Array<ProcessingLog>;
+    legalStatus?: SentDocumentDetailLegalStatusEnum | null;
     /**
      * 
-     * @type {Array<object>}
+     * @type {string}
      * @memberof SentDocumentDetail
      */
-    auditLogs?: Array<object>;
+    documentStampUrl?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SentDocumentDetail
+     */
+    securityCode?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SentDocumentDetail
+     */
+    contingencyMode?: boolean;
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof SentDocumentDetail
+     */
+    governmentResponse?: { [key: string]: any; } | null;
 }
 
+
+/**
+ * @export
+ */
+export const SentDocumentDetailStatusEnum = {
+    Approved: 'APPROVED',
+    Rejected: 'REJECTED',
+    InProcess: 'IN_PROCESS',
+    ConditionallyApproved: 'CONDITIONALLY_APPROVED',
+    Error: 'ERROR',
+    ErrorComunication: 'ERROR_COMUNICATION'
+} as const;
+export type SentDocumentDetailStatusEnum = typeof SentDocumentDetailStatusEnum[keyof typeof SentDocumentDetailStatusEnum];
+
+/**
+ * @export
+ */
+export const SentDocumentDetailLegalStatusEnum = {
+    Accepted: 'ACCEPTED',
+    AcceptedWithObservations: 'ACCEPTED_WITH_OBSERVATIONS',
+    Rejected: 'REJECTED',
+    Error: 'ERROR'
+} as const;
+export type SentDocumentDetailLegalStatusEnum = typeof SentDocumentDetailLegalStatusEnum[keyof typeof SentDocumentDetailLegalStatusEnum];
 
 
 /**
@@ -142,17 +177,20 @@ export function SentDocumentDetailFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'id': json['id'] == null ? undefined : json['id'],
         'encf': json['encf'] == null ? undefined : json['encf'],
-        'status': json['status'] == null ? undefined : DocumentStatusFromJSON(json['status']),
-        'statusDisplay': json['statusDisplay'] == null ? undefined : json['statusDisplay'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'statusLabel': json['statusLabel'] == null ? undefined : json['statusLabel'],
         'trackId': json['trackId'] == null ? undefined : json['trackId'],
         'documentType': json['documentType'] == null ? undefined : json['documentType'],
-        'totalAmount': json['totalAmount'] == null ? undefined : json['totalAmount'],
+        'issuerRnc': json['issuerRnc'] == null ? undefined : json['issuerRnc'],
+        'environment': json['environment'] == null ? undefined : EnvironmentFromJSON(json['environment']),
         'receivedAt': json['receivedAt'] == null ? undefined : (new Date(json['receivedAt'])),
         'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
-        'xmlUrl': json['xmlUrl'] == null ? undefined : json['xmlUrl'],
         'business': json['business'] == null ? undefined : SentDocumentSummaryBusinessFromJSON(json['business']),
-        'logs': json['logs'] == null ? undefined : ((json['logs'] as Array<any>).map(ProcessingLogFromJSON)),
-        'auditLogs': json['auditLogs'] == null ? undefined : json['auditLogs'],
+        'legalStatus': json['legalStatus'] == null ? undefined : json['legalStatus'],
+        'documentStampUrl': json['documentStampUrl'] == null ? undefined : json['documentStampUrl'],
+        'securityCode': json['securityCode'] == null ? undefined : json['securityCode'],
+        'contingencyMode': json['contingencyMode'] == null ? undefined : json['contingencyMode'],
+        'governmentResponse': json['governmentResponse'] == null ? undefined : json['governmentResponse'],
     };
 }
 
@@ -169,17 +207,20 @@ export function SentDocumentDetailToJSONTyped(value?: SentDocumentDetail | null,
         
         'id': value['id'],
         'encf': value['encf'],
-        'status': DocumentStatusToJSON(value['status']),
-        'statusDisplay': value['statusDisplay'],
+        'status': value['status'],
+        'statusLabel': value['statusLabel'],
         'trackId': value['trackId'],
         'documentType': value['documentType'],
-        'totalAmount': value['totalAmount'],
+        'issuerRnc': value['issuerRnc'],
+        'environment': EnvironmentToJSON(value['environment']),
         'receivedAt': value['receivedAt'] == null ? value['receivedAt'] : value['receivedAt'].toISOString(),
         'createdAt': value['createdAt'] == null ? value['createdAt'] : value['createdAt'].toISOString(),
-        'xmlUrl': value['xmlUrl'],
         'business': SentDocumentSummaryBusinessToJSON(value['business']),
-        'logs': value['logs'] == null ? undefined : ((value['logs'] as Array<any>).map(ProcessingLogToJSON)),
-        'auditLogs': value['auditLogs'],
+        'legalStatus': value['legalStatus'],
+        'documentStampUrl': value['documentStampUrl'],
+        'securityCode': value['securityCode'],
+        'contingencyMode': value['contingencyMode'],
+        'governmentResponse': value['governmentResponse'],
     };
 }
 

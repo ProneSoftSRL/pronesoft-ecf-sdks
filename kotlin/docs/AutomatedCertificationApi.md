@@ -4,19 +4,19 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**downloadCertification**](AutomatedCertificationApi.md#downloadCertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP |
-| [**getCertificationStatus**](AutomatedCertificationApi.md#getCertificationStatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status |
-| [**listCertificationNiches**](AutomatedCertificationApi.md#listCertificationNiches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches |
-| [**startCertification**](AutomatedCertificationApi.md#startCertification) | **POST** /dgii-ecf/automated-certification/start | Start certification process |
+| [**downloadCertification**](AutomatedCertificationApi.md#downloadCertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación |
+| [**getCertificationStatus**](AutomatedCertificationApi.md#getCertificationStatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación |
+| [**listCertificationNiches**](AutomatedCertificationApi.md#listCertificationNiches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación |
+| [**startCertification**](AutomatedCertificationApi.md#startCertification) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación |
 
 
 <a id="downloadCertification"></a>
 # **downloadCertification**
 > java.io.File downloadCertification(id)
 
-Download certification ZIP
+Descargar ZIP de certificación
 
-Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
 
 ### Example
 ```kotlin
@@ -52,8 +52,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -64,7 +62,7 @@ Configure bearerAuth:
 # **getCertificationStatus**
 > CertificationStatus getCertificationStatus(id)
 
-Get certification process status
+Estado del proceso de certificación
 
 ### Example
 ```kotlin
@@ -100,8 +98,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -112,7 +108,7 @@ Configure bearerAuth:
 # **listCertificationNiches**
 > kotlin.collections.List&lt;CertificationNiche&gt; listCertificationNiches()
 
-List certification niches
+Listar nichos de certificación
 
 ### Example
 ```kotlin
@@ -145,8 +141,6 @@ This endpoint does not need any parameter.
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -157,7 +151,7 @@ Configure bearerAuth:
 # **startCertification**
 > StartCertification200Response startCertification(startCertificationRequest)
 
-Start certification process
+Iniciar proceso de certificación
 
 ### Example
 ```kotlin
@@ -192,8 +186,6 @@ try {
 
 
 Configure oauth2:
-    ApiClient.accessToken = ""
-Configure bearerAuth:
     ApiClient.accessToken = ""
 
 ### HTTP request headers

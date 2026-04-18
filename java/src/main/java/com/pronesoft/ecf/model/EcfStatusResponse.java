@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -19,15 +19,16 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.pronesoft.ecf.model.DgiiMessage;
-import com.pronesoft.ecf.model.DocumentStatus;
-import com.pronesoft.ecf.model.Environment;
-import com.pronesoft.ecf.model.ProcessingLog;
+import com.pronesoft.ecf.model.EcfSubmitResponseCompanyIdentification;
 import java.io.IOException;
+import java.net.URI;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,77 +54,38 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * EcfStatusResponse
+ * Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class EcfStatusResponse {
-  public static final String SERIALIZED_NAME_TRACKING_ID = "trackingId";
-  @SerializedName(SERIALIZED_NAME_TRACKING_ID)
-  @javax.annotation.Nullable
-  private String trackingId;
+  public static final String SERIALIZED_NAME_ID = "id";
+  @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nonnull
+  private UUID id;
 
-  public static final String SERIALIZED_NAME_ESTADO = "estado";
-  @SerializedName(SERIALIZED_NAME_ESTADO)
+  public static final String SERIALIZED_NAME_STAMP_DATE = "stampDate";
+  @SerializedName(SERIALIZED_NAME_STAMP_DATE)
   @javax.annotation.Nullable
-  private String estado;
-
-  public static final String SERIALIZED_NAME_TRACK_ID = "trackId";
-  @SerializedName(SERIALIZED_NAME_TRACK_ID)
-  @javax.annotation.Nullable
-  private String trackId;
-
-  public static final String SERIALIZED_NAME_NUMERO_CONTROL = "numeroControl";
-  @SerializedName(SERIALIZED_NAME_NUMERO_CONTROL)
-  @javax.annotation.Nullable
-  private String numeroControl;
-
-  public static final String SERIALIZED_NAME_STATUS = "status";
-  @SerializedName(SERIALIZED_NAME_STATUS)
-  @javax.annotation.Nullable
-  private DocumentStatus status;
-
-  public static final String SERIALIZED_NAME_ENCF = "encf";
-  @SerializedName(SERIALIZED_NAME_ENCF)
-  @javax.annotation.Nullable
-  private String encf;
-
-  public static final String SERIALIZED_NAME_BUSINESS_RNC = "businessRnc";
-  @SerializedName(SERIALIZED_NAME_BUSINESS_RNC)
-  @javax.annotation.Nullable
-  private String businessRnc;
-
-  public static final String SERIALIZED_NAME_ENVIRONMENT = "environment";
-  @SerializedName(SERIALIZED_NAME_ENVIRONMENT)
-  @javax.annotation.Nullable
-  private Environment environment;
-
-  public static final String SERIALIZED_NAME_RECEIVED_AT = "receivedAt";
-  @SerializedName(SERIALIZED_NAME_RECEIVED_AT)
-  @javax.annotation.Nullable
-  private OffsetDateTime receivedAt;
-
-  public static final String SERIALIZED_NAME_MENSAJES = "mensajes";
-  @SerializedName(SERIALIZED_NAME_MENSAJES)
-  @javax.annotation.Nullable
-  private List<DgiiMessage> mensajes = new ArrayList<>();
-
-  public static final String SERIALIZED_NAME_LOGS = "logs";
-  @SerializedName(SERIALIZED_NAME_LOGS)
-  @javax.annotation.Nullable
-  private List<ProcessingLog> logs = new ArrayList<>();
+  private LocalDate stampDate;
 
   /**
-   * Gets or Sets source
+   * Estado del proceso de envío a DGII.
    */
-  @JsonAdapter(SourceEnum.Adapter.class)
-  public enum SourceEnum {
-    DGII_DIRECT("dgii_direct"),
+  @JsonAdapter(StatusEnum.Adapter.class)
+  public enum StatusEnum {
+    REGISTERED("REGISTERED"),
     
-    LOCAL_DATABASE("local_database");
+    TO_SEND("TO_SEND"),
+    
+    WAITING_RESPONSE("WAITING_RESPONSE"),
+    
+    TO_NOTIFY("TO_NOTIFY"),
+    
+    FINISHED("FINISHED");
 
     private String value;
 
-    SourceEnum(String value) {
+    StatusEnum(String value) {
       this.value = value;
     }
 
@@ -136,8 +98,8 @@ public class EcfStatusResponse {
       return String.valueOf(value);
     }
 
-    public static SourceEnum fromValue(String value) {
-      for (SourceEnum b : SourceEnum.values()) {
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
         if (b.value.equals(value)) {
           return b;
         }
@@ -145,68 +107,251 @@ public class EcfStatusResponse {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
-    public static class Adapter extends TypeAdapter<SourceEnum> {
+    public static class Adapter extends TypeAdapter<StatusEnum> {
       @Override
-      public void write(final JsonWriter jsonWriter, final SourceEnum enumeration) throws IOException {
+      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
         jsonWriter.value(enumeration.getValue());
       }
 
       @Override
-      public SourceEnum read(final JsonReader jsonReader) throws IOException {
+      public StatusEnum read(final JsonReader jsonReader) throws IOException {
         String value =  jsonReader.nextString();
-        return SourceEnum.fromValue(value);
+        return StatusEnum.fromValue(value);
       }
     }
 
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       String value = jsonElement.getAsString();
-      SourceEnum.fromValue(value);
+      StatusEnum.fromValue(value);
     }
   }
 
-  public static final String SERIALIZED_NAME_SOURCE = "source";
-  @SerializedName(SERIALIZED_NAME_SOURCE)
+  public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nonnull
+  private StatusEnum status;
+
+  /**
+   * Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+   */
+  @JsonAdapter(LegalStatusEnum.Adapter.class)
+  public enum LegalStatusEnum {
+    ACCEPTED("ACCEPTED"),
+    
+    ACCEPTED_WITH_OBSERVATIONS("ACCEPTED_WITH_OBSERVATIONS"),
+    
+    REJECTED("REJECTED"),
+    
+    ERROR("ERROR");
+
+    private String value;
+
+    LegalStatusEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static LegalStatusEnum fromValue(String value) {
+      for (LegalStatusEnum b : LegalStatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      return null;
+    }
+
+    public static class Adapter extends TypeAdapter<LegalStatusEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final LegalStatusEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public LegalStatusEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return LegalStatusEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      LegalStatusEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_LEGAL_STATUS = "legalStatus";
+  @SerializedName(SERIALIZED_NAME_LEGAL_STATUS)
   @javax.annotation.Nullable
-  private SourceEnum source;
+  private LegalStatusEnum legalStatus;
+
+  public static final String SERIALIZED_NAME_COMPANY_IDENTIFICATION = "companyIdentification";
+  @SerializedName(SERIALIZED_NAME_COMPANY_IDENTIFICATION)
+  @javax.annotation.Nonnull
+  private EcfSubmitResponseCompanyIdentification companyIdentification;
+
+  public static final String SERIALIZED_NAME_TRACK_ID = "trackId";
+  @SerializedName(SERIALIZED_NAME_TRACK_ID)
+  @javax.annotation.Nullable
+  private String trackId;
+
+  public static final String SERIALIZED_NAME_DOCUMENT_NUMBER = "documentNumber";
+  @SerializedName(SERIALIZED_NAME_DOCUMENT_NUMBER)
+  @javax.annotation.Nullable
+  private String documentNumber;
+
+  public static final String SERIALIZED_NAME_ENCF = "encf";
+  @SerializedName(SERIALIZED_NAME_ENCF)
+  @javax.annotation.Nullable
+  private String encf;
+
+  public static final String SERIALIZED_NAME_CONTINGENCY_MODE = "contingencyMode";
+  @SerializedName(SERIALIZED_NAME_CONTINGENCY_MODE)
+  @javax.annotation.Nullable
+  private Boolean contingencyMode;
+
+  public static final String SERIALIZED_NAME_CONTINGENCY_MESSAGE = "contingencyMessage";
+  @SerializedName(SERIALIZED_NAME_CONTINGENCY_MESSAGE)
+  @javax.annotation.Nullable
+  private String contingencyMessage;
+
+  public static final String SERIALIZED_NAME_DOCUMENT_STAMP_URL = "documentStampUrl";
+  @SerializedName(SERIALIZED_NAME_DOCUMENT_STAMP_URL)
+  @javax.annotation.Nullable
+  private URI documentStampUrl;
+
+  public static final String SERIALIZED_NAME_PDF = "pdf";
+  @SerializedName(SERIALIZED_NAME_PDF)
+  @javax.annotation.Nullable
+  private URI pdf;
+
+  public static final String SERIALIZED_NAME_XML_URL = "xmlUrl";
+  @SerializedName(SERIALIZED_NAME_XML_URL)
+  @javax.annotation.Nullable
+  private URI xmlUrl;
+
+  public static final String SERIALIZED_NAME_SIGNATURE_DATE = "signatureDate";
+  @SerializedName(SERIALIZED_NAME_SIGNATURE_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime signatureDate;
+
+  public static final String SERIALIZED_NAME_SECURITY_CODE = "securityCode";
+  @SerializedName(SERIALIZED_NAME_SECURITY_CODE)
+  @javax.annotation.Nullable
+  private String securityCode;
+
+  public static final String SERIALIZED_NAME_SEQUENCE_CONSUMED = "sequenceConsumed";
+  @SerializedName(SERIALIZED_NAME_SEQUENCE_CONSUMED)
+  @javax.annotation.Nonnull
+  private Boolean sequenceConsumed;
+
+  public static final String SERIALIZED_NAME_GOVERNMENT_RESPONSE = "governmentResponse";
+  @SerializedName(SERIALIZED_NAME_GOVERNMENT_RESPONSE)
+  @javax.annotation.Nullable
+  private Map<String, Object> governmentResponse = new HashMap<>();
 
   public EcfStatusResponse() {
   }
 
-  public EcfStatusResponse trackingId(@javax.annotation.Nullable String trackingId) {
-    this.trackingId = trackingId;
+  public EcfStatusResponse id(@javax.annotation.Nonnull UUID id) {
+    this.id = id;
     return this;
   }
 
   /**
-   * Get trackingId
-   * @return trackingId
+   * ID interno del documento.
+   * @return id
    */
-  @javax.annotation.Nullable
-  public String getTrackingId() {
-    return trackingId;
+  @javax.annotation.Nonnull
+  public UUID getId() {
+    return id;
   }
 
-  public void setTrackingId(@javax.annotation.Nullable String trackingId) {
-    this.trackingId = trackingId;
+  public void setId(@javax.annotation.Nonnull UUID id) {
+    this.id = id;
   }
 
 
-  public EcfStatusResponse estado(@javax.annotation.Nullable String estado) {
-    this.estado = estado;
+  public EcfStatusResponse stampDate(@javax.annotation.Nullable LocalDate stampDate) {
+    this.stampDate = stampDate;
     return this;
   }
 
   /**
-   * Get estado
-   * @return estado
+   * Fecha de emisión del documento (YYYY-MM-DD).
+   * @return stampDate
    */
   @javax.annotation.Nullable
-  public String getEstado() {
-    return estado;
+  public LocalDate getStampDate() {
+    return stampDate;
   }
 
-  public void setEstado(@javax.annotation.Nullable String estado) {
-    this.estado = estado;
+  public void setStampDate(@javax.annotation.Nullable LocalDate stampDate) {
+    this.stampDate = stampDate;
+  }
+
+
+  public EcfStatusResponse status(@javax.annotation.Nonnull StatusEnum status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Estado del proceso de envío a DGII.
+   * @return status
+   */
+  @javax.annotation.Nonnull
+  public StatusEnum getStatus() {
+    return status;
+  }
+
+  public void setStatus(@javax.annotation.Nonnull StatusEnum status) {
+    this.status = status;
+  }
+
+
+  public EcfStatusResponse legalStatus(@javax.annotation.Nullable LegalStatusEnum legalStatus) {
+    this.legalStatus = legalStatus;
+    return this;
+  }
+
+  /**
+   * Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+   * @return legalStatus
+   */
+  @javax.annotation.Nullable
+  public LegalStatusEnum getLegalStatus() {
+    return legalStatus;
+  }
+
+  public void setLegalStatus(@javax.annotation.Nullable LegalStatusEnum legalStatus) {
+    this.legalStatus = legalStatus;
+  }
+
+
+  public EcfStatusResponse companyIdentification(@javax.annotation.Nonnull EcfSubmitResponseCompanyIdentification companyIdentification) {
+    this.companyIdentification = companyIdentification;
+    return this;
+  }
+
+  /**
+   * Get companyIdentification
+   * @return companyIdentification
+   */
+  @javax.annotation.Nonnull
+  public EcfSubmitResponseCompanyIdentification getCompanyIdentification() {
+    return companyIdentification;
+  }
+
+  public void setCompanyIdentification(@javax.annotation.Nonnull EcfSubmitResponseCompanyIdentification companyIdentification) {
+    this.companyIdentification = companyIdentification;
   }
 
 
@@ -216,7 +361,7 @@ public class EcfStatusResponse {
   }
 
   /**
-   * Get trackId
+   * ID de seguimiento asignado por DGII.
    * @return trackId
    */
   @javax.annotation.Nullable
@@ -229,41 +374,22 @@ public class EcfStatusResponse {
   }
 
 
-  public EcfStatusResponse numeroControl(@javax.annotation.Nullable String numeroControl) {
-    this.numeroControl = numeroControl;
+  public EcfStatusResponse documentNumber(@javax.annotation.Nullable String documentNumber) {
+    this.documentNumber = documentNumber;
     return this;
   }
 
   /**
-   * Get numeroControl
-   * @return numeroControl
+   * Número de control electrónico (e-NCF).
+   * @return documentNumber
    */
   @javax.annotation.Nullable
-  public String getNumeroControl() {
-    return numeroControl;
+  public String getDocumentNumber() {
+    return documentNumber;
   }
 
-  public void setNumeroControl(@javax.annotation.Nullable String numeroControl) {
-    this.numeroControl = numeroControl;
-  }
-
-
-  public EcfStatusResponse status(@javax.annotation.Nullable DocumentStatus status) {
-    this.status = status;
-    return this;
-  }
-
-  /**
-   * Get status
-   * @return status
-   */
-  @javax.annotation.Nullable
-  public DocumentStatus getStatus() {
-    return status;
-  }
-
-  public void setStatus(@javax.annotation.Nullable DocumentStatus status) {
-    this.status = status;
+  public void setDocumentNumber(@javax.annotation.Nullable String documentNumber) {
+    this.documentNumber = documentNumber;
   }
 
 
@@ -273,7 +399,7 @@ public class EcfStatusResponse {
   }
 
   /**
-   * Get encf
+   * Número e-NCF del documento.
    * @return encf
    */
   @javax.annotation.Nullable
@@ -286,133 +412,182 @@ public class EcfStatusResponse {
   }
 
 
-  public EcfStatusResponse businessRnc(@javax.annotation.Nullable String businessRnc) {
-    this.businessRnc = businessRnc;
+  public EcfStatusResponse contingencyMode(@javax.annotation.Nullable Boolean contingencyMode) {
+    this.contingencyMode = contingencyMode;
     return this;
   }
 
   /**
-   * Get businessRnc
-   * @return businessRnc
+   * true si fue emitido en modo contingencia.
+   * @return contingencyMode
    */
   @javax.annotation.Nullable
-  public String getBusinessRnc() {
-    return businessRnc;
+  public Boolean getContingencyMode() {
+    return contingencyMode;
   }
 
-  public void setBusinessRnc(@javax.annotation.Nullable String businessRnc) {
-    this.businessRnc = businessRnc;
+  public void setContingencyMode(@javax.annotation.Nullable Boolean contingencyMode) {
+    this.contingencyMode = contingencyMode;
   }
 
 
-  public EcfStatusResponse environment(@javax.annotation.Nullable Environment environment) {
-    this.environment = environment;
+  public EcfStatusResponse contingencyMessage(@javax.annotation.Nullable String contingencyMessage) {
+    this.contingencyMessage = contingencyMessage;
     return this;
   }
 
   /**
-   * Get environment
-   * @return environment
+   * Mensaje oficial DGII cuando contingencyMode es true.
+   * @return contingencyMessage
    */
   @javax.annotation.Nullable
-  public Environment getEnvironment() {
-    return environment;
+  public String getContingencyMessage() {
+    return contingencyMessage;
   }
 
-  public void setEnvironment(@javax.annotation.Nullable Environment environment) {
-    this.environment = environment;
+  public void setContingencyMessage(@javax.annotation.Nullable String contingencyMessage) {
+    this.contingencyMessage = contingencyMessage;
   }
 
 
-  public EcfStatusResponse receivedAt(@javax.annotation.Nullable OffsetDateTime receivedAt) {
-    this.receivedAt = receivedAt;
+  public EcfStatusResponse documentStampUrl(@javax.annotation.Nullable URI documentStampUrl) {
+    this.documentStampUrl = documentStampUrl;
     return this;
   }
 
   /**
-   * Get receivedAt
-   * @return receivedAt
+   * URL del código QR del documento.
+   * @return documentStampUrl
    */
   @javax.annotation.Nullable
-  public OffsetDateTime getReceivedAt() {
-    return receivedAt;
+  public URI getDocumentStampUrl() {
+    return documentStampUrl;
   }
 
-  public void setReceivedAt(@javax.annotation.Nullable OffsetDateTime receivedAt) {
-    this.receivedAt = receivedAt;
+  public void setDocumentStampUrl(@javax.annotation.Nullable URI documentStampUrl) {
+    this.documentStampUrl = documentStampUrl;
   }
 
 
-  public EcfStatusResponse mensajes(@javax.annotation.Nullable List<DgiiMessage> mensajes) {
-    this.mensajes = mensajes;
+  public EcfStatusResponse pdf(@javax.annotation.Nullable URI pdf) {
+    this.pdf = pdf;
     return this;
   }
 
-  public EcfStatusResponse addMensajesItem(DgiiMessage mensajesItem) {
-    if (this.mensajes == null) {
-      this.mensajes = new ArrayList<>();
+  /**
+   * URL pre-firmada del PDF (expira en 1 hora).
+   * @return pdf
+   */
+  @javax.annotation.Nullable
+  public URI getPdf() {
+    return pdf;
+  }
+
+  public void setPdf(@javax.annotation.Nullable URI pdf) {
+    this.pdf = pdf;
+  }
+
+
+  public EcfStatusResponse xmlUrl(@javax.annotation.Nullable URI xmlUrl) {
+    this.xmlUrl = xmlUrl;
+    return this;
+  }
+
+  /**
+   * URL pre-firmada del XML firmado (expira en 1 hora).
+   * @return xmlUrl
+   */
+  @javax.annotation.Nullable
+  public URI getXmlUrl() {
+    return xmlUrl;
+  }
+
+  public void setXmlUrl(@javax.annotation.Nullable URI xmlUrl) {
+    this.xmlUrl = xmlUrl;
+  }
+
+
+  public EcfStatusResponse signatureDate(@javax.annotation.Nullable OffsetDateTime signatureDate) {
+    this.signatureDate = signatureDate;
+    return this;
+  }
+
+  /**
+   * Fecha y hora de la firma digital.
+   * @return signatureDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getSignatureDate() {
+    return signatureDate;
+  }
+
+  public void setSignatureDate(@javax.annotation.Nullable OffsetDateTime signatureDate) {
+    this.signatureDate = signatureDate;
+  }
+
+
+  public EcfStatusResponse securityCode(@javax.annotation.Nullable String securityCode) {
+    this.securityCode = securityCode;
+    return this;
+  }
+
+  /**
+   * Código de seguridad del documento.
+   * @return securityCode
+   */
+  @javax.annotation.Nullable
+  public String getSecurityCode() {
+    return securityCode;
+  }
+
+  public void setSecurityCode(@javax.annotation.Nullable String securityCode) {
+    this.securityCode = securityCode;
+  }
+
+
+  public EcfStatusResponse sequenceConsumed(@javax.annotation.Nonnull Boolean sequenceConsumed) {
+    this.sequenceConsumed = sequenceConsumed;
+    return this;
+  }
+
+  /**
+   * true si DGII confirmó el consumo de la secuencia.
+   * @return sequenceConsumed
+   */
+  @javax.annotation.Nonnull
+  public Boolean getSequenceConsumed() {
+    return sequenceConsumed;
+  }
+
+  public void setSequenceConsumed(@javax.annotation.Nonnull Boolean sequenceConsumed) {
+    this.sequenceConsumed = sequenceConsumed;
+  }
+
+
+  public EcfStatusResponse governmentResponse(@javax.annotation.Nullable Map<String, Object> governmentResponse) {
+    this.governmentResponse = governmentResponse;
+    return this;
+  }
+
+  public EcfStatusResponse putGovernmentResponseItem(String key, Object governmentResponseItem) {
+    if (this.governmentResponse == null) {
+      this.governmentResponse = new HashMap<>();
     }
-    this.mensajes.add(mensajesItem);
+    this.governmentResponse.put(key, governmentResponseItem);
     return this;
   }
 
   /**
-   * Get mensajes
-   * @return mensajes
+   * Respuesta completa de DGII (disponible cuando status es FINISHED).
+   * @return governmentResponse
    */
   @javax.annotation.Nullable
-  public List<DgiiMessage> getMensajes() {
-    return mensajes;
+  public Map<String, Object> getGovernmentResponse() {
+    return governmentResponse;
   }
 
-  public void setMensajes(@javax.annotation.Nullable List<DgiiMessage> mensajes) {
-    this.mensajes = mensajes;
-  }
-
-
-  public EcfStatusResponse logs(@javax.annotation.Nullable List<ProcessingLog> logs) {
-    this.logs = logs;
-    return this;
-  }
-
-  public EcfStatusResponse addLogsItem(ProcessingLog logsItem) {
-    if (this.logs == null) {
-      this.logs = new ArrayList<>();
-    }
-    this.logs.add(logsItem);
-    return this;
-  }
-
-  /**
-   * Get logs
-   * @return logs
-   */
-  @javax.annotation.Nullable
-  public List<ProcessingLog> getLogs() {
-    return logs;
-  }
-
-  public void setLogs(@javax.annotation.Nullable List<ProcessingLog> logs) {
-    this.logs = logs;
-  }
-
-
-  public EcfStatusResponse source(@javax.annotation.Nullable SourceEnum source) {
-    this.source = source;
-    return this;
-  }
-
-  /**
-   * Get source
-   * @return source
-   */
-  @javax.annotation.Nullable
-  public SourceEnum getSource() {
-    return source;
-  }
-
-  public void setSource(@javax.annotation.Nullable SourceEnum source) {
-    this.source = source;
+  public void setGovernmentResponse(@javax.annotation.Nullable Map<String, Object> governmentResponse) {
+    this.governmentResponse = governmentResponse;
   }
 
 
@@ -426,41 +601,62 @@ public class EcfStatusResponse {
       return false;
     }
     EcfStatusResponse ecfStatusResponse = (EcfStatusResponse) o;
-    return Objects.equals(this.trackingId, ecfStatusResponse.trackingId) &&
-        Objects.equals(this.estado, ecfStatusResponse.estado) &&
-        Objects.equals(this.trackId, ecfStatusResponse.trackId) &&
-        Objects.equals(this.numeroControl, ecfStatusResponse.numeroControl) &&
+    return Objects.equals(this.id, ecfStatusResponse.id) &&
+        Objects.equals(this.stampDate, ecfStatusResponse.stampDate) &&
         Objects.equals(this.status, ecfStatusResponse.status) &&
+        Objects.equals(this.legalStatus, ecfStatusResponse.legalStatus) &&
+        Objects.equals(this.companyIdentification, ecfStatusResponse.companyIdentification) &&
+        Objects.equals(this.trackId, ecfStatusResponse.trackId) &&
+        Objects.equals(this.documentNumber, ecfStatusResponse.documentNumber) &&
         Objects.equals(this.encf, ecfStatusResponse.encf) &&
-        Objects.equals(this.businessRnc, ecfStatusResponse.businessRnc) &&
-        Objects.equals(this.environment, ecfStatusResponse.environment) &&
-        Objects.equals(this.receivedAt, ecfStatusResponse.receivedAt) &&
-        Objects.equals(this.mensajes, ecfStatusResponse.mensajes) &&
-        Objects.equals(this.logs, ecfStatusResponse.logs) &&
-        Objects.equals(this.source, ecfStatusResponse.source);
+        Objects.equals(this.contingencyMode, ecfStatusResponse.contingencyMode) &&
+        Objects.equals(this.contingencyMessage, ecfStatusResponse.contingencyMessage) &&
+        Objects.equals(this.documentStampUrl, ecfStatusResponse.documentStampUrl) &&
+        Objects.equals(this.pdf, ecfStatusResponse.pdf) &&
+        Objects.equals(this.xmlUrl, ecfStatusResponse.xmlUrl) &&
+        Objects.equals(this.signatureDate, ecfStatusResponse.signatureDate) &&
+        Objects.equals(this.securityCode, ecfStatusResponse.securityCode) &&
+        Objects.equals(this.sequenceConsumed, ecfStatusResponse.sequenceConsumed) &&
+        Objects.equals(this.governmentResponse, ecfStatusResponse.governmentResponse);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(trackingId, estado, trackId, numeroControl, status, encf, businessRnc, environment, receivedAt, mensajes, logs, source);
+    return Objects.hash(id, stampDate, status, legalStatus, companyIdentification, trackId, documentNumber, encf, contingencyMode, contingencyMessage, documentStampUrl, pdf, xmlUrl, signatureDate, securityCode, sequenceConsumed, governmentResponse);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EcfStatusResponse {\n");
-    sb.append("    trackingId: ").append(toIndentedString(trackingId)).append("\n");
-    sb.append("    estado: ").append(toIndentedString(estado)).append("\n");
-    sb.append("    trackId: ").append(toIndentedString(trackId)).append("\n");
-    sb.append("    numeroControl: ").append(toIndentedString(numeroControl)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    stampDate: ").append(toIndentedString(stampDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    legalStatus: ").append(toIndentedString(legalStatus)).append("\n");
+    sb.append("    companyIdentification: ").append(toIndentedString(companyIdentification)).append("\n");
+    sb.append("    trackId: ").append(toIndentedString(trackId)).append("\n");
+    sb.append("    documentNumber: ").append(toIndentedString(documentNumber)).append("\n");
     sb.append("    encf: ").append(toIndentedString(encf)).append("\n");
-    sb.append("    businessRnc: ").append(toIndentedString(businessRnc)).append("\n");
-    sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
-    sb.append("    receivedAt: ").append(toIndentedString(receivedAt)).append("\n");
-    sb.append("    mensajes: ").append(toIndentedString(mensajes)).append("\n");
-    sb.append("    logs: ").append(toIndentedString(logs)).append("\n");
-    sb.append("    source: ").append(toIndentedString(source)).append("\n");
+    sb.append("    contingencyMode: ").append(toIndentedString(contingencyMode)).append("\n");
+    sb.append("    contingencyMessage: ").append(toIndentedString(contingencyMessage)).append("\n");
+    sb.append("    documentStampUrl: ").append(toIndentedString(documentStampUrl)).append("\n");
+    sb.append("    pdf: ").append(toIndentedString(pdf)).append("\n");
+    sb.append("    xmlUrl: ").append(toIndentedString(xmlUrl)).append("\n");
+    sb.append("    signatureDate: ").append(toIndentedString(signatureDate)).append("\n");
+    sb.append("    securityCode: ").append(toIndentedString(securityCode)).append("\n");
+    sb.append("    sequenceConsumed: ").append(toIndentedString(sequenceConsumed)).append("\n");
+    sb.append("    governmentResponse: ").append(toIndentedString(governmentResponse)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -479,10 +675,10 @@ public class EcfStatusResponse {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("trackingId", "estado", "trackId", "numeroControl", "status", "encf", "businessRnc", "environment", "receivedAt", "mensajes", "logs", "source"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "stampDate", "status", "legalStatus", "companyIdentification", "trackId", "documentNumber", "encf", "contingencyMode", "contingencyMessage", "documentStampUrl", "pdf", "xmlUrl", "signatureDate", "securityCode", "sequenceConsumed", "governmentResponse"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(0);
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("id", "status", "companyIdentification", "sequenceConsumed"));
   }
 
   /**
@@ -505,67 +701,54 @@ public class EcfStatusResponse {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `EcfStatusResponse` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : EcfStatusResponse.openapiRequiredFields) {
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+        }
+      }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if ((jsonObj.get("trackingId") != null && !jsonObj.get("trackingId").isJsonNull()) && !jsonObj.get("trackingId").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `trackingId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("trackingId").toString()));
+      if (!jsonObj.get("id").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `id` to be a primitive type in the JSON string but got `%s`", jsonObj.get("id").toString()));
       }
-      if ((jsonObj.get("estado") != null && !jsonObj.get("estado").isJsonNull()) && !jsonObj.get("estado").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `estado` to be a primitive type in the JSON string but got `%s`", jsonObj.get("estado").toString()));
+      if (!jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
+      // validate the required field `status`
+      StatusEnum.validateJsonElement(jsonObj.get("status"));
+      if ((jsonObj.get("legalStatus") != null && !jsonObj.get("legalStatus").isJsonNull()) && !jsonObj.get("legalStatus").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `legalStatus` to be a primitive type in the JSON string but got `%s`", jsonObj.get("legalStatus").toString()));
+      }
+      // validate the optional field `legalStatus`
+      if (jsonObj.get("legalStatus") != null && !jsonObj.get("legalStatus").isJsonNull()) {
+        LegalStatusEnum.validateJsonElement(jsonObj.get("legalStatus"));
+      }
+      // validate the required field `companyIdentification`
+      EcfSubmitResponseCompanyIdentification.validateJsonElement(jsonObj.get("companyIdentification"));
       if ((jsonObj.get("trackId") != null && !jsonObj.get("trackId").isJsonNull()) && !jsonObj.get("trackId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `trackId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("trackId").toString()));
       }
-      if ((jsonObj.get("numeroControl") != null && !jsonObj.get("numeroControl").isJsonNull()) && !jsonObj.get("numeroControl").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `numeroControl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("numeroControl").toString()));
-      }
-      // validate the optional field `status`
-      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
-        DocumentStatus.validateJsonElement(jsonObj.get("status"));
+      if ((jsonObj.get("documentNumber") != null && !jsonObj.get("documentNumber").isJsonNull()) && !jsonObj.get("documentNumber").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentNumber").toString()));
       }
       if ((jsonObj.get("encf") != null && !jsonObj.get("encf").isJsonNull()) && !jsonObj.get("encf").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `encf` to be a primitive type in the JSON string but got `%s`", jsonObj.get("encf").toString()));
       }
-      if ((jsonObj.get("businessRnc") != null && !jsonObj.get("businessRnc").isJsonNull()) && !jsonObj.get("businessRnc").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `businessRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("businessRnc").toString()));
+      if ((jsonObj.get("contingencyMessage") != null && !jsonObj.get("contingencyMessage").isJsonNull()) && !jsonObj.get("contingencyMessage").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `contingencyMessage` to be a primitive type in the JSON string but got `%s`", jsonObj.get("contingencyMessage").toString()));
       }
-      // validate the optional field `environment`
-      if (jsonObj.get("environment") != null && !jsonObj.get("environment").isJsonNull()) {
-        Environment.validateJsonElement(jsonObj.get("environment"));
+      if ((jsonObj.get("documentStampUrl") != null && !jsonObj.get("documentStampUrl").isJsonNull()) && !jsonObj.get("documentStampUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentStampUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentStampUrl").toString()));
       }
-      if (jsonObj.get("mensajes") != null && !jsonObj.get("mensajes").isJsonNull()) {
-        JsonArray jsonArraymensajes = jsonObj.getAsJsonArray("mensajes");
-        if (jsonArraymensajes != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("mensajes").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `mensajes` to be an array in the JSON string but got `%s`", jsonObj.get("mensajes").toString()));
-          }
-
-          // validate the optional field `mensajes` (array)
-          for (int i = 0; i < jsonArraymensajes.size(); i++) {
-            DgiiMessage.validateJsonElement(jsonArraymensajes.get(i));
-          };
-        }
+      if ((jsonObj.get("pdf") != null && !jsonObj.get("pdf").isJsonNull()) && !jsonObj.get("pdf").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `pdf` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pdf").toString()));
       }
-      if (jsonObj.get("logs") != null && !jsonObj.get("logs").isJsonNull()) {
-        JsonArray jsonArraylogs = jsonObj.getAsJsonArray("logs");
-        if (jsonArraylogs != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("logs").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `logs` to be an array in the JSON string but got `%s`", jsonObj.get("logs").toString()));
-          }
-
-          // validate the optional field `logs` (array)
-          for (int i = 0; i < jsonArraylogs.size(); i++) {
-            ProcessingLog.validateJsonElement(jsonArraylogs.get(i));
-          };
-        }
+      if ((jsonObj.get("xmlUrl") != null && !jsonObj.get("xmlUrl").isJsonNull()) && !jsonObj.get("xmlUrl").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `xmlUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("xmlUrl").toString()));
       }
-      if ((jsonObj.get("source") != null && !jsonObj.get("source").isJsonNull()) && !jsonObj.get("source").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `source` to be a primitive type in the JSON string but got `%s`", jsonObj.get("source").toString()));
-      }
-      // validate the optional field `source`
-      if (jsonObj.get("source") != null && !jsonObj.get("source").isJsonNull()) {
-        SourceEnum.validateJsonElement(jsonObj.get("source"));
+      if ((jsonObj.get("securityCode") != null && !jsonObj.get("securityCode").isJsonNull()) && !jsonObj.get("securityCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `securityCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("securityCode").toString()));
       }
   }
 

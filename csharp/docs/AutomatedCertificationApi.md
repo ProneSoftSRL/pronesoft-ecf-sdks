@@ -4,18 +4,18 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**DownloadCertification**](AutomatedCertificationApi.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP |
-| [**GetCertificationStatus**](AutomatedCertificationApi.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status |
-| [**ListCertificationNiches**](AutomatedCertificationApi.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches |
-| [**StartCertification**](AutomatedCertificationApi.md#startcertification) | **POST** /dgii-ecf/automated-certification/start | Start certification process |
+| [**DownloadCertification**](AutomatedCertificationApi.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación |
+| [**GetCertificationStatus**](AutomatedCertificationApi.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación |
+| [**ListCertificationNiches**](AutomatedCertificationApi.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación |
+| [**StartCertification**](AutomatedCertificationApi.md#startcertification) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación |
 
 <a id="downloadcertification"></a>
 # **DownloadCertification**
 > FileParameter DownloadCertification (Guid id)
 
-Download certification ZIP
+Descargar ZIP de certificación
 
-Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
 
 ### Example
 ```csharp
@@ -36,8 +36,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -47,7 +45,7 @@ namespace Example
 
             try
             {
-                // Download certification ZIP
+                // Descargar ZIP de certificación
                 FileParameter result = apiInstance.DownloadCertification(id);
                 Debug.WriteLine(result);
             }
@@ -68,7 +66,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Download certification ZIP
+    // Descargar ZIP de certificación
     ApiResponse<FileParameter> response = apiInstance.DownloadCertificationWithHttpInfo(id);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -94,7 +92,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -105,8 +103,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | ZIP file with certification documents |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Archivo ZIP con documentos de certificación |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -114,7 +112,7 @@ catch (ApiException e)
 # **GetCertificationStatus**
 > CertificationStatus GetCertificationStatus (Guid id)
 
-Get certification process status
+Estado del proceso de certificación
 
 ### Example
 ```csharp
@@ -135,8 +133,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -146,7 +142,7 @@ namespace Example
 
             try
             {
-                // Get certification process status
+                // Estado del proceso de certificación
                 CertificationStatus result = apiInstance.GetCertificationStatus(id);
                 Debug.WriteLine(result);
             }
@@ -167,7 +163,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get certification process status
+    // Estado del proceso de certificación
     ApiResponse<CertificationStatus> response = apiInstance.GetCertificationStatusWithHttpInfo(id);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -193,7 +189,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -204,8 +200,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Certification process status |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estado del proceso de certificación |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -213,7 +209,7 @@ catch (ApiException e)
 # **ListCertificationNiches**
 > List&lt;CertificationNiche&gt; ListCertificationNiches ()
 
-List certification niches
+Listar nichos de certificación
 
 ### Example
 ```csharp
@@ -234,8 +230,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -244,7 +238,7 @@ namespace Example
 
             try
             {
-                // List certification niches
+                // Listar nichos de certificación
                 List<CertificationNiche> result = apiInstance.ListCertificationNiches();
                 Debug.WriteLine(result);
             }
@@ -265,7 +259,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List certification niches
+    // Listar nichos de certificación
     ApiResponse<List<CertificationNiche>> response = apiInstance.ListCertificationNichesWithHttpInfo();
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -287,7 +281,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -298,8 +292,8 @@ This endpoint does not need any parameter.
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List of available niches |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de nichos disponibles |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -307,7 +301,7 @@ This endpoint does not need any parameter.
 # **StartCertification**
 > StartCertification200Response StartCertification (StartCertificationRequest startCertificationRequest)
 
-Start certification process
+Iniciar proceso de certificación
 
 ### Example
 ```csharp
@@ -328,8 +322,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -339,7 +331,7 @@ namespace Example
 
             try
             {
-                // Start certification process
+                // Iniciar proceso de certificación
                 StartCertification200Response result = apiInstance.StartCertification(startCertificationRequest);
                 Debug.WriteLine(result);
             }
@@ -360,7 +352,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Start certification process
+    // Iniciar proceso de certificación
     ApiResponse<StartCertification200Response> response = apiInstance.StartCertificationWithHttpInfo(startCertificationRequest);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -386,7 +378,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -397,8 +389,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Certification process started |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Proceso de certificación iniciado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

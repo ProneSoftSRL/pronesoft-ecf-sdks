@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { SentDocumentSummaryBusiness } from './SentDocumentSummaryBusiness';
+import {
+    SentDocumentSummaryBusinessFromJSON,
+    SentDocumentSummaryBusinessFromJSONTyped,
+    SentDocumentSummaryBusinessToJSON,
+    SentDocumentSummaryBusinessToJSONTyped,
+} from './SentDocumentSummaryBusiness';
+
 /**
  * 
  * @export
@@ -33,10 +41,46 @@ export interface ApprovalItem {
     encf?: string;
     /**
      * 
+     * @type {string}
+     * @memberof ApprovalItem
+     */
+    type?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApprovalItem
+     */
+    issuerRnc?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApprovalItem
+     */
+    buyerRnc?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ApprovalItem
      */
-    status?: number;
+    totalAmount?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApprovalItem
+     */
+    approvalStatus?: string;
+    /**
+     * 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+     * @type {ApprovalItemStatusEnum}
+     * @memberof ApprovalItem
+     */
+    status?: ApprovalItemStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApprovalItem
+     */
+    statusLabel?: string;
     /**
      * 
      * @type {Date}
@@ -45,29 +89,42 @@ export interface ApprovalItem {
     issueDate?: Date;
     /**
      * 
-     * @type {string}
+     * @type {Date}
      * @memberof ApprovalItem
      */
-    approvalType?: string;
+    receivedAt?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof ApprovalItem
+     */
+    createdAt?: Date;
     /**
      * 
      * @type {string}
      * @memberof ApprovalItem
      */
-    priority?: string;
+    rejectionDescription?: string | null;
     /**
      * 
-     * @type {string}
+     * @type {SentDocumentSummaryBusiness}
      * @memberof ApprovalItem
      */
-    assignedTo?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApprovalItem
-     */
-    comments?: string;
+    business?: SentDocumentSummaryBusiness;
 }
+
+
+/**
+ * @export
+ */
+export const ApprovalItemStatusEnum = {
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4
+} as const;
+export type ApprovalItemStatusEnum = typeof ApprovalItemStatusEnum[keyof typeof ApprovalItemStatusEnum];
+
 
 /**
  * Check if a given object implements the ApprovalItem interface.
@@ -88,12 +145,18 @@ export function ApprovalItemFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'id': json['id'] == null ? undefined : json['id'],
         'encf': json['encf'] == null ? undefined : json['encf'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'issuerRnc': json['issuerRnc'] == null ? undefined : json['issuerRnc'],
+        'buyerRnc': json['buyerRnc'] == null ? undefined : json['buyerRnc'],
+        'totalAmount': json['totalAmount'] == null ? undefined : json['totalAmount'],
+        'approvalStatus': json['approvalStatus'] == null ? undefined : json['approvalStatus'],
         'status': json['status'] == null ? undefined : json['status'],
+        'statusLabel': json['statusLabel'] == null ? undefined : json['statusLabel'],
         'issueDate': json['issueDate'] == null ? undefined : (new Date(json['issueDate'])),
-        'approvalType': json['approvalType'] == null ? undefined : json['approvalType'],
-        'priority': json['priority'] == null ? undefined : json['priority'],
-        'assignedTo': json['assignedTo'] == null ? undefined : json['assignedTo'],
-        'comments': json['comments'] == null ? undefined : json['comments'],
+        'receivedAt': json['receivedAt'] == null ? undefined : (new Date(json['receivedAt'])),
+        'createdAt': json['createdAt'] == null ? undefined : (new Date(json['createdAt'])),
+        'rejectionDescription': json['rejectionDescription'] == null ? undefined : json['rejectionDescription'],
+        'business': json['business'] == null ? undefined : SentDocumentSummaryBusinessFromJSON(json['business']),
     };
 }
 
@@ -110,12 +173,18 @@ export function ApprovalItemToJSONTyped(value?: ApprovalItem | null, ignoreDiscr
         
         'id': value['id'],
         'encf': value['encf'],
+        'type': value['type'],
+        'issuerRnc': value['issuerRnc'],
+        'buyerRnc': value['buyerRnc'],
+        'totalAmount': value['totalAmount'],
+        'approvalStatus': value['approvalStatus'],
         'status': value['status'],
+        'statusLabel': value['statusLabel'],
         'issueDate': value['issueDate'] == null ? value['issueDate'] : value['issueDate'].toISOString(),
-        'approvalType': value['approvalType'],
-        'priority': value['priority'],
-        'assignedTo': value['assignedTo'],
-        'comments': value['comments'],
+        'receivedAt': value['receivedAt'] == null ? value['receivedAt'] : value['receivedAt'].toISOString(),
+        'createdAt': value['createdAt'] == null ? value['createdAt'] : value['createdAt'].toISOString(),
+        'rejectionDescription': value['rejectionDescription'],
+        'business': SentDocumentSummaryBusinessToJSON(value['business']),
     };
 }
 

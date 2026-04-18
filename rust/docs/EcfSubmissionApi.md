@@ -4,46 +4,17 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_ecf_history**](EcfSubmissionApi.md#get_ecf_history) | **GET** /{environment}/ecf/responses/history | Get submission history (last 50 documents)
-[**get_ecf_stats**](EcfSubmissionApi.md#get_ecf_stats) | **GET** /{environment}/ecf/responses/stats | Get submission statistics (last 30 days)
-[**get_ecf_status**](EcfSubmissionApi.md#get_ecf_status) | **GET** /{environment}/ecf/status/{trackId} | Get document status by trackId
-[**submit_ecf**](EcfSubmissionApi.md#submit_ecf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII
+[**get_ecf_stats**](EcfSubmissionApi.md#get_ecf_stats) | **GET** /{environment}/ecf/responses/stats | Obtener estadísticas de envíos (últimos 30 días)
+[**get_ecf_status**](EcfSubmissionApi.md#get_ecf_status) | **GET** /{environment}/ecf/status/{id} | Consultar estado del documento por ID interno
+[**get_ecf_submission_history**](EcfSubmissionApi.md#get_ecf_submission_history) | **GET** /{environment}/ecf/responses/history | Historial de envíos (paginado)
+[**submit_ecf**](EcfSubmissionApi.md#submit_ecf) | **POST** /{environment}/ecf/submit | Enviar documento e-CF a la DGII
 
-
-
-## get_ecf_history
-
-> Vec<models::EcfHistoryItem> get_ecf_history(environment, x_tenant_id)
-Get submission history (last 50 documents)
-
-### Parameters
-
-
-Name | Type | Description  | Required | Notes
-------------- | ------------- | ------------- | ------------- | -------------
-**environment** | [**Environment**](Environment.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
-
-### Return type
-
-[**Vec<models::EcfHistoryItem>**](EcfHistoryItem.md)
-
-### Authorization
-
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
 ## get_ecf_stats
 
 > models::EcfStatsResponse get_ecf_stats(environment, x_tenant_id)
-Get submission statistics (last 30 days)
+Obtener estadísticas de envíos (últimos 30 días)
 
 ### Parameters
 
@@ -51,7 +22,7 @@ Get submission statistics (last 30 days)
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
@@ -59,7 +30,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -71,8 +42,8 @@ Name | Type | Description  | Required | Notes
 
 ## get_ecf_status
 
-> models::EcfStatusResponse get_ecf_status(environment, track_id, x_tenant_id)
-Get document status by trackId
+> models::EcfStatusResponse get_ecf_status(environment, id, x_tenant_id)
+Consultar estado del documento por ID interno
 
 ### Parameters
 
@@ -80,8 +51,8 @@ Get document status by trackId
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [required] |
-**track_id** | **String** |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**id** | **String** |  | [required] |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
@@ -89,7 +60,38 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_ecf_submission_history
+
+> models::GetEcfSubmissionHistory200Response get_ecf_submission_history(environment, x_tenant_id, page, limit)
+Historial de envíos (paginado)
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**environment** | [**Environment**](Environment.md) |  | [required] |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
+**page** | Option<**i32**> |  |  |[default to 1]
+**limit** | Option<**i32**> |  |  |[default to 20]
+
+### Return type
+
+[**models::GetEcfSubmissionHistory200Response**](getEcfSubmissionHistory_200_response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -101,10 +103,10 @@ Name | Type | Description  | Required | Notes
 
 ## submit_ecf
 
-> models::EcfSubmissionResponse submit_ecf(environment, electronic_document, x_tenant_id)
-Submit e-CF document to DGII
+> models::EcfSubmitResponse submit_ecf(environment, electronic_document, x_tenant_id)
+Enviar documento e-CF a la DGII
 
-Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
 
 ### Parameters
 
@@ -113,15 +115,15 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [required] |
 **electronic_document** | [**ElectronicDocument**](ElectronicDocument.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  |  |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
 
 ### Return type
 
-[**models::EcfSubmissionResponse**](EcfSubmissionResponse.md)
+[**models::EcfSubmitResponse**](EcfSubmitResponse.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

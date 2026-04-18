@@ -16,9 +16,9 @@ class AutomatedCertificationApi {
 
   final ApiClient apiClient;
 
-  /// Download certification ZIP
+  /// Descargar ZIP de certificación
   ///
-  /// Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+  /// Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -51,9 +51,9 @@ class AutomatedCertificationApi {
     );
   }
 
-  /// Download certification ZIP
+  /// Descargar ZIP de certificación
   ///
-  /// Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+  /// Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
   ///
   /// Parameters:
   ///
@@ -73,7 +73,7 @@ class AutomatedCertificationApi {
     return null;
   }
 
-  /// Get certification process status
+  /// Estado del proceso de certificación
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -106,7 +106,7 @@ class AutomatedCertificationApi {
     );
   }
 
-  /// Get certification process status
+  /// Estado del proceso de certificación
   ///
   /// Parameters:
   ///
@@ -126,7 +126,7 @@ class AutomatedCertificationApi {
     return null;
   }
 
-  /// List certification niches
+  /// Listar nichos de certificación
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> listCertificationNichesWithHttpInfo() async {
@@ -154,7 +154,7 @@ class AutomatedCertificationApi {
     );
   }
 
-  /// List certification niches
+  /// Listar nichos de certificación
   Future<List<CertificationNiche>?> listCertificationNiches() async {
     final response = await listCertificationNichesWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -173,7 +173,7 @@ class AutomatedCertificationApi {
     return null;
   }
 
-  /// Start certification process
+  /// Iniciar proceso de certificación
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -205,7 +205,7 @@ class AutomatedCertificationApi {
     );
   }
 
-  /// Start certification process
+  /// Iniciar proceso de certificación
   ///
   /// Parameters:
   ///

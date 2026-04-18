@@ -16,7 +16,7 @@ extension PronesoftEcfAPI {
 open class AssociatedCompaniesAPI {
 
     /**
-     Create associated company / branch
+     Crear empresa asociada / sucursal
      
      - parameter email: (form)  
      - parameter password: (form)  
@@ -50,14 +50,11 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Create associated company / branch
+     Crear empresa asociada / sucursal
      - POST /associated-companies
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter email: (form)  
      - parameter password: (form)  
      - parameter name: (form)  
@@ -115,7 +112,7 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Delete associated company
+     Eliminar empresa asociada
      
      - parameter companyId: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -134,15 +131,12 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Delete associated company
+     Eliminar empresa asociada
      - DELETE /associated-companies/{companyId}
-     - Permanently deletes an associated company. This action is irreversible.
+     - Elimina permanentemente una empresa asociada. Esta acción es irreversible.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter companyId: (path)  
      - returns: RequestBuilder<DeleteAssociatedCompany200Response> 
      */
@@ -168,7 +162,7 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Get company document metrics
+     Métricas de documentos de la empresa
      
      - parameter companyId: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -187,14 +181,11 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Get company document metrics
+     Métricas de documentos de la empresa
      - GET /associated-companies/{companyId}/documents-metrics
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter companyId: (path)  
      - returns: RequestBuilder<CompanyDocumentMetrics> 
      */
@@ -220,7 +211,7 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Get company metrics
+     Métricas de la empresa
      
      - parameter companyId: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -239,14 +230,11 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Get company metrics
+     Métricas de la empresa
      - GET /associated-companies/{companyId}/metrics
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter companyId: (path)  
      - returns: RequestBuilder<CompanyMetrics> 
      */
@@ -272,7 +260,7 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     List associated companies / branches
+     Listar empresas asociadas / sucursales
      
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
@@ -292,14 +280,11 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     List associated companies / branches
+     Listar empresas asociadas / sucursales
      - GET /associated-companies
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<[AssociatedCompany]> 
@@ -327,7 +312,7 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Update associated company
+     Actualizar empresa asociada
      
      - parameter companyId: (path)  
      - parameter name: (form)  (optional)
@@ -352,14 +337,11 @@ open class AssociatedCompaniesAPI {
     }
 
     /**
-     Update associated company
+     Actualizar empresa asociada
      - PUT /associated-companies/{companyId}
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter companyId: (path)  
      - parameter name: (form)  (optional)
      - parameter phone: (form)  (optional)

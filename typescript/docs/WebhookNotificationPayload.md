@@ -16,7 +16,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { WebhookNotificationPayload } from ''
+import type { WebhookNotificationPayload } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

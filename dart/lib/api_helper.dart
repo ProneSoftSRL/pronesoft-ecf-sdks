@@ -73,11 +73,17 @@ String parameterToString(dynamic value) {
   if (value is InvoiceTypeSequence) {
     return InvoiceTypeSequenceTypeTransformer().encode(value).toString();
   }
+  if (value is LegalStatus) {
+    return LegalStatusTypeTransformer().encode(value).toString();
+  }
   if (value is PaymentMethod) {
     return PaymentMethodTypeTransformer().encode(value).toString();
   }
   if (value is PrintFormat) {
     return PrintFormatTypeTransformer().encode(value).toString();
+  }
+  if (value is PublicDocumentStatus) {
+    return PublicDocumentStatusTypeTransformer().encode(value).toString();
   }
   if (value is WebhookEventType) {
     return WebhookEventTypeTypeTransformer().encode(value).toString();

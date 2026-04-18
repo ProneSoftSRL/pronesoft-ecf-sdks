@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -14,30 +14,57 @@ require 'date'
 require 'time'
 
 module PronesoftEcf
+  # Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
   class EcfStatusResponse < ApiModelBase
-    attr_accessor :tracking_id
+    # ID interno del documento.
+    attr_accessor :id
 
-    attr_accessor :estado
+    # Fecha de emisión del documento (YYYY-MM-DD).
+    attr_accessor :stamp_date
 
-    attr_accessor :track_id
-
-    attr_accessor :numero_control
-
+    # Estado del proceso de envío a DGII.
     attr_accessor :status
 
+    # Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+    attr_accessor :legal_status
+
+    attr_accessor :company_identification
+
+    # ID de seguimiento asignado por DGII.
+    attr_accessor :track_id
+
+    # Número de control electrónico (e-NCF).
+    attr_accessor :document_number
+
+    # Número e-NCF del documento.
     attr_accessor :encf
 
-    attr_accessor :business_rnc
+    # true si fue emitido en modo contingencia.
+    attr_accessor :contingency_mode
 
-    attr_accessor :environment
+    # Mensaje oficial DGII cuando contingencyMode es true.
+    attr_accessor :contingency_message
 
-    attr_accessor :received_at
+    # URL del código QR del documento.
+    attr_accessor :document_stamp_url
 
-    attr_accessor :mensajes
+    # URL pre-firmada del PDF (expira en 1 hora).
+    attr_accessor :pdf
 
-    attr_accessor :logs
+    # URL pre-firmada del XML firmado (expira en 1 hora).
+    attr_accessor :xml_url
 
-    attr_accessor :source
+    # Fecha y hora de la firma digital.
+    attr_accessor :signature_date
+
+    # Código de seguridad del documento.
+    attr_accessor :security_code
+
+    # true si DGII confirmó el consumo de la secuencia.
+    attr_accessor :sequence_consumed
+
+    # Respuesta completa de DGII (disponible cuando status es FINISHED).
+    attr_accessor :government_response
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -64,18 +91,23 @@ module PronesoftEcf
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'tracking_id' => :'trackingId',
-        :'estado' => :'estado',
-        :'track_id' => :'trackId',
-        :'numero_control' => :'numeroControl',
+        :'id' => :'id',
+        :'stamp_date' => :'stampDate',
         :'status' => :'status',
+        :'legal_status' => :'legalStatus',
+        :'company_identification' => :'companyIdentification',
+        :'track_id' => :'trackId',
+        :'document_number' => :'documentNumber',
         :'encf' => :'encf',
-        :'business_rnc' => :'businessRnc',
-        :'environment' => :'environment',
-        :'received_at' => :'receivedAt',
-        :'mensajes' => :'mensajes',
-        :'logs' => :'logs',
-        :'source' => :'source'
+        :'contingency_mode' => :'contingencyMode',
+        :'contingency_message' => :'contingencyMessage',
+        :'document_stamp_url' => :'documentStampUrl',
+        :'pdf' => :'pdf',
+        :'xml_url' => :'xmlUrl',
+        :'signature_date' => :'signatureDate',
+        :'security_code' => :'securityCode',
+        :'sequence_consumed' => :'sequenceConsumed',
+        :'government_response' => :'governmentResponse'
       }
     end
 
@@ -92,24 +124,39 @@ module PronesoftEcf
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'tracking_id' => :'String',
-        :'estado' => :'String',
+        :'id' => :'String',
+        :'stamp_date' => :'Date',
+        :'status' => :'String',
+        :'legal_status' => :'String',
+        :'company_identification' => :'EcfSubmitResponseCompanyIdentification',
         :'track_id' => :'String',
-        :'numero_control' => :'String',
-        :'status' => :'DocumentStatus',
+        :'document_number' => :'String',
         :'encf' => :'String',
-        :'business_rnc' => :'String',
-        :'environment' => :'Environment',
-        :'received_at' => :'Time',
-        :'mensajes' => :'Array<DgiiMessage>',
-        :'logs' => :'Array<ProcessingLog>',
-        :'source' => :'String'
+        :'contingency_mode' => :'Boolean',
+        :'contingency_message' => :'String',
+        :'document_stamp_url' => :'String',
+        :'pdf' => :'String',
+        :'xml_url' => :'String',
+        :'signature_date' => :'Time',
+        :'security_code' => :'String',
+        :'sequence_consumed' => :'Boolean',
+        :'government_response' => :'Hash<String, Object>'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'stamp_date',
+        :'legal_status',
+        :'track_id',
+        :'document_number',
+        :'encf',
+        :'document_stamp_url',
+        :'pdf',
+        :'xml_url',
+        :'signature_date',
+        :'security_code',
       ])
     end
 
@@ -129,56 +176,82 @@ module PronesoftEcf
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'tracking_id')
-        self.tracking_id = attributes[:'tracking_id']
+      if attributes.key?(:'id')
+        self.id = attributes[:'id']
+      else
+        self.id = nil
       end
 
-      if attributes.key?(:'estado')
-        self.estado = attributes[:'estado']
+      if attributes.key?(:'stamp_date')
+        self.stamp_date = attributes[:'stamp_date']
+      end
+
+      if attributes.key?(:'status')
+        self.status = attributes[:'status']
+      else
+        self.status = nil
+      end
+
+      if attributes.key?(:'legal_status')
+        self.legal_status = attributes[:'legal_status']
+      end
+
+      if attributes.key?(:'company_identification')
+        self.company_identification = attributes[:'company_identification']
+      else
+        self.company_identification = nil
       end
 
       if attributes.key?(:'track_id')
         self.track_id = attributes[:'track_id']
       end
 
-      if attributes.key?(:'numero_control')
-        self.numero_control = attributes[:'numero_control']
-      end
-
-      if attributes.key?(:'status')
-        self.status = attributes[:'status']
+      if attributes.key?(:'document_number')
+        self.document_number = attributes[:'document_number']
       end
 
       if attributes.key?(:'encf')
         self.encf = attributes[:'encf']
       end
 
-      if attributes.key?(:'business_rnc')
-        self.business_rnc = attributes[:'business_rnc']
+      if attributes.key?(:'contingency_mode')
+        self.contingency_mode = attributes[:'contingency_mode']
       end
 
-      if attributes.key?(:'environment')
-        self.environment = attributes[:'environment']
+      if attributes.key?(:'contingency_message')
+        self.contingency_message = attributes[:'contingency_message']
       end
 
-      if attributes.key?(:'received_at')
-        self.received_at = attributes[:'received_at']
+      if attributes.key?(:'document_stamp_url')
+        self.document_stamp_url = attributes[:'document_stamp_url']
       end
 
-      if attributes.key?(:'mensajes')
-        if (value = attributes[:'mensajes']).is_a?(Array)
-          self.mensajes = value
+      if attributes.key?(:'pdf')
+        self.pdf = attributes[:'pdf']
+      end
+
+      if attributes.key?(:'xml_url')
+        self.xml_url = attributes[:'xml_url']
+      end
+
+      if attributes.key?(:'signature_date')
+        self.signature_date = attributes[:'signature_date']
+      end
+
+      if attributes.key?(:'security_code')
+        self.security_code = attributes[:'security_code']
+      end
+
+      if attributes.key?(:'sequence_consumed')
+        self.sequence_consumed = attributes[:'sequence_consumed']
+      else
+        self.sequence_consumed = nil
+      end
+
+      if attributes.key?(:'government_response')
+        if (value = attributes[:'government_response']).is_a?(Hash)
+          self.government_response = value
         end
-      end
-
-      if attributes.key?(:'logs')
-        if (value = attributes[:'logs']).is_a?(Array)
-          self.logs = value
-        end
-      end
-
-      if attributes.key?(:'source')
-        self.source = attributes[:'source']
       end
     end
 
@@ -187,6 +260,22 @@ module PronesoftEcf
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
+      if @id.nil?
+        invalid_properties.push('invalid value for "id", id cannot be nil.')
+      end
+
+      if @status.nil?
+        invalid_properties.push('invalid value for "status", status cannot be nil.')
+      end
+
+      if @company_identification.nil?
+        invalid_properties.push('invalid value for "company_identification", company_identification cannot be nil.')
+      end
+
+      if @sequence_consumed.nil?
+        invalid_properties.push('invalid value for "sequence_consumed", sequence_consumed cannot be nil.')
+      end
+
       invalid_properties
     end
 
@@ -194,19 +283,65 @@ module PronesoftEcf
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      source_validator = EnumAttributeValidator.new('String', ["dgii_direct", "local_database"])
-      return false unless source_validator.valid?(@source)
+      return false if @id.nil?
+      return false if @status.nil?
+      status_validator = EnumAttributeValidator.new('String', ["REGISTERED", "TO_SEND", "WAITING_RESPONSE", "TO_NOTIFY", "FINISHED"])
+      return false unless status_validator.valid?(@status)
+      legal_status_validator = EnumAttributeValidator.new('String', ["ACCEPTED", "ACCEPTED_WITH_OBSERVATIONS", "REJECTED", "ERROR"])
+      return false unless legal_status_validator.valid?(@legal_status)
+      return false if @company_identification.nil?
+      return false if @sequence_consumed.nil?
       true
     end
 
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] source Object to be assigned
-    def source=(source)
-      validator = EnumAttributeValidator.new('String', ["dgii_direct", "local_database"])
-      unless validator.valid?(source)
-        fail ArgumentError, "invalid value for \"source\", must be one of #{validator.allowable_values}."
+    # Custom attribute writer method with validation
+    # @param [Object] id Value to be assigned
+    def id=(id)
+      if id.nil?
+        fail ArgumentError, 'id cannot be nil'
       end
-      @source = source
+
+      @id = id
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] status Object to be assigned
+    def status=(status)
+      validator = EnumAttributeValidator.new('String', ["REGISTERED", "TO_SEND", "WAITING_RESPONSE", "TO_NOTIFY", "FINISHED"])
+      unless validator.valid?(status)
+        fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
+      end
+      @status = status
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] legal_status Object to be assigned
+    def legal_status=(legal_status)
+      validator = EnumAttributeValidator.new('String', ["ACCEPTED", "ACCEPTED_WITH_OBSERVATIONS", "REJECTED", "ERROR"])
+      unless validator.valid?(legal_status)
+        fail ArgumentError, "invalid value for \"legal_status\", must be one of #{validator.allowable_values}."
+      end
+      @legal_status = legal_status
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] company_identification Value to be assigned
+    def company_identification=(company_identification)
+      if company_identification.nil?
+        fail ArgumentError, 'company_identification cannot be nil'
+      end
+
+      @company_identification = company_identification
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] sequence_consumed Value to be assigned
+    def sequence_consumed=(sequence_consumed)
+      if sequence_consumed.nil?
+        fail ArgumentError, 'sequence_consumed cannot be nil'
+      end
+
+      @sequence_consumed = sequence_consumed
     end
 
     # Checks equality by comparing each attribute.
@@ -214,18 +349,23 @@ module PronesoftEcf
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          tracking_id == o.tracking_id &&
-          estado == o.estado &&
-          track_id == o.track_id &&
-          numero_control == o.numero_control &&
+          id == o.id &&
+          stamp_date == o.stamp_date &&
           status == o.status &&
+          legal_status == o.legal_status &&
+          company_identification == o.company_identification &&
+          track_id == o.track_id &&
+          document_number == o.document_number &&
           encf == o.encf &&
-          business_rnc == o.business_rnc &&
-          environment == o.environment &&
-          received_at == o.received_at &&
-          mensajes == o.mensajes &&
-          logs == o.logs &&
-          source == o.source
+          contingency_mode == o.contingency_mode &&
+          contingency_message == o.contingency_message &&
+          document_stamp_url == o.document_stamp_url &&
+          pdf == o.pdf &&
+          xml_url == o.xml_url &&
+          signature_date == o.signature_date &&
+          security_code == o.security_code &&
+          sequence_consumed == o.sequence_consumed &&
+          government_response == o.government_response
     end
 
     # @see the `==` method
@@ -237,7 +377,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [tracking_id, estado, track_id, numero_control, status, encf, business_rnc, environment, received_at, mensajes, logs, source].hash
+      [id, stamp_date, status, legal_status, company_identification, track_id, document_number, encf, contingency_mode, contingency_message, document_stamp_url, pdf, xml_url, signature_date, security_code, sequence_consumed, government_response].hash
     end
 
     # Builds the object from hash

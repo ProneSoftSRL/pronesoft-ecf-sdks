@@ -8,10 +8,9 @@ import 'package:pronesoft_ecf/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**environment** | [**Environment**](Environment.md) |  | [optional] 
-**version** | **String** | Always 1.0. | [default to '1.0']
+**version** | **String** | Siempre \"1.0\". | [optional] [default to '1.0']
 **invoiceType** | [**InvoiceType**](InvoiceType.md) |  | 
-**invoiceNumber** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional] 
+**invoiceNumber** | **String** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`.  | [optional] 
 **groupId** | **String** | Optional Group ID for batch processing | [optional] 
 **issueDate** | [**DateTime**](DateTime.md) |  | 
 **expirationDate** | [**DateTime**](DateTime.md) |  | [optional] 

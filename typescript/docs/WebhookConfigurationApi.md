@@ -22,11 +22,11 @@ Detalle de un webhook
 import {
   Configuration,
   WebhookConfigurationApi,
-} from '';
-import type { GetWebhookRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetWebhookRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -95,11 +95,11 @@ Estadísticas de entregas del webhook
 import {
   Configuration,
   WebhookConfigurationApi,
-} from '';
-import type { GetWebhookStatsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetWebhookStatsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -173,11 +173,11 @@ Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 import {
   Configuration,
   WebhookConfigurationApi,
-} from '';
-import type { ListWebhooksRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListWebhooksRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

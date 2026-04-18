@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX) |
+| [**uploadCertificate**](DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX) |
 
 
 <a id="uploadCertificate"></a>
 # **uploadCertificate**
 > UploadCertificateResponse uploadCertificate(rnc, file, password)
 
-Upload digital certificate (P12/PFX)
+Subir certificado digital (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
+Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 
 ### Example
 ```kotlin
@@ -22,9 +22,9 @@ Uploads the DGII-issued digital signing certificate for a company. Stored encryp
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = DigitalCertificatesApi()
-val rnc : kotlin.String = 133190907 // kotlin.String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-val file : java.io.File = BINARY_DATA_HERE // java.io.File | Certificate file in .p12 or .pfx format.
-val password : kotlin.String = password_example // kotlin.String | Password to unlock the certificate.
+val rnc : kotlin.String = 133190907 // kotlin.String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+val file : java.io.File = BINARY_DATA_HERE // java.io.File | Archivo del certificado en formato .p12 o .pfx.
+val password : kotlin.String = password_example // kotlin.String | Contraseña para desbloquear el certificado.
 try {
     val result : UploadCertificateResponse = apiInstance.uploadCertificate(rnc, file, password)
     println(result)
@@ -38,11 +38,11 @@ try {
 ```
 
 ### Parameters
-| **rnc** | **kotlin.String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | |
-| **file** | **java.io.File**| Certificate file in .p12 or .pfx format. | |
+| **rnc** | **kotlin.String**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | |
+| **file** | **java.io.File**| Archivo del certificado en formato .p12 o .pfx. | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **password** | **kotlin.String**| Password to unlock the certificate. | |
+| **password** | **kotlin.String**| Contraseña para desbloquear el certificado. | |
 
 ### Return type
 
@@ -52,8 +52,6 @@ try {
 
 
 Configure oauth2:
-    ApiClient.accessToken = ""
-Configure bearerAuth:
     ApiClient.accessToken = ""
 
 ### HTTP request headers

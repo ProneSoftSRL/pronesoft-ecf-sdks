@@ -4,25 +4,25 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
+[**upload_certificate**](DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
 
 
 
 ## upload_certificate
 
 > models::UploadCertificateResponse upload_certificate(rnc, file, password)
-Upload digital certificate (P12/PFX)
+Subir certificado digital (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
+Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | [required] |
-**file** | **std::path::PathBuf** | Certificate file in .p12 or .pfx format. | [required] |
-**password** | **String** | Password to unlock the certificate. | [required] |
+**rnc** | **String** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | [required] |
+**file** | **std::path::PathBuf** | Archivo del certificado en formato .p12 o .pfx. | [required] |
+**password** | **String** | Contraseña para desbloquear el certificado. | [required] |
 
 ### Return type
 
@@ -30,7 +30,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

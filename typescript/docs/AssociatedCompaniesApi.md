@@ -25,11 +25,11 @@ Crear empresa asociada / sucursal
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '';
-import type { CreateAssociatedCompanyRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { CreateAssociatedCompanyRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -143,11 +143,11 @@ Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '';
-import type { DeleteAssociatedCompanyRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { DeleteAssociatedCompanyRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -213,11 +213,11 @@ Métricas de documentos de la empresa
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '';
-import type { GetCompanyDocumentMetricsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetCompanyDocumentMetricsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -283,11 +283,11 @@ Métricas de la empresa
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '';
-import type { GetCompanyMetricsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetCompanyMetricsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -353,11 +353,11 @@ Listar empresas asociadas / sucursales
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '';
-import type { ListAssociatedCompaniesRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListAssociatedCompaniesRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -426,11 +426,11 @@ Actualizar empresa asociada
 import {
   Configuration,
   AssociatedCompaniesApi,
-} from '';
-import type { UpdateAssociatedCompanyRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { UpdateAssociatedCompanyRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

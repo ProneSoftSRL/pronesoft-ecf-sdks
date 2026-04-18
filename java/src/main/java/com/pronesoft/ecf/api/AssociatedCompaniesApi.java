@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -106,9 +106,9 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Company created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Empresa creada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call createAssociatedCompanyCall(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
@@ -216,7 +216,7 @@ public class AssociatedCompaniesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -272,7 +272,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Create associated company / branch
+     * Crear empresa asociada / sucursal
      * 
      * @param email  (required)
      * @param password  (required)
@@ -296,9 +296,9 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Company created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Empresa creada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public CreateAssociatedCompany201Response createAssociatedCompany(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo) throws ApiException {
@@ -307,7 +307,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Create associated company / branch
+     * Crear empresa asociada / sucursal
      * 
      * @param email  (required)
      * @param password  (required)
@@ -331,9 +331,9 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Company created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Empresa creada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<CreateAssociatedCompany201Response> createAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo) throws ApiException {
@@ -343,7 +343,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Create associated company / branch (asynchronously)
+     * Crear empresa asociada / sucursal (asynchronously)
      * 
      * @param email  (required)
      * @param password  (required)
@@ -368,9 +368,9 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Company created successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Empresa creada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call createAssociatedCompanyAsync(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo, final ApiCallback<CreateAssociatedCompany201Response> _callback) throws ApiException {
@@ -390,8 +390,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company deleted successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Empresa eliminada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call deleteAssociatedCompanyCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
@@ -435,7 +435,7 @@ public class AssociatedCompaniesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -451,8 +451,8 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Delete associated company
-     * Permanently deletes an associated company. This action is irreversible.
+     * Eliminar empresa asociada
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
      * @param companyId  (required)
      * @return DeleteAssociatedCompany200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -460,8 +460,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company deleted successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Empresa eliminada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public DeleteAssociatedCompany200Response deleteAssociatedCompany(@javax.annotation.Nonnull UUID companyId) throws ApiException {
@@ -470,8 +470,8 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Delete associated company
-     * Permanently deletes an associated company. This action is irreversible.
+     * Eliminar empresa asociada
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
      * @param companyId  (required)
      * @return ApiResponse&lt;DeleteAssociatedCompany200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -479,8 +479,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company deleted successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Empresa eliminada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<DeleteAssociatedCompany200Response> deleteAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull UUID companyId) throws ApiException {
@@ -490,8 +490,8 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Delete associated company (asynchronously)
-     * Permanently deletes an associated company. This action is irreversible.
+     * Eliminar empresa asociada (asynchronously)
+     * Elimina permanentemente una empresa asociada. Esta acción es irreversible.
      * @param companyId  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -500,8 +500,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company deleted successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Empresa eliminada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call deleteAssociatedCompanyAsync(@javax.annotation.Nonnull UUID companyId, final ApiCallback<DeleteAssociatedCompany200Response> _callback) throws ApiException {
@@ -521,8 +521,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Document metrics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Métricas de documentos de la empresa </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getCompanyDocumentMetricsCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
@@ -566,7 +566,7 @@ public class AssociatedCompaniesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -582,7 +582,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Get company document metrics
+     * Métricas de documentos de la empresa
      * 
      * @param companyId  (required)
      * @return CompanyDocumentMetrics
@@ -591,8 +591,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Document metrics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Métricas de documentos de la empresa </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public CompanyDocumentMetrics getCompanyDocumentMetrics(@javax.annotation.Nonnull UUID companyId) throws ApiException {
@@ -601,7 +601,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Get company document metrics
+     * Métricas de documentos de la empresa
      * 
      * @param companyId  (required)
      * @return ApiResponse&lt;CompanyDocumentMetrics&gt;
@@ -610,8 +610,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Document metrics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Métricas de documentos de la empresa </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<CompanyDocumentMetrics> getCompanyDocumentMetricsWithHttpInfo(@javax.annotation.Nonnull UUID companyId) throws ApiException {
@@ -621,7 +621,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Get company document metrics (asynchronously)
+     * Métricas de documentos de la empresa (asynchronously)
      * 
      * @param companyId  (required)
      * @param _callback The callback to be executed when the API call finishes
@@ -631,8 +631,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Document metrics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Métricas de documentos de la empresa </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getCompanyDocumentMetricsAsync(@javax.annotation.Nonnull UUID companyId, final ApiCallback<CompanyDocumentMetrics> _callback) throws ApiException {
@@ -652,8 +652,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company metrics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Métricas de la empresa </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getCompanyMetricsCall(@javax.annotation.Nonnull UUID companyId, final ApiCallback _callback) throws ApiException {
@@ -697,7 +697,7 @@ public class AssociatedCompaniesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -713,7 +713,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Get company metrics
+     * Métricas de la empresa
      * 
      * @param companyId  (required)
      * @return CompanyMetrics
@@ -722,8 +722,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company metrics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Métricas de la empresa </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public CompanyMetrics getCompanyMetrics(@javax.annotation.Nonnull UUID companyId) throws ApiException {
@@ -732,7 +732,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Get company metrics
+     * Métricas de la empresa
      * 
      * @param companyId  (required)
      * @return ApiResponse&lt;CompanyMetrics&gt;
@@ -741,8 +741,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company metrics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Métricas de la empresa </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<CompanyMetrics> getCompanyMetricsWithHttpInfo(@javax.annotation.Nonnull UUID companyId) throws ApiException {
@@ -752,7 +752,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Get company metrics (asynchronously)
+     * Métricas de la empresa (asynchronously)
      * 
      * @param companyId  (required)
      * @param _callback The callback to be executed when the API call finishes
@@ -762,8 +762,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company metrics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Métricas de la empresa </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getCompanyMetricsAsync(@javax.annotation.Nonnull UUID companyId, final ApiCallback<CompanyMetrics> _callback) throws ApiException {
@@ -784,8 +784,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Array of associated companies </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Lista de empresas asociadas </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call listAssociatedCompaniesCall(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
@@ -836,7 +836,7 @@ public class AssociatedCompaniesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -847,7 +847,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * List associated companies / branches
+     * Listar empresas asociadas / sucursales
      * 
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
@@ -857,8 +857,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Array of associated companies </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Lista de empresas asociadas </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public List<AssociatedCompany> listAssociatedCompanies(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
@@ -867,7 +867,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * List associated companies / branches
+     * Listar empresas asociadas / sucursales
      * 
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
@@ -877,8 +877,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Array of associated companies </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Lista de empresas asociadas </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<List<AssociatedCompany>> listAssociatedCompaniesWithHttpInfo(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
@@ -888,7 +888,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * List associated companies / branches (asynchronously)
+     * Listar empresas asociadas / sucursales (asynchronously)
      * 
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
@@ -899,8 +899,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Array of associated companies </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Lista de empresas asociadas </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call listAssociatedCompaniesAsync(@javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<List<AssociatedCompany>> _callback) throws ApiException {
@@ -926,8 +926,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company updated successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Empresa actualizada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call updateAssociatedCompanyCall(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
@@ -996,7 +996,7 @@ public class AssociatedCompaniesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -1012,7 +1012,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Update associated company
+     * Actualizar empresa asociada
      * 
      * @param companyId  (required)
      * @param name  (optional)
@@ -1027,8 +1027,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company updated successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Empresa actualizada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public CreateAssociatedCompany201Response updateAssociatedCompany(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo) throws ApiException {
@@ -1037,7 +1037,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Update associated company
+     * Actualizar empresa asociada
      * 
      * @param companyId  (required)
      * @param name  (optional)
@@ -1052,8 +1052,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company updated successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Empresa actualizada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<CreateAssociatedCompany201Response> updateAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo) throws ApiException {
@@ -1063,7 +1063,7 @@ public class AssociatedCompaniesApi {
     }
 
     /**
-     * Update associated company (asynchronously)
+     * Actualizar empresa asociada (asynchronously)
      * 
      * @param companyId  (required)
      * @param name  (optional)
@@ -1079,8 +1079,8 @@ public class AssociatedCompaniesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Company updated successfully </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Empresa actualizada exitosamente </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call updateAssociatedCompanyAsync(@javax.annotation.Nonnull UUID companyId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String phone, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable File logo, final ApiCallback<CreateAssociatedCompany201Response> _callback) throws ApiException {

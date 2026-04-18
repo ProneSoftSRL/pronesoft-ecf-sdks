@@ -16,15 +16,25 @@ extension PronesoftEcfAPI {
 open class DocumentsSentAPI {
 
     /**
-     Download document XML
+     * enum for parameter inline
+     */
+    public enum Inline_downloadSentDocumentXml: String, CaseIterable {
+        case _true = "true"
+        case _false = "false"
+    }
+
+    /**
+     Descargar XML del documento
      
-     - parameter fileUrl: (query)  
+     - parameter id: (query) ID interno del documento (optional)
+     - parameter fileUrl: (query)  (optional)
+     - parameter inline: (query) true para ver en el navegador, false para descargar (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func downloadDocument(fileUrl: String, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> RequestTask {
-        return downloadDocumentWithRequestBuilder(fileUrl: fileUrl).execute(apiResponseQueue) { result in
+    open class func downloadSentDocumentXml(id: UUID? = nil, fileUrl: String? = nil, inline: Inline_downloadSentDocumentXml? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> RequestTask {
+        return downloadSentDocumentXmlWithRequestBuilder(id: id, fileUrl: fileUrl, inline: inline).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -35,25 +45,26 @@ open class DocumentsSentAPI {
     }
 
     /**
-     Download document XML
+     Descargar XML del documento
      - GET /documents/download
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter fileUrl: (query)  
+     - parameter id: (query) ID interno del documento (optional)
+     - parameter fileUrl: (query)  (optional)
+     - parameter inline: (query) true para ver en el navegador, false para descargar (optional)
      - returns: RequestBuilder<String> 
      */
-    open class func downloadDocumentWithRequestBuilder(fileUrl: String) -> RequestBuilder<String> {
+    open class func downloadSentDocumentXmlWithRequestBuilder(id: UUID? = nil, fileUrl: String? = nil, inline: Inline_downloadSentDocumentXml? = nil) -> RequestBuilder<String> {
         let localVariablePath = "/documents/download"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "fileUrl": (wrappedValue: fileUrl.encodeToJSON(), isExplode: true),
+            "id": (wrappedValue: id?.encodeToJSON(), isExplode: true),
+            "fileUrl": (wrappedValue: fileUrl?.encodeToJSON(), isExplode: true),
+            "inline": (wrappedValue: inline?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -68,16 +79,16 @@ open class DocumentsSentAPI {
     }
 
     /**
-     Get document details
+     Obtener detalle del documento
      
      - parameter id: (path)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getDocument(id: UUID, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: SentDocumentDetail?, _ error: Error?) -> Void)) -> RequestTask {
-        return getDocumentWithRequestBuilder(id: id, xTenantId: xTenantId).execute(apiResponseQueue) { result in
+    open class func getSentDocumentById(id: UUID, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: SentDocumentDetail?, _ error: Error?) -> Void)) -> RequestTask {
+        return getSentDocumentByIdWithRequestBuilder(id: id, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -88,19 +99,16 @@ open class DocumentsSentAPI {
     }
 
     /**
-     Get document details
+     Obtener detalle del documento
      - GET /documents/{id}
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter id: (path)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<SentDocumentDetail> 
      */
-    open class func getDocumentWithRequestBuilder(id: UUID, xTenantId: UUID? = nil) -> RequestBuilder<SentDocumentDetail> {
+    open class func getSentDocumentByIdWithRequestBuilder(id: UUID, xTenantId: UUID? = nil) -> RequestBuilder<SentDocumentDetail> {
         var localVariablePath = "/documents/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -122,25 +130,16 @@ open class DocumentsSentAPI {
     }
 
     /**
-     * enum for parameter period
-     */
-    public enum Period_getDocumentStats: String, CaseIterable {
-        case _7d = "7d"
-        case _30d = "30d"
-        case _90d = "90d"
-    }
-
-    /**
-     Get document statistics
+     Logs de procesamiento del documento
      
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     - parameter period: (query)  (optional, default to ._30d)
+     - parameter id: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getDocumentStats(xTenantId: UUID? = nil, period: Period_getDocumentStats? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: DocumentStatsResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return getDocumentStatsWithRequestBuilder(xTenantId: xTenantId, period: period).execute(apiResponseQueue) { result in
+    open class func getSentDocumentLogs(id: UUID, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: [GetSentDocumentLogs200ResponseInner]?, _ error: Error?) -> Void)) -> RequestTask {
+        return getSentDocumentLogsWithRequestBuilder(id: id, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -151,27 +150,70 @@ open class DocumentsSentAPI {
     }
 
     /**
-     Get document statistics
+     Logs de procesamiento del documento
+     - GET /documents/logs/{id}
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter id: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - returns: RequestBuilder<[GetSentDocumentLogs200ResponseInner]> 
+     */
+    open class func getSentDocumentLogsWithRequestBuilder(id: UUID, xTenantId: UUID? = nil) -> RequestBuilder<[GetSentDocumentLogs200ResponseInner]> {
+        var localVariablePath = "/documents/logs/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[GetSentDocumentLogs200ResponseInner]>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Estadísticas de documentos enviados
+     
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getSentDocumentStats(xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: DocumentStatsResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return getSentDocumentStatsWithRequestBuilder(xTenantId: xTenantId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Estadísticas de documentos enviados
      - GET /documents/stats/summary
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     - parameter period: (query)  (optional, default to ._30d)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<DocumentStatsResponse> 
      */
-    open class func getDocumentStatsWithRequestBuilder(xTenantId: UUID? = nil, period: Period_getDocumentStats? = nil) -> RequestBuilder<DocumentStatsResponse> {
+    open class func getSentDocumentStatsWithRequestBuilder(xTenantId: UUID? = nil) -> RequestBuilder<DocumentStatsResponse> {
         let localVariablePath = "/documents/stats/summary"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "period": (wrappedValue: period?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
             "x-tenant-id": xTenantId?.encodeToJSON(),
@@ -180,6 +222,96 @@ open class DocumentsSentAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<DocumentStatsResponse>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Estadísticas agrupadas por ambiente y estado
+     
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getSentDocumentStatsByEnvironment(xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: [String: AnyCodable]?, _ error: Error?) -> Void)) -> RequestTask {
+        return getSentDocumentStatsByEnvironmentWithRequestBuilder(xTenantId: xTenantId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Estadísticas agrupadas por ambiente y estado
+     - GET /documents/stats/by-environment
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - returns: RequestBuilder<[String: AnyCodable]> 
+     */
+    open class func getSentDocumentStatsByEnvironmentWithRequestBuilder(xTenantId: UUID? = nil) -> RequestBuilder<[String: AnyCodable]> {
+        let localVariablePath = "/documents/stats/by-environment"
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[String: AnyCodable]>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Opciones de filtro de estado disponibles
+     
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getSentDocumentStatusOptions(apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: [GetSentDocumentStatusOptions200ResponseInner]?, _ error: Error?) -> Void)) -> RequestTask {
+        return getSentDocumentStatusOptionsWithRequestBuilder().execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Opciones de filtro de estado disponibles
+     - GET /documents/status-options
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - returns: RequestBuilder<[GetSentDocumentStatusOptions200ResponseInner]> 
+     */
+    open class func getSentDocumentStatusOptionsWithRequestBuilder() -> RequestBuilder<[GetSentDocumentStatusOptions200ResponseInner]> {
+        let localVariablePath = "/documents/status-options"
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[GetSentDocumentStatusOptions200ResponseInner]>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -196,9 +328,9 @@ open class DocumentsSentAPI {
     }
 
     /**
-     List sent documents
+     Listar documentos enviados
      
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter env: (query)  (optional)
      - parameter ecf: (query)  (optional)
      - parameter type: (query)  (optional)
@@ -223,15 +355,12 @@ open class DocumentsSentAPI {
     }
 
     /**
-     List sent documents
+     Listar documentos enviados
      - GET /documents/sent
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter env: (query)  (optional)
      - parameter ecf: (query)  (optional)
      - parameter type: (query)  (optional)

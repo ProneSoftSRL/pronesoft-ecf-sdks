@@ -4,15 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**GetWebhook**](WebhookConfigurationApi.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
-| [**GetWebhookStats**](WebhookConfigurationApi.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
-| [**ListWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
+| [**GetWebhook**](WebhookConfigurationApi.md#getwebhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook |
+| [**GetWebhookStats**](WebhookConfigurationApi.md#getwebhookstats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook |
+| [**ListWebhooks**](WebhookConfigurationApi.md#listwebhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks |
 
 <a id="getwebhook"></a>
 # **GetWebhook**
 > WebhookConfigDetail GetWebhook (string rnc, string webhookId)
 
-Get webhook details
+Detalle de un webhook
 
 ### Example
 ```csharp
@@ -33,19 +33,17 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new WebhookConfigurationApi(httpClient, config, httpClientHandler);
-            var rnc = 133190907;  // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+            var rnc = 133190907;  // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
             var webhookId = "webhookId_example";  // string | 
 
             try
             {
-                // Get webhook details
+                // Detalle de un webhook
                 WebhookConfigDetail result = apiInstance.GetWebhook(rnc, webhookId);
                 Debug.WriteLine(result);
             }
@@ -66,7 +64,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get webhook details
+    // Detalle de un webhook
     ApiResponse<WebhookConfigDetail> response = apiInstance.GetWebhookWithHttpInfo(rnc, webhookId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -84,7 +82,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
 | **webhookId** | **string** |  |  |
 
 ### Return type
@@ -93,7 +91,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -104,8 +102,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook details |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Detalle del webhook |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -113,7 +111,7 @@ catch (ApiException e)
 # **GetWebhookStats**
 > WebhookStats GetWebhookStats (string rnc, string webhookId, string? period = null)
 
-Get webhook delivery statistics
+Estadísticas de entregas del webhook
 
 ### Example
 ```csharp
@@ -134,20 +132,18 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new WebhookConfigurationApi(httpClient, config, httpClientHandler);
-            var rnc = 133190907;  // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+            var rnc = 133190907;  // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
             var webhookId = "webhookId_example";  // string | 
             var period = "today";  // string? |  (optional)  (default to month)
 
             try
             {
-                // Get webhook delivery statistics
+                // Estadísticas de entregas del webhook
                 WebhookStats result = apiInstance.GetWebhookStats(rnc, webhookId, period);
                 Debug.WriteLine(result);
             }
@@ -168,7 +164,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get webhook delivery statistics
+    // Estadísticas de entregas del webhook
     ApiResponse<WebhookStats> response = apiInstance.GetWebhookStatsWithHttpInfo(rnc, webhookId, period);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -186,7 +182,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
 | **webhookId** | **string** |  |  |
 | **period** | **string?** |  | [optional] [default to month] |
 
@@ -196,7 +192,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -207,8 +203,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Webhook delivery statistics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estadísticas de entregas del webhook |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -216,9 +212,9 @@ catch (ApiException e)
 # **ListWebhooks**
 > List&lt;WebhookConfigResponse&gt; ListWebhooks (string rnc)
 
-List webhook configurations
+Listar configuraciones de webhooks
 
-Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 
 ### Example
 ```csharp
@@ -239,18 +235,16 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new WebhookConfigurationApi(httpClient, config, httpClientHandler);
-            var rnc = 133190907;  // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+            var rnc = 133190907;  // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 
             try
             {
-                // List webhook configurations
+                // Listar configuraciones de webhooks
                 List<WebhookConfigResponse> result = apiInstance.ListWebhooks(rnc);
                 Debug.WriteLine(result);
             }
@@ -271,7 +265,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List webhook configurations
+    // Listar configuraciones de webhooks
     ApiResponse<List<WebhookConfigResponse>> response = apiInstance.ListWebhooksWithHttpInfo(rnc);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -289,7 +283,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
 
 ### Return type
 
@@ -297,7 +291,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -308,8 +302,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | List of webhook configurations |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de configuraciones de webhooks |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

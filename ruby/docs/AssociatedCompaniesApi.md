@@ -4,19 +4,19 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Create associated company / branch |
-| [**delete_associated_company**](AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Delete associated company |
-| [**get_company_document_metrics**](AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics |
-| [**get_company_metrics**](AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics |
-| [**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | List associated companies / branches |
-| [**update_associated_company**](AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Update associated company |
+| [**create_associated_company**](AssociatedCompaniesApi.md#create_associated_company) | **POST** /associated-companies | Crear empresa asociada / sucursal |
+| [**delete_associated_company**](AssociatedCompaniesApi.md#delete_associated_company) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada |
+| [**get_company_document_metrics**](AssociatedCompaniesApi.md#get_company_document_metrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa |
+| [**get_company_metrics**](AssociatedCompaniesApi.md#get_company_metrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa |
+| [**list_associated_companies**](AssociatedCompaniesApi.md#list_associated_companies) | **GET** /associated-companies | Listar empresas asociadas / sucursales |
+| [**update_associated_company**](AssociatedCompaniesApi.md#update_associated_company) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada |
 
 
 ## create_associated_company
 
 > <CreateAssociatedCompany201Response> create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, opts)
 
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Examples
 
@@ -27,9 +27,6 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
@@ -53,7 +50,7 @@ opts = {
 }
 
 begin
-  # Create associated company / branch
+  # Crear empresa asociada / sucursal
   result = api_instance.create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -69,7 +66,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Create associated company / branch
+  # Crear empresa asociada / sucursal
   data, status_code, headers = api_instance.create_associated_company_with_http_info(email, password, name, rnc, phone, address, city, country, printer_type, opts)
   p status_code # => 2xx
   p headers # => { ... }
@@ -106,7 +103,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -118,9 +115,9 @@ end
 
 > <DeleteAssociatedCompany200Response> delete_associated_company(company_id)
 
-Delete associated company
+Eliminar empresa asociada
 
-Permanently deletes an associated company. This action is irreversible.
+Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 
 ### Examples
 
@@ -131,16 +128,13 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
 company_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 
 begin
-  # Delete associated company
+  # Eliminar empresa asociada
   result = api_instance.delete_associated_company(company_id)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -156,7 +150,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Delete associated company
+  # Eliminar empresa asociada
   data, status_code, headers = api_instance.delete_associated_company_with_http_info(company_id)
   p status_code # => 2xx
   p headers # => { ... }
@@ -178,7 +172,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -190,7 +184,7 @@ end
 
 > <CompanyDocumentMetrics> get_company_document_metrics(company_id)
 
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Examples
 
@@ -201,16 +195,13 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
 company_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 
 begin
-  # Get company document metrics
+  # Métricas de documentos de la empresa
   result = api_instance.get_company_document_metrics(company_id)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -226,7 +217,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Get company document metrics
+  # Métricas de documentos de la empresa
   data, status_code, headers = api_instance.get_company_document_metrics_with_http_info(company_id)
   p status_code # => 2xx
   p headers # => { ... }
@@ -248,7 +239,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -260,7 +251,7 @@ end
 
 > <CompanyMetrics> get_company_metrics(company_id)
 
-Get company metrics
+Métricas de la empresa
 
 ### Examples
 
@@ -271,16 +262,13 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
 company_id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | 
 
 begin
-  # Get company metrics
+  # Métricas de la empresa
   result = api_instance.get_company_metrics(company_id)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -296,7 +284,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Get company metrics
+  # Métricas de la empresa
   data, status_code, headers = api_instance.get_company_metrics_with_http_info(company_id)
   p status_code # => 2xx
   p headers # => { ... }
@@ -318,7 +306,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -330,7 +318,7 @@ end
 
 > <Array<AssociatedCompany>> list_associated_companies(opts)
 
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Examples
 
@@ -341,9 +329,6 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
@@ -353,7 +338,7 @@ opts = {
 }
 
 begin
-  # List associated companies / branches
+  # Listar empresas asociadas / sucursales
   result = api_instance.list_associated_companies(opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -369,7 +354,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # List associated companies / branches
+  # Listar empresas asociadas / sucursales
   data, status_code, headers = api_instance.list_associated_companies_with_http_info(opts)
   p status_code # => 2xx
   p headers # => { ... }
@@ -392,7 +377,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -404,7 +389,7 @@ end
 
 > <CreateAssociatedCompany201Response> update_associated_company(company_id, opts)
 
-Update associated company
+Actualizar empresa asociada
 
 ### Examples
 
@@ -415,9 +400,6 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
@@ -432,7 +414,7 @@ opts = {
 }
 
 begin
-  # Update associated company
+  # Actualizar empresa asociada
   result = api_instance.update_associated_company(company_id, opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -448,7 +430,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Update associated company
+  # Actualizar empresa asociada
   data, status_code, headers = api_instance.update_associated_company_with_http_info(company_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
@@ -476,7 +458,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

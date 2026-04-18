@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ItemAdditionalTax } from ''
+import type { ItemAdditionalTax } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

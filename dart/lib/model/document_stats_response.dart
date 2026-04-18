@@ -35,7 +35,7 @@ class DocumentStatsResponse {
   ///
   int? recentActivity;
 
-  Map<String, int> byStatus;
+  Map<String, DocumentStatsResponseByStatusValue> byStatus;
 
   Map<String, int> byEnvironment;
 
@@ -91,7 +91,7 @@ class DocumentStatsResponse {
       return DocumentStatsResponse(
         total: mapValueOfType<int>(json, r'total'),
         recentActivity: mapValueOfType<int>(json, r'recentActivity'),
-        byStatus: mapCastOfType<String, int>(json, r'byStatus') ?? const {},
+        byStatus: DocumentStatsResponseByStatusValue.mapFromJson(json[r'byStatus']),
         byEnvironment: mapCastOfType<String, int>(json, r'byEnvironment') ?? const {},
       );
     }

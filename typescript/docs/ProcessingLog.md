@@ -13,7 +13,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ProcessingLog } from ''
+import type { ProcessingLog } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

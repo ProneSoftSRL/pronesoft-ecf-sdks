@@ -18,10 +18,11 @@ class EcfHistoryItem {
     this.encf,
     this.documentType,
     this.status,
-    this.rnc,
+    this.legalStatus,
+    this.issuerRnc,
     this.environment,
+    this.receivedAt,
     this.createdAt,
-    this.logs = const [],
   });
 
   ///
@@ -32,20 +33,8 @@ class EcfHistoryItem {
   ///
   String? id;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? trackId;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? encf;
 
   ///
@@ -56,13 +45,9 @@ class EcfHistoryItem {
   ///
   String? documentType;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DocumentStatus? status;
+  EcfHistoryItemStatusEnum? status;
+
+  EcfHistoryItemLegalStatusEnum? legalStatus;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -70,7 +55,7 @@ class EcfHistoryItem {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? rnc;
+  String? issuerRnc;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -80,6 +65,8 @@ class EcfHistoryItem {
   ///
   Environment? environment;
 
+  DateTime? receivedAt;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -88,8 +75,6 @@ class EcfHistoryItem {
   ///
   DateTime? createdAt;
 
-  List<ProcessingLog> logs;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is EcfHistoryItem &&
     other.id == id &&
@@ -97,10 +82,11 @@ class EcfHistoryItem {
     other.encf == encf &&
     other.documentType == documentType &&
     other.status == status &&
-    other.rnc == rnc &&
+    other.legalStatus == legalStatus &&
+    other.issuerRnc == issuerRnc &&
     other.environment == environment &&
-    other.createdAt == createdAt &&
-    _deepEquality.equals(other.logs, logs);
+    other.receivedAt == receivedAt &&
+    other.createdAt == createdAt;
 
   @override
   int get hashCode =>
@@ -110,13 +96,14 @@ class EcfHistoryItem {
     (encf == null ? 0 : encf!.hashCode) +
     (documentType == null ? 0 : documentType!.hashCode) +
     (status == null ? 0 : status!.hashCode) +
-    (rnc == null ? 0 : rnc!.hashCode) +
+    (legalStatus == null ? 0 : legalStatus!.hashCode) +
+    (issuerRnc == null ? 0 : issuerRnc!.hashCode) +
     (environment == null ? 0 : environment!.hashCode) +
-    (createdAt == null ? 0 : createdAt!.hashCode) +
-    (logs.hashCode);
+    (receivedAt == null ? 0 : receivedAt!.hashCode) +
+    (createdAt == null ? 0 : createdAt!.hashCode);
 
   @override
-  String toString() => 'EcfHistoryItem[id=$id, trackId=$trackId, encf=$encf, documentType=$documentType, status=$status, rnc=$rnc, environment=$environment, createdAt=$createdAt, logs=$logs]';
+  String toString() => 'EcfHistoryItem[id=$id, trackId=$trackId, encf=$encf, documentType=$documentType, status=$status, legalStatus=$legalStatus, issuerRnc=$issuerRnc, environment=$environment, receivedAt=$receivedAt, createdAt=$createdAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -145,22 +132,31 @@ class EcfHistoryItem {
     } else {
       json[r'status'] = null;
     }
-    if (this.rnc != null) {
-      json[r'rnc'] = this.rnc;
+    if (this.legalStatus != null) {
+      json[r'legalStatus'] = this.legalStatus;
     } else {
-      json[r'rnc'] = null;
+      json[r'legalStatus'] = null;
+    }
+    if (this.issuerRnc != null) {
+      json[r'issuerRnc'] = this.issuerRnc;
+    } else {
+      json[r'issuerRnc'] = null;
     }
     if (this.environment != null) {
       json[r'environment'] = this.environment;
     } else {
       json[r'environment'] = null;
     }
+    if (this.receivedAt != null) {
+      json[r'receivedAt'] = this.receivedAt!.toUtc().toIso8601String();
+    } else {
+      json[r'receivedAt'] = null;
+    }
     if (this.createdAt != null) {
       json[r'createdAt'] = this.createdAt!.toUtc().toIso8601String();
     } else {
       json[r'createdAt'] = null;
     }
-      json[r'logs'] = this.logs;
     return json;
   }
 
@@ -183,11 +179,12 @@ class EcfHistoryItem {
         trackId: mapValueOfType<String>(json, r'trackId'),
         encf: mapValueOfType<String>(json, r'encf'),
         documentType: mapValueOfType<String>(json, r'documentType'),
-        status: DocumentStatus.fromJson(json[r'status']),
-        rnc: mapValueOfType<String>(json, r'rnc'),
+        status: EcfHistoryItemStatusEnum.fromJson(json[r'status']),
+        legalStatus: EcfHistoryItemLegalStatusEnum.fromJson(json[r'legalStatus']),
+        issuerRnc: mapValueOfType<String>(json, r'issuerRnc'),
         environment: Environment.fromJson(json[r'environment']),
+        receivedAt: mapDateTime(json, r'receivedAt', r''),
         createdAt: mapDateTime(json, r'createdAt', r''),
-        logs: ProcessingLog.listFromJson(json[r'logs']),
       );
     }
     return null;
@@ -237,4 +234,164 @@ class EcfHistoryItem {
   static const requiredKeys = <String>{
   };
 }
+
+
+class EcfHistoryItemStatusEnum {
+  /// Instantiate a new enum with the provided [value].
+  const EcfHistoryItemStatusEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const REGISTERED = EcfHistoryItemStatusEnum._(r'REGISTERED');
+  static const TO_SEND = EcfHistoryItemStatusEnum._(r'TO_SEND');
+  static const WAITING_RESPONSE = EcfHistoryItemStatusEnum._(r'WAITING_RESPONSE');
+  static const FINISHED = EcfHistoryItemStatusEnum._(r'FINISHED');
+
+  /// List of all possible values in this [enum][EcfHistoryItemStatusEnum].
+  static const values = <EcfHistoryItemStatusEnum>[
+    REGISTERED,
+    TO_SEND,
+    WAITING_RESPONSE,
+    FINISHED,
+  ];
+
+  static EcfHistoryItemStatusEnum? fromJson(dynamic value) => EcfHistoryItemStatusEnumTypeTransformer().decode(value);
+
+  static List<EcfHistoryItemStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <EcfHistoryItemStatusEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = EcfHistoryItemStatusEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [EcfHistoryItemStatusEnum] to String,
+/// and [decode] dynamic data back to [EcfHistoryItemStatusEnum].
+class EcfHistoryItemStatusEnumTypeTransformer {
+  factory EcfHistoryItemStatusEnumTypeTransformer() => _instance ??= const EcfHistoryItemStatusEnumTypeTransformer._();
+
+  const EcfHistoryItemStatusEnumTypeTransformer._();
+
+  String encode(EcfHistoryItemStatusEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a EcfHistoryItemStatusEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  EcfHistoryItemStatusEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'REGISTERED': return EcfHistoryItemStatusEnum.REGISTERED;
+        case r'TO_SEND': return EcfHistoryItemStatusEnum.TO_SEND;
+        case r'WAITING_RESPONSE': return EcfHistoryItemStatusEnum.WAITING_RESPONSE;
+        case r'FINISHED': return EcfHistoryItemStatusEnum.FINISHED;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [EcfHistoryItemStatusEnumTypeTransformer] instance.
+  static EcfHistoryItemStatusEnumTypeTransformer? _instance;
+}
+
+
+
+class EcfHistoryItemLegalStatusEnum {
+  /// Instantiate a new enum with the provided [value].
+  const EcfHistoryItemLegalStatusEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const ACCEPTED = EcfHistoryItemLegalStatusEnum._(r'ACCEPTED');
+  static const ACCEPTED_WITH_OBSERVATIONS = EcfHistoryItemLegalStatusEnum._(r'ACCEPTED_WITH_OBSERVATIONS');
+  static const REJECTED = EcfHistoryItemLegalStatusEnum._(r'REJECTED');
+  static const ERROR = EcfHistoryItemLegalStatusEnum._(r'ERROR');
+
+  /// List of all possible values in this [enum][EcfHistoryItemLegalStatusEnum].
+  static const values = <EcfHistoryItemLegalStatusEnum>[
+    ACCEPTED,
+    ACCEPTED_WITH_OBSERVATIONS,
+    REJECTED,
+    ERROR,
+  ];
+
+  static EcfHistoryItemLegalStatusEnum? fromJson(dynamic value) => EcfHistoryItemLegalStatusEnumTypeTransformer().decode(value);
+
+  static List<EcfHistoryItemLegalStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <EcfHistoryItemLegalStatusEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = EcfHistoryItemLegalStatusEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [EcfHistoryItemLegalStatusEnum] to String,
+/// and [decode] dynamic data back to [EcfHistoryItemLegalStatusEnum].
+class EcfHistoryItemLegalStatusEnumTypeTransformer {
+  factory EcfHistoryItemLegalStatusEnumTypeTransformer() => _instance ??= const EcfHistoryItemLegalStatusEnumTypeTransformer._();
+
+  const EcfHistoryItemLegalStatusEnumTypeTransformer._();
+
+  String encode(EcfHistoryItemLegalStatusEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a EcfHistoryItemLegalStatusEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  EcfHistoryItemLegalStatusEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'ACCEPTED': return EcfHistoryItemLegalStatusEnum.ACCEPTED;
+        case r'ACCEPTED_WITH_OBSERVATIONS': return EcfHistoryItemLegalStatusEnum.ACCEPTED_WITH_OBSERVATIONS;
+        case r'REJECTED': return EcfHistoryItemLegalStatusEnum.REJECTED;
+        case r'ERROR': return EcfHistoryItemLegalStatusEnum.ERROR;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [EcfHistoryItemLegalStatusEnumTypeTransformer] instance.
+  static EcfHistoryItemLegalStatusEnumTypeTransformer? _instance;
+}
+
 

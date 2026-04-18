@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -13,130 +13,157 @@
  */
 
 import { mapValues } from '../runtime';
-import type { DocumentStatus } from './DocumentStatus';
+import type { EcfSubmitResponseCompanyIdentification } from './EcfSubmitResponseCompanyIdentification';
 import {
-    DocumentStatusFromJSON,
-    DocumentStatusFromJSONTyped,
-    DocumentStatusToJSON,
-    DocumentStatusToJSONTyped,
-} from './DocumentStatus';
-import type { DgiiMessage } from './DgiiMessage';
-import {
-    DgiiMessageFromJSON,
-    DgiiMessageFromJSONTyped,
-    DgiiMessageToJSON,
-    DgiiMessageToJSONTyped,
-} from './DgiiMessage';
-import type { Environment } from './Environment';
-import {
-    EnvironmentFromJSON,
-    EnvironmentFromJSONTyped,
-    EnvironmentToJSON,
-    EnvironmentToJSONTyped,
-} from './Environment';
-import type { ProcessingLog } from './ProcessingLog';
-import {
-    ProcessingLogFromJSON,
-    ProcessingLogFromJSONTyped,
-    ProcessingLogToJSON,
-    ProcessingLogToJSONTyped,
-} from './ProcessingLog';
+    EcfSubmitResponseCompanyIdentificationFromJSON,
+    EcfSubmitResponseCompanyIdentificationFromJSONTyped,
+    EcfSubmitResponseCompanyIdentificationToJSON,
+    EcfSubmitResponseCompanyIdentificationToJSONTyped,
+} from './EcfSubmitResponseCompanyIdentification';
 
 /**
- * 
+ * Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
  * @export
  * @interface EcfStatusResponse
  */
 export interface EcfStatusResponse {
     /**
-     * 
+     * ID interno del documento.
      * @type {string}
      * @memberof EcfStatusResponse
      */
-    trackingId?: string;
+    id: string;
     /**
-     * 
-     * @type {string}
-     * @memberof EcfStatusResponse
-     */
-    estado?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EcfStatusResponse
-     */
-    trackId?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EcfStatusResponse
-     */
-    numeroControl?: string;
-    /**
-     * 
-     * @type {DocumentStatus}
-     * @memberof EcfStatusResponse
-     */
-    status?: DocumentStatus;
-    /**
-     * 
-     * @type {string}
-     * @memberof EcfStatusResponse
-     */
-    encf?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EcfStatusResponse
-     */
-    businessRnc?: string;
-    /**
-     * 
-     * @type {Environment}
-     * @memberof EcfStatusResponse
-     */
-    environment?: Environment;
-    /**
-     * 
+     * Fecha de emisión del documento (YYYY-MM-DD).
      * @type {Date}
      * @memberof EcfStatusResponse
      */
-    receivedAt?: Date;
+    stampDate?: Date | null;
     /**
-     * 
-     * @type {Array<DgiiMessage>}
+     * Estado del proceso de envío a DGII.
+     * @type {EcfStatusResponseStatusEnum}
      * @memberof EcfStatusResponse
      */
-    mensajes?: Array<DgiiMessage>;
+    status: EcfStatusResponseStatusEnum;
     /**
-     * 
-     * @type {Array<ProcessingLog>}
+     * Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+     * @type {EcfStatusResponseLegalStatusEnum}
      * @memberof EcfStatusResponse
      */
-    logs?: Array<ProcessingLog>;
+    legalStatus?: EcfStatusResponseLegalStatusEnum | null;
     /**
      * 
-     * @type {EcfStatusResponseSourceEnum}
+     * @type {EcfSubmitResponseCompanyIdentification}
      * @memberof EcfStatusResponse
      */
-    source?: EcfStatusResponseSourceEnum;
+    companyIdentification: EcfSubmitResponseCompanyIdentification;
+    /**
+     * ID de seguimiento asignado por DGII.
+     * @type {string}
+     * @memberof EcfStatusResponse
+     */
+    trackId?: string | null;
+    /**
+     * Número de control electrónico (e-NCF).
+     * @type {string}
+     * @memberof EcfStatusResponse
+     */
+    documentNumber?: string | null;
+    /**
+     * Número e-NCF del documento.
+     * @type {string}
+     * @memberof EcfStatusResponse
+     */
+    encf?: string | null;
+    /**
+     * true si fue emitido en modo contingencia.
+     * @type {boolean}
+     * @memberof EcfStatusResponse
+     */
+    contingencyMode?: boolean;
+    /**
+     * Mensaje oficial DGII cuando contingencyMode es true.
+     * @type {string}
+     * @memberof EcfStatusResponse
+     */
+    contingencyMessage?: string;
+    /**
+     * URL del código QR del documento.
+     * @type {string}
+     * @memberof EcfStatusResponse
+     */
+    documentStampUrl?: string | null;
+    /**
+     * URL pre-firmada del PDF (expira en 1 hora).
+     * @type {string}
+     * @memberof EcfStatusResponse
+     */
+    pdf?: string | null;
+    /**
+     * URL pre-firmada del XML firmado (expira en 1 hora).
+     * @type {string}
+     * @memberof EcfStatusResponse
+     */
+    xmlUrl?: string | null;
+    /**
+     * Fecha y hora de la firma digital.
+     * @type {Date}
+     * @memberof EcfStatusResponse
+     */
+    signatureDate?: Date | null;
+    /**
+     * Código de seguridad del documento.
+     * @type {string}
+     * @memberof EcfStatusResponse
+     */
+    securityCode?: string | null;
+    /**
+     * true si DGII confirmó el consumo de la secuencia.
+     * @type {boolean}
+     * @memberof EcfStatusResponse
+     */
+    sequenceConsumed: boolean;
+    /**
+     * Respuesta completa de DGII (disponible cuando status es FINISHED).
+     * @type {{ [key: string]: any; }}
+     * @memberof EcfStatusResponse
+     */
+    governmentResponse?: { [key: string]: any; };
 }
 
 
 /**
  * @export
  */
-export const EcfStatusResponseSourceEnum = {
-    DgiiDirect: 'dgii_direct',
-    LocalDatabase: 'local_database'
+export const EcfStatusResponseStatusEnum = {
+    Registered: 'REGISTERED',
+    ToSend: 'TO_SEND',
+    WaitingResponse: 'WAITING_RESPONSE',
+    ToNotify: 'TO_NOTIFY',
+    Finished: 'FINISHED'
 } as const;
-export type EcfStatusResponseSourceEnum = typeof EcfStatusResponseSourceEnum[keyof typeof EcfStatusResponseSourceEnum];
+export type EcfStatusResponseStatusEnum = typeof EcfStatusResponseStatusEnum[keyof typeof EcfStatusResponseStatusEnum];
+
+/**
+ * @export
+ */
+export const EcfStatusResponseLegalStatusEnum = {
+    Accepted: 'ACCEPTED',
+    AcceptedWithObservations: 'ACCEPTED_WITH_OBSERVATIONS',
+    Rejected: 'REJECTED',
+    Error: 'ERROR'
+} as const;
+export type EcfStatusResponseLegalStatusEnum = typeof EcfStatusResponseLegalStatusEnum[keyof typeof EcfStatusResponseLegalStatusEnum];
 
 
 /**
  * Check if a given object implements the EcfStatusResponse interface.
  */
 export function instanceOfEcfStatusResponse(value: object): value is EcfStatusResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('companyIdentification' in value) || value['companyIdentification'] === undefined) return false;
+    if (!('sequenceConsumed' in value) || value['sequenceConsumed'] === undefined) return false;
     return true;
 }
 
@@ -150,18 +177,23 @@ export function EcfStatusResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'trackingId': json['trackingId'] == null ? undefined : json['trackingId'],
-        'estado': json['estado'] == null ? undefined : json['estado'],
+        'id': json['id'],
+        'stampDate': json['stampDate'] == null ? undefined : (new Date(json['stampDate'])),
+        'status': json['status'],
+        'legalStatus': json['legalStatus'] == null ? undefined : json['legalStatus'],
+        'companyIdentification': EcfSubmitResponseCompanyIdentificationFromJSON(json['companyIdentification']),
         'trackId': json['trackId'] == null ? undefined : json['trackId'],
-        'numeroControl': json['numeroControl'] == null ? undefined : json['numeroControl'],
-        'status': json['status'] == null ? undefined : DocumentStatusFromJSON(json['status']),
+        'documentNumber': json['documentNumber'] == null ? undefined : json['documentNumber'],
         'encf': json['encf'] == null ? undefined : json['encf'],
-        'businessRnc': json['businessRnc'] == null ? undefined : json['businessRnc'],
-        'environment': json['environment'] == null ? undefined : EnvironmentFromJSON(json['environment']),
-        'receivedAt': json['receivedAt'] == null ? undefined : (new Date(json['receivedAt'])),
-        'mensajes': json['mensajes'] == null ? undefined : ((json['mensajes'] as Array<any>).map(DgiiMessageFromJSON)),
-        'logs': json['logs'] == null ? undefined : ((json['logs'] as Array<any>).map(ProcessingLogFromJSON)),
-        'source': json['source'] == null ? undefined : json['source'],
+        'contingencyMode': json['contingencyMode'] == null ? undefined : json['contingencyMode'],
+        'contingencyMessage': json['contingencyMessage'] == null ? undefined : json['contingencyMessage'],
+        'documentStampUrl': json['documentStampUrl'] == null ? undefined : json['documentStampUrl'],
+        'pdf': json['pdf'] == null ? undefined : json['pdf'],
+        'xmlUrl': json['xmlUrl'] == null ? undefined : json['xmlUrl'],
+        'signatureDate': json['signatureDate'] == null ? undefined : (new Date(json['signatureDate'])),
+        'securityCode': json['securityCode'] == null ? undefined : json['securityCode'],
+        'sequenceConsumed': json['sequenceConsumed'],
+        'governmentResponse': json['governmentResponse'] == null ? undefined : json['governmentResponse'],
     };
 }
 
@@ -176,18 +208,23 @@ export function EcfStatusResponseToJSONTyped(value?: EcfStatusResponse | null, i
 
     return {
         
-        'trackingId': value['trackingId'],
-        'estado': value['estado'],
+        'id': value['id'],
+        'stampDate': value['stampDate'] == null ? value['stampDate'] : value['stampDate'].toISOString().substring(0,10),
+        'status': value['status'],
+        'legalStatus': value['legalStatus'],
+        'companyIdentification': EcfSubmitResponseCompanyIdentificationToJSON(value['companyIdentification']),
         'trackId': value['trackId'],
-        'numeroControl': value['numeroControl'],
-        'status': DocumentStatusToJSON(value['status']),
+        'documentNumber': value['documentNumber'],
         'encf': value['encf'],
-        'businessRnc': value['businessRnc'],
-        'environment': EnvironmentToJSON(value['environment']),
-        'receivedAt': value['receivedAt'] == null ? value['receivedAt'] : value['receivedAt'].toISOString(),
-        'mensajes': value['mensajes'] == null ? undefined : ((value['mensajes'] as Array<any>).map(DgiiMessageToJSON)),
-        'logs': value['logs'] == null ? undefined : ((value['logs'] as Array<any>).map(ProcessingLogToJSON)),
-        'source': value['source'],
+        'contingencyMode': value['contingencyMode'],
+        'contingencyMessage': value['contingencyMessage'],
+        'documentStampUrl': value['documentStampUrl'],
+        'pdf': value['pdf'],
+        'xmlUrl': value['xmlUrl'],
+        'signatureDate': value['signatureDate'] == null ? value['signatureDate'] : value['signatureDate'].toISOString(),
+        'securityCode': value['securityCode'],
+        'sequenceConsumed': value['sequenceConsumed'],
+        'governmentResponse': value['governmentResponse'],
     };
 }
 

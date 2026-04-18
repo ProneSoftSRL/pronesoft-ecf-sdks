@@ -13,7 +13,6 @@ part of openapi.api;
 class ElectronicDocument {
   /// Returns a new [ElectronicDocument] instance.
   ElectronicDocument({
-    this.environment,
     this.version = '1.0',
     required this.invoiceType,
     this.invoiceNumber,
@@ -63,20 +62,12 @@ class ElectronicDocument {
     this.pages,
   });
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  Environment? environment;
-
-  /// Always 1.0.
+  /// Siempre \"1.0\".
   String version;
 
   InvoiceType invoiceType;
 
-  /// e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits).
+  /// Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`. 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -379,7 +370,6 @@ class ElectronicDocument {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ElectronicDocument &&
-    other.environment == environment &&
     other.version == version &&
     other.invoiceType == invoiceType &&
     other.invoiceNumber == invoiceNumber &&
@@ -431,7 +421,6 @@ class ElectronicDocument {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (environment == null ? 0 : environment!.hashCode) +
     (version.hashCode) +
     (invoiceType.hashCode) +
     (invoiceNumber == null ? 0 : invoiceNumber!.hashCode) +
@@ -481,15 +470,10 @@ class ElectronicDocument {
     (pages == null ? 0 : pages!.hashCode);
 
   @override
-  String toString() => 'ElectronicDocument[environment=$environment, version=$version, invoiceType=$invoiceType, invoiceNumber=$invoiceNumber, groupId=$groupId, issueDate=$issueDate, expirationDate=$expirationDate, creditNoteIndicator=$creditNoteIndicator, deferredSendingIndicator=$deferredSendingIndicator, taxedAmountIndicator=$taxedAmountIndicator, incomeType=$incomeType, paymentType=$paymentType, paymentDeadline=$paymentDeadline, paymentTerms=$paymentTerms, paymentForms=$paymentForms, paymentAccountType=$paymentAccountType, paymentAccountNumber=$paymentAccountNumber, paymentBank=$paymentBank, serviceStartDate=$serviceStartDate, serviceEndDate=$serviceEndDate, totalPages=$totalPages, issuerRNC=$issuerRNC, issuerBusinessName=$issuerBusinessName, issuerCommercialName=$issuerCommercialName, branchName=$branchName, issuerAddress=$issuerAddress, municipalityCode=$municipalityCode, provinceCode=$provinceCode, issuerPhones=$issuerPhones, issuerEmail=$issuerEmail, issuerWebsite=$issuerWebsite, issuerEconomicActivity=$issuerEconomicActivity, sellerCode=$sellerCode, internalInvoiceNumber=$internalInvoiceNumber, internalOrderNumber=$internalOrderNumber, salesZone=$salesZone, salesRoute=$salesRoute, additionalIssuerInfo=$additionalIssuerInfo, buyer=$buyer, items=$items, totals=$totals, transport=$transport, additionalInfo=$additionalInfo, alternativeCurrency=$alternativeCurrency, referenceInfo=$referenceInfo, subtotals=$subtotals, discountsOrSurcharges=$discountsOrSurcharges, pages=$pages]';
+  String toString() => 'ElectronicDocument[version=$version, invoiceType=$invoiceType, invoiceNumber=$invoiceNumber, groupId=$groupId, issueDate=$issueDate, expirationDate=$expirationDate, creditNoteIndicator=$creditNoteIndicator, deferredSendingIndicator=$deferredSendingIndicator, taxedAmountIndicator=$taxedAmountIndicator, incomeType=$incomeType, paymentType=$paymentType, paymentDeadline=$paymentDeadline, paymentTerms=$paymentTerms, paymentForms=$paymentForms, paymentAccountType=$paymentAccountType, paymentAccountNumber=$paymentAccountNumber, paymentBank=$paymentBank, serviceStartDate=$serviceStartDate, serviceEndDate=$serviceEndDate, totalPages=$totalPages, issuerRNC=$issuerRNC, issuerBusinessName=$issuerBusinessName, issuerCommercialName=$issuerCommercialName, branchName=$branchName, issuerAddress=$issuerAddress, municipalityCode=$municipalityCode, provinceCode=$provinceCode, issuerPhones=$issuerPhones, issuerEmail=$issuerEmail, issuerWebsite=$issuerWebsite, issuerEconomicActivity=$issuerEconomicActivity, sellerCode=$sellerCode, internalInvoiceNumber=$internalInvoiceNumber, internalOrderNumber=$internalOrderNumber, salesZone=$salesZone, salesRoute=$salesRoute, additionalIssuerInfo=$additionalIssuerInfo, buyer=$buyer, items=$items, totals=$totals, transport=$transport, additionalInfo=$additionalInfo, alternativeCurrency=$alternativeCurrency, referenceInfo=$referenceInfo, subtotals=$subtotals, discountsOrSurcharges=$discountsOrSurcharges, pages=$pages]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.environment != null) {
-      json[r'environment'] = this.environment;
-    } else {
-      json[r'environment'] = null;
-    }
       json[r'version'] = this.version;
       json[r'invoiceType'] = this.invoiceType;
     if (this.invoiceNumber != null) {
@@ -707,8 +691,6 @@ class ElectronicDocument {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        assert(json.containsKey(r'version'), 'Required key "ElectronicDocument[version]" is missing from JSON.');
-        assert(json[r'version'] != null, 'Required key "ElectronicDocument[version]" has a null value in JSON.');
         assert(json.containsKey(r'invoiceType'), 'Required key "ElectronicDocument[invoiceType]" is missing from JSON.');
         assert(json[r'invoiceType'] != null, 'Required key "ElectronicDocument[invoiceType]" has a null value in JSON.');
         assert(json.containsKey(r'issueDate'), 'Required key "ElectronicDocument[issueDate]" is missing from JSON.');
@@ -723,8 +705,7 @@ class ElectronicDocument {
       }());
 
       return ElectronicDocument(
-        environment: Environment.fromJson(json[r'environment']),
-        version: mapValueOfType<String>(json, r'version')!,
+        version: mapValueOfType<String>(json, r'version') ?? '1.0',
         invoiceType: InvoiceType.fromJson(json[r'invoiceType'])!,
         invoiceNumber: mapValueOfType<String>(json, r'invoiceNumber'),
         groupId: mapValueOfType<String>(json, r'groupId'),
@@ -820,7 +801,6 @@ class ElectronicDocument {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'version',
     'invoiceType',
     'issueDate',
     'paymentForms',

@@ -4,8 +4,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**export606**](ReportsAPI.md#export606) | **GET** /dgii/606/export | Export Format 606 (Purchases)
-[**exportSentDocuments**](ReportsAPI.md#exportsentdocuments) | **GET** /dgii/sent/export | Export sent documents report
+[**export606**](ReportsAPI.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras)
+[**exportSentDocuments**](ReportsAPI.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
 
 
 # **export606**
@@ -13,9 +13,9 @@ Method | HTTP request | Description
     open class func export606(from: Date, to: Date, format: Format_export606, status: String? = nil, type: String? = nil, encf: String? = nil, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
 ```
 
-Export Format 606 (Purchases)
+Exportar Formato 606 (Compras)
 
-Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 
 ### Example
 ```swift
@@ -29,7 +29,7 @@ let status = "status_example" // String |  (optional)
 let type = "type_example" // String |  (optional)
 let encf = "encf_example" // String |  (optional)
 
-// Export Format 606 (Purchases)
+// Exportar Formato 606 (Compras)
 ReportsAPI.export606(from: from, to: to, format: format, status: status, type: type, encf: encf) { (response, error) in
     guard error == nil else {
         print(error)
@@ -59,7 +59,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -73,9 +73,9 @@ Name | Type | Description  | Notes
     open class func exportSentDocuments(from: Date, to: Date, env: Environment? = nil, encf: String? = nil, type: String? = nil, status: Status_exportSentDocuments? = nil, trackId: String? = nil, completion: @escaping (_ data: URL?, _ error: Error?) -> Void)
 ```
 
-Export sent documents report
+Exportar reporte de documentos enviados
 
-Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
 
 ### Example
 ```swift
@@ -90,7 +90,7 @@ let type = "type_example" // String |  (optional)
 let status = "status_example" // String |  (optional)
 let trackId = "trackId_example" // String |  (optional)
 
-// Export sent documents report
+// Exportar reporte de documentos enviados
 ReportsAPI.exportSentDocuments(from: from, to: to, env: env, encf: encf, type: type, status: status, trackId: trackId) { (response, error) in
     guard error == nil else {
         print(error)
@@ -121,7 +121,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

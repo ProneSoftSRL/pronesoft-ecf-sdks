@@ -17,26 +17,40 @@ extension PronesoftEcfAPI {
 
 public struct EcfHistoryItem: Codable, JSONEncodable, Hashable {
 
+    public enum Status: String, Codable, CaseIterable {
+        case registered = "REGISTERED"
+        case toSend = "TO_SEND"
+        case waitingResponse = "WAITING_RESPONSE"
+        case finished = "FINISHED"
+    }
+    public enum LegalStatus: String, Codable, CaseIterable {
+        case accepted = "ACCEPTED"
+        case acceptedWithObservations = "ACCEPTED_WITH_OBSERVATIONS"
+        case rejected = "REJECTED"
+        case error = "ERROR"
+    }
     public var id: UUID?
     public var trackId: String?
     public var encf: String?
     public var documentType: String?
-    public var status: DocumentStatus?
-    public var rnc: String?
+    public var status: Status?
+    public var legalStatus: LegalStatus?
+    public var issuerRnc: String?
     public var environment: Environment?
+    public var receivedAt: Date?
     public var createdAt: Date?
-    public var logs: [ProcessingLog]?
 
-    public init(id: UUID? = nil, trackId: String? = nil, encf: String? = nil, documentType: String? = nil, status: DocumentStatus? = nil, rnc: String? = nil, environment: Environment? = nil, createdAt: Date? = nil, logs: [ProcessingLog]? = nil) {
+    public init(id: UUID? = nil, trackId: String? = nil, encf: String? = nil, documentType: String? = nil, status: Status? = nil, legalStatus: LegalStatus? = nil, issuerRnc: String? = nil, environment: Environment? = nil, receivedAt: Date? = nil, createdAt: Date? = nil) {
         self.id = id
         self.trackId = trackId
         self.encf = encf
         self.documentType = documentType
         self.status = status
-        self.rnc = rnc
+        self.legalStatus = legalStatus
+        self.issuerRnc = issuerRnc
         self.environment = environment
+        self.receivedAt = receivedAt
         self.createdAt = createdAt
-        self.logs = logs
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -45,10 +59,11 @@ public struct EcfHistoryItem: Codable, JSONEncodable, Hashable {
         case encf
         case documentType
         case status
-        case rnc
+        case legalStatus
+        case issuerRnc
         case environment
+        case receivedAt
         case createdAt
-        case logs
     }
 
     // Encodable protocol methods
@@ -60,10 +75,11 @@ public struct EcfHistoryItem: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(encf, forKey: .encf)
         try container.encodeIfPresent(documentType, forKey: .documentType)
         try container.encodeIfPresent(status, forKey: .status)
-        try container.encodeIfPresent(rnc, forKey: .rnc)
+        try container.encodeIfPresent(legalStatus, forKey: .legalStatus)
+        try container.encodeIfPresent(issuerRnc, forKey: .issuerRnc)
         try container.encodeIfPresent(environment, forKey: .environment)
+        try container.encodeIfPresent(receivedAt, forKey: .receivedAt)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
-        try container.encodeIfPresent(logs, forKey: .logs)
     }
 }
 

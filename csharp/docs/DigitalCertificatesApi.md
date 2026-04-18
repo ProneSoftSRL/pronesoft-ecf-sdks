@@ -4,15 +4,15 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**UploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX) |
+| [**UploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX) |
 
 <a id="uploadcertificate"></a>
 # **UploadCertificate**
 > UploadCertificateResponse UploadCertificate (string rnc, FileParameter file, string password)
 
-Upload digital certificate (P12/PFX)
+Subir certificado digital (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
+Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 
 ### Example
 ```csharp
@@ -33,20 +33,18 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DigitalCertificatesApi(httpClient, config, httpClientHandler);
-            var rnc = 133190907;  // string | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | Certificate file in .p12 or .pfx format.
-            var password = "password_example";  // string | Password to unlock the certificate.
+            var rnc = 133190907;  // string | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | Archivo del certificado en formato .p12 o .pfx.
+            var password = "password_example";  // string | Contraseña para desbloquear el certificado.
 
             try
             {
-                // Upload digital certificate (P12/PFX)
+                // Subir certificado digital (P12/PFX)
                 UploadCertificateResponse result = apiInstance.UploadCertificate(rnc, file, password);
                 Debug.WriteLine(result);
             }
@@ -67,7 +65,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Upload digital certificate (P12/PFX)
+    // Subir certificado digital (P12/PFX)
     ApiResponse<UploadCertificateResponse> response = apiInstance.UploadCertificateWithHttpInfo(rnc, file, password);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -85,9 +83,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **rnc** | **string** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
-| **file** | **FileParameter****FileParameter** | Certificate file in .p12 or .pfx format. |  |
-| **password** | **string** | Password to unlock the certificate. |  |
+| **rnc** | **string** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
+| **file** | **FileParameter****FileParameter** | Archivo del certificado en formato .p12 o .pfx. |  |
+| **password** | **string** | Contraseña para desbloquear el certificado. |  |
 
 ### Return type
 
@@ -95,7 +93,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -106,11 +104,11 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Certificate uploaded successfully |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **201** | Certificado subido exitosamente |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 | **403** | The token does not have the required scope. |  -  |
-| **404** | Company RNC not found in the system. |  -  |
+| **404** | RNC de la empresa no encontrado en el sistema. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

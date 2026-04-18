@@ -1,7 +1,8 @@
-# openapi-java-client
+# ecf-sdk
 
 eCF-Pronesoft Integration API
 - API version: 1.2.0
+  - Build date: 2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Descripción general
@@ -71,9 +72,9 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-  <groupId>org.openapitools</groupId>
-  <artifactId>openapi-java-client</artifactId>
-  <version>1.2.0</version>
+  <groupId>com.pronesoft</groupId>
+  <artifactId>ecf-sdk</artifactId>
+  <version>0.0.3</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -84,12 +85,12 @@ Add this dependency to your project's build file:
 
 ```groovy
   repositories {
-    mavenCentral()     // Needed if the 'openapi-java-client' jar has been published to maven central.
-    mavenLocal()       // Needed if the 'openapi-java-client' jar has been published to the local maven repo.
+    mavenCentral()     // Needed if the 'ecf-sdk' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'ecf-sdk' jar has been published to the local maven repo.
   }
 
   dependencies {
-     implementation "org.openapitools:openapi-java-client:1.2.0"
+     implementation "com.pronesoft:ecf-sdk:0.0.3"
   }
 ```
 
@@ -103,7 +104,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/openapi-java-client-1.2.0.jar`
+* `target/ecf-sdk-0.0.3.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -113,12 +114,12 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```java
 
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.model.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.model.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {

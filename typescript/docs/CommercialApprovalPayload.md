@@ -20,7 +20,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { CommercialApprovalPayload } from ''
+import type { CommercialApprovalPayload } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

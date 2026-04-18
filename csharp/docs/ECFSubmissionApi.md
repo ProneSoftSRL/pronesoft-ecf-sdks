@@ -4,117 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**GetEcfHistory**](ECFSubmissionApi.md#getecfhistory) | **GET** /{environment}/ecf/responses/history | Get submission history (last 50 documents) |
-| [**GetEcfStats**](ECFSubmissionApi.md#getecfstats) | **GET** /{environment}/ecf/responses/stats | Get submission statistics (last 30 days) |
-| [**GetEcfStatus**](ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{trackId} | Get document status by trackId |
-| [**SubmitEcf**](ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Submit e-CF document to DGII |
-
-<a id="getecfhistory"></a>
-# **GetEcfHistory**
-> List&lt;EcfHistoryItem&gt; GetEcfHistory (ModelEnvironment environment, Guid? xTenantId = null)
-
-Get submission history (last 50 documents)
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using Pronesoft.Ecf.Sdk.Api;
-using Pronesoft.Ecf.Sdk.Client;
-using Pronesoft.Ecf.Sdk.Model;
-
-namespace Example
-{
-    public class GetEcfHistoryExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
-            // Configure OAuth2 access token for authorization: oauth2
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
-
-            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
-            HttpClient httpClient = new HttpClient();
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
-            var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
-
-            try
-            {
-                // Get submission history (last 50 documents)
-                List<EcfHistoryItem> result = apiInstance.GetEcfHistory(environment, xTenantId);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling ECFSubmissionApi.GetEcfHistory: " + e.Message);
-                Debug.Print("Status Code: " + e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-#### Using the GetEcfHistoryWithHttpInfo variant
-This returns an ApiResponse object which contains the response data, status code and headers.
-
-```csharp
-try
-{
-    // Get submission history (last 50 documents)
-    ApiResponse<List<EcfHistoryItem>> response = apiInstance.GetEcfHistoryWithHttpInfo(environment, xTenantId);
-    Debug.Write("Status Code: " + response.StatusCode);
-    Debug.Write("Response Headers: " + response.Headers);
-    Debug.Write("Response Body: " + response.Data);
-}
-catch (ApiException e)
-{
-    Debug.Print("Exception when calling ECFSubmissionApi.GetEcfHistoryWithHttpInfo: " + e.Message);
-    Debug.Print("Status Code: " + e.ErrorCode);
-    Debug.Print(e.StackTrace);
-}
-```
-
-### Parameters
-
-| Name | Type | Description | Notes |
-|------|------|-------------|-------|
-| **environment** | **ModelEnvironment** |  |  |
-| **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
-
-### Return type
-
-[**List&lt;EcfHistoryItem&gt;**](EcfHistoryItem.md)
-
-### Authorization
-
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Document history |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+| [**GetEcfStats**](ECFSubmissionApi.md#getecfstats) | **GET** /{environment}/ecf/responses/stats | Obtener estadísticas de envíos (últimos 30 días) |
+| [**GetEcfStatus**](ECFSubmissionApi.md#getecfstatus) | **GET** /{environment}/ecf/status/{id} | Consultar estado del documento por ID interno |
+| [**GetEcfSubmissionHistory**](ECFSubmissionApi.md#getecfsubmissionhistory) | **GET** /{environment}/ecf/responses/history | Historial de envíos (paginado) |
+| [**SubmitEcf**](ECFSubmissionApi.md#submitecf) | **POST** /{environment}/ecf/submit | Enviar documento e-CF a la DGII |
 
 <a id="getecfstats"></a>
 # **GetEcfStats**
 > EcfStatsResponse GetEcfStats (ModelEnvironment environment, Guid? xTenantId = null)
 
-Get submission statistics (last 30 days)
+Obtener estadísticas de envíos (últimos 30 días)
 
 ### Example
 ```csharp
@@ -135,19 +34,17 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
 
             try
             {
-                // Get submission statistics (last 30 days)
+                // Obtener estadísticas de envíos (últimos 30 días)
                 EcfStatsResponse result = apiInstance.GetEcfStats(environment, xTenantId);
                 Debug.WriteLine(result);
             }
@@ -168,7 +65,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get submission statistics (last 30 days)
+    // Obtener estadísticas de envíos (últimos 30 días)
     ApiResponse<EcfStatsResponse> response = apiInstance.GetEcfStatsWithHttpInfo(environment, xTenantId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -187,7 +84,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **environment** | **ModelEnvironment** |  |  |
-| **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
 
 ### Return type
 
@@ -195,7 +92,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -206,16 +103,16 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Submission statistics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estadísticas de envíos |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="getecfstatus"></a>
 # **GetEcfStatus**
-> EcfStatusResponse GetEcfStatus (ModelEnvironment environment, string trackId, Guid? xTenantId = null)
+> EcfStatusResponse GetEcfStatus (ModelEnvironment environment, string id, Guid? xTenantId = null)
 
-Get document status by trackId
+Consultar estado del documento por ID interno
 
 ### Example
 ```csharp
@@ -236,21 +133,19 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
-            var trackId = "trackId_example";  // string | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
+            var id = "id_example";  // string | 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
 
             try
             {
-                // Get document status by trackId
-                EcfStatusResponse result = apiInstance.GetEcfStatus(environment, trackId, xTenantId);
+                // Consultar estado del documento por ID interno
+                EcfStatusResponse result = apiInstance.GetEcfStatus(environment, id, xTenantId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -270,8 +165,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get document status by trackId
-    ApiResponse<EcfStatusResponse> response = apiInstance.GetEcfStatusWithHttpInfo(environment, trackId, xTenantId);
+    // Consultar estado del documento por ID interno
+    ApiResponse<EcfStatusResponse> response = apiInstance.GetEcfStatusWithHttpInfo(environment, id, xTenantId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -289,8 +184,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **environment** | **ModelEnvironment** |  |  |
-| **trackId** | **string** |  |  |
-| **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
+| **id** | **string** |  |  |
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
 
 ### Return type
 
@@ -298,7 +193,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -309,18 +204,121 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document status |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Estado del documento |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getecfsubmissionhistory"></a>
+# **GetEcfSubmissionHistory**
+> GetEcfSubmissionHistory200Response GetEcfSubmissionHistory (ModelEnvironment environment, Guid? xTenantId = null, int? page = null, int? limit = null)
+
+Historial de envíos (paginado)
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Pronesoft.Ecf.Sdk.Api;
+using Pronesoft.Ecf.Sdk.Client;
+using Pronesoft.Ecf.Sdk.Model;
+
+namespace Example
+{
+    public class GetEcfSubmissionHistoryExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
+            // Configure OAuth2 access token for authorization: oauth2
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
+            var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var page = 1;  // int? |  (optional)  (default to 1)
+            var limit = 20;  // int? |  (optional)  (default to 20)
+
+            try
+            {
+                // Historial de envíos (paginado)
+                GetEcfSubmissionHistory200Response result = apiInstance.GetEcfSubmissionHistory(environment, xTenantId, page, limit);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ECFSubmissionApi.GetEcfSubmissionHistory: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetEcfSubmissionHistoryWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Historial de envíos (paginado)
+    ApiResponse<GetEcfSubmissionHistory200Response> response = apiInstance.GetEcfSubmissionHistoryWithHttpInfo(environment, xTenantId, page, limit);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ECFSubmissionApi.GetEcfSubmissionHistoryWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **environment** | **ModelEnvironment** |  |  |
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **page** | **int?** |  | [optional] [default to 1] |
+| **limit** | **int?** |  | [optional] [default to 20] |
+
+### Return type
+
+[**GetEcfSubmissionHistory200Response**](GetEcfSubmissionHistory200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Historial de documentos paginado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="submitecf"></a>
 # **SubmitEcf**
-> EcfSubmissionResponse SubmitEcf (ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = null)
+> EcfSubmitResponse SubmitEcf (ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = null)
 
-Submit e-CF document to DGII
+Enviar documento e-CF a la DGII
 
-Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
 
 ### Example
 ```csharp
@@ -341,8 +339,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -350,12 +346,12 @@ namespace Example
             var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
             var electronicDocument = new ElectronicDocument(); // ElectronicDocument | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
 
             try
             {
-                // Submit e-CF document to DGII
-                EcfSubmissionResponse result = apiInstance.SubmitEcf(environment, electronicDocument, xTenantId);
+                // Enviar documento e-CF a la DGII
+                EcfSubmitResponse result = apiInstance.SubmitEcf(environment, electronicDocument, xTenantId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -375,8 +371,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Submit e-CF document to DGII
-    ApiResponse<EcfSubmissionResponse> response = apiInstance.SubmitEcfWithHttpInfo(environment, electronicDocument, xTenantId);
+    // Enviar documento e-CF a la DGII
+    ApiResponse<EcfSubmitResponse> response = apiInstance.SubmitEcfWithHttpInfo(environment, electronicDocument, xTenantId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -395,15 +391,15 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **environment** | **ModelEnvironment** |  |  |
 | **electronicDocument** | [**ElectronicDocument**](ElectronicDocument.md) |  |  |
-| **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
 
 ### Return type
 
-[**EcfSubmissionResponse**](EcfSubmissionResponse.md)
+[**EcfSubmitResponse**](EcfSubmitResponse.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -414,9 +410,11 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document submitted (approved, queued, or contingency mode) |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **201** | Documento registrado y en cola de procesamiento |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+| **422** | Error de validación o procesamiento |  -  |
+| **500** | Error interno del servidor |  -  |
 | **429** | Rate limit exceeded. Retry after indicated seconds. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

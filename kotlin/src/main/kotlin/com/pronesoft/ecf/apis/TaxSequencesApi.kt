@@ -64,10 +64,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * POST /tax-sequences/create
-     * Create new tax sequence
+     * Crear nueva secuencia de NCF
      * 
      * @param createTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return CreateTaxSequence201Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -97,10 +97,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * POST /tax-sequences/create
-     * Create new tax sequence
+     * Crear nueva secuencia de NCF
      * 
      * @param createTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return ApiResponse<CreateTaxSequence201Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -119,7 +119,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * To obtain the request config of the operation createTaxSequence
      *
      * @param createTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return RequestConfig
      */
     fun createTaxSequenceRequestConfig(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<CreateTaxSequenceRequest> {
@@ -142,11 +142,11 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences/next
-     * Get next available fiscal number
-     * Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+     * Obtener siguiente número fiscal disponible
+     * Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
      * @param type 
      * @param environment 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return GetNextNumber200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -176,11 +176,11 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences/next
-     * Get next available fiscal number
-     * Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+     * Obtener siguiente número fiscal disponible
+     * Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
      * @param type 
      * @param environment 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return ApiResponse<GetNextNumber200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -200,7 +200,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      *
      * @param type 
      * @param environment 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return RequestConfig
      */
     fun getNextNumberRequestConfig(type: InvoiceTypeSequence, environment: Environment, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
@@ -226,9 +226,9 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences
-     * List tax sequences
+     * Listar secuencias de NCF
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -262,9 +262,9 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * GET /tax-sequences
-     * List tax sequences
+     * Listar secuencias de NCF
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -286,7 +286,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation listTaxSequences
      *
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -326,11 +326,11 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * PATCH /tax-sequences/update
-     * Update tax sequence
+     * Actualizar secuencia de NCF
      * 
      * @param id 
      * @param updateTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -359,11 +359,11 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * PATCH /tax-sequences/update
-     * Update tax sequence
+     * Actualizar secuencia de NCF
      * 
      * @param id 
      * @param updateTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -382,7 +382,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      *
      * @param id 
      * @param updateTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return RequestConfig
      */
     fun updateTaxSequenceRequestConfig(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<UpdateTaxSequenceRequest> {
@@ -408,10 +408,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * POST /tax-sequences/void
-     * Void a range of fiscal numbers
-     * Cancels unused fiscal numbers and notifies DGII.
+     * Anular rango de números fiscales
+     * Cancela números fiscales no utilizados y notifica a la DGII.
      * @param voidTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return VoidTaxSequence200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -441,10 +441,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
 
     /**
      * POST /tax-sequences/void
-     * Void a range of fiscal numbers
-     * Cancels unused fiscal numbers and notifies DGII.
+     * Anular rango de números fiscales
+     * Cancela números fiscales no utilizados y notifica a la DGII.
      * @param voidTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return ApiResponse<VoidTaxSequence200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -463,7 +463,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * To obtain the request config of the operation voidTaxSequence
      *
      * @param voidTaxSequenceRequest 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return RequestConfig
      */
     fun voidTaxSequenceRequestConfig(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<VoidTaxSequenceRequest> {

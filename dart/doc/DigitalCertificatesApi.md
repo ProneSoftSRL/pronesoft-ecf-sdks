@@ -9,32 +9,26 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**uploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
+[**uploadCertificate**](DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
 
 
 # **uploadCertificate**
 > UploadCertificateResponse uploadCertificate(rnc, file, password)
 
-Upload digital certificate (P12/PFX)
+Subir certificado digital (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
+Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 
 ### Example
 ```dart
 import 'package:pronesoft_ecf/api.dart';
 // TODO Configure OAuth2 access token for authorization: oauth2
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = DigitalCertificatesApi();
-final rnc = 133190907; // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-final file = BINARY_DATA_HERE; // MultipartFile | Certificate file in .p12 or .pfx format.
-final password = password_example; // String | Password to unlock the certificate.
+final rnc = 133190907; // String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+final file = BINARY_DATA_HERE; // MultipartFile | Archivo del certificado en formato .p12 o .pfx.
+final password = password_example; // String | Contraseña para desbloquear el certificado.
 
 try {
     final result = api_instance.uploadCertificate(rnc, file, password);
@@ -48,9 +42,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String**| Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
- **file** | **MultipartFile**| Certificate file in .p12 or .pfx format. | 
- **password** | **String**| Password to unlock the certificate. | 
+ **rnc** | **String**| RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
+ **file** | **MultipartFile**| Archivo del certificado en formato .p12 o .pfx. | 
+ **password** | **String**| Contraseña para desbloquear el certificado. | 
 
 ### Return type
 
@@ -58,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

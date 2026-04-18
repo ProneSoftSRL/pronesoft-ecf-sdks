@@ -30,6 +30,8 @@ import okhttp3.HttpUrl
 import com.pronesoft.ecf.models.DocumentStatsResponse
 import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.ErrorResponse
+import com.pronesoft.ecf.models.GetSentDocumentLogs200ResponseInner
+import com.pronesoft.ecf.models.GetSentDocumentStatusOptions200ResponseInner
 import com.pronesoft.ecf.models.SentDocumentDetail
 import com.pronesoft.ecf.models.SentDocumentListResponse
 
@@ -58,10 +60,29 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
     }
 
     /**
+     * enum for parameter &#x60;inline&#x60;
+     */
+     enum class &#x60;Inline&#x60;DownloadSentDocumentXml(val value: kotlin.String) {
+         @SerializedName(value = "true") `true`("true"),
+         @SerializedName(value = "false") `false`("false");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /documents/download
-     * Download document XML
+     * Descargar XML del documento
      * 
-     * @param fileUrl 
+     * @param id ID interno del documento (optional)
+     * @param fileUrl  (optional)
+     * @param `inline` true para ver en el navegador, false para descargar (optional)
      * @return kotlin.String
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -71,8 +92,8 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun downloadDocument(fileUrl: java.net.URI) : kotlin.String {
-        val localVarResponse = downloadDocumentWithHttpInfo(fileUrl = fileUrl)
+    fun downloadSentDocumentXml(id: java.util.UUID? = null, fileUrl: java.net.URI? = null, `inline`: &#x60;Inline&#x60;DownloadSentDocumentXml? = null) : kotlin.String {
+        val localVarResponse = downloadSentDocumentXmlWithHttpInfo(id = id, fileUrl = fileUrl, `inline` = `inline`)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
@@ -91,17 +112,19 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * GET /documents/download
-     * Download document XML
+     * Descargar XML del documento
      * 
-     * @param fileUrl 
+     * @param id ID interno del documento (optional)
+     * @param fileUrl  (optional)
+     * @param `inline` true para ver en el navegador, false para descargar (optional)
      * @return ApiResponse<kotlin.String?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun downloadDocumentWithHttpInfo(fileUrl: java.net.URI) : ApiResponse<kotlin.String?> {
-        val localVariableConfig = downloadDocumentRequestConfig(fileUrl = fileUrl)
+    fun downloadSentDocumentXmlWithHttpInfo(id: java.util.UUID?, fileUrl: java.net.URI?, `inline`: &#x60;Inline&#x60;DownloadSentDocumentXml?) : ApiResponse<kotlin.String?> {
+        val localVariableConfig = downloadSentDocumentXmlRequestConfig(id = id, fileUrl = fileUrl, `inline` = `inline`)
 
         return request<Unit, kotlin.String>(
             localVariableConfig
@@ -109,16 +132,26 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
     }
 
     /**
-     * To obtain the request config of the operation downloadDocument
+     * To obtain the request config of the operation downloadSentDocumentXml
      *
-     * @param fileUrl 
+     * @param id ID interno del documento (optional)
+     * @param fileUrl  (optional)
+     * @param `inline` true para ver en el navegador, false para descargar (optional)
      * @return RequestConfig
      */
-    fun downloadDocumentRequestConfig(fileUrl: java.net.URI) : RequestConfig<Unit> {
+    fun downloadSentDocumentXmlRequestConfig(id: java.util.UUID?, fileUrl: java.net.URI?, `inline`: &#x60;Inline&#x60;DownloadSentDocumentXml?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
-                put("fileUrl", listOf(fileUrl.toString()))
+                if (id != null) {
+                    put("id", listOf(id.toString()))
+                }
+                if (fileUrl != null) {
+                    put("fileUrl", listOf(fileUrl.toString()))
+                }
+                if (`inline` != null) {
+                    put("inline", listOf(`inline`.value))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/json"
@@ -135,10 +168,10 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * GET /documents/{id}
-     * Get document details
+     * Obtener detalle del documento
      * 
      * @param id 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return SentDocumentDetail
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -148,8 +181,8 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getDocument(id: java.util.UUID, xTenantId: java.util.UUID? = null) : SentDocumentDetail {
-        val localVarResponse = getDocumentWithHttpInfo(id = id, xTenantId = xTenantId)
+    fun getSentDocumentById(id: java.util.UUID, xTenantId: java.util.UUID? = null) : SentDocumentDetail {
+        val localVarResponse = getSentDocumentByIdWithHttpInfo(id = id, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SentDocumentDetail
@@ -168,18 +201,18 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * GET /documents/{id}
-     * Get document details
+     * Obtener detalle del documento
      * 
      * @param id 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return ApiResponse<SentDocumentDetail?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getDocumentWithHttpInfo(id: java.util.UUID, xTenantId: java.util.UUID?) : ApiResponse<SentDocumentDetail?> {
-        val localVariableConfig = getDocumentRequestConfig(id = id, xTenantId = xTenantId)
+    fun getSentDocumentByIdWithHttpInfo(id: java.util.UUID, xTenantId: java.util.UUID?) : ApiResponse<SentDocumentDetail?> {
+        val localVariableConfig = getSentDocumentByIdRequestConfig(id = id, xTenantId = xTenantId)
 
         return request<Unit, SentDocumentDetail>(
             localVariableConfig
@@ -187,13 +220,13 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
     }
 
     /**
-     * To obtain the request config of the operation getDocument
+     * To obtain the request config of the operation getSentDocumentById
      *
      * @param id 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return RequestConfig
      */
-    fun getDocumentRequestConfig(id: java.util.UUID, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getSentDocumentByIdRequestConfig(id: java.util.UUID, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -211,29 +244,87 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
     }
 
     /**
-     * enum for parameter period
+     * GET /documents/logs/{id}
+     * Logs de procesamiento del documento
+     * 
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return kotlin.collections.List<GetSentDocumentLogs200ResponseInner>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
      */
-     enum class PeriodGetDocumentStats(val value: kotlin.String) {
-         @SerializedName(value = "7d") _7d("7d"),
-         @SerializedName(value = "30d") _30d("30d"),
-         @SerializedName(value = "90d") _90d("90d");
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSentDocumentLogs(id: java.util.UUID, xTenantId: java.util.UUID? = null) : kotlin.collections.List<GetSentDocumentLogs200ResponseInner> {
+        val localVarResponse = getSentDocumentLogsWithHttpInfo(id = id, xTenantId = xTenantId)
 
-        /**
-         * Override [toString()] to avoid using the enum variable name as the value, and instead use
-         * the actual value defined in the API spec file.
-         *
-         * This solves a problem when the variable name and its value are different, and ensures that
-         * the client sends the correct enum values to the server always.
-         */
-        override fun toString(): kotlin.String = "$value"
-     }
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<GetSentDocumentLogs200ResponseInner>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /documents/logs/{id}
+     * Logs de procesamiento del documento
+     * 
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse<kotlin.collections.List<GetSentDocumentLogs200ResponseInner>?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSentDocumentLogsWithHttpInfo(id: java.util.UUID, xTenantId: java.util.UUID?) : ApiResponse<kotlin.collections.List<GetSentDocumentLogs200ResponseInner>?> {
+        val localVariableConfig = getSentDocumentLogsRequestConfig(id = id, xTenantId = xTenantId)
+
+        return request<Unit, kotlin.collections.List<GetSentDocumentLogs200ResponseInner>>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSentDocumentLogs
+     *
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return RequestConfig
+     */
+    fun getSentDocumentLogsRequestConfig(id: java.util.UUID, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/documents/logs/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
 
     /**
      * GET /documents/stats/summary
-     * Get document statistics
+     * Estadísticas de documentos enviados
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param period  (optional, default to Period._30d)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return DocumentStatsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -243,8 +334,8 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getDocumentStats(xTenantId: java.util.UUID? = null, period: PeriodGetDocumentStats? = PeriodGetDocumentStats._30d) : DocumentStatsResponse {
-        val localVarResponse = getDocumentStatsWithHttpInfo(xTenantId = xTenantId, period = period)
+    fun getSentDocumentStats(xTenantId: java.util.UUID? = null) : DocumentStatsResponse {
+        val localVarResponse = getSentDocumentStatsWithHttpInfo(xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DocumentStatsResponse
@@ -263,18 +354,17 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * GET /documents/stats/summary
-     * Get document statistics
+     * Estadísticas de documentos enviados
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param period  (optional, default to Period._30d)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return ApiResponse<DocumentStatsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getDocumentStatsWithHttpInfo(xTenantId: java.util.UUID?, period: PeriodGetDocumentStats?) : ApiResponse<DocumentStatsResponse?> {
-        val localVariableConfig = getDocumentStatsRequestConfig(xTenantId = xTenantId, period = period)
+    fun getSentDocumentStatsWithHttpInfo(xTenantId: java.util.UUID?) : ApiResponse<DocumentStatsResponse?> {
+        val localVariableConfig = getSentDocumentStatsRequestConfig(xTenantId = xTenantId)
 
         return request<Unit, DocumentStatsResponse>(
             localVariableConfig
@@ -282,20 +372,14 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
     }
 
     /**
-     * To obtain the request config of the operation getDocumentStats
+     * To obtain the request config of the operation getSentDocumentStats
      *
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     * @param period  (optional, default to Period._30d)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return RequestConfig
      */
-    fun getDocumentStatsRequestConfig(xTenantId: java.util.UUID?, period: PeriodGetDocumentStats?) : RequestConfig<Unit> {
+    fun getSentDocumentStatsRequestConfig(xTenantId: java.util.UUID?) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
-            .apply {
-                if (period != null) {
-                    put("period", listOf(period.value))
-                }
-            }
+        val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
         localVariableHeaders["Accept"] = "application/json"
@@ -303,6 +387,150 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/documents/stats/summary",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /documents/stats/by-environment
+     * Estadísticas agrupadas por ambiente y estado
+     * 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return kotlin.collections.Map<kotlin.String, kotlin.Any>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSentDocumentStatsByEnvironment(xTenantId: java.util.UUID? = null) : kotlin.collections.Map<kotlin.String, kotlin.Any> {
+        val localVarResponse = getSentDocumentStatsByEnvironmentWithHttpInfo(xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Any>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /documents/stats/by-environment
+     * Estadísticas agrupadas por ambiente y estado
+     * 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Any>?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSentDocumentStatsByEnvironmentWithHttpInfo(xTenantId: java.util.UUID?) : ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Any>?> {
+        val localVariableConfig = getSentDocumentStatsByEnvironmentRequestConfig(xTenantId = xTenantId)
+
+        return request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Any>>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSentDocumentStatsByEnvironment
+     *
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return RequestConfig
+     */
+    fun getSentDocumentStatsByEnvironmentRequestConfig(xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/documents/stats/by-environment",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /documents/status-options
+     * Opciones de filtro de estado disponibles
+     * 
+     * @return kotlin.collections.List<GetSentDocumentStatusOptions200ResponseInner>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSentDocumentStatusOptions() : kotlin.collections.List<GetSentDocumentStatusOptions200ResponseInner> {
+        val localVarResponse = getSentDocumentStatusOptionsWithHttpInfo()
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<GetSentDocumentStatusOptions200ResponseInner>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /documents/status-options
+     * Opciones de filtro de estado disponibles
+     * 
+     * @return ApiResponse<kotlin.collections.List<GetSentDocumentStatusOptions200ResponseInner>?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSentDocumentStatusOptionsWithHttpInfo() : ApiResponse<kotlin.collections.List<GetSentDocumentStatusOptions200ResponseInner>?> {
+        val localVariableConfig = getSentDocumentStatusOptionsRequestConfig()
+
+        return request<Unit, kotlin.collections.List<GetSentDocumentStatusOptions200ResponseInner>>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSentDocumentStatusOptions
+     *
+     * @return RequestConfig
+     */
+    fun getSentDocumentStatusOptionsRequestConfig() : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/documents/status-options",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -332,9 +560,9 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * GET /documents/sent
-     * List sent documents
+     * Listar documentos enviados
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param env  (optional)
      * @param ecf  (optional)
      * @param type  (optional)
@@ -372,9 +600,9 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
 
     /**
      * GET /documents/sent
-     * List sent documents
+     * Listar documentos enviados
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param env  (optional)
      * @param ecf  (optional)
      * @param type  (optional)
@@ -400,7 +628,7 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
     /**
      * To obtain the request config of the operation listSentDocuments
      *
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param env  (optional)
      * @param ecf  (optional)
      * @param type  (optional)

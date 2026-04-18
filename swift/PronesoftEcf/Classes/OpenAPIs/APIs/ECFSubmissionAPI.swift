@@ -16,64 +16,10 @@ extension PronesoftEcfAPI {
 open class ECFSubmissionAPI {
 
     /**
-     Get submission history (last 50 documents)
+     Obtener estadísticas de envíos (últimos 30 días)
      
      - parameter environment: (path)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getEcfHistory(environment: Environment, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: [EcfHistoryItem]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getEcfHistoryWithRequestBuilder(environment: environment, xTenantId: xTenantId).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Get submission history (last 50 documents)
-     - GET /{environment}/ecf/responses/history
-     - OAuth:
-       - type: oauth2
-       - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter environment: (path)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     - returns: RequestBuilder<[EcfHistoryItem]> 
-     */
-    open class func getEcfHistoryWithRequestBuilder(environment: Environment, xTenantId: UUID? = nil) -> RequestBuilder<[EcfHistoryItem]> {
-        var localVariablePath = "/{environment}/ecf/responses/history"
-        let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
-        let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{environment}", with: environmentPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "x-tenant-id": xTenantId?.encodeToJSON(),
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[EcfHistoryItem]>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get submission statistics (last 30 days)
-     
-     - parameter environment: (path)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -90,16 +36,13 @@ open class ECFSubmissionAPI {
     }
 
     /**
-     Get submission statistics (last 30 days)
+     Obtener estadísticas de envíos (últimos 30 días)
      - GET /{environment}/ecf/responses/stats
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter environment: (path)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<EcfStatsResponse> 
      */
     open class func getEcfStatsWithRequestBuilder(environment: Environment, xTenantId: UUID? = nil) -> RequestBuilder<EcfStatsResponse> {
@@ -124,17 +67,17 @@ open class ECFSubmissionAPI {
     }
 
     /**
-     Get document status by trackId
+     Consultar estado del documento por ID interno
      
      - parameter environment: (path)  
-     - parameter trackId: (path)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter id: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getEcfStatus(environment: Environment, trackId: String, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfStatusResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return getEcfStatusWithRequestBuilder(environment: environment, trackId: trackId, xTenantId: xTenantId).execute(apiResponseQueue) { result in
+    open class func getEcfStatus(environment: Environment, id: String, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfStatusResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return getEcfStatusWithRequestBuilder(environment: environment, id: id, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -145,27 +88,24 @@ open class ECFSubmissionAPI {
     }
 
     /**
-     Get document status by trackId
-     - GET /{environment}/ecf/status/{trackId}
+     Consultar estado del documento por ID interno
+     - GET /{environment}/ecf/status/{id}
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter environment: (path)  
-     - parameter trackId: (path)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter id: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<EcfStatusResponse> 
      */
-    open class func getEcfStatusWithRequestBuilder(environment: Environment, trackId: String, xTenantId: UUID? = nil) -> RequestBuilder<EcfStatusResponse> {
-        var localVariablePath = "/{environment}/ecf/status/{trackId}"
+    open class func getEcfStatusWithRequestBuilder(environment: Environment, id: String, xTenantId: UUID? = nil) -> RequestBuilder<EcfStatusResponse> {
+        var localVariablePath = "/{environment}/ecf/status/{id}"
         let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
         let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{environment}", with: environmentPostEscape, options: .literal, range: nil)
-        let trackIdPreEscape = "\(APIHelper.mapValueToPathItem(trackId))"
-        let trackIdPostEscape = trackIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{trackId}", with: trackIdPostEscape, options: .literal, range: nil)
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
@@ -183,16 +123,75 @@ open class ECFSubmissionAPI {
     }
 
     /**
-     Submit e-CF document to DGII
+     Historial de envíos (paginado)
      
      - parameter environment: (path)  
-     - parameter electronicDocument: (body)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter limit: (query)  (optional, default to 20)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func submitEcf(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfSubmissionResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getEcfSubmissionHistory(environment: Environment, xTenantId: UUID? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: GetEcfSubmissionHistory200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getEcfSubmissionHistoryWithRequestBuilder(environment: environment, xTenantId: xTenantId, page: page, limit: limit).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Historial de envíos (paginado)
+     - GET /{environment}/ecf/responses/history
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter environment: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter limit: (query)  (optional, default to 20)
+     - returns: RequestBuilder<GetEcfSubmissionHistory200Response> 
+     */
+    open class func getEcfSubmissionHistoryWithRequestBuilder(environment: Environment, xTenantId: UUID? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<GetEcfSubmissionHistory200Response> {
+        var localVariablePath = "/{environment}/ecf/responses/history"
+        let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
+        let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{environment}", with: environmentPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<GetEcfSubmissionHistory200Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Enviar documento e-CF a la DGII
+     
+     - parameter environment: (path)  
+     - parameter electronicDocument: (body)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func submitEcf(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfSubmitResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return submitEcfWithRequestBuilder(environment: environment, electronicDocument: electronicDocument, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -204,21 +203,18 @@ open class ECFSubmissionAPI {
     }
 
     /**
-     Submit e-CF document to DGII
+     Enviar documento e-CF a la DGII
      - POST /{environment}/ecf/submit
-     - Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+     - Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter environment: (path)  
      - parameter electronicDocument: (body)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
-     - returns: RequestBuilder<EcfSubmissionResponse> 
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - returns: RequestBuilder<EcfSubmitResponse> 
      */
-    open class func submitEcfWithRequestBuilder(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: UUID? = nil) -> RequestBuilder<EcfSubmissionResponse> {
+    open class func submitEcfWithRequestBuilder(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: UUID? = nil) -> RequestBuilder<EcfSubmitResponse> {
         var localVariablePath = "/{environment}/ecf/submit"
         let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
         let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -235,7 +231,7 @@ open class ECFSubmissionAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<EcfSubmissionResponse>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EcfSubmitResponse>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

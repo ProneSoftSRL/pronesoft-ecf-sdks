@@ -16,9 +16,9 @@ extension PronesoftEcfAPI {
 open class WebhookConfigurationAPI {
 
     /**
-     Get webhook details
+     Detalle de un webhook
      
-     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter rnc: (path) RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. 
      - parameter webhookId: (path)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
@@ -36,15 +36,12 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Get webhook details
+     Detalle de un webhook
      - GET /{rnc}/webhooks/{webhookId}
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter rnc: (path) RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. 
      - parameter webhookId: (path)  
      - returns: RequestBuilder<WebhookConfigDetail> 
      */
@@ -83,9 +80,9 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Get webhook delivery statistics
+     Estadísticas de entregas del webhook
      
-     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter rnc: (path) RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. 
      - parameter webhookId: (path)  
      - parameter period: (query)  (optional, default to .month)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
@@ -104,15 +101,12 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     Get webhook delivery statistics
+     Estadísticas de entregas del webhook
      - GET /{rnc}/webhooks/{webhookId}/stats
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter rnc: (path) RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. 
      - parameter webhookId: (path)  
      - parameter period: (query)  (optional, default to .month)
      - returns: RequestBuilder<WebhookStats> 
@@ -145,9 +139,9 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     List webhook configurations
+     Listar configuraciones de webhooks
      
-     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter rnc: (path) RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -164,16 +158,13 @@ open class WebhookConfigurationAPI {
     }
 
     /**
-     List webhook configurations
+     Listar configuraciones de webhooks
      - GET /{rnc}/webhooks
-     - Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+     - Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
+     - parameter rnc: (path) RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. 
      - returns: RequestBuilder<[WebhookConfigResponse]> 
      */
     open class func listWebhooksWithRequestBuilder(rnc: String) -> RequestBuilder<[WebhookConfigResponse]> {

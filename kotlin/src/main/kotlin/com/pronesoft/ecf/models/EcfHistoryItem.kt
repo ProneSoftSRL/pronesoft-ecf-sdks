@@ -23,9 +23,7 @@
 
 package com.pronesoft.ecf.models
 
-import com.pronesoft.ecf.models.DocumentStatus
 import com.pronesoft.ecf.models.Environment
-import com.pronesoft.ecf.models.ProcessingLog
 
 import com.google.gson.annotations.SerializedName
 
@@ -37,10 +35,11 @@ import com.google.gson.annotations.SerializedName
  * @param encf 
  * @param documentType 
  * @param status 
- * @param rnc 
+ * @param legalStatus 
+ * @param issuerRnc 
  * @param environment 
+ * @param receivedAt 
  * @param createdAt 
- * @param logs 
  */
 
 
@@ -59,22 +58,47 @@ data class EcfHistoryItem (
     val documentType: kotlin.String? = null,
 
     @SerializedName("status")
-    val status: DocumentStatus? = null,
+    val status: EcfHistoryItem.Status? = null,
 
-    @SerializedName("rnc")
-    val rnc: kotlin.String? = null,
+    @SerializedName("legalStatus")
+    val legalStatus: EcfHistoryItem.LegalStatus? = null,
+
+    @SerializedName("issuerRnc")
+    val issuerRnc: kotlin.String? = null,
 
     @SerializedName("environment")
     val environment: Environment? = null,
 
-    @SerializedName("createdAt")
-    val createdAt: java.time.OffsetDateTime? = null,
+    @SerializedName("receivedAt")
+    val receivedAt: java.time.OffsetDateTime? = null,
 
-    @SerializedName("logs")
-    val logs: kotlin.collections.List<ProcessingLog>? = null
+    @SerializedName("createdAt")
+    val createdAt: java.time.OffsetDateTime? = null
 
 ) {
 
+    /**
+     * 
+     *
+     * Values: REGISTERED,TO_SEND,WAITING_RESPONSE,FINISHED
+     */
+    enum class Status(val value: kotlin.String) {
+        @SerializedName(value = "REGISTERED") REGISTERED("REGISTERED"),
+        @SerializedName(value = "TO_SEND") TO_SEND("TO_SEND"),
+        @SerializedName(value = "WAITING_RESPONSE") WAITING_RESPONSE("WAITING_RESPONSE"),
+        @SerializedName(value = "FINISHED") FINISHED("FINISHED");
+    }
+    /**
+     * 
+     *
+     * Values: ACCEPTED,ACCEPTED_WITH_OBSERVATIONS,REJECTED,ERROR
+     */
+    enum class LegalStatus(val value: kotlin.String) {
+        @SerializedName(value = "ACCEPTED") ACCEPTED("ACCEPTED"),
+        @SerializedName(value = "ACCEPTED_WITH_OBSERVATIONS") ACCEPTED_WITH_OBSERVATIONS("ACCEPTED_WITH_OBSERVATIONS"),
+        @SerializedName(value = "REJECTED") REJECTED("REJECTED"),
+        @SerializedName(value = "ERROR") ERROR("ERROR");
+    }
 
 }
 

@@ -24,7 +24,7 @@ open class ReportsAPI {
     }
 
     /**
-     Export Format 606 (Purchases)
+     Exportar Formato 606 (Compras)
      
      - parameter from: (query)  
      - parameter to: (query)  
@@ -48,15 +48,12 @@ open class ReportsAPI {
     }
 
     /**
-     Export Format 606 (Purchases)
+     Exportar Formato 606 (Compras)
      - GET /dgii/606/export
-     - Downloads the official Format 606 for DGII in TXT (official) or Excel format.
+     - Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter from: (query)  
      - parameter to: (query)  
      - parameter format: (query)  
@@ -101,7 +98,7 @@ open class ReportsAPI {
     }
 
     /**
-     Export sent documents report
+     Exportar reporte de documentos enviados
      
      - parameter from: (query)  
      - parameter to: (query)  
@@ -126,15 +123,12 @@ open class ReportsAPI {
     }
 
     /**
-     Export sent documents report
+     Exportar reporte de documentos enviados
      - GET /dgii/sent/export
-     - Downloads submitted documents in a date range as Excel. Requires reports:read scope.
+     - Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter from: (query)  
      - parameter to: (query)  
      - parameter env: (query)  (optional)

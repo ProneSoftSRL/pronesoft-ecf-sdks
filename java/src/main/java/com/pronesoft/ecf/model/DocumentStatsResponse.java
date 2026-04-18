@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -19,6 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.pronesoft.ecf.model.DocumentStatsResponseByStatusValue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * DocumentStatsResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-06T14:10:23.483558315-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class DocumentStatsResponse {
   public static final String SERIALIZED_NAME_TOTAL = "total";
   @SerializedName(SERIALIZED_NAME_TOTAL)
@@ -65,7 +66,7 @@ public class DocumentStatsResponse {
   public static final String SERIALIZED_NAME_BY_STATUS = "byStatus";
   @SerializedName(SERIALIZED_NAME_BY_STATUS)
   @javax.annotation.Nullable
-  private Map<String, Integer> byStatus = new HashMap<>();
+  private Map<String, DocumentStatsResponseByStatusValue> byStatus = new HashMap<>();
 
   public static final String SERIALIZED_NAME_BY_ENVIRONMENT = "byEnvironment";
   @SerializedName(SERIALIZED_NAME_BY_ENVIRONMENT)
@@ -113,12 +114,12 @@ public class DocumentStatsResponse {
   }
 
 
-  public DocumentStatsResponse byStatus(@javax.annotation.Nullable Map<String, Integer> byStatus) {
+  public DocumentStatsResponse byStatus(@javax.annotation.Nullable Map<String, DocumentStatsResponseByStatusValue> byStatus) {
     this.byStatus = byStatus;
     return this;
   }
 
-  public DocumentStatsResponse putByStatusItem(String key, Integer byStatusItem) {
+  public DocumentStatsResponse putByStatusItem(String key, DocumentStatsResponseByStatusValue byStatusItem) {
     if (this.byStatus == null) {
       this.byStatus = new HashMap<>();
     }
@@ -131,11 +132,11 @@ public class DocumentStatsResponse {
    * @return byStatus
    */
   @javax.annotation.Nullable
-  public Map<String, Integer> getByStatus() {
+  public Map<String, DocumentStatsResponseByStatusValue> getByStatus() {
     return byStatus;
   }
 
-  public void setByStatus(@javax.annotation.Nullable Map<String, Integer> byStatus) {
+  public void setByStatus(@javax.annotation.Nullable Map<String, DocumentStatsResponseByStatusValue> byStatus) {
     this.byStatus = byStatus;
   }
 

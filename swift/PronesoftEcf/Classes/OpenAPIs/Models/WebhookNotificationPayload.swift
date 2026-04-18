@@ -15,17 +15,19 @@ public typealias WebhookNotificationPayload = PronesoftEcfAPI.WebhookNotificatio
 
 extension PronesoftEcfAPI {
 
-/** Payload sent to your webhook URL when an event occurs. Validate using header X-Webhook-Signature: sha256&#x3D;&lt;hmac&gt;. Other headers: X-Webhook-Event, X-Webhook-ID, X-Webhook-Timestamp.  */
+/** Envelope enviado a tu URL de webhook cuando ocurre un evento. Valida la autenticidad con el header &#x60;X-Webhook-Signature: sha256&#x3D;&lt;hmac&gt;&#x60;. Headers adicionales: &#x60;X-Webhook-Event&#x60;, &#x60;X-Webhook-ID&#x60;, &#x60;X-Webhook-Timestamp&#x60;.  */
 public struct WebhookNotificationPayload: Codable, JSONEncodable, Hashable {
 
-    /** Unique notification ID (evt_xxx format). Use for deduplication. */
+    /** ID único de la notificación. Úsalo para deduplicar entregas. */
     public var id: String
     public var event: WebhookEventType
+    /** Fecha y hora del evento en ISO 8601. */
     public var timestamp: Date
+    /** RNC de la empresa que generó el evento. */
     public var businessRnc: String
-    public var data: AnyCodable
+    public var data: WebhookNotificationPayloadData
 
-    public init(id: String, event: WebhookEventType, timestamp: Date, businessRnc: String, data: AnyCodable) {
+    public init(id: String, event: WebhookEventType, timestamp: Date, businessRnc: String, data: WebhookNotificationPayloadData) {
         self.id = id
         self.event = event
         self.timestamp = timestamp

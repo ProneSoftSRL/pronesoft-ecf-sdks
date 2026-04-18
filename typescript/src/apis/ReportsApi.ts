@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -65,8 +65,8 @@ export interface ReportsApiInterface {
     export606RequestOpts(requestParameters: Export606Request): Promise<runtime.RequestOpts>;
 
     /**
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
-     * @summary Export Format 606 (Purchases)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
+     * @summary Exportar Formato 606 (Compras)
      * @param {Date} from 
      * @param {Date} to 
      * @param {'txt' | 'xlsx'} format 
@@ -80,8 +80,8 @@ export interface ReportsApiInterface {
     export606Raw(requestParameters: Export606Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
 
     /**
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
-     * Export Format 606 (Purchases)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
+     * Exportar Formato 606 (Compras)
      */
     export606(requestParameters: Export606Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
 
@@ -100,8 +100,8 @@ export interface ReportsApiInterface {
     exportSentDocumentsRequestOpts(requestParameters: ExportSentDocumentsRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
-     * @summary Export sent documents report
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
+     * @summary Exportar reporte de documentos enviados
      * @param {Date} from 
      * @param {Date} to 
      * @param {Environment} [env] 
@@ -116,8 +116,8 @@ export interface ReportsApiInterface {
     exportSentDocumentsRaw(requestParameters: ExportSentDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>>;
 
     /**
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
-     * Export sent documents report
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
+     * Exportar reporte de documentos enviados
      */
     exportSentDocuments(requestParameters: ExportSentDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob>;
 
@@ -186,14 +186,6 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["reports:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/dgii/606/export`;
 
@@ -206,8 +198,8 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
     }
 
     /**
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
-     * Export Format 606 (Purchases)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
+     * Exportar Formato 606 (Compras)
      */
     async export606Raw(requestParameters: Export606Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         const requestOptions = await this.export606RequestOpts(requestParameters);
@@ -221,8 +213,8 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
     }
 
     /**
-     * Downloads the official Format 606 for DGII in TXT (official) or Excel format.
-     * Export Format 606 (Purchases)
+     * Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
+     * Exportar Formato 606 (Compras)
      */
     async export606(requestParameters: Export606Request, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
         const response = await this.export606Raw(requestParameters, initOverrides);
@@ -284,14 +276,6 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["reports:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/dgii/sent/export`;
 
@@ -304,8 +288,8 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
     }
 
     /**
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
-     * Export sent documents report
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
+     * Exportar reporte de documentos enviados
      */
     async exportSentDocumentsRaw(requestParameters: ExportSentDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
         const requestOptions = await this.exportSentDocumentsRequestOpts(requestParameters);
@@ -315,8 +299,8 @@ export class ReportsApi extends runtime.BaseAPI implements ReportsApiInterface {
     }
 
     /**
-     * Downloads submitted documents in a date range as Excel. Requires reports:read scope.
-     * Export sent documents report
+     * Descarga los documentos enviados en un rango de fechas en formato Excel. Requiere el scope reports:read.
+     * Exportar reporte de documentos enviados
      */
     async exportSentDocuments(requestParameters: ExportSentDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
         const response = await this.exportSentDocumentsRaw(requestParameters, initOverrides);

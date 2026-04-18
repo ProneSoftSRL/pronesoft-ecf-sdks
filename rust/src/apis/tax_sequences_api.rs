@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -74,9 +74,6 @@ pub async fn create_tax_sequence(configuration: &configuration::Configuration, c
     if let Some(ref token) = configuration.oauth_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
     req_builder = req_builder.json(&p_body_create_tax_sequence_request);
 
     let req = req_builder.build()?;
@@ -104,7 +101,7 @@ pub async fn create_tax_sequence(configuration: &configuration::Configuration, c
     }
 }
 
-/// Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+/// Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
 pub async fn get_next_number(configuration: &configuration::Configuration, r#type: models::InvoiceTypeSequence, environment: models::Environment, x_tenant_id: Option<&str>) -> Result<models::GetNextNumber200Response, Error<GetNextNumberError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_type = r#type;
@@ -123,9 +120,6 @@ pub async fn get_next_number(configuration: &configuration::Configuration, r#typ
         req_builder = req_builder.header("x-tenant-id", param_value.to_string());
     }
     if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
 
@@ -186,9 +180,6 @@ pub async fn list_tax_sequences(configuration: &configuration::Configuration, x_
     if let Some(ref token) = configuration.oauth_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -234,9 +225,6 @@ pub async fn update_tax_sequence(configuration: &configuration::Configuration, i
     if let Some(ref token) = configuration.oauth_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
     req_builder = req_builder.json(&p_body_update_tax_sequence_request);
 
     let req = req_builder.build()?;
@@ -253,7 +241,7 @@ pub async fn update_tax_sequence(configuration: &configuration::Configuration, i
     }
 }
 
-/// Cancels unused fiscal numbers and notifies DGII.
+/// Cancela números fiscales no utilizados y notifica a la DGII.
 pub async fn void_tax_sequence(configuration: &configuration::Configuration, void_tax_sequence_request: models::VoidTaxSequenceRequest, x_tenant_id: Option<&str>) -> Result<models::VoidTaxSequence200Response, Error<VoidTaxSequenceError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_void_tax_sequence_request = void_tax_sequence_request;
@@ -269,9 +257,6 @@ pub async fn void_tax_sequence(configuration: &configuration::Configuration, voi
         req_builder = req_builder.header("x-tenant-id", param_value.to_string());
     }
     if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
     req_builder = req_builder.json(&p_body_void_tax_sequence_request);

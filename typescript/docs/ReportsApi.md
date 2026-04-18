@@ -23,11 +23,11 @@ Descarga el Formato 606 oficial para DGII en TXT (oficial) o Excel.
 import {
   Configuration,
   ReportsApi,
-} from '';
-import type { Export606Request } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { Export606Request } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -112,11 +112,11 @@ Descarga los documentos enviados en un rango de fechas en formato Excel. Requier
 import {
   Configuration,
   ReportsApi,
-} from '';
-import type { ExportSentDocumentsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ExportSentDocumentsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

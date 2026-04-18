@@ -23,7 +23,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { ReceivedDocument } from ''
+import type { ReceivedDocument } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

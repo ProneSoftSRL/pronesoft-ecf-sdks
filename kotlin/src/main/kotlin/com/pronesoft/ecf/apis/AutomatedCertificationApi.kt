@@ -59,8 +59,8 @@ open class AutomatedCertificationApi(basePath: kotlin.String = defaultBasePath, 
 
     /**
      * GET /dgii-ecf/automated-certification/{id}/download
-     * Download certification ZIP
-     * Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+     * Descargar ZIP de certificación
+     * Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
      * @param id 
      * @return java.io.File
      * @throws IllegalStateException If the request is not correctly configured
@@ -91,8 +91,8 @@ open class AutomatedCertificationApi(basePath: kotlin.String = defaultBasePath, 
 
     /**
      * GET /dgii-ecf/automated-certification/{id}/download
-     * Download certification ZIP
-     * Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+     * Descargar ZIP de certificación
+     * Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
      * @param id 
      * @return ApiResponse<java.io.File?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -132,7 +132,7 @@ open class AutomatedCertificationApi(basePath: kotlin.String = defaultBasePath, 
 
     /**
      * GET /dgii-ecf/automated-certification/{id}/status
-     * Get certification process status
+     * Estado del proceso de certificación
      * 
      * @param id 
      * @return CertificationStatus
@@ -164,7 +164,7 @@ open class AutomatedCertificationApi(basePath: kotlin.String = defaultBasePath, 
 
     /**
      * GET /dgii-ecf/automated-certification/{id}/status
-     * Get certification process status
+     * Estado del proceso de certificación
      * 
      * @param id 
      * @return ApiResponse<CertificationStatus?>
@@ -205,7 +205,7 @@ open class AutomatedCertificationApi(basePath: kotlin.String = defaultBasePath, 
 
     /**
      * GET /dgii-ecf/automated-certification/niches
-     * List certification niches
+     * Listar nichos de certificación
      * 
      * @return kotlin.collections.List<CertificationNiche>
      * @throws IllegalStateException If the request is not correctly configured
@@ -236,7 +236,7 @@ open class AutomatedCertificationApi(basePath: kotlin.String = defaultBasePath, 
 
     /**
      * GET /dgii-ecf/automated-certification/niches
-     * List certification niches
+     * Listar nichos de certificación
      * 
      * @return ApiResponse<kotlin.collections.List<CertificationNiche>?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -275,7 +275,7 @@ open class AutomatedCertificationApi(basePath: kotlin.String = defaultBasePath, 
 
     /**
      * POST /dgii-ecf/automated-certification/start
-     * Start certification process
+     * Iniciar proceso de certificación
      * 
      * @param startCertificationRequest 
      * @return StartCertification200Response
@@ -307,7 +307,7 @@ open class AutomatedCertificationApi(basePath: kotlin.String = defaultBasePath, 
 
     /**
      * POST /dgii-ecf/automated-certification/start
-     * Start certification process
+     * Iniciar proceso de certificación
      * 
      * @param startCertificationRequest 
      * @return ApiResponse<StartCertification200Response?>

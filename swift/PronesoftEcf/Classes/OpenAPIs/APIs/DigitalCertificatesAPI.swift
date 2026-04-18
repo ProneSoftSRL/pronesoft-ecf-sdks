@@ -16,11 +16,11 @@ extension PronesoftEcfAPI {
 open class DigitalCertificatesAPI {
 
     /**
-     Upload digital certificate (P12/PFX)
+     Subir certificado digital (P12/PFX)
      
-     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
-     - parameter file: (form) Certificate file in .p12 or .pfx format. 
-     - parameter password: (form) Password to unlock the certificate. 
+     - parameter rnc: (path) RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. 
+     - parameter file: (form) Archivo del certificado en formato .p12 o .pfx. 
+     - parameter password: (form) Contraseña para desbloquear el certificado. 
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -37,18 +37,15 @@ open class DigitalCertificatesAPI {
     }
 
     /**
-     Upload digital certificate (P12/PFX)
+     Subir certificado digital (P12/PFX)
      - POST /{rnc}/certificates
-     - Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
+     - Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter rnc: (path) Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. 
-     - parameter file: (form) Certificate file in .p12 or .pfx format. 
-     - parameter password: (form) Password to unlock the certificate. 
+     - parameter rnc: (path) RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. 
+     - parameter file: (form) Archivo del certificado en formato .p12 o .pfx. 
+     - parameter password: (form) Contraseña para desbloquear el certificado. 
      - returns: RequestBuilder<UploadCertificateResponse> 
      */
     open class func uploadCertificateWithRequestBuilder(rnc: String, file: URL, password: String) -> RequestBuilder<UploadCertificateResponse> {

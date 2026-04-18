@@ -19,10 +19,10 @@ public struct DocumentStatsResponse: Codable, JSONEncodable, Hashable {
 
     public var total: Int?
     public var recentActivity: Int?
-    public var byStatus: [String: Int]?
+    public var byStatus: [String: DocumentStatsResponseByStatusValue]?
     public var byEnvironment: [String: Int]?
 
-    public init(total: Int? = nil, recentActivity: Int? = nil, byStatus: [String: Int]? = nil, byEnvironment: [String: Int]? = nil) {
+    public init(total: Int? = nil, recentActivity: Int? = nil, byStatus: [String: DocumentStatsResponseByStatusValue]? = nil, byEnvironment: [String: Int]? = nil) {
         self.total = total
         self.recentActivity = recentActivity
         self.byStatus = byStatus

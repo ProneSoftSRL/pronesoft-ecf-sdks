@@ -27,7 +27,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
 func main() {
@@ -104,7 +104,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID/openapi"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
 func main() {

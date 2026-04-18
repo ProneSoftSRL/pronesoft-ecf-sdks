@@ -23,11 +23,11 @@ Obtener estadísticas de envíos (últimos 30 días)
 import {
   Configuration,
   ECFSubmissionApi,
-} from '';
-import type { GetEcfStatsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetEcfStatsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -96,11 +96,11 @@ Consultar estado del documento por ID interno
 import {
   Configuration,
   ECFSubmissionApi,
-} from '';
-import type { GetEcfStatusRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetEcfStatusRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -172,11 +172,11 @@ Historial de envíos (paginado)
 import {
   Configuration,
   ECFSubmissionApi,
-} from '';
-import type { GetEcfSubmissionHistoryRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetEcfSubmissionHistoryRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -253,11 +253,11 @@ Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML,
 import {
   Configuration,
   ECFSubmissionApi,
-} from '';
-import type { SubmitEcfRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { SubmitEcfRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

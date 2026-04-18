@@ -16,15 +16,139 @@ class DocumentsReceivedApi {
 
   final ApiClient apiClient;
 
-  /// Get received documents statistics
+  /// Obtener documento recibido por ID
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<Response> getReceivedDocumentByIdWithHttpInfo(String id, { String? xTenantId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/documents/received/{id}'
+      .replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (xTenantId != null) {
+      headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Obtener documento recibido por ID
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<ReceivedDocument?> getReceivedDocumentById(String id, { String? xTenantId, }) async {
+    final response = await getReceivedDocumentByIdWithHttpInfo(id,  xTenantId: xTenantId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ReceivedDocument',) as ReceivedDocument;
+    
+    }
+    return null;
+  }
+
+  /// Top 10 proveedores por volumen de documentos recibidos
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-  Future<Response> getReceivedDocumentStatsWithHttpInfo({ String? xTenantId, }) async {
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<Response> getReceivedDocumentStatsBySupplierWithHttpInfo({ String? xTenantId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/documents/received/stats/by-supplier';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (xTenantId != null) {
+      headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Top 10 proveedores por volumen de documentos recibidos
+  ///
+  /// Parameters:
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<List<GetReceivedDocumentStatsBySupplier200ResponseInner>?> getReceivedDocumentStatsBySupplier({ String? xTenantId, }) async {
+    final response = await getReceivedDocumentStatsBySupplierWithHttpInfo( xTenantId: xTenantId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      final responseBody = await _decodeBodyBytes(response);
+      return (await apiClient.deserializeAsync(responseBody, 'List<GetReceivedDocumentStatsBySupplier200ResponseInner>') as List)
+        .cast<GetReceivedDocumentStatsBySupplier200ResponseInner>()
+        .toList(growable: false);
+
+    }
+    return null;
+  }
+
+  /// Estadísticas de documentos recibidos
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<Response> getReceivedDocumentStatsSummaryWithHttpInfo({ String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/received/stats/summary';
 
@@ -53,14 +177,14 @@ class DocumentsReceivedApi {
     );
   }
 
-  /// Get received documents statistics
+  /// Estadísticas de documentos recibidos
   ///
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-  Future<ReceivedDocumentStatsResponse?> getReceivedDocumentStats({ String? xTenantId, }) async {
-    final response = await getReceivedDocumentStatsWithHttpInfo( xTenantId: xTenantId, );
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<ReceivedDocumentStatsResponse?> getReceivedDocumentStatsSummary({ String? xTenantId, }) async {
+    final response = await getReceivedDocumentStatsSummaryWithHttpInfo( xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -74,20 +198,30 @@ class DocumentsReceivedApi {
     return null;
   }
 
-  /// List received documents
+  /// Listar documentos recibidos
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   ///
   /// * [String] ecf:
   ///
-  /// * [String] documentType:
+  /// * [String] type:
+  ///   Tipo de documento (31, 32, 33, etc.)
   ///
   /// * [int] status:
+  ///
+  /// * [String] supplierRnc:
+  ///   RNC del emisor/proveedor
+  ///
+  /// * [num] amountFrom:
+  ///
+  /// * [num] amountTo:
+  ///
+  /// * [bool] processed:
   ///
   /// * [DateTime] dateFrom:
   ///
@@ -96,9 +230,9 @@ class DocumentsReceivedApi {
   /// * [int] page:
   ///
   /// * [int] limit:
-  Future<Response> listReceivedDocumentsWithHttpInfo({ String? xTenantId, String? ecf, String? documentType, int? status, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+  Future<Response> listReceivedDocumentsWithHttpInfo({ String? xTenantId, String? ecf, String? type, int? status, String? supplierRnc, num? amountFrom, num? amountTo, bool? processed, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/documents/received/all';
+    final path = r'/documents/received';
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -110,11 +244,23 @@ class DocumentsReceivedApi {
     if (ecf != null) {
       queryParams.addAll(_queryParams('', 'ecf', ecf));
     }
-    if (documentType != null) {
-      queryParams.addAll(_queryParams('', 'documentType', documentType));
+    if (type != null) {
+      queryParams.addAll(_queryParams('', 'type', type));
     }
     if (status != null) {
       queryParams.addAll(_queryParams('', 'status', status));
+    }
+    if (supplierRnc != null) {
+      queryParams.addAll(_queryParams('', 'supplierRnc', supplierRnc));
+    }
+    if (amountFrom != null) {
+      queryParams.addAll(_queryParams('', 'amountFrom', amountFrom));
+    }
+    if (amountTo != null) {
+      queryParams.addAll(_queryParams('', 'amountTo', amountTo));
+    }
+    if (processed != null) {
+      queryParams.addAll(_queryParams('', 'processed', processed));
     }
     if (dateFrom != null) {
       queryParams.addAll(_queryParams('', 'dateFrom', dateFrom));
@@ -147,18 +293,28 @@ class DocumentsReceivedApi {
     );
   }
 
-  /// List received documents
+  /// Listar documentos recibidos
   ///
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
   ///
   /// * [String] ecf:
   ///
-  /// * [String] documentType:
+  /// * [String] type:
+  ///   Tipo de documento (31, 32, 33, etc.)
   ///
   /// * [int] status:
+  ///
+  /// * [String] supplierRnc:
+  ///   RNC del emisor/proveedor
+  ///
+  /// * [num] amountFrom:
+  ///
+  /// * [num] amountTo:
+  ///
+  /// * [bool] processed:
   ///
   /// * [DateTime] dateFrom:
   ///
@@ -167,8 +323,8 @@ class DocumentsReceivedApi {
   /// * [int] page:
   ///
   /// * [int] limit:
-  Future<ReceivedDocumentListResponse?> listReceivedDocuments({ String? xTenantId, String? ecf, String? documentType, int? status, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
-    final response = await listReceivedDocumentsWithHttpInfo( xTenantId: xTenantId, ecf: ecf, documentType: documentType, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit, );
+  Future<ReceivedDocumentListResponse?> listReceivedDocuments({ String? xTenantId, String? ecf, String? type, int? status, String? supplierRnc, num? amountFrom, num? amountTo, bool? processed, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+    final response = await listReceivedDocumentsWithHttpInfo( xTenantId: xTenantId, ecf: ecf, type: type, status: status, supplierRnc: supplierRnc, amountFrom: amountFrom, amountTo: amountTo, processed: processed, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

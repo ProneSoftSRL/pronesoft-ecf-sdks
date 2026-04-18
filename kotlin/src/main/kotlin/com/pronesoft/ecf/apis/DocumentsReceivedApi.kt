@@ -28,6 +28,8 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 
 import com.pronesoft.ecf.models.ErrorResponse
+import com.pronesoft.ecf.models.GetReceivedDocumentStatsBySupplier200ResponseInner
+import com.pronesoft.ecf.models.ReceivedDocument
 import com.pronesoft.ecf.models.ReceivedDocumentListResponse
 import com.pronesoft.ecf.models.ReceivedDocumentStatsResponse
 
@@ -56,10 +58,161 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
     }
 
     /**
-     * GET /documents/received/stats/summary
-     * Get received documents statistics
+     * GET /documents/received/{id}
+     * Obtener documento recibido por ID
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ReceivedDocument
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getReceivedDocumentById(id: java.util.UUID, xTenantId: java.util.UUID? = null) : ReceivedDocument {
+        val localVarResponse = getReceivedDocumentByIdWithHttpInfo(id = id, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ReceivedDocument
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /documents/received/{id}
+     * Obtener documento recibido por ID
+     * 
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse<ReceivedDocument?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getReceivedDocumentByIdWithHttpInfo(id: java.util.UUID, xTenantId: java.util.UUID?) : ApiResponse<ReceivedDocument?> {
+        val localVariableConfig = getReceivedDocumentByIdRequestConfig(id = id, xTenantId = xTenantId)
+
+        return request<Unit, ReceivedDocument>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getReceivedDocumentById
+     *
+     * @param id 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return RequestConfig
+     */
+    fun getReceivedDocumentByIdRequestConfig(id: java.util.UUID, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/documents/received/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /documents/received/stats/by-supplier
+     * Top 10 proveedores por volumen de documentos recibidos
+     * 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getReceivedDocumentStatsBySupplier(xTenantId: java.util.UUID? = null) : kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner> {
+        val localVarResponse = getReceivedDocumentStatsBySupplierWithHttpInfo(xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /documents/received/stats/by-supplier
+     * Top 10 proveedores por volumen de documentos recibidos
+     * 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse<kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getReceivedDocumentStatsBySupplierWithHttpInfo(xTenantId: java.util.UUID?) : ApiResponse<kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>?> {
+        val localVariableConfig = getReceivedDocumentStatsBySupplierRequestConfig(xTenantId = xTenantId)
+
+        return request<Unit, kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getReceivedDocumentStatsBySupplier
+     *
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return RequestConfig
+     */
+    fun getReceivedDocumentStatsBySupplierRequestConfig(xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/documents/received/stats/by-supplier",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * GET /documents/received/stats/summary
+     * Estadísticas de documentos recibidos
+     * 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return ReceivedDocumentStatsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -69,8 +222,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getReceivedDocumentStats(xTenantId: java.util.UUID? = null) : ReceivedDocumentStatsResponse {
-        val localVarResponse = getReceivedDocumentStatsWithHttpInfo(xTenantId = xTenantId)
+    fun getReceivedDocumentStatsSummary(xTenantId: java.util.UUID? = null) : ReceivedDocumentStatsResponse {
+        val localVarResponse = getReceivedDocumentStatsSummaryWithHttpInfo(xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ReceivedDocumentStatsResponse
@@ -89,17 +242,17 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
 
     /**
      * GET /documents/received/stats/summary
-     * Get received documents statistics
+     * Estadísticas de documentos recibidos
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return ApiResponse<ReceivedDocumentStatsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getReceivedDocumentStatsWithHttpInfo(xTenantId: java.util.UUID?) : ApiResponse<ReceivedDocumentStatsResponse?> {
-        val localVariableConfig = getReceivedDocumentStatsRequestConfig(xTenantId = xTenantId)
+    fun getReceivedDocumentStatsSummaryWithHttpInfo(xTenantId: java.util.UUID?) : ApiResponse<ReceivedDocumentStatsResponse?> {
+        val localVariableConfig = getReceivedDocumentStatsSummaryRequestConfig(xTenantId = xTenantId)
 
         return request<Unit, ReceivedDocumentStatsResponse>(
             localVariableConfig
@@ -107,12 +260,12 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
     }
 
     /**
-     * To obtain the request config of the operation getReceivedDocumentStats
+     * To obtain the request config of the operation getReceivedDocumentStatsSummary
      *
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @return RequestConfig
      */
-    fun getReceivedDocumentStatsRequestConfig(xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getReceivedDocumentStatsSummaryRequestConfig(xTenantId: java.util.UUID?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -130,13 +283,35 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
     }
 
     /**
-     * GET /documents/received/all
-     * List received documents
+     * enum for parameter status
+     */
+     enum class StatusListReceivedDocuments(val value: kotlin.Int) {
+         @SerializedName(value = "1") _1(1),
+         @SerializedName(value = "2") _2(2),
+         @SerializedName(value = "3") _3(3);
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /documents/received
+     * Listar documentos recibidos
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param ecf  (optional)
-     * @param documentType  (optional)
+     * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
+     * @param supplierRnc RNC del emisor/proveedor (optional)
+     * @param amountFrom  (optional)
+     * @param amountTo  (optional)
+     * @param processed  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param page  (optional, default to 1)
@@ -150,8 +325,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listReceivedDocuments(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, documentType: kotlin.String? = null, status: kotlin.Int? = null, dateFrom: java.time.LocalDate? = null, dateTo: java.time.LocalDate? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ReceivedDocumentListResponse {
-        val localVarResponse = listReceivedDocumentsWithHttpInfo(xTenantId = xTenantId, ecf = ecf, documentType = documentType, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
+    fun listReceivedDocuments(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListReceivedDocuments? = null, supplierRnc: kotlin.String? = null, amountFrom: java.math.BigDecimal? = null, amountTo: java.math.BigDecimal? = null, processed: kotlin.Boolean? = null, dateFrom: java.time.LocalDate? = null, dateTo: java.time.LocalDate? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ReceivedDocumentListResponse {
+        val localVarResponse = listReceivedDocumentsWithHttpInfo(xTenantId = xTenantId, ecf = ecf, type = type, status = status, supplierRnc = supplierRnc, amountFrom = amountFrom, amountTo = amountTo, processed = processed, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ReceivedDocumentListResponse
@@ -169,13 +344,17 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
     }
 
     /**
-     * GET /documents/received/all
-     * List received documents
+     * GET /documents/received
+     * Listar documentos recibidos
      * 
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param ecf  (optional)
-     * @param documentType  (optional)
+     * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
+     * @param supplierRnc RNC del emisor/proveedor (optional)
+     * @param amountFrom  (optional)
+     * @param amountTo  (optional)
+     * @param processed  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param page  (optional, default to 1)
@@ -186,8 +365,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listReceivedDocumentsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, documentType: kotlin.String?, status: kotlin.Int?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ReceivedDocumentListResponse?> {
-        val localVariableConfig = listReceivedDocumentsRequestConfig(xTenantId = xTenantId, ecf = ecf, documentType = documentType, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
+    fun listReceivedDocumentsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ReceivedDocumentListResponse?> {
+        val localVariableConfig = listReceivedDocumentsRequestConfig(xTenantId = xTenantId, ecf = ecf, type = type, status = status, supplierRnc = supplierRnc, amountFrom = amountFrom, amountTo = amountTo, processed = processed, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return request<Unit, ReceivedDocumentListResponse>(
             localVariableConfig
@@ -197,28 +376,44 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * To obtain the request config of the operation listReceivedDocuments
      *
-     * @param xTenantId UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param ecf  (optional)
-     * @param documentType  (optional)
+     * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
+     * @param supplierRnc RNC del emisor/proveedor (optional)
+     * @param amountFrom  (optional)
+     * @param amountTo  (optional)
+     * @param processed  (optional)
      * @param dateFrom  (optional)
      * @param dateTo  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listReceivedDocumentsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, documentType: kotlin.String?, status: kotlin.Int?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listReceivedDocumentsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (ecf != null) {
                     put("ecf", listOf(ecf.toString()))
                 }
-                if (documentType != null) {
-                    put("documentType", listOf(documentType.toString()))
+                if (type != null) {
+                    put("type", listOf(type.toString()))
                 }
                 if (status != null) {
                     put("status", listOf(status.toString()))
+                }
+                if (supplierRnc != null) {
+                    put("supplierRnc", listOf(supplierRnc.toString()))
+                }
+                if (amountFrom != null) {
+                    put("amountFrom", listOf(amountFrom.toString()))
+                }
+                if (amountTo != null) {
+                    put("amountTo", listOf(amountTo.toString()))
+                }
+                if (processed != null) {
+                    put("processed", listOf(processed.toString()))
                 }
                 if (dateFrom != null) {
                     put("dateFrom", listOf(parseDateToQueryString(dateFrom)))
@@ -239,7 +434,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/documents/received/all",
+            path = "/documents/received",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

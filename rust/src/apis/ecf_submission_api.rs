@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -14,14 +14,6 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
-
-/// struct for typed errors of method [`get_ecf_history`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum GetEcfHistoryError {
-    Status401(models::ErrorResponse),
-    UnknownValue(serde_json::Value),
-}
 
 /// struct for typed errors of method [`get_ecf_stats`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -39,62 +31,26 @@ pub enum GetEcfStatusError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`get_ecf_submission_history`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetEcfSubmissionHistoryError {
+    Status401(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`submit_ecf`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum SubmitEcfError {
     Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
+    Status422(models::ErrorResponse),
+    Status500(models::ErrorResponse),
     Status429(models::RateLimitErrorResponse),
     UnknownValue(serde_json::Value),
 }
 
-
-pub async fn get_ecf_history(configuration: &configuration::Configuration, environment: models::Environment, x_tenant_id: Option<&str>) -> Result<Vec<models::EcfHistoryItem>, Error<GetEcfHistoryError>> {
-    // add a prefix to parameters to efficiently prevent name collisions
-    let p_path_environment = environment;
-    let p_header_x_tenant_id = x_tenant_id;
-
-    let uri_str = format!("{}/{environment}/ecf/responses/history", configuration.base_path, environment=p_path_environment.to_string());
-    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
-
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
-    }
-    if let Some(param_value) = p_header_x_tenant_id {
-        req_builder = req_builder.header("x-tenant-id", param_value.to_string());
-    }
-    if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-
-    let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
-
-    let status = resp.status();
-    let content_type = resp
-        .headers()
-        .get("content-type")
-        .and_then(|v| v.to_str().ok())
-        .unwrap_or("application/octet-stream");
-    let content_type = super::ContentType::from(content_type);
-
-    if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
-        match content_type {
-            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::EcfHistoryItem&gt;`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::EcfHistoryItem&gt;`")))),
-        }
-    } else {
-        let content = resp.text().await?;
-        let entity: Option<GetEcfHistoryError> = serde_json::from_str(&content).ok();
-        Err(Error::ResponseError(ResponseContent { status, content, entity }))
-    }
-}
 
 pub async fn get_ecf_stats(configuration: &configuration::Configuration, environment: models::Environment, x_tenant_id: Option<&str>) -> Result<models::EcfStatsResponse, Error<GetEcfStatsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
@@ -111,9 +67,6 @@ pub async fn get_ecf_stats(configuration: &configuration::Configuration, environ
         req_builder = req_builder.header("x-tenant-id", param_value.to_string());
     }
     if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
 
@@ -142,13 +95,13 @@ pub async fn get_ecf_stats(configuration: &configuration::Configuration, environ
     }
 }
 
-pub async fn get_ecf_status(configuration: &configuration::Configuration, environment: models::Environment, track_id: &str, x_tenant_id: Option<&str>) -> Result<models::EcfStatusResponse, Error<GetEcfStatusError>> {
+pub async fn get_ecf_status(configuration: &configuration::Configuration, environment: models::Environment, id: &str, x_tenant_id: Option<&str>) -> Result<models::EcfStatusResponse, Error<GetEcfStatusError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_environment = environment;
-    let p_path_track_id = track_id;
+    let p_path_id = id;
     let p_header_x_tenant_id = x_tenant_id;
 
-    let uri_str = format!("{}/{environment}/ecf/status/{trackId}", configuration.base_path, environment=p_path_environment.to_string(), trackId=crate::apis::urlencode(p_path_track_id));
+    let uri_str = format!("{}/{environment}/ecf/status/{id}", configuration.base_path, environment=p_path_environment.to_string(), id=crate::apis::urlencode(p_path_id));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
     if let Some(ref user_agent) = configuration.user_agent {
@@ -158,9 +111,6 @@ pub async fn get_ecf_status(configuration: &configuration::Configuration, enviro
         req_builder = req_builder.header("x-tenant-id", param_value.to_string());
     }
     if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
 
@@ -189,8 +139,59 @@ pub async fn get_ecf_status(configuration: &configuration::Configuration, enviro
     }
 }
 
-/// Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
-pub async fn submit_ecf(configuration: &configuration::Configuration, environment: models::Environment, electronic_document: models::ElectronicDocument, x_tenant_id: Option<&str>) -> Result<models::EcfSubmissionResponse, Error<SubmitEcfError>> {
+pub async fn get_ecf_submission_history(configuration: &configuration::Configuration, environment: models::Environment, x_tenant_id: Option<&str>, page: Option<i32>, limit: Option<i32>) -> Result<models::GetEcfSubmissionHistory200Response, Error<GetEcfSubmissionHistoryError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_environment = environment;
+    let p_header_x_tenant_id = x_tenant_id;
+    let p_query_page = page;
+    let p_query_limit = limit;
+
+    let uri_str = format!("{}/{environment}/ecf/responses/history", configuration.base_path, environment=p_path_environment.to_string());
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref param_value) = p_query_page {
+        req_builder = req_builder.query(&[("page", &param_value.to_string())]);
+    }
+    if let Some(ref param_value) = p_query_limit {
+        req_builder = req_builder.query(&[("limit", &param_value.to_string())]);
+    }
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(param_value) = p_header_x_tenant_id {
+        req_builder = req_builder.header("x-tenant-id", param_value.to_string());
+    }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::GetEcfSubmissionHistory200Response`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::GetEcfSubmissionHistory200Response`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<GetEcfSubmissionHistoryError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
+pub async fn submit_ecf(configuration: &configuration::Configuration, environment: models::Environment, electronic_document: models::ElectronicDocument, x_tenant_id: Option<&str>) -> Result<models::EcfSubmitResponse, Error<SubmitEcfError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_environment = environment;
     let p_body_electronic_document = electronic_document;
@@ -206,9 +207,6 @@ pub async fn submit_ecf(configuration: &configuration::Configuration, environmen
         req_builder = req_builder.header("x-tenant-id", param_value.to_string());
     }
     if let Some(ref token) = configuration.oauth_access_token {
-        req_builder = req_builder.bearer_auth(token.to_owned());
-    };
-    if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
     req_builder = req_builder.json(&p_body_electronic_document);
@@ -228,8 +226,8 @@ pub async fn submit_ecf(configuration: &configuration::Configuration, environmen
         let content = resp.text().await?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
-            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::EcfSubmissionResponse`"))),
-            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::EcfSubmissionResponse`")))),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::EcfSubmitResponse`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::EcfSubmitResponse`")))),
         }
     } else {
         let content = resp.text().await?;

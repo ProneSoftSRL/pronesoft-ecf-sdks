@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -76,9 +76,9 @@ public class DigitalCertificatesApi {
 
     /**
      * Build call for uploadCertificate
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
-     * @param _file Certificate file in .p12 or .pfx format. (required)
-     * @param password Password to unlock the certificate. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
+     * @param _file Archivo del certificado en formato .p12 o .pfx. (required)
+     * @param password Contraseña para desbloquear el certificado. (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -86,11 +86,11 @@ public class DigitalCertificatesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Certificate uploaded successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Certificado subido exitosamente </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Company RNC not found in the system. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> RNC de la empresa no encontrado en el sistema. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call uploadCertificateCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull File _file, @javax.annotation.Nonnull String password, final ApiCallback _callback) throws ApiException {
@@ -143,7 +143,7 @@ public class DigitalCertificatesApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -169,22 +169,22 @@ public class DigitalCertificatesApi {
     }
 
     /**
-     * Upload digital certificate (P12/PFX)
-     * Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
-     * @param _file Certificate file in .p12 or .pfx format. (required)
-     * @param password Password to unlock the certificate. (required)
+     * Subir certificado digital (P12/PFX)
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
+     * @param _file Archivo del certificado en formato .p12 o .pfx. (required)
+     * @param password Contraseña para desbloquear el certificado. (required)
      * @return UploadCertificateResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Certificate uploaded successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Certificado subido exitosamente </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Company RNC not found in the system. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> RNC de la empresa no encontrado en el sistema. </td><td>  -  </td></tr>
      </table>
      */
     public UploadCertificateResponse uploadCertificate(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull File _file, @javax.annotation.Nonnull String password) throws ApiException {
@@ -193,22 +193,22 @@ public class DigitalCertificatesApi {
     }
 
     /**
-     * Upload digital certificate (P12/PFX)
-     * Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
-     * @param _file Certificate file in .p12 or .pfx format. (required)
-     * @param password Password to unlock the certificate. (required)
+     * Subir certificado digital (P12/PFX)
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
+     * @param _file Archivo del certificado en formato .p12 o .pfx. (required)
+     * @param password Contraseña para desbloquear el certificado. (required)
      * @return ApiResponse&lt;UploadCertificateResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Certificate uploaded successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Certificado subido exitosamente </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Company RNC not found in the system. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> RNC de la empresa no encontrado en el sistema. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<UploadCertificateResponse> uploadCertificateWithHttpInfo(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull File _file, @javax.annotation.Nonnull String password) throws ApiException {
@@ -218,11 +218,11 @@ public class DigitalCertificatesApi {
     }
 
     /**
-     * Upload digital certificate (P12/PFX) (asynchronously)
-     * Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
-     * @param _file Certificate file in .p12 or .pfx format. (required)
-     * @param password Password to unlock the certificate. (required)
+     * Subir certificado digital (P12/PFX) (asynchronously)
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
+     * @param _file Archivo del certificado en formato .p12 o .pfx. (required)
+     * @param password Contraseña para desbloquear el certificado. (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -230,11 +230,11 @@ public class DigitalCertificatesApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Certificate uploaded successfully </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Validation error (400). Check the message field for details. </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 201 </td><td> Certificado subido exitosamente </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The token does not have the required scope. </td><td>  -  </td></tr>
-        <tr><td> 404 </td><td> Company RNC not found in the system. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> RNC de la empresa no encontrado en el sistema. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call uploadCertificateAsync(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull File _file, @javax.annotation.Nonnull String password, final ApiCallback<UploadCertificateResponse> _callback) throws ApiException {

@@ -22,11 +22,11 @@ Sube el certificado de firma digital emitido por DGII para una empresa. Se almac
 import {
   Configuration,
   DigitalCertificatesApi,
-} from '';
-import type { UploadCertificateRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { UploadCertificateRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

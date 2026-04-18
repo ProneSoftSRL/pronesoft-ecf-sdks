@@ -16,7 +16,7 @@ class AssociatedCompaniesApi {
 
   final ApiClient apiClient;
 
-  /// Create associated company / branch
+  /// Crear empresa asociada / sucursal
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -148,7 +148,7 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// Create associated company / branch
+  /// Crear empresa asociada / sucursal
   ///
   /// Parameters:
   ///
@@ -198,9 +198,9 @@ class AssociatedCompaniesApi {
     return null;
   }
 
-  /// Delete associated company
+  /// Eliminar empresa asociada
   ///
-  /// Permanently deletes an associated company. This action is irreversible.
+  /// Elimina permanentemente una empresa asociada. Esta acción es irreversible.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -233,9 +233,9 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// Delete associated company
+  /// Eliminar empresa asociada
   ///
-  /// Permanently deletes an associated company. This action is irreversible.
+  /// Elimina permanentemente una empresa asociada. Esta acción es irreversible.
   ///
   /// Parameters:
   ///
@@ -255,7 +255,7 @@ class AssociatedCompaniesApi {
     return null;
   }
 
-  /// Get company document metrics
+  /// Métricas de documentos de la empresa
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -288,7 +288,7 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// Get company document metrics
+  /// Métricas de documentos de la empresa
   ///
   /// Parameters:
   ///
@@ -308,7 +308,7 @@ class AssociatedCompaniesApi {
     return null;
   }
 
-  /// Get company metrics
+  /// Métricas de la empresa
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -341,7 +341,7 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// Get company metrics
+  /// Métricas de la empresa
   ///
   /// Parameters:
   ///
@@ -361,7 +361,7 @@ class AssociatedCompaniesApi {
     return null;
   }
 
-  /// List associated companies / branches
+  /// Listar empresas asociadas / sucursales
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -402,7 +402,7 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// List associated companies / branches
+  /// Listar empresas asociadas / sucursales
   ///
   /// Parameters:
   ///
@@ -427,7 +427,7 @@ class AssociatedCompaniesApi {
     return null;
   }
 
-  /// Update associated company
+  /// Actualizar empresa asociada
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -502,7 +502,7 @@ class AssociatedCompaniesApi {
     );
   }
 
-  /// Update associated company
+  /// Actualizar empresa asociada
   ///
   /// Parameters:
   ///

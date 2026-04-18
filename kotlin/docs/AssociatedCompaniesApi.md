@@ -4,19 +4,19 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Create associated company / branch |
-| [**deleteAssociatedCompany**](AssociatedCompaniesApi.md#deleteAssociatedCompany) | **DELETE** /associated-companies/{companyId} | Delete associated company |
-| [**getCompanyDocumentMetrics**](AssociatedCompaniesApi.md#getCompanyDocumentMetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics |
-| [**getCompanyMetrics**](AssociatedCompaniesApi.md#getCompanyMetrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics |
-| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | List associated companies / branches |
-| [**updateAssociatedCompany**](AssociatedCompaniesApi.md#updateAssociatedCompany) | **PUT** /associated-companies/{companyId} | Update associated company |
+| [**createAssociatedCompany**](AssociatedCompaniesApi.md#createAssociatedCompany) | **POST** /associated-companies | Crear empresa asociada / sucursal |
+| [**deleteAssociatedCompany**](AssociatedCompaniesApi.md#deleteAssociatedCompany) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada |
+| [**getCompanyDocumentMetrics**](AssociatedCompaniesApi.md#getCompanyDocumentMetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa |
+| [**getCompanyMetrics**](AssociatedCompaniesApi.md#getCompanyMetrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa |
+| [**listAssociatedCompanies**](AssociatedCompaniesApi.md#listAssociatedCompanies) | **GET** /associated-companies | Listar empresas asociadas / sucursales |
+| [**updateAssociatedCompany**](AssociatedCompaniesApi.md#updateAssociatedCompany) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada |
 
 
 <a id="createAssociatedCompany"></a>
 # **createAssociatedCompany**
 > CreateAssociatedCompany201Response createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo)
 
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Example
 ```kotlin
@@ -82,8 +82,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -94,9 +92,9 @@ Configure bearerAuth:
 # **deleteAssociatedCompany**
 > DeleteAssociatedCompany200Response deleteAssociatedCompany(companyId)
 
-Delete associated company
+Eliminar empresa asociada
 
-Permanently deletes an associated company. This action is irreversible.
+Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 
 ### Example
 ```kotlin
@@ -132,8 +130,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -144,7 +140,7 @@ Configure bearerAuth:
 # **getCompanyDocumentMetrics**
 > CompanyDocumentMetrics getCompanyDocumentMetrics(companyId)
 
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Example
 ```kotlin
@@ -180,8 +176,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -192,7 +186,7 @@ Configure bearerAuth:
 # **getCompanyMetrics**
 > CompanyMetrics getCompanyMetrics(companyId)
 
-Get company metrics
+Métricas de la empresa
 
 ### Example
 ```kotlin
@@ -228,8 +222,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -240,7 +232,7 @@ Configure bearerAuth:
 # **listAssociatedCompanies**
 > kotlin.collections.List&lt;AssociatedCompany&gt; listAssociatedCompanies(page, limit)
 
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Example
 ```kotlin
@@ -278,8 +270,6 @@ try {
 
 Configure oauth2:
     ApiClient.accessToken = ""
-Configure bearerAuth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -290,7 +280,7 @@ Configure bearerAuth:
 # **updateAssociatedCompany**
 > CreateAssociatedCompany201Response updateAssociatedCompany(companyId, name, phone, website, city, country, logo)
 
-Update associated company
+Actualizar empresa asociada
 
 ### Example
 ```kotlin
@@ -337,8 +327,6 @@ try {
 
 
 Configure oauth2:
-    ApiClient.accessToken = ""
-Configure bearerAuth:
     ApiClient.accessToken = ""
 
 ### HTTP request headers

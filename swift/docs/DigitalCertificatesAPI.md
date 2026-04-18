@@ -4,7 +4,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**uploadCertificate**](DigitalCertificatesAPI.md#uploadcertificate) | **POST** /{rnc}/certificates | Upload digital certificate (P12/PFX)
+[**uploadCertificate**](DigitalCertificatesAPI.md#uploadcertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
 
 
 # **uploadCertificate**
@@ -12,20 +12,20 @@ Method | HTTP request | Description
     open class func uploadCertificate(rnc: String, file: URL, password: String, completion: @escaping (_ data: UploadCertificateResponse?, _ error: Error?) -> Void)
 ```
 
-Upload digital certificate (P12/PFX)
+Subir certificado digital (P12/PFX)
 
-Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
+Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let rnc = "rnc_example" // String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-let file = URL(string: "https://example.com")! // URL | Certificate file in .p12 or .pfx format.
-let password = "password_example" // String | Password to unlock the certificate.
+let rnc = "rnc_example" // String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+let file = URL(string: "https://example.com")! // URL | Archivo del certificado en formato .p12 o .pfx.
+let password = "password_example" // String | Contraseña para desbloquear el certificado.
 
-// Upload digital certificate (P12/PFX)
+// Subir certificado digital (P12/PFX)
 DigitalCertificatesAPI.uploadCertificate(rnc: rnc, file: file, password: password) { (response, error) in
     guard error == nil else {
         print(error)
@@ -42,9 +42,9 @@ DigitalCertificatesAPI.uploadCertificate(rnc: rnc, file: file, password: passwor
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. | 
- **file** | **URL** | Certificate file in .p12 or .pfx format. | 
- **password** | **String** | Password to unlock the certificate. | 
+ **rnc** | **String** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. | 
+ **file** | **URL** | Archivo del certificado en formato .p12 o .pfx. | 
+ **password** | **String** | Contraseña para desbloquear el certificado. | 
 
 ### Return type
 
@@ -52,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

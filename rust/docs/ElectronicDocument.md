@@ -4,10 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**environment** | Option<[**models::Environment**](Environment.md)> |  | [optional]
-**version** | **String** | Always 1.0. | [default to 1.0]
+**version** | Option<**String**> | Siempre \"1.0\". | [optional][default to 1.0]
 **invoice_type** | [**models::InvoiceType**](InvoiceType.md) |  | 
-**invoice_number** | Option<**String**> | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional]
+**invoice_number** | Option<**String**> | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`.  | [optional]
 **group_id** | Option<**String**> | Optional Group ID for batch processing | [optional]
 **issue_date** | **String** |  | 
 **expiration_date** | Option<**String**> |  | [optional]

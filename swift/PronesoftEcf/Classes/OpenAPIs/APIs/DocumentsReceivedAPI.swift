@@ -16,15 +16,16 @@ extension PronesoftEcfAPI {
 open class DocumentsReceivedAPI {
 
     /**
-     Get received documents statistics
+     Obtener documento recibido por ID
      
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter id: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getReceivedDocumentStats(xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocumentStatsResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return getReceivedDocumentStatsWithRequestBuilder(xTenantId: xTenantId).execute(apiResponseQueue) { result in
+    open class func getReceivedDocumentById(id: UUID, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocument?, _ error: Error?) -> Void)) -> RequestTask {
+        return getReceivedDocumentByIdWithRequestBuilder(id: id, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -35,18 +36,111 @@ open class DocumentsReceivedAPI {
     }
 
     /**
-     Get received documents statistics
+     Obtener documento recibido por ID
+     - GET /documents/received/{id}
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter id: (path)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - returns: RequestBuilder<ReceivedDocument> 
+     */
+    open class func getReceivedDocumentByIdWithRequestBuilder(id: UUID, xTenantId: UUID? = nil) -> RequestBuilder<ReceivedDocument> {
+        var localVariablePath = "/documents/received/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ReceivedDocument>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Top 10 proveedores por volumen de documentos recibidos
+     
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getReceivedDocumentStatsBySupplier(xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: [GetReceivedDocumentStatsBySupplier200ResponseInner]?, _ error: Error?) -> Void)) -> RequestTask {
+        return getReceivedDocumentStatsBySupplierWithRequestBuilder(xTenantId: xTenantId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Top 10 proveedores por volumen de documentos recibidos
+     - GET /documents/received/stats/by-supplier
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - returns: RequestBuilder<[GetReceivedDocumentStatsBySupplier200ResponseInner]> 
+     */
+    open class func getReceivedDocumentStatsBySupplierWithRequestBuilder(xTenantId: UUID? = nil) -> RequestBuilder<[GetReceivedDocumentStatsBySupplier200ResponseInner]> {
+        let localVariablePath = "/documents/received/stats/by-supplier"
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[GetReceivedDocumentStatsBySupplier200ResponseInner]>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Estadísticas de documentos recibidos
+     
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getReceivedDocumentStatsSummary(xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocumentStatsResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return getReceivedDocumentStatsSummaryWithRequestBuilder(xTenantId: xTenantId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Estadísticas de documentos recibidos
      - GET /documents/received/stats/summary
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<ReceivedDocumentStatsResponse> 
      */
-    open class func getReceivedDocumentStatsWithRequestBuilder(xTenantId: UUID? = nil) -> RequestBuilder<ReceivedDocumentStatsResponse> {
+    open class func getReceivedDocumentStatsSummaryWithRequestBuilder(xTenantId: UUID? = nil) -> RequestBuilder<ReceivedDocumentStatsResponse> {
         let localVariablePath = "/documents/received/stats/summary"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -65,12 +159,25 @@ open class DocumentsReceivedAPI {
     }
 
     /**
-     List received documents
+     * enum for parameter status
+     */
+    public enum Status_listReceivedDocuments: Int, CaseIterable {
+        case _1 = 1
+        case _2 = 2
+        case _3 = 3
+    }
+
+    /**
+     Listar documentos recibidos
      
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter ecf: (query)  (optional)
-     - parameter documentType: (query)  (optional)
+     - parameter type: (query) Tipo de documento (31, 32, 33, etc.) (optional)
      - parameter status: (query)  (optional)
+     - parameter supplierRnc: (query) RNC del emisor/proveedor (optional)
+     - parameter amountFrom: (query)  (optional)
+     - parameter amountTo: (query)  (optional)
+     - parameter processed: (query)  (optional)
      - parameter dateFrom: (query)  (optional)
      - parameter dateTo: (query)  (optional)
      - parameter page: (query)  (optional, default to 1)
@@ -79,8 +186,8 @@ open class DocumentsReceivedAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listReceivedDocuments(xTenantId: UUID? = nil, ecf: String? = nil, documentType: String? = nil, status: Int? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)) -> RequestTask {
-        return listReceivedDocumentsWithRequestBuilder(xTenantId: xTenantId, ecf: ecf, documentType: documentType, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
+    open class func listReceivedDocuments(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listReceivedDocuments? = nil, supplierRnc: String? = nil, amountFrom: Double? = nil, amountTo: Double? = nil, processed: Bool? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return listReceivedDocumentsWithRequestBuilder(xTenantId: xTenantId, ecf: ecf, type: type, status: status, supplierRnc: supplierRnc, amountFrom: amountFrom, amountTo: amountTo, processed: processed, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -91,34 +198,39 @@ open class DocumentsReceivedAPI {
     }
 
     /**
-     List received documents
-     - GET /documents/received/all
+     Listar documentos recibidos
+     - GET /documents/received
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter ecf: (query)  (optional)
-     - parameter documentType: (query)  (optional)
+     - parameter type: (query) Tipo de documento (31, 32, 33, etc.) (optional)
      - parameter status: (query)  (optional)
+     - parameter supplierRnc: (query) RNC del emisor/proveedor (optional)
+     - parameter amountFrom: (query)  (optional)
+     - parameter amountTo: (query)  (optional)
+     - parameter processed: (query)  (optional)
      - parameter dateFrom: (query)  (optional)
      - parameter dateTo: (query)  (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<ReceivedDocumentListResponse> 
      */
-    open class func listReceivedDocumentsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, documentType: String? = nil, status: Int? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ReceivedDocumentListResponse> {
-        let localVariablePath = "/documents/received/all"
+    open class func listReceivedDocumentsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listReceivedDocuments? = nil, supplierRnc: String? = nil, amountFrom: Double? = nil, amountTo: Double? = nil, processed: Bool? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ReceivedDocumentListResponse> {
+        let localVariablePath = "/documents/received"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "ecf": (wrappedValue: ecf?.encodeToJSON(), isExplode: true),
-            "documentType": (wrappedValue: documentType?.encodeToJSON(), isExplode: true),
+            "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
             "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
+            "supplierRnc": (wrappedValue: supplierRnc?.encodeToJSON(), isExplode: true),
+            "amountFrom": (wrappedValue: amountFrom?.encodeToJSON(), isExplode: true),
+            "amountTo": (wrappedValue: amountTo?.encodeToJSON(), isExplode: true),
+            "processed": (wrappedValue: processed?.encodeToJSON(), isExplode: true),
             "dateFrom": (wrappedValue: dateFrom?.encodeToJSON(), isExplode: true),
             "dateTo": (wrappedValue: dateTo?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),

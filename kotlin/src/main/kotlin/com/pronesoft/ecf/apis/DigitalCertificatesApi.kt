@@ -56,11 +56,11 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /{rnc}/certificates
-     * Upload digital certificate (P12/PFX)
-     * Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-     * @param file Certificate file in .p12 or .pfx format.
-     * @param password Password to unlock the certificate.
+     * Subir certificado digital (P12/PFX)
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+     * @param file Archivo del certificado en formato .p12 o .pfx.
+     * @param password Contraseña para desbloquear el certificado.
      * @return UploadCertificateResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -90,11 +90,11 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
 
     /**
      * POST /{rnc}/certificates
-     * Upload digital certificate (P12/PFX)
-     * Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-     * @param file Certificate file in .p12 or .pfx format.
-     * @param password Password to unlock the certificate.
+     * Subir certificado digital (P12/PFX)
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+     * @param file Archivo del certificado en formato .p12 o .pfx.
+     * @param password Contraseña para desbloquear el certificado.
      * @return ApiResponse<UploadCertificateResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -112,9 +112,9 @@ open class DigitalCertificatesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * To obtain the request config of the operation uploadCertificate
      *
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-     * @param file Certificate file in .p12 or .pfx format.
-     * @param password Password to unlock the certificate.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+     * @param file Archivo del certificado en formato .p12 o .pfx.
+     * @param password Contraseña para desbloquear el certificado.
      * @return RequestConfig
      */
     fun uploadCertificateRequestConfig(rnc: kotlin.String, file: java.io.File, password: kotlin.String) : RequestConfig<Map<String, PartConfig<*>>> {

@@ -16,16 +16,19 @@ class SentDocumentDetail {
     this.id,
     this.encf,
     this.status,
-    this.statusDisplay,
+    this.statusLabel,
     this.trackId,
     this.documentType,
-    this.totalAmount,
+    this.issuerRnc,
+    this.environment,
     this.receivedAt,
     this.createdAt,
-    this.xmlUrl,
     this.business,
-    this.logs = const [],
-    this.auditLogs = const [],
+    this.legalStatus,
+    this.documentStampUrl,
+    this.securityCode,
+    this.contingencyMode,
+    this.governmentResponse = const {},
   });
 
   ///
@@ -36,21 +39,9 @@ class SentDocumentDetail {
   ///
   String? id;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? encf;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  DocumentStatus? status;
+  SentDocumentDetailStatusEnum? status;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -58,14 +49,8 @@ class SentDocumentDetail {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? statusDisplay;
+  String? statusLabel;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? trackId;
 
   ///
@@ -82,7 +67,15 @@ class SentDocumentDetail {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? totalAmount;
+  String? issuerRnc;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  Environment? environment;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -106,7 +99,13 @@ class SentDocumentDetail {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? xmlUrl;
+  SentDocumentSummaryBusiness? business;
+
+  SentDocumentDetailLegalStatusEnum? legalStatus;
+
+  String? documentStampUrl;
+
+  String? securityCode;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -114,27 +113,28 @@ class SentDocumentDetail {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  SentDocumentSummaryBusiness? business;
+  bool? contingencyMode;
 
-  List<ProcessingLog> logs;
-
-  List<Object> auditLogs;
+  Map<String, Object>? governmentResponse;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SentDocumentDetail &&
     other.id == id &&
     other.encf == encf &&
     other.status == status &&
-    other.statusDisplay == statusDisplay &&
+    other.statusLabel == statusLabel &&
     other.trackId == trackId &&
     other.documentType == documentType &&
-    other.totalAmount == totalAmount &&
+    other.issuerRnc == issuerRnc &&
+    other.environment == environment &&
     other.receivedAt == receivedAt &&
     other.createdAt == createdAt &&
-    other.xmlUrl == xmlUrl &&
     other.business == business &&
-    _deepEquality.equals(other.logs, logs) &&
-    _deepEquality.equals(other.auditLogs, auditLogs);
+    other.legalStatus == legalStatus &&
+    other.documentStampUrl == documentStampUrl &&
+    other.securityCode == securityCode &&
+    other.contingencyMode == contingencyMode &&
+    _deepEquality.equals(other.governmentResponse, governmentResponse);
 
   @override
   int get hashCode =>
@@ -142,19 +142,22 @@ class SentDocumentDetail {
     (id == null ? 0 : id!.hashCode) +
     (encf == null ? 0 : encf!.hashCode) +
     (status == null ? 0 : status!.hashCode) +
-    (statusDisplay == null ? 0 : statusDisplay!.hashCode) +
+    (statusLabel == null ? 0 : statusLabel!.hashCode) +
     (trackId == null ? 0 : trackId!.hashCode) +
     (documentType == null ? 0 : documentType!.hashCode) +
-    (totalAmount == null ? 0 : totalAmount!.hashCode) +
+    (issuerRnc == null ? 0 : issuerRnc!.hashCode) +
+    (environment == null ? 0 : environment!.hashCode) +
     (receivedAt == null ? 0 : receivedAt!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
-    (xmlUrl == null ? 0 : xmlUrl!.hashCode) +
     (business == null ? 0 : business!.hashCode) +
-    (logs.hashCode) +
-    (auditLogs.hashCode);
+    (legalStatus == null ? 0 : legalStatus!.hashCode) +
+    (documentStampUrl == null ? 0 : documentStampUrl!.hashCode) +
+    (securityCode == null ? 0 : securityCode!.hashCode) +
+    (contingencyMode == null ? 0 : contingencyMode!.hashCode) +
+    (governmentResponse == null ? 0 : governmentResponse!.hashCode);
 
   @override
-  String toString() => 'SentDocumentDetail[id=$id, encf=$encf, status=$status, statusDisplay=$statusDisplay, trackId=$trackId, documentType=$documentType, totalAmount=$totalAmount, receivedAt=$receivedAt, createdAt=$createdAt, xmlUrl=$xmlUrl, business=$business, logs=$logs, auditLogs=$auditLogs]';
+  String toString() => 'SentDocumentDetail[id=$id, encf=$encf, status=$status, statusLabel=$statusLabel, trackId=$trackId, documentType=$documentType, issuerRnc=$issuerRnc, environment=$environment, receivedAt=$receivedAt, createdAt=$createdAt, business=$business, legalStatus=$legalStatus, documentStampUrl=$documentStampUrl, securityCode=$securityCode, contingencyMode=$contingencyMode, governmentResponse=$governmentResponse]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -173,10 +176,10 @@ class SentDocumentDetail {
     } else {
       json[r'status'] = null;
     }
-    if (this.statusDisplay != null) {
-      json[r'statusDisplay'] = this.statusDisplay;
+    if (this.statusLabel != null) {
+      json[r'statusLabel'] = this.statusLabel;
     } else {
-      json[r'statusDisplay'] = null;
+      json[r'statusLabel'] = null;
     }
     if (this.trackId != null) {
       json[r'trackId'] = this.trackId;
@@ -188,10 +191,15 @@ class SentDocumentDetail {
     } else {
       json[r'documentType'] = null;
     }
-    if (this.totalAmount != null) {
-      json[r'totalAmount'] = this.totalAmount;
+    if (this.issuerRnc != null) {
+      json[r'issuerRnc'] = this.issuerRnc;
     } else {
-      json[r'totalAmount'] = null;
+      json[r'issuerRnc'] = null;
+    }
+    if (this.environment != null) {
+      json[r'environment'] = this.environment;
+    } else {
+      json[r'environment'] = null;
     }
     if (this.receivedAt != null) {
       json[r'receivedAt'] = this.receivedAt!.toUtc().toIso8601String();
@@ -203,18 +211,36 @@ class SentDocumentDetail {
     } else {
       json[r'createdAt'] = null;
     }
-    if (this.xmlUrl != null) {
-      json[r'xmlUrl'] = this.xmlUrl;
-    } else {
-      json[r'xmlUrl'] = null;
-    }
     if (this.business != null) {
       json[r'business'] = this.business;
     } else {
       json[r'business'] = null;
     }
-      json[r'logs'] = this.logs;
-      json[r'auditLogs'] = this.auditLogs;
+    if (this.legalStatus != null) {
+      json[r'legalStatus'] = this.legalStatus;
+    } else {
+      json[r'legalStatus'] = null;
+    }
+    if (this.documentStampUrl != null) {
+      json[r'documentStampUrl'] = this.documentStampUrl;
+    } else {
+      json[r'documentStampUrl'] = null;
+    }
+    if (this.securityCode != null) {
+      json[r'securityCode'] = this.securityCode;
+    } else {
+      json[r'securityCode'] = null;
+    }
+    if (this.contingencyMode != null) {
+      json[r'contingencyMode'] = this.contingencyMode;
+    } else {
+      json[r'contingencyMode'] = null;
+    }
+    if (this.governmentResponse != null) {
+      json[r'governmentResponse'] = this.governmentResponse;
+    } else {
+      json[r'governmentResponse'] = null;
+    }
     return json;
   }
 
@@ -235,19 +261,20 @@ class SentDocumentDetail {
       return SentDocumentDetail(
         id: mapValueOfType<String>(json, r'id'),
         encf: mapValueOfType<String>(json, r'encf'),
-        status: DocumentStatus.fromJson(json[r'status']),
-        statusDisplay: mapValueOfType<String>(json, r'statusDisplay'),
+        status: SentDocumentDetailStatusEnum.fromJson(json[r'status']),
+        statusLabel: mapValueOfType<String>(json, r'statusLabel'),
         trackId: mapValueOfType<String>(json, r'trackId'),
         documentType: mapValueOfType<String>(json, r'documentType'),
-        totalAmount: num.parse('${json[r'totalAmount']}'),
+        issuerRnc: mapValueOfType<String>(json, r'issuerRnc'),
+        environment: Environment.fromJson(json[r'environment']),
         receivedAt: mapDateTime(json, r'receivedAt', r''),
         createdAt: mapDateTime(json, r'createdAt', r''),
-        xmlUrl: mapValueOfType<String>(json, r'xmlUrl'),
         business: SentDocumentSummaryBusiness.fromJson(json[r'business']),
-        logs: ProcessingLog.listFromJson(json[r'logs']),
-        auditLogs: json[r'auditLogs'] is Iterable
-            ? (json[r'auditLogs'] as Iterable).cast<Object>().toList(growable: false)
-            : const [],
+        legalStatus: SentDocumentDetailLegalStatusEnum.fromJson(json[r'legalStatus']),
+        documentStampUrl: mapValueOfType<String>(json, r'documentStampUrl'),
+        securityCode: mapValueOfType<String>(json, r'securityCode'),
+        contingencyMode: mapValueOfType<bool>(json, r'contingencyMode'),
+        governmentResponse: mapCastOfType<String, Object>(json, r'governmentResponse') ?? const {},
       );
     }
     return null;
@@ -297,4 +324,170 @@ class SentDocumentDetail {
   static const requiredKeys = <String>{
   };
 }
+
+
+class SentDocumentDetailStatusEnum {
+  /// Instantiate a new enum with the provided [value].
+  const SentDocumentDetailStatusEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const APPROVED = SentDocumentDetailStatusEnum._(r'APPROVED');
+  static const REJECTED = SentDocumentDetailStatusEnum._(r'REJECTED');
+  static const IN_PROCESS = SentDocumentDetailStatusEnum._(r'IN_PROCESS');
+  static const CONDITIONALLY_APPROVED = SentDocumentDetailStatusEnum._(r'CONDITIONALLY_APPROVED');
+  static const ERROR = SentDocumentDetailStatusEnum._(r'ERROR');
+  static const ERROR_COMUNICATION = SentDocumentDetailStatusEnum._(r'ERROR_COMUNICATION');
+
+  /// List of all possible values in this [enum][SentDocumentDetailStatusEnum].
+  static const values = <SentDocumentDetailStatusEnum>[
+    APPROVED,
+    REJECTED,
+    IN_PROCESS,
+    CONDITIONALLY_APPROVED,
+    ERROR,
+    ERROR_COMUNICATION,
+  ];
+
+  static SentDocumentDetailStatusEnum? fromJson(dynamic value) => SentDocumentDetailStatusEnumTypeTransformer().decode(value);
+
+  static List<SentDocumentDetailStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <SentDocumentDetailStatusEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = SentDocumentDetailStatusEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [SentDocumentDetailStatusEnum] to String,
+/// and [decode] dynamic data back to [SentDocumentDetailStatusEnum].
+class SentDocumentDetailStatusEnumTypeTransformer {
+  factory SentDocumentDetailStatusEnumTypeTransformer() => _instance ??= const SentDocumentDetailStatusEnumTypeTransformer._();
+
+  const SentDocumentDetailStatusEnumTypeTransformer._();
+
+  String encode(SentDocumentDetailStatusEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a SentDocumentDetailStatusEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  SentDocumentDetailStatusEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'APPROVED': return SentDocumentDetailStatusEnum.APPROVED;
+        case r'REJECTED': return SentDocumentDetailStatusEnum.REJECTED;
+        case r'IN_PROCESS': return SentDocumentDetailStatusEnum.IN_PROCESS;
+        case r'CONDITIONALLY_APPROVED': return SentDocumentDetailStatusEnum.CONDITIONALLY_APPROVED;
+        case r'ERROR': return SentDocumentDetailStatusEnum.ERROR;
+        case r'ERROR_COMUNICATION': return SentDocumentDetailStatusEnum.ERROR_COMUNICATION;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [SentDocumentDetailStatusEnumTypeTransformer] instance.
+  static SentDocumentDetailStatusEnumTypeTransformer? _instance;
+}
+
+
+
+class SentDocumentDetailLegalStatusEnum {
+  /// Instantiate a new enum with the provided [value].
+  const SentDocumentDetailLegalStatusEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const ACCEPTED = SentDocumentDetailLegalStatusEnum._(r'ACCEPTED');
+  static const ACCEPTED_WITH_OBSERVATIONS = SentDocumentDetailLegalStatusEnum._(r'ACCEPTED_WITH_OBSERVATIONS');
+  static const REJECTED = SentDocumentDetailLegalStatusEnum._(r'REJECTED');
+  static const ERROR = SentDocumentDetailLegalStatusEnum._(r'ERROR');
+
+  /// List of all possible values in this [enum][SentDocumentDetailLegalStatusEnum].
+  static const values = <SentDocumentDetailLegalStatusEnum>[
+    ACCEPTED,
+    ACCEPTED_WITH_OBSERVATIONS,
+    REJECTED,
+    ERROR,
+  ];
+
+  static SentDocumentDetailLegalStatusEnum? fromJson(dynamic value) => SentDocumentDetailLegalStatusEnumTypeTransformer().decode(value);
+
+  static List<SentDocumentDetailLegalStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <SentDocumentDetailLegalStatusEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = SentDocumentDetailLegalStatusEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [SentDocumentDetailLegalStatusEnum] to String,
+/// and [decode] dynamic data back to [SentDocumentDetailLegalStatusEnum].
+class SentDocumentDetailLegalStatusEnumTypeTransformer {
+  factory SentDocumentDetailLegalStatusEnumTypeTransformer() => _instance ??= const SentDocumentDetailLegalStatusEnumTypeTransformer._();
+
+  const SentDocumentDetailLegalStatusEnumTypeTransformer._();
+
+  String encode(SentDocumentDetailLegalStatusEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a SentDocumentDetailLegalStatusEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  SentDocumentDetailLegalStatusEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'ACCEPTED': return SentDocumentDetailLegalStatusEnum.ACCEPTED;
+        case r'ACCEPTED_WITH_OBSERVATIONS': return SentDocumentDetailLegalStatusEnum.ACCEPTED_WITH_OBSERVATIONS;
+        case r'REJECTED': return SentDocumentDetailLegalStatusEnum.REJECTED;
+        case r'ERROR': return SentDocumentDetailLegalStatusEnum.ERROR;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [SentDocumentDetailLegalStatusEnumTypeTransformer] instance.
+  static SentDocumentDetailLegalStatusEnumTypeTransformer? _instance;
+}
+
 

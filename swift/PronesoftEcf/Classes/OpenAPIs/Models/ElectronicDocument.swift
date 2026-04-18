@@ -15,7 +15,7 @@ public typealias ElectronicDocument = PronesoftEcfAPI.ElectronicDocument
 
 extension PronesoftEcfAPI {
 
-/** Electronic tax document (e-CF) payload. Use GET /tax-sequences/next to obtain invoiceNumber. paymentForms is always required.  */
+/** Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el &#x60;invoiceType&#x60;. Usa &#x60;GET /tax-sequences/next?invoiceType&#x3D;31&#x60; solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: &#x60;POST /{environment}/ecf/submit&#x60; (ej. &#x60;TesteCF&#x60; o &#x60;eCF&#x60;).  */
 public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
 
     public enum CreditNoteIndicator: String, Codable, CaseIterable {
@@ -60,11 +60,10 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public static let salesRouteRule = StringRule(minLength: nil, maxLength: 20, pattern: nil)
     public static let additionalIssuerInfoRule = StringRule(minLength: nil, maxLength: 250, pattern: nil)
     public static let itemsRule = ArrayRule(minItems: 1, maxItems: 1000, uniqueItems: false)
-    public var environment: Environment?
-    /** Always 1.0. */
-    public var version: String = "1.0"
+    /** Siempre \"1.0\". */
+    public var version: String? = "1.0"
     public var invoiceType: InvoiceType
-    /** e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). */
+    /** Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`.  */
     public var invoiceNumber: String?
     /** Optional Group ID for batch processing */
     public var groupId: String?
@@ -117,8 +116,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public var discountsOrSurcharges: [DiscountOrSurcharge]?
     public var pages: Page?
 
-    public init(environment: Environment? = nil, version: String = "1.0", invoiceType: InvoiceType, invoiceNumber: String? = nil, groupId: String? = nil, issueDate: Date, expirationDate: Date? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, deferredSendingIndicator: DeferredSendingIndicator? = nil, taxedAmountIndicator: TaxedAmountIndicator? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentForms: [PaymentForm], paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, serviceStartDate: Date? = nil, serviceEndDate: Date? = nil, totalPages: Int? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerCommercialName: String? = nil, branchName: String? = nil, issuerAddress: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, issuerPhones: [String]? = nil, issuerEmail: String? = nil, issuerWebsite: String? = nil, issuerEconomicActivity: String? = nil, sellerCode: String? = nil, internalInvoiceNumber: String? = nil, internalOrderNumber: Int? = nil, salesZone: String? = nil, salesRoute: String? = nil, additionalIssuerInfo: String? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: Subtotal? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: Page? = nil) {
-        self.environment = environment
+    public init(version: String? = "1.0", invoiceType: InvoiceType, invoiceNumber: String? = nil, groupId: String? = nil, issueDate: Date, expirationDate: Date? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, deferredSendingIndicator: DeferredSendingIndicator? = nil, taxedAmountIndicator: TaxedAmountIndicator? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentForms: [PaymentForm], paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, serviceStartDate: Date? = nil, serviceEndDate: Date? = nil, totalPages: Int? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerCommercialName: String? = nil, branchName: String? = nil, issuerAddress: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, issuerPhones: [String]? = nil, issuerEmail: String? = nil, issuerWebsite: String? = nil, issuerEconomicActivity: String? = nil, sellerCode: String? = nil, internalInvoiceNumber: String? = nil, internalOrderNumber: Int? = nil, salesZone: String? = nil, salesRoute: String? = nil, additionalIssuerInfo: String? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: Subtotal? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: Page? = nil) {
         self.version = version
         self.invoiceType = invoiceType
         self.invoiceNumber = invoiceNumber
@@ -169,7 +167,6 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case environment
         case version
         case invoiceType
         case invoiceNumber
@@ -223,8 +220,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(environment, forKey: .environment)
-        try container.encode(version, forKey: .version)
+        try container.encodeIfPresent(version, forKey: .version)
         try container.encode(invoiceType, forKey: .invoiceType)
         try container.encodeIfPresent(invoiceNumber, forKey: .invoiceNumber)
         try container.encodeIfPresent(groupId, forKey: .groupId)

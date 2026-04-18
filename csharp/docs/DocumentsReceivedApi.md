@@ -4,14 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**GetReceivedDocumentStats**](DocumentsReceivedApi.md#getreceiveddocumentstats) | **GET** /documents/received/stats/summary | Get received documents statistics |
-| [**ListReceivedDocuments**](DocumentsReceivedApi.md#listreceiveddocuments) | **GET** /documents/received/all | List received documents |
+| [**GetReceivedDocumentById**](DocumentsReceivedApi.md#getreceiveddocumentbyid) | **GET** /documents/received/{id} | Obtener documento recibido por ID |
+| [**GetReceivedDocumentStatsBySupplier**](DocumentsReceivedApi.md#getreceiveddocumentstatsbysupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos |
+| [**GetReceivedDocumentStatsSummary**](DocumentsReceivedApi.md#getreceiveddocumentstatssummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos |
+| [**ListReceivedDocuments**](DocumentsReceivedApi.md#listreceiveddocuments) | **GET** /documents/received | Listar documentos recibidos |
 
-<a id="getreceiveddocumentstats"></a>
-# **GetReceivedDocumentStats**
-> ReceivedDocumentStatsResponse GetReceivedDocumentStats (Guid? xTenantId = null)
+<a id="getreceiveddocumentbyid"></a>
+# **GetReceivedDocumentById**
+> ReceivedDocument GetReceivedDocumentById (Guid id, Guid? xTenantId = null)
 
-Get received documents statistics
+Obtener documento recibido por ID
 
 ### Example
 ```csharp
@@ -24,7 +26,7 @@ using Pronesoft.Ecf.Sdk.Model;
 
 namespace Example
 {
-    public class GetReceivedDocumentStatsExample
+    public class GetReceivedDocumentByIdExample
     {
         public static void Main()
         {
@@ -32,24 +34,23 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
+            var id = "id_example";  // Guid | 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
 
             try
             {
-                // Get received documents statistics
-                ReceivedDocumentStatsResponse result = apiInstance.GetReceivedDocumentStats(xTenantId);
+                // Obtener documento recibido por ID
+                ReceivedDocument result = apiInstance.GetReceivedDocumentById(id, xTenantId);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling DocumentsReceivedApi.GetReceivedDocumentStats: " + e.Message);
+                Debug.Print("Exception when calling DocumentsReceivedApi.GetReceivedDocumentById: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -58,21 +59,21 @@ namespace Example
 }
 ```
 
-#### Using the GetReceivedDocumentStatsWithHttpInfo variant
+#### Using the GetReceivedDocumentByIdWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
-    // Get received documents statistics
-    ApiResponse<ReceivedDocumentStatsResponse> response = apiInstance.GetReceivedDocumentStatsWithHttpInfo(xTenantId);
+    // Obtener documento recibido por ID
+    ApiResponse<ReceivedDocument> response = apiInstance.GetReceivedDocumentByIdWithHttpInfo(id, xTenantId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling DocumentsReceivedApi.GetReceivedDocumentStatsWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling DocumentsReceivedApi.GetReceivedDocumentByIdWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -82,15 +83,16 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
+| **id** | **Guid** |  |  |
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
 
 ### Return type
 
-[**ReceivedDocumentStatsResponse**](ReceivedDocumentStatsResponse.md)
+[**ReceivedDocument**](ReceivedDocument.md)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -101,16 +103,211 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Received document statistics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Detalle del documento recibido |  -  |
+| **404** | Documento no encontrado |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getreceiveddocumentstatsbysupplier"></a>
+# **GetReceivedDocumentStatsBySupplier**
+> List&lt;GetReceivedDocumentStatsBySupplier200ResponseInner&gt; GetReceivedDocumentStatsBySupplier (Guid? xTenantId = null)
+
+Top 10 proveedores por volumen de documentos recibidos
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Pronesoft.Ecf.Sdk.Api;
+using Pronesoft.Ecf.Sdk.Client;
+using Pronesoft.Ecf.Sdk.Model;
+
+namespace Example
+{
+    public class GetReceivedDocumentStatsBySupplierExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
+            // Configure OAuth2 access token for authorization: oauth2
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+
+            try
+            {
+                // Top 10 proveedores por volumen de documentos recibidos
+                List<GetReceivedDocumentStatsBySupplier200ResponseInner> result = apiInstance.GetReceivedDocumentStatsBySupplier(xTenantId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling DocumentsReceivedApi.GetReceivedDocumentStatsBySupplier: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetReceivedDocumentStatsBySupplierWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Top 10 proveedores por volumen de documentos recibidos
+    ApiResponse<List<GetReceivedDocumentStatsBySupplier200ResponseInner>> response = apiInstance.GetReceivedDocumentStatsBySupplierWithHttpInfo(xTenantId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling DocumentsReceivedApi.GetReceivedDocumentStatsBySupplierWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+
+### Return type
+
+[**List&lt;GetReceivedDocumentStatsBySupplier200ResponseInner&gt;**](GetReceivedDocumentStatsBySupplier200ResponseInner.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Top proveedores por volumen |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="getreceiveddocumentstatssummary"></a>
+# **GetReceivedDocumentStatsSummary**
+> ReceivedDocumentStatsResponse GetReceivedDocumentStatsSummary (Guid? xTenantId = null)
+
+Estadísticas de documentos recibidos
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Pronesoft.Ecf.Sdk.Api;
+using Pronesoft.Ecf.Sdk.Client;
+using Pronesoft.Ecf.Sdk.Model;
+
+namespace Example
+{
+    public class GetReceivedDocumentStatsSummaryExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
+            // Configure OAuth2 access token for authorization: oauth2
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+
+            try
+            {
+                // Estadísticas de documentos recibidos
+                ReceivedDocumentStatsResponse result = apiInstance.GetReceivedDocumentStatsSummary(xTenantId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling DocumentsReceivedApi.GetReceivedDocumentStatsSummary: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the GetReceivedDocumentStatsSummaryWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Estadísticas de documentos recibidos
+    ApiResponse<ReceivedDocumentStatsResponse> response = apiInstance.GetReceivedDocumentStatsSummaryWithHttpInfo(xTenantId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling DocumentsReceivedApi.GetReceivedDocumentStatsSummaryWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+
+### Return type
+
+[**ReceivedDocumentStatsResponse**](ReceivedDocumentStatsResponse.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Estadísticas de documentos recibidos |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="listreceiveddocuments"></a>
 # **ListReceivedDocuments**
-> ReceivedDocumentListResponse ListReceivedDocuments (Guid? xTenantId = null, string? ecf = null, string? documentType = null, int? status = null, DateOnly? dateFrom = null, DateOnly? dateTo = null, int? page = null, int? limit = null)
+> ReceivedDocumentListResponse ListReceivedDocuments (Guid? xTenantId = null, string? ecf = null, string? type = null, int? status = null, string? supplierRnc = null, decimal? amountFrom = null, decimal? amountTo = null, bool? processed = null, DateOnly? dateFrom = null, DateOnly? dateTo = null, int? page = null, int? limit = null)
 
-List received documents
+Listar documentos recibidos
 
 ### Example
 ```csharp
@@ -131,17 +328,19 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
             var ecf = "ecf_example";  // string? |  (optional) 
-            var documentType = "documentType_example";  // string? |  (optional) 
-            var status = 56;  // int? |  (optional) 
+            var type = "type_example";  // string? | Tipo de documento (31, 32, 33, etc.) (optional) 
+            var status = 1;  // int? |  (optional) 
+            var supplierRnc = "supplierRnc_example";  // string? | RNC del emisor/proveedor (optional) 
+            var amountFrom = 8.14D;  // decimal? |  (optional) 
+            var amountTo = 8.14D;  // decimal? |  (optional) 
+            var processed = true;  // bool? |  (optional) 
             var dateFrom = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
             var dateTo = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
             var page = 1;  // int? |  (optional)  (default to 1)
@@ -149,8 +348,8 @@ namespace Example
 
             try
             {
-                // List received documents
-                ReceivedDocumentListResponse result = apiInstance.ListReceivedDocuments(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit);
+                // Listar documentos recibidos
+                ReceivedDocumentListResponse result = apiInstance.ListReceivedDocuments(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -170,8 +369,8 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List received documents
-    ApiResponse<ReceivedDocumentListResponse> response = apiInstance.ListReceivedDocumentsWithHttpInfo(xTenantId, ecf, documentType, status, dateFrom, dateTo, page, limit);
+    // Listar documentos recibidos
+    ApiResponse<ReceivedDocumentListResponse> response = apiInstance.ListReceivedDocumentsWithHttpInfo(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -188,10 +387,14 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  | [optional]  |
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
 | **ecf** | **string?** |  | [optional]  |
-| **documentType** | **string?** |  | [optional]  |
+| **type** | **string?** | Tipo de documento (31, 32, 33, etc.) | [optional]  |
 | **status** | **int?** |  | [optional]  |
+| **supplierRnc** | **string?** | RNC del emisor/proveedor | [optional]  |
+| **amountFrom** | **decimal?** |  | [optional]  |
+| **amountTo** | **decimal?** |  | [optional]  |
+| **processed** | **bool?** |  | [optional]  |
 | **dateFrom** | **DateOnly?** |  | [optional]  |
 | **dateTo** | **DateOnly?** |  | [optional]  |
 | **page** | **int?** |  | [optional] [default to 1] |
@@ -203,7 +406,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -214,8 +417,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Paginated list of received documents |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista paginada de documentos recibidos |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

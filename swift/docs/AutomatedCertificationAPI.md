@@ -4,10 +4,10 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**downloadCertification**](AutomatedCertificationAPI.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Download certification ZIP
-[**getCertificationStatus**](AutomatedCertificationAPI.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Get certification process status
-[**listCertificationNiches**](AutomatedCertificationAPI.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | List certification niches
-[**startCertification**](AutomatedCertificationAPI.md#startcertification) | **POST** /dgii-ecf/automated-certification/start | Start certification process
+[**downloadCertification**](AutomatedCertificationAPI.md#downloadcertification) | **GET** /dgii-ecf/automated-certification/{id}/download | Descargar ZIP de certificación
+[**getCertificationStatus**](AutomatedCertificationAPI.md#getcertificationstatus) | **GET** /dgii-ecf/automated-certification/{id}/status | Estado del proceso de certificación
+[**listCertificationNiches**](AutomatedCertificationAPI.md#listcertificationniches) | **GET** /dgii-ecf/automated-certification/niches | Listar nichos de certificación
+[**startCertification**](AutomatedCertificationAPI.md#startcertification) | **POST** /dgii-ecf/automated-certification/start | Iniciar proceso de certificación
 
 
 # **downloadCertification**
@@ -15,9 +15,9 @@ Method | HTTP request | Description
     open class func downloadCertification(id: UUID, completion: @escaping (_ data: URL?, _ error: Error?) -> Void)
 ```
 
-Download certification ZIP
+Descargar ZIP de certificación
 
-Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
+Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
 
 ### Example
 ```swift
@@ -26,7 +26,7 @@ import PronesoftEcf
 
 let id = 987 // UUID | 
 
-// Download certification ZIP
+// Descargar ZIP de certificación
 AutomatedCertificationAPI.downloadCertification(id: id) { (response, error) in
     guard error == nil else {
         print(error)
@@ -51,7 +51,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
     open class func getCertificationStatus(id: UUID, completion: @escaping (_ data: CertificationStatus?, _ error: Error?) -> Void)
 ```
 
-Get certification process status
+Estado del proceso de certificación
 
 ### Example
 ```swift
@@ -74,7 +74,7 @@ import PronesoftEcf
 
 let id = 987 // UUID | 
 
-// Get certification process status
+// Estado del proceso de certificación
 AutomatedCertificationAPI.getCertificationStatus(id: id) { (response, error) in
     guard error == nil else {
         print(error)
@@ -99,7 +99,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -113,7 +113,7 @@ Name | Type | Description  | Notes
     open class func listCertificationNiches(completion: @escaping (_ data: [CertificationNiche]?, _ error: Error?) -> Void)
 ```
 
-List certification niches
+Listar nichos de certificación
 
 ### Example
 ```swift
@@ -121,7 +121,7 @@ List certification niches
 import PronesoftEcf
 
 
-// List certification niches
+// Listar nichos de certificación
 AutomatedCertificationAPI.listCertificationNiches() { (response, error) in
     guard error == nil else {
         print(error)
@@ -143,7 +143,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -157,7 +157,7 @@ This endpoint does not need any parameter.
     open class func startCertification(startCertificationRequest: StartCertificationRequest, completion: @escaping (_ data: StartCertification200Response?, _ error: Error?) -> Void)
 ```
 
-Start certification process
+Iniciar proceso de certificación
 
 ### Example
 ```swift
@@ -166,7 +166,7 @@ import PronesoftEcf
 
 let startCertificationRequest = StartCertificationRequest(rnc: "rnc_example", businessName: "businessName_example", nicheId: "nicheId_example", environment: Environment()) // StartCertificationRequest | 
 
-// Start certification process
+// Iniciar proceso de certificación
 AutomatedCertificationAPI.startCertification(startCertificationRequest: startCertificationRequest) { (response, error) in
     guard error == nil else {
         print(error)
@@ -191,7 +191,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

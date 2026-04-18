@@ -21,12 +21,12 @@ Crear empresa asociada / sucursal
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -120,12 +120,12 @@ Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -186,12 +186,12 @@ Métricas de documentos de la empresa
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -252,12 +252,12 @@ Métricas de la empresa
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -318,12 +318,12 @@ Listar empresas asociadas / sucursales
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -386,12 +386,12 @@ Actualizar empresa asociada
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.AssociatedCompaniesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.AssociatedCompaniesApi;
 
 public class Example {
   public static void main(String[] args) {

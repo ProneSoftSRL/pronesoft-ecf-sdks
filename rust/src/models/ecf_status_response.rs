@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -11,64 +11,121 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
+/// EcfStatusResponse : Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EcfStatusResponse {
-    #[serde(rename = "trackingId", skip_serializing_if = "Option::is_none")]
-    pub tracking_id: Option<String>,
-    #[serde(rename = "estado", skip_serializing_if = "Option::is_none")]
-    pub estado: Option<String>,
-    #[serde(rename = "trackId", skip_serializing_if = "Option::is_none")]
-    pub track_id: Option<String>,
-    #[serde(rename = "numeroControl", skip_serializing_if = "Option::is_none")]
-    pub numero_control: Option<String>,
-    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
-    pub status: Option<models::DocumentStatus>,
-    #[serde(rename = "encf", skip_serializing_if = "Option::is_none")]
-    pub encf: Option<String>,
-    #[serde(rename = "businessRnc", skip_serializing_if = "Option::is_none")]
-    pub business_rnc: Option<String>,
-    #[serde(rename = "environment", skip_serializing_if = "Option::is_none")]
-    pub environment: Option<models::Environment>,
-    #[serde(rename = "receivedAt", skip_serializing_if = "Option::is_none")]
-    pub received_at: Option<String>,
-    #[serde(rename = "mensajes", skip_serializing_if = "Option::is_none")]
-    pub mensajes: Option<Vec<models::DgiiMessage>>,
-    #[serde(rename = "logs", skip_serializing_if = "Option::is_none")]
-    pub logs: Option<Vec<models::ProcessingLog>>,
-    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
-    pub source: Option<Source>,
+    /// ID interno del documento.
+    #[serde(rename = "id")]
+    pub id: uuid::Uuid,
+    /// Fecha de emisión del documento (YYYY-MM-DD).
+    #[serde(rename = "stampDate", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub stamp_date: Option<Option<String>>,
+    /// Estado del proceso de envío a DGII.
+    #[serde(rename = "status")]
+    pub status: Status,
+    /// Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+    #[serde(rename = "legalStatus", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub legal_status: Option<Option<LegalStatus>>,
+    #[serde(rename = "companyIdentification")]
+    pub company_identification: Box<models::EcfSubmitResponseCompanyIdentification>,
+    /// ID de seguimiento asignado por DGII.
+    #[serde(rename = "trackId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub track_id: Option<Option<String>>,
+    /// Número de control electrónico (e-NCF).
+    #[serde(rename = "documentNumber", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub document_number: Option<Option<String>>,
+    /// Número e-NCF del documento.
+    #[serde(rename = "encf", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub encf: Option<Option<String>>,
+    /// true si fue emitido en modo contingencia.
+    #[serde(rename = "contingencyMode", skip_serializing_if = "Option::is_none")]
+    pub contingency_mode: Option<bool>,
+    /// Mensaje oficial DGII cuando contingencyMode es true.
+    #[serde(rename = "contingencyMessage", skip_serializing_if = "Option::is_none")]
+    pub contingency_message: Option<String>,
+    /// URL del código QR del documento.
+    #[serde(rename = "documentStampUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub document_stamp_url: Option<Option<String>>,
+    /// URL pre-firmada del PDF (expira en 1 hora).
+    #[serde(rename = "pdf", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub pdf: Option<Option<String>>,
+    /// URL pre-firmada del XML firmado (expira en 1 hora).
+    #[serde(rename = "xmlUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub xml_url: Option<Option<String>>,
+    /// Fecha y hora de la firma digital.
+    #[serde(rename = "signatureDate", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub signature_date: Option<Option<String>>,
+    /// Código de seguridad del documento.
+    #[serde(rename = "securityCode", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub security_code: Option<Option<String>>,
+    /// true si DGII confirmó el consumo de la secuencia.
+    #[serde(rename = "sequenceConsumed")]
+    pub sequence_consumed: bool,
+    /// Respuesta completa de DGII (disponible cuando status es FINISHED).
+    #[serde(rename = "governmentResponse", skip_serializing_if = "Option::is_none")]
+    pub government_response: Option<std::collections::HashMap<String, serde_json::Value>>,
 }
 
 impl EcfStatusResponse {
-    pub fn new() -> EcfStatusResponse {
+    /// Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
+    pub fn new(id: uuid::Uuid, status: Status, company_identification: models::EcfSubmitResponseCompanyIdentification, sequence_consumed: bool) -> EcfStatusResponse {
         EcfStatusResponse {
-            tracking_id: None,
-            estado: None,
+            id,
+            stamp_date: None,
+            status,
+            legal_status: None,
+            company_identification: Box::new(company_identification),
             track_id: None,
-            numero_control: None,
-            status: None,
+            document_number: None,
             encf: None,
-            business_rnc: None,
-            environment: None,
-            received_at: None,
-            mensajes: None,
-            logs: None,
-            source: None,
+            contingency_mode: None,
+            contingency_message: None,
+            document_stamp_url: None,
+            pdf: None,
+            xml_url: None,
+            signature_date: None,
+            security_code: None,
+            sequence_consumed,
+            government_response: None,
         }
     }
 }
-/// 
+/// Estado del proceso de envío a DGII.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum Source {
-    #[serde(rename = "dgii_direct")]
-    DgiiDirect,
-    #[serde(rename = "local_database")]
-    LocalDatabase,
+pub enum Status {
+    #[serde(rename = "REGISTERED")]
+    Registered,
+    #[serde(rename = "TO_SEND")]
+    ToSend,
+    #[serde(rename = "WAITING_RESPONSE")]
+    WaitingResponse,
+    #[serde(rename = "TO_NOTIFY")]
+    ToNotify,
+    #[serde(rename = "FINISHED")]
+    Finished,
 }
 
-impl Default for Source {
-    fn default() -> Source {
-        Self::DgiiDirect
+impl Default for Status {
+    fn default() -> Status {
+        Self::Registered
+    }
+}
+/// Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum LegalStatus {
+    #[serde(rename = "ACCEPTED")]
+    Accepted,
+    #[serde(rename = "ACCEPTED_WITH_OBSERVATIONS")]
+    AcceptedWithObservations,
+    #[serde(rename = "REJECTED")]
+    Rejected,
+    #[serde(rename = "ERROR")]
+    Error,
+}
+
+impl Default for LegalStatus {
+    fn default() -> LegalStatus {
+        Self::Accepted
     }
 }
 

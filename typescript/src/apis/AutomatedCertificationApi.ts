@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -62,8 +62,8 @@ export interface AutomatedCertificationApiInterface {
     downloadCertificationRequestOpts(requestParameters: DownloadCertificationRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
-     * @summary Download certification ZIP
+     * Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
+     * @summary Descargar ZIP de certificación
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -72,8 +72,8 @@ export interface AutomatedCertificationApiInterface {
     downloadCertificationRaw(requestParameters: DownloadCertificationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>>;
 
     /**
-     * Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
-     * Download certification ZIP
+     * Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
+     * Descargar ZIP de certificación
      */
     downloadCertification(requestParameters: DownloadCertificationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob>;
 
@@ -87,7 +87,7 @@ export interface AutomatedCertificationApiInterface {
 
     /**
      * 
-     * @summary Get certification process status
+     * @summary Estado del proceso de certificación
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -96,7 +96,7 @@ export interface AutomatedCertificationApiInterface {
     getCertificationStatusRaw(requestParameters: GetCertificationStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CertificationStatus>>;
 
     /**
-     * Get certification process status
+     * Estado del proceso de certificación
      */
     getCertificationStatus(requestParameters: GetCertificationStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CertificationStatus>;
 
@@ -109,7 +109,7 @@ export interface AutomatedCertificationApiInterface {
 
     /**
      * 
-     * @summary List certification niches
+     * @summary Listar nichos de certificación
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AutomatedCertificationApiInterface
@@ -117,7 +117,7 @@ export interface AutomatedCertificationApiInterface {
     listCertificationNichesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CertificationNiche>>>;
 
     /**
-     * List certification niches
+     * Listar nichos de certificación
      */
     listCertificationNiches(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CertificationNiche>>;
 
@@ -131,7 +131,7 @@ export interface AutomatedCertificationApiInterface {
 
     /**
      * 
-     * @summary Start certification process
+     * @summary Iniciar proceso de certificación
      * @param {StartCertificationRequest} startCertificationRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -140,7 +140,7 @@ export interface AutomatedCertificationApiInterface {
     startCertificationRaw(requestParameters: StartCertificationOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<StartCertification200Response>>;
 
     /**
-     * Start certification process
+     * Iniciar proceso de certificación
      */
     startCertification(requestParameters: StartCertificationOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<StartCertification200Response>;
 
@@ -171,14 +171,6 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["certification:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/dgii-ecf/automated-certification/{id}/download`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
@@ -192,8 +184,8 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
     }
 
     /**
-     * Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
-     * Download certification ZIP
+     * Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
+     * Descargar ZIP de certificación
      */
     async downloadCertificationRaw(requestParameters: DownloadCertificationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
         const requestOptions = await this.downloadCertificationRequestOpts(requestParameters);
@@ -203,8 +195,8 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
     }
 
     /**
-     * Downloads ZIP with PDFs and XMLs. Only available when status is COMPLETED.
-     * Download certification ZIP
+     * Descarga un ZIP con PDFs y XMLs. Solo disponible cuando el estado es COMPLETED.
+     * Descargar ZIP de certificación
      */
     async downloadCertification(requestParameters: DownloadCertificationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
         const response = await this.downloadCertificationRaw(requestParameters, initOverrides);
@@ -231,14 +223,6 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["certification:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/dgii-ecf/automated-certification/{id}/status`;
         urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
@@ -252,7 +236,7 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
     }
 
     /**
-     * Get certification process status
+     * Estado del proceso de certificación
      */
     async getCertificationStatusRaw(requestParameters: GetCertificationStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CertificationStatus>> {
         const requestOptions = await this.getCertificationStatusRequestOpts(requestParameters);
@@ -262,7 +246,7 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
     }
 
     /**
-     * Get certification process status
+     * Estado del proceso de certificación
      */
     async getCertificationStatus(requestParameters: GetCertificationStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CertificationStatus> {
         const response = await this.getCertificationStatusRaw(requestParameters, initOverrides);
@@ -282,14 +266,6 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["certification:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/dgii-ecf/automated-certification/niches`;
 
@@ -302,7 +278,7 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
     }
 
     /**
-     * List certification niches
+     * Listar nichos de certificación
      */
     async listCertificationNichesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CertificationNiche>>> {
         const requestOptions = await this.listCertificationNichesRequestOpts();
@@ -312,7 +288,7 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
     }
 
     /**
-     * List certification niches
+     * Listar nichos de certificación
      */
     async listCertificationNiches(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CertificationNiche>> {
         const response = await this.listCertificationNichesRaw(initOverrides);
@@ -341,14 +317,6 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["certification:write"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/dgii-ecf/automated-certification/start`;
 
@@ -362,7 +330,7 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
     }
 
     /**
-     * Start certification process
+     * Iniciar proceso de certificación
      */
     async startCertificationRaw(requestParameters: StartCertificationOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<StartCertification200Response>> {
         const requestOptions = await this.startCertificationRequestOpts(requestParameters);
@@ -372,7 +340,7 @@ export class AutomatedCertificationApi extends runtime.BaseAPI implements Automa
     }
 
     /**
-     * Start certification process
+     * Iniciar proceso de certificación
      */
     async startCertification(requestParameters: StartCertificationOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<StartCertification200Response> {
         const response = await this.startCertificationRaw(requestParameters, initOverrides);

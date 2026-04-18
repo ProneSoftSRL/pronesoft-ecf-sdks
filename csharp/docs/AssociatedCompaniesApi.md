@@ -4,18 +4,18 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**CreateAssociatedCompany**](AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Create associated company / branch |
-| [**DeleteAssociatedCompany**](AssociatedCompaniesApi.md#deleteassociatedcompany) | **DELETE** /associated-companies/{companyId} | Delete associated company |
-| [**GetCompanyDocumentMetrics**](AssociatedCompaniesApi.md#getcompanydocumentmetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Get company document metrics |
-| [**GetCompanyMetrics**](AssociatedCompaniesApi.md#getcompanymetrics) | **GET** /associated-companies/{companyId}/metrics | Get company metrics |
-| [**ListAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | List associated companies / branches |
-| [**UpdateAssociatedCompany**](AssociatedCompaniesApi.md#updateassociatedcompany) | **PUT** /associated-companies/{companyId} | Update associated company |
+| [**CreateAssociatedCompany**](AssociatedCompaniesApi.md#createassociatedcompany) | **POST** /associated-companies | Crear empresa asociada / sucursal |
+| [**DeleteAssociatedCompany**](AssociatedCompaniesApi.md#deleteassociatedcompany) | **DELETE** /associated-companies/{companyId} | Eliminar empresa asociada |
+| [**GetCompanyDocumentMetrics**](AssociatedCompaniesApi.md#getcompanydocumentmetrics) | **GET** /associated-companies/{companyId}/documents-metrics | Métricas de documentos de la empresa |
+| [**GetCompanyMetrics**](AssociatedCompaniesApi.md#getcompanymetrics) | **GET** /associated-companies/{companyId}/metrics | Métricas de la empresa |
+| [**ListAssociatedCompanies**](AssociatedCompaniesApi.md#listassociatedcompanies) | **GET** /associated-companies | Listar empresas asociadas / sucursales |
+| [**UpdateAssociatedCompany**](AssociatedCompaniesApi.md#updateassociatedcompany) | **PUT** /associated-companies/{companyId} | Actualizar empresa asociada |
 
 <a id="createassociatedcompany"></a>
 # **CreateAssociatedCompany**
 > CreateAssociatedCompany201Response CreateAssociatedCompany (string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = null, string? lastName = null, string? jobTitle = null, string? website = null, string? category = null, string? monthlySalesRange = null, FileParameter? logo = null)
 
-Create associated company / branch
+Crear empresa asociada / sucursal
 
 ### Example
 ```csharp
@@ -36,8 +36,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -62,7 +60,7 @@ namespace Example
 
             try
             {
-                // Create associated company / branch
+                // Crear empresa asociada / sucursal
                 CreateAssociatedCompany201Response result = apiInstance.CreateAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
                 Debug.WriteLine(result);
             }
@@ -83,7 +81,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Create associated company / branch
+    // Crear empresa asociada / sucursal
     ApiResponse<CreateAssociatedCompany201Response> response = apiInstance.CreateAssociatedCompanyWithHttpInfo(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -124,7 +122,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -135,9 +133,9 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Company created successfully |  -  |
-| **400** | Validation error (400). Check the message field for details. |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **201** | Empresa creada exitosamente |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -145,9 +143,9 @@ catch (ApiException e)
 # **DeleteAssociatedCompany**
 > DeleteAssociatedCompany200Response DeleteAssociatedCompany (Guid companyId)
 
-Delete associated company
+Eliminar empresa asociada
 
-Permanently deletes an associated company. This action is irreversible.
+Elimina permanentemente una empresa asociada. Esta acción es irreversible.
 
 ### Example
 ```csharp
@@ -168,8 +166,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -179,7 +175,7 @@ namespace Example
 
             try
             {
-                // Delete associated company
+                // Eliminar empresa asociada
                 DeleteAssociatedCompany200Response result = apiInstance.DeleteAssociatedCompany(companyId);
                 Debug.WriteLine(result);
             }
@@ -200,7 +196,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Delete associated company
+    // Eliminar empresa asociada
     ApiResponse<DeleteAssociatedCompany200Response> response = apiInstance.DeleteAssociatedCompanyWithHttpInfo(companyId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -226,7 +222,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -237,8 +233,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company deleted successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Empresa eliminada exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -246,7 +242,7 @@ catch (ApiException e)
 # **GetCompanyDocumentMetrics**
 > CompanyDocumentMetrics GetCompanyDocumentMetrics (Guid companyId)
 
-Get company document metrics
+Métricas de documentos de la empresa
 
 ### Example
 ```csharp
@@ -267,8 +263,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -278,7 +272,7 @@ namespace Example
 
             try
             {
-                // Get company document metrics
+                // Métricas de documentos de la empresa
                 CompanyDocumentMetrics result = apiInstance.GetCompanyDocumentMetrics(companyId);
                 Debug.WriteLine(result);
             }
@@ -299,7 +293,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get company document metrics
+    // Métricas de documentos de la empresa
     ApiResponse<CompanyDocumentMetrics> response = apiInstance.GetCompanyDocumentMetricsWithHttpInfo(companyId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -325,7 +319,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -336,8 +330,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Document metrics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Métricas de documentos de la empresa |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -345,7 +339,7 @@ catch (ApiException e)
 # **GetCompanyMetrics**
 > CompanyMetrics GetCompanyMetrics (Guid companyId)
 
-Get company metrics
+Métricas de la empresa
 
 ### Example
 ```csharp
@@ -366,8 +360,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -377,7 +369,7 @@ namespace Example
 
             try
             {
-                // Get company metrics
+                // Métricas de la empresa
                 CompanyMetrics result = apiInstance.GetCompanyMetrics(companyId);
                 Debug.WriteLine(result);
             }
@@ -398,7 +390,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Get company metrics
+    // Métricas de la empresa
     ApiResponse<CompanyMetrics> response = apiInstance.GetCompanyMetricsWithHttpInfo(companyId);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -424,7 +416,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -435,8 +427,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company metrics |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Métricas de la empresa |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -444,7 +436,7 @@ catch (ApiException e)
 # **ListAssociatedCompanies**
 > List&lt;AssociatedCompany&gt; ListAssociatedCompanies (int? page = null, int? limit = null)
 
-List associated companies / branches
+Listar empresas asociadas / sucursales
 
 ### Example
 ```csharp
@@ -465,8 +457,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -477,7 +467,7 @@ namespace Example
 
             try
             {
-                // List associated companies / branches
+                // Listar empresas asociadas / sucursales
                 List<AssociatedCompany> result = apiInstance.ListAssociatedCompanies(page, limit);
                 Debug.WriteLine(result);
             }
@@ -498,7 +488,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // List associated companies / branches
+    // Listar empresas asociadas / sucursales
     ApiResponse<List<AssociatedCompany>> response = apiInstance.ListAssociatedCompaniesWithHttpInfo(page, limit);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -525,7 +515,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -536,8 +526,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Array of associated companies |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Lista de empresas asociadas |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -545,7 +535,7 @@ catch (ApiException e)
 # **UpdateAssociatedCompany**
 > CreateAssociatedCompany201Response UpdateAssociatedCompany (Guid companyId, string? name = null, string? phone = null, string? website = null, string? city = null, string? country = null, FileParameter? logo = null)
 
-Update associated company
+Actualizar empresa asociada
 
 ### Example
 ```csharp
@@ -566,8 +556,6 @@ namespace Example
             config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
             // Configure OAuth2 access token for authorization: oauth2
             config.AccessToken = "YOUR_ACCESS_TOKEN";
-            // Configure Bearer token for authorization: bearerAuth
-            config.AccessToken = "YOUR_BEARER_TOKEN";
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -583,7 +571,7 @@ namespace Example
 
             try
             {
-                // Update associated company
+                // Actualizar empresa asociada
                 CreateAssociatedCompany201Response result = apiInstance.UpdateAssociatedCompany(companyId, name, phone, website, city, country, logo);
                 Debug.WriteLine(result);
             }
@@ -604,7 +592,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    // Update associated company
+    // Actualizar empresa asociada
     ApiResponse<CreateAssociatedCompany201Response> response = apiInstance.UpdateAssociatedCompanyWithHttpInfo(companyId, name, phone, website, city, country, logo);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
@@ -636,7 +624,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -647,8 +635,8 @@ catch (ApiException e)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Company updated successfully |  -  |
-| **401** | Token missing, expired, or invalid. Call POST /oauth/token to renew. |  -  |
+| **200** | Empresa actualizada exitosamente |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

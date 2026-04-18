@@ -8,11 +8,26 @@
 | **trackId** | **kotlin.String** |  |  [optional] |
 | **encf** | **kotlin.String** |  |  [optional] |
 | **documentType** | **kotlin.String** |  |  [optional] |
-| **status** | [**DocumentStatus**](DocumentStatus.md) |  |  [optional] |
-| **rnc** | **kotlin.String** |  |  [optional] |
+| **status** | [**inline**](#Status) |  |  [optional] |
+| **legalStatus** | [**inline**](#LegalStatus) |  |  [optional] |
+| **issuerRnc** | **kotlin.String** |  |  [optional] |
 | **environment** | [**Environment**](Environment.md) |  |  [optional] |
+| **receivedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **createdAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
-| **logs** | [**kotlin.collections.List&lt;ProcessingLog&gt;**](ProcessingLog.md) |  |  [optional] |
+
+
+<a id="Status"></a>
+## Enum: status
+| Name | Value |
+| ---- | ----- |
+| status | REGISTERED, TO_SEND, WAITING_RESPONSE, FINISHED |
+
+
+<a id="LegalStatus"></a>
+## Enum: legalStatus
+| Name | Value |
+| ---- | ----- |
+| legalStatus | ACCEPTED, ACCEPTED_WITH_OBSERVATIONS, REJECTED, ERROR,  |
 
 
 

@@ -21,7 +21,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { TaxSequence } from ''
+import type { TaxSequence } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

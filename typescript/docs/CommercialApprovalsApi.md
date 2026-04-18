@@ -21,11 +21,11 @@ Obtener aprobación comercial por ID
 import {
   Configuration,
   CommercialApprovalsApi,
-} from '';
-import type { GetCommercialApprovalByIdRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetCommercialApprovalByIdRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -95,11 +95,11 @@ Listar aprobaciones comerciales
 import {
   Configuration,
   CommercialApprovalsApi,
-} from '';
-import type { ListCommercialApprovalsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListCommercialApprovalsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

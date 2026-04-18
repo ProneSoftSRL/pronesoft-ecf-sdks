@@ -58,9 +58,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks/{webhookId}
-     * Get webhook details
+     * Detalle de un webhook
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param webhookId 
      * @return WebhookConfigDetail
      * @throws IllegalStateException If the request is not correctly configured
@@ -91,9 +91,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks/{webhookId}
-     * Get webhook details
+     * Detalle de un webhook
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param webhookId 
      * @return ApiResponse<WebhookConfigDetail?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -112,7 +112,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * To obtain the request config of the operation getWebhook
      *
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param webhookId 
      * @return RequestConfig
      */
@@ -153,9 +153,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks/{webhookId}/stats
-     * Get webhook delivery statistics
+     * Estadísticas de entregas del webhook
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param webhookId 
      * @param period  (optional, default to Period.month)
      * @return WebhookStats
@@ -187,9 +187,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks/{webhookId}/stats
-     * Get webhook delivery statistics
+     * Estadísticas de entregas del webhook
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param webhookId 
      * @param period  (optional, default to Period.month)
      * @return ApiResponse<WebhookStats?>
@@ -209,7 +209,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * To obtain the request config of the operation getWebhookStats
      *
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param webhookId 
      * @param period  (optional, default to Period.month)
      * @return RequestConfig
@@ -237,9 +237,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks
-     * List webhook configurations
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * Listar configuraciones de webhooks
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @return kotlin.collections.List<WebhookConfigResponse>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -269,9 +269,9 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
 
     /**
      * GET /{rnc}/webhooks
-     * List webhook configurations
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * Listar configuraciones de webhooks
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @return ApiResponse<kotlin.collections.List<WebhookConfigResponse>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -289,7 +289,7 @@ open class WebhookConfigurationApi(basePath: kotlin.String = defaultBasePath, cl
     /**
      * To obtain the request config of the operation listWebhooks
      *
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @return RequestConfig
      */
     fun listWebhooksRequestConfig(rnc: kotlin.String) : RequestConfig<Unit> {

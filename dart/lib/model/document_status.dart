@@ -25,17 +25,19 @@ class DocumentStatus {
 
   static const IN_PROCESS = DocumentStatus._(r'IN_PROCESS');
   static const APPROVED = DocumentStatus._(r'APPROVED');
+  static const CONDITIONALLY_APPROVED = DocumentStatus._(r'CONDITIONALLY_APPROVED');
   static const REJECTED = DocumentStatus._(r'REJECTED');
   static const ERROR = DocumentStatus._(r'ERROR');
-  static const CONTINGENCY = DocumentStatus._(r'CONTINGENCY');
+  static const ERROR_COMUNICATION = DocumentStatus._(r'ERROR_COMUNICATION');
 
   /// List of all possible values in this [enum][DocumentStatus].
   static const values = <DocumentStatus>[
     IN_PROCESS,
     APPROVED,
+    CONDITIONALLY_APPROVED,
     REJECTED,
     ERROR,
-    CONTINGENCY,
+    ERROR_COMUNICATION,
   ];
 
   static DocumentStatus? fromJson(dynamic value) => DocumentStatusTypeTransformer().decode(value);
@@ -76,9 +78,10 @@ class DocumentStatusTypeTransformer {
       switch (data) {
         case r'IN_PROCESS': return DocumentStatus.IN_PROCESS;
         case r'APPROVED': return DocumentStatus.APPROVED;
+        case r'CONDITIONALLY_APPROVED': return DocumentStatus.CONDITIONALLY_APPROVED;
         case r'REJECTED': return DocumentStatus.REJECTED;
         case r'ERROR': return DocumentStatus.ERROR;
-        case r'CONTINGENCY': return DocumentStatus.CONTINGENCY;
+        case r'ERROR_COMUNICATION': return DocumentStatus.ERROR_COMUNICATION;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

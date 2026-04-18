@@ -29,7 +29,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 
  *
- * Values: IN_PROCESS,APPROVED,REJECTED,ERROR,CONTINGENCY
+ * Values: IN_PROCESS,APPROVED,CONDITIONALLY_APPROVED,REJECTED,ERROR,ERROR_COMUNICATION
  */
 
 enum class DocumentStatus(val value: kotlin.String) {
@@ -40,14 +40,17 @@ enum class DocumentStatus(val value: kotlin.String) {
     @SerializedName(value = "APPROVED")
     APPROVED("APPROVED"),
 
+    @SerializedName(value = "CONDITIONALLY_APPROVED")
+    CONDITIONALLY_APPROVED("CONDITIONALLY_APPROVED"),
+
     @SerializedName(value = "REJECTED")
     REJECTED("REJECTED"),
 
     @SerializedName(value = "ERROR")
     ERROR("ERROR"),
 
-    @SerializedName(value = "CONTINGENCY")
-    CONTINGENCY("CONTINGENCY");
+    @SerializedName(value = "ERROR_COMUNICATION")
+    ERROR_COMUNICATION("ERROR_COMUNICATION");
 
     /**
      * Override [toString()] to avoid using the enum variable name as the value, and instead use

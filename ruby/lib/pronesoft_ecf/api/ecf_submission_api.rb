@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -19,84 +19,20 @@ module PronesoftEcf
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # Get submission history (last 50 documents)
+    # Obtener estadísticas de envíos (últimos 30 días)
     # @param environment [Environment] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    # @return [Array<EcfHistoryItem>]
-    def get_ecf_history(environment, opts = {})
-      data, _status_code, _headers = get_ecf_history_with_http_info(environment, opts)
-      data
-    end
-
-    # Get submission history (last 50 documents)
-    # @param environment [Environment] 
-    # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    # @return [Array<(Array<EcfHistoryItem>, Integer, Hash)>] Array<EcfHistoryItem> data, response status code and response headers
-    def get_ecf_history_with_http_info(environment, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: ECFSubmissionApi.get_ecf_history ...'
-      end
-      # verify the required parameter 'environment' is set
-      if @api_client.config.client_side_validation && environment.nil?
-        fail ArgumentError, "Missing the required parameter 'environment' when calling ECFSubmissionApi.get_ecf_history"
-      end
-      # resource path
-      local_var_path = '/{environment}/ecf/responses/history'.sub('{' + 'environment' + '}', CGI.escape(environment.to_s))
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
-      header_params[:'x-tenant-id'] = opts[:'x_tenant_id'] if !opts[:'x_tenant_id'].nil?
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:debug_body]
-
-      # return_type
-      return_type = opts[:debug_return_type] || 'Array<EcfHistoryItem>'
-
-      # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
-
-      new_options = opts.merge(
-        :operation => :"ECFSubmissionApi.get_ecf_history",
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type
-      )
-
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: ECFSubmissionApi#get_ecf_history\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
-    # Get submission statistics (last 30 days)
-    # @param environment [Environment] 
-    # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     # @return [EcfStatsResponse]
     def get_ecf_stats(environment, opts = {})
       data, _status_code, _headers = get_ecf_stats_with_http_info(environment, opts)
       data
     end
 
-    # Get submission statistics (last 30 days)
+    # Obtener estadísticas de envíos (últimos 30 días)
     # @param environment [Environment] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     # @return [Array<(EcfStatsResponse, Integer, Hash)>] EcfStatsResponse data, response status code and response headers
     def get_ecf_stats_with_http_info(environment, opts = {})
       if @api_client.config.debugging
@@ -128,7 +64,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'EcfStatsResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
         :operation => :"ECFSubmissionApi.get_ecf_stats",
@@ -147,24 +83,24 @@ module PronesoftEcf
       return data, status_code, headers
     end
 
-    # Get document status by trackId
+    # Consultar estado del documento por ID interno
     # @param environment [Environment] 
-    # @param track_id [String] 
+    # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     # @return [EcfStatusResponse]
-    def get_ecf_status(environment, track_id, opts = {})
-      data, _status_code, _headers = get_ecf_status_with_http_info(environment, track_id, opts)
+    def get_ecf_status(environment, id, opts = {})
+      data, _status_code, _headers = get_ecf_status_with_http_info(environment, id, opts)
       data
     end
 
-    # Get document status by trackId
+    # Consultar estado del documento por ID interno
     # @param environment [Environment] 
-    # @param track_id [String] 
+    # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
     # @return [Array<(EcfStatusResponse, Integer, Hash)>] EcfStatusResponse data, response status code and response headers
-    def get_ecf_status_with_http_info(environment, track_id, opts = {})
+    def get_ecf_status_with_http_info(environment, id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ECFSubmissionApi.get_ecf_status ...'
       end
@@ -172,12 +108,12 @@ module PronesoftEcf
       if @api_client.config.client_side_validation && environment.nil?
         fail ArgumentError, "Missing the required parameter 'environment' when calling ECFSubmissionApi.get_ecf_status"
       end
-      # verify the required parameter 'track_id' is set
-      if @api_client.config.client_side_validation && track_id.nil?
-        fail ArgumentError, "Missing the required parameter 'track_id' when calling ECFSubmissionApi.get_ecf_status"
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling ECFSubmissionApi.get_ecf_status"
       end
       # resource path
-      local_var_path = '/{environment}/ecf/status/{trackId}'.sub('{' + 'environment' + '}', CGI.escape(environment.to_s)).sub('{' + 'trackId' + '}', CGI.escape(track_id.to_s))
+      local_var_path = '/{environment}/ecf/status/{id}'.sub('{' + 'environment' + '}', CGI.escape(environment.to_s)).sub('{' + 'id' + '}', CGI.escape(id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -198,7 +134,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'EcfStatusResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
         :operation => :"ECFSubmissionApi.get_ecf_status",
@@ -217,25 +153,99 @@ module PronesoftEcf
       return data, status_code, headers
     end
 
-    # Submit e-CF document to DGII
-    # Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+    # Historial de envíos (paginado)
+    # @param environment [Environment] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [Integer] :page  (default to 1)
+    # @option opts [Integer] :limit  (default to 20)
+    # @return [GetEcfSubmissionHistory200Response]
+    def get_ecf_submission_history(environment, opts = {})
+      data, _status_code, _headers = get_ecf_submission_history_with_http_info(environment, opts)
+      data
+    end
+
+    # Historial de envíos (paginado)
+    # @param environment [Environment] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [Integer] :page  (default to 1)
+    # @option opts [Integer] :limit  (default to 20)
+    # @return [Array<(GetEcfSubmissionHistory200Response, Integer, Hash)>] GetEcfSubmissionHistory200Response data, response status code and response headers
+    def get_ecf_submission_history_with_http_info(environment, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: ECFSubmissionApi.get_ecf_submission_history ...'
+      end
+      # verify the required parameter 'environment' is set
+      if @api_client.config.client_side_validation && environment.nil?
+        fail ArgumentError, "Missing the required parameter 'environment' when calling ECFSubmissionApi.get_ecf_submission_history"
+      end
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling ECFSubmissionApi.get_ecf_submission_history, must be smaller than or equal to 100.'
+      end
+
+      # resource path
+      local_var_path = '/{environment}/ecf/responses/history'.sub('{' + 'environment' + '}', CGI.escape(environment.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'x-tenant-id'] = opts[:'x_tenant_id'] if !opts[:'x_tenant_id'].nil?
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'GetEcfSubmissionHistory200Response'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['oauth2']
+
+      new_options = opts.merge(
+        :operation => :"ECFSubmissionApi.get_ecf_submission_history",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: ECFSubmissionApi#get_ecf_submission_history\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Enviar documento e-CF a la DGII
+    # Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
     # @param environment [Environment] 
     # @param electronic_document [ElectronicDocument] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    # @return [EcfSubmissionResponse]
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [EcfSubmitResponse]
     def submit_ecf(environment, electronic_document, opts = {})
       data, _status_code, _headers = submit_ecf_with_http_info(environment, electronic_document, opts)
       data
     end
 
-    # Submit e-CF document to DGII
-    # Submits an electronic tax document. Handles XML signing, queuing, contingency mode, and DGII communication automatically. IMPORTANT: In Sandbox the environment field in body MUST be TesteCF. 
+    # Enviar documento e-CF a la DGII
+    # Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
     # @param environment [Environment] 
     # @param electronic_document [ElectronicDocument] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company. 
-    # @return [Array<(EcfSubmissionResponse, Integer, Hash)>] EcfSubmissionResponse data, response status code and response headers
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Array<(EcfSubmitResponse, Integer, Hash)>] EcfSubmitResponse data, response status code and response headers
     def submit_ecf_with_http_info(environment, electronic_document, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ECFSubmissionApi.submit_ecf ...'
@@ -272,10 +282,10 @@ module PronesoftEcf
       post_body = opts[:debug_body] || @api_client.object_to_http_body(electronic_document)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'EcfSubmissionResponse'
+      return_type = opts[:debug_return_type] || 'EcfSubmitResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
         :operation => :"ECFSubmissionApi.submit_ecf",

@@ -15,7 +15,6 @@ class ReceivedDocumentListResponse {
   ReceivedDocumentListResponse({
     this.data = const [],
     this.meta,
-    this.filters,
   });
 
   List<ReceivedDocument> data;
@@ -28,29 +27,19 @@ class ReceivedDocumentListResponse {
   ///
   PaginationMeta? meta;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  Object? filters;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReceivedDocumentListResponse &&
     _deepEquality.equals(other.data, data) &&
-    other.meta == meta &&
-    other.filters == filters;
+    other.meta == meta;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (data.hashCode) +
-    (meta == null ? 0 : meta!.hashCode) +
-    (filters == null ? 0 : filters!.hashCode);
+    (meta == null ? 0 : meta!.hashCode);
 
   @override
-  String toString() => 'ReceivedDocumentListResponse[data=$data, meta=$meta, filters=$filters]';
+  String toString() => 'ReceivedDocumentListResponse[data=$data, meta=$meta]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -59,11 +48,6 @@ class ReceivedDocumentListResponse {
       json[r'meta'] = this.meta;
     } else {
       json[r'meta'] = null;
-    }
-    if (this.filters != null) {
-      json[r'filters'] = this.filters;
-    } else {
-      json[r'filters'] = null;
     }
     return json;
   }
@@ -85,7 +69,6 @@ class ReceivedDocumentListResponse {
       return ReceivedDocumentListResponse(
         data: ReceivedDocument.listFromJson(json[r'data']),
         meta: PaginationMeta.fromJson(json[r'meta']),
-        filters: mapValueOfType<Object>(json, r'filters'),
       );
     }
     return null;

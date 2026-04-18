@@ -1,4 +1,4 @@
-module github.com/GIT_USER_ID/GIT_REPO_ID/openapi
+module github.com/ProneSoftSRL/pronesoft-ecf-sdks/go
 
 go 1.23
 

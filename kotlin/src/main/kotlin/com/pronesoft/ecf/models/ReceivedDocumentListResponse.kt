@@ -33,7 +33,6 @@ import com.google.gson.annotations.SerializedName
  *
  * @param `data` 
  * @param meta 
- * @param filters 
  */
 
 
@@ -43,10 +42,7 @@ data class ReceivedDocumentListResponse (
     val `data`: kotlin.collections.List<ReceivedDocument>? = null,
 
     @SerializedName("meta")
-    val meta: PaginationMeta? = null,
-
-    @SerializedName("filters")
-    val filters: kotlin.Any? = null
+    val meta: PaginationMeta? = null
 
 ) {
 

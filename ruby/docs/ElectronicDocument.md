@@ -4,10 +4,9 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **environment** | [**Environment**](Environment.md) |  | [optional] |
-| **version** | **String** | Always 1.0. | [default to &#39;1.0&#39;] |
+| **version** | **String** | Siempre \&quot;1.0\&quot;. | [optional][default to &#39;1.0&#39;] |
 | **invoice_type** | [**InvoiceType**](InvoiceType.md) |  |  |
-| **invoice_number** | **String** | e-NCF number (e.g. E310000000001 — E + 2 type digits + 9 sequence digits). | [optional] |
+| **invoice_number** | **String** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;.  | [optional] |
 | **group_id** | **String** | Optional Group ID for batch processing | [optional] |
 | **issue_date** | **Time** |  |  |
 | **expiration_date** | **Time** |  | [optional] |
@@ -59,7 +58,6 @@
 require 'pronesoft_ecf'
 
 instance = PronesoftEcf::ElectronicDocument.new(
-  environment: null,
   version: 1.0,
   invoice_type: null,
   invoice_number: E310000000001,

@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { RateLimitErrorResponse } from ''
+import type { RateLimitErrorResponse } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

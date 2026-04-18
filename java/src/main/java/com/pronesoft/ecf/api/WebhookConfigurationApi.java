@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -77,7 +77,7 @@ public class WebhookConfigurationApi {
 
     /**
      * Build call for getWebhook
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param webhookId  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -86,8 +86,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook details </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Detalle del webhook </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getWebhookCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, final ApiCallback _callback) throws ApiException {
@@ -132,7 +132,7 @@ public class WebhookConfigurationApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -153,9 +153,9 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * Get webhook details
+     * Detalle de un webhook
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param webhookId  (required)
      * @return WebhookConfigDetail
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -163,8 +163,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook details </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Detalle del webhook </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public WebhookConfigDetail getWebhook(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId) throws ApiException {
@@ -173,9 +173,9 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * Get webhook details
+     * Detalle de un webhook
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param webhookId  (required)
      * @return ApiResponse&lt;WebhookConfigDetail&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -183,8 +183,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook details </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Detalle del webhook </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<WebhookConfigDetail> getWebhookWithHttpInfo(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId) throws ApiException {
@@ -194,9 +194,9 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * Get webhook details (asynchronously)
+     * Detalle de un webhook (asynchronously)
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param webhookId  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -205,8 +205,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook details </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Detalle del webhook </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getWebhookAsync(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, final ApiCallback<WebhookConfigDetail> _callback) throws ApiException {
@@ -218,7 +218,7 @@ public class WebhookConfigurationApi {
     }
     /**
      * Build call for getWebhookStats
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param webhookId  (required)
      * @param period  (optional, default to month)
      * @param _callback Callback for upload/download progress
@@ -228,8 +228,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook delivery statistics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Estadísticas de entregas del webhook </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getWebhookStatsCall(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period, final ApiCallback _callback) throws ApiException {
@@ -278,7 +278,7 @@ public class WebhookConfigurationApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -299,9 +299,9 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * Get webhook delivery statistics
+     * Estadísticas de entregas del webhook
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param webhookId  (required)
      * @param period  (optional, default to month)
      * @return WebhookStats
@@ -310,8 +310,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook delivery statistics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Estadísticas de entregas del webhook </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public WebhookStats getWebhookStats(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period) throws ApiException {
@@ -320,9 +320,9 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * Get webhook delivery statistics
+     * Estadísticas de entregas del webhook
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param webhookId  (required)
      * @param period  (optional, default to month)
      * @return ApiResponse&lt;WebhookStats&gt;
@@ -331,8 +331,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook delivery statistics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Estadísticas de entregas del webhook </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<WebhookStats> getWebhookStatsWithHttpInfo(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period) throws ApiException {
@@ -342,9 +342,9 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * Get webhook delivery statistics (asynchronously)
+     * Estadísticas de entregas del webhook (asynchronously)
      * 
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param webhookId  (required)
      * @param period  (optional, default to month)
      * @param _callback The callback to be executed when the API call finishes
@@ -354,8 +354,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Webhook delivery statistics </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Estadísticas de entregas del webhook </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getWebhookStatsAsync(@javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String webhookId, @javax.annotation.Nullable String period, final ApiCallback<WebhookStats> _callback) throws ApiException {
@@ -367,7 +367,7 @@ public class WebhookConfigurationApi {
     }
     /**
      * Build call for listWebhooks
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -375,8 +375,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> List of webhook configurations </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Lista de configuraciones de webhooks </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call listWebhooksCall(@javax.annotation.Nonnull String rnc, final ApiCallback _callback) throws ApiException {
@@ -420,7 +420,7 @@ public class WebhookConfigurationApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] { "oauth2", "bearerAuth" };
+        String[] localVarAuthNames = new String[] { "oauth2" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -436,17 +436,17 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * List webhook configurations
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * Listar configuraciones de webhooks
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @return List&lt;WebhookConfigResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> List of webhook configurations </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Lista de configuraciones de webhooks </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public List<WebhookConfigResponse> listWebhooks(@javax.annotation.Nonnull String rnc) throws ApiException {
@@ -455,17 +455,17 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * List webhook configurations
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * Listar configuraciones de webhooks
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @return ApiResponse&lt;List&lt;WebhookConfigResponse&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> List of webhook configurations </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Lista de configuraciones de webhooks </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<List<WebhookConfigResponse>> listWebhooksWithHttpInfo(@javax.annotation.Nonnull String rnc) throws ApiException {
@@ -475,9 +475,9 @@ public class WebhookConfigurationApi {
     }
 
     /**
-     * List webhook configurations (asynchronously)
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * @param rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. (required)
+     * Listar configuraciones de webhooks (asynchronously)
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * @param rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -485,8 +485,8 @@ public class WebhookConfigurationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> List of webhook configurations </td><td>  -  </td></tr>
-        <tr><td> 401 </td><td> Token missing, expired, or invalid. Call POST /oauth/token to renew. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> Lista de configuraciones de webhooks </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call listWebhooksAsync(@javax.annotation.Nonnull String rnc, final ApiCallback<List<WebhookConfigResponse>> _callback) throws ApiException {

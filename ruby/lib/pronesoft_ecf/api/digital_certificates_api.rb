@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -19,11 +19,11 @@ module PronesoftEcf
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # Upload digital certificate (P12/PFX)
-    # Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
-    # @param rnc [String] Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-    # @param file [File] Certificate file in .p12 or .pfx format.
-    # @param password [String] Password to unlock the certificate.
+    # Subir certificado digital (P12/PFX)
+    # Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+    # @param rnc [String] RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+    # @param file [File] Archivo del certificado en formato .p12 o .pfx.
+    # @param password [String] Contraseña para desbloquear el certificado.
     # @param [Hash] opts the optional parameters
     # @return [UploadCertificateResponse]
     def upload_certificate(rnc, file, password, opts = {})
@@ -31,11 +31,11 @@ module PronesoftEcf
       data
     end
 
-    # Upload digital certificate (P12/PFX)
-    # Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
-    # @param rnc [String] Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
-    # @param file [File] Certificate file in .p12 or .pfx format.
-    # @param password [String] Password to unlock the certificate.
+    # Subir certificado digital (P12/PFX)
+    # Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+    # @param rnc [String] RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
+    # @param file [File] Archivo del certificado en formato .p12 o .pfx.
+    # @param password [String] Contraseña para desbloquear el certificado.
     # @param [Hash] opts the optional parameters
     # @return [Array<(UploadCertificateResponse, Integer, Hash)>] UploadCertificateResponse data, response status code and response headers
     def upload_certificate_with_http_info(rnc, file, password, opts = {})
@@ -82,7 +82,7 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'UploadCertificateResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
         :operation => :"DigitalCertificatesApi.upload_certificate",

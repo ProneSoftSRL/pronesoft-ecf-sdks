@@ -16,10 +16,10 @@ extension PronesoftEcfAPI {
 open class TaxSequencesAPI {
 
     /**
-     Create new tax sequence
+     Crear nueva secuencia de NCF
      
      - parameter createTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -36,16 +36,13 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Create new tax sequence
+     Crear nueva secuencia de NCF
      - POST /tax-sequences/create
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter createTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<CreateTaxSequence201Response> 
      */
     open class func createTaxSequenceWithRequestBuilder(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<CreateTaxSequence201Response> {
@@ -68,11 +65,11 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Get next available fiscal number
+     Obtener siguiente número fiscal disponible
      
      - parameter type: (query)  
      - parameter environment: (query)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -89,18 +86,15 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Get next available fiscal number
+     Obtener siguiente número fiscal disponible
      - GET /tax-sequences/next
-     - Returns the next e-NCF number. Use this as invoiceNumber when submitting.
+     - Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter type: (query)  
      - parameter environment: (query)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<GetNextNumber200Response> 
      */
     open class func getNextNumberWithRequestBuilder(type: InvoiceTypeSequence, environment: Environment, xTenantId: UUID? = nil) -> RequestBuilder<GetNextNumber200Response> {
@@ -126,9 +120,9 @@ open class TaxSequencesAPI {
     }
 
     /**
-     List tax sequences
+     Listar secuencias de NCF
      
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter type: (query)  (optional)
      - parameter environment: (query)  (optional)
      - parameter page: (query)  (optional, default to 1)
@@ -149,15 +143,12 @@ open class TaxSequencesAPI {
     }
 
     /**
-     List tax sequences
+     Listar secuencias de NCF
      - GET /tax-sequences
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter type: (query)  (optional)
      - parameter environment: (query)  (optional)
      - parameter page: (query)  (optional, default to 1)
@@ -189,11 +180,11 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Update tax sequence
+     Actualizar secuencia de NCF
      
      - parameter id: (query)  
      - parameter updateTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -210,17 +201,14 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Update tax sequence
+     Actualizar secuencia de NCF
      - PATCH /tax-sequences/update
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter id: (query)  
      - parameter updateTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<Void> 
      */
     open class func updateTaxSequenceWithRequestBuilder(id: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<Void> {
@@ -246,10 +234,10 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Void a range of fiscal numbers
+     Anular rango de números fiscales
      
      - parameter voidTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -266,17 +254,14 @@ open class TaxSequencesAPI {
     }
 
     /**
-     Void a range of fiscal numbers
+     Anular rango de números fiscales
      - POST /tax-sequences/void
-     - Cancels unused fiscal numbers and notifies DGII.
+     - Cancela números fiscales no utilizados y notifica a la DGII.
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
      - parameter voidTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID of the associated company (branch). Include ONLY when acting on behalf of a branch. Omit when acting as the main company.  (optional)
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      - returns: RequestBuilder<VoidTaxSequence200Response> 
      */
     open class func voidTaxSequenceWithRequestBuilder(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<VoidTaxSequence200Response> {

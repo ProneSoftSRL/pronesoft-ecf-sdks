@@ -202,14 +202,26 @@ class ApiClient {
           return AssociatedCompanySubscriptionPlan.fromJson(value);
         case 'BillingIndicator':
           return BillingIndicatorTypeTransformer().decode(value);
+        case 'BillingInvoiceReadyPayload':
+          return BillingInvoiceReadyPayload.fromJson(value);
+        case 'BranchCreatedPayload':
+          return BranchCreatedPayload.fromJson(value);
+        case 'BranchStatusChangedPayload':
+          return BranchStatusChangedPayload.fromJson(value);
         case 'Buyer':
           return Buyer.fromJson(value);
+        case 'CertificateExpiringPayload':
+          return CertificateExpiringPayload.fromJson(value);
+        case 'CertificationCompletedPayload':
+          return CertificationCompletedPayload.fromJson(value);
         case 'CertificationNiche':
           return CertificationNiche.fromJson(value);
         case 'CertificationNicheNicheItemsInner':
           return CertificationNicheNicheItemsInner.fromJson(value);
         case 'CertificationStatus':
           return CertificationStatus.fromJson(value);
+        case 'CommercialApprovalPayload':
+          return CommercialApprovalPayload.fromJson(value);
         case 'CompanyDocumentMetrics':
           return CompanyDocumentMetrics.fromJson(value);
         case 'CompanyDocumentMetricsGroupByStatusInner':
@@ -224,6 +236,8 @@ class ApiClient {
           return CompanyMetrics.fromJson(value);
         case 'CompanyMetricsDocumentsStatus':
           return CompanyMetricsDocumentsStatus.fromJson(value);
+        case 'ContingencyActivatedPayload':
+          return ContingencyActivatedPayload.fromJson(value);
         case 'CreateAssociatedCompany201Response':
           return CreateAssociatedCompany201Response.fromJson(value);
         case 'CreateTaxSequence201Response':
@@ -236,30 +250,46 @@ class ApiClient {
           return DgiiMessage.fromJson(value);
         case 'DiscountOrSurcharge':
           return DiscountOrSurcharge.fromJson(value);
+        case 'DocumentReceivedPayload':
+          return DocumentReceivedPayload.fromJson(value);
         case 'DocumentStatsResponse':
           return DocumentStatsResponse.fromJson(value);
+        case 'DocumentStatsResponseByStatusValue':
+          return DocumentStatsResponseByStatusValue.fromJson(value);
         case 'DocumentStatus':
           return DocumentStatusTypeTransformer().decode(value);
+        case 'DocumentStatusChangedPayload':
+          return DocumentStatusChangedPayload.fromJson(value);
+        case 'DocumentValidationErrorPayload':
+          return DocumentValidationErrorPayload.fromJson(value);
         case 'EcfHistoryItem':
           return EcfHistoryItem.fromJson(value);
         case 'EcfStatsResponse':
           return EcfStatsResponse.fromJson(value);
         case 'EcfStatusResponse':
           return EcfStatusResponse.fromJson(value);
-        case 'EcfSubmissionResponse':
-          return EcfSubmissionResponse.fromJson(value);
-        case 'EcfSubmissionResponseDgiiResponse':
-          return EcfSubmissionResponseDgiiResponse.fromJson(value);
+        case 'EcfSubmitResponse':
+          return EcfSubmitResponse.fromJson(value);
+        case 'EcfSubmitResponseCompanyIdentification':
+          return EcfSubmitResponseCompanyIdentification.fromJson(value);
         case 'ElectronicDocument':
           return ElectronicDocument.fromJson(value);
         case 'Environment':
           return EnvironmentTypeTransformer().decode(value);
         case 'ErrorResponse':
           return ErrorResponse.fromJson(value);
+        case 'GetEcfSubmissionHistory200Response':
+          return GetEcfSubmissionHistory200Response.fromJson(value);
         case 'GetNextNumber200Response':
           return GetNextNumber200Response.fromJson(value);
         case 'GetNextNumber200ResponseData':
           return GetNextNumber200ResponseData.fromJson(value);
+        case 'GetReceivedDocumentStatsBySupplier200ResponseInner':
+          return GetReceivedDocumentStatsBySupplier200ResponseInner.fromJson(value);
+        case 'GetSentDocumentLogs200ResponseInner':
+          return GetSentDocumentLogs200ResponseInner.fromJson(value);
+        case 'GetSentDocumentStatusOptions200ResponseInner':
+          return GetSentDocumentStatusOptions200ResponseInner.fromJson(value);
         case 'InvoiceType':
           return InvoiceTypeTypeTransformer().decode(value);
         case 'InvoiceTypeSequence':
@@ -286,8 +316,16 @@ class ApiClient {
           return ItemUnitPrice.fromJson(value);
         case 'ItemWithheldITBISAmount':
           return ItemWithheldITBISAmount.fromJson(value);
+        case 'LegalStatus':
+          return LegalStatusTypeTransformer().decode(value);
         case 'ListTaxSequences200Response':
           return ListTaxSequences200Response.fromJson(value);
+        case 'MemberInvitedPayload':
+          return MemberInvitedPayload.fromJson(value);
+        case 'MemberJoinedPayload':
+          return MemberJoinedPayload.fromJson(value);
+        case 'MemberRemovedPayload':
+          return MemberRemovedPayload.fromJson(value);
         case 'OAuthTokenRequest':
           return OAuthTokenRequest.fromJson(value);
         case 'OAuthTokenResponse':
@@ -300,10 +338,16 @@ class ApiClient {
           return PaymentForm.fromJson(value);
         case 'PaymentMethod':
           return PaymentMethodTypeTransformer().decode(value);
+        case 'PlanPaymentFailedPayload':
+          return PlanPaymentFailedPayload.fromJson(value);
+        case 'PlanUsageAlertPayload':
+          return PlanUsageAlertPayload.fromJson(value);
         case 'PrintFormat':
           return PrintFormatTypeTransformer().decode(value);
         case 'ProcessingLog':
           return ProcessingLog.fromJson(value);
+        case 'PublicDocumentStatus':
+          return PublicDocumentStatusTypeTransformer().decode(value);
         case 'RateLimitErrorResponse':
           return RateLimitErrorResponse.fromJson(value);
         case 'ReceivedDocument':
@@ -314,6 +358,10 @@ class ApiClient {
           return ReceivedDocumentStatsResponse.fromJson(value);
         case 'ReferenceInfo':
           return ReferenceInfo.fromJson(value);
+        case 'SecurityApiKeyRotatedPayload':
+          return SecurityApiKeyRotatedPayload.fromJson(value);
+        case 'SecurityNewLoginPayload':
+          return SecurityNewLoginPayload.fromJson(value);
         case 'SentDocumentDetail':
           return SentDocumentDetail.fromJson(value);
         case 'SentDocumentListResponse':
@@ -322,6 +370,10 @@ class ApiClient {
           return SentDocumentSummary.fromJson(value);
         case 'SentDocumentSummaryBusiness':
           return SentDocumentSummaryBusiness.fromJson(value);
+        case 'SequenceDepletedPayload':
+          return SequenceDepletedPayload.fromJson(value);
+        case 'SequenceVoidedPayload':
+          return SequenceVoidedPayload.fromJson(value);
         case 'StartCertification200Response':
           return StartCertification200Response.fromJson(value);
         case 'StartCertificationRequest':
@@ -364,6 +416,8 @@ class ApiClient {
           return WebhookEventTypeTypeTransformer().decode(value);
         case 'WebhookNotificationPayload':
           return WebhookNotificationPayload.fromJson(value);
+        case 'WebhookNotificationPayloadData':
+          return WebhookNotificationPayloadData.fromJson(value);
         case 'WebhookStats':
           return WebhookStats.fromJson(value);
         case 'WebhookStatsStats':

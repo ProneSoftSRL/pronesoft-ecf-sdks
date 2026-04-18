@@ -26,11 +26,11 @@ Descargar XML del documento
 import {
   Configuration,
   DocumentsSentApi,
-} from '';
-import type { DownloadSentDocumentXmlRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { DownloadSentDocumentXmlRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -102,11 +102,11 @@ Obtener detalle del documento
 import {
   Configuration,
   DocumentsSentApi,
-} from '';
-import type { GetSentDocumentByIdRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetSentDocumentByIdRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -175,11 +175,11 @@ Logs de procesamiento del documento
 import {
   Configuration,
   DocumentsSentApi,
-} from '';
-import type { GetSentDocumentLogsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetSentDocumentLogsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -249,11 +249,11 @@ Estadísticas de documentos enviados
 import {
   Configuration,
   DocumentsSentApi,
-} from '';
-import type { GetSentDocumentStatsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetSentDocumentStatsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -319,11 +319,11 @@ Estadísticas agrupadas por ambiente y estado
 import {
   Configuration,
   DocumentsSentApi,
-} from '';
-import type { GetSentDocumentStatsByEnvironmentRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetSentDocumentStatsByEnvironmentRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -389,11 +389,11 @@ Opciones de filtro de estado disponibles
 import {
   Configuration,
   DocumentsSentApi,
-} from '';
-import type { GetSentDocumentStatusOptionsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetSentDocumentStatusOptionsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -451,11 +451,11 @@ Listar documentos enviados
 import {
   Configuration,
   DocumentsSentApi,
-} from '';
-import type { ListSentDocumentsRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListSentDocumentsRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

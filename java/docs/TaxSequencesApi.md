@@ -20,12 +20,12 @@ Crear nueva secuencia de NCF
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.TaxSequencesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.TaxSequencesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -91,12 +91,12 @@ Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al envi
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.TaxSequencesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.TaxSequencesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -161,12 +161,12 @@ Listar secuencias de NCF
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.TaxSequencesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.TaxSequencesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -235,12 +235,12 @@ Actualizar secuencia de NCF
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.TaxSequencesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.TaxSequencesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -306,12 +306,12 @@ Cancela números fiscales no utilizados y notifica a la DGII.
 ### Example
 ```java
 // Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.TaxSequencesApi;
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.TaxSequencesApi;
 
 public class Example {
   public static void main(String[] args) {

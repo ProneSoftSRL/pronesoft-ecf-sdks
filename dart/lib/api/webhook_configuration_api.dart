@@ -16,14 +16,14 @@ class WebhookConfigurationApi {
 
   final ApiClient apiClient;
 
-  /// Get webhook details
+  /// Detalle de un webhook
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///   RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
   ///
   /// * [String] webhookId (required):
   Future<Response> getWebhookWithHttpInfo(String rnc, String webhookId,) async {
@@ -53,12 +53,12 @@ class WebhookConfigurationApi {
     );
   }
 
-  /// Get webhook details
+  /// Detalle de un webhook
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///   RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
   ///
   /// * [String] webhookId (required):
   Future<WebhookConfigDetail?> getWebhook(String rnc, String webhookId,) async {
@@ -76,14 +76,14 @@ class WebhookConfigurationApi {
     return null;
   }
 
-  /// Get webhook delivery statistics
+  /// Estadísticas de entregas del webhook
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///   RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
   ///
   /// * [String] webhookId (required):
   ///
@@ -119,12 +119,12 @@ class WebhookConfigurationApi {
     );
   }
 
-  /// Get webhook delivery statistics
+  /// Estadísticas de entregas del webhook
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///   RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
   ///
   /// * [String] webhookId (required):
   ///
@@ -144,16 +144,16 @@ class WebhookConfigurationApi {
     return null;
   }
 
-  /// List webhook configurations
+  /// Listar configuraciones de webhooks
   ///
-  /// Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+  /// Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///   RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
   Future<Response> listWebhooksWithHttpInfo(String rnc,) async {
     // ignore: prefer_const_declarations
     final path = r'/{rnc}/webhooks'
@@ -180,14 +180,14 @@ class WebhookConfigurationApi {
     );
   }
 
-  /// List webhook configurations
+  /// Listar configuraciones de webhooks
   ///
-  /// Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+  /// Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///   RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
   Future<List<WebhookConfigResponse>?> listWebhooks(String rnc,) async {
     final response = await listWebhooksWithHttpInfo(rnc,);
     if (response.statusCode >= HttpStatus.badRequest) {

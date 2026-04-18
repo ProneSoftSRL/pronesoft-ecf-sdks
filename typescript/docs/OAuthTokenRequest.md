@@ -13,7 +13,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { OAuthTokenRequest } from ''
+import type { OAuthTokenRequest } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

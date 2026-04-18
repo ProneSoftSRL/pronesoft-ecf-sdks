@@ -17,35 +17,60 @@ extension PronesoftEcfAPI {
 
 public struct ApprovalItem: Codable, JSONEncodable, Hashable {
 
-    public var id: String?
+    public enum Status: Int, Codable, CaseIterable {
+        case _1 = 1
+        case _2 = 2
+        case _3 = 3
+        case _4 = 4
+    }
+    public var id: UUID?
     public var encf: String?
-    public var status: Int?
+    public var type: String?
+    public var issuerRnc: String?
+    public var buyerRnc: String?
+    public var totalAmount: Double?
+    public var approvalStatus: String?
+    /** 1=Approved, 2=Rejected, 3=Pending, 4=Under Review */
+    public var status: Status?
+    public var statusLabel: String?
     public var issueDate: Date?
-    public var approvalType: String?
-    public var priority: String?
-    public var assignedTo: String?
-    public var comments: String?
+    public var receivedAt: Date?
+    public var createdAt: Date?
+    public var rejectionDescription: String?
+    public var business: SentDocumentSummaryBusiness?
 
-    public init(id: String? = nil, encf: String? = nil, status: Int? = nil, issueDate: Date? = nil, approvalType: String? = nil, priority: String? = nil, assignedTo: String? = nil, comments: String? = nil) {
+    public init(id: UUID? = nil, encf: String? = nil, type: String? = nil, issuerRnc: String? = nil, buyerRnc: String? = nil, totalAmount: Double? = nil, approvalStatus: String? = nil, status: Status? = nil, statusLabel: String? = nil, issueDate: Date? = nil, receivedAt: Date? = nil, createdAt: Date? = nil, rejectionDescription: String? = nil, business: SentDocumentSummaryBusiness? = nil) {
         self.id = id
         self.encf = encf
+        self.type = type
+        self.issuerRnc = issuerRnc
+        self.buyerRnc = buyerRnc
+        self.totalAmount = totalAmount
+        self.approvalStatus = approvalStatus
         self.status = status
+        self.statusLabel = statusLabel
         self.issueDate = issueDate
-        self.approvalType = approvalType
-        self.priority = priority
-        self.assignedTo = assignedTo
-        self.comments = comments
+        self.receivedAt = receivedAt
+        self.createdAt = createdAt
+        self.rejectionDescription = rejectionDescription
+        self.business = business
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case encf
+        case type
+        case issuerRnc
+        case buyerRnc
+        case totalAmount
+        case approvalStatus
         case status
+        case statusLabel
         case issueDate
-        case approvalType
-        case priority
-        case assignedTo
-        case comments
+        case receivedAt
+        case createdAt
+        case rejectionDescription
+        case business
     }
 
     // Encodable protocol methods
@@ -54,12 +79,18 @@ public struct ApprovalItem: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(encf, forKey: .encf)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(issuerRnc, forKey: .issuerRnc)
+        try container.encodeIfPresent(buyerRnc, forKey: .buyerRnc)
+        try container.encodeIfPresent(totalAmount, forKey: .totalAmount)
+        try container.encodeIfPresent(approvalStatus, forKey: .approvalStatus)
         try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(statusLabel, forKey: .statusLabel)
         try container.encodeIfPresent(issueDate, forKey: .issueDate)
-        try container.encodeIfPresent(approvalType, forKey: .approvalType)
-        try container.encodeIfPresent(priority, forKey: .priority)
-        try container.encodeIfPresent(assignedTo, forKey: .assignedTo)
-        try container.encodeIfPresent(comments, forKey: .comments)
+        try container.encodeIfPresent(receivedAt, forKey: .receivedAt)
+        try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(rejectionDescription, forKey: .rejectionDescription)
+        try container.encodeIfPresent(business, forKey: .business)
     }
 }
 

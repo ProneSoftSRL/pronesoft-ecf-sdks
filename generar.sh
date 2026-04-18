@@ -5,7 +5,7 @@
 # =============================================================================
 
 # --- Web (TypeScript Fetch) ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g typescript-fetch \
   -o "./typescript" \
@@ -14,7 +14,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- PHP ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g php \
   -o "./php" \
@@ -23,7 +23,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- Go ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g go \
   -o "./go" \
@@ -32,7 +32,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- Dart ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g dart \
   -o "./dart" \
@@ -41,7 +41,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- Kotlin ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g kotlin \
   -o "./kotlin" \
@@ -50,7 +50,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- Swift ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g swift5 \
   -o "./swift" \
@@ -59,7 +59,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- C# (.NET 8) ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g csharp \
   -o "./csharp" \
@@ -68,7 +68,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- Python ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g python \
   -o "./python" \
@@ -77,7 +77,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- Java ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g java \
   -o "./java" \
@@ -86,7 +86,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- Ruby ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g ruby \
   -o "./ruby" \
@@ -95,7 +95,7 @@ openapi-generator-cli generate \
   --git-repo-id=pronesoft-ecf-sdks
 
 # --- Rust ---
-openapi-generator-cli generate \
+npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g rust \
   -o "./rust" \

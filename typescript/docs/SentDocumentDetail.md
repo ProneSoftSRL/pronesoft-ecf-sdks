@@ -26,7 +26,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { SentDocumentDetail } from ''
+import type { SentDocumentDetail } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {

@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -19,90 +19,127 @@ module PronesoftEcf
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # List commercial approvals
-    # @param business_id [String] 
+    # Obtener aprobación comercial por ID
+    # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :limit  (default to 20)
-    # @option opts [String] :ecf 
-    # @option opts [String] :document_type 
-    # @option opts [Integer] :status 
-    # @option opts [Time] :date_from 
-    # @option opts [Time] :date_to 
-    # @option opts [Float] :min_amount 
-    # @option opts [Float] :max_amount 
-    # @option opts [String] :search 
-    # @option opts [String] :sort_by 
-    # @option opts [String] :sort_order 
-    # @return [ApprovalListResponse]
-    def list_approvals(business_id, opts = {})
-      data, _status_code, _headers = list_approvals_with_http_info(business_id, opts)
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [ApprovalItem]
+    def get_commercial_approval_by_id(id, opts = {})
+      data, _status_code, _headers = get_commercial_approval_by_id_with_http_info(id, opts)
       data
     end
 
-    # List commercial approvals
-    # @param business_id [String] 
+    # Obtener aprobación comercial por ID
+    # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :limit  (default to 20)
-    # @option opts [String] :ecf 
-    # @option opts [String] :document_type 
-    # @option opts [Integer] :status 
-    # @option opts [Time] :date_from 
-    # @option opts [Time] :date_to 
-    # @option opts [Float] :min_amount 
-    # @option opts [Float] :max_amount 
-    # @option opts [String] :search 
-    # @option opts [String] :sort_by 
-    # @option opts [String] :sort_order 
-    # @return [Array<(ApprovalListResponse, Integer, Hash)>] ApprovalListResponse data, response status code and response headers
-    def list_approvals_with_http_info(business_id, opts = {})
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Array<(ApprovalItem, Integer, Hash)>] ApprovalItem data, response status code and response headers
+    def get_commercial_approval_by_id_with_http_info(id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: CommercialApprovalsApi.list_approvals ...'
+        @api_client.config.logger.debug 'Calling API: CommercialApprovalsApi.get_commercial_approval_by_id ...'
       end
-      # verify the required parameter 'business_id' is set
-      if @api_client.config.client_side_validation && business_id.nil?
-        fail ArgumentError, "Missing the required parameter 'business_id' when calling CommercialApprovalsApi.list_approvals"
-      end
-      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] > 100
-        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling CommercialApprovalsApi.list_approvals, must be smaller than or equal to 100.'
-      end
-
-      allowable_values = [1, 2, 3, 4]
-      if @api_client.config.client_side_validation && opts[:'status'] && !allowable_values.include?(opts[:'status'])
-        fail ArgumentError, "invalid value for \"status\", must be one of #{allowable_values}"
-      end
-      allowable_values = ["createdAt", "amount", "status"]
-      if @api_client.config.client_side_validation && opts[:'sort_by'] && !allowable_values.include?(opts[:'sort_by'])
-        fail ArgumentError, "invalid value for \"sort_by\", must be one of #{allowable_values}"
-      end
-      allowable_values = ["asc", "desc"]
-      if @api_client.config.client_side_validation && opts[:'sort_order'] && !allowable_values.include?(opts[:'sort_order'])
-        fail ArgumentError, "invalid value for \"sort_order\", must be one of #{allowable_values}"
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling CommercialApprovalsApi.get_commercial_approval_by_id"
       end
       # resource path
-      local_var_path = '/documents/approvals/all'
+      local_var_path = '/documents/approvals/{id}'.sub('{' + 'id' + '}', CGI.escape(id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'businessId'] = business_id
-      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
-      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
-      query_params[:'ecf'] = opts[:'ecf'] if !opts[:'ecf'].nil?
-      query_params[:'documentType'] = opts[:'document_type'] if !opts[:'document_type'].nil?
-      query_params[:'status'] = opts[:'status'] if !opts[:'status'].nil?
-      query_params[:'dateFrom'] = opts[:'date_from'] if !opts[:'date_from'].nil?
-      query_params[:'dateTo'] = opts[:'date_to'] if !opts[:'date_to'].nil?
-      query_params[:'minAmount'] = opts[:'min_amount'] if !opts[:'min_amount'].nil?
-      query_params[:'maxAmount'] = opts[:'max_amount'] if !opts[:'max_amount'].nil?
-      query_params[:'search'] = opts[:'search'] if !opts[:'search'].nil?
-      query_params[:'sortBy'] = opts[:'sort_by'] if !opts[:'sort_by'].nil?
-      query_params[:'sortOrder'] = opts[:'sort_order'] if !opts[:'sort_order'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'x-tenant-id'] = opts[:'x_tenant_id'] if !opts[:'x_tenant_id'].nil?
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'ApprovalItem'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['oauth2']
+
+      new_options = opts.merge(
+        :operation => :"CommercialApprovalsApi.get_commercial_approval_by_id",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: CommercialApprovalsApi#get_commercial_approval_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Listar aprobaciones comerciales
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :ecf 
+    # @option opts [String] :type Tipo de documento
+    # @option opts [Integer] :status 
+    # @option opts [Date] :date_from 
+    # @option opts [Date] :date_to 
+    # @option opts [Integer] :page  (default to 1)
+    # @option opts [Integer] :limit  (default to 10)
+    # @return [ApprovalListResponse]
+    def list_commercial_approvals(opts = {})
+      data, _status_code, _headers = list_commercial_approvals_with_http_info(opts)
+      data
+    end
+
+    # Listar aprobaciones comerciales
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :ecf 
+    # @option opts [String] :type Tipo de documento
+    # @option opts [Integer] :status 
+    # @option opts [Date] :date_from 
+    # @option opts [Date] :date_to 
+    # @option opts [Integer] :page  (default to 1)
+    # @option opts [Integer] :limit  (default to 10)
+    # @return [Array<(ApprovalListResponse, Integer, Hash)>] ApprovalListResponse data, response status code and response headers
+    def list_commercial_approvals_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: CommercialApprovalsApi.list_commercial_approvals ...'
+      end
+      allowable_values = [1, 2, 3, 4]
+      if @api_client.config.client_side_validation && opts[:'status'] && !allowable_values.include?(opts[:'status'])
+        fail ArgumentError, "invalid value for \"status\", must be one of #{allowable_values}"
+      end
+      if @api_client.config.client_side_validation && !opts[:'limit'].nil? && opts[:'limit'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"limit"]" when calling CommercialApprovalsApi.list_commercial_approvals, must be smaller than or equal to 100.'
+      end
+
+      # resource path
+      local_var_path = '/documents/approvals'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'ecf'] = opts[:'ecf'] if !opts[:'ecf'].nil?
+      query_params[:'type'] = opts[:'type'] if !opts[:'type'].nil?
+      query_params[:'status'] = opts[:'status'] if !opts[:'status'].nil?
+      query_params[:'dateFrom'] = opts[:'date_from'] if !opts[:'date_from'].nil?
+      query_params[:'dateTo'] = opts[:'date_to'] if !opts[:'date_to'].nil?
+      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'x-tenant-id'] = opts[:'x_tenant_id'] if !opts[:'x_tenant_id'].nil?
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -114,10 +151,10 @@ module PronesoftEcf
       return_type = opts[:debug_return_type] || 'ApprovalListResponse'
 
       # auth_names
-      auth_names = opts[:debug_auth_names] || ['oauth2', 'bearerAuth']
+      auth_names = opts[:debug_auth_names] || ['oauth2']
 
       new_options = opts.merge(
-        :operation => :"CommercialApprovalsApi.list_approvals",
+        :operation => :"CommercialApprovalsApi.list_commercial_approvals",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -128,7 +165,7 @@ module PronesoftEcf
 
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: CommercialApprovalsApi#list_approvals\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: CommercialApprovalsApi#list_commercial_approvals\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

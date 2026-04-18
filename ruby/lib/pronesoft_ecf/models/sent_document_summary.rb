@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -21,19 +21,19 @@ module PronesoftEcf
 
     attr_accessor :status
 
-    attr_accessor :status_display
+    attr_accessor :status_label
 
     attr_accessor :track_id
 
     attr_accessor :document_type
 
-    attr_accessor :total_amount
+    attr_accessor :issuer_rnc
+
+    attr_accessor :environment
 
     attr_accessor :received_at
 
     attr_accessor :created_at
-
-    attr_accessor :xml_url
 
     attr_accessor :business
 
@@ -65,13 +65,13 @@ module PronesoftEcf
         :'id' => :'id',
         :'encf' => :'encf',
         :'status' => :'status',
-        :'status_display' => :'statusDisplay',
+        :'status_label' => :'statusLabel',
         :'track_id' => :'trackId',
         :'document_type' => :'documentType',
-        :'total_amount' => :'totalAmount',
+        :'issuer_rnc' => :'issuerRnc',
+        :'environment' => :'environment',
         :'received_at' => :'receivedAt',
         :'created_at' => :'createdAt',
-        :'xml_url' => :'xmlUrl',
         :'business' => :'business'
       }
     end
@@ -91,14 +91,14 @@ module PronesoftEcf
       {
         :'id' => :'String',
         :'encf' => :'String',
-        :'status' => :'DocumentStatus',
-        :'status_display' => :'String',
+        :'status' => :'String',
+        :'status_label' => :'String',
         :'track_id' => :'String',
         :'document_type' => :'String',
-        :'total_amount' => :'Float',
+        :'issuer_rnc' => :'String',
+        :'environment' => :'Environment',
         :'received_at' => :'Time',
         :'created_at' => :'Time',
-        :'xml_url' => :'String',
         :'business' => :'SentDocumentSummaryBusiness'
       }
     end
@@ -106,6 +106,8 @@ module PronesoftEcf
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'encf',
+        :'track_id',
       ])
     end
 
@@ -137,8 +139,8 @@ module PronesoftEcf
         self.status = attributes[:'status']
       end
 
-      if attributes.key?(:'status_display')
-        self.status_display = attributes[:'status_display']
+      if attributes.key?(:'status_label')
+        self.status_label = attributes[:'status_label']
       end
 
       if attributes.key?(:'track_id')
@@ -149,8 +151,12 @@ module PronesoftEcf
         self.document_type = attributes[:'document_type']
       end
 
-      if attributes.key?(:'total_amount')
-        self.total_amount = attributes[:'total_amount']
+      if attributes.key?(:'issuer_rnc')
+        self.issuer_rnc = attributes[:'issuer_rnc']
+      end
+
+      if attributes.key?(:'environment')
+        self.environment = attributes[:'environment']
       end
 
       if attributes.key?(:'received_at')
@@ -159,10 +165,6 @@ module PronesoftEcf
 
       if attributes.key?(:'created_at')
         self.created_at = attributes[:'created_at']
-      end
-
-      if attributes.key?(:'xml_url')
-        self.xml_url = attributes[:'xml_url']
       end
 
       if attributes.key?(:'business')
@@ -182,7 +184,19 @@ module PronesoftEcf
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
+      status_validator = EnumAttributeValidator.new('String', ["APPROVED", "REJECTED", "IN_PROCESS", "CONDITIONALLY_APPROVED", "ERROR", "ERROR_COMUNICATION"])
+      return false unless status_validator.valid?(@status)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] status Object to be assigned
+    def status=(status)
+      validator = EnumAttributeValidator.new('String', ["APPROVED", "REJECTED", "IN_PROCESS", "CONDITIONALLY_APPROVED", "ERROR", "ERROR_COMUNICATION"])
+      unless validator.valid?(status)
+        fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
+      end
+      @status = status
     end
 
     # Checks equality by comparing each attribute.
@@ -193,13 +207,13 @@ module PronesoftEcf
           id == o.id &&
           encf == o.encf &&
           status == o.status &&
-          status_display == o.status_display &&
+          status_label == o.status_label &&
           track_id == o.track_id &&
           document_type == o.document_type &&
-          total_amount == o.total_amount &&
+          issuer_rnc == o.issuer_rnc &&
+          environment == o.environment &&
           received_at == o.received_at &&
           created_at == o.created_at &&
-          xml_url == o.xml_url &&
           business == o.business
     end
 
@@ -212,7 +226,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, encf, status, status_display, track_id, document_type, total_amount, received_at, created_at, xml_url, business].hash
+      [id, encf, status, status_label, track_id, document_type, issuer_rnc, environment, received_at, created_at, business].hash
     end
 
     # Builds the object from hash

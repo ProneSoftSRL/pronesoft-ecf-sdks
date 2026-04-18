@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -55,7 +55,7 @@ export interface ListWebhooksRequest {
 export interface WebhookConfigurationApiInterface {
     /**
      * Creates request options for getWebhook without sending the request
-     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param {string} rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param {string} webhookId 
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
@@ -64,8 +64,8 @@ export interface WebhookConfigurationApiInterface {
 
     /**
      * 
-     * @summary Get webhook details
-     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @summary Detalle de un webhook
+     * @param {string} rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param {string} webhookId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -74,13 +74,13 @@ export interface WebhookConfigurationApiInterface {
     getWebhookRaw(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookConfigDetail>>;
 
     /**
-     * Get webhook details
+     * Detalle de un webhook
      */
     getWebhook(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookConfigDetail>;
 
     /**
      * Creates request options for getWebhookStats without sending the request
-     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param {string} rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param {string} webhookId 
      * @param {'today' | 'week' | 'month' | 'all'} [period] 
      * @throws {RequiredError}
@@ -90,8 +90,8 @@ export interface WebhookConfigurationApiInterface {
 
     /**
      * 
-     * @summary Get webhook delivery statistics
-     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @summary Estadísticas de entregas del webhook
+     * @param {string} rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param {string} webhookId 
      * @param {'today' | 'week' | 'month' | 'all'} [period] 
      * @param {*} [options] Override http request option.
@@ -101,22 +101,22 @@ export interface WebhookConfigurationApiInterface {
     getWebhookStatsRaw(requestParameters: GetWebhookStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookStats>>;
 
     /**
-     * Get webhook delivery statistics
+     * Estadísticas de entregas del webhook
      */
     getWebhookStats(requestParameters: GetWebhookStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookStats>;
 
     /**
      * Creates request options for listWebhooks without sending the request
-     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * @param {string} rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
      */
     listWebhooksRequestOpts(requestParameters: ListWebhooksRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * @summary List webhook configurations
-     * @param {string} rnc Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * @summary Listar configuraciones de webhooks
+     * @param {string} rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof WebhookConfigurationApiInterface
@@ -124,8 +124,8 @@ export interface WebhookConfigurationApiInterface {
     listWebhooksRaw(requestParameters: ListWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WebhookConfigResponse>>>;
 
     /**
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * List webhook configurations
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * Listar configuraciones de webhooks
      */
     listWebhooks(requestParameters: ListWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WebhookConfigResponse>>;
 
@@ -163,14 +163,6 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/{rnc}/webhooks/{webhookId}`;
         urlPath = urlPath.replace(`{${"rnc"}}`, encodeURIComponent(String(requestParameters['rnc'])));
@@ -185,7 +177,7 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
     /**
-     * Get webhook details
+     * Detalle de un webhook
      */
     async getWebhookRaw(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookConfigDetail>> {
         const requestOptions = await this.getWebhookRequestOpts(requestParameters);
@@ -195,7 +187,7 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
     /**
-     * Get webhook details
+     * Detalle de un webhook
      */
     async getWebhook(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookConfigDetail> {
         const response = await this.getWebhookRaw(requestParameters, initOverrides);
@@ -233,14 +225,6 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/{rnc}/webhooks/{webhookId}/stats`;
         urlPath = urlPath.replace(`{${"rnc"}}`, encodeURIComponent(String(requestParameters['rnc'])));
@@ -255,7 +239,7 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
     /**
-     * Get webhook delivery statistics
+     * Estadísticas de entregas del webhook
      */
     async getWebhookStatsRaw(requestParameters: GetWebhookStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookStats>> {
         const requestOptions = await this.getWebhookStatsRequestOpts(requestParameters);
@@ -265,7 +249,7 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
     /**
-     * Get webhook delivery statistics
+     * Estadísticas de entregas del webhook
      */
     async getWebhookStats(requestParameters: GetWebhookStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WebhookStats> {
         const response = await this.getWebhookStatsRaw(requestParameters, initOverrides);
@@ -292,14 +276,6 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
             headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["business:read"]);
         }
 
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
 
         let urlPath = `/{rnc}/webhooks`;
         urlPath = urlPath.replace(`{${"rnc"}}`, encodeURIComponent(String(requestParameters['rnc'])));
@@ -313,8 +289,8 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
     /**
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * List webhook configurations
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * Listar configuraciones de webhooks
      */
     async listWebhooksRaw(requestParameters: ListWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WebhookConfigResponse>>> {
         const requestOptions = await this.listWebhooksRequestOpts(requestParameters);
@@ -324,8 +300,8 @@ export class WebhookConfigurationApi extends runtime.BaseAPI implements WebhookC
     }
 
     /**
-     * Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
-     * List webhook configurations
+     * Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
+     * Listar configuraciones de webhooks
      */
     async listWebhooks(requestParameters: ListWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WebhookConfigResponse>> {
         const response = await this.listWebhooksRaw(requestParameters, initOverrides);

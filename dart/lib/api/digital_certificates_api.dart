@@ -16,22 +16,22 @@ class DigitalCertificatesApi {
 
   final ApiClient apiClient;
 
-  /// Upload digital certificate (P12/PFX)
+  /// Subir certificado digital (P12/PFX)
   ///
-  /// Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
+  /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///   RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
   ///
   /// * [MultipartFile] file (required):
-  ///   Certificate file in .p12 or .pfx format.
+  ///   Archivo del certificado en formato .p12 o .pfx.
   ///
   /// * [String] password (required):
-  ///   Password to unlock the certificate.
+  ///   Contraseña para desbloquear el certificado.
   Future<Response> uploadCertificateWithHttpInfo(String rnc, MultipartFile file, String password,) async {
     // ignore: prefer_const_declarations
     final path = r'/{rnc}/certificates'
@@ -72,20 +72,20 @@ class DigitalCertificatesApi {
     );
   }
 
-  /// Upload digital certificate (P12/PFX)
+  /// Subir certificado digital (P12/PFX)
   ///
-  /// Uploads the DGII-issued digital signing certificate for a company. Stored encrypted with AES-256-CBC. No download endpoint exists. Sandbox tip: SBX-prefixed RNCs do not require a certificate. 
+  /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
   ///
   /// Parameters:
   ///
   /// * [String] rnc (required):
-  ///   Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+  ///   RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
   ///
   /// * [MultipartFile] file (required):
-  ///   Certificate file in .p12 or .pfx format.
+  ///   Archivo del certificado en formato .p12 o .pfx.
   ///
   /// * [String] password (required):
-  ///   Password to unlock the certificate.
+  ///   Contraseña para desbloquear el certificado.
   Future<UploadCertificateResponse?> uploadCertificate(String rnc, MultipartFile file, String password,) async {
     final response = await uploadCertificateWithHttpInfo(rnc, file, password,);
     if (response.statusCode >= HttpStatus.badRequest) {

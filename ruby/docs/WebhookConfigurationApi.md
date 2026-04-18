@@ -4,16 +4,16 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**get_webhook**](WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Get webhook details |
-| [**get_webhook_stats**](WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Get webhook delivery statistics |
-| [**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | List webhook configurations |
+| [**get_webhook**](WebhookConfigurationApi.md#get_webhook) | **GET** /{rnc}/webhooks/{webhookId} | Detalle de un webhook |
+| [**get_webhook_stats**](WebhookConfigurationApi.md#get_webhook_stats) | **GET** /{rnc}/webhooks/{webhookId}/stats | Estadísticas de entregas del webhook |
+| [**list_webhooks**](WebhookConfigurationApi.md#list_webhooks) | **GET** /{rnc}/webhooks | Listar configuraciones de webhooks |
 
 
 ## get_webhook
 
 > <WebhookConfigDetail> get_webhook(rnc, webhook_id)
 
-Get webhook details
+Detalle de un webhook
 
 ### Examples
 
@@ -24,17 +24,14 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = '133190907' # String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+rnc = '133190907' # String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 webhook_id = 'webhook_id_example' # String | 
 
 begin
-  # Get webhook details
+  # Detalle de un webhook
   result = api_instance.get_webhook(rnc, webhook_id)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -50,7 +47,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Get webhook details
+  # Detalle de un webhook
   data, status_code, headers = api_instance.get_webhook_with_http_info(rnc, webhook_id)
   p status_code # => 2xx
   p headers # => { ... }
@@ -64,7 +61,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **rnc** | **String** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
 | **webhook_id** | **String** |  |  |
 
 ### Return type
@@ -73,7 +70,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -85,7 +82,7 @@ end
 
 > <WebhookStats> get_webhook_stats(rnc, webhook_id, opts)
 
-Get webhook delivery statistics
+Estadísticas de entregas del webhook
 
 ### Examples
 
@@ -96,20 +93,17 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = '133190907' # String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+rnc = '133190907' # String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 webhook_id = 'webhook_id_example' # String | 
 opts = {
   period: 'today' # String | 
 }
 
 begin
-  # Get webhook delivery statistics
+  # Estadísticas de entregas del webhook
   result = api_instance.get_webhook_stats(rnc, webhook_id, opts)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -125,7 +119,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # Get webhook delivery statistics
+  # Estadísticas de entregas del webhook
   data, status_code, headers = api_instance.get_webhook_stats_with_http_info(rnc, webhook_id, opts)
   p status_code # => 2xx
   p headers # => { ... }
@@ -139,7 +133,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **rnc** | **String** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
 | **webhook_id** | **String** |  |  |
 | **period** | **String** |  | [optional][default to &#39;month&#39;] |
 
@@ -149,7 +143,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 
@@ -161,9 +155,9 @@ end
 
 > <Array<WebhookConfigResponse>> list_webhooks(rnc)
 
-List webhook configurations
+Listar configuraciones de webhooks
 
-Returns all webhooks for the RNC. Webhooks are created from the Dashboard UI only.
+Retorna todos los webhooks del RNC. Los webhooks se crean solo desde el Portal.
 
 ### Examples
 
@@ -174,16 +168,13 @@ require 'pronesoft_ecf'
 PronesoftEcf.configure do |config|
   # Configure OAuth2 access token for authorization: oauth2
   config.access_token = 'YOUR ACCESS TOKEN'
-
-  # Configure Bearer authorization (JWT): bearerAuth
-  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = PronesoftEcf::WebhookConfigurationApi.new
-rnc = '133190907' # String | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values.
+rnc = '133190907' # String | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
 
 begin
-  # List webhook configurations
+  # Listar configuraciones de webhooks
   result = api_instance.list_webhooks(rnc)
   p result
 rescue PronesoftEcf::ApiError => e
@@ -199,7 +190,7 @@ This returns an Array which contains the response data, status code and headers.
 
 ```ruby
 begin
-  # List webhook configurations
+  # Listar configuraciones de webhooks
   data, status_code, headers = api_instance.list_webhooks_with_http_info(rnc)
   p status_code # => 2xx
   p headers # => { ... }
@@ -213,7 +204,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rnc** | **String** | Company RNC (9 or 11 digits). In Sandbox use SBX-prefixed values. |  |
+| **rnc** | **String** | RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. |  |
 
 ### Return type
 
@@ -221,7 +212,7 @@ end
 
 ### Authorization
 
-[oauth2](../README.md#oauth2), [bearerAuth](../README.md#bearerAuth)
+[oauth2](../README.md#oauth2)
 
 ### HTTP request headers
 

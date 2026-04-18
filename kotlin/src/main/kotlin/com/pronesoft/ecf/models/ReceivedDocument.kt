@@ -32,12 +32,16 @@ import com.google.gson.annotations.SerializedName
  *
  * @param id 
  * @param encf 
- * @param receiverRnc 
  * @param senderRnc 
+ * @param receiverRnc 
  * @param totalAmount 
- * @param status 1=Valid, 2=Contingency, 3=Rejected
+ * @param status 1=Valid, 2=Voided, 3=Pending
+ * @param statusLabel 
  * @param issueDate 
  * @param receivedAt 
+ * @param createdAt 
+ * @param commercialApprovalStatus 
+ * @param commercialApprovalRejectionReason 
  * @param business 
  */
 
@@ -50,18 +54,21 @@ data class ReceivedDocument (
     @SerializedName("encf")
     val encf: kotlin.String? = null,
 
-    @SerializedName("receiverRnc")
-    val receiverRnc: kotlin.String? = null,
-
     @SerializedName("senderRnc")
     val senderRnc: kotlin.String? = null,
+
+    @SerializedName("receiverRnc")
+    val receiverRnc: kotlin.String? = null,
 
     @SerializedName("totalAmount")
     val totalAmount: java.math.BigDecimal? = null,
 
-    /* 1=Valid, 2=Contingency, 3=Rejected */
+    /* 1=Valid, 2=Voided, 3=Pending */
     @SerializedName("status")
-    val status: kotlin.Int? = null,
+    val status: ReceivedDocument.Status? = null,
+
+    @SerializedName("statusLabel")
+    val statusLabel: kotlin.String? = null,
 
     @SerializedName("issueDate")
     val issueDate: java.time.OffsetDateTime? = null,
@@ -69,11 +76,30 @@ data class ReceivedDocument (
     @SerializedName("receivedAt")
     val receivedAt: java.time.OffsetDateTime? = null,
 
+    @SerializedName("createdAt")
+    val createdAt: java.time.OffsetDateTime? = null,
+
+    @SerializedName("commercialApprovalStatus")
+    val commercialApprovalStatus: kotlin.String? = null,
+
+    @SerializedName("commercialApprovalRejectionReason")
+    val commercialApprovalRejectionReason: kotlin.String? = null,
+
     @SerializedName("business")
     val business: SentDocumentSummaryBusiness? = null
 
 ) {
 
+    /**
+     * 1=Valid, 2=Voided, 3=Pending
+     *
+     * Values: _1,_2,_3
+     */
+    enum class Status(val value: kotlin.Int) {
+        @SerializedName(value = "1") _1(1),
+        @SerializedName(value = "2") _2(2),
+        @SerializedName(value = "3") _3(3);
+    }
 
 }
 

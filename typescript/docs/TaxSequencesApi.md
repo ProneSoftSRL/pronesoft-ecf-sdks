@@ -24,11 +24,11 @@ Crear nueva secuencia de NCF
 import {
   Configuration,
   TaxSequencesApi,
-} from '';
-import type { CreateTaxSequenceOperationRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { CreateTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -100,11 +100,11 @@ Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al envi
 import {
   Configuration,
   TaxSequencesApi,
-} from '';
-import type { GetNextNumberRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetNextNumberRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -176,11 +176,11 @@ Listar secuencias de NCF
 import {
   Configuration,
   TaxSequencesApi,
-} from '';
-import type { ListTaxSequencesRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { ListTaxSequencesRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -258,11 +258,11 @@ Actualizar secuencia de NCF
 import {
   Configuration,
   TaxSequencesApi,
-} from '';
-import type { UpdateTaxSequenceOperationRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { UpdateTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",
@@ -336,11 +336,11 @@ Cancela números fiscales no utilizados y notifica a la DGII.
 import {
   Configuration,
   TaxSequencesApi,
-} from '';
-import type { VoidTaxSequenceOperationRequest } from '';
+} from '@pronesoft-rd/ecf-sdk';
+import type { VoidTaxSequenceOperationRequest } from '@pronesoft-rd/ecf-sdk';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
   const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: oauth2 application
     accessToken: "YOUR ACCESS TOKEN",

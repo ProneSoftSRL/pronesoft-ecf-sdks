@@ -14,7 +14,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { GetSentDocumentLogs200ResponseInner } from ''
+import type { GetSentDocumentLogs200ResponseInner } from '@pronesoft-rd/ecf-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
