@@ -12,6 +12,7 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
@@ -20,63 +21,52 @@ namespace Pronesoft.Ecf.Sdk.Client
     /// <summary>
     /// Provides a non-generic contract for the ApiResponse wrapper.
     /// </summary>
-    public partial interface IApiResponse
+    public interface IApiResponse
     {
-        /// <summary>
-        /// The IsSuccessStatusCode from the api response
-        /// </summary>
+        /// <summary>The IsSuccessStatusCode from the api response</summary>
         bool IsSuccessStatusCode { get; }
 
-        /// <summary>
-        /// Gets the status code (HTTP status code)
-        /// </summary>
-        /// <value>The status code.</value>
+        /// <summary>Gets the status code (HTTP status code)</summary>
         HttpStatusCode StatusCode { get; }
 
-        /// <summary>
-        /// The raw content of this response.
-        /// </summary>
+        /// <summary>The raw content of this response.</summary>
         string RawContent { get; }
-        
-        /// <summary>
-        /// The raw binary stream (only set for binary responses)
-        /// </summary>
+
+        /// <summary>The raw binary stream (only set for binary responses)</summary>
         System.IO.Stream? ContentStream { get; }
 
-        /// <summary>
-        /// The DateTime when the request was retrieved.
-        /// </summary>
+        /// <summary>The DateTime when the request was retrieved.</summary>
         DateTime DownloadedAt { get; }
 
-        /// <summary>
-        /// The headers contained in the api response
-        /// </summary>
+        /// <summary>The headers contained in the api response</summary>
         System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
 
-        /// <summary>
-        /// The headers contained in the api response related to the content
-        /// </summary>
+        /// <summary>The headers contained in the api response related to the content</summary>
         System.Net.Http.Headers.HttpContentHeaders ContentHeaders { get; }
 
-        /// <summary>
-        /// The path used when making the request.
-        /// </summary>
+        /// <summary>The path used when making the request.</summary>
         string Path { get; }
 
-        /// <summary>
-        /// The reason phrase contained in the api response
-        /// </summary>
+        /// <summary>The reason phrase contained in the api response</summary>
         string? ReasonPhrase { get; }
 
-        /// <summary>
-        /// The DateTime when the request was sent.
-        /// </summary>
+        /// <summary>The DateTime when the request was sent.</summary>
         DateTime RequestedAt { get; }
 
-        /// <summary>
-        /// The Uri used when making the request.
-        /// </summary>
+        /// <summary>The Uri used when making the request.</summary>
         Uri? RequestUri { get; }
+
+        /// <summary>The CLR type of the deserialized <see cref="Content"/>.</summary>
+        Type ResponseType { get; }
+
+        /// <summary>The deserialized response body (untyped).</summary>
+        Object Content { get; }
+
+        /// <summary>Any error text set by the calling client.</summary>
+        string? ErrorText { get; set; }
+
+        /// <summary>Cookies passed along on the response.</summary>
+        List<System.Net.Cookie>? Cookies { get; set; }
     }
 
     /// <summary>
@@ -84,6 +74,18 @@ namespace Pronesoft.Ecf.Sdk.Client
     /// </summary>
     public partial class ApiResponse : IApiResponse
     {
+        /// <inheritdoc/>
+        public virtual Type ResponseType => typeof(object);
+
+        /// <inheritdoc/>
+        public virtual object Content => RawContent;
+
+        /// <inheritdoc/>
+        public string? ErrorText { get; set; }
+
+        /// <inheritdoc/>
+        public List<System.Net.Cookie>? Cookies { get; set; }
+
         /// <summary>
         /// Gets the status code (HTTP status code)
         /// </summary>
