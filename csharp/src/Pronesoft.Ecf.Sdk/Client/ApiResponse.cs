@@ -18,7 +18,7 @@ namespace Pronesoft.Ecf.Sdk.Client
     /// <summary>
     /// Provides a non-generic contract for the ApiResponse wrapper.
     /// </summary>
-    public interface IApiResponse
+    public partial interface IApiResponse
     {
         /// <summary>
         /// The data type of <see cref="Content"/>
@@ -61,7 +61,7 @@ namespace Pronesoft.Ecf.Sdk.Client
     /// <summary>
     /// API Response
     /// </summary>
-    public class ApiResponse<T> : IApiResponse
+    public partial class ApiResponse<T> : IApiResponse
     {
         #region Properties
 
