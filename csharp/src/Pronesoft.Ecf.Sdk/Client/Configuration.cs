@@ -57,7 +57,7 @@ namespace Pronesoft.Ecf.Sdk.Client
             {
                 return new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.RawContent),
-                    response.RawContent, response.Headers);
+                    response.RawContent);
             }
             if (status == 0)
             {
