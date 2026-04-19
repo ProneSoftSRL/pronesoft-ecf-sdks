@@ -46,17 +46,6 @@ namespace Pronesoft.Ecf.Sdk.Client
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
-            _services.AddSingleton<AssociatedCompaniesApiEvents>();
-            _services.AddSingleton<AuthenticationApiEvents>();
-            _services.AddSingleton<AutomatedCertificationApiEvents>();
-            _services.AddSingleton<CommercialApprovalsApiEvents>();
-            _services.AddSingleton<DigitalCertificatesApiEvents>();
-            _services.AddSingleton<DocumentsReceivedApiEvents>();
-            _services.AddSingleton<DocumentsSentApiEvents>();
-            _services.AddSingleton<ECFSubmissionApiEvents>();
-            _services.AddSingleton<ReportsApiEvents>();
-            _services.AddSingleton<TaxSequencesApiEvents>();
-            _services.AddSingleton<WebhookConfigurationApiEvents>();
         }
 
         /// <summary>
@@ -70,7 +59,7 @@ namespace Pronesoft.Ecf.Sdk.Client
             Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null)
         {
             if (client == null)
-                client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+                client = c => c.BaseAddress = new Uri("https://api.ecf.sandbox.pronesoft.com/api/v1");
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
