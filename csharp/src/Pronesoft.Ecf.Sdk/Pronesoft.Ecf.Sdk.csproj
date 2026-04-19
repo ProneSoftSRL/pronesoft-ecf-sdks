@@ -6,17 +6,18 @@
     <AssemblyName>Pronesoft.Ecf.Sdk</AssemblyName>
     <PackageId>Pronesoft.Ecf.Sdk</PackageId>
     <OutputType>Library</OutputType>
-    <Authors>OpenAPI</Authors>
-    <Company>OpenAPI</Company>
-    <AssemblyTitle>OpenAPI Library</AssemblyTitle>
-    <Description>A library generated from a OpenAPI doc</Description>
-    <Copyright>No Copyright</Copyright>
+    <Authors>ProneSoftSRL</Authors>
+    <Company>ProneSoftSRL</Company>
+    <AssemblyTitle>Pronesoft ECF SDK</AssemblyTitle>
+    <Description>SDK para integración con la API de Comprobantes Fiscales Electrónicos (eCF) de Pronesoft</Description>
+    <Copyright>Copyright © ProneSoftSRL</Copyright>
     <RootNamespace>Pronesoft.Ecf.Sdk</RootNamespace>
     <Version>0.0.3</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Pronesoft.Ecf.Sdk.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/ProneSoftSRL/pronesoft-ecf-sdks.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Minor update</PackageReleaseNotes>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <NoWarn>1591</NoWarn>
     <Nullable>annotations</Nullable>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
