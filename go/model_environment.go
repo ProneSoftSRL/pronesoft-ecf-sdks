@@ -21,9 +21,9 @@ type Environment string
 
 // List of Environment
 const (
-	TESTE_CF Environment = "TesteCF"
-	CERTE_CF Environment = "CerteCF"
-	E_CF Environment = "eCF"
+	ENVIRONMENT_TESTE_CF Environment = "TesteCF"
+	ENVIRONMENT_CERTE_CF Environment = "CerteCF"
+	ENVIRONMENT_E_CF Environment = "eCF"
 )
 
 // All allowed values of Environment enum

@@ -21,16 +21,16 @@ type InvoiceTypeSequence string
 
 // List of InvoiceTypeSequence
 const (
-	E31 InvoiceTypeSequence = "E31"
-	E32 InvoiceTypeSequence = "E32"
-	E33 InvoiceTypeSequence = "E33"
-	E34 InvoiceTypeSequence = "E34"
-	E41 InvoiceTypeSequence = "E41"
-	E43 InvoiceTypeSequence = "E43"
-	E44 InvoiceTypeSequence = "E44"
-	E45 InvoiceTypeSequence = "E45"
-	E46 InvoiceTypeSequence = "E46"
-	E47 InvoiceTypeSequence = "E47"
+	INVOICETYPESEQUENCE_E31 InvoiceTypeSequence = "E31"
+	INVOICETYPESEQUENCE_E32 InvoiceTypeSequence = "E32"
+	INVOICETYPESEQUENCE_E33 InvoiceTypeSequence = "E33"
+	INVOICETYPESEQUENCE_E34 InvoiceTypeSequence = "E34"
+	INVOICETYPESEQUENCE_E41 InvoiceTypeSequence = "E41"
+	INVOICETYPESEQUENCE_E43 InvoiceTypeSequence = "E43"
+	INVOICETYPESEQUENCE_E44 InvoiceTypeSequence = "E44"
+	INVOICETYPESEQUENCE_E45 InvoiceTypeSequence = "E45"
+	INVOICETYPESEQUENCE_E46 InvoiceTypeSequence = "E46"
+	INVOICETYPESEQUENCE_E47 InvoiceTypeSequence = "E47"
 )
 
 // All allowed values of InvoiceTypeSequence enum

@@ -21,9 +21,9 @@ type PrintFormat string
 
 // List of PrintFormat
 const (
-	A4 PrintFormat = "A4"
-	THERMAL_80 PrintFormat = "thermal_80"
-	THERMAL_58 PrintFormat = "thermal_58"
+	PRINTFORMAT_A4 PrintFormat = "A4"
+	PRINTFORMAT_THERMAL_80 PrintFormat = "thermal_80"
+	PRINTFORMAT_THERMAL_58 PrintFormat = "thermal_58"
 )
 
 // All allowed values of PrintFormat enum

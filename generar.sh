@@ -27,7 +27,7 @@ npx @openapitools/openapi-generator-cli generate \
   -i "../pronesoft-ecf/ecf-server/openapi.yaml" \
   -g go \
   -o "./go" \
-  --additional-properties='packageName=ecf,packageVersion=0.0.10,moduleName=github.com/ProneSoftSRL/pronesoft-ecf-sdks/go,isGoSubmodule=true,withGoMod=true' \
+  --additional-properties='packageName=ecf,packageVersion=0.0.21,moduleName=github.com/ProneSoftSRL/pronesoft-ecf-sdks/go,isGoSubmodule=true,withGoMod=true,enumClassPrefix=true' \
   --git-user-id=ProneSoftSRL \
   --git-repo-id=pronesoft-ecf-sdks
 

@@ -21,16 +21,16 @@ type InvoiceType string
 
 // List of InvoiceType
 const (
-	_31 InvoiceType = "31"
-	_32 InvoiceType = "32"
-	_33 InvoiceType = "33"
-	_34 InvoiceType = "34"
-	_41 InvoiceType = "41"
-	_43 InvoiceType = "43"
-	_44 InvoiceType = "44"
-	_45 InvoiceType = "45"
-	_46 InvoiceType = "46"
-	_47 InvoiceType = "47"
+	INVOICETYPE__31 InvoiceType = "31"
+	INVOICETYPE__32 InvoiceType = "32"
+	INVOICETYPE__33 InvoiceType = "33"
+	INVOICETYPE__34 InvoiceType = "34"
+	INVOICETYPE__41 InvoiceType = "41"
+	INVOICETYPE__43 InvoiceType = "43"
+	INVOICETYPE__44 InvoiceType = "44"
+	INVOICETYPE__45 InvoiceType = "45"
+	INVOICETYPE__46 InvoiceType = "46"
+	INVOICETYPE__47 InvoiceType = "47"
 )
 
 // All allowed values of InvoiceType enum

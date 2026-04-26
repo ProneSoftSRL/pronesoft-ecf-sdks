@@ -21,9 +21,9 @@ type AccountType string
 
 // List of AccountType
 const (
-	CT AccountType = "CT"
-	AH AccountType = "AH"
-	OT AccountType = "OT"
+	ACCOUNTTYPE_CT AccountType = "CT"
+	ACCOUNTTYPE_AH AccountType = "AH"
+	ACCOUNTTYPE_OT AccountType = "OT"
 )
 
 // All allowed values of AccountType enum

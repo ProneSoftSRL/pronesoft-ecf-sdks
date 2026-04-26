@@ -21,10 +21,10 @@ type LegalStatus string
 
 // List of LegalStatus
 const (
-	ACCEPTED LegalStatus = "ACCEPTED"
-	ACCEPTED_WITH_OBSERVATIONS LegalStatus = "ACCEPTED_WITH_OBSERVATIONS"
-	REJECTED LegalStatus = "REJECTED"
-	ERROR LegalStatus = "ERROR"
+	LEGALSTATUS_ACCEPTED LegalStatus = "ACCEPTED"
+	LEGALSTATUS_ACCEPTED_WITH_OBSERVATIONS LegalStatus = "ACCEPTED_WITH_OBSERVATIONS"
+	LEGALSTATUS_REJECTED LegalStatus = "REJECTED"
+	LEGALSTATUS_ERROR LegalStatus = "ERROR"
 )
 
 // All allowed values of LegalStatus enum

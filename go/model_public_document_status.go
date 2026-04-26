@@ -21,10 +21,10 @@ type PublicDocumentStatus string
 
 // List of PublicDocumentStatus
 const (
-	REGISTERED PublicDocumentStatus = "REGISTERED"
-	TO_SEND PublicDocumentStatus = "TO_SEND"
-	WAITING_RESPONSE PublicDocumentStatus = "WAITING_RESPONSE"
-	FINISHED PublicDocumentStatus = "FINISHED"
+	PUBLICDOCUMENTSTATUS_REGISTERED PublicDocumentStatus = "REGISTERED"
+	PUBLICDOCUMENTSTATUS_TO_SEND PublicDocumentStatus = "TO_SEND"
+	PUBLICDOCUMENTSTATUS_WAITING_RESPONSE PublicDocumentStatus = "WAITING_RESPONSE"
+	PUBLICDOCUMENTSTATUS_FINISHED PublicDocumentStatus = "FINISHED"
 )
 
 // All allowed values of PublicDocumentStatus enum
