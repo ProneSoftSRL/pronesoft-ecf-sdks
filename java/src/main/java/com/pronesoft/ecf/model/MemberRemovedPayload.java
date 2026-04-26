@@ -48,7 +48,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del evento &#x60;member.removed&#x60;. Un usuario fue removido de la empresa.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class MemberRemovedPayload {
   public static final String SERIALIZED_NAME_USER_ID = "userId";
   @SerializedName(SERIALIZED_NAME_USER_ID)

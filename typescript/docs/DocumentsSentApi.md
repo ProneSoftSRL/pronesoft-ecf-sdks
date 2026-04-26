@@ -10,6 +10,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | [**getSentDocumentStats**](DocumentsSentApi.md#getsentdocumentstats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados |
 | [**getSentDocumentStatsByEnvironment**](DocumentsSentApi.md#getsentdocumentstatsbyenvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado |
 | [**getSentDocumentStatusOptions**](DocumentsSentApi.md#getsentdocumentstatusoptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles |
+| [**getSentDocumentXml**](DocumentsSentApi.md#getsentdocumentxml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID |
 | [**listSentDocuments**](DocumentsSentApi.md#listsentdocuments) | **GET** /documents/sent | Listar documentos enviados |
 
 
@@ -435,6 +436,80 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 | **200** | Lista de opciones de estado |  -  |
 | **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getSentDocumentXml
+
+> string getSentDocumentXml(id, inline)
+
+Descargar XML del documento por ID
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DocumentsSentApi,
+} from '@pronesoft-rd/ecf-sdk';
+import type { GetSentDocumentXmlRequest } from '@pronesoft-rd/ecf-sdk';
+
+async function example() {
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new DocumentsSentApi(config);
+
+  const body = {
+    // string | ID interno del documento
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // 'true' | 'false' | true para ver en el navegador, false para descargar (optional)
+    inline: inline_example,
+  } satisfies GetSentDocumentXmlRequest;
+
+  try {
+    const data = await api.getSentDocumentXml(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` | ID interno del documento | [Defaults to `undefined`] |
+| **inline** | `true`, `false` | true para ver en el navegador, false para descargar | [Optional] [Defaults to `undefined`] [Enum: true, false] |
+
+### Return type
+
+**string**
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/xml`, `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Contenido del archivo XML |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+| **404** | Documento no encontrado |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

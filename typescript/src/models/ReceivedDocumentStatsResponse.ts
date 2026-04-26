@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { DocumentStatsResponseByStatusValue } from './DocumentStatsResponseByStatusValue';
+import {
+    DocumentStatsResponseByStatusValueFromJSON,
+    DocumentStatsResponseByStatusValueFromJSONTyped,
+    DocumentStatsResponseByStatusValueToJSON,
+    DocumentStatsResponseByStatusValueToJSONTyped,
+} from './DocumentStatsResponseByStatusValue';
+
 /**
  * 
  * @export
@@ -33,10 +41,10 @@ export interface ReceivedDocumentStatsResponse {
     totalAmount?: number;
     /**
      * 
-     * @type {{ [key: string]: number; }}
+     * @type {{ [key: string]: DocumentStatsResponseByStatusValue; }}
      * @memberof ReceivedDocumentStatsResponse
      */
-    byStatus?: { [key: string]: number; };
+    byStatus?: { [key: string]: DocumentStatsResponseByStatusValue; };
 }
 
 /**
@@ -58,7 +66,7 @@ export function ReceivedDocumentStatsResponseFromJSONTyped(json: any, ignoreDisc
         
         'total': json['total'] == null ? undefined : json['total'],
         'totalAmount': json['totalAmount'] == null ? undefined : json['totalAmount'],
-        'byStatus': json['byStatus'] == null ? undefined : json['byStatus'],
+        'byStatus': json['byStatus'] == null ? undefined : (mapValues(json['byStatus'], DocumentStatsResponseByStatusValueFromJSON)),
     };
 }
 
@@ -75,7 +83,7 @@ export function ReceivedDocumentStatsResponseToJSONTyped(value?: ReceivedDocumen
         
         'total': value['total'],
         'totalAmount': value['totalAmount'],
-        'byStatus': value['byStatus'],
+        'byStatus': value['byStatus'] == null ? undefined : (mapValues(value['byStatus'], DocumentStatsResponseByStatusValueToJSON)),
     };
 }
 

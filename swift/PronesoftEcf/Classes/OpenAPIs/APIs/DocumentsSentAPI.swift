@@ -317,6 +317,68 @@ open class DocumentsSentAPI {
     }
 
     /**
+     * enum for parameter inline
+     */
+    public enum Inline_getSentDocumentXml: String, CaseIterable {
+        case _true = "true"
+        case _false = "false"
+    }
+
+    /**
+     Descargar XML del documento por ID
+     
+     - parameter id: (path) ID interno del documento 
+     - parameter inline: (query) true para ver en el navegador, false para descargar (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func getSentDocumentXml(id: UUID, inline: Inline_getSentDocumentXml? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) -> RequestTask {
+        return getSentDocumentXmlWithRequestBuilder(id: id, inline: inline).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Descargar XML del documento por ID
+     - GET /documents/sent/{id}/xml
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter id: (path) ID interno del documento 
+     - parameter inline: (query) true para ver en el navegador, false para descargar (optional)
+     - returns: RequestBuilder<String> 
+     */
+    open class func getSentDocumentXmlWithRequestBuilder(id: UUID, inline: Inline_getSentDocumentXml? = nil) -> RequestBuilder<String> {
+        var localVariablePath = "/documents/sent/{id}/xml"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "inline": (wrappedValue: inline?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<String>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      * enum for parameter status
      */
     public enum Status_listSentDocuments: String, CaseIterable {

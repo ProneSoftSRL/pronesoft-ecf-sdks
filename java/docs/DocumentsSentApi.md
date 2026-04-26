@@ -10,6 +10,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | [**getSentDocumentStats**](DocumentsSentApi.md#getSentDocumentStats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados |
 | [**getSentDocumentStatsByEnvironment**](DocumentsSentApi.md#getSentDocumentStatsByEnvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado |
 | [**getSentDocumentStatusOptions**](DocumentsSentApi.md#getSentDocumentStatusOptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles |
+| [**getSentDocumentXml**](DocumentsSentApi.md#getSentDocumentXml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID |
 | [**listSentDocuments**](DocumentsSentApi.md#listSentDocuments) | **GET** /documents/sent | Listar documentos enviados |
 
 
@@ -413,6 +414,75 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 | **200** | Lista de opciones de estado |  -  |
 | **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+<a id="getSentDocumentXml"></a>
+# **getSentDocumentXml**
+> String getSentDocumentXml(id, inline)
+
+Descargar XML del documento por ID
+
+### Example
+```java
+// Import classes:
+import com.pronesoft.ecf.ApiClient;
+import com.pronesoft.ecf.ApiException;
+import com.pronesoft.ecf.Configuration;
+import com.pronesoft.ecf.auth.*;
+import com.pronesoft.ecf.models.*;
+import com.pronesoft.ecf.api.DocumentsSentApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.ecf.sandbox.pronesoft.com/api/v1");
+    
+    // Configure OAuth2 access token for authorization: oauth2
+    OAuth oauth2 = (OAuth) defaultClient.getAuthentication("oauth2");
+    oauth2.setAccessToken("YOUR ACCESS TOKEN");
+
+    DocumentsSentApi apiInstance = new DocumentsSentApi(defaultClient);
+    UUID id = UUID.randomUUID(); // UUID | ID interno del documento
+    String inline = "true"; // String | true para ver en el navegador, false para descargar
+    try {
+      String result = apiInstance.getSentDocumentXml(id, inline);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling DocumentsSentApi#getSentDocumentXml");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | **UUID**| ID interno del documento | |
+| **inline** | **String**| true para ver en el navegador, false para descargar | [optional] [enum: true, false] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Contenido del archivo XML |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+| **404** | Documento no encontrado |  -  |
 
 <a id="listSentDocuments"></a>
 # **listSentDocuments**

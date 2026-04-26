@@ -18,7 +18,7 @@ pub struct ReceivedDocumentStatsResponse {
     #[serde(rename = "totalAmount", skip_serializing_if = "Option::is_none")]
     pub total_amount: Option<f64>,
     #[serde(rename = "byStatus", skip_serializing_if = "Option::is_none")]
-    pub by_status: Option<std::collections::HashMap<String, i32>>,
+    pub by_status: Option<std::collections::HashMap<String, models::DocumentStatsResponseByStatusValue>>,
 }
 
 impl ReceivedDocumentStatsResponse {

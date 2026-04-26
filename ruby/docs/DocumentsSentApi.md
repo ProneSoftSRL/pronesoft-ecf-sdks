@@ -10,6 +10,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | [**get_sent_document_stats**](DocumentsSentApi.md#get_sent_document_stats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados |
 | [**get_sent_document_stats_by_environment**](DocumentsSentApi.md#get_sent_document_stats_by_environment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado |
 | [**get_sent_document_status_options**](DocumentsSentApi.md#get_sent_document_status_options) | **GET** /documents/status-options | Opciones de filtro de estado disponibles |
+| [**get_sent_document_xml**](DocumentsSentApi.md#get_sent_document_xml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID |
 | [**list_sent_documents**](DocumentsSentApi.md#list_sent_documents) | **GET** /documents/sent | Listar documentos enviados |
 
 
@@ -428,6 +429,77 @@ This endpoint does not need any parameter.
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+
+## get_sent_document_xml
+
+> String get_sent_document_xml(id, opts)
+
+Descargar XML del documento por ID
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
+
+api_instance = PronesoftEcf::DocumentsSentApi.new
+id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | ID interno del documento
+opts = {
+  inline: 'true' # String | true para ver en el navegador, false para descargar
+}
+
+begin
+  # Descargar XML del documento por ID
+  result = api_instance.get_sent_document_xml(id, opts)
+  p result
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling DocumentsSentApi->get_sent_document_xml: #{e}"
+end
+```
+
+#### Using the get_sent_document_xml_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(String, Integer, Hash)> get_sent_document_xml_with_http_info(id, opts)
+
+```ruby
+begin
+  # Descargar XML del documento por ID
+  data, status_code, headers = api_instance.get_sent_document_xml_with_http_info(id, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => String
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling DocumentsSentApi->get_sent_document_xml_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **id** | **String** | ID interno del documento |  |
+| **inline** | **String** | true para ver en el navegador, false para descargar | [optional] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 
 ## list_sent_documents

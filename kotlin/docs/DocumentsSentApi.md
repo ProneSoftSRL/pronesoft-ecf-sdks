@@ -10,6 +10,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | [**getSentDocumentStats**](DocumentsSentApi.md#getSentDocumentStats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados |
 | [**getSentDocumentStatsByEnvironment**](DocumentsSentApi.md#getSentDocumentStatsByEnvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado |
 | [**getSentDocumentStatusOptions**](DocumentsSentApi.md#getSentDocumentStatusOptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles |
+| [**getSentDocumentXml**](DocumentsSentApi.md#getSentDocumentXml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID |
 | [**listSentDocuments**](DocumentsSentApi.md#listSentDocuments) | **GET** /documents/sent | Listar documentos enviados |
 
 
@@ -282,6 +283,54 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**kotlin.collections.List&lt;GetSentDocumentStatusOptions200ResponseInner&gt;**](GetSentDocumentStatusOptions200ResponseInner.md)
+
+### Authorization
+
+
+Configure oauth2:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="getSentDocumentXml"></a>
+# **getSentDocumentXml**
+> kotlin.String getSentDocumentXml(id, `inline`)
+
+Descargar XML del documento por ID
+
+### Example
+```kotlin
+// Import classes:
+//import com.pronesoft.ecf.infrastructure.*
+//import com.pronesoft.ecf.models.*
+
+val apiInstance = DocumentsSentApi()
+val id : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | ID interno del documento
+val `inline` : kotlin.String = `inline`_example // kotlin.String | true para ver en el navegador, false para descargar
+try {
+    val result : kotlin.String = apiInstance.getSentDocumentXml(id, `inline`)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling DocumentsSentApi#getSentDocumentXml")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling DocumentsSentApi#getSentDocumentXml")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **id** | **java.util.UUID**| ID interno del documento | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **&#x60;inline&#x60;** | **kotlin.String**| true para ver en el navegador, false para descargar | [optional] [enum: true, false] |
+
+### Return type
+
+**kotlin.String**
 
 ### Authorization
 

@@ -51,7 +51,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del evento &#x60;document.received&#x60;. Se dispara cuando tu empresa recibe un e-CF de un proveedor.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class DocumentReceivedPayload {
   public static final String SERIALIZED_NAME_ENCF = "encf";
   @SerializedName(SERIALIZED_NAME_ENCF)

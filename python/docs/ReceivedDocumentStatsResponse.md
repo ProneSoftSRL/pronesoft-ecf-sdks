@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **total** | **int** |  | [optional] 
 **total_amount** | **float** |  | [optional] 
-**by_status** | **Dict[str, int]** |  | [optional] 
+**by_status** | [**Dict[str, DocumentStatsResponseByStatusValue]**](DocumentStatsResponseByStatusValue.md) |  | [optional] 
 
 ## Example
 

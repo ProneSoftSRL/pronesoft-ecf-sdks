@@ -48,7 +48,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del evento &#x60;branch.created&#x60;. Se creó una nueva empresa asociada.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class BranchCreatedPayload {
   public static final String SERIALIZED_NAME_BRANCH_ID = "branchId";
   @SerializedName(SERIALIZED_NAME_BRANCH_ID)

@@ -83,6 +83,7 @@ Class | Method | HTTP request | Description
 *DocumentsSentAPI* | [**getSentDocumentStats**](docs/DocumentsSentAPI.md#getsentdocumentstats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
 *DocumentsSentAPI* | [**getSentDocumentStatsByEnvironment**](docs/DocumentsSentAPI.md#getsentdocumentstatsbyenvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
 *DocumentsSentAPI* | [**getSentDocumentStatusOptions**](docs/DocumentsSentAPI.md#getsentdocumentstatusoptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+*DocumentsSentAPI* | [**getSentDocumentXml**](docs/DocumentsSentAPI.md#getsentdocumentxml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID
 *DocumentsSentAPI* | [**listSentDocuments**](docs/DocumentsSentAPI.md#listsentdocuments) | **GET** /documents/sent | Listar documentos enviados
 *ECFSubmissionAPI* | [**getEcfStats**](docs/ECFSubmissionAPI.md#getecfstats) | **GET** /{environment}/ecf/responses/stats | Obtener estadísticas de envíos (últimos 30 días)
 *ECFSubmissionAPI* | [**getEcfStatus**](docs/ECFSubmissionAPI.md#getecfstatus) | **GET** /{environment}/ecf/status/{id} | Consultar estado del documento por ID interno

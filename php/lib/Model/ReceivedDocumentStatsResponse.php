@@ -60,7 +60,7 @@ class ReceivedDocumentStatsResponse implements ModelInterface, ArrayAccess, \Jso
     protected static $openAPITypes = [
         'total' => 'int',
         'total_amount' => 'float',
-        'by_status' => 'array<string,int>'
+        'by_status' => 'array<string,\PronesoftEcf\Model\DocumentStatsResponseByStatusValue>'
     ];
 
     /**
@@ -361,7 +361,7 @@ class ReceivedDocumentStatsResponse implements ModelInterface, ArrayAccess, \Jso
     /**
      * Gets by_status
      *
-     * @return array<string,int>|null
+     * @return array<string,\PronesoftEcf\Model\DocumentStatsResponseByStatusValue>|null
      */
     public function getByStatus()
     {
@@ -371,7 +371,7 @@ class ReceivedDocumentStatsResponse implements ModelInterface, ArrayAccess, \Jso
     /**
      * Sets by_status
      *
-     * @param array<string,int>|null $by_status by_status
+     * @param array<string,\PronesoftEcf\Model\DocumentStatsResponseByStatusValue>|null $by_status by_status
      *
      * @return self
      */

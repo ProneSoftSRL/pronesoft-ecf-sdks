@@ -9,7 +9,7 @@
 |------------ | ------------- | ------------- | -------------|
 |**total** | **Integer** |  |  [optional] |
 |**totalAmount** | **BigDecimal** |  |  [optional] |
-|**byStatus** | **Map&lt;String, Integer&gt;** |  |  [optional] |
+|**byStatus** | [**Map&lt;String, DocumentStatsResponseByStatusValue&gt;**](DocumentStatsResponseByStatusValue.md) |  |  [optional] |
 
 
 

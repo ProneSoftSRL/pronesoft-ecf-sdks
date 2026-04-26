@@ -20,6 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional, Union
+from pronesoft_ecf.models.document_stats_response_by_status_value import DocumentStatsResponseByStatusValue
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -30,7 +31,7 @@ class ReceivedDocumentStatsResponse(BaseModel):
     """ # noqa: E501
     total: Optional[StrictInt] = None
     total_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalAmount")
-    by_status: Optional[Dict[str, StrictInt]] = Field(default=None, alias="byStatus")
+    by_status: Optional[Dict[str, DocumentStatsResponseByStatusValue]] = Field(default=None, alias="byStatus")
     __properties: ClassVar[List[str]] = ["total", "totalAmount", "byStatus"]
 
     model_config = ConfigDict(
@@ -72,6 +73,13 @@ class ReceivedDocumentStatsResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each value in by_status (dict)
+        _field_dict = {}
+        if self.by_status:
+            for _key_by_status in self.by_status:
+                if self.by_status[_key_by_status]:
+                    _field_dict[_key_by_status] = self.by_status[_key_by_status].to_dict()
+            _dict['byStatus'] = _field_dict
         return _dict
 
     @classmethod
@@ -86,7 +94,12 @@ class ReceivedDocumentStatsResponse(BaseModel):
         _obj = cls.model_validate({
             "total": obj.get("total"),
             "totalAmount": obj.get("totalAmount"),
-            "byStatus": obj.get("byStatus")
+            "byStatus": dict(
+                (_k, DocumentStatsResponseByStatusValue.from_dict(_v))
+                for _k, _v in obj["byStatus"].items()
+            )
+            if obj.get("byStatus") is not None
+            else None
         })
         return _obj
 

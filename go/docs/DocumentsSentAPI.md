@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**GetSentDocumentStats**](DocumentsSentAPI.md#GetSentDocumentStats) | **Get** /documents/stats/summary | Estadísticas de documentos enviados
 [**GetSentDocumentStatsByEnvironment**](DocumentsSentAPI.md#GetSentDocumentStatsByEnvironment) | **Get** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
 [**GetSentDocumentStatusOptions**](DocumentsSentAPI.md#GetSentDocumentStatusOptions) | **Get** /documents/status-options | Opciones de filtro de estado disponibles
+[**GetSentDocumentXml**](DocumentsSentAPI.md#GetSentDocumentXml) | **Get** /documents/sent/{id}/xml | Descargar XML del documento por ID
 [**ListSentDocuments**](DocumentsSentAPI.md#ListSentDocuments) | **Get** /documents/sent | Listar documentos enviados
 
 
@@ -403,6 +404,76 @@ Other parameters are passed through a pointer to a apiGetSentDocumentStatusOptio
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetSentDocumentXml
+
+> string GetSentDocumentXml(ctx, id).Inline(inline).Execute()
+
+Descargar XML del documento por ID
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+)
+
+func main() {
+	id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | ID interno del documento
+	inline := "inline_example" // string | true para ver en el navegador, false para descargar (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DocumentsSentAPI.GetSentDocumentXml(context.Background(), id).Inline(inline).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DocumentsSentAPI.GetSentDocumentXml``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetSentDocumentXml`: string
+	fmt.Fprintf(os.Stdout, "Response from `DocumentsSentAPI.GetSentDocumentXml`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | ID interno del documento | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetSentDocumentXmlRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **inline** | **string** | true para ver en el navegador, false para descargar | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

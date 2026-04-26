@@ -1275,6 +1275,59 @@ paths:
       x-accepts:
       - application/json
       - application/xml
+  /documents/sent/{id}/xml:
+    get:
+      operationId: getSentDocumentXml
+      parameters:
+      - description: ID interno del documento
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: "true para ver en el navegador, false para descargar"
+        explode: true
+        in: query
+        name: inline
+        required: false
+        schema:
+          enum:
+          - "true"
+          - "false"
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                type: string
+          description: Contenido del archivo XML
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token ausente, expirado o inválido. Llama a POST /oauth/token\
+            \ para renovarlo."
+        "404":
+          description: Documento no encontrado
+      security:
+      - oauth2:
+        - documents:read
+      summary: Descargar XML del documento por ID
+      tags:
+      - Documents Sent
+      x-accepts:
+      - application/json
+      - application/xml
   /documents/status-options:
     get:
       operationId: getSentDocumentStatusOptions
@@ -4615,7 +4668,9 @@ components:
         totalAmount: 6.027456183070403
         total: 0
         byStatus:
-          key: 1
+          key:
+            count: 1
+            label: label
       properties:
         total:
           type: integer
@@ -4623,7 +4678,7 @@ components:
           type: number
         byStatus:
           additionalProperties:
-            type: integer
+            $ref: "#/components/schemas/DocumentStatsResponse_byStatus_value"
           type: object
       type: object
     ApprovalListResponse:

@@ -143,6 +143,26 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <returns>ApiResponse of List&lt;GetSentDocumentStatusOptions200ResponseInner&gt;</returns>
         ApiResponse<List<GetSentDocumentStatusOptions200ResponseInner>> GetSentDocumentStatusOptionsWithHttpInfo();
         /// <summary>
+        /// Descargar XML del documento por ID
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID interno del documento</param>
+        /// <param name="inline">true para ver en el navegador, false para descargar (optional)</param>
+        /// <returns>string</returns>
+        string GetSentDocumentXml(Guid id, string? inline = default);
+
+        /// <summary>
+        /// Descargar XML del documento por ID
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID interno del documento</param>
+        /// <param name="inline">true para ver en el navegador, false para descargar (optional)</param>
+        /// <returns>ApiResponse of string</returns>
+        ApiResponse<string> GetSentDocumentXmlWithHttpInfo(Guid id, string? inline = default);
+        /// <summary>
         /// Listar documentos enviados
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
@@ -329,6 +349,31 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;GetSentDocumentStatusOptions200ResponseInner&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<List<GetSentDocumentStatusOptions200ResponseInner>>> GetSentDocumentStatusOptionsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Descargar XML del documento por ID
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID interno del documento</param>
+        /// <param name="inline">true para ver en el navegador, false para descargar (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        System.Threading.Tasks.Task<string> GetSentDocumentXmlAsync(Guid id, string? inline = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Descargar XML del documento por ID
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID interno del documento</param>
+        /// <param name="inline">true para ver en el navegador, false para descargar (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        System.Threading.Tasks.Task<ApiResponse<string>> GetSentDocumentXmlWithHttpInfoAsync(Guid id, string? inline = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Listar documentos enviados
         /// </summary>
@@ -1351,6 +1396,139 @@ namespace Pronesoft.Ecf.Sdk.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetSentDocumentStatusOptions", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Descargar XML del documento por ID 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID interno del documento</param>
+        /// <param name="inline">true para ver en el navegador, false para descargar (optional)</param>
+        /// <returns>string</returns>
+        public string GetSentDocumentXml(Guid id, string? inline = default)
+        {
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<string> localVarResponse = GetSentDocumentXmlWithHttpInfo(id, inline);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Descargar XML del documento por ID 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID interno del documento</param>
+        /// <param name="inline">true para ver en el navegador, false para descargar (optional)</param>
+        /// <returns>ApiResponse of string</returns>
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<string> GetSentDocumentXmlWithHttpInfo(Guid id, string? inline = default)
+        {
+            Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/xml",
+                "application/json"
+            };
+
+            var localVarContentType = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(id)); // path parameter
+            if (inline != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "inline", inline));
+            }
+
+            // authentication (oauth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<string>("/documents/sent/{id}/xml", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetSentDocumentXml", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Descargar XML del documento por ID 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID interno del documento</param>
+        /// <param name="inline">true para ver en el navegador, false para descargar (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        public async System.Threading.Tasks.Task<string> GetSentDocumentXmlAsync(Guid id, string? inline = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<string> localVarResponse = await GetSentDocumentXmlWithHttpInfoAsync(id, inline, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Descargar XML del documento por ID 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID interno del documento</param>
+        /// <param name="inline">true para ver en el navegador, false para descargar (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<string>> GetSentDocumentXmlWithHttpInfoAsync(Guid id, string? inline = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+
+            Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/xml",
+                "application/json"
+            };
+
+
+            var localVarContentType = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(id)); // path parameter
+            if (inline != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "inline", inline));
+            }
+
+            // authentication (oauth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<string>("/documents/sent/{id}/xml", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetSentDocumentXml", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

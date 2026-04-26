@@ -19,9 +19,9 @@ public struct ReceivedDocumentStatsResponse: Codable, JSONEncodable, Hashable {
 
     public var total: Int?
     public var totalAmount: Double?
-    public var byStatus: [String: Int]?
+    public var byStatus: [String: DocumentStatsResponseByStatusValue]?
 
-    public init(total: Int? = nil, totalAmount: Double? = nil, byStatus: [String: Int]? = nil) {
+    public init(total: Int? = nil, totalAmount: Double? = nil, byStatus: [String: DocumentStatsResponseByStatusValue]? = nil) {
         self.total = total
         self.totalAmount = totalAmount
         self.byStatus = byStatus

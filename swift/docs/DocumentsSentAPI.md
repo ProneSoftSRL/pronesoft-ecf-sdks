@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**getSentDocumentStats**](DocumentsSentAPI.md#getsentdocumentstats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
 [**getSentDocumentStatsByEnvironment**](DocumentsSentAPI.md#getsentdocumentstatsbyenvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
 [**getSentDocumentStatusOptions**](DocumentsSentAPI.md#getsentdocumentstatusoptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+[**getSentDocumentXml**](DocumentsSentAPI.md#getsentdocumentxml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID
 [**listSentDocuments**](DocumentsSentAPI.md#listsentdocuments) | **GET** /documents/sent | Listar documentos enviados
 
 
@@ -302,6 +303,56 @@ This endpoint does not need any parameter.
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getSentDocumentXml**
+```swift
+    open class func getSentDocumentXml(id: UUID, inline: Inline_getSentDocumentXml? = nil, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
+```
+
+Descargar XML del documento por ID
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PronesoftEcf
+
+let id = 987 // UUID | ID interno del documento
+let inline = "inline_example" // String | true para ver en el navegador, false para descargar (optional)
+
+// Descargar XML del documento por ID
+DocumentsSentAPI.getSentDocumentXml(id: id, inline: inline) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **UUID** | ID interno del documento | 
+ **inline** | **String** | true para ver en el navegador, false para descargar | [optional] 
+
+### Return type
+
+**String**
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

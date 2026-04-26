@@ -34,7 +34,7 @@ class ReceivedDocumentStatsResponse {
   ///
   num? totalAmount;
 
-  Map<String, int> byStatus;
+  Map<String, DocumentStatsResponseByStatusValue> byStatus;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReceivedDocumentStatsResponse &&
@@ -85,7 +85,7 @@ class ReceivedDocumentStatsResponse {
       return ReceivedDocumentStatsResponse(
         total: mapValueOfType<int>(json, r'total'),
         totalAmount: num.parse('${json[r'totalAmount']}'),
-        byStatus: mapCastOfType<String, int>(json, r'byStatus') ?? const {},
+        byStatus: DocumentStatsResponseByStatusValue.mapFromJson(json[r'byStatus']),
       );
     }
     return null;

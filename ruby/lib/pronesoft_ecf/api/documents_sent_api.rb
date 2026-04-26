@@ -386,6 +386,74 @@ module PronesoftEcf
       return data, status_code, headers
     end
 
+    # Descargar XML del documento por ID
+    # @param id [String] ID interno del documento
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :inline true para ver en el navegador, false para descargar
+    # @return [String]
+    def get_sent_document_xml(id, opts = {})
+      data, _status_code, _headers = get_sent_document_xml_with_http_info(id, opts)
+      data
+    end
+
+    # Descargar XML del documento por ID
+    # @param id [String] ID interno del documento
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :inline true para ver en el navegador, false para descargar
+    # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
+    def get_sent_document_xml_with_http_info(id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: DocumentsSentApi.get_sent_document_xml ...'
+      end
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling DocumentsSentApi.get_sent_document_xml"
+      end
+      allowable_values = ["true", "false"]
+      if @api_client.config.client_side_validation && opts[:'inline'] && !allowable_values.include?(opts[:'inline'])
+        fail ArgumentError, "invalid value for \"inline\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/documents/sent/{id}/xml'.sub('{' + 'id' + '}', CGI.escape(id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'inline'] = opts[:'inline'] if !opts[:'inline'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json']) unless header_params['Accept']
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'String'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['oauth2']
+
+      new_options = opts.merge(
+        :operation => :"DocumentsSentApi.get_sent_document_xml",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: DocumentsSentApi#get_sent_document_xml\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Listar documentos enviados
     # @param [Hash] opts the optional parameters
     # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 

@@ -39,7 +39,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="total">total.</param>
         /// <param name="totalAmount">totalAmount.</param>
         /// <param name="byStatus">byStatus.</param>
-        public ReceivedDocumentStatsResponse(int total = default, decimal totalAmount = default, Dictionary<string, int> byStatus = default)
+        public ReceivedDocumentStatsResponse(int total = default, decimal totalAmount = default, Dictionary<string, DocumentStatsResponseByStatusValue> byStatus = default)
         {
             this.Total = total;
             this.TotalAmount = totalAmount;
@@ -62,7 +62,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// Gets or Sets ByStatus
         /// </summary>
         [DataMember(Name = "byStatus", EmitDefaultValue = false)]
-        public Dictionary<string, int> ByStatus { get; set; }
+        public Dictionary<string, DocumentStatsResponseByStatusValue> ByStatus { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

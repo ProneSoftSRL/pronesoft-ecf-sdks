@@ -51,7 +51,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Envelope enviado a tu URL de webhook cuando ocurre un evento. Valida la autenticidad con el header &#x60;X-Webhook-Signature: sha256&#x3D;&lt;hmac&gt;&#x60;. Headers adicionales: &#x60;X-Webhook-Event&#x60;, &#x60;X-Webhook-ID&#x60;, &#x60;X-Webhook-Timestamp&#x60;. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class WebhookNotificationPayload {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

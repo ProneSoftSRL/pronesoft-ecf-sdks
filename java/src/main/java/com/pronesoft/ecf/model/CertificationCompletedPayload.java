@@ -50,7 +50,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del evento &#x60;certification.completed&#x60;. El proceso de certificación automática con DGII fue completado.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class CertificationCompletedPayload {
   public static final String SERIALIZED_NAME_PROCESS_ID = "processId";
   @SerializedName(SERIALIZED_NAME_PROCESS_ID)

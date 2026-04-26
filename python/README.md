@@ -163,6 +163,7 @@ Class | Method | HTTP request | Description
 *DocumentsSentApi* | [**get_sent_document_stats**](docs/DocumentsSentApi.md#get_sent_document_stats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
 *DocumentsSentApi* | [**get_sent_document_stats_by_environment**](docs/DocumentsSentApi.md#get_sent_document_stats_by_environment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
 *DocumentsSentApi* | [**get_sent_document_status_options**](docs/DocumentsSentApi.md#get_sent_document_status_options) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+*DocumentsSentApi* | [**get_sent_document_xml**](docs/DocumentsSentApi.md#get_sent_document_xml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID
 *DocumentsSentApi* | [**list_sent_documents**](docs/DocumentsSentApi.md#list_sent_documents) | **GET** /documents/sent | Listar documentos enviados
 *ReportsApi* | [**export606**](docs/ReportsApi.md#export606) | **GET** /dgii/606/export | Exportar Formato 606 (Compras)
 *ReportsApi* | [**export_sent_documents**](docs/ReportsApi.md#export_sent_documents) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados

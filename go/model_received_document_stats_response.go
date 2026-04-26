@@ -22,7 +22,7 @@ var _ MappedNullable = &ReceivedDocumentStatsResponse{}
 type ReceivedDocumentStatsResponse struct {
 	Total *int32 `json:"total,omitempty"`
 	TotalAmount *float32 `json:"totalAmount,omitempty"`
-	ByStatus *map[string]int32 `json:"byStatus,omitempty"`
+	ByStatus *map[string]DocumentStatsResponseByStatusValue `json:"byStatus,omitempty"`
 }
 
 // NewReceivedDocumentStatsResponse instantiates a new ReceivedDocumentStatsResponse object
@@ -107,9 +107,9 @@ func (o *ReceivedDocumentStatsResponse) SetTotalAmount(v float32) {
 }
 
 // GetByStatus returns the ByStatus field value if set, zero value otherwise.
-func (o *ReceivedDocumentStatsResponse) GetByStatus() map[string]int32 {
+func (o *ReceivedDocumentStatsResponse) GetByStatus() map[string]DocumentStatsResponseByStatusValue {
 	if o == nil || IsNil(o.ByStatus) {
-		var ret map[string]int32
+		var ret map[string]DocumentStatsResponseByStatusValue
 		return ret
 	}
 	return *o.ByStatus
@@ -117,7 +117,7 @@ func (o *ReceivedDocumentStatsResponse) GetByStatus() map[string]int32 {
 
 // GetByStatusOk returns a tuple with the ByStatus field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ReceivedDocumentStatsResponse) GetByStatusOk() (*map[string]int32, bool) {
+func (o *ReceivedDocumentStatsResponse) GetByStatusOk() (*map[string]DocumentStatsResponseByStatusValue, bool) {
 	if o == nil || IsNil(o.ByStatus) {
 		return nil, false
 	}
@@ -133,8 +133,8 @@ func (o *ReceivedDocumentStatsResponse) HasByStatus() bool {
 	return false
 }
 
-// SetByStatus gets a reference to the given map[string]int32 and assigns it to the ByStatus field.
-func (o *ReceivedDocumentStatsResponse) SetByStatus(v map[string]int32) {
+// SetByStatus gets a reference to the given map[string]DocumentStatsResponseByStatusValue and assigns it to the ByStatus field.
+func (o *ReceivedDocumentStatsResponse) SetByStatus(v map[string]DocumentStatsResponseByStatusValue) {
 	o.ByStatus = &v
 }
 

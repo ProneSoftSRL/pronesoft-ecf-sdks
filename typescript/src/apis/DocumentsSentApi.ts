@@ -64,6 +64,11 @@ export interface GetSentDocumentStatsByEnvironmentRequest {
     xTenantId?: string;
 }
 
+export interface GetSentDocumentXmlRequest {
+    id: string;
+    inline?: GetSentDocumentXmlInlineEnum;
+}
+
 export interface ListSentDocumentsRequest {
     xTenantId?: string;
     env?: Environment;
@@ -226,6 +231,31 @@ export interface DocumentsSentApiInterface {
      * Opciones de filtro de estado disponibles
      */
     getSentDocumentStatusOptions(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetSentDocumentStatusOptions200ResponseInner>>;
+
+    /**
+     * Creates request options for getSentDocumentXml without sending the request
+     * @param {string} id ID interno del documento
+     * @param {'true' | 'false'} [inline] true para ver en el navegador, false para descargar
+     * @throws {RequiredError}
+     * @memberof DocumentsSentApiInterface
+     */
+    getSentDocumentXmlRequestOpts(requestParameters: GetSentDocumentXmlRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * 
+     * @summary Descargar XML del documento por ID
+     * @param {string} id ID interno del documento
+     * @param {'true' | 'false'} [inline] true para ver en el navegador, false para descargar
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DocumentsSentApiInterface
+     */
+    getSentDocumentXmlRaw(requestParameters: GetSentDocumentXmlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
+
+    /**
+     * Descargar XML del documento por ID
+     */
+    getSentDocumentXml(requestParameters: GetSentDocumentXmlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
 
     /**
      * Creates request options for listSentDocuments without sending the request
@@ -574,6 +604,64 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
     }
 
     /**
+     * Creates request options for getSentDocumentXml without sending the request
+     */
+    async getSentDocumentXmlRequestOpts(requestParameters: GetSentDocumentXmlRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getSentDocumentXml().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['inline'] != null) {
+            queryParameters['inline'] = requestParameters['inline'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["documents:read"]);
+        }
+
+
+        let urlPath = `/documents/sent/{id}/xml`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Descargar XML del documento por ID
+     */
+    async getSentDocumentXmlRaw(requestParameters: GetSentDocumentXmlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const requestOptions = await this.getSentDocumentXmlRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Descargar XML del documento por ID
+     */
+    async getSentDocumentXml(requestParameters: GetSentDocumentXmlRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.getSentDocumentXmlRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for listSentDocuments without sending the request
      */
     async listSentDocumentsRequestOpts(requestParameters: ListSentDocumentsRequest): Promise<runtime.RequestOpts> {
@@ -661,6 +749,14 @@ export const DownloadSentDocumentXmlInlineEnum = {
     False: 'false'
 } as const;
 export type DownloadSentDocumentXmlInlineEnum = typeof DownloadSentDocumentXmlInlineEnum[keyof typeof DownloadSentDocumentXmlInlineEnum];
+/**
+ * @export
+ */
+export const GetSentDocumentXmlInlineEnum = {
+    True: 'true',
+    False: 'false'
+} as const;
+export type GetSentDocumentXmlInlineEnum = typeof GetSentDocumentXmlInlineEnum[keyof typeof GetSentDocumentXmlInlineEnum];
 /**
  * @export
  */

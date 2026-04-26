@@ -913,6 +913,36 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
+  /documents/sent/{id}/xml:
+    get:
+      tags: [Documents Sent]
+      summary: Descargar XML del documento por ID
+      operationId: getSentDocumentXml
+      security:
+        - oauth2: [documents:read]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID interno del documento
+          schema: { type: string, format: uuid }
+        - name: inline
+          in: query
+          required: false
+          description: "true para ver en el navegador, false para descargar"
+          schema: { type: string, enum: ["true", "false"] }
+      responses:
+        "200":
+          description: Contenido del archivo XML
+          content:
+            application/xml:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          description: Documento no encontrado
+
   /documents/status-options:
     get:
       tags: [Documents Sent]
@@ -2519,7 +2549,10 @@ components:
         byStatus:
           type: object
           additionalProperties:
-            type: integer
+            type: object
+            properties:
+              count: { type: integer }
+              label: { type: string }
 
     ApprovalListResponse:
       type: object

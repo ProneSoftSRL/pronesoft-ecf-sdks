@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**get_sent_document_stats**](DocumentsSentApi.md#get_sent_document_stats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
 [**get_sent_document_stats_by_environment**](DocumentsSentApi.md#get_sent_document_stats_by_environment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
 [**get_sent_document_status_options**](DocumentsSentApi.md#get_sent_document_status_options) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+[**get_sent_document_xml**](DocumentsSentApi.md#get_sent_document_xml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID
 [**list_sent_documents**](DocumentsSentApi.md#list_sent_documents) | **GET** /documents/sent | Listar documentos enviados
 
 
@@ -457,6 +458,82 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | Lista de opciones de estado |  -  |
 **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_sent_document_xml**
+> str get_sent_document_xml(id, inline=inline)
+
+Descargar XML del documento por ID
+
+### Example
+
+* OAuth Authentication (oauth2):
+
+```python
+import pronesoft_ecf
+from pronesoft_ecf.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.ecf.sandbox.pronesoft.com/api/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = pronesoft_ecf.Configuration(
+    host = "https://api.ecf.sandbox.pronesoft.com/api/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with pronesoft_ecf.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = pronesoft_ecf.DocumentsSentApi(api_client)
+    id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | ID interno del documento
+    inline = 'inline_example' # str | true para ver en el navegador, false para descargar (optional)
+
+    try:
+        # Descargar XML del documento por ID
+        api_response = api_instance.get_sent_document_xml(id, inline=inline)
+        print("The response of DocumentsSentApi->get_sent_document_xml:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DocumentsSentApi->get_sent_document_xml: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **UUID**| ID interno del documento | 
+ **inline** | **str**| true para ver en el navegador, false para descargar | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Contenido del archivo XML |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+**404** | Documento no encontrado |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

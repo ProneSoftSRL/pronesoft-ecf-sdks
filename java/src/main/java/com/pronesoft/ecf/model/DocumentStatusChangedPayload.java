@@ -50,7 +50,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload inside &#x60;data&#x60; when event is &#x60;document.status_changed&#x60;. Use &#x60;documentId&#x60; to poll GET /{environment}/ecf/status/{id} if needed. &#x60;issuerRnc&#x60; identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class DocumentStatusChangedPayload {
   public static final String SERIALIZED_NAME_DOCUMENT_ID = "documentId";
   @SerializedName(SERIALIZED_NAME_DOCUMENT_ID)

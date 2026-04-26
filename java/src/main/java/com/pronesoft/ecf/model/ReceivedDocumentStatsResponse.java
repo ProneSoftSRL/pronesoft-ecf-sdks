@@ -19,6 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.pronesoft.ecf.model.DocumentStatsResponseByStatusValue;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -51,7 +52,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * ReceivedDocumentStatsResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ReceivedDocumentStatsResponse {
   public static final String SERIALIZED_NAME_TOTAL = "total";
   @SerializedName(SERIALIZED_NAME_TOTAL)
@@ -66,7 +67,7 @@ public class ReceivedDocumentStatsResponse {
   public static final String SERIALIZED_NAME_BY_STATUS = "byStatus";
   @SerializedName(SERIALIZED_NAME_BY_STATUS)
   @javax.annotation.Nullable
-  private Map<String, Integer> byStatus = new HashMap<>();
+  private Map<String, DocumentStatsResponseByStatusValue> byStatus = new HashMap<>();
 
   public ReceivedDocumentStatsResponse() {
   }
@@ -109,12 +110,12 @@ public class ReceivedDocumentStatsResponse {
   }
 
 
-  public ReceivedDocumentStatsResponse byStatus(@javax.annotation.Nullable Map<String, Integer> byStatus) {
+  public ReceivedDocumentStatsResponse byStatus(@javax.annotation.Nullable Map<String, DocumentStatsResponseByStatusValue> byStatus) {
     this.byStatus = byStatus;
     return this;
   }
 
-  public ReceivedDocumentStatsResponse putByStatusItem(String key, Integer byStatusItem) {
+  public ReceivedDocumentStatsResponse putByStatusItem(String key, DocumentStatsResponseByStatusValue byStatusItem) {
     if (this.byStatus == null) {
       this.byStatus = new HashMap<>();
     }
@@ -127,11 +128,11 @@ public class ReceivedDocumentStatsResponse {
    * @return byStatus
    */
   @javax.annotation.Nullable
-  public Map<String, Integer> getByStatus() {
+  public Map<String, DocumentStatsResponseByStatusValue> getByStatus() {
     return byStatus;
   }
 
-  public void setByStatus(@javax.annotation.Nullable Map<String, Integer> byStatus) {
+  public void setByStatus(@javax.annotation.Nullable Map<String, DocumentStatsResponseByStatusValue> byStatus) {
     this.byStatus = byStatus;
   }
 

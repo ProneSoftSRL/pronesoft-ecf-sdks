@@ -382,6 +382,71 @@ class DocumentsSentApi {
     return null;
   }
 
+  /// Descargar XML del documento por ID
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   ID interno del documento
+  ///
+  /// * [String] inline:
+  ///   true para ver en el navegador, false para descargar
+  Future<Response> getSentDocumentXmlWithHttpInfo(String id, { String? inline, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/documents/sent/{id}/xml'
+      .replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (inline != null) {
+      queryParams.addAll(_queryParams('', 'inline', inline));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Descargar XML del documento por ID
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   ID interno del documento
+  ///
+  /// * [String] inline:
+  ///   true para ver en el navegador, false para descargar
+  Future<String?> getSentDocumentXml(String id, { String? inline, }) async {
+    final response = await getSentDocumentXmlWithHttpInfo(id,  inline: inline, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
+    
+    }
+    return null;
+  }
+
   /// Listar documentos enviados
   ///
   /// Note: This method returns the HTTP [Response].

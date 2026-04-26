@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Total** | Pointer to **int32** |  | [optional] 
 **TotalAmount** | Pointer to **float32** |  | [optional] 
-**ByStatus** | Pointer to **map[string]int32** |  | [optional] 
+**ByStatus** | Pointer to [**map[string]DocumentStatsResponseByStatusValue**](DocumentStatsResponseByStatusValue.md) |  | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasTotalAmount returns a boolean if a field has been set.
 
 ### GetByStatus
 
-`func (o *ReceivedDocumentStatsResponse) GetByStatus() map[string]int32`
+`func (o *ReceivedDocumentStatsResponse) GetByStatus() map[string]DocumentStatsResponseByStatusValue`
 
 GetByStatus returns the ByStatus field if non-nil, zero value otherwise.
 
 ### GetByStatusOk
 
-`func (o *ReceivedDocumentStatsResponse) GetByStatusOk() (*map[string]int32, bool)`
+`func (o *ReceivedDocumentStatsResponse) GetByStatusOk() (*map[string]DocumentStatsResponseByStatusValue, bool)`
 
 GetByStatusOk returns a tuple with the ByStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetByStatus
 
-`func (o *ReceivedDocumentStatsResponse) SetByStatus(v map[string]int32)`
+`func (o *ReceivedDocumentStatsResponse) SetByStatus(v map[string]DocumentStatsResponseByStatusValue)`
 
 SetByStatus sets ByStatus field to given value.
 

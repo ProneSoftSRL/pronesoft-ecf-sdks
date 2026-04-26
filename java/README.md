@@ -2,7 +2,7 @@
 
 eCF-Pronesoft Integration API
 - API version: 1.2.0
-  - Build date: 2026-04-18T17:24:33.828594517-04:00[America/Santo_Domingo]
+  - Build date: 2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Descripción general
@@ -192,6 +192,7 @@ Class | Method | HTTP request | Description
 *DocumentsSentApi* | [**getSentDocumentStats**](docs/DocumentsSentApi.md#getSentDocumentStats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados
 *DocumentsSentApi* | [**getSentDocumentStatsByEnvironment**](docs/DocumentsSentApi.md#getSentDocumentStatsByEnvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado
 *DocumentsSentApi* | [**getSentDocumentStatusOptions**](docs/DocumentsSentApi.md#getSentDocumentStatusOptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles
+*DocumentsSentApi* | [**getSentDocumentXml**](docs/DocumentsSentApi.md#getSentDocumentXml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID
 *DocumentsSentApi* | [**listSentDocuments**](docs/DocumentsSentApi.md#listSentDocuments) | **GET** /documents/sent | Listar documentos enviados
 *ECfSubmissionApi* | [**getEcfStats**](docs/ECfSubmissionApi.md#getEcfStats) | **GET** /{environment}/ecf/responses/stats | Obtener estadísticas de envíos (últimos 30 días)
 *ECfSubmissionApi* | [**getEcfStatus**](docs/ECfSubmissionApi.md#getEcfStatus) | **GET** /{environment}/ecf/status/{id} | Consultar estado del documento por ID interno

@@ -12,6 +12,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 | [**getSentDocumentStats()**](DocumentsSentApi.md#getSentDocumentStats) | **GET** /documents/stats/summary | Estadísticas de documentos enviados |
 | [**getSentDocumentStatsByEnvironment()**](DocumentsSentApi.md#getSentDocumentStatsByEnvironment) | **GET** /documents/stats/by-environment | Estadísticas agrupadas por ambiente y estado |
 | [**getSentDocumentStatusOptions()**](DocumentsSentApi.md#getSentDocumentStatusOptions) | **GET** /documents/status-options | Opciones de filtro de estado disponibles |
+| [**getSentDocumentXml()**](DocumentsSentApi.md#getSentDocumentXml) | **GET** /documents/sent/{id}/xml | Descargar XML del documento por ID |
 | [**listSentDocuments()**](DocumentsSentApi.md#listSentDocuments) | **GET** /documents/sent | Listar documentos enviados |
 
 
@@ -363,6 +364,66 @@ This endpoint does not need any parameter.
 
 - **Content-Type**: Not defined
 - **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getSentDocumentXml()`
+
+```php
+getSentDocumentXml($id, $inline): string
+```
+
+Descargar XML del documento por ID
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$id = 'id_example'; // string | ID interno del documento
+$inline = 'inline_example'; // string | true para ver en el navegador, false para descargar
+
+try {
+    $result = $apiInstance->getSentDocumentXml($id, $inline);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DocumentsSentApi->getSentDocumentXml: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **string**| ID interno del documento | |
+| **inline** | **string**| true para ver en el navegador, false para descargar | [optional] |
+
+### Return type
+
+**string**
+
+### Authorization
+
+[oauth2](../../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/xml`, `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

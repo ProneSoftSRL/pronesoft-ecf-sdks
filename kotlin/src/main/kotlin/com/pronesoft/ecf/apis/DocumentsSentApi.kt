@@ -539,6 +539,104 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
     }
 
     /**
+     * enum for parameter &#x60;inline&#x60;
+     */
+     enum class &#x60;Inline&#x60;GetSentDocumentXml(val value: kotlin.String) {
+         @SerializedName(value = "true") `true`("true"),
+         @SerializedName(value = "false") `false`("false");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
+     * GET /documents/sent/{id}/xml
+     * Descargar XML del documento por ID
+     * 
+     * @param id ID interno del documento
+     * @param `inline` true para ver en el navegador, false para descargar (optional)
+     * @return kotlin.String
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getSentDocumentXml(id: java.util.UUID, `inline`: &#x60;Inline&#x60;GetSentDocumentXml? = null) : kotlin.String {
+        val localVarResponse = getSentDocumentXmlWithHttpInfo(id = id, `inline` = `inline`)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /documents/sent/{id}/xml
+     * Descargar XML del documento por ID
+     * 
+     * @param id ID interno del documento
+     * @param `inline` true para ver en el navegador, false para descargar (optional)
+     * @return ApiResponse<kotlin.String?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getSentDocumentXmlWithHttpInfo(id: java.util.UUID, `inline`: &#x60;Inline&#x60;GetSentDocumentXml?) : ApiResponse<kotlin.String?> {
+        val localVariableConfig = getSentDocumentXmlRequestConfig(id = id, `inline` = `inline`)
+
+        return request<Unit, kotlin.String>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation getSentDocumentXml
+     *
+     * @param id ID interno del documento
+     * @param `inline` true para ver en el navegador, false para descargar (optional)
+     * @return RequestConfig
+     */
+    fun getSentDocumentXmlRequestConfig(id: java.util.UUID, `inline`: &#x60;Inline&#x60;GetSentDocumentXml?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                if (`inline` != null) {
+                    put("inline", listOf(`inline`.value))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/documents/sent/{id}/xml".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
      * enum for parameter status
      */
      enum class StatusListSentDocuments(val value: kotlin.String) {

@@ -8,7 +8,7 @@ Name | Type
 ------------ | -------------
 `total` | number
 `totalAmount` | number
-`byStatus` | { [key: string]: number; }
+`byStatus` | [{ [key: string]: DocumentStatsResponseByStatusValue; }](DocumentStatsResponseByStatusValue.md)
 
 ## Example
 

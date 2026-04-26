@@ -45,7 +45,7 @@ module PronesoftEcf
       {
         :'total' => :'Integer',
         :'total_amount' => :'Float',
-        :'by_status' => :'Hash<String, Integer>'
+        :'by_status' => :'Hash<String, DocumentStatsResponseByStatusValue>'
       }
     end
 

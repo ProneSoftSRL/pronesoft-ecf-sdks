@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.DocumentStatsResponseByStatusValue
 
 import com.google.gson.annotations.SerializedName
 
@@ -44,7 +45,7 @@ data class ReceivedDocumentStatsResponse (
     val totalAmount: java.math.BigDecimal? = null,
 
     @SerializedName("byStatus")
-    val byStatus: kotlin.collections.Map<kotlin.String, kotlin.Int>? = null
+    val byStatus: kotlin.collections.Map<kotlin.String, DocumentStatsResponseByStatusValue>? = null
 
 ) {
 

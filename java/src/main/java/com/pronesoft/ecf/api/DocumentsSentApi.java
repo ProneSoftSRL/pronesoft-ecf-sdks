@@ -893,6 +893,150 @@ public class DocumentsSentApi {
         return localVarCall;
     }
     /**
+     * Build call for getSentDocumentXml
+     * @param id ID interno del documento (required)
+     * @param inline true para ver en el navegador, false para descargar (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Contenido del archivo XML </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Documento no encontrado </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getSentDocumentXmlCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String inline, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/documents/sent/{id}/xml"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (inline != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("inline", inline));
+        }
+
+        final String[] localVarAccepts = {
+            "application/xml",
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "oauth2" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getSentDocumentXmlValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String inline, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling getSentDocumentXml(Async)");
+        }
+
+        return getSentDocumentXmlCall(id, inline, _callback);
+
+    }
+
+    /**
+     * Descargar XML del documento por ID
+     * 
+     * @param id ID interno del documento (required)
+     * @param inline true para ver en el navegador, false para descargar (optional)
+     * @return String
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Contenido del archivo XML </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Documento no encontrado </td><td>  -  </td></tr>
+     </table>
+     */
+    public String getSentDocumentXml(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String inline) throws ApiException {
+        ApiResponse<String> localVarResp = getSentDocumentXmlWithHttpInfo(id, inline);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Descargar XML del documento por ID
+     * 
+     * @param id ID interno del documento (required)
+     * @param inline true para ver en el navegador, false para descargar (optional)
+     * @return ApiResponse&lt;String&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Contenido del archivo XML </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Documento no encontrado </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<String> getSentDocumentXmlWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String inline) throws ApiException {
+        okhttp3.Call localVarCall = getSentDocumentXmlValidateBeforeCall(id, inline, null);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Descargar XML del documento por ID (asynchronously)
+     * 
+     * @param id ID interno del documento (required)
+     * @param inline true para ver en el navegador, false para descargar (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Contenido del archivo XML </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Documento no encontrado </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getSentDocumentXmlAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String inline, final ApiCallback<String> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getSentDocumentXmlValidateBeforeCall(id, inline, _callback);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for listSentDocuments
      * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
      * @param env  (optional)
