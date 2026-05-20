@@ -1,4 +1,4 @@
-# @pronesoft-rd/ecf-sdk@0.0.6
+# @pronesoft-rd/ecf-sdk
 
 A TypeScript SDK client for the api.ecf.sandbox.pronesoft.com API.
 
