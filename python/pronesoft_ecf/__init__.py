@@ -159,7 +159,15 @@ __all__ = [
     "WebhookNotificationPayloadData",
     "WebhookStats",
     "WebhookStatsStats",
+    "IntegrationClient",
+    "TenantScopedClient",
+    "TenantSessionClient",
 ]
+
+# import integration client
+from pronesoft_ecf.integration_client import IntegrationClient as IntegrationClient
+from pronesoft_ecf.integration_client import TenantScopedClient as TenantScopedClient
+from pronesoft_ecf.integration_client import TenantSessionClient as TenantSessionClient
 
 # import apis into sdk package
 from pronesoft_ecf.api.associated_companies_api import AssociatedCompaniesApi as AssociatedCompaniesApi
