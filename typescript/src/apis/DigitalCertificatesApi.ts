@@ -49,7 +49,7 @@ export interface DigitalCertificatesApiInterface {
     uploadCertificateRequestOpts(requestParameters: UploadCertificateRequest): Promise<runtime.RequestOpts>;
 
     /**
-     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
      * @summary Subir certificado digital (P12/PFX)
      * @param {string} rnc RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.
      * @param {Blob} file Archivo del certificado en formato .p12 o .pfx.
@@ -61,7 +61,7 @@ export interface DigitalCertificatesApiInterface {
     uploadCertificateRaw(requestParameters: UploadCertificateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UploadCertificateResponse>>;
 
     /**
-     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
      * Subir certificado digital (P12/PFX)
      */
     uploadCertificate(requestParameters: UploadCertificateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UploadCertificateResponse>;
@@ -145,7 +145,7 @@ export class DigitalCertificatesApi extends runtime.BaseAPI implements DigitalCe
     }
 
     /**
-     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
      * Subir certificado digital (P12/PFX)
      */
     async uploadCertificateRaw(requestParameters: UploadCertificateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UploadCertificateResponse>> {
@@ -156,7 +156,7 @@ export class DigitalCertificatesApi extends runtime.BaseAPI implements DigitalCe
     }
 
     /**
-     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+     * Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
      * Subir certificado digital (P12/PFX)
      */
     async uploadCertificate(requestParameters: UploadCertificateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UploadCertificateResponse> {

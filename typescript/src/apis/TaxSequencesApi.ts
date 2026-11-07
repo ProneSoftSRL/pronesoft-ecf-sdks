@@ -20,6 +20,7 @@ import type {
   Environment,
   ErrorResponse,
   GetNextNumber200Response,
+  ImportTaxSequencesFromExcel200Response,
   InvoiceTypeSequence,
   ListTaxSequences200Response,
   UpdateTaxSequenceRequest,
@@ -37,6 +38,8 @@ import {
     ErrorResponseToJSON,
     GetNextNumber200ResponseFromJSON,
     GetNextNumber200ResponseToJSON,
+    ImportTaxSequencesFromExcel200ResponseFromJSON,
+    ImportTaxSequencesFromExcel200ResponseToJSON,
     InvoiceTypeSequenceFromJSON,
     InvoiceTypeSequenceToJSON,
     ListTaxSequences200ResponseFromJSON,
@@ -57,6 +60,12 @@ export interface CreateTaxSequenceOperationRequest {
 export interface GetNextNumberRequest {
     type: InvoiceTypeSequence;
     environment: Environment;
+    xTenantId?: string;
+}
+
+export interface ImportTaxSequencesFromExcelRequest {
+    environment: Environment;
+    file: Blob;
     xTenantId?: string;
 }
 
@@ -138,6 +147,34 @@ export interface TaxSequencesApiInterface {
      * Obtener siguiente número fiscal disponible
      */
     getNextNumber(requestParameters: GetNextNumberRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetNextNumber200Response>;
+
+    /**
+     * Creates request options for importTaxSequencesFromExcel without sending the request
+     * @param {Environment} environment 
+     * @param {Blob} file Archivo Excel (.xlsx o .xls) exportado desde la DGII
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @throws {RequiredError}
+     * @memberof TaxSequencesApiInterface
+     */
+    importTaxSequencesFromExcelRequestOpts(requestParameters: ImportTaxSequencesFromExcelRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+     * @summary Importar secuencias desde archivo Excel de la DGII
+     * @param {Environment} environment 
+     * @param {Blob} file Archivo Excel (.xlsx o .xls) exportado desde la DGII
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TaxSequencesApiInterface
+     */
+    importTaxSequencesFromExcelRaw(requestParameters: ImportTaxSequencesFromExcelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ImportTaxSequencesFromExcel200Response>>;
+
+    /**
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+     * Importar secuencias desde archivo Excel de la DGII
+     */
+    importTaxSequencesFromExcel(requestParameters: ImportTaxSequencesFromExcelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ImportTaxSequencesFromExcel200Response>;
 
     /**
      * Creates request options for listTaxSequences without sending the request
@@ -353,6 +390,93 @@ export class TaxSequencesApi extends runtime.BaseAPI implements TaxSequencesApiI
      */
     async getNextNumber(requestParameters: GetNextNumberRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetNextNumber200Response> {
         const response = await this.getNextNumberRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for importTaxSequencesFromExcel without sending the request
+     */
+    async importTaxSequencesFromExcelRequestOpts(requestParameters: ImportTaxSequencesFromExcelRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['environment'] == null) {
+            throw new runtime.RequiredError(
+                'environment',
+                'Required parameter "environment" was null or undefined when calling importTaxSequencesFromExcel().'
+            );
+        }
+
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling importTaxSequencesFromExcel().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['environment'] != null) {
+            queryParameters['environment'] = requestParameters['environment'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["sequences:create"]);
+        }
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['file'] != null) {
+            formParams.append('file', requestParameters['file'] as any);
+        }
+
+
+        let urlPath = `/tax-sequences/import`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        };
+    }
+
+    /**
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+     * Importar secuencias desde archivo Excel de la DGII
+     */
+    async importTaxSequencesFromExcelRaw(requestParameters: ImportTaxSequencesFromExcelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ImportTaxSequencesFromExcel200Response>> {
+        const requestOptions = await this.importTaxSequencesFromExcelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ImportTaxSequencesFromExcel200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+     * Importar secuencias desde archivo Excel de la DGII
+     */
+    async importTaxSequencesFromExcel(requestParameters: ImportTaxSequencesFromExcelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ImportTaxSequencesFromExcel200Response> {
+        const response = await this.importTaxSequencesFromExcelRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

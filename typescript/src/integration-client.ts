@@ -64,7 +64,8 @@ export class IntegrationClient {
     const sdkConfiguration = new Configuration({
       basePath: this.basePath,
       fetchApi: this.fetchWithAutoRefresh,
-      accessToken: async () => this.getValidToken(false),
+      // The generated OAuth2 code sends this value as-is, and the API only accepts "Bearer <token>".
+      accessToken: async () => `Bearer ${await this.getValidToken(false)}`,
     });
 
     this.associatedCompanies = new AssociatedCompaniesApi(sdkConfiguration);
@@ -150,7 +151,8 @@ export class IntegrationClient {
     const cfg = new Configuration({
       basePath: this.basePath,
       fetchApi: this.fetchWithAutoRefresh,
-      accessToken: async () => this.getValidToken(false),
+      // The generated OAuth2 code sends this value as-is, and the API only accepts "Bearer <token>".
+      accessToken: async () => `Bearer ${await this.getValidToken(false)}`,
       headers: { "x-tenant-id": normalizedTenantId },
     });
     return new TenantScopedClient(cfg);

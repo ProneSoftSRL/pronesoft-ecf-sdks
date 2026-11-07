@@ -200,11 +200,11 @@ export interface ElectronicDocument {
      */
     paymentTerms?: string;
     /**
-     * Payment breakdown. Required.
+     * Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
      * @type {Array<PaymentForm>}
      * @memberof ElectronicDocument
      */
-    paymentForms: Array<PaymentForm>;
+    paymentForms?: Array<PaymentForm>;
     /**
      * 
      * @type {AccountType}
@@ -360,7 +360,7 @@ export interface ElectronicDocument {
      * @type {Totals}
      * @memberof ElectronicDocument
      */
-    totals: Totals;
+    totals?: Totals;
     /**
      * 
      * @type {Transport}
@@ -462,9 +462,7 @@ export type ElectronicDocumentPaymentTypeEnum = typeof ElectronicDocumentPayment
 export function instanceOfElectronicDocument(value: object): value is ElectronicDocument {
     if (!('invoiceType' in value) || value['invoiceType'] === undefined) return false;
     if (!('issueDate' in value) || value['issueDate'] === undefined) return false;
-    if (!('paymentForms' in value) || value['paymentForms'] === undefined) return false;
     if (!('items' in value) || value['items'] === undefined) return false;
-    if (!('totals' in value) || value['totals'] === undefined) return false;
     return true;
 }
 
@@ -491,7 +489,7 @@ export function ElectronicDocumentFromJSONTyped(json: any, ignoreDiscriminator: 
         'paymentType': json['paymentType'] == null ? undefined : json['paymentType'],
         'paymentDeadline': json['paymentDeadline'] == null ? undefined : (new Date(json['paymentDeadline'])),
         'paymentTerms': json['paymentTerms'] == null ? undefined : json['paymentTerms'],
-        'paymentForms': ((json['paymentForms'] as Array<any>).map(PaymentFormFromJSON)),
+        'paymentForms': json['paymentForms'] == null ? undefined : ((json['paymentForms'] as Array<any>).map(PaymentFormFromJSON)),
         'paymentAccountType': json['paymentAccountType'] == null ? undefined : AccountTypeFromJSON(json['paymentAccountType']),
         'paymentAccountNumber': json['paymentAccountNumber'] == null ? undefined : json['paymentAccountNumber'],
         'paymentBank': json['paymentBank'] == null ? undefined : json['paymentBank'],
@@ -517,7 +515,7 @@ export function ElectronicDocumentFromJSONTyped(json: any, ignoreDiscriminator: 
         'additionalIssuerInfo': json['additionalIssuerInfo'] == null ? undefined : json['additionalIssuerInfo'],
         'buyer': json['buyer'] == null ? undefined : BuyerFromJSON(json['buyer']),
         'items': ((json['items'] as Array<any>).map(ItemFromJSON)),
-        'totals': TotalsFromJSON(json['totals']),
+        'totals': json['totals'] == null ? undefined : TotalsFromJSON(json['totals']),
         'transport': json['transport'] == null ? undefined : TransportFromJSON(json['transport']),
         'additionalInfo': json['additionalInfo'] == null ? undefined : AdditionalInfoFromJSON(json['additionalInfo']),
         'alternativeCurrency': json['alternativeCurrency'] == null ? undefined : AlternativeCurrencyFromJSON(json['alternativeCurrency']),
@@ -552,7 +550,7 @@ export function ElectronicDocumentToJSONTyped(value?: ElectronicDocument | null,
         'paymentType': value['paymentType'],
         'paymentDeadline': value['paymentDeadline'] == null ? value['paymentDeadline'] : value['paymentDeadline'].toISOString(),
         'paymentTerms': value['paymentTerms'],
-        'paymentForms': ((value['paymentForms'] as Array<any>).map(PaymentFormToJSON)),
+        'paymentForms': value['paymentForms'] == null ? undefined : ((value['paymentForms'] as Array<any>).map(PaymentFormToJSON)),
         'paymentAccountType': AccountTypeToJSON(value['paymentAccountType']),
         'paymentAccountNumber': value['paymentAccountNumber'],
         'paymentBank': value['paymentBank'],

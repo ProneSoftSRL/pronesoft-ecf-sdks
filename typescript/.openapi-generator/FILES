@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-README.md
 docs/AccountType.md
 docs/AdditionalInfo.md
 docs/AdditionalTax.md
@@ -63,6 +62,9 @@ docs/GetNextNumber200ResponseData.md
 docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 docs/GetSentDocumentLogs200ResponseInner.md
 docs/GetSentDocumentStatusOptions200ResponseInner.md
+docs/ImportTaxSequencesFromExcel200Response.md
+docs/ImportTaxSequencesFromExcel200ResponseData.md
+docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 docs/InvoiceType.md
 docs/InvoiceTypeSequence.md
 docs/Item.md
@@ -145,7 +147,6 @@ src/apis/ReportsApi.ts
 src/apis/TaxSequencesApi.ts
 src/apis/WebhookConfigurationApi.ts
 src/apis/index.ts
-src/index.ts
 src/models/AccountType.ts
 src/models/AdditionalInfo.ts
 src/models/AdditionalTax.ts
@@ -200,6 +201,9 @@ src/models/GetNextNumber200ResponseData.ts
 src/models/GetReceivedDocumentStatsBySupplier200ResponseInner.ts
 src/models/GetSentDocumentLogs200ResponseInner.ts
 src/models/GetSentDocumentStatusOptions200ResponseInner.ts
+src/models/ImportTaxSequencesFromExcel200Response.ts
+src/models/ImportTaxSequencesFromExcel200ResponseData.ts
+src/models/ImportTaxSequencesFromExcel200ResponseDataResultsInner.ts
 src/models/InvoiceType.ts
 src/models/InvoiceTypeSequence.ts
 src/models/Item.ts

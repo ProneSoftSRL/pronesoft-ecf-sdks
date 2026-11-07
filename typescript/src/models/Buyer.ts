@@ -20,7 +20,7 @@ import { mapValues } from '../runtime';
  */
 export interface Buyer {
     /**
-     * RNC (9 digits) or cedula (11 digits). Required for type 31.
+     * RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 < 250k).
      * @type {string}
      * @memberof Buyer
      */

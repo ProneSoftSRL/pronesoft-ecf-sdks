@@ -57,7 +57,7 @@ export interface CreateTaxSequenceRequest {
      * @type {number}
      * @memberof CreateTaxSequenceRequest
      */
-    quantity?: number;
+    quantity: number;
     /**
      * 
      * @type {Date}
@@ -69,7 +69,7 @@ export interface CreateTaxSequenceRequest {
      * @type {Environment}
      * @memberof CreateTaxSequenceRequest
      */
-    environment?: Environment;
+    environment: Environment;
 }
 
 
@@ -81,6 +81,8 @@ export function instanceOfCreateTaxSequenceRequest(value: object): value is Crea
     if (!('type' in value) || value['type'] === undefined) return false;
     if (!('from' in value) || value['from'] === undefined) return false;
     if (!('to' in value) || value['to'] === undefined) return false;
+    if (!('quantity' in value) || value['quantity'] === undefined) return false;
+    if (!('environment' in value) || value['environment'] === undefined) return false;
     return true;
 }
 
@@ -97,9 +99,9 @@ export function CreateTaxSequenceRequestFromJSONTyped(json: any, ignoreDiscrimin
         'type': InvoiceTypeSequenceFromJSON(json['type']),
         'from': json['from'],
         'to': json['to'],
-        'quantity': json['quantity'] == null ? undefined : json['quantity'],
+        'quantity': json['quantity'],
         'expiration': json['expiration'] == null ? undefined : (new Date(json['expiration'])),
-        'environment': json['environment'] == null ? undefined : EnvironmentFromJSON(json['environment']),
+        'environment': EnvironmentFromJSON(json['environment']),
     };
 }
 

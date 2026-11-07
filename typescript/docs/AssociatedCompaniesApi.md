@@ -15,7 +15,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 ## createAssociatedCompany
 
-> CreateAssociatedCompany201Response createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo)
+> CreateAssociatedCompany201Response createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo)
 
 Crear empresa asociada / sucursal
 
@@ -38,23 +38,13 @@ async function example() {
 
   const body = {
     // string
-    email: email_example,
-    // string
-    password: password_example,
-    // string
     name: name_example,
     // string
     rnc: rnc_example,
-    // string
-    phone: phone_example,
-    // string
-    address: address_example,
-    // string
-    city: city_example,
-    // string
-    country: country_example,
-    // PrintFormat
-    printerType: ...,
+    // string (optional)
+    email: email_example,
+    // string (optional)
+    password: password_example,
     // string (optional)
     firstName: firstName_example,
     // string (optional)
@@ -62,11 +52,21 @@ async function example() {
     // string (optional)
     jobTitle: jobTitle_example,
     // string (optional)
+    phone: phone_example,
+    // string (optional)
+    address: address_example,
+    // string (optional)
+    city: city_example,
+    // string (optional)
+    country: country_example,
+    // string (optional)
     website: website_example,
     // string (optional)
     category: category_example,
     // string (optional)
     monthlySalesRange: monthlySalesRange_example,
+    // PrintFormat (optional)
+    printerType: ...,
     // Blob (optional)
     logo: BINARY_DATA_HERE,
   } satisfies CreateAssociatedCompanyRequest;
@@ -88,21 +88,21 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **email** | `string` |  | [Defaults to `undefined`] |
-| **password** | `string` |  | [Defaults to `undefined`] |
 | **name** | `string` |  | [Defaults to `undefined`] |
 | **rnc** | `string` |  | [Defaults to `undefined`] |
-| **phone** | `string` |  | [Defaults to `undefined`] |
-| **address** | `string` |  | [Defaults to `undefined`] |
-| **city** | `string` |  | [Defaults to `undefined`] |
-| **country** | `string` |  | [Defaults to `undefined`] |
-| **printerType** | `PrintFormat` |  | [Defaults to `undefined`] [Enum: A4, thermal_80, thermal_58] |
+| **email** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **password** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **firstName** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **lastName** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **jobTitle** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **phone** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **address** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **city** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **country** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **website** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **category** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **monthlySalesRange** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **printerType** | `PrintFormat` |  | [Optional] [Defaults to `undefined`] [Enum: A4, thermal_80, thermal_58] |
 | **logo** | `Blob` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type

@@ -41,21 +41,21 @@ import {
 } from '../models/index';
 
 export interface CreateAssociatedCompanyRequest {
-    email: string;
-    password: string;
     name: string;
     rnc: string;
-    phone: string;
-    address: string;
-    city: string;
-    country: string;
-    printerType: PrintFormat;
+    email?: string;
+    password?: string;
     firstName?: string;
     lastName?: string;
     jobTitle?: string;
+    phone?: string;
+    address?: string;
+    city?: string;
+    country?: string;
     website?: string;
     category?: string;
     monthlySalesRange?: string;
+    printerType?: PrintFormat;
     logo?: Blob;
 }
 
@@ -95,21 +95,21 @@ export interface UpdateAssociatedCompanyRequest {
 export interface AssociatedCompaniesApiInterface {
     /**
      * Creates request options for createAssociatedCompany without sending the request
-     * @param {string} email 
-     * @param {string} password 
      * @param {string} name 
      * @param {string} rnc 
-     * @param {string} phone 
-     * @param {string} address 
-     * @param {string} city 
-     * @param {string} country 
-     * @param {PrintFormat} printerType 
+     * @param {string} [email] 
+     * @param {string} [password] 
      * @param {string} [firstName] 
      * @param {string} [lastName] 
      * @param {string} [jobTitle] 
+     * @param {string} [phone] 
+     * @param {string} [address] 
+     * @param {string} [city] 
+     * @param {string} [country] 
      * @param {string} [website] 
      * @param {string} [category] 
      * @param {string} [monthlySalesRange] 
+     * @param {PrintFormat} [printerType] 
      * @param {Blob} [logo] 
      * @throws {RequiredError}
      * @memberof AssociatedCompaniesApiInterface
@@ -119,21 +119,21 @@ export interface AssociatedCompaniesApiInterface {
     /**
      * 
      * @summary Crear empresa asociada / sucursal
-     * @param {string} email 
-     * @param {string} password 
      * @param {string} name 
      * @param {string} rnc 
-     * @param {string} phone 
-     * @param {string} address 
-     * @param {string} city 
-     * @param {string} country 
-     * @param {PrintFormat} printerType 
+     * @param {string} [email] 
+     * @param {string} [password] 
      * @param {string} [firstName] 
      * @param {string} [lastName] 
      * @param {string} [jobTitle] 
+     * @param {string} [phone] 
+     * @param {string} [address] 
+     * @param {string} [city] 
+     * @param {string} [country] 
      * @param {string} [website] 
      * @param {string} [category] 
      * @param {string} [monthlySalesRange] 
+     * @param {PrintFormat} [printerType] 
      * @param {Blob} [logo] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -287,20 +287,6 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
      * Creates request options for createAssociatedCompany without sending the request
      */
     async createAssociatedCompanyRequestOpts(requestParameters: CreateAssociatedCompanyRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['email'] == null) {
-            throw new runtime.RequiredError(
-                'email',
-                'Required parameter "email" was null or undefined when calling createAssociatedCompany().'
-            );
-        }
-
-        if (requestParameters['password'] == null) {
-            throw new runtime.RequiredError(
-                'password',
-                'Required parameter "password" was null or undefined when calling createAssociatedCompany().'
-            );
-        }
-
         if (requestParameters['name'] == null) {
             throw new runtime.RequiredError(
                 'name',
@@ -312,41 +298,6 @@ export class AssociatedCompaniesApi extends runtime.BaseAPI implements Associate
             throw new runtime.RequiredError(
                 'rnc',
                 'Required parameter "rnc" was null or undefined when calling createAssociatedCompany().'
-            );
-        }
-
-        if (requestParameters['phone'] == null) {
-            throw new runtime.RequiredError(
-                'phone',
-                'Required parameter "phone" was null or undefined when calling createAssociatedCompany().'
-            );
-        }
-
-        if (requestParameters['address'] == null) {
-            throw new runtime.RequiredError(
-                'address',
-                'Required parameter "address" was null or undefined when calling createAssociatedCompany().'
-            );
-        }
-
-        if (requestParameters['city'] == null) {
-            throw new runtime.RequiredError(
-                'city',
-                'Required parameter "city" was null or undefined when calling createAssociatedCompany().'
-            );
-        }
-
-        if (requestParameters['country'] == null) {
-            throw new runtime.RequiredError(
-                'country',
-                'Required parameter "country" was null or undefined when calling createAssociatedCompany().'
-            );
-        }
-
-        if (requestParameters['printerType'] == null) {
-            throw new runtime.RequiredError(
-                'printerType',
-                'Required parameter "printerType" was null or undefined when calling createAssociatedCompany().'
             );
         }
 

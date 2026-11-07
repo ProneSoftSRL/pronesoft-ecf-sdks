@@ -138,7 +138,7 @@ paths:
       summary: Subir certificado digital (P12/PFX)
       description: |
         Sube el certificado de firma digital emitido por DGII para una empresa.
-        Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga.
+        Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga.
         Tip Sandbox: Los RNC con prefijo SBX no requieren certificado.
       operationId: uploadCertificate
       security:
@@ -322,6 +322,66 @@ paths:
       responses:
         "200":
           description: Secuencia actualizada exitosamente
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /tax-sequences/import:
+    post:
+      tags: [Tax Sequences]
+      summary: Importar secuencias desde archivo Excel de la DGII
+      description: |
+        Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas
+        e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA
+        y TIPO_USO que contenga "ELECTR". Las filas inválidas se reportan sin interrumpir el proceso.
+      operationId: importTaxSequencesFromExcel
+      security:
+        - oauth2: [sequences:create]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeaderOptional"
+        - name: environment
+          in: query
+          required: true
+          schema:
+            $ref: "#/components/schemas/Environment"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Archivo Excel (.xlsx o .xls) exportado desde la DGII
+      responses:
+        "200":
+          description: Proceso de importación completado (puede incluir filas fallidas)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  data:
+                    type: object
+                    properties:
+                      imported: { type: integer, example: 8 }
+                      failed: { type: integer, example: 2 }
+                      results:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            row: { type: integer, example: 1 }
+                            type: { type: string, example: "E32" }
+                            from: { type: integer, example: 1 }
+                            to: { type: integer, example: 10000 }
+                            status: { type: string, enum: [success, failed] }
+                            reason: { type: string, example: "La secuencia ya existe" }
+        "400":
+          $ref: "#/components/responses/ValidationError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -1872,7 +1932,7 @@ components:
 
     ElectronicDocument:
       type: object
-      required: [invoiceType, issueDate, items, totals, paymentForms]
+      required: [invoiceType, issueDate, items]
       description: |
         Payload del comprobante fiscal electrónico (e-CF).
 
@@ -1932,7 +1992,7 @@ components:
           maxLength: 15
         paymentForms:
           type: array
-          description: Payment breakdown. Required.
+          description: Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
           items:
             $ref: "#/components/schemas/PaymentForm"
           example:
@@ -2039,7 +2099,7 @@ components:
       properties:
         taxId:
           type: string
-          description: RNC (9 digits) or cedula (11 digits). Required for type 31.
+          description: RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 < 250k).
           example: "131415678"
         foreignId:
           type: string
@@ -2417,7 +2477,7 @@ components:
 
     CreateTaxSequenceRequest:
       type: object
-      required: [type, from, to]
+      required: [type, from, to, quantity, environment]
       properties:
         type: { $ref: "#/components/schemas/InvoiceTypeSequence" }
         from: { type: integer, example: 1 }
@@ -2622,7 +2682,7 @@ components:
 
     CreateAssociatedCompanyRequest:
       type: object
-      required: [email, password, name, rnc, phone, address, city, country, printerType]
+      required: [name, rnc]
       properties:
         email: { type: string, format: email }
         password: { type: string, minLength: 8 }

@@ -1,69 +1,69 @@
 #!/usr/bin/env bash
+# Regenerates the SDKs from the server's OpenAPI spec.
+#
+#   bash generate.sh                                   # every language, into this repo
+#   OUT_ROOT=/tmp/gen bash generate.sh typescript go   # chosen languages, somewhere else
+#
+# Handwritten files (IntegrationClient, manifests with manual metadata) are protected by each
+# language's .openapi-generator-ignore; their versions are bumped by hand.
 set -euo pipefail
 
-# Obtener la ruta absoluta del script
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# Entrar en la carpeta del SDK para usar rutas relativas y evitar errores con espacios en las rutas absolutas
 cd "$ROOT_DIR"
 
-SOURCE_SPEC_DEFAULT="/home/joselm/Documentos/Proyectos Pronesoft/pronesoft-ecf/ecf-server/openapi.yaml"
-SOURCE_SPEC="${SOURCE_SPEC:-$SOURCE_SPEC_DEFAULT}"
-# Usar ruta relativa para el archivo local
-LOCAL_SPEC="./spec/openapi.yaml"
+SOURCE_SPEC="${SOURCE_SPEC:-$ROOT_DIR/../pronesoft-ecf/server/openapi.yaml}"
+OUT_ROOT="${OUT_ROOT:-$ROOT_DIR}"
+LOCAL_SPEC="$ROOT_DIR/spec/openapi.yaml"
 
 if [[ ! -f "$SOURCE_SPEC" ]]; then
-    echo "Error: OpenAPI specification not found at: $SOURCE_SPEC"
-    exit 1
+  echo "OpenAPI spec not found: $SOURCE_SPEC (set SOURCE_SPEC)" >&2
+  exit 1
+fi
+mkdir -p "$ROOT_DIR/spec"
+[[ "$(realpath "$SOURCE_SPEC")" == "$(realpath -m "$LOCAL_SPEC")" ]] || cp "$SOURCE_SPEC" "$LOCAL_SPEC"
+
+GIT_ARGS=(--git-user-id=ProneSoftSRL --git-repo-id=pronesoft-ecf-sdks --skip-validate-spec)
+
+generate() {
+  local lang="$1" generator="$2" props="$3"
+  # The generator CLI breaks on paths with spaces, so in-repo paths stay relative to ROOT_DIR.
+  local out="$OUT_ROOT/$lang"
+  [[ "$OUT_ROOT" == "$ROOT_DIR" ]] && out="./$lang"
+  echo "==> $lang ($generator) -> $out"
+  mkdir -p "$out"
+  # Keep the repo's ignore rules when generating elsewhere, so the result matches a real run.
+  if [[ "$OUT_ROOT" != "$ROOT_DIR" && -f "$ROOT_DIR/$lang/.openapi-generator-ignore" ]]; then
+    cp "$ROOT_DIR/$lang/.openapi-generator-ignore" "$out/"
+  fi
+  npx --yes @openapitools/openapi-generator-cli generate -i "./spec/openapi.yaml" -g "$generator" -o "$out" \
+    --additional-properties="$props" "${GIT_ARGS[@]}" >/dev/null
+}
+
+declare -A CONFIG=(
+  [typescript]="typescript-fetch|npmName=@pronesoft-rd/ecf-sdk,npmVersion=0.0.10,supportsES6=true,typescriptThreePlus=true,withInterfaces=true"
+  [go]="go|packageName=ecf,packageVersion=0.0.22,moduleName=github.com/ProneSoftSRL/pronesoft-ecf-sdks/go,isGoSubmodule=true,withGoMod=true,enumClassPrefix=true"
+  [python]="python|packageName=pronesoft_ecf,projectName=pronesoft-ecf,packageVersion=0.0.5,generateSourceCodeOnly=false"
+  [php]="php|invokerPackage=PronesoftEcf,packageName=pronesoft-ecf-sdk,packageVersion=0.0.4,composerVendorName=pronesoft,composerProjectName=ecf-sdk"
+  [csharp]="csharp|packageName=Pronesoft.Ecf.Sdk,targetFramework=net8.0,packageVersion=0.0.4,nullableReferenceTypes=true,netCoreProjectFile=true,library=httpclient"
+  [java]="java|invokerPackage=com.pronesoft.ecf,apiPackage=com.pronesoft.ecf.api,modelPackage=com.pronesoft.ecf.model,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.5,library=okhttp-gson,java8=true"
+  [dart]="dart|pubName=pronesoft_ecf,pubVersion=0.0.4,pubDescription=Pronesoft eCF SDK for Dart/Flutter"
+  [kotlin]="kotlin|packageName=com.pronesoft.ecf,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.4,serializationLibrary=gson"
+  [swift]="swift5|projectName=PronesoftEcf,podVersion=0.0.4,swiftUseApiNamespace=true"
+  [ruby]="ruby|gemName=pronesoft_ecf,gemVersion=0.0.4,moduleName=PronesoftEcf"
+  [rust]="rust|packageName=pronesoft-ecf,packageVersion=0.0.4,packageDescription=Pronesoft eCF SDK for Rust,library=reqwest"
+)
+ORDER=(typescript go python php csharp java dart kotlin swift ruby rust)
+if [[ $# -gt 0 ]]; then LANGS=("$@"); else LANGS=("${ORDER[@]}"); fi
+
+for lang in "${LANGS[@]}"; do
+  [[ -n "${CONFIG[$lang]:-}" ]] || { echo "Unknown language: $lang" >&2; exit 1; }
+  generate "$lang" "${CONFIG[$lang]%%|*}" "${CONFIG[$lang]#*|}"
+done
+
+# Go: the module lives in the go/ subdirectory of this repo.
+if [[ " ${LANGS[*]} " == *" go "* && -f "$OUT_ROOT/go/go.mod" ]]; then
+  cp LICENSE "$OUT_ROOT/go/LICENSE" 2>/dev/null || true
+  sed -i 's|github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf|github.com/ProneSoftSRL/pronesoft-ecf-sdks/go|g' "$OUT_ROOT/go/go.mod"
 fi
 
-mkdir -p "./spec"
-# Copiar el archivo usando comillas para la fuente
-cp "$SOURCE_SPEC" "$LOCAL_SPEC"
-
-echo "Using spec: $LOCAL_SPEC"
-echo "Generating SDKs: typescript, go, python, php, java, csharp"
-
-# Generación usando rutas relativas para evitar el error de "unexpected parameters"
-npx @openapitools/openapi-generator-cli generate \
-    -i "$LOCAL_SPEC" \
-    -g typescript-fetch \
-    -o "./typescript" \
-    --additional-properties=supportsES6=true,typescriptThreePlus=true \
-    --skip-validate-spec
-
-npx @openapitools/openapi-generator-cli generate \
-    -i "$LOCAL_SPEC" \
-    -g go \
-    -o "./go" \
-    --additional-properties=enumClassPrefix=true,isGoSubmodule=true,withGoCodegenComment=false \
-    --skip-validate-spec
-
-npx @openapitools/openapi-generator-cli generate \
-    -i "$LOCAL_SPEC" \
-    -g python \
-    -o "./python" \
-    --additional-properties=packageName=pronesoft_ecf,packageVersion=1.2.0 \
-    --skip-validate-spec
-
-npx @openapitools/openapi-generator-cli generate \
-    -i "$LOCAL_SPEC" \
-    -g php \
-    -o "./php" \
-    --additional-properties=invokerPackage=PronesoftEcf,packageName=pronesoft-ecf-sdk \
-    --skip-validate-spec
-
-npx @openapitools/openapi-generator-cli generate \
-    -i "$LOCAL_SPEC" \
-    -g java \
-    -o "./java" \
-    --additional-properties=hideGenerationTimestamp=true \
-    --skip-validate-spec
-
-npx @openapitools/openapi-generator-cli generate \
-    -i "$LOCAL_SPEC" \
-    -g csharp \
-    -o "./csharp" \
-    --additional-properties=packageName=Pronesoft.Ecf.Sdk \
-    --skip-validate-spec
-
-echo "SDK generation complete."
+echo "Done: ${LANGS[*]}"
