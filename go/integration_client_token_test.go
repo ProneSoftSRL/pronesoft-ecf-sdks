@@ -58,7 +58,7 @@ func TestIntegrationClientRefreshesTokenOn401(t *testing.T) {
 		t.Fatalf("failed to create integration client: %v", err)
 	}
 
-	_, _, err = client.API().ECFSubmissionAPI.GetEcfStatus(context.Background(), TESTE_CF, "test-doc-id").Execute()
+	_, _, err = client.API().ECFSubmissionAPI.GetEcfStatus(context.Background(), ENVIRONMENT_TESTE_CF, "test-doc-id").Execute()
 	if err != nil {
 		t.Fatalf("expected status request to succeed after token refresh, got error: %v", err)
 	}
@@ -136,7 +136,7 @@ func TestIntegrationClientDeduplicatesConcurrentRefreshOn401(t *testing.T) {
 		go func() {
 			defer wg.Done()
 			<-start
-			_, _, callErr := client.API().ECFSubmissionAPI.GetEcfStatus(context.Background(), TESTE_CF, "test-doc-id").Execute()
+			_, _, callErr := client.API().ECFSubmissionAPI.GetEcfStatus(context.Background(), ENVIRONMENT_TESTE_CF, "test-doc-id").Execute()
 			if callErr != nil {
 				errCh <- callErr
 			}

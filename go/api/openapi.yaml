@@ -128,7 +128,7 @@ paths:
     post:
       description: |
         Sube el certificado de firma digital emitido por DGII para una empresa.
-        Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga.
+        Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga.
         Tip Sandbox: Los RNC con prefijo SBX no requieren certificado.
       operationId: uploadCertificate
       parameters:
@@ -420,6 +420,70 @@ paths:
       - oauth2:
         - sequences:update
       summary: Actualizar secuencia de NCF
+      tags:
+      - Tax Sequences
+  /tax-sequences/import:
+    post:
+      description: |
+        Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas
+        e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA
+        y TIPO_USO que contenga "ELECTR". Las filas inválidas se reportan sin interrumpir el proceso.
+      operationId: importTaxSequencesFromExcel
+      parameters:
+      - description: |
+          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: environment
+        required: true
+        schema:
+          $ref: "#/components/schemas/Environment"
+        style: form
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/importTaxSequencesFromExcel_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/importTaxSequencesFromExcel_200_response"
+          description: Proceso de importación completado (puede incluir filas fallidas)
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Error de validación (400). Revisa el campo message para más
+            detalles.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token ausente, expirado o inválido. Llama a POST /oauth/token\
+            \ para renovarlo."
+      security:
+      - oauth2:
+        - sequences:create
+      summary: Importar secuencias desde archivo Excel de la DGII
       tags:
       - Tax Sequences
   /tax-sequences/void:
@@ -3406,7 +3470,8 @@ components:
           maxLength: 15
           type: string
         paymentForms:
-          description: Payment breakdown. Required.
+          description: "Payment breakdown. Optional; if omitted, the XML is sent without\
+            \ the payment table."
           example:
           - method: "1"
             amount: 11800.0
@@ -3512,8 +3577,6 @@ components:
       - invoiceType
       - issueDate
       - items
-      - paymentForms
-      - totals
       type: object
     Buyer:
       example:
@@ -3536,7 +3599,9 @@ components:
         internalCode: internalCode
       properties:
         taxId:
-          description: RNC (9 digits) or cedula (11 digits). Required for type 31.
+          description: "RNC (9 digits) or cedula (11 digits). Required for type 31,\
+            \ 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer\
+            \ invoice E32 < 250k)."
           example: "131415678"
           type: string
         foreignId:
@@ -4245,7 +4310,9 @@ components:
         environment:
           $ref: "#/components/schemas/Environment"
       required:
+      - environment
       - from
+      - quantity
       - to
       - type
       type: object
@@ -4814,14 +4881,7 @@ components:
           format: binary
           type: string
       required:
-      - address
-      - city
-      - country
-      - email
       - name
-      - password
-      - phone
-      - printerType
       - rnc
       type: object
     UpdateAssociatedCompanyRequest:
@@ -6084,6 +6144,99 @@ components:
           type: boolean
         data:
           $ref: "#/components/schemas/getNextNumber_200_response_data"
+      type: object
+    importTaxSequencesFromExcel_request:
+      properties:
+        file:
+          description: Archivo Excel (.xlsx o .xls) exportado desde la DGII
+          format: binary
+          type: string
+      required:
+      - file
+      type: object
+    importTaxSequencesFromExcel_200_response_data_results_inner:
+      example:
+        reason: La secuencia ya existe
+        from: 1
+        row: 1
+        to: 10000
+        type: E32
+        status: success
+      properties:
+        row:
+          example: 1
+          type: integer
+        type:
+          example: E32
+          type: string
+        from:
+          example: 1
+          type: integer
+        to:
+          example: 10000
+          type: integer
+        status:
+          enum:
+          - success
+          - failed
+          type: string
+        reason:
+          example: La secuencia ya existe
+          type: string
+      type: object
+    importTaxSequencesFromExcel_200_response_data:
+      example:
+        imported: 8
+        failed: 2
+        results:
+        - reason: La secuencia ya existe
+          from: 1
+          row: 1
+          to: 10000
+          type: E32
+          status: success
+        - reason: La secuencia ya existe
+          from: 1
+          row: 1
+          to: 10000
+          type: E32
+          status: success
+      properties:
+        imported:
+          example: 8
+          type: integer
+        failed:
+          example: 2
+          type: integer
+        results:
+          items:
+            $ref: "#/components/schemas/importTaxSequencesFromExcel_200_response_data_results_inner"
+          type: array
+      type: object
+    importTaxSequencesFromExcel_200_response:
+      example:
+        data:
+          imported: 8
+          failed: 2
+          results:
+          - reason: La secuencia ya existe
+            from: 1
+            row: 1
+            to: 10000
+            type: E32
+            status: success
+          - reason: La secuencia ya existe
+            from: 1
+            row: 1
+            to: 10000
+            type: E32
+            status: success
+        success: true
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: "#/components/schemas/importTaxSequencesFromExcel_200_response_data"
       type: object
     voidTaxSequence_200_response_data:
       example:

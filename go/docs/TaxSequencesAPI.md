@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateTaxSequence**](TaxSequencesAPI.md#CreateTaxSequence) | **Post** /tax-sequences/create | Crear nueva secuencia de NCF
 [**GetNextNumber**](TaxSequencesAPI.md#GetNextNumber) | **Get** /tax-sequences/next | Obtener siguiente número fiscal disponible
+[**ImportTaxSequencesFromExcel**](TaxSequencesAPI.md#ImportTaxSequencesFromExcel) | **Post** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 [**ListTaxSequences**](TaxSequencesAPI.md#ListTaxSequences) | **Get** /tax-sequences | Listar secuencias de NCF
 [**UpdateTaxSequence**](TaxSequencesAPI.md#UpdateTaxSequence) | **Patch** /tax-sequences/update | Actualizar secuencia de NCF
 [**VoidTaxSequence**](TaxSequencesAPI.md#VoidTaxSequence) | **Post** /tax-sequences/void | Anular rango de números fiscales
@@ -31,7 +32,7 @@ import (
 )
 
 func main() {
-	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceTypeSequence("E31"), int32(1), int32(10000)) // CreateTaxSequenceRequest | 
+	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceTypeSequence("E31"), int32(1), int32(10000), int32(10000), openapiclient.Environment("TesteCF")) // CreateTaxSequenceRequest | 
 	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -141,6 +142,76 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ImportTaxSequencesFromExcel
+
+> ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel(ctx).Environment(environment).File(file).XTenantId(xTenantId).Execute()
+
+Importar secuencias desde archivo Excel de la DGII
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+)
+
+func main() {
+	environment := openapiclient.Environment("TesteCF") // Environment | 
+	file := os.NewFile(1234, "some_file") // *os.File | Archivo Excel (.xlsx o .xls) exportado desde la DGII
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TaxSequencesAPI.ImportTaxSequencesFromExcel(context.Background()).Environment(environment).File(file).XTenantId(xTenantId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TaxSequencesAPI.ImportTaxSequencesFromExcel``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ImportTaxSequencesFromExcel`: ImportTaxSequencesFromExcel200Response
+	fmt.Fprintf(os.Stdout, "Response from `TaxSequencesAPI.ImportTaxSequencesFromExcel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiImportTaxSequencesFromExcelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **environment** | [**Environment**](Environment.md) |  | 
+ **file** | ***os.File** | Archivo Excel (.xlsx o .xls) exportado desde la DGII | 
+ **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+
+### Return type
+
+[**ImportTaxSequencesFromExcel200Response**](ImportTaxSequencesFromExcel200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

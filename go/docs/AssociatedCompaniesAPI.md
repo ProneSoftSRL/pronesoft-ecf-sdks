@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## CreateAssociatedCompany
 
-> CreateAssociatedCompany201Response CreateAssociatedCompany(ctx).Email(email).Password(password).Name(name).Rnc(rnc).Phone(phone).Address(address).City(city).Country(country).PrinterType(printerType).FirstName(firstName).LastName(lastName).JobTitle(jobTitle).Website(website).Category(category).MonthlySalesRange(monthlySalesRange).Logo(logo).Execute()
+> CreateAssociatedCompany201Response CreateAssociatedCompany(ctx).Name(name).Rnc(rnc).Email(email).Password(password).FirstName(firstName).LastName(lastName).JobTitle(jobTitle).Phone(phone).Address(address).City(city).Country(country).Website(website).Category(category).MonthlySalesRange(monthlySalesRange).PrinterType(printerType).Logo(logo).Execute()
 
 Crear empresa asociada / sucursal
 
@@ -32,26 +32,26 @@ import (
 )
 
 func main() {
-	email := "email_example" // string | 
-	password := "password_example" // string | 
 	name := "name_example" // string | 
 	rnc := "rnc_example" // string | 
-	phone := "phone_example" // string | 
-	address := "address_example" // string | 
-	city := "city_example" // string | 
-	country := "country_example" // string | 
-	printerType := openapiclient.PrintFormat("A4") // PrintFormat | 
+	email := "email_example" // string |  (optional)
+	password := "password_example" // string |  (optional)
 	firstName := "firstName_example" // string |  (optional)
 	lastName := "lastName_example" // string |  (optional)
 	jobTitle := "jobTitle_example" // string |  (optional)
+	phone := "phone_example" // string |  (optional)
+	address := "address_example" // string |  (optional)
+	city := "city_example" // string |  (optional)
+	country := "country_example" // string |  (optional)
 	website := "website_example" // string |  (optional)
 	category := "category_example" // string |  (optional)
 	monthlySalesRange := "monthlySalesRange_example" // string |  (optional)
+	printerType := openapiclient.PrintFormat("A4") // PrintFormat |  (optional)
 	logo := os.NewFile(1234, "some_file") // *os.File |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AssociatedCompaniesAPI.CreateAssociatedCompany(context.Background()).Email(email).Password(password).Name(name).Rnc(rnc).Phone(phone).Address(address).City(city).Country(country).PrinterType(printerType).FirstName(firstName).LastName(lastName).JobTitle(jobTitle).Website(website).Category(category).MonthlySalesRange(monthlySalesRange).Logo(logo).Execute()
+	resp, r, err := apiClient.AssociatedCompaniesAPI.CreateAssociatedCompany(context.Background()).Name(name).Rnc(rnc).Email(email).Password(password).FirstName(firstName).LastName(lastName).JobTitle(jobTitle).Phone(phone).Address(address).City(city).Country(country).Website(website).Category(category).MonthlySalesRange(monthlySalesRange).PrinterType(printerType).Logo(logo).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AssociatedCompaniesAPI.CreateAssociatedCompany``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -72,21 +72,21 @@ Other parameters are passed through a pointer to a apiCreateAssociatedCompanyReq
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email** | **string** |  | 
- **password** | **string** |  | 
  **name** | **string** |  | 
  **rnc** | **string** |  | 
+ **email** | **string** |  | 
+ **password** | **string** |  | 
+ **firstName** | **string** |  | 
+ **lastName** | **string** |  | 
+ **jobTitle** | **string** |  | 
  **phone** | **string** |  | 
  **address** | **string** |  | 
  **city** | **string** |  | 
  **country** | **string** |  | 
- **printerType** | [**PrintFormat**](PrintFormat.md) |  | 
- **firstName** | **string** |  | 
- **lastName** | **string** |  | 
- **jobTitle** | **string** |  | 
  **website** | **string** |  | 
  **category** | **string** |  | 
  **monthlySalesRange** | **string** |  | 
+ **printerType** | [**PrintFormat**](PrintFormat.md) |  | 
  **logo** | ***os.File** |  | 
 
 ### Return type

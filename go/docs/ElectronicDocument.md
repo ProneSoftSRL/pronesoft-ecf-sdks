@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **PaymentType** | Pointer to **string** | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed | [optional] 
 **PaymentDeadline** | Pointer to **time.Time** |  | [optional] 
 **PaymentTerms** | Pointer to **string** |  | [optional] 
-**PaymentForms** | [**[]PaymentForm**](PaymentForm.md) | Payment breakdown. Required. | 
+**PaymentForms** | Pointer to [**[]PaymentForm**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional] 
 **PaymentAccountType** | Pointer to [**AccountType**](AccountType.md) |  | [optional] 
 **PaymentAccountNumber** | Pointer to **string** |  | [optional] 
 **PaymentBank** | Pointer to **string** |  | [optional] 
@@ -43,7 +43,7 @@ Name | Type | Description | Notes
 **AdditionalIssuerInfo** | Pointer to **string** |  | [optional] 
 **Buyer** | Pointer to [**Buyer**](Buyer.md) |  | [optional] 
 **Items** | [**[]Item**](Item.md) |  | 
-**Totals** | [**Totals**](Totals.md) |  | 
+**Totals** | Pointer to [**Totals**](Totals.md) |  | [optional] 
 **Transport** | Pointer to [**Transport**](Transport.md) |  | [optional] 
 **AdditionalInfo** | Pointer to [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
 **AlternativeCurrency** | Pointer to [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 
@@ -56,7 +56,7 @@ Name | Type | Description | Notes
 
 ### NewElectronicDocument
 
-`func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, paymentForms []PaymentForm, items []Item, totals Totals, ) *ElectronicDocument`
+`func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, items []Item, ) *ElectronicDocument`
 
 NewElectronicDocument instantiates a new ElectronicDocument object
 This constructor will assign default values to properties that have it defined,
@@ -405,6 +405,11 @@ and a boolean to check if the value has been set.
 
 SetPaymentForms sets PaymentForms field to given value.
 
+### HasPaymentForms
+
+`func (o *ElectronicDocument) HasPaymentForms() bool`
+
+HasPaymentForms returns a boolean if a field has been set.
 
 ### GetPaymentAccountType
 
@@ -1045,6 +1050,11 @@ and a boolean to check if the value has been set.
 
 SetTotals sets Totals field to given value.
 
+### HasTotals
+
+`func (o *ElectronicDocument) HasTotals() bool`
+
+HasTotals returns a boolean if a field has been set.
 
 ### GetTransport
 

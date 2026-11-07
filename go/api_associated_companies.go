@@ -28,22 +28,32 @@ type AssociatedCompaniesAPIService service
 type ApiCreateAssociatedCompanyRequest struct {
 	ctx context.Context
 	ApiService *AssociatedCompaniesAPIService
-	email *string
-	password *string
 	name *string
 	rnc *string
+	email *string
+	password *string
+	firstName *string
+	lastName *string
+	jobTitle *string
 	phone *string
 	address *string
 	city *string
 	country *string
-	printerType *PrintFormat
-	firstName *string
-	lastName *string
-	jobTitle *string
 	website *string
 	category *string
 	monthlySalesRange *string
+	printerType *PrintFormat
 	logo *os.File
+}
+
+func (r ApiCreateAssociatedCompanyRequest) Name(name string) ApiCreateAssociatedCompanyRequest {
+	r.name = &name
+	return r
+}
+
+func (r ApiCreateAssociatedCompanyRequest) Rnc(rnc string) ApiCreateAssociatedCompanyRequest {
+	r.rnc = &rnc
+	return r
 }
 
 func (r ApiCreateAssociatedCompanyRequest) Email(email string) ApiCreateAssociatedCompanyRequest {
@@ -56,13 +66,18 @@ func (r ApiCreateAssociatedCompanyRequest) Password(password string) ApiCreateAs
 	return r
 }
 
-func (r ApiCreateAssociatedCompanyRequest) Name(name string) ApiCreateAssociatedCompanyRequest {
-	r.name = &name
+func (r ApiCreateAssociatedCompanyRequest) FirstName(firstName string) ApiCreateAssociatedCompanyRequest {
+	r.firstName = &firstName
 	return r
 }
 
-func (r ApiCreateAssociatedCompanyRequest) Rnc(rnc string) ApiCreateAssociatedCompanyRequest {
-	r.rnc = &rnc
+func (r ApiCreateAssociatedCompanyRequest) LastName(lastName string) ApiCreateAssociatedCompanyRequest {
+	r.lastName = &lastName
+	return r
+}
+
+func (r ApiCreateAssociatedCompanyRequest) JobTitle(jobTitle string) ApiCreateAssociatedCompanyRequest {
+	r.jobTitle = &jobTitle
 	return r
 }
 
@@ -86,26 +101,6 @@ func (r ApiCreateAssociatedCompanyRequest) Country(country string) ApiCreateAsso
 	return r
 }
 
-func (r ApiCreateAssociatedCompanyRequest) PrinterType(printerType PrintFormat) ApiCreateAssociatedCompanyRequest {
-	r.printerType = &printerType
-	return r
-}
-
-func (r ApiCreateAssociatedCompanyRequest) FirstName(firstName string) ApiCreateAssociatedCompanyRequest {
-	r.firstName = &firstName
-	return r
-}
-
-func (r ApiCreateAssociatedCompanyRequest) LastName(lastName string) ApiCreateAssociatedCompanyRequest {
-	r.lastName = &lastName
-	return r
-}
-
-func (r ApiCreateAssociatedCompanyRequest) JobTitle(jobTitle string) ApiCreateAssociatedCompanyRequest {
-	r.jobTitle = &jobTitle
-	return r
-}
-
 func (r ApiCreateAssociatedCompanyRequest) Website(website string) ApiCreateAssociatedCompanyRequest {
 	r.website = &website
 	return r
@@ -118,6 +113,11 @@ func (r ApiCreateAssociatedCompanyRequest) Category(category string) ApiCreateAs
 
 func (r ApiCreateAssociatedCompanyRequest) MonthlySalesRange(monthlySalesRange string) ApiCreateAssociatedCompanyRequest {
 	r.monthlySalesRange = &monthlySalesRange
+	return r
+}
+
+func (r ApiCreateAssociatedCompanyRequest) PrinterType(printerType PrintFormat) ApiCreateAssociatedCompanyRequest {
+	r.printerType = &printerType
 	return r
 }
 
@@ -163,35 +163,11 @@ func (a *AssociatedCompaniesAPIService) CreateAssociatedCompanyExecute(r ApiCrea
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.email == nil {
-		return localVarReturnValue, nil, reportError("email is required and must be specified")
-	}
-	if r.password == nil {
-		return localVarReturnValue, nil, reportError("password is required and must be specified")
-	}
-	if strlen(*r.password) < 8 {
-		return localVarReturnValue, nil, reportError("password must have at least 8 elements")
-	}
 	if r.name == nil {
 		return localVarReturnValue, nil, reportError("name is required and must be specified")
 	}
 	if r.rnc == nil {
 		return localVarReturnValue, nil, reportError("rnc is required and must be specified")
-	}
-	if r.phone == nil {
-		return localVarReturnValue, nil, reportError("phone is required and must be specified")
-	}
-	if r.address == nil {
-		return localVarReturnValue, nil, reportError("address is required and must be specified")
-	}
-	if r.city == nil {
-		return localVarReturnValue, nil, reportError("city is required and must be specified")
-	}
-	if r.country == nil {
-		return localVarReturnValue, nil, reportError("country is required and must be specified")
-	}
-	if r.printerType == nil {
-		return localVarReturnValue, nil, reportError("printerType is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -211,8 +187,12 @@ func (a *AssociatedCompaniesAPIService) CreateAssociatedCompanyExecute(r ApiCrea
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "email", r.email, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "password", r.password, "", "")
+	if r.email != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "email", r.email, "", "")
+	}
+	if r.password != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "password", r.password, "", "")
+	}
 	if r.firstName != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "firstName", r.firstName, "", "")
 	}
@@ -224,10 +204,18 @@ func (a *AssociatedCompaniesAPIService) CreateAssociatedCompanyExecute(r ApiCrea
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "name", r.name, "", "")
 	parameterAddToHeaderOrQuery(localVarFormParams, "rnc", r.rnc, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "phone", r.phone, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "address", r.address, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "city", r.city, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "country", r.country, "", "")
+	if r.phone != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "phone", r.phone, "", "")
+	}
+	if r.address != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "address", r.address, "", "")
+	}
+	if r.city != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "city", r.city, "", "")
+	}
+	if r.country != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "country", r.country, "", "")
+	}
 	if r.website != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "website", r.website, "", "")
 	}
@@ -237,7 +225,9 @@ func (a *AssociatedCompaniesAPIService) CreateAssociatedCompanyExecute(r ApiCrea
 	if r.monthlySalesRange != nil {
 		parameterAddToHeaderOrQuery(localVarFormParams, "monthlySalesRange", r.monthlySalesRange, "", "")
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "printerType", r.printerType, "", "")
+	if r.printerType != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "printerType", r.printerType, "", "")
+	}
 	var logoLocalVarFormFileName string
 	var logoLocalVarFileName     string
 	var logoLocalVarFileBytes    []byte

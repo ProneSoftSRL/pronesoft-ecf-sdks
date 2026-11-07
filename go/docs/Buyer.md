@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**TaxId** | Pointer to **string** | RNC (9 digits) or cedula (11 digits). Required for type 31. | [optional] 
+**TaxId** | Pointer to **string** | RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k). | [optional] 
 **ForeignId** | Pointer to **string** |  | [optional] 
 **Name** | **string** |  | 
 **Contact** | Pointer to **string** |  | [optional] 
