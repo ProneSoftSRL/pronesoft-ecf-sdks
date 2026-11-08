@@ -40,7 +40,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     $config
 );
 $create_tax_sequence_request = {"type":"E32","from":1,"to":10000,"quantity":10000,"expiration":"2025-12-31","environment":"TesteCF"}; // \PronesoftEcf\Model\CreateTaxSequenceRequest
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->createTaxSequence($create_tax_sequence_request, $x_tenant_id);
@@ -55,7 +55,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **create_tax_sequence_request** | [**\PronesoftEcf\Model\CreateTaxSequenceRequest**](../Model/CreateTaxSequenceRequest.md)|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -103,7 +103,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
 );
 $type = new \PronesoftEcf\Model\\PronesoftEcf\Model\InvoiceTypeSequence(); // \PronesoftEcf\Model\InvoiceTypeSequence
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->getNextNumber($type, $environment, $x_tenant_id);
@@ -119,7 +119,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **type** | [**\PronesoftEcf\Model\InvoiceTypeSequence**](../Model/.md)|  | |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -167,7 +167,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
 );
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 $file = '/path/to/file.txt'; // \SplFileObject | Archivo Excel (.xlsx o .xls) exportado desde la DGII
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->importTaxSequencesFromExcel($environment, $file, $x_tenant_id);
@@ -183,7 +183,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
 | **file** | **\SplFileObject****\SplFileObject**| Archivo Excel (.xlsx o .xls) exportado desde la DGII | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -227,7 +227,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     new GuzzleHttp\Client(),
     $config
 );
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 $type = new \PronesoftEcf\Model\\PronesoftEcf\Model\InvoiceTypeSequence(); // \PronesoftEcf\Model\InvoiceTypeSequence
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 $page = 1; // int
@@ -245,7 +245,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 | **type** | [**\PronesoftEcf\Model\InvoiceTypeSequence**](../Model/.md)|  | [optional] |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | [optional] |
 | **page** | **int**|  | [optional] [default to 1] |
@@ -295,7 +295,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
 );
 $id = 'id_example'; // string
 $update_tax_sequence_request = new \PronesoftEcf\Model\UpdateTaxSequenceRequest(); // \PronesoftEcf\Model\UpdateTaxSequenceRequest
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $apiInstance->updateTaxSequence($id, $update_tax_sequence_request, $x_tenant_id);
@@ -310,7 +310,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
 | **update_tax_sequence_request** | [**\PronesoftEcf\Model\UpdateTaxSequenceRequest**](../Model/UpdateTaxSequenceRequest.md)|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -357,7 +357,7 @@ $apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
     $config
 );
 $void_tax_sequence_request = new \PronesoftEcf\Model\VoidTaxSequenceRequest(); // \PronesoftEcf\Model\VoidTaxSequenceRequest
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->voidTaxSequence($void_tax_sequence_request, $x_tenant_id);
@@ -372,7 +372,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **void_tax_sequence_request** | [**\PronesoftEcf\Model\VoidTaxSequenceRequest**](../Model/VoidTaxSequenceRequest.md)|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 

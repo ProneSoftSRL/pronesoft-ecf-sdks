@@ -111,7 +111,7 @@ public class Example {
 
     DocumentsSentApi apiInstance = new DocumentsSentApi(defaultClient);
     UUID id = UUID.randomUUID(); // UUID | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       SentDocumentDetail result = apiInstance.getSentDocumentById(id, xTenantId);
       System.out.println(result);
@@ -131,7 +131,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | **UUID**|  | |
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -179,7 +179,7 @@ public class Example {
 
     DocumentsSentApi apiInstance = new DocumentsSentApi(defaultClient);
     UUID id = UUID.randomUUID(); // UUID | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       List<GetSentDocumentLogs200ResponseInner> result = apiInstance.getSentDocumentLogs(id, xTenantId);
       System.out.println(result);
@@ -199,7 +199,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | **UUID**|  | |
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -247,7 +247,7 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     DocumentsSentApi apiInstance = new DocumentsSentApi(defaultClient);
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       DocumentStatsResponse result = apiInstance.getSentDocumentStats(xTenantId);
       System.out.println(result);
@@ -266,7 +266,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -313,7 +313,7 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     DocumentsSentApi apiInstance = new DocumentsSentApi(defaultClient);
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       Map<String, Object> result = apiInstance.getSentDocumentStatsByEnvironment(xTenantId);
       System.out.println(result);
@@ -332,7 +332,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -510,7 +510,7 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     DocumentsSentApi apiInstance = new DocumentsSentApi(defaultClient);
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     Environment env = Environment.fromValue("TesteCF"); // Environment | 
     String ecf = "ecf_example"; // String | 
     String type = "type_example"; // String | 
@@ -537,7 +537,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 | **env** | [**Environment**](.md)|  | [optional] [enum: TesteCF, CerteCF, eCF] |
 | **ecf** | **String**|  | [optional] |
 | **type** | **String**|  | [optional] |

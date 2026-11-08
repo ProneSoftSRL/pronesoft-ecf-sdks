@@ -25,7 +25,7 @@ class CommercialApprovalsApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getCommercialApprovalByIdWithHttpInfo(String id, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/approvals/{id}'
@@ -63,7 +63,7 @@ class CommercialApprovalsApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<ApprovalItem?> getCommercialApprovalById(String id, { String? xTenantId, }) async {
     final response = await getCommercialApprovalByIdWithHttpInfo(id,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -86,7 +86,7 @@ class CommercialApprovalsApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [String] ecf:
   ///
@@ -160,7 +160,7 @@ class CommercialApprovalsApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [String] ecf:
   ///

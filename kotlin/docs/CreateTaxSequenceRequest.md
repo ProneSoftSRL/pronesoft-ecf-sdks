@@ -7,9 +7,9 @@
 | **type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  |  |
 | **from** | **kotlin.Int** |  |  |
 | **to** | **kotlin.Int** |  |  |
-| **quantity** | **kotlin.Int** |  |  [optional] |
+| **quantity** | **kotlin.Int** |  |  |
+| **environment** | [**Environment**](Environment.md) |  |  |
 | **expiration** | [**java.time.LocalDate**](java.time.LocalDate.md) |  |  [optional] |
-| **environment** | [**Environment**](Environment.md) |  |  [optional] |
 
 
 

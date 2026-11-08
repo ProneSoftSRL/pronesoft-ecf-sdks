@@ -141,8 +141,6 @@ docs/WebhookNotificationPayloadData.md
 docs/WebhookStats.md
 docs/WebhookStatsStats.md
 git_push.sh
-src/Pronesoft.Ecf.Sdk.Test/Model/DecideCommercialApprovalRequestTests.cs
-src/Pronesoft.Ecf.Sdk.Test/Model/DecideCommercialApprovalResponseTests.cs
 src/Pronesoft.Ecf.Sdk.Test/Pronesoft.Ecf.Sdk.Test.csproj
 src/Pronesoft.Ecf.Sdk/Api/AssociatedCompaniesApi.cs
 src/Pronesoft.Ecf.Sdk/Api/AuthenticationApi.cs

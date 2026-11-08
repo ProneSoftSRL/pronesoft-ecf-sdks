@@ -1,62 +1,119 @@
 # @pronesoft-rd/ecf-sdk
 
+<!-- integration-client:start -->
+## Inicio rápido con `IntegrationClient`
+
+`IntegrationClient` gestiona la autenticación por ti. Solo necesita la URL base y las credenciales de tu App (Portal → Integraciones → Apps):
+
+- obtiene el token OAuth 2.0 y lo reutiliza mientras sea válido (24 horas);
+- lo renueva 5 minutos antes de que venza y, si la API responde `401`, pide uno nuevo y repite la llamada una vez;
+- si varias llamadas reciben `401` a la vez, renueva una sola vez;
+- con una sesión, agrega `x-tenant-id` para actuar en nombre de una empresa asociada (acepta su ID UUID o su RNC; una empresa ajena a tu cuenta responde `403`).
+
+Crea **un solo** `IntegrationClient` por aplicación y reutilízalo.
+
+| Entorno | URL base |
+| :--- | :--- |
+| Sandbox | `https://api.ecf.sandbox.pronesoft.com/api/v1` |
+| Producción | `https://api.ecf.pronesoft.com/api/v1` |
+
+Guía completa: https://docs.ecf.pronesoft.com/guides/sdks
+
+```bash
+npm install @pronesoft-rd/ecf-sdk
+```
+
+```ts
+import { IntegrationClient } from "@pronesoft-rd/ecf-sdk";
+
+const pronesoft = new IntegrationClient({
+  baseUrl: "https://api.ecf.sandbox.pronesoft.com/api/v1",
+  clientId: process.env.PRONESOFT_CLIENT_ID!,
+  clientSecret: process.env.PRONESOFT_CLIENT_SECRET!,
+});
+
+// Empresa principal
+const enviados = await pronesoft.documentsSent.listSentDocuments({ limit: 10 });
+
+// Empresa asociada (RNC o ID UUID)
+const sucursal = pronesoft.startSession("987654321").getClient();
+const enviadosSucursal = await sucursal.documentsSent.listSentDocuments({ limit: 10 });
+```
+<!-- integration-client:end -->
+
 A TypeScript SDK client for the api.ecf.sandbox.pronesoft.com API.
 
 ## Usage
 
-First, install the SDK from npm:
+First, install the SDK from npm.
 
 ```bash
 npm install @pronesoft-rd/ecf-sdk --save
 ```
 
-### Quickstart con `IntegrationClient`
+Next, try it out.
 
-El SDK incluye `IntegrationClient`, que gestiona automáticamente el ciclo de vida del token OAuth 2.0 (intercambio de credenciales, almacenamiento en caché y renovación automática ante respuestas 401), además de soportar delegación multi-empresa:
 
 ```ts
-import { IntegrationClient } from '@pronesoft-rd/ecf-sdk';
+import {
+  Configuration,
+  AssociatedCompaniesApi,
+} from '@pronesoft-rd/ecf-sdk';
+import type { CreateAssociatedCompanyRequest } from '@pronesoft-rd/ecf-sdk';
 
-// 1. Inicializar cliente con credenciales OAuth 2.0
-const client = new IntegrationClient({
-  baseUrl: 'https://api.ecf.sandbox.pronesoft.com/api/v1',
-  clientId: 'TU_CLIENT_ID',
-  clientSecret: 'TU_CLIENT_SECRET',
-});
-
-async function main() {
-  // 2. Crear Empresa Asociada (Sucursal)
-  // Únicamente 'name' y 'rnc' son obligatorios.
-  // 'email' y 'password' son opcionales: solo se envían si la sucursal requiere acceso independiente al portal web.
-  const sucursal = await client.associatedCompanies.createAssociatedCompany({
-    name: 'Sucursal Santiago SRL',
-    rnc: 'SBX133190907',
-    // Opcionales:
-    // email: 'admin@sucursal.com',     // Para habilitar acceso directo al portal web
-    // password: 'PasswordSeguro123!',  // Mínimo 8 caracteres
-    // phone: '809-555-0101',
-    // address: 'Av. Juan Pablo Duarte 45',
-    // city: 'Santiago',
-    // country: 'DO',
-    // printerType: 'A4',
+async function example() {
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
   });
-  console.log('Empresa creada con ID:', sucursal.business?.id);
+  const api = new AssociatedCompaniesApi(config);
 
-  // 3. Multi-empresa: Operar en nombre de una empresa asociada usando su ID (UUID)
-  const tenantClient = client.forTenant(sucursal.business!.id);
-  const emitidos = await tenantClient.documentsSent.listSentDocuments({});
-  console.log('Documentos emitidos por la sucursal:', emitidos.data?.length);
+  const body = {
+    // string
+    name: name_example,
+    // string
+    rnc: rnc_example,
+    // string (optional)
+    email: email_example,
+    // string (optional)
+    password: password_example,
+    // string (optional)
+    firstName: firstName_example,
+    // string (optional)
+    lastName: lastName_example,
+    // string (optional)
+    jobTitle: jobTitle_example,
+    // string (optional)
+    phone: phone_example,
+    // string (optional)
+    address: address_example,
+    // string (optional)
+    city: city_example,
+    // string (optional)
+    country: country_example,
+    // string (optional)
+    website: website_example,
+    // string (optional)
+    category: category_example,
+    // string (optional)
+    monthlySalesRange: monthlySalesRange_example,
+    // PrintFormat (optional)
+    printerType: ...,
+    // Blob (optional)
+    logo: BINARY_DATA_HERE,
+  } satisfies CreateAssociatedCompanyRequest;
 
-  // 4. Aprobación Comercial de un documento recibido
-  await client.documentsReceived.decideCommercialApproval({
-    id: '8a1c2e40-1234-4abc-9def-556677889900',
-    decideCommercialApprovalRequest: {
-      decision: 'APPROVED',
-    },
-  });
+  try {
+    const data = await api.createAssociatedCompany(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-main().catch(console.error);
+// Run the test
+example().catch(console.error);
 ```
 
 
@@ -82,7 +139,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 *CommercialApprovalsApi* | [**getCommercialApprovalById**](docs/CommercialApprovalsApi.md#getcommercialapprovalbyid) | **GET** /documents/approvals/{id} | Obtener aprobación comercial por ID
 *CommercialApprovalsApi* | [**listCommercialApprovals**](docs/CommercialApprovalsApi.md#listcommercialapprovals) | **GET** /documents/approvals | Listar aprobaciones comerciales
 *DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
-*DocumentsReceivedApi* | [**decideCommercialApproval**](docs/DocumentsReceivedApi.md#decidecommercialapproval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
+*DocumentsReceivedApi* | [**decideCommercialApproval**](docs/DocumentsReceivedApi.md#decidecommercialapprovaloperation) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
 *DocumentsReceivedApi* | [**getReceivedDocumentById**](docs/DocumentsReceivedApi.md#getreceiveddocumentbyid) | **GET** /documents/received/{id} | Obtener documento recibido por ID
 *DocumentsReceivedApi* | [**getReceivedDocumentStatsBySupplier**](docs/DocumentsReceivedApi.md#getreceiveddocumentstatsbysupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
 *DocumentsReceivedApi* | [**getReceivedDocumentStatsSummary**](docs/DocumentsReceivedApi.md#getreceiveddocumentstatssummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos
@@ -103,6 +160,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 *ReportsApi* | [**exportSentDocuments**](docs/ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
 *TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createtaxsequenceoperation) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
 *TaxSequencesApi* | [**getNextNumber**](docs/TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+*TaxSequencesApi* | [**importTaxSequencesFromExcel**](docs/TaxSequencesApi.md#importtaxsequencesfromexcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 *TaxSequencesApi* | [**listTaxSequences**](docs/TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF
 *TaxSequencesApi* | [**updateTaxSequence**](docs/TaxSequencesApi.md#updatetaxsequenceoperation) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
 *TaxSequencesApi* | [**voidTaxSequence**](docs/TaxSequencesApi.md#voidtaxsequenceoperation) | **POST** /tax-sequences/void | Anular rango de números fiscales
@@ -158,6 +216,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 - [EcfHistoryItem](docs/EcfHistoryItem.md)
 - [EcfStatsResponse](docs/EcfStatsResponse.md)
 - [EcfStatusResponse](docs/EcfStatusResponse.md)
+- [EcfStatusResponseGovernmentResponse](docs/EcfStatusResponseGovernmentResponse.md)
+- [EcfStatusResponseGovernmentResponseValueInner](docs/EcfStatusResponseGovernmentResponseValueInner.md)
 - [EcfSubmitResponse](docs/EcfSubmitResponse.md)
 - [EcfSubmitResponseCompanyIdentification](docs/EcfSubmitResponseCompanyIdentification.md)
 - [ElectronicDocument](docs/ElectronicDocument.md)
@@ -169,6 +229,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 - [GetReceivedDocumentStatsBySupplier200ResponseInner](docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md)
 - [GetSentDocumentLogs200ResponseInner](docs/GetSentDocumentLogs200ResponseInner.md)
 - [GetSentDocumentStatusOptions200ResponseInner](docs/GetSentDocumentStatusOptions200ResponseInner.md)
+- [ImportTaxSequencesFromExcel200Response](docs/ImportTaxSequencesFromExcel200Response.md)
+- [ImportTaxSequencesFromExcel200ResponseData](docs/ImportTaxSequencesFromExcel200ResponseData.md)
+- [ImportTaxSequencesFromExcel200ResponseDataResultsInner](docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md)
 - [InvoiceType](docs/InvoiceType.md)
 - [InvoiceTypeSequence](docs/InvoiceTypeSequence.md)
 - [Item](docs/Item.md)
@@ -285,7 +348,7 @@ and is automatically generated by the
 [OpenAPI Generator](https://openapi-generator.tech) project:
 
 - API version: `1.2.0`
-- Package version: `0.0.12`
+- Package version: `0.0.13`
 - Generator version: `7.21.0`
 - Build package: `org.openapitools.codegen.languages.TypeScriptFetchClientCodegen`
 

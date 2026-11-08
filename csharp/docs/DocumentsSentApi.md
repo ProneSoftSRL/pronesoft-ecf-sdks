@@ -116,7 +116,7 @@ catch (ApiException e)
 
 <a id="getsentdocumentbyid"></a>
 # **GetSentDocumentById**
-> SentDocumentDetail GetSentDocumentById (Guid id, Guid? xTenantId = null)
+> SentDocumentDetail GetSentDocumentById (Guid id, string? xTenantId = null)
 
 Obtener detalle del documento
 
@@ -145,7 +145,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsSentApi(httpClient, config, httpClientHandler);
             var id = "id_example";  // Guid | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -189,7 +189,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **Guid** |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -215,7 +215,7 @@ catch (ApiException e)
 
 <a id="getsentdocumentlogs"></a>
 # **GetSentDocumentLogs**
-> List&lt;GetSentDocumentLogs200ResponseInner&gt; GetSentDocumentLogs (Guid id, Guid? xTenantId = null)
+> List&lt;GetSentDocumentLogs200ResponseInner&gt; GetSentDocumentLogs (Guid id, string? xTenantId = null)
 
 Logs de procesamiento del documento
 
@@ -244,7 +244,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsSentApi(httpClient, config, httpClientHandler);
             var id = "id_example";  // Guid | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -288,7 +288,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **Guid** |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -315,7 +315,7 @@ catch (ApiException e)
 
 <a id="getsentdocumentstats"></a>
 # **GetSentDocumentStats**
-> DocumentStatsResponse GetSentDocumentStats (Guid? xTenantId = null)
+> DocumentStatsResponse GetSentDocumentStats (string? xTenantId = null)
 
 Estadísticas de documentos enviados
 
@@ -343,7 +343,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsSentApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -386,7 +386,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -412,7 +412,7 @@ catch (ApiException e)
 
 <a id="getsentdocumentstatsbyenvironment"></a>
 # **GetSentDocumentStatsByEnvironment**
-> Dictionary&lt;string, Object&gt; GetSentDocumentStatsByEnvironment (Guid? xTenantId = null)
+> Dictionary&lt;string, Object&gt; GetSentDocumentStatsByEnvironment (string? xTenantId = null)
 
 Estadísticas agrupadas por ambiente y estado
 
@@ -440,7 +440,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsSentApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -483,7 +483,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -701,7 +701,7 @@ catch (ApiException e)
 
 <a id="listsentdocuments"></a>
 # **ListSentDocuments**
-> SentDocumentListResponse ListSentDocuments (Guid? xTenantId = null, ModelEnvironment? env = null, string? ecf = null, string? type = null, string? status = null, string? dateFrom = null, string? dateTo = null, int? page = null, int? limit = null)
+> SentDocumentListResponse ListSentDocuments (string? xTenantId = null, ModelEnvironment? env = null, string? ecf = null, string? type = null, string? status = null, string? dateFrom = null, string? dateTo = null, int? page = null, int? limit = null)
 
 Listar documentos enviados
 
@@ -729,7 +729,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsSentApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
             var env = new ModelEnvironment?(); // ModelEnvironment? |  (optional) 
             var ecf = "ecf_example";  // string? |  (optional) 
             var type = "type_example";  // string? |  (optional) 
@@ -780,7 +780,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 | **env** | [**ModelEnvironment?**](ModelEnvironment?.md) |  | [optional]  |
 | **ecf** | **string?** |  | [optional]  |
 | **type** | **string?** |  | [optional]  |

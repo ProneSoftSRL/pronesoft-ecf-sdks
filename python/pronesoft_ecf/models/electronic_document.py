@@ -3,7 +3,7 @@
 """
     eCF-Pronesoft Integration API
 
-    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+    ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
     The version of the OpenAPI document: 1.2.0
     Contact: support@pronesoft.com
@@ -56,7 +56,7 @@ class ElectronicDocument(BaseModel):
     payment_type: Optional[StrictStr] = Field(default=None, description="1=Contado, 2=Crédito, 3=Mixto", alias="paymentType")
     payment_deadline: Optional[datetime] = Field(default=None, alias="paymentDeadline")
     payment_terms: Optional[Annotated[str, Field(strict=True, max_length=15)]] = Field(default=None, alias="paymentTerms")
-    payment_forms: List[PaymentForm] = Field(description="Payment breakdown. Required.", alias="paymentForms")
+    payment_forms: Optional[List[PaymentForm]] = Field(default=None, description="Payment breakdown. Optional; if omitted, the XML is sent without the payment table.", alias="paymentForms")
     payment_account_type: Optional[AccountType] = Field(default=None, alias="paymentAccountType")
     payment_account_number: Optional[Annotated[str, Field(strict=True, max_length=28)]] = Field(default=None, alias="paymentAccountNumber")
     payment_bank: Optional[Annotated[str, Field(strict=True, max_length=75)]] = Field(default=None, alias="paymentBank")
@@ -82,7 +82,7 @@ class ElectronicDocument(BaseModel):
     additional_issuer_info: Optional[Annotated[str, Field(strict=True, max_length=250)]] = Field(default=None, alias="additionalIssuerInfo")
     buyer: Optional[Buyer] = None
     items: Annotated[List[Item], Field(min_length=1, max_length=1000)]
-    totals: Totals
+    totals: Optional[Totals] = None
     transport: Optional[Transport] = None
     additional_info: Optional[AdditionalInfo] = Field(default=None, alias="additionalInfo")
     alternative_currency: Optional[AlternativeCurrency] = Field(default=None, alias="alternativeCurrency")

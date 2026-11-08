@@ -19,12 +19,12 @@ open class ECFSubmissionAPI {
      Obtener estadísticas de envíos (últimos 30 días)
      
      - parameter environment: (path)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getEcfStats(environment: Environment, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfStatsResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getEcfStats(environment: Environment, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfStatsResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return getEcfStatsWithRequestBuilder(environment: environment, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -42,10 +42,10 @@ open class ECFSubmissionAPI {
        - type: oauth2
        - name: oauth2
      - parameter environment: (path)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<EcfStatsResponse> 
      */
-    open class func getEcfStatsWithRequestBuilder(environment: Environment, xTenantId: UUID? = nil) -> RequestBuilder<EcfStatsResponse> {
+    open class func getEcfStatsWithRequestBuilder(environment: Environment, xTenantId: String? = nil) -> RequestBuilder<EcfStatsResponse> {
         var localVariablePath = "/{environment}/ecf/responses/stats"
         let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
         let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -71,12 +71,12 @@ open class ECFSubmissionAPI {
      
      - parameter environment: (path)  
      - parameter id: (path)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getEcfStatus(environment: Environment, id: String, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfStatusResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getEcfStatus(environment: Environment, id: String, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfStatusResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return getEcfStatusWithRequestBuilder(environment: environment, id: id, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -95,10 +95,10 @@ open class ECFSubmissionAPI {
        - name: oauth2
      - parameter environment: (path)  
      - parameter id: (path)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<EcfStatusResponse> 
      */
-    open class func getEcfStatusWithRequestBuilder(environment: Environment, id: String, xTenantId: UUID? = nil) -> RequestBuilder<EcfStatusResponse> {
+    open class func getEcfStatusWithRequestBuilder(environment: Environment, id: String, xTenantId: String? = nil) -> RequestBuilder<EcfStatusResponse> {
         var localVariablePath = "/{environment}/ecf/status/{id}"
         let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
         let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -126,14 +126,14 @@ open class ECFSubmissionAPI {
      Historial de envíos (paginado)
      
      - parameter environment: (path)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 20)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getEcfSubmissionHistory(environment: Environment, xTenantId: UUID? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: GetEcfSubmissionHistory200Response?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getEcfSubmissionHistory(environment: Environment, xTenantId: String? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: GetEcfSubmissionHistory200Response?, _ error: Error?) -> Void)) -> RequestTask {
         return getEcfSubmissionHistoryWithRequestBuilder(environment: environment, xTenantId: xTenantId, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -151,12 +151,12 @@ open class ECFSubmissionAPI {
        - type: oauth2
        - name: oauth2
      - parameter environment: (path)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 20)
      - returns: RequestBuilder<GetEcfSubmissionHistory200Response> 
      */
-    open class func getEcfSubmissionHistoryWithRequestBuilder(environment: Environment, xTenantId: UUID? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<GetEcfSubmissionHistory200Response> {
+    open class func getEcfSubmissionHistoryWithRequestBuilder(environment: Environment, xTenantId: String? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<GetEcfSubmissionHistory200Response> {
         var localVariablePath = "/{environment}/ecf/responses/history"
         let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
         let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -186,12 +186,12 @@ open class ECFSubmissionAPI {
      
      - parameter environment: (path)  
      - parameter electronicDocument: (body)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func submitEcf(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfSubmitResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func submitEcf(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: EcfSubmitResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return submitEcfWithRequestBuilder(environment: environment, electronicDocument: electronicDocument, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -211,10 +211,10 @@ open class ECFSubmissionAPI {
        - name: oauth2
      - parameter environment: (path)  
      - parameter electronicDocument: (body)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<EcfSubmitResponse> 
      */
-    open class func submitEcfWithRequestBuilder(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: UUID? = nil) -> RequestBuilder<EcfSubmitResponse> {
+    open class func submitEcfWithRequestBuilder(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: String? = nil) -> RequestBuilder<EcfSubmitResponse> {
         var localVariablePath = "/{environment}/ecf/submit"
         let environmentPreEscape = "\(APIHelper.mapValueToPathItem(environment))"
         let environmentPostEscape = environmentPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

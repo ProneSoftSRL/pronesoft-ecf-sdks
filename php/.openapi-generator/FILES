@@ -287,5 +287,3 @@ lib/Model/WebhookStats.php
 lib/Model/WebhookStatsStats.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
-test/Model/DecideCommercialApprovalRequestTest.php
-test/Model/DecideCommercialApprovalResponseTest.php

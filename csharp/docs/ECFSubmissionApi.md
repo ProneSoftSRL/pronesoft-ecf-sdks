@@ -11,7 +11,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="getecfstats"></a>
 # **GetEcfStats**
-> EcfStatsResponse GetEcfStats (ModelEnvironment environment, Guid? xTenantId = null)
+> EcfStatsResponse GetEcfStats (ModelEnvironment environment, string? xTenantId = null)
 
 Obtener estadísticas de envíos (últimos 30 días)
 
@@ -40,7 +40,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -84,7 +84,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **environment** | **ModelEnvironment** |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -110,7 +110,7 @@ catch (ApiException e)
 
 <a id="getecfstatus"></a>
 # **GetEcfStatus**
-> EcfStatusResponse GetEcfStatus (ModelEnvironment environment, string id, Guid? xTenantId = null)
+> EcfStatusResponse GetEcfStatus (ModelEnvironment environment, string id, string? xTenantId = null)
 
 Consultar estado del documento por ID interno
 
@@ -140,7 +140,7 @@ namespace Example
             var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
             var id = "id_example";  // string | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -185,7 +185,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **environment** | **ModelEnvironment** |  |  |
 | **id** | **string** |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -211,7 +211,7 @@ catch (ApiException e)
 
 <a id="getecfsubmissionhistory"></a>
 # **GetEcfSubmissionHistory**
-> GetEcfSubmissionHistory200Response GetEcfSubmissionHistory (ModelEnvironment environment, Guid? xTenantId = null, int? page = null, int? limit = null)
+> GetEcfSubmissionHistory200Response GetEcfSubmissionHistory (ModelEnvironment environment, string? xTenantId = null, int? page = null, int? limit = null)
 
 Historial de envíos (paginado)
 
@@ -240,7 +240,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
             var page = 1;  // int? |  (optional)  (default to 1)
             var limit = 20;  // int? |  (optional)  (default to 20)
 
@@ -286,7 +286,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **environment** | **ModelEnvironment** |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 | **page** | **int?** |  | [optional] [default to 1] |
 | **limit** | **int?** |  | [optional] [default to 20] |
 
@@ -314,7 +314,7 @@ catch (ApiException e)
 
 <a id="submitecf"></a>
 # **SubmitEcf**
-> EcfSubmitResponse SubmitEcf (ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = null)
+> EcfSubmitResponse SubmitEcf (ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = null)
 
 Enviar documento e-CF a la DGII
 
@@ -346,7 +346,7 @@ namespace Example
             var apiInstance = new ECFSubmissionApi(httpClient, config, httpClientHandler);
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
             var electronicDocument = new ElectronicDocument(); // ElectronicDocument | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -391,7 +391,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **environment** | **ModelEnvironment** |  |  |
 | **electronicDocument** | [**ElectronicDocument**](ElectronicDocument.md) |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 

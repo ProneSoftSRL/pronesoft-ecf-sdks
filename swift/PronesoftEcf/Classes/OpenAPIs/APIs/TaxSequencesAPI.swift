@@ -19,12 +19,12 @@ open class TaxSequencesAPI {
      Crear nueva secuencia de NCF
      
      - parameter createTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CreateTaxSequence201Response?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CreateTaxSequence201Response?, _ error: Error?) -> Void)) -> RequestTask {
         return createTaxSequenceWithRequestBuilder(createTaxSequenceRequest: createTaxSequenceRequest, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -42,10 +42,10 @@ open class TaxSequencesAPI {
        - type: oauth2
        - name: oauth2
      - parameter createTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<CreateTaxSequence201Response> 
      */
-    open class func createTaxSequenceWithRequestBuilder(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<CreateTaxSequence201Response> {
+    open class func createTaxSequenceWithRequestBuilder(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: String? = nil) -> RequestBuilder<CreateTaxSequence201Response> {
         let localVariablePath = "/tax-sequences/create"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createTaxSequenceRequest)
@@ -69,12 +69,12 @@ open class TaxSequencesAPI {
      
      - parameter type: (query)  
      - parameter environment: (query)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: GetNextNumber200Response?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: GetNextNumber200Response?, _ error: Error?) -> Void)) -> RequestTask {
         return getNextNumberWithRequestBuilder(type: type, environment: environment, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -94,10 +94,10 @@ open class TaxSequencesAPI {
        - name: oauth2
      - parameter type: (query)  
      - parameter environment: (query)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<GetNextNumber200Response> 
      */
-    open class func getNextNumberWithRequestBuilder(type: InvoiceTypeSequence, environment: Environment, xTenantId: UUID? = nil) -> RequestBuilder<GetNextNumber200Response> {
+    open class func getNextNumberWithRequestBuilder(type: InvoiceTypeSequence, environment: Environment, xTenantId: String? = nil) -> RequestBuilder<GetNextNumber200Response> {
         let localVariablePath = "/tax-sequences/next"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -124,12 +124,12 @@ open class TaxSequencesAPI {
      
      - parameter environment: (query)  
      - parameter file: (form) Archivo Excel (.xlsx o .xls) exportado desde la DGII 
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func importTaxSequencesFromExcel(environment: Environment, file: URL, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ImportTaxSequencesFromExcel200Response?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func importTaxSequencesFromExcel(environment: Environment, file: URL, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ImportTaxSequencesFromExcel200Response?, _ error: Error?) -> Void)) -> RequestTask {
         return importTaxSequencesFromExcelWithRequestBuilder(environment: environment, file: file, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -149,10 +149,10 @@ open class TaxSequencesAPI {
        - name: oauth2
      - parameter environment: (query)  
      - parameter file: (form) Archivo Excel (.xlsx o .xls) exportado desde la DGII 
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<ImportTaxSequencesFromExcel200Response> 
      */
-    open class func importTaxSequencesFromExcelWithRequestBuilder(environment: Environment, file: URL, xTenantId: UUID? = nil) -> RequestBuilder<ImportTaxSequencesFromExcel200Response> {
+    open class func importTaxSequencesFromExcelWithRequestBuilder(environment: Environment, file: URL, xTenantId: String? = nil) -> RequestBuilder<ImportTaxSequencesFromExcel200Response> {
         let localVariablePath = "/tax-sequences/import"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
@@ -182,7 +182,7 @@ open class TaxSequencesAPI {
     /**
      Listar secuencias de NCF
      
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter type: (query)  (optional)
      - parameter environment: (query)  (optional)
      - parameter page: (query)  (optional, default to 1)
@@ -191,7 +191,7 @@ open class TaxSequencesAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listTaxSequences(xTenantId: UUID? = nil, type: InvoiceTypeSequence? = nil, environment: Environment? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func listTaxSequences(xTenantId: String? = nil, type: InvoiceTypeSequence? = nil, environment: Environment? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)) -> RequestTask {
         return listTaxSequencesWithRequestBuilder(xTenantId: xTenantId, type: type, environment: environment, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -208,14 +208,14 @@ open class TaxSequencesAPI {
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter type: (query)  (optional)
      - parameter environment: (query)  (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<ListTaxSequences200Response> 
      */
-    open class func listTaxSequencesWithRequestBuilder(xTenantId: UUID? = nil, type: InvoiceTypeSequence? = nil, environment: Environment? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ListTaxSequences200Response> {
+    open class func listTaxSequencesWithRequestBuilder(xTenantId: String? = nil, type: InvoiceTypeSequence? = nil, environment: Environment? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ListTaxSequences200Response> {
         let localVariablePath = "/tax-sequences"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -244,12 +244,12 @@ open class TaxSequencesAPI {
      
      - parameter id: (query)  
      - parameter updateTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func updateTaxSequence(id: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func updateTaxSequence(id: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
         return updateTaxSequenceWithRequestBuilder(id: id, updateTaxSequenceRequest: updateTaxSequenceRequest, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -268,10 +268,10 @@ open class TaxSequencesAPI {
        - name: oauth2
      - parameter id: (query)  
      - parameter updateTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<Void> 
      */
-    open class func updateTaxSequenceWithRequestBuilder(id: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<Void> {
+    open class func updateTaxSequenceWithRequestBuilder(id: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: String? = nil) -> RequestBuilder<Void> {
         let localVariablePath = "/tax-sequences/update"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updateTaxSequenceRequest)
@@ -297,12 +297,12 @@ open class TaxSequencesAPI {
      Anular rango de números fiscales
      
      - parameter voidTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: VoidTaxSequence200Response?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: VoidTaxSequence200Response?, _ error: Error?) -> Void)) -> RequestTask {
         return voidTaxSequenceWithRequestBuilder(voidTaxSequenceRequest: voidTaxSequenceRequest, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -321,10 +321,10 @@ open class TaxSequencesAPI {
        - type: oauth2
        - name: oauth2
      - parameter voidTaxSequenceRequest: (body)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<VoidTaxSequence200Response> 
      */
-    open class func voidTaxSequenceWithRequestBuilder(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: UUID? = nil) -> RequestBuilder<VoidTaxSequence200Response> {
+    open class func voidTaxSequenceWithRequestBuilder(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: String? = nil) -> RequestBuilder<VoidTaxSequence200Response> {
         let localVariablePath = "/tax-sequences/void"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: voidTaxSequenceRequest)

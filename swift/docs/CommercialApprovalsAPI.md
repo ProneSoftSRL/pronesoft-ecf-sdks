@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 # **getCommercialApprovalById**
 ```swift
-    open class func getCommercialApprovalById(id: UUID, xTenantId: UUID? = nil, completion: @escaping (_ data: ApprovalItem?, _ error: Error?) -> Void)
+    open class func getCommercialApprovalById(id: UUID, xTenantId: String? = nil, completion: @escaping (_ data: ApprovalItem?, _ error: Error?) -> Void)
 ```
 
 Obtener aprobación comercial por ID
@@ -21,7 +21,7 @@ Obtener aprobación comercial por ID
 import PronesoftEcf
 
 let id = 987 // UUID | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Obtener aprobación comercial por ID
 CommercialApprovalsAPI.getCommercialApprovalById(id: id, xTenantId: xTenantId) { (response, error) in
@@ -41,7 +41,7 @@ CommercialApprovalsAPI.getCommercialApprovalById(id: id, xTenantId: xTenantId) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **UUID** |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 
 # **listCommercialApprovals**
 ```swift
-    open class func listCommercialApprovals(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ApprovalListResponse?, _ error: Error?) -> Void)
+    open class func listCommercialApprovals(xTenantId: String? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ApprovalListResponse?, _ error: Error?) -> Void)
 ```
 
 Listar aprobaciones comerciales
@@ -70,7 +70,7 @@ Listar aprobaciones comerciales
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 let ecf = "ecf_example" // String |  (optional)
 let type = "type_example" // String | Tipo de documento (optional)
 let status = 987 // Int |  (optional)
@@ -96,7 +96,7 @@ CommercialApprovalsAPI.listCommercialApprovals(xTenantId: xTenantId, ecf: ecf, t
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
  **ecf** | **String** |  | [optional] 
  **type** | **String** | Tipo de documento | [optional] 
  **status** | **Int** |  | [optional] 

@@ -1,7 +1,7 @@
 /*
 eCF-Pronesoft Integration API
 
-## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 API version: 1.2.0
 Contact: support@pronesoft.com
@@ -42,8 +42,8 @@ type ElectronicDocument struct {
 	PaymentType *string `json:"paymentType,omitempty"`
 	PaymentDeadline *time.Time `json:"paymentDeadline,omitempty"`
 	PaymentTerms *string `json:"paymentTerms,omitempty"`
-	// Payment breakdown. Required.
-	PaymentForms []PaymentForm `json:"paymentForms"`
+	// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
+	PaymentForms []PaymentForm `json:"paymentForms,omitempty"`
 	PaymentAccountType *AccountType `json:"paymentAccountType,omitempty"`
 	PaymentAccountNumber *string `json:"paymentAccountNumber,omitempty"`
 	PaymentBank *string `json:"paymentBank,omitempty"`
@@ -70,7 +70,7 @@ type ElectronicDocument struct {
 	AdditionalIssuerInfo *string `json:"additionalIssuerInfo,omitempty"`
 	Buyer *Buyer `json:"buyer,omitempty"`
 	Items []Item `json:"items"`
-	Totals Totals `json:"totals"`
+	Totals *Totals `json:"totals,omitempty"`
 	Transport *Transport `json:"transport,omitempty"`
 	AdditionalInfo *AdditionalInfo `json:"additionalInfo,omitempty"`
 	AlternativeCurrency *AlternativeCurrency `json:"alternativeCurrency,omitempty"`
@@ -86,15 +86,13 @@ type _ElectronicDocument ElectronicDocument
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, paymentForms []PaymentForm, items []Item, totals Totals) *ElectronicDocument {
+func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, items []Item) *ElectronicDocument {
 	this := ElectronicDocument{}
 	var version string = "1.0"
 	this.Version = &version
 	this.InvoiceType = invoiceType
 	this.IssueDate = issueDate
-	this.PaymentForms = paymentForms
 	this.Items = items
-	this.Totals = totals
 	return &this
 }
 
@@ -508,26 +506,34 @@ func (o *ElectronicDocument) SetPaymentTerms(v string) {
 	o.PaymentTerms = &v
 }
 
-// GetPaymentForms returns the PaymentForms field value
+// GetPaymentForms returns the PaymentForms field value if set, zero value otherwise.
 func (o *ElectronicDocument) GetPaymentForms() []PaymentForm {
-	if o == nil {
+	if o == nil || IsNil(o.PaymentForms) {
 		var ret []PaymentForm
 		return ret
 	}
-
 	return o.PaymentForms
 }
 
-// GetPaymentFormsOk returns a tuple with the PaymentForms field value
+// GetPaymentFormsOk returns a tuple with the PaymentForms field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ElectronicDocument) GetPaymentFormsOk() ([]PaymentForm, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.PaymentForms) {
 		return nil, false
 	}
 	return o.PaymentForms, true
 }
 
-// SetPaymentForms sets field value
+// HasPaymentForms returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasPaymentForms() bool {
+	if o != nil && !IsNil(o.PaymentForms) {
+		return true
+	}
+
+	return false
+}
+
+// SetPaymentForms gets a reference to the given []PaymentForm and assigns it to the PaymentForms field.
 func (o *ElectronicDocument) SetPaymentForms(v []PaymentForm) {
 	o.PaymentForms = v
 }
@@ -1324,28 +1330,36 @@ func (o *ElectronicDocument) SetItems(v []Item) {
 	o.Items = v
 }
 
-// GetTotals returns the Totals field value
+// GetTotals returns the Totals field value if set, zero value otherwise.
 func (o *ElectronicDocument) GetTotals() Totals {
-	if o == nil {
+	if o == nil || IsNil(o.Totals) {
 		var ret Totals
 		return ret
 	}
-
-	return o.Totals
+	return *o.Totals
 }
 
-// GetTotalsOk returns a tuple with the Totals field value
+// GetTotalsOk returns a tuple with the Totals field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ElectronicDocument) GetTotalsOk() (*Totals, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Totals) {
 		return nil, false
 	}
-	return &o.Totals, true
+	return o.Totals, true
 }
 
-// SetTotals sets field value
+// HasTotals returns a boolean if a field has been set.
+func (o *ElectronicDocument) HasTotals() bool {
+	if o != nil && !IsNil(o.Totals) {
+		return true
+	}
+
+	return false
+}
+
+// SetTotals gets a reference to the given Totals and assigns it to the Totals field.
 func (o *ElectronicDocument) SetTotals(v Totals) {
-	o.Totals = v
+	o.Totals = &v
 }
 
 // GetTransport returns the Transport field value if set, zero value otherwise.
@@ -1617,7 +1631,9 @@ func (o ElectronicDocument) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PaymentTerms) {
 		toSerialize["paymentTerms"] = o.PaymentTerms
 	}
-	toSerialize["paymentForms"] = o.PaymentForms
+	if !IsNil(o.PaymentForms) {
+		toSerialize["paymentForms"] = o.PaymentForms
+	}
 	if !IsNil(o.PaymentAccountType) {
 		toSerialize["paymentAccountType"] = o.PaymentAccountType
 	}
@@ -1691,7 +1707,9 @@ func (o ElectronicDocument) ToMap() (map[string]interface{}, error) {
 		toSerialize["buyer"] = o.Buyer
 	}
 	toSerialize["items"] = o.Items
-	toSerialize["totals"] = o.Totals
+	if !IsNil(o.Totals) {
+		toSerialize["totals"] = o.Totals
+	}
 	if !IsNil(o.Transport) {
 		toSerialize["transport"] = o.Transport
 	}
@@ -1723,9 +1741,7 @@ func (o *ElectronicDocument) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"invoiceType",
 		"issueDate",
-		"paymentForms",
 		"items",
-		"totals",
 	}
 
 	allProperties := make(map[string]interface{})

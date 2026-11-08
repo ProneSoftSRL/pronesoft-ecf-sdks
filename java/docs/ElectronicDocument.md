@@ -21,7 +21,7 @@ Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional
 |**paymentType** | [**PaymentTypeEnum**](#PaymentTypeEnum) | 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto |  [optional] |
 |**paymentDeadline** | **OffsetDateTime** |  |  [optional] |
 |**paymentTerms** | **String** |  |  [optional] |
-|**paymentForms** | [**List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
+|**paymentForms** | [**List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. |  [optional] |
 |**paymentAccountType** | **AccountType** |  |  [optional] |
 |**paymentAccountNumber** | **String** |  |  [optional] |
 |**paymentBank** | **String** |  |  [optional] |
@@ -47,7 +47,7 @@ Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional
 |**additionalIssuerInfo** | **String** |  |  [optional] |
 |**buyer** | [**Buyer**](Buyer.md) |  |  [optional] |
 |**items** | [**List&lt;Item&gt;**](Item.md) |  |  |
-|**totals** | [**Totals**](Totals.md) |  |  |
+|**totals** | [**Totals**](Totals.md) |  |  [optional] |
 |**transport** | [**Transport**](Transport.md) |  |  [optional] |
 |**additionalInfo** | [**AdditionalInfo**](AdditionalInfo.md) |  |  [optional] |
 |**alternativeCurrency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  |  [optional] |

@@ -25,7 +25,7 @@ class TaxSequencesApi {
   /// * [CreateTaxSequenceRequest] createTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> createTaxSequenceWithHttpInfo(CreateTaxSequenceRequest createTaxSequenceRequest, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/create';
@@ -62,7 +62,7 @@ class TaxSequencesApi {
   /// * [CreateTaxSequenceRequest] createTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<CreateTaxSequence201Response?> createTaxSequence(CreateTaxSequenceRequest createTaxSequenceRequest, { String? xTenantId, }) async {
     final response = await createTaxSequenceWithHttpInfo(createTaxSequenceRequest,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -91,7 +91,7 @@ class TaxSequencesApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getNextNumberWithHttpInfo(InvoiceTypeSequence type, Environment environment, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/next';
@@ -135,7 +135,7 @@ class TaxSequencesApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<GetNextNumber200Response?> getNextNumber(InvoiceTypeSequence type, Environment environment, { String? xTenantId, }) async {
     final response = await getNextNumberWithHttpInfo(type, environment,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -165,7 +165,7 @@ class TaxSequencesApi {
   ///   Archivo Excel (.xlsx o .xls) exportado desde la DGII
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> importTaxSequencesFromExcelWithHttpInfo(Environment environment, MultipartFile file, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/import';
@@ -219,7 +219,7 @@ class TaxSequencesApi {
   ///   Archivo Excel (.xlsx o .xls) exportado desde la DGII
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<ImportTaxSequencesFromExcel200Response?> importTaxSequencesFromExcel(Environment environment, MultipartFile file, { String? xTenantId, }) async {
     final response = await importTaxSequencesFromExcelWithHttpInfo(environment, file,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -242,7 +242,7 @@ class TaxSequencesApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [InvoiceTypeSequence] type:
   ///
@@ -298,7 +298,7 @@ class TaxSequencesApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [InvoiceTypeSequence] type:
   ///
@@ -333,7 +333,7 @@ class TaxSequencesApi {
   /// * [UpdateTaxSequenceRequest] updateTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> updateTaxSequenceWithHttpInfo(String id, UpdateTaxSequenceRequest updateTaxSequenceRequest, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/update';
@@ -374,7 +374,7 @@ class TaxSequencesApi {
   /// * [UpdateTaxSequenceRequest] updateTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<void> updateTaxSequence(String id, UpdateTaxSequenceRequest updateTaxSequenceRequest, { String? xTenantId, }) async {
     final response = await updateTaxSequenceWithHttpInfo(id, updateTaxSequenceRequest,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -393,7 +393,7 @@ class TaxSequencesApi {
   /// * [VoidTaxSequenceRequest] voidTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> voidTaxSequenceWithHttpInfo(VoidTaxSequenceRequest voidTaxSequenceRequest, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/tax-sequences/void';
@@ -432,7 +432,7 @@ class TaxSequencesApi {
   /// * [VoidTaxSequenceRequest] voidTaxSequenceRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<VoidTaxSequence200Response?> voidTaxSequence(VoidTaxSequenceRequest voidTaxSequenceRequest, { String? xTenantId, }) async {
     final response = await voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {

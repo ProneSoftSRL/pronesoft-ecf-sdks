@@ -1,7 +1,7 @@
 /*
 eCF-Pronesoft Integration API
 
-## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 API version: 1.2.0
 Contact: support@pronesoft.com
@@ -25,9 +25,9 @@ type CreateTaxSequenceRequest struct {
 	Type InvoiceTypeSequence `json:"type"`
 	From int32 `json:"from"`
 	To int32 `json:"to"`
-	Quantity *int32 `json:"quantity,omitempty"`
+	Quantity int32 `json:"quantity"`
 	Expiration *string `json:"expiration,omitempty"`
-	Environment *Environment `json:"environment,omitempty"`
+	Environment Environment `json:"environment"`
 }
 
 type _CreateTaxSequenceRequest CreateTaxSequenceRequest
@@ -36,11 +36,13 @@ type _CreateTaxSequenceRequest CreateTaxSequenceRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateTaxSequenceRequest(type_ InvoiceTypeSequence, from int32, to int32) *CreateTaxSequenceRequest {
+func NewCreateTaxSequenceRequest(type_ InvoiceTypeSequence, from int32, to int32, quantity int32, environment Environment) *CreateTaxSequenceRequest {
 	this := CreateTaxSequenceRequest{}
 	this.Type = type_
 	this.From = from
 	this.To = to
+	this.Quantity = quantity
+	this.Environment = environment
 	return &this
 }
 
@@ -124,36 +126,28 @@ func (o *CreateTaxSequenceRequest) SetTo(v int32) {
 	o.To = v
 }
 
-// GetQuantity returns the Quantity field value if set, zero value otherwise.
+// GetQuantity returns the Quantity field value
 func (o *CreateTaxSequenceRequest) GetQuantity() int32 {
-	if o == nil || IsNil(o.Quantity) {
+	if o == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Quantity
+
+	return o.Quantity
 }
 
-// GetQuantityOk returns a tuple with the Quantity field value if set, nil otherwise
+// GetQuantityOk returns a tuple with the Quantity field value
 // and a boolean to check if the value has been set.
 func (o *CreateTaxSequenceRequest) GetQuantityOk() (*int32, bool) {
-	if o == nil || IsNil(o.Quantity) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Quantity, true
+	return &o.Quantity, true
 }
 
-// HasQuantity returns a boolean if a field has been set.
-func (o *CreateTaxSequenceRequest) HasQuantity() bool {
-	if o != nil && !IsNil(o.Quantity) {
-		return true
-	}
-
-	return false
-}
-
-// SetQuantity gets a reference to the given int32 and assigns it to the Quantity field.
+// SetQuantity sets field value
 func (o *CreateTaxSequenceRequest) SetQuantity(v int32) {
-	o.Quantity = &v
+	o.Quantity = v
 }
 
 // GetExpiration returns the Expiration field value if set, zero value otherwise.
@@ -188,36 +182,28 @@ func (o *CreateTaxSequenceRequest) SetExpiration(v string) {
 	o.Expiration = &v
 }
 
-// GetEnvironment returns the Environment field value if set, zero value otherwise.
+// GetEnvironment returns the Environment field value
 func (o *CreateTaxSequenceRequest) GetEnvironment() Environment {
-	if o == nil || IsNil(o.Environment) {
+	if o == nil {
 		var ret Environment
 		return ret
 	}
-	return *o.Environment
+
+	return o.Environment
 }
 
-// GetEnvironmentOk returns a tuple with the Environment field value if set, nil otherwise
+// GetEnvironmentOk returns a tuple with the Environment field value
 // and a boolean to check if the value has been set.
 func (o *CreateTaxSequenceRequest) GetEnvironmentOk() (*Environment, bool) {
-	if o == nil || IsNil(o.Environment) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Environment, true
+	return &o.Environment, true
 }
 
-// HasEnvironment returns a boolean if a field has been set.
-func (o *CreateTaxSequenceRequest) HasEnvironment() bool {
-	if o != nil && !IsNil(o.Environment) {
-		return true
-	}
-
-	return false
-}
-
-// SetEnvironment gets a reference to the given Environment and assigns it to the Environment field.
+// SetEnvironment sets field value
 func (o *CreateTaxSequenceRequest) SetEnvironment(v Environment) {
-	o.Environment = &v
+	o.Environment = v
 }
 
 func (o CreateTaxSequenceRequest) MarshalJSON() ([]byte, error) {
@@ -233,15 +219,11 @@ func (o CreateTaxSequenceRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize["type"] = o.Type
 	toSerialize["from"] = o.From
 	toSerialize["to"] = o.To
-	if !IsNil(o.Quantity) {
-		toSerialize["quantity"] = o.Quantity
-	}
+	toSerialize["quantity"] = o.Quantity
 	if !IsNil(o.Expiration) {
 		toSerialize["expiration"] = o.Expiration
 	}
-	if !IsNil(o.Environment) {
-		toSerialize["environment"] = o.Environment
-	}
+	toSerialize["environment"] = o.Environment
 	return toSerialize, nil
 }
 
@@ -253,6 +235,8 @@ func (o *CreateTaxSequenceRequest) UnmarshalJSON(data []byte) (err error) {
 		"type",
 		"from",
 		"to",
+		"quantity",
+		"environment",
 	}
 
 	allProperties := make(map[string]interface{})

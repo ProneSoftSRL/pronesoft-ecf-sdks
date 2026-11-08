@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -84,7 +84,7 @@ public class DocumentsReceivedApi {
      * Build call for decideCommercialApproval
      * @param id ID del documento recibido (TaxDocumentReceived.id) (required)
      * @param decideCommercialApprovalRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -98,7 +98,7 @@ public class DocumentsReceivedApi {
         <tr><td> 404 </td><td> Documento recibido no encontrado </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call decideCommercialApprovalCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call decideCommercialApprovalCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -150,7 +150,7 @@ public class DocumentsReceivedApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call decideCommercialApprovalValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call decideCommercialApprovalValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'id' is set
         if (id == null) {
             throw new ApiException("Missing the required parameter 'id' when calling decideCommercialApproval(Async)");
@@ -170,7 +170,7 @@ public class DocumentsReceivedApi {
      * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
      * @param id ID del documento recibido (TaxDocumentReceived.id) (required)
      * @param decideCommercialApprovalRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return DecideCommercialApprovalResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -183,7 +183,7 @@ public class DocumentsReceivedApi {
         <tr><td> 404 </td><td> Documento recibido no encontrado </td><td>  -  </td></tr>
      </table>
      */
-    public DecideCommercialApprovalResponse decideCommercialApproval(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public DecideCommercialApprovalResponse decideCommercialApproval(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<DecideCommercialApprovalResponse> localVarResp = decideCommercialApprovalWithHttpInfo(id, decideCommercialApprovalRequest, xTenantId);
         return localVarResp.getData();
     }
@@ -193,7 +193,7 @@ public class DocumentsReceivedApi {
      * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
      * @param id ID del documento recibido (TaxDocumentReceived.id) (required)
      * @param decideCommercialApprovalRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;DecideCommercialApprovalResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -206,7 +206,7 @@ public class DocumentsReceivedApi {
         <tr><td> 404 </td><td> Documento recibido no encontrado </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<DecideCommercialApprovalResponse> decideCommercialApprovalWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<DecideCommercialApprovalResponse> decideCommercialApprovalWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = decideCommercialApprovalValidateBeforeCall(id, decideCommercialApprovalRequest, xTenantId, null);
         Type localVarReturnType = new TypeToken<DecideCommercialApprovalResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -217,7 +217,7 @@ public class DocumentsReceivedApi {
      * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
      * @param id ID del documento recibido (TaxDocumentReceived.id) (required)
      * @param decideCommercialApprovalRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -231,7 +231,7 @@ public class DocumentsReceivedApi {
         <tr><td> 404 </td><td> Documento recibido no encontrado </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call decideCommercialApprovalAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<DecideCommercialApprovalResponse> _callback) throws ApiException {
+    public okhttp3.Call decideCommercialApprovalAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback<DecideCommercialApprovalResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = decideCommercialApprovalValidateBeforeCall(id, decideCommercialApprovalRequest, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<DecideCommercialApprovalResponse>(){}.getType();
@@ -241,7 +241,7 @@ public class DocumentsReceivedApi {
     /**
      * Build call for getReceivedDocumentById
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -254,7 +254,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getReceivedDocumentByIdCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getReceivedDocumentByIdCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -305,7 +305,7 @@ public class DocumentsReceivedApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getReceivedDocumentByIdValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getReceivedDocumentByIdValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'id' is set
         if (id == null) {
             throw new ApiException("Missing the required parameter 'id' when calling getReceivedDocumentById(Async)");
@@ -319,7 +319,7 @@ public class DocumentsReceivedApi {
      * Obtener documento recibido por ID
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ReceivedDocument
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -331,7 +331,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ReceivedDocument getReceivedDocumentById(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ReceivedDocument getReceivedDocumentById(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<ReceivedDocument> localVarResp = getReceivedDocumentByIdWithHttpInfo(id, xTenantId);
         return localVarResp.getData();
     }
@@ -340,7 +340,7 @@ public class DocumentsReceivedApi {
      * Obtener documento recibido por ID
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;ReceivedDocument&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -352,7 +352,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ReceivedDocument> getReceivedDocumentByIdWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<ReceivedDocument> getReceivedDocumentByIdWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getReceivedDocumentByIdValidateBeforeCall(id, xTenantId, null);
         Type localVarReturnType = new TypeToken<ReceivedDocument>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -362,7 +362,7 @@ public class DocumentsReceivedApi {
      * Obtener documento recibido por ID (asynchronously)
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -375,7 +375,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getReceivedDocumentByIdAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<ReceivedDocument> _callback) throws ApiException {
+    public okhttp3.Call getReceivedDocumentByIdAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback<ReceivedDocument> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getReceivedDocumentByIdValidateBeforeCall(id, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<ReceivedDocument>(){}.getType();
@@ -384,7 +384,7 @@ public class DocumentsReceivedApi {
     }
     /**
      * Build call for getReceivedDocumentStatsBySupplier
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -396,7 +396,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getReceivedDocumentStatsBySupplierCall(@javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getReceivedDocumentStatsBySupplierCall(@javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -446,7 +446,7 @@ public class DocumentsReceivedApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getReceivedDocumentStatsBySupplierValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getReceivedDocumentStatsBySupplierValidateBeforeCall(@javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         return getReceivedDocumentStatsBySupplierCall(xTenantId, _callback);
 
     }
@@ -454,7 +454,7 @@ public class DocumentsReceivedApi {
     /**
      * Top 10 proveedores por volumen de documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return List&lt;GetReceivedDocumentStatsBySupplier200ResponseInner&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -465,7 +465,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public List<GetReceivedDocumentStatsBySupplier200ResponseInner> getReceivedDocumentStatsBySupplier(@javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public List<GetReceivedDocumentStatsBySupplier200ResponseInner> getReceivedDocumentStatsBySupplier(@javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<List<GetReceivedDocumentStatsBySupplier200ResponseInner>> localVarResp = getReceivedDocumentStatsBySupplierWithHttpInfo(xTenantId);
         return localVarResp.getData();
     }
@@ -473,7 +473,7 @@ public class DocumentsReceivedApi {
     /**
      * Top 10 proveedores por volumen de documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;List&lt;GetReceivedDocumentStatsBySupplier200ResponseInner&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -484,7 +484,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<List<GetReceivedDocumentStatsBySupplier200ResponseInner>> getReceivedDocumentStatsBySupplierWithHttpInfo(@javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<List<GetReceivedDocumentStatsBySupplier200ResponseInner>> getReceivedDocumentStatsBySupplierWithHttpInfo(@javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getReceivedDocumentStatsBySupplierValidateBeforeCall(xTenantId, null);
         Type localVarReturnType = new TypeToken<List<GetReceivedDocumentStatsBySupplier200ResponseInner>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -493,7 +493,7 @@ public class DocumentsReceivedApi {
     /**
      * Top 10 proveedores por volumen de documentos recibidos (asynchronously)
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -505,7 +505,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getReceivedDocumentStatsBySupplierAsync(@javax.annotation.Nullable UUID xTenantId, final ApiCallback<List<GetReceivedDocumentStatsBySupplier200ResponseInner>> _callback) throws ApiException {
+    public okhttp3.Call getReceivedDocumentStatsBySupplierAsync(@javax.annotation.Nullable String xTenantId, final ApiCallback<List<GetReceivedDocumentStatsBySupplier200ResponseInner>> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getReceivedDocumentStatsBySupplierValidateBeforeCall(xTenantId, _callback);
         Type localVarReturnType = new TypeToken<List<GetReceivedDocumentStatsBySupplier200ResponseInner>>(){}.getType();
@@ -514,7 +514,7 @@ public class DocumentsReceivedApi {
     }
     /**
      * Build call for getReceivedDocumentStatsSummary
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -526,7 +526,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getReceivedDocumentStatsSummaryCall(@javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getReceivedDocumentStatsSummaryCall(@javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -576,7 +576,7 @@ public class DocumentsReceivedApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getReceivedDocumentStatsSummaryValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getReceivedDocumentStatsSummaryValidateBeforeCall(@javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         return getReceivedDocumentStatsSummaryCall(xTenantId, _callback);
 
     }
@@ -584,7 +584,7 @@ public class DocumentsReceivedApi {
     /**
      * Estadísticas de documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ReceivedDocumentStatsResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -595,7 +595,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ReceivedDocumentStatsResponse getReceivedDocumentStatsSummary(@javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ReceivedDocumentStatsResponse getReceivedDocumentStatsSummary(@javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<ReceivedDocumentStatsResponse> localVarResp = getReceivedDocumentStatsSummaryWithHttpInfo(xTenantId);
         return localVarResp.getData();
     }
@@ -603,7 +603,7 @@ public class DocumentsReceivedApi {
     /**
      * Estadísticas de documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;ReceivedDocumentStatsResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -614,7 +614,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ReceivedDocumentStatsResponse> getReceivedDocumentStatsSummaryWithHttpInfo(@javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<ReceivedDocumentStatsResponse> getReceivedDocumentStatsSummaryWithHttpInfo(@javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getReceivedDocumentStatsSummaryValidateBeforeCall(xTenantId, null);
         Type localVarReturnType = new TypeToken<ReceivedDocumentStatsResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -623,7 +623,7 @@ public class DocumentsReceivedApi {
     /**
      * Estadísticas de documentos recibidos (asynchronously)
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -635,7 +635,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getReceivedDocumentStatsSummaryAsync(@javax.annotation.Nullable UUID xTenantId, final ApiCallback<ReceivedDocumentStatsResponse> _callback) throws ApiException {
+    public okhttp3.Call getReceivedDocumentStatsSummaryAsync(@javax.annotation.Nullable String xTenantId, final ApiCallback<ReceivedDocumentStatsResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getReceivedDocumentStatsSummaryValidateBeforeCall(xTenantId, _callback);
         Type localVarReturnType = new TypeToken<ReceivedDocumentStatsResponse>(){}.getType();
@@ -644,7 +644,7 @@ public class DocumentsReceivedApi {
     }
     /**
      * Build call for listReceivedDocuments
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
@@ -667,7 +667,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listReceivedDocumentsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listReceivedDocumentsCall(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -761,7 +761,7 @@ public class DocumentsReceivedApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listReceivedDocumentsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listReceivedDocumentsValidateBeforeCall(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         return listReceivedDocumentsCall(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit, _callback);
 
     }
@@ -769,7 +769,7 @@ public class DocumentsReceivedApi {
     /**
      * Listar documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
@@ -791,7 +791,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ReceivedDocumentListResponse listReceivedDocuments(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ReceivedDocumentListResponse listReceivedDocuments(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         ApiResponse<ReceivedDocumentListResponse> localVarResp = listReceivedDocumentsWithHttpInfo(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit);
         return localVarResp.getData();
     }
@@ -799,7 +799,7 @@ public class DocumentsReceivedApi {
     /**
      * Listar documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
@@ -821,7 +821,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ReceivedDocumentListResponse> listReceivedDocumentsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ApiResponse<ReceivedDocumentListResponse> listReceivedDocumentsWithHttpInfo(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         okhttp3.Call localVarCall = listReceivedDocumentsValidateBeforeCall(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit, null);
         Type localVarReturnType = new TypeToken<ReceivedDocumentListResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -830,7 +830,7 @@ public class DocumentsReceivedApi {
     /**
      * Listar documentos recibidos (asynchronously)
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
@@ -853,7 +853,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listReceivedDocumentsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ReceivedDocumentListResponse> _callback) throws ApiException {
+    public okhttp3.Call listReceivedDocumentsAsync(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ReceivedDocumentListResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = listReceivedDocumentsValidateBeforeCall(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit, _callback);
         Type localVarReturnType = new TypeToken<ReceivedDocumentListResponse>(){}.getType();

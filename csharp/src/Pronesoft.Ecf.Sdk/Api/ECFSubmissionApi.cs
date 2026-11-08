@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -33,9 +33,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>EcfStatsResponse</returns>
-        EcfStatsResponse GetEcfStats(ModelEnvironment environment, Guid? xTenantId = default);
+        EcfStatsResponse GetEcfStats(ModelEnvironment environment, string? xTenantId = default);
 
         /// <summary>
         /// Obtener estadísticas de envíos (últimos 30 días)
@@ -45,18 +45,18 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of EcfStatsResponse</returns>
-        ApiResponse<EcfStatsResponse> GetEcfStatsWithHttpInfo(ModelEnvironment environment, Guid? xTenantId = default);
+        ApiResponse<EcfStatsResponse> GetEcfStatsWithHttpInfo(ModelEnvironment environment, string? xTenantId = default);
         /// <summary>
         /// Consultar estado del documento por ID interno
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>EcfStatusResponse</returns>
-        EcfStatusResponse GetEcfStatus(ModelEnvironment environment, string id, Guid? xTenantId = default);
+        EcfStatusResponse GetEcfStatus(ModelEnvironment environment, string id, string? xTenantId = default);
 
         /// <summary>
         /// Consultar estado del documento por ID interno
@@ -67,19 +67,19 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of EcfStatusResponse</returns>
-        ApiResponse<EcfStatusResponse> GetEcfStatusWithHttpInfo(ModelEnvironment environment, string id, Guid? xTenantId = default);
+        ApiResponse<EcfStatusResponse> GetEcfStatusWithHttpInfo(ModelEnvironment environment, string id, string? xTenantId = default);
         /// <summary>
         /// Historial de envíos (paginado)
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
         /// <returns>GetEcfSubmissionHistory200Response</returns>
-        GetEcfSubmissionHistory200Response GetEcfSubmissionHistory(ModelEnvironment environment, Guid? xTenantId = default, int? page = default, int? limit = default);
+        GetEcfSubmissionHistory200Response GetEcfSubmissionHistory(ModelEnvironment environment, string? xTenantId = default, int? page = default, int? limit = default);
 
         /// <summary>
         /// Historial de envíos (paginado)
@@ -89,11 +89,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
         /// <returns>ApiResponse of GetEcfSubmissionHistory200Response</returns>
-        ApiResponse<GetEcfSubmissionHistory200Response> GetEcfSubmissionHistoryWithHttpInfo(ModelEnvironment environment, Guid? xTenantId = default, int? page = default, int? limit = default);
+        ApiResponse<GetEcfSubmissionHistory200Response> GetEcfSubmissionHistoryWithHttpInfo(ModelEnvironment environment, string? xTenantId = default, int? page = default, int? limit = default);
         /// <summary>
         /// Enviar documento e-CF a la DGII
         /// </summary>
@@ -103,9 +103,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="electronicDocument"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>EcfSubmitResponse</returns>
-        EcfSubmitResponse SubmitEcf(ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = default);
+        EcfSubmitResponse SubmitEcf(ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = default);
 
         /// <summary>
         /// Enviar documento e-CF a la DGII
@@ -116,9 +116,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="electronicDocument"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of EcfSubmitResponse</returns>
-        ApiResponse<EcfSubmitResponse> SubmitEcfWithHttpInfo(ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = default);
+        ApiResponse<EcfSubmitResponse> SubmitEcfWithHttpInfo(ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = default);
         #endregion Synchronous Operations
     }
 
@@ -136,10 +136,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EcfStatsResponse</returns>
-        System.Threading.Tasks.Task<EcfStatsResponse> GetEcfStatsAsync(ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<EcfStatsResponse> GetEcfStatsAsync(ModelEnvironment environment, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Obtener estadísticas de envíos (últimos 30 días)
@@ -149,10 +149,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EcfStatsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<EcfStatsResponse>> GetEcfStatsWithHttpInfoAsync(ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<EcfStatsResponse>> GetEcfStatsWithHttpInfoAsync(ModelEnvironment environment, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Consultar estado del documento por ID interno
         /// </summary>
@@ -162,10 +162,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EcfStatusResponse</returns>
-        System.Threading.Tasks.Task<EcfStatusResponse> GetEcfStatusAsync(ModelEnvironment environment, string id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<EcfStatusResponse> GetEcfStatusAsync(ModelEnvironment environment, string id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Consultar estado del documento por ID interno
@@ -176,10 +176,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EcfStatusResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<EcfStatusResponse>> GetEcfStatusWithHttpInfoAsync(ModelEnvironment environment, string id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<EcfStatusResponse>> GetEcfStatusWithHttpInfoAsync(ModelEnvironment environment, string id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Historial de envíos (paginado)
         /// </summary>
@@ -188,12 +188,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetEcfSubmissionHistory200Response</returns>
-        System.Threading.Tasks.Task<GetEcfSubmissionHistory200Response> GetEcfSubmissionHistoryAsync(ModelEnvironment environment, Guid? xTenantId = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<GetEcfSubmissionHistory200Response> GetEcfSubmissionHistoryAsync(ModelEnvironment environment, string? xTenantId = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Historial de envíos (paginado)
@@ -203,12 +203,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetEcfSubmissionHistory200Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetEcfSubmissionHistory200Response>> GetEcfSubmissionHistoryWithHttpInfoAsync(ModelEnvironment environment, Guid? xTenantId = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<GetEcfSubmissionHistory200Response>> GetEcfSubmissionHistoryWithHttpInfoAsync(ModelEnvironment environment, string? xTenantId = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Enviar documento e-CF a la DGII
         /// </summary>
@@ -218,10 +218,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="electronicDocument"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EcfSubmitResponse</returns>
-        System.Threading.Tasks.Task<EcfSubmitResponse> SubmitEcfAsync(ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<EcfSubmitResponse> SubmitEcfAsync(ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Enviar documento e-CF a la DGII
@@ -232,10 +232,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="electronicDocument"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EcfSubmitResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<EcfSubmitResponse>> SubmitEcfWithHttpInfoAsync(ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<EcfSubmitResponse>> SubmitEcfWithHttpInfoAsync(ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -454,9 +454,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>EcfStatsResponse</returns>
-        public EcfStatsResponse GetEcfStats(ModelEnvironment environment, Guid? xTenantId = default)
+        public EcfStatsResponse GetEcfStats(ModelEnvironment environment, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatsResponse> localVarResponse = GetEcfStatsWithHttpInfo(environment, xTenantId);
             return localVarResponse.Data;
@@ -467,9 +467,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of EcfStatsResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatsResponse> GetEcfStatsWithHttpInfo(ModelEnvironment environment, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatsResponse> GetEcfStatsWithHttpInfo(ModelEnvironment environment, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -517,10 +517,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EcfStatsResponse</returns>
-        public async System.Threading.Tasks.Task<EcfStatsResponse> GetEcfStatsAsync(ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<EcfStatsResponse> GetEcfStatsAsync(ModelEnvironment environment, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatsResponse> localVarResponse = await GetEcfStatsWithHttpInfoAsync(environment, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -531,10 +531,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EcfStatsResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatsResponse>> GetEcfStatsWithHttpInfoAsync(ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatsResponse>> GetEcfStatsWithHttpInfoAsync(ModelEnvironment environment, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -586,9 +586,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>EcfStatusResponse</returns>
-        public EcfStatusResponse GetEcfStatus(ModelEnvironment environment, string id, Guid? xTenantId = default)
+        public EcfStatusResponse GetEcfStatus(ModelEnvironment environment, string id, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatusResponse> localVarResponse = GetEcfStatusWithHttpInfo(environment, id, xTenantId);
             return localVarResponse.Data;
@@ -600,9 +600,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of EcfStatusResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatusResponse> GetEcfStatusWithHttpInfo(ModelEnvironment environment, string id, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatusResponse> GetEcfStatusWithHttpInfo(ModelEnvironment environment, string id, string? xTenantId = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -656,10 +656,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EcfStatusResponse</returns>
-        public async System.Threading.Tasks.Task<EcfStatusResponse> GetEcfStatusAsync(ModelEnvironment environment, string id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<EcfStatusResponse> GetEcfStatusAsync(ModelEnvironment environment, string id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatusResponse> localVarResponse = await GetEcfStatusWithHttpInfoAsync(environment, id, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -671,10 +671,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EcfStatusResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatusResponse>> GetEcfStatusWithHttpInfoAsync(ModelEnvironment environment, string id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfStatusResponse>> GetEcfStatusWithHttpInfoAsync(ModelEnvironment environment, string id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -730,11 +730,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
         /// <returns>GetEcfSubmissionHistory200Response</returns>
-        public GetEcfSubmissionHistory200Response GetEcfSubmissionHistory(ModelEnvironment environment, Guid? xTenantId = default, int? page = default, int? limit = default)
+        public GetEcfSubmissionHistory200Response GetEcfSubmissionHistory(ModelEnvironment environment, string? xTenantId = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<GetEcfSubmissionHistory200Response> localVarResponse = GetEcfSubmissionHistoryWithHttpInfo(environment, xTenantId, page, limit);
             return localVarResponse.Data;
@@ -745,11 +745,11 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
         /// <returns>ApiResponse of GetEcfSubmissionHistory200Response</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<GetEcfSubmissionHistory200Response> GetEcfSubmissionHistoryWithHttpInfo(ModelEnvironment environment, Guid? xTenantId = default, int? page = default, int? limit = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<GetEcfSubmissionHistory200Response> GetEcfSubmissionHistoryWithHttpInfo(ModelEnvironment environment, string? xTenantId = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -805,12 +805,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetEcfSubmissionHistory200Response</returns>
-        public async System.Threading.Tasks.Task<GetEcfSubmissionHistory200Response> GetEcfSubmissionHistoryAsync(ModelEnvironment environment, Guid? xTenantId = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<GetEcfSubmissionHistory200Response> GetEcfSubmissionHistoryAsync(ModelEnvironment environment, string? xTenantId = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<GetEcfSubmissionHistory200Response> localVarResponse = await GetEcfSubmissionHistoryWithHttpInfoAsync(environment, xTenantId, page, limit, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -821,12 +821,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 20)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetEcfSubmissionHistory200Response)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<GetEcfSubmissionHistory200Response>> GetEcfSubmissionHistoryWithHttpInfoAsync(ModelEnvironment environment, Guid? xTenantId = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<GetEcfSubmissionHistory200Response>> GetEcfSubmissionHistoryWithHttpInfoAsync(ModelEnvironment environment, string? xTenantId = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -886,9 +886,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="electronicDocument"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>EcfSubmitResponse</returns>
-        public EcfSubmitResponse SubmitEcf(ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = default)
+        public EcfSubmitResponse SubmitEcf(ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfSubmitResponse> localVarResponse = SubmitEcfWithHttpInfo(environment, electronicDocument, xTenantId);
             return localVarResponse.Data;
@@ -900,9 +900,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="electronicDocument"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of EcfSubmitResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfSubmitResponse> SubmitEcfWithHttpInfo(ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfSubmitResponse> SubmitEcfWithHttpInfo(ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = default)
         {
             // verify the required parameter 'electronicDocument' is set
             if (electronicDocument == null)
@@ -957,10 +957,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="electronicDocument"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EcfSubmitResponse</returns>
-        public async System.Threading.Tasks.Task<EcfSubmitResponse> SubmitEcfAsync(ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<EcfSubmitResponse> SubmitEcfAsync(ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfSubmitResponse> localVarResponse = await SubmitEcfWithHttpInfoAsync(environment, electronicDocument, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -972,10 +972,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="electronicDocument"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EcfSubmitResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfSubmitResponse>> SubmitEcfWithHttpInfoAsync(ModelEnvironment environment, ElectronicDocument electronicDocument, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<EcfSubmitResponse>> SubmitEcfWithHttpInfoAsync(ModelEnvironment environment, ElectronicDocument electronicDocument, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'electronicDocument' is set
             if (electronicDocument == null)

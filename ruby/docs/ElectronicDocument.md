@@ -17,7 +17,7 @@
 | **payment_type** | **String** | 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto | [optional] |
 | **payment_deadline** | **Time** |  | [optional] |
 | **payment_terms** | **String** |  | [optional] |
-| **payment_forms** | [**Array&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
+| **payment_forms** | [**Array&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional] |
 | **payment_account_type** | [**AccountType**](AccountType.md) |  | [optional] |
 | **payment_account_number** | **String** |  | [optional] |
 | **payment_bank** | **String** |  | [optional] |
@@ -43,7 +43,7 @@
 | **additional_issuer_info** | **String** |  | [optional] |
 | **buyer** | [**Buyer**](Buyer.md) |  | [optional] |
 | **items** | [**Array&lt;Item&gt;**](Item.md) |  |  |
-| **totals** | [**Totals**](Totals.md) |  |  |
+| **totals** | [**Totals**](Totals.md) |  | [optional] |
 | **transport** | [**Transport**](Transport.md) |  | [optional] |
 | **additional_info** | [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] |
 | **alternative_currency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] |

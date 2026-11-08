@@ -38,7 +38,7 @@ $apiInstance = new PronesoftEcf\Api\ECFSubmissionApi(
     $config
 );
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->getEcfStats($environment, $x_tenant_id);
@@ -53,7 +53,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -99,7 +99,7 @@ $apiInstance = new PronesoftEcf\Api\ECFSubmissionApi(
 );
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 $id = 'id_example'; // string
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->getEcfStatus($environment, $id, $x_tenant_id);
@@ -115,7 +115,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
 | **id** | **string**|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -160,7 +160,7 @@ $apiInstance = new PronesoftEcf\Api\ECFSubmissionApi(
     $config
 );
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 $page = 1; // int
 $limit = 20; // int
 
@@ -177,7 +177,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 | **page** | **int**|  | [optional] [default to 1] |
 | **limit** | **int**|  | [optional] [default to 20] |
 
@@ -227,7 +227,7 @@ $apiInstance = new PronesoftEcf\Api\ECFSubmissionApi(
 );
 $environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 $electronic_document = {"invoiceType":"31","issueDate":"2025-06-04","paymentType":"1","incomeType":"01","taxedAmountIndicator":"0","issuerRNC":"133190907","issuerBusinessName":"Mi Empresa SRL","issuerAddress":"Av. Winston Churchill 1099, Santo Domingo","buyer":{"taxId":"101234567","name":"Cliente Corporativo SRL"},"items":[{"name":"Servicio de desarrollo de software","quantity":1,"unitPrice":"50000.00","unitOfMeasure":1,"type":"2","billingIndicator":"1"}],"totals":{"taxableAmount":50000.0,"exemptAmount":0,"totalITBIS":9000.0,"totalAmount":59000.0},"paymentForms":[{"method":"1","amount":59000.0}]}; // \PronesoftEcf\Model\ElectronicDocument
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->submitEcf($environment, $electronic_document, $x_tenant_id);
@@ -243,7 +243,7 @@ try {
 | ------------- | ------------- | ------------- | ------------- |
 | **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
 | **electronic_document** | [**\PronesoftEcf\Model\ElectronicDocument**](../Model/ElectronicDocument.md)|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 

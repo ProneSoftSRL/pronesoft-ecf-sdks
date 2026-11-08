@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 
 # **getSentDocumentById**
 ```swift
-    open class func getSentDocumentById(id: UUID, xTenantId: UUID? = nil, completion: @escaping (_ data: SentDocumentDetail?, _ error: Error?) -> Void)
+    open class func getSentDocumentById(id: UUID, xTenantId: String? = nil, completion: @escaping (_ data: SentDocumentDetail?, _ error: Error?) -> Void)
 ```
 
 Obtener detalle del documento
@@ -79,7 +79,7 @@ Obtener detalle del documento
 import PronesoftEcf
 
 let id = 987 // UUID | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Obtener detalle del documento
 DocumentsSentAPI.getSentDocumentById(id: id, xTenantId: xTenantId) { (response, error) in
@@ -99,7 +99,7 @@ DocumentsSentAPI.getSentDocumentById(id: id, xTenantId: xTenantId) { (response, 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **UUID** |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -118,7 +118,7 @@ Name | Type | Description  | Notes
 
 # **getSentDocumentLogs**
 ```swift
-    open class func getSentDocumentLogs(id: UUID, xTenantId: UUID? = nil, completion: @escaping (_ data: [GetSentDocumentLogs200ResponseInner]?, _ error: Error?) -> Void)
+    open class func getSentDocumentLogs(id: UUID, xTenantId: String? = nil, completion: @escaping (_ data: [GetSentDocumentLogs200ResponseInner]?, _ error: Error?) -> Void)
 ```
 
 Logs de procesamiento del documento
@@ -129,7 +129,7 @@ Logs de procesamiento del documento
 import PronesoftEcf
 
 let id = 987 // UUID | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Logs de procesamiento del documento
 DocumentsSentAPI.getSentDocumentLogs(id: id, xTenantId: xTenantId) { (response, error) in
@@ -149,7 +149,7 @@ DocumentsSentAPI.getSentDocumentLogs(id: id, xTenantId: xTenantId) { (response, 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **UUID** |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -168,7 +168,7 @@ Name | Type | Description  | Notes
 
 # **getSentDocumentStats**
 ```swift
-    open class func getSentDocumentStats(xTenantId: UUID? = nil, completion: @escaping (_ data: DocumentStatsResponse?, _ error: Error?) -> Void)
+    open class func getSentDocumentStats(xTenantId: String? = nil, completion: @escaping (_ data: DocumentStatsResponse?, _ error: Error?) -> Void)
 ```
 
 Estadísticas de documentos enviados
@@ -178,7 +178,7 @@ Estadísticas de documentos enviados
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Estadísticas de documentos enviados
 DocumentsSentAPI.getSentDocumentStats(xTenantId: xTenantId) { (response, error) in
@@ -197,7 +197,7 @@ DocumentsSentAPI.getSentDocumentStats(xTenantId: xTenantId) { (response, error) 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -216,7 +216,7 @@ Name | Type | Description  | Notes
 
 # **getSentDocumentStatsByEnvironment**
 ```swift
-    open class func getSentDocumentStatsByEnvironment(xTenantId: UUID? = nil, completion: @escaping (_ data: [String: AnyCodable]?, _ error: Error?) -> Void)
+    open class func getSentDocumentStatsByEnvironment(xTenantId: String? = nil, completion: @escaping (_ data: [String: AnyCodable]?, _ error: Error?) -> Void)
 ```
 
 Estadísticas agrupadas por ambiente y estado
@@ -226,7 +226,7 @@ Estadísticas agrupadas por ambiente y estado
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Estadísticas agrupadas por ambiente y estado
 DocumentsSentAPI.getSentDocumentStatsByEnvironment(xTenantId: xTenantId) { (response, error) in
@@ -245,7 +245,7 @@ DocumentsSentAPI.getSentDocumentStatsByEnvironment(xTenantId: xTenantId) { (resp
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -358,7 +358,7 @@ Name | Type | Description  | Notes
 
 # **listSentDocuments**
 ```swift
-    open class func listSentDocuments(xTenantId: UUID? = nil, env: Environment? = nil, ecf: String? = nil, type: String? = nil, status: Status_listSentDocuments? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: SentDocumentListResponse?, _ error: Error?) -> Void)
+    open class func listSentDocuments(xTenantId: String? = nil, env: Environment? = nil, ecf: String? = nil, type: String? = nil, status: Status_listSentDocuments? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: SentDocumentListResponse?, _ error: Error?) -> Void)
 ```
 
 Listar documentos enviados
@@ -368,7 +368,7 @@ Listar documentos enviados
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 let env = Environment() // Environment |  (optional)
 let ecf = "ecf_example" // String |  (optional)
 let type = "type_example" // String |  (optional)
@@ -395,7 +395,7 @@ DocumentsSentAPI.listSentDocuments(xTenantId: xTenantId, env: env, ecf: ecf, typ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
  **env** | [**Environment**](.md) |  | [optional] 
  **ecf** | **String** |  | [optional] 
  **type** | **String** |  | [optional] 

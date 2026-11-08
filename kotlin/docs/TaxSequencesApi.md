@@ -26,7 +26,7 @@ Crear nueva secuencia de NCF
 
 val apiInstance = TaxSequencesApi()
 val createTaxSequenceRequest : CreateTaxSequenceRequest = {"type":"E32","from":1,"to":10000,"quantity":10000,"expiration":"2025-12-31","environment":"TesteCF"} // CreateTaxSequenceRequest | 
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     val result : CreateTaxSequence201Response = apiInstance.createTaxSequence(createTaxSequenceRequest, xTenantId)
     println(result)
@@ -43,7 +43,7 @@ try {
 | **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -77,7 +77,7 @@ Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al envi
 val apiInstance = TaxSequencesApi()
 val type : InvoiceTypeSequence =  // InvoiceTypeSequence | 
 val environment : Environment =  // Environment | 
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     val result : GetNextNumber200Response = apiInstance.getNextNumber(type, environment, xTenantId)
     println(result)
@@ -95,7 +95,7 @@ try {
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -129,7 +129,7 @@ Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencia
 val apiInstance = TaxSequencesApi()
 val environment : Environment =  // Environment | 
 val file : java.io.File = BINARY_DATA_HERE // java.io.File | Archivo Excel (.xlsx o .xls) exportado desde la DGII
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     val result : ImportTaxSequencesFromExcel200Response = apiInstance.importTaxSequencesFromExcel(environment, file, xTenantId)
     println(result)
@@ -147,7 +147,7 @@ try {
 | **file** | **java.io.File**| Archivo Excel (.xlsx o .xls) exportado desde la DGII | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -177,7 +177,7 @@ Listar secuencias de NCF
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = TaxSequencesApi()
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 val type : InvoiceTypeSequence =  // InvoiceTypeSequence | 
 val environment : Environment =  // Environment | 
 val page : kotlin.Int = 56 // kotlin.Int | 
@@ -195,7 +195,7 @@ try {
 ```
 
 ### Parameters
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 | **type** | [**InvoiceTypeSequence**](.md)|  | [optional] [enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
 | **environment** | [**Environment**](.md)|  | [optional] [enum: TesteCF, CerteCF, eCF] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
@@ -233,7 +233,7 @@ Actualizar secuencia de NCF
 val apiInstance = TaxSequencesApi()
 val id : kotlin.String = id_example // kotlin.String | 
 val updateTaxSequenceRequest : UpdateTaxSequenceRequest =  // UpdateTaxSequenceRequest | 
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     apiInstance.updateTaxSequence(id, updateTaxSequenceRequest, xTenantId)
 } catch (e: ClientException) {
@@ -250,7 +250,7 @@ try {
 | **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md)|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -283,7 +283,7 @@ Cancela números fiscales no utilizados y notifica a la DGII.
 
 val apiInstance = TaxSequencesApi()
 val voidTaxSequenceRequest : VoidTaxSequenceRequest =  // VoidTaxSequenceRequest | 
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     val result : VoidTaxSequence200Response = apiInstance.voidTaxSequence(voidTaxSequenceRequest, xTenantId)
     println(result)
@@ -300,7 +300,7 @@ try {
 | **voidTaxSequenceRequest** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md)|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 

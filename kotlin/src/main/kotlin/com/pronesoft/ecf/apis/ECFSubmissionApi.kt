@@ -65,7 +65,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * Obtener estadísticas de envíos (últimos 30 días)
      * 
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return EcfStatsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -75,7 +75,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getEcfStats(environment: Environment, xTenantId: java.util.UUID? = null) : EcfStatsResponse {
+    fun getEcfStats(environment: Environment, xTenantId: kotlin.String? = null) : EcfStatsResponse {
         val localVarResponse = getEcfStatsWithHttpInfo(environment = environment, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -98,14 +98,14 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * Obtener estadísticas de envíos (últimos 30 días)
      * 
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<EcfStatsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getEcfStatsWithHttpInfo(environment: Environment, xTenantId: java.util.UUID?) : ApiResponse<EcfStatsResponse?> {
+    fun getEcfStatsWithHttpInfo(environment: Environment, xTenantId: kotlin.String?) : ApiResponse<EcfStatsResponse?> {
         val localVariableConfig = getEcfStatsRequestConfig(environment = environment, xTenantId = xTenantId)
 
         return request<Unit, EcfStatsResponse>(
@@ -117,10 +117,10 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * To obtain the request config of the operation getEcfStats
      *
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun getEcfStatsRequestConfig(environment: Environment, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getEcfStatsRequestConfig(environment: Environment, xTenantId: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -143,7 +143,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * 
      * @param environment 
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return EcfStatusResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -153,7 +153,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getEcfStatus(environment: Environment, id: kotlin.String, xTenantId: java.util.UUID? = null) : EcfStatusResponse {
+    fun getEcfStatus(environment: Environment, id: kotlin.String, xTenantId: kotlin.String? = null) : EcfStatusResponse {
         val localVarResponse = getEcfStatusWithHttpInfo(environment = environment, id = id, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -177,14 +177,14 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * 
      * @param environment 
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<EcfStatusResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getEcfStatusWithHttpInfo(environment: Environment, id: kotlin.String, xTenantId: java.util.UUID?) : ApiResponse<EcfStatusResponse?> {
+    fun getEcfStatusWithHttpInfo(environment: Environment, id: kotlin.String, xTenantId: kotlin.String?) : ApiResponse<EcfStatusResponse?> {
         val localVariableConfig = getEcfStatusRequestConfig(environment = environment, id = id, xTenantId = xTenantId)
 
         return request<Unit, EcfStatusResponse>(
@@ -197,10 +197,10 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      *
      * @param environment 
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun getEcfStatusRequestConfig(environment: Environment, id: kotlin.String, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getEcfStatusRequestConfig(environment: Environment, id: kotlin.String, xTenantId: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -222,7 +222,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * Historial de envíos (paginado)
      * 
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
      * @return GetEcfSubmissionHistory200Response
@@ -234,7 +234,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getEcfSubmissionHistory(environment: Environment, xTenantId: java.util.UUID? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 20) : GetEcfSubmissionHistory200Response {
+    fun getEcfSubmissionHistory(environment: Environment, xTenantId: kotlin.String? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 20) : GetEcfSubmissionHistory200Response {
         val localVarResponse = getEcfSubmissionHistoryWithHttpInfo(environment = environment, xTenantId = xTenantId, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -257,7 +257,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * Historial de envíos (paginado)
      * 
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
      * @return ApiResponse<GetEcfSubmissionHistory200Response?>
@@ -266,7 +266,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getEcfSubmissionHistoryWithHttpInfo(environment: Environment, xTenantId: java.util.UUID?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<GetEcfSubmissionHistory200Response?> {
+    fun getEcfSubmissionHistoryWithHttpInfo(environment: Environment, xTenantId: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<GetEcfSubmissionHistory200Response?> {
         val localVariableConfig = getEcfSubmissionHistoryRequestConfig(environment = environment, xTenantId = xTenantId, page = page, limit = limit)
 
         return request<Unit, GetEcfSubmissionHistory200Response>(
@@ -278,12 +278,12 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * To obtain the request config of the operation getEcfSubmissionHistory
      *
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
      * @return RequestConfig
      */
-    fun getEcfSubmissionHistoryRequestConfig(environment: Environment, xTenantId: java.util.UUID?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun getEcfSubmissionHistoryRequestConfig(environment: Environment, xTenantId: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -314,7 +314,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
      * @param environment 
      * @param electronicDocument 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return EcfSubmitResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -324,7 +324,7 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun submitEcf(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: java.util.UUID? = null) : EcfSubmitResponse {
+    fun submitEcf(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: kotlin.String? = null) : EcfSubmitResponse {
         val localVarResponse = submitEcfWithHttpInfo(environment = environment, electronicDocument = electronicDocument, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -348,14 +348,14 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      * Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
      * @param environment 
      * @param electronicDocument 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<EcfSubmitResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun submitEcfWithHttpInfo(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: java.util.UUID?) : ApiResponse<EcfSubmitResponse?> {
+    fun submitEcfWithHttpInfo(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: kotlin.String?) : ApiResponse<EcfSubmitResponse?> {
         val localVariableConfig = submitEcfRequestConfig(environment = environment, electronicDocument = electronicDocument, xTenantId = xTenantId)
 
         return request<ElectronicDocument, EcfSubmitResponse>(
@@ -368,10 +368,10 @@ open class ECFSubmissionApi(basePath: kotlin.String = defaultBasePath, client: C
      *
      * @param environment 
      * @param electronicDocument 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun submitEcfRequestConfig(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: java.util.UUID?) : RequestConfig<ElectronicDocument> {
+    fun submitEcfRequestConfig(environment: Environment, electronicDocument: ElectronicDocument, xTenantId: kotlin.String?) : RequestConfig<ElectronicDocument> {
         val localVariableBody = electronicDocument
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

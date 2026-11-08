@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -22,7 +22,7 @@ module PronesoftEcf
     # Crear nueva secuencia de NCF
     # @param create_tax_sequence_request [CreateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [CreateTaxSequence201Response]
     def create_tax_sequence(create_tax_sequence_request, opts = {})
       data, _status_code, _headers = create_tax_sequence_with_http_info(create_tax_sequence_request, opts)
@@ -32,7 +32,7 @@ module PronesoftEcf
     # Crear nueva secuencia de NCF
     # @param create_tax_sequence_request [CreateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(CreateTaxSequence201Response, Integer, Hash)>] CreateTaxSequence201Response data, response status code and response headers
     def create_tax_sequence_with_http_info(create_tax_sequence_request, opts = {})
       if @api_client.config.debugging
@@ -93,7 +93,7 @@ module PronesoftEcf
     # @param type [InvoiceTypeSequence] 
     # @param environment [Environment] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [GetNextNumber200Response]
     def get_next_number(type, environment, opts = {})
       data, _status_code, _headers = get_next_number_with_http_info(type, environment, opts)
@@ -105,7 +105,7 @@ module PronesoftEcf
     # @param type [InvoiceTypeSequence] 
     # @param environment [Environment] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(GetNextNumber200Response, Integer, Hash)>] GetNextNumber200Response data, response status code and response headers
     def get_next_number_with_http_info(type, environment, opts = {})
       if @api_client.config.debugging
@@ -167,7 +167,7 @@ module PronesoftEcf
     # @param environment [Environment] 
     # @param file [File] Archivo Excel (.xlsx o .xls) exportado desde la DGII
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [ImportTaxSequencesFromExcel200Response]
     def import_tax_sequences_from_excel(environment, file, opts = {})
       data, _status_code, _headers = import_tax_sequences_from_excel_with_http_info(environment, file, opts)
@@ -179,7 +179,7 @@ module PronesoftEcf
     # @param environment [Environment] 
     # @param file [File] Archivo Excel (.xlsx o .xls) exportado desde la DGII
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(ImportTaxSequencesFromExcel200Response, Integer, Hash)>] ImportTaxSequencesFromExcel200Response data, response status code and response headers
     def import_tax_sequences_from_excel_with_http_info(environment, file, opts = {})
       if @api_client.config.debugging
@@ -243,7 +243,7 @@ module PronesoftEcf
 
     # Listar secuencias de NCF
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @option opts [InvoiceTypeSequence] :type 
     # @option opts [Environment] :environment 
     # @option opts [Integer] :page  (default to 1)
@@ -256,7 +256,7 @@ module PronesoftEcf
 
     # Listar secuencias de NCF
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @option opts [InvoiceTypeSequence] :type 
     # @option opts [Environment] :environment 
     # @option opts [Integer] :page  (default to 1)
@@ -315,7 +315,7 @@ module PronesoftEcf
     # @param id [String] 
     # @param update_tax_sequence_request [UpdateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [nil]
     def update_tax_sequence(id, update_tax_sequence_request, opts = {})
       update_tax_sequence_with_http_info(id, update_tax_sequence_request, opts)
@@ -326,7 +326,7 @@ module PronesoftEcf
     # @param id [String] 
     # @param update_tax_sequence_request [UpdateTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def update_tax_sequence_with_http_info(id, update_tax_sequence_request, opts = {})
       if @api_client.config.debugging
@@ -391,7 +391,7 @@ module PronesoftEcf
     # Cancela números fiscales no utilizados y notifica a la DGII.
     # @param void_tax_sequence_request [VoidTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [VoidTaxSequence200Response]
     def void_tax_sequence(void_tax_sequence_request, opts = {})
       data, _status_code, _headers = void_tax_sequence_with_http_info(void_tax_sequence_request, opts)
@@ -402,7 +402,7 @@ module PronesoftEcf
     # Cancela números fiscales no utilizados y notifica a la DGII.
     # @param void_tax_sequence_request [VoidTaxSequenceRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(VoidTaxSequence200Response, Integer, Hash)>] VoidTaxSequence200Response data, response status code and response headers
     def void_tax_sequence_with_http_info(void_tax_sequence_request, opts = {})
       if @api_client.config.debugging

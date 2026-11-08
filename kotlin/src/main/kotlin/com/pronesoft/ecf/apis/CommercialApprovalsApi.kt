@@ -60,7 +60,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * Obtener aprobación comercial por ID
      * 
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApprovalItem
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -70,7 +70,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getCommercialApprovalById(id: java.util.UUID, xTenantId: java.util.UUID? = null) : ApprovalItem {
+    fun getCommercialApprovalById(id: java.util.UUID, xTenantId: kotlin.String? = null) : ApprovalItem {
         val localVarResponse = getCommercialApprovalByIdWithHttpInfo(id = id, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -93,14 +93,14 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * Obtener aprobación comercial por ID
      * 
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<ApprovalItem?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getCommercialApprovalByIdWithHttpInfo(id: java.util.UUID, xTenantId: java.util.UUID?) : ApiResponse<ApprovalItem?> {
+    fun getCommercialApprovalByIdWithHttpInfo(id: java.util.UUID, xTenantId: kotlin.String?) : ApiResponse<ApprovalItem?> {
         val localVariableConfig = getCommercialApprovalByIdRequestConfig(id = id, xTenantId = xTenantId)
 
         return request<Unit, ApprovalItem>(
@@ -112,10 +112,10 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * To obtain the request config of the operation getCommercialApprovalById
      *
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun getCommercialApprovalByIdRequestConfig(id: java.util.UUID, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getCommercialApprovalByIdRequestConfig(id: java.util.UUID, xTenantId: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -155,7 +155,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * GET /documents/approvals
      * Listar aprobaciones comerciales
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
@@ -172,7 +172,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCommercialApprovals(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListCommercialApprovals? = null, dateFrom: kotlin.String? = null, dateTo: kotlin.String? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ApprovalListResponse {
+    fun listCommercialApprovals(xTenantId: kotlin.String? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListCommercialApprovals? = null, dateFrom: kotlin.String? = null, dateTo: kotlin.String? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ApprovalListResponse {
         val localVarResponse = listCommercialApprovalsWithHttpInfo(xTenantId = xTenantId, ecf = ecf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -194,7 +194,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * GET /documents/approvals
      * Listar aprobaciones comerciales
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
@@ -208,7 +208,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCommercialApprovalsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ApprovalListResponse?> {
+    fun listCommercialApprovalsWithHttpInfo(xTenantId: kotlin.String?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ApprovalListResponse?> {
         val localVariableConfig = listCommercialApprovalsRequestConfig(xTenantId = xTenantId, ecf = ecf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return request<Unit, ApprovalListResponse>(
@@ -219,7 +219,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * To obtain the request config of the operation listCommercialApprovals
      *
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
@@ -229,7 +229,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listCommercialApprovalsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listCommercialApprovalsRequestConfig(xTenantId: kotlin.String?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

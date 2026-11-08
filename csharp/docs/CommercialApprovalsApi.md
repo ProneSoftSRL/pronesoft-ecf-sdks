@@ -9,7 +9,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="getcommercialapprovalbyid"></a>
 # **GetCommercialApprovalById**
-> ApprovalItem GetCommercialApprovalById (Guid id, Guid? xTenantId = null)
+> ApprovalItem GetCommercialApprovalById (Guid id, string? xTenantId = null)
 
 Obtener aprobación comercial por ID
 
@@ -38,7 +38,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new CommercialApprovalsApi(httpClient, config, httpClientHandler);
             var id = "id_example";  // Guid | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -82,7 +82,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **Guid** |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -109,7 +109,7 @@ catch (ApiException e)
 
 <a id="listcommercialapprovals"></a>
 # **ListCommercialApprovals**
-> ApprovalListResponse ListCommercialApprovals (Guid? xTenantId = null, string? ecf = null, string? type = null, int? status = null, string? dateFrom = null, string? dateTo = null, int? page = null, int? limit = null)
+> ApprovalListResponse ListCommercialApprovals (string? xTenantId = null, string? ecf = null, string? type = null, int? status = null, string? dateFrom = null, string? dateTo = null, int? page = null, int? limit = null)
 
 Listar aprobaciones comerciales
 
@@ -137,7 +137,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new CommercialApprovalsApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
             var ecf = "ecf_example";  // string? |  (optional) 
             var type = "type_example";  // string? | Tipo de documento (optional) 
             var status = 1;  // int? |  (optional) 
@@ -187,7 +187,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 | **ecf** | **string?** |  | [optional]  |
 | **type** | **string?** | Tipo de documento | [optional]  |
 | **status** | **int?** |  | [optional]  |

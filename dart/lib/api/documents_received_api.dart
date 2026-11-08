@@ -30,7 +30,7 @@ class DocumentsReceivedApi {
   /// * [DecideCommercialApprovalRequest] decideCommercialApprovalRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> decideCommercialApprovalWithHttpInfo(String id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/received/{id}/commercial-approval'
@@ -73,7 +73,7 @@ class DocumentsReceivedApi {
   /// * [DecideCommercialApprovalRequest] decideCommercialApprovalRequest (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<DecideCommercialApprovalResponse?> decideCommercialApproval(String id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, { String? xTenantId, }) async {
     final response = await decideCommercialApprovalWithHttpInfo(id, decideCommercialApprovalRequest,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -98,7 +98,7 @@ class DocumentsReceivedApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getReceivedDocumentByIdWithHttpInfo(String id, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/received/{id}'
@@ -136,7 +136,7 @@ class DocumentsReceivedApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<ReceivedDocument?> getReceivedDocumentById(String id, { String? xTenantId, }) async {
     final response = await getReceivedDocumentByIdWithHttpInfo(id,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -159,7 +159,7 @@ class DocumentsReceivedApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getReceivedDocumentStatsBySupplierWithHttpInfo({ String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/received/stats/by-supplier';
@@ -194,7 +194,7 @@ class DocumentsReceivedApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<List<GetReceivedDocumentStatsBySupplier200ResponseInner>?> getReceivedDocumentStatsBySupplier({ String? xTenantId, }) async {
     final response = await getReceivedDocumentStatsBySupplierWithHttpInfo( xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -220,7 +220,7 @@ class DocumentsReceivedApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getReceivedDocumentStatsSummaryWithHttpInfo({ String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/received/stats/summary';
@@ -255,7 +255,7 @@ class DocumentsReceivedApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<ReceivedDocumentStatsResponse?> getReceivedDocumentStatsSummary({ String? xTenantId, }) async {
     final response = await getReceivedDocumentStatsSummaryWithHttpInfo( xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -278,7 +278,7 @@ class DocumentsReceivedApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [String] ecf:
   ///
@@ -373,7 +373,7 @@ class DocumentsReceivedApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [String] ecf:
   ///

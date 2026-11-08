@@ -99,7 +99,7 @@ class DocumentsSentApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getSentDocumentByIdWithHttpInfo(String id, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/{id}'
@@ -137,7 +137,7 @@ class DocumentsSentApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<SentDocumentDetail?> getSentDocumentById(String id, { String? xTenantId, }) async {
     final response = await getSentDocumentByIdWithHttpInfo(id,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -162,7 +162,7 @@ class DocumentsSentApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getSentDocumentLogsWithHttpInfo(String id, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/logs/{id}'
@@ -200,7 +200,7 @@ class DocumentsSentApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<List<GetSentDocumentLogs200ResponseInner>?> getSentDocumentLogs(String id, { String? xTenantId, }) async {
     final response = await getSentDocumentLogsWithHttpInfo(id,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -226,7 +226,7 @@ class DocumentsSentApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getSentDocumentStatsWithHttpInfo({ String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/stats/summary';
@@ -261,7 +261,7 @@ class DocumentsSentApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<DocumentStatsResponse?> getSentDocumentStats({ String? xTenantId, }) async {
     final response = await getSentDocumentStatsWithHttpInfo( xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -284,7 +284,7 @@ class DocumentsSentApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getSentDocumentStatsByEnvironmentWithHttpInfo({ String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/stats/by-environment';
@@ -319,7 +319,7 @@ class DocumentsSentApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Map<String, Object>?> getSentDocumentStatsByEnvironment({ String? xTenantId, }) async {
     final response = await getSentDocumentStatsByEnvironmentWithHttpInfo( xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -454,7 +454,7 @@ class DocumentsSentApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [Environment] env:
   ///
@@ -532,7 +532,7 @@ class DocumentsSentApi {
   /// Parameters:
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [Environment] env:
   ///

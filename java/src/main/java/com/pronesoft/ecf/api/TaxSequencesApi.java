@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -36,7 +36,6 @@ import com.pronesoft.ecf.model.GetNextNumber200Response;
 import com.pronesoft.ecf.model.ImportTaxSequencesFromExcel200Response;
 import com.pronesoft.ecf.model.InvoiceTypeSequence;
 import com.pronesoft.ecf.model.ListTaxSequences200Response;
-import java.util.UUID;
 import com.pronesoft.ecf.model.UpdateTaxSequenceRequest;
 import com.pronesoft.ecf.model.VoidTaxSequence200Response;
 import com.pronesoft.ecf.model.VoidTaxSequenceRequest;
@@ -87,7 +86,7 @@ public class TaxSequencesApi {
     /**
      * Build call for createTaxSequence
      * @param createTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -100,7 +99,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createTaxSequenceCall(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createTaxSequenceCall(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -151,7 +150,7 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'createTaxSequenceRequest' is set
         if (createTaxSequenceRequest == null) {
             throw new ApiException("Missing the required parameter 'createTaxSequenceRequest' when calling createTaxSequence(Async)");
@@ -165,7 +164,7 @@ public class TaxSequencesApi {
      * Crear nueva secuencia de NCF
      * 
      * @param createTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return CreateTaxSequence201Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -177,7 +176,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public CreateTaxSequence201Response createTaxSequence(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public CreateTaxSequence201Response createTaxSequence(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<CreateTaxSequence201Response> localVarResp = createTaxSequenceWithHttpInfo(createTaxSequenceRequest, xTenantId);
         return localVarResp.getData();
     }
@@ -186,7 +185,7 @@ public class TaxSequencesApi {
      * Crear nueva secuencia de NCF
      * 
      * @param createTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;CreateTaxSequence201Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -198,7 +197,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<CreateTaxSequence201Response> createTaxSequenceWithHttpInfo(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<CreateTaxSequence201Response> createTaxSequenceWithHttpInfo(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(createTaxSequenceRequest, xTenantId, null);
         Type localVarReturnType = new TypeToken<CreateTaxSequence201Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -208,7 +207,7 @@ public class TaxSequencesApi {
      * Crear nueva secuencia de NCF (asynchronously)
      * 
      * @param createTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -221,7 +220,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createTaxSequenceAsync(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<CreateTaxSequence201Response> _callback) throws ApiException {
+    public okhttp3.Call createTaxSequenceAsync(@javax.annotation.Nonnull CreateTaxSequenceRequest createTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback<CreateTaxSequence201Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = createTaxSequenceValidateBeforeCall(createTaxSequenceRequest, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<CreateTaxSequence201Response>(){}.getType();
@@ -232,7 +231,7 @@ public class TaxSequencesApi {
      * Build call for getNextNumber
      * @param type  (required)
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -244,7 +243,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getNextNumberCall(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getNextNumberCall(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -302,7 +301,7 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getNextNumberValidateBeforeCall(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getNextNumberValidateBeforeCall(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'type' is set
         if (type == null) {
             throw new ApiException("Missing the required parameter 'type' when calling getNextNumber(Async)");
@@ -322,7 +321,7 @@ public class TaxSequencesApi {
      * Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
      * @param type  (required)
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return GetNextNumber200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -333,7 +332,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public GetNextNumber200Response getNextNumber(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public GetNextNumber200Response getNextNumber(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<GetNextNumber200Response> localVarResp = getNextNumberWithHttpInfo(type, environment, xTenantId);
         return localVarResp.getData();
     }
@@ -343,7 +342,7 @@ public class TaxSequencesApi {
      * Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
      * @param type  (required)
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;GetNextNumber200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -354,7 +353,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<GetNextNumber200Response> getNextNumberWithHttpInfo(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<GetNextNumber200Response> getNextNumberWithHttpInfo(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getNextNumberValidateBeforeCall(type, environment, xTenantId, null);
         Type localVarReturnType = new TypeToken<GetNextNumber200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -365,7 +364,7 @@ public class TaxSequencesApi {
      * Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
      * @param type  (required)
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -377,7 +376,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getNextNumberAsync(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<GetNextNumber200Response> _callback) throws ApiException {
+    public okhttp3.Call getNextNumberAsync(@javax.annotation.Nonnull InvoiceTypeSequence type, @javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, final ApiCallback<GetNextNumber200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getNextNumberValidateBeforeCall(type, environment, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<GetNextNumber200Response>(){}.getType();
@@ -388,7 +387,7 @@ public class TaxSequencesApi {
      * Build call for importTaxSequencesFromExcel
      * @param environment  (required)
      * @param _file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -401,7 +400,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call importTaxSequencesFromExcelCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call importTaxSequencesFromExcelCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -460,7 +459,7 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call importTaxSequencesFromExcelValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call importTaxSequencesFromExcelValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'environment' is set
         if (environment == null) {
             throw new ApiException("Missing the required parameter 'environment' when calling importTaxSequencesFromExcel(Async)");
@@ -480,7 +479,7 @@ public class TaxSequencesApi {
      * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
      * @param environment  (required)
      * @param _file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ImportTaxSequencesFromExcel200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -492,7 +491,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ImportTaxSequencesFromExcel200Response importTaxSequencesFromExcel(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ImportTaxSequencesFromExcel200Response importTaxSequencesFromExcel(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<ImportTaxSequencesFromExcel200Response> localVarResp = importTaxSequencesFromExcelWithHttpInfo(environment, _file, xTenantId);
         return localVarResp.getData();
     }
@@ -502,7 +501,7 @@ public class TaxSequencesApi {
      * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
      * @param environment  (required)
      * @param _file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;ImportTaxSequencesFromExcel200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -514,7 +513,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ImportTaxSequencesFromExcel200Response> importTaxSequencesFromExcelWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<ImportTaxSequencesFromExcel200Response> importTaxSequencesFromExcelWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = importTaxSequencesFromExcelValidateBeforeCall(environment, _file, xTenantId, null);
         Type localVarReturnType = new TypeToken<ImportTaxSequencesFromExcel200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -525,7 +524,7 @@ public class TaxSequencesApi {
      * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
      * @param environment  (required)
      * @param _file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -538,7 +537,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call importTaxSequencesFromExcelAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<ImportTaxSequencesFromExcel200Response> _callback) throws ApiException {
+    public okhttp3.Call importTaxSequencesFromExcelAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable String xTenantId, final ApiCallback<ImportTaxSequencesFromExcel200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = importTaxSequencesFromExcelValidateBeforeCall(environment, _file, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<ImportTaxSequencesFromExcel200Response>(){}.getType();
@@ -547,7 +546,7 @@ public class TaxSequencesApi {
     }
     /**
      * Build call for listTaxSequences
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -563,7 +562,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listTaxSequencesCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listTaxSequencesCall(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -629,7 +628,7 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listTaxSequencesValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listTaxSequencesValidateBeforeCall(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         return listTaxSequencesCall(xTenantId, type, environment, page, limit, _callback);
 
     }
@@ -637,7 +636,7 @@ public class TaxSequencesApi {
     /**
      * Listar secuencias de NCF
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -652,7 +651,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ListTaxSequences200Response listTaxSequences(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ListTaxSequences200Response listTaxSequences(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         ApiResponse<ListTaxSequences200Response> localVarResp = listTaxSequencesWithHttpInfo(xTenantId, type, environment, page, limit);
         return localVarResp.getData();
     }
@@ -660,7 +659,7 @@ public class TaxSequencesApi {
     /**
      * Listar secuencias de NCF
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -675,7 +674,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ListTaxSequences200Response> listTaxSequencesWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ApiResponse<ListTaxSequences200Response> listTaxSequencesWithHttpInfo(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, environment, page, limit, null);
         Type localVarReturnType = new TypeToken<ListTaxSequences200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -684,7 +683,7 @@ public class TaxSequencesApi {
     /**
      * Listar secuencias de NCF (asynchronously)
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -700,7 +699,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listTaxSequencesAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ListTaxSequences200Response> _callback) throws ApiException {
+    public okhttp3.Call listTaxSequencesAsync(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable InvoiceTypeSequence type, @javax.annotation.Nullable Environment environment, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ListTaxSequences200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = listTaxSequencesValidateBeforeCall(xTenantId, type, environment, page, limit, _callback);
         Type localVarReturnType = new TypeToken<ListTaxSequences200Response>(){}.getType();
@@ -711,7 +710,7 @@ public class TaxSequencesApi {
      * Build call for updateTaxSequence
      * @param id  (required)
      * @param updateTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -723,7 +722,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateTaxSequenceCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updateTaxSequenceCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -778,7 +777,7 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'id' is set
         if (id == null) {
             throw new ApiException("Missing the required parameter 'id' when calling updateTaxSequence(Async)");
@@ -798,7 +797,7 @@ public class TaxSequencesApi {
      * 
      * @param id  (required)
      * @param updateTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -808,7 +807,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public void updateTaxSequence(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public void updateTaxSequence(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable String xTenantId) throws ApiException {
         updateTaxSequenceWithHttpInfo(id, updateTaxSequenceRequest, xTenantId);
     }
 
@@ -817,7 +816,7 @@ public class TaxSequencesApi {
      * 
      * @param id  (required)
      * @param updateTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -828,7 +827,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updateTaxSequenceWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<Void> updateTaxSequenceWithHttpInfo(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = updateTaxSequenceValidateBeforeCall(id, updateTaxSequenceRequest, xTenantId, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -838,7 +837,7 @@ public class TaxSequencesApi {
      * 
      * @param id  (required)
      * @param updateTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -850,7 +849,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateTaxSequenceAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updateTaxSequenceAsync(@javax.annotation.Nonnull String id, @javax.annotation.Nonnull UpdateTaxSequenceRequest updateTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = updateTaxSequenceValidateBeforeCall(id, updateTaxSequenceRequest, xTenantId, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -859,7 +858,7 @@ public class TaxSequencesApi {
     /**
      * Build call for voidTaxSequence
      * @param voidTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -871,7 +870,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call voidTaxSequenceCall(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call voidTaxSequenceCall(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -922,7 +921,7 @@ public class TaxSequencesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call voidTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call voidTaxSequenceValidateBeforeCall(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'voidTaxSequenceRequest' is set
         if (voidTaxSequenceRequest == null) {
             throw new ApiException("Missing the required parameter 'voidTaxSequenceRequest' when calling voidTaxSequence(Async)");
@@ -936,7 +935,7 @@ public class TaxSequencesApi {
      * Anular rango de números fiscales
      * Cancela números fiscales no utilizados y notifica a la DGII.
      * @param voidTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return VoidTaxSequence200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -947,7 +946,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public VoidTaxSequence200Response voidTaxSequence(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public VoidTaxSequence200Response voidTaxSequence(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<VoidTaxSequence200Response> localVarResp = voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest, xTenantId);
         return localVarResp.getData();
     }
@@ -956,7 +955,7 @@ public class TaxSequencesApi {
      * Anular rango de números fiscales
      * Cancela números fiscales no utilizados y notifica a la DGII.
      * @param voidTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;VoidTaxSequence200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -967,7 +966,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<VoidTaxSequence200Response> voidTaxSequenceWithHttpInfo(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<VoidTaxSequence200Response> voidTaxSequenceWithHttpInfo(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = voidTaxSequenceValidateBeforeCall(voidTaxSequenceRequest, xTenantId, null);
         Type localVarReturnType = new TypeToken<VoidTaxSequence200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -977,7 +976,7 @@ public class TaxSequencesApi {
      * Anular rango de números fiscales (asynchronously)
      * Cancela números fiscales no utilizados y notifica a la DGII.
      * @param voidTaxSequenceRequest  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -989,7 +988,7 @@ public class TaxSequencesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call voidTaxSequenceAsync(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<VoidTaxSequence200Response> _callback) throws ApiException {
+    public okhttp3.Call voidTaxSequenceAsync(@javax.annotation.Nonnull VoidTaxSequenceRequest voidTaxSequenceRequest, @javax.annotation.Nullable String xTenantId, final ApiCallback<VoidTaxSequence200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = voidTaxSequenceValidateBeforeCall(voidTaxSequenceRequest, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<VoidTaxSequence200Response>(){}.getType();

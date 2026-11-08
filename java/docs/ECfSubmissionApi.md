@@ -37,7 +37,7 @@ public class Example {
 
     ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
     Environment environment = Environment.fromValue("TesteCF"); // Environment | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       EcfStatsResponse result = apiInstance.getEcfStats(environment, xTenantId);
       System.out.println(result);
@@ -57,7 +57,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -106,7 +106,7 @@ public class Example {
     ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
     Environment environment = Environment.fromValue("TesteCF"); // Environment | 
     String id = "id_example"; // String | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       EcfStatusResponse result = apiInstance.getEcfStatus(environment, id, xTenantId);
       System.out.println(result);
@@ -127,7 +127,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
 | **id** | **String**|  | |
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -175,7 +175,7 @@ public class Example {
 
     ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
     Environment environment = Environment.fromValue("TesteCF"); // Environment | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     Integer page = 1; // Integer | 
     Integer limit = 20; // Integer | 
     try {
@@ -197,7 +197,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 | **page** | **Integer**|  | [optional] [default to 1] |
 | **limit** | **Integer**|  | [optional] [default to 20] |
 
@@ -250,7 +250,7 @@ public class Example {
     ECfSubmissionApi apiInstance = new ECfSubmissionApi(defaultClient);
     Environment environment = Environment.fromValue("TesteCF"); // Environment | 
     ElectronicDocument electronicDocument = new ElectronicDocument(); // ElectronicDocument | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       EcfSubmitResponse result = apiInstance.submitEcf(environment, electronicDocument, xTenantId);
       System.out.println(result);
@@ -271,7 +271,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
 | **electronicDocument** | [**ElectronicDocument**](ElectronicDocument.md)|  | |
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 

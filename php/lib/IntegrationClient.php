@@ -72,16 +72,8 @@ class IntegrationClient
         $this->authApi = new AuthenticationApi(new Client(), $authConfig);
 
         $stack = HandlerStack::create();
-        $stack->push(Middleware::mapRequest(function (RequestInterface $request): RequestInterface {
-            $path = $request->getUri()->getPath();
-            if (str_ends_with($path, '/oauth/token')) {
-                return $request;
-            }
-
-            $token = $this->getValidToken(false);
-            return $request->withHeader('Authorization', 'Bearer ' . $token);
-        }));
-
+        // Retry is pushed first so that the token middleware runs again on the retried request;
+        // otherwise the retry after a 401 resent the rejected token.
         $stack->push(Middleware::retry(
             function (
                 int $retries,
@@ -104,6 +96,16 @@ class IntegrationClient
             },
             fn (): int => 0
         ));
+
+        $stack->push(Middleware::mapRequest(function (RequestInterface $request): RequestInterface {
+            $path = $request->getUri()->getPath();
+            if (str_ends_with($path, '/oauth/token')) {
+                return $request;
+            }
+
+            $token = $this->getValidToken(false);
+            return $request->withHeader('Authorization', 'Bearer ' . $token);
+        }));
 
         $apiClient = new Client(['handler' => $stack]);
         $sdkConfig = new Configuration();
@@ -179,19 +181,8 @@ class TenantScopedClient
     public function __construct(string $normalizedBaseUrl, string $tenantId, callable $tokenProvider)
     {
         $stack = HandlerStack::create();
-        $stack->push(Middleware::mapRequest(
-            function (RequestInterface $request) use ($tenantId, $tokenProvider): RequestInterface {
-                $path = $request->getUri()->getPath();
-                if (str_ends_with($path, '/oauth/token')) {
-                    return $request;
-                }
-                $token = $tokenProvider(false);
-                return $request
-                    ->withHeader('Authorization', 'Bearer ' . $token)
-                    ->withHeader('x-tenant-id', $tenantId);
-            }
-        ));
-
+        // Retry is pushed first so that the token middleware runs again on the retried request;
+        // otherwise the retry after a 401 resent the rejected token.
         $stack->push(Middleware::retry(
             function (
                 int $retries,
@@ -212,6 +203,19 @@ class TenantScopedClient
                 return true;
             },
             fn (): int => 0
+        ));
+
+        $stack->push(Middleware::mapRequest(
+            function (RequestInterface $request) use ($tenantId, $tokenProvider): RequestInterface {
+                $path = $request->getUri()->getPath();
+                if (str_ends_with($path, '/oauth/token')) {
+                    return $request;
+                }
+                $token = $tokenProvider(false);
+                return $request
+                    ->withHeader('Authorization', 'Bearer ' . $token)
+                    ->withHeader('x-tenant-id', $tenantId);
+            }
         ));
 
         $apiClient = new Client(['handler' => $stack]);

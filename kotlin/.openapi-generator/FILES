@@ -294,5 +294,3 @@ src/main/kotlin/com/pronesoft/ecf/models/WebhookNotificationPayload.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookNotificationPayloadData.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookStats.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookStatsStats.kt
-src/test/kotlin/com/pronesoft/ecf/models/DecideCommercialApprovalRequestTest.kt
-src/test/kotlin/com/pronesoft/ecf/models/DecideCommercialApprovalResponseTest.kt

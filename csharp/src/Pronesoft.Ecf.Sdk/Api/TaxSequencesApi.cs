@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -33,9 +33,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>CreateTaxSequence201Response</returns>
-        CreateTaxSequence201Response CreateTaxSequence(CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = default);
+        CreateTaxSequence201Response CreateTaxSequence(CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = default);
 
         /// <summary>
         /// Crear nueva secuencia de NCF
@@ -45,9 +45,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of CreateTaxSequence201Response</returns>
-        ApiResponse<CreateTaxSequence201Response> CreateTaxSequenceWithHttpInfo(CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = default);
+        ApiResponse<CreateTaxSequence201Response> CreateTaxSequenceWithHttpInfo(CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = default);
         /// <summary>
         /// Obtener siguiente número fiscal disponible
         /// </summary>
@@ -57,9 +57,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="type"></param>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>GetNextNumber200Response</returns>
-        GetNextNumber200Response GetNextNumber(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default);
+        GetNextNumber200Response GetNextNumber(InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = default);
 
         /// <summary>
         /// Obtener siguiente número fiscal disponible
@@ -70,9 +70,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="type"></param>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of GetNextNumber200Response</returns>
-        ApiResponse<GetNextNumber200Response> GetNextNumberWithHttpInfo(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default);
+        ApiResponse<GetNextNumber200Response> GetNextNumberWithHttpInfo(InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = default);
         /// <summary>
         /// Importar secuencias desde archivo Excel de la DGII
         /// </summary>
@@ -82,9 +82,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ImportTaxSequencesFromExcel200Response</returns>
-        ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default);
+        ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel(ModelEnvironment environment, FileParameter file, string? xTenantId = default);
 
         /// <summary>
         /// Importar secuencias desde archivo Excel de la DGII
@@ -95,20 +95,20 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of ImportTaxSequencesFromExcel200Response</returns>
-        ApiResponse<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelWithHttpInfo(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default);
+        ApiResponse<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelWithHttpInfo(ModelEnvironment environment, FileParameter file, string? xTenantId = default);
         /// <summary>
         /// Listar secuencias de NCF
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ListTaxSequences200Response</returns>
-        ListTaxSequences200Response ListTaxSequences(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default);
+        ListTaxSequences200Response ListTaxSequences(string? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default);
 
         /// <summary>
         /// Listar secuencias de NCF
@@ -117,22 +117,22 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ListTaxSequences200Response</returns>
-        ApiResponse<ListTaxSequences200Response> ListTaxSequencesWithHttpInfo(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default);
+        ApiResponse<ListTaxSequences200Response> ListTaxSequencesWithHttpInfo(string? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default);
         /// <summary>
         /// Actualizar secuencia de NCF
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns></returns>
-        void UpdateTaxSequence(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default);
+        void UpdateTaxSequence(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = default);
 
         /// <summary>
         /// Actualizar secuencia de NCF
@@ -143,9 +143,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdateTaxSequenceWithHttpInfo(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default);
+        ApiResponse<Object> UpdateTaxSequenceWithHttpInfo(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = default);
         /// <summary>
         /// Anular rango de números fiscales
         /// </summary>
@@ -154,9 +154,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="voidTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>VoidTaxSequence200Response</returns>
-        VoidTaxSequence200Response VoidTaxSequence(VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = default);
+        VoidTaxSequence200Response VoidTaxSequence(VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = default);
 
         /// <summary>
         /// Anular rango de números fiscales
@@ -166,9 +166,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="voidTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of VoidTaxSequence200Response</returns>
-        ApiResponse<VoidTaxSequence200Response> VoidTaxSequenceWithHttpInfo(VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = default);
+        ApiResponse<VoidTaxSequence200Response> VoidTaxSequenceWithHttpInfo(VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = default);
         #endregion Synchronous Operations
     }
 
@@ -186,10 +186,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CreateTaxSequence201Response</returns>
-        System.Threading.Tasks.Task<CreateTaxSequence201Response> CreateTaxSequenceAsync(CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<CreateTaxSequence201Response> CreateTaxSequenceAsync(CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Crear nueva secuencia de NCF
@@ -199,10 +199,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateTaxSequence201Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<CreateTaxSequence201Response>> CreateTaxSequenceWithHttpInfoAsync(CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<CreateTaxSequence201Response>> CreateTaxSequenceWithHttpInfoAsync(CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Obtener siguiente número fiscal disponible
         /// </summary>
@@ -212,10 +212,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="type"></param>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetNextNumber200Response</returns>
-        System.Threading.Tasks.Task<GetNextNumber200Response> GetNextNumberAsync(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<GetNextNumber200Response> GetNextNumberAsync(InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Obtener siguiente número fiscal disponible
@@ -226,10 +226,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="type"></param>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetNextNumber200Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<GetNextNumber200Response>> GetNextNumberWithHttpInfoAsync(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<GetNextNumber200Response>> GetNextNumberWithHttpInfoAsync(InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Importar secuencias desde archivo Excel de la DGII
         /// </summary>
@@ -239,10 +239,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ImportTaxSequencesFromExcel200Response</returns>
-        System.Threading.Tasks.Task<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelAsync(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelAsync(ModelEnvironment environment, FileParameter file, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Importar secuencias desde archivo Excel de la DGII
@@ -253,10 +253,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ImportTaxSequencesFromExcel200Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ImportTaxSequencesFromExcel200Response>> ImportTaxSequencesFromExcelWithHttpInfoAsync(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<ImportTaxSequencesFromExcel200Response>> ImportTaxSequencesFromExcelWithHttpInfoAsync(ModelEnvironment environment, FileParameter file, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Listar secuencias de NCF
         /// </summary>
@@ -264,14 +264,14 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ListTaxSequences200Response</returns>
-        System.Threading.Tasks.Task<ListTaxSequences200Response> ListTaxSequencesAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ListTaxSequences200Response> ListTaxSequencesAsync(string? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Listar secuencias de NCF
@@ -280,14 +280,14 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ListTaxSequences200Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ListTaxSequences200Response>> ListTaxSequencesWithHttpInfoAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<ListTaxSequences200Response>> ListTaxSequencesWithHttpInfoAsync(string? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Actualizar secuencia de NCF
         /// </summary>
@@ -297,10 +297,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdateTaxSequenceAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task UpdateTaxSequenceAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Actualizar secuencia de NCF
@@ -311,10 +311,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateTaxSequenceWithHttpInfoAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateTaxSequenceWithHttpInfoAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Anular rango de números fiscales
         /// </summary>
@@ -323,10 +323,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="voidTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of VoidTaxSequence200Response</returns>
-        System.Threading.Tasks.Task<VoidTaxSequence200Response> VoidTaxSequenceAsync(VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<VoidTaxSequence200Response> VoidTaxSequenceAsync(VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Anular rango de números fiscales
@@ -336,10 +336,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="voidTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (VoidTaxSequence200Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<VoidTaxSequence200Response>> VoidTaxSequenceWithHttpInfoAsync(VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<VoidTaxSequence200Response>> VoidTaxSequenceWithHttpInfoAsync(VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -558,9 +558,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>CreateTaxSequence201Response</returns>
-        public CreateTaxSequence201Response CreateTaxSequence(CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = default)
+        public CreateTaxSequence201Response CreateTaxSequence(CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateTaxSequence201Response> localVarResponse = CreateTaxSequenceWithHttpInfo(createTaxSequenceRequest, xTenantId);
             return localVarResponse.Data;
@@ -571,9 +571,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of CreateTaxSequence201Response</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateTaxSequence201Response> CreateTaxSequenceWithHttpInfo(CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateTaxSequence201Response> CreateTaxSequenceWithHttpInfo(CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = default)
         {
             // verify the required parameter 'createTaxSequenceRequest' is set
             if (createTaxSequenceRequest == null)
@@ -626,10 +626,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CreateTaxSequence201Response</returns>
-        public async System.Threading.Tasks.Task<CreateTaxSequence201Response> CreateTaxSequenceAsync(CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<CreateTaxSequence201Response> CreateTaxSequenceAsync(CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateTaxSequence201Response> localVarResponse = await CreateTaxSequenceWithHttpInfoAsync(createTaxSequenceRequest, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -640,10 +640,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="createTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateTaxSequence201Response)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateTaxSequence201Response>> CreateTaxSequenceWithHttpInfoAsync(CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateTaxSequence201Response>> CreateTaxSequenceWithHttpInfoAsync(CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'createTaxSequenceRequest' is set
             if (createTaxSequenceRequest == null)
@@ -700,9 +700,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="type"></param>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>GetNextNumber200Response</returns>
-        public GetNextNumber200Response GetNextNumber(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default)
+        public GetNextNumber200Response GetNextNumber(InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<GetNextNumber200Response> localVarResponse = GetNextNumberWithHttpInfo(type, environment, xTenantId);
             return localVarResponse.Data;
@@ -714,9 +714,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="type"></param>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of GetNextNumber200Response</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<GetNextNumber200Response> GetNextNumberWithHttpInfo(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<GetNextNumber200Response> GetNextNumberWithHttpInfo(InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -766,10 +766,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="type"></param>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetNextNumber200Response</returns>
-        public async System.Threading.Tasks.Task<GetNextNumber200Response> GetNextNumberAsync(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<GetNextNumber200Response> GetNextNumberAsync(InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<GetNextNumber200Response> localVarResponse = await GetNextNumberWithHttpInfoAsync(type, environment, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -781,10 +781,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="type"></param>
         /// <param name="environment"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetNextNumber200Response)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<GetNextNumber200Response>> GetNextNumberWithHttpInfoAsync(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<GetNextNumber200Response>> GetNextNumberWithHttpInfoAsync(InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -837,9 +837,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ImportTaxSequencesFromExcel200Response</returns>
-        public ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default)
+        public ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel(ModelEnvironment environment, FileParameter file, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response> localVarResponse = ImportTaxSequencesFromExcelWithHttpInfo(environment, file, xTenantId);
             return localVarResponse.Data;
@@ -851,9 +851,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of ImportTaxSequencesFromExcel200Response</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelWithHttpInfo(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelWithHttpInfo(ModelEnvironment environment, FileParameter file, string? xTenantId = default)
         {
             // verify the required parameter 'file' is set
             if (file == null)
@@ -908,10 +908,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ImportTaxSequencesFromExcel200Response</returns>
-        public async System.Threading.Tasks.Task<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelAsync(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelAsync(ModelEnvironment environment, FileParameter file, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response> localVarResponse = await ImportTaxSequencesFromExcelWithHttpInfoAsync(environment, file, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -923,10 +923,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="environment"></param>
         /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ImportTaxSequencesFromExcel200Response)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response>> ImportTaxSequencesFromExcelWithHttpInfoAsync(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response>> ImportTaxSequencesFromExcelWithHttpInfoAsync(ModelEnvironment environment, FileParameter file, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'file' is set
             if (file == null)
@@ -982,13 +982,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar secuencias de NCF 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ListTaxSequences200Response</returns>
-        public ListTaxSequences200Response ListTaxSequences(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default)
+        public ListTaxSequences200Response ListTaxSequences(string? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> localVarResponse = ListTaxSequencesWithHttpInfo(xTenantId, type, environment, page, limit);
             return localVarResponse.Data;
@@ -998,13 +998,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar secuencias de NCF 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ListTaxSequences200Response</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> ListTaxSequencesWithHttpInfo(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> ListTaxSequencesWithHttpInfo(string? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -1066,14 +1066,14 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar secuencias de NCF 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ListTaxSequences200Response</returns>
-        public async System.Threading.Tasks.Task<ListTaxSequences200Response> ListTaxSequencesAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<ListTaxSequences200Response> ListTaxSequencesAsync(string? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response> localVarResponse = await ListTaxSequencesWithHttpInfoAsync(xTenantId, type, environment, page, limit, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1083,14 +1083,14 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar secuencias de NCF 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="environment"> (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ListTaxSequences200Response)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response>> ListTaxSequencesWithHttpInfoAsync(Guid? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ListTaxSequences200Response>> ListTaxSequencesWithHttpInfoAsync(string? xTenantId = default, InvoiceTypeSequence? type = default, ModelEnvironment? environment = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -1157,9 +1157,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns></returns>
-        public void UpdateTaxSequence(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default)
+        public void UpdateTaxSequence(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = default)
         {
             UpdateTaxSequenceWithHttpInfo(id, updateTaxSequenceRequest, xTenantId);
         }
@@ -1170,9 +1170,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<Object> UpdateTaxSequenceWithHttpInfo(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<Object> UpdateTaxSequenceWithHttpInfo(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1231,10 +1231,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdateTaxSequenceAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task UpdateTaxSequenceAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             await UpdateTaxSequenceWithHttpInfoAsync(id, updateTaxSequenceRequest, xTenantId, cancellationToken).ConfigureAwait(false);
         }
@@ -1245,10 +1245,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <param name="updateTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<Object>> UpdateTaxSequenceWithHttpInfoAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<Object>> UpdateTaxSequenceWithHttpInfoAsync(string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -1309,9 +1309,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="voidTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>VoidTaxSequence200Response</returns>
-        public VoidTaxSequence200Response VoidTaxSequence(VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = default)
+        public VoidTaxSequence200Response VoidTaxSequence(VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<VoidTaxSequence200Response> localVarResponse = VoidTaxSequenceWithHttpInfo(voidTaxSequenceRequest, xTenantId);
             return localVarResponse.Data;
@@ -1322,9 +1322,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="voidTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of VoidTaxSequence200Response</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<VoidTaxSequence200Response> VoidTaxSequenceWithHttpInfo(VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<VoidTaxSequence200Response> VoidTaxSequenceWithHttpInfo(VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = default)
         {
             // verify the required parameter 'voidTaxSequenceRequest' is set
             if (voidTaxSequenceRequest == null)
@@ -1377,10 +1377,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="voidTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of VoidTaxSequence200Response</returns>
-        public async System.Threading.Tasks.Task<VoidTaxSequence200Response> VoidTaxSequenceAsync(VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<VoidTaxSequence200Response> VoidTaxSequenceAsync(VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<VoidTaxSequence200Response> localVarResponse = await VoidTaxSequenceWithHttpInfoAsync(voidTaxSequenceRequest, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1391,10 +1391,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="voidTaxSequenceRequest"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (VoidTaxSequence200Response)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<VoidTaxSequence200Response>> VoidTaxSequenceWithHttpInfoAsync(VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<VoidTaxSequence200Response>> VoidTaxSequenceWithHttpInfoAsync(VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'voidTaxSequenceRequest' is set
             if (voidTaxSequenceRequest == null)

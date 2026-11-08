@@ -11,9 +11,9 @@ Name | Type | Description | Notes
 **type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
 **from** | **int** |  | 
 **to** | **int** |  | 
-**quantity** | **int** |  | [optional] 
+**quantity** | **int** |  | 
 **expiration** | [**DateTime**](DateTime.md) |  | [optional] 
-**environment** | [**Environment**](Environment.md) |  | [optional] 
+**environment** | [**Environment**](Environment.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

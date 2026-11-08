@@ -1,254 +1,89 @@
-# Pronesoft eCF SDKs
+# SDKs de Pronesoft e-CF
 
-Official SDK monorepo for the Pronesoft eCF Integration API.
+SDKs oficiales de la API de Pronesoft para emitir y recibir Comprobantes Fiscales Electrónicos (e-CF) de la DGII. Se generan con [OpenAPI Generator](https://openapi-generator.tech) a partir de la especificación del servidor (`pronesoft-ecf/server/openapi.yaml`), y cada SDK principal añade un **`IntegrationClient`** escrito a mano que gestiona la autenticación.
 
-## Recommended usage model
+Documentación de la API y guía de los SDKs: https://docs.ecf.pronesoft.com/guides/sdks
 
-The base SDK client manages:
+## SDKs disponibles
 
-- OAuth client credentials
-- token cache
-- automatic refresh on 401
+| Lenguaje | Carpeta | Paquete | Instalación | `IntegrationClient` |
+| :--- | :--- | :--- | :--- | :--- |
+| TypeScript / JavaScript | [`typescript/`](typescript) | `@pronesoft-rd/ecf-sdk` (npm) | `npm install @pronesoft-rd/ecf-sdk` | ✅ |
+| Python | [`python/`](python) | `pronesoft_ecf` (PyPI) | `pip install pronesoft_ecf` | ✅ |
+| Go | [`go/`](go) | `github.com/ProneSoftSRL/pronesoft-ecf-sdks/go` | `go get github.com/ProneSoftSRL/pronesoft-ecf-sdks/go` | ✅ |
+| C# / .NET 8 | [`csharp/`](csharp) | `Pronesoft.Ecf.Sdk` (NuGet) | `dotnet add package Pronesoft.Ecf.Sdk` | ✅ |
+| PHP | [`php/`](php) | `pronesoft/ecf-sdk` | Composer desde este repositorio | ✅ |
+| Java | [`java/`](java) | `com.pronesoft:ecf-sdk` | `mvn install` desde este repositorio | ✅ (renueva tras `401`) |
+| Kotlin, Swift, Ruby, Rust, Dart | [`kotlin/`](kotlin) … | No publicados | — | ❌ |
 
-The tenant is not fixed in the base constructor. Instead, the ERP resolves it when the user signs in or changes the active company, and creates an SDK session bound to that tenant.
+Cada README de lenguaje empieza con un ejemplo de `IntegrationClient`.
 
-Recommended flow:
+## Qué hace `IntegrationClient`
 
-1. Create one IntegrationClient with baseUrl, clientId, and clientSecret.
-2. When the ERP user signs in, resolve the user's tenantId.
-3. Create a session with startSession / StartSession / start_session.
-4. Get the tenant-scoped client with getClient / GetClient / Client.
-5. Reuse that session while the user remains on the same company.
+Con la URL base y las credenciales de una App (Portal → Integraciones → Apps):
 
-## TypeScript
+1. Obtiene el token con `POST /api/v1/oauth/token` y lo reutiliza mientras sea válido (24 horas).
+2. Lo renueva 5 minutos antes de que venza (`refreshSkewSeconds`). Java solo renueva tras un `401`.
+3. Ante un `401`, pide un token nuevo y repite la llamada una vez, con el token nuevo.
+4. Si varias llamadas reciben `401` a la vez, renueva una sola vez.
+5. Con `startSession(tenant)` agrega `x-tenant-id` para actuar como una empresa asociada. Acepta su ID (UUID) o su RNC; una empresa ajena a la cuenta responde `403`.
 
-Local installation:
+| Entorno | URL base |
+| :--- | :--- |
+| Sandbox | `https://api.ecf.sandbox.pronesoft.com/api/v1` |
+| Producción | `https://api.ecf.pronesoft.com/api/v1` |
 
-```bash
-npm install /path/to/pronesoft-sdks/typescript
-```
+## Estructura del repositorio
 
-Usage:
+| Ruta | Contenido |
+| :--- | :--- |
+| `spec/openapi.yaml` | Copia del spec del servidor usada en la última generación |
+| `generate.sh` | Único script de generación (todas las opciones de cada lenguaje) |
+| `<lenguaje>/.openapi-generator-ignore` | Archivos escritos a mano que el generador no debe tocar |
+| `readme-intro/` | Sección "Inicio rápido con `IntegrationClient`" que se inserta en cada README |
+| `verify/` | Pruebas de PHP y C# con Docker |
 
-```ts
-import { Environment, IntegrationClient } from "@pronesoft-rd/ecf-sdk";
+## Regenerar los SDKs
 
-const integrationClient = new IntegrationClient({
-  baseUrl: "https://ecf.sandbox.pronesoft.com",
-  clientId: process.env.PRONESOFT_CLIENT_ID!,
-  clientSecret: process.env.PRONESOFT_CLIENT_SECRET!,
-});
-
-const session = integrationClient.startSession("130862346");
-const client = session.getClient();
-
-const result = await client.ecfSubmission.submitEcf({
-  environment: Environment.TesteCF,
-  electronicDocument: payload,
-});
-```
-
-## Go
-
-Local installation in another project:
+El spec de referencia es `../pronesoft-ecf/server/openapi.yaml`; no edites `spec/openapi.yaml` a mano.
 
 ```bash
-go mod edit -replace github.com/ProneSoftSRL/pronesoft-ecf-sdks/go=/path/to/pronesoft-sdks/go
-go get github.com/ProneSoftSRL/pronesoft-ecf-sdks/go
+bash generate.sh                       # todos los lenguajes
+bash generate.sh typescript python     # solo algunos
+SOURCE_SPEC=/ruta/openapi.yaml bash generate.sh   # otro spec
 ```
 
-Usage:
+Archivos escritos a mano y protegidos por `.openapi-generator-ignore`:
 
-```go
-package main
+| Lenguaje | Archivos |
+| :--- | :--- |
+| TypeScript | `src/integration-client.ts`, `src/index.ts`, `package.json`, `.npmignore` (el generador no crea `test/`) |
+| Go | `integration_client.go`, `integration_client_token_test.go`, `go.mod`, `go.sum` |
+| Python | `pronesoft_ecf/integration_client.py`, `test/test_integration_client.py` (`generate.sh` reexporta el cliente en `__init__.py`) |
+| PHP | `lib/IntegrationClient.php` |
+| C# | `src/Pronesoft.Ecf.Sdk/Client/IntegrationClient.cs`, `Pronesoft.Ecf.Sdk.sln` |
+| Java | `IntegrationClient.java`, `IntegrationClientTest.java` |
 
-import (
-    "context"
-    "log"
-    "os"
+`generate.sh` también corrige un error del generador de Rust (`models::models::`), mantiene el módulo de Go en `go/` y genera Java tolerante a campos nuevos de la API.
 
-    ecf "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
-)
+## Probar antes de publicar
 
-func main() {
-    integrationClient, err := ecf.NewIntegrationClient(ecf.IntegrationClientOptions{
-        BaseURL:      "https://ecf.sandbox.pronesoft.com",
-        ClientID:     os.Getenv("PRONESOFT_CLIENT_ID"),
-        ClientSecret: os.Getenv("PRONESOFT_CLIENT_SECRET"),
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
+| Lenguaje | Comando |
+| :--- | :--- |
+| TypeScript | `cd typescript && npm test` |
+| Go | `cd go && go vet . && go test ./...` |
+| Python | `cd python && python -m unittest test.test_integration_client` |
+| Java | `cd java && mvn test` |
+| PHP y C# | Ver [`verify/README.md`](verify/README.md) |
+| Rust | `cd rust && cargo check --no-default-features --features rustls` |
 
-    session, err := integrationClient.StartSession("130862346")
-    if err != nil {
-        log.Fatal(err)
-    }
+Dart no compila: el generador no soporta los campos que aceptan número o texto (`oneOf`), como `Item.amount`.
 
-    client, err := session.Client()
-    if err != nil {
-        log.Fatal(err)
-    }
+## Publicar una versión
 
-    _, _, err = client.ECFSubmissionAPI.
-      SubmitEcf(context.Background(), ecf.TESTE_CF).
-      ElectronicDocument(payload).
-      Execute()
-    if err != nil {
-        log.Fatal(err)
-    }
-}
-```
+1. Despliega primero el servidor con los cambios de API de los que dependa el SDK.
+2. Regenera, ejecuta las pruebas y sube la versión: en `generate.sh` para los manifiestos generados, y a mano en `typescript/package.json`.
+3. Publica cada paquete en su registro y crea la etiqueta correspondiente (por ejemplo, `go/v0.0.24`, `typescript-sdk-v0.0.13`).
+4. Actualiza las versiones mínimas en https://docs.ecf.pronesoft.com/guides/sdks.
 
-## Python
-
-Local installation:
-
-```bash
-  pip install /path/to/pronesoft-sdks/python
-```
-
-Usage:
-
-```python
-from pronesoft_ecf import IntegrationClient
-
-integration_client = IntegrationClient(
-    base_url="https://ecf.sandbox.pronesoft.com",
-    client_id="your-client-id",
-    client_secret="your-client-secret",
-)
-
-session = integration_client.start_session("130862346")
-client = session.get_client()
-
-  result = client.ecf_submission.submit_ecf("TesteCF", payload)
-```
-
-## PHP
-
-Local installation with a Composer path repository:
-
-```json
-{
-  "repositories": [
-    {
-      "type": "path",
-      "url": "/path/to/pronesoft-sdks/php",
-      "options": {
-        "symlink": true
-      }
-    }
-  ],
-  "require": {
-    "pronesoft/ecf-sdk": "*@dev"
-  }
-}
-```
-
-If you prefer installing directly from the folder:
-
-```bash
-composer config repositories.pronesoft-ecf path /path/to/pronesoft-sdks/php
-composer require pronesoft/ecf-sdk:@dev
-```
-
-Usage:
-
-```php
-<?php
-
-use PronesoftEcf\IntegrationClient;
-
-$integrationClient = new IntegrationClient(
-    'https://ecf.sandbox.pronesoft.com',
-  'your-client-id',
-  'your-client-secret'
-);
-
-$session = $integrationClient->startSession('130862346');
-$client = $session->getClient();
-
-$result = $client->ecfSubmission->submitEcf('TesteCF', $payload);
-```
-
-## Java
-
-Install locally into the Maven local repository:
-
-```bash
-cd /path/to/pronesoft-sdks/java
-mvn install
-```
-
-Then in your project:
-
-```xml
-<dependency>
-  <groupId>com.pronesoft</groupId>
-  <artifactId>ecf-sdk</artifactId>
-  <version>0.0.3</version>
-</dependency>
-```
-
-Usage:
-
-```java
-import com.pronesoft.ecf.IntegrationClient;
-import com.pronesoft.ecf.model.Environment;
-
-IntegrationClient integrationClient = new IntegrationClient(
-    "https://ecf.sandbox.pronesoft.com",
-  "your-client-id",
-  "your-client-secret"
-);
-
-IntegrationClient.TenantSessionClient session = integrationClient.startSession("130862346");
-IntegrationClient.TenantScopedClient client = session.getClient();
-
-var result = client.ecfSubmission.submitEcf(Environment.TESTECF, payload, null);
-```
-
-## C#
-
-Local project reference:
-
-```bash
-dotnet add reference /path/to/pronesoft-sdks/csharp/src/Pronesoft.Ecf.Sdk/Pronesoft.Ecf.Sdk.csproj
-```
-
-Or if you publish the NuGet package:
-
-```bash
-dotnet add package Pronesoft.Ecf.Sdk
-```
-
-Usage:
-
-```csharp
-using Pronesoft.Ecf.Sdk.Client;
-
-var integrationClient = new IntegrationClient(
-    "https://ecf.sandbox.pronesoft.com",
-  "your-client-id",
-  "your-client-secret"
-);
-
-var session = integrationClient.StartSession("130862346");
-var client = session.GetClient();
-
-var result = await client.EcfSubmission.SubmitEcfAsync("TesteCF", payload);
-```
-
-## Recommended publishing targets
-
-If you want to distribute these as installable libraries for third parties, the normal publishing targets are:
-
-1. TypeScript: publish to npm.
-2. Python: publish to PyPI, private or public.
-3. PHP: publish to a private Packagist or use a private Composer repository.
-4. Java: publish to Nexus, Artifactory, or GitHub Packages Maven.
-5. C#: publish to NuGet or a private feed.
-6. Go: publish the module in Git and version it with tags.
-
-Until they are published, you can consume them as local dependencies using the installation examples above.
+Los cambios de cada versión están en [`CHANGELOG.md`](CHANGELOG.md).
