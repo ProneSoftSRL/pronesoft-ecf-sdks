@@ -32,7 +32,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Subir certificado digital (P12/PFX)
         /// </summary>
         /// <remarks>
-        /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="rnc">RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.</param>
@@ -45,7 +45,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Subir certificado digital (P12/PFX)
         /// </summary>
         /// <remarks>
-        /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="rnc">RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.</param>
@@ -66,7 +66,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Subir certificado digital (P12/PFX)
         /// </summary>
         /// <remarks>
-        /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="rnc">RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.</param>
@@ -80,7 +80,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Subir certificado digital (P12/PFX)
         /// </summary>
         /// <remarks>
-        /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        /// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="rnc">RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.</param>
@@ -303,7 +303,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         }
 
         /// <summary>
-        /// Subir certificado digital (P12/PFX) Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        /// Subir certificado digital (P12/PFX) Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="rnc">RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.</param>
@@ -317,7 +317,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         }
 
         /// <summary>
-        /// Subir certificado digital (P12/PFX) Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        /// Subir certificado digital (P12/PFX) Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="rnc">RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.</param>
@@ -379,7 +379,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         }
 
         /// <summary>
-        /// Subir certificado digital (P12/PFX) Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        /// Subir certificado digital (P12/PFX) Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="rnc">RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.</param>
@@ -394,7 +394,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         }
 
         /// <summary>
-        /// Subir certificado digital (P12/PFX) Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        /// Subir certificado digital (P12/PFX) Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="rnc">RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX.</param>

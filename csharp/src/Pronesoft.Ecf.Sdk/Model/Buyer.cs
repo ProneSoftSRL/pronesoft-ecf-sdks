@@ -41,7 +41,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Buyer" /> class.
         /// </summary>
-        /// <param name="taxId">RNC (9 digits) or cedula (11 digits). Required for type 31..</param>
+        /// <param name="taxId">RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k)..</param>
         /// <param name="foreignId">foreignId.</param>
         /// <param name="name">name (required).</param>
         /// <param name="contact">contact.</param>
@@ -85,9 +85,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         }
 
         /// <summary>
-        /// RNC (9 digits) or cedula (11 digits). Required for type 31.
+        /// RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k).
         /// </summary>
-        /// <value>RNC (9 digits) or cedula (11 digits). Required for type 31.</value>
+        /// <value>RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k).</value>
         /*
         <example>131415678</example>
         */

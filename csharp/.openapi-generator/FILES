@@ -1,5 +1,4 @@
 .gitignore
-Pronesoft.Ecf.Sdk.sln
 README.md
 api/openapi.yaml
 appveyor.yml
@@ -64,6 +63,9 @@ docs/GetNextNumber200ResponseData.md
 docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 docs/GetSentDocumentLogs200ResponseInner.md
 docs/GetSentDocumentStatusOptions200ResponseInner.md
+docs/ImportTaxSequencesFromExcel200Response.md
+docs/ImportTaxSequencesFromExcel200ResponseData.md
+docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 docs/InvoiceType.md
 docs/InvoiceTypeSequence.md
 docs/Item.md
@@ -135,6 +137,9 @@ docs/WebhookNotificationPayloadData.md
 docs/WebhookStats.md
 docs/WebhookStatsStats.md
 git_push.sh
+src/Pronesoft.Ecf.Sdk.Test/Model/ImportTaxSequencesFromExcel200ResponseDataResultsInnerTests.cs
+src/Pronesoft.Ecf.Sdk.Test/Model/ImportTaxSequencesFromExcel200ResponseDataTests.cs
+src/Pronesoft.Ecf.Sdk.Test/Model/ImportTaxSequencesFromExcel200ResponseTests.cs
 src/Pronesoft.Ecf.Sdk.Test/Pronesoft.Ecf.Sdk.Test.csproj
 src/Pronesoft.Ecf.Sdk/Api/AssociatedCompaniesApi.cs
 src/Pronesoft.Ecf.Sdk/Api/AuthenticationApi.cs
@@ -218,6 +223,9 @@ src/Pronesoft.Ecf.Sdk/Model/GetNextNumber200ResponseData.cs
 src/Pronesoft.Ecf.Sdk/Model/GetReceivedDocumentStatsBySupplier200ResponseInner.cs
 src/Pronesoft.Ecf.Sdk/Model/GetSentDocumentLogs200ResponseInner.cs
 src/Pronesoft.Ecf.Sdk/Model/GetSentDocumentStatusOptions200ResponseInner.cs
+src/Pronesoft.Ecf.Sdk/Model/ImportTaxSequencesFromExcel200Response.cs
+src/Pronesoft.Ecf.Sdk/Model/ImportTaxSequencesFromExcel200ResponseData.cs
+src/Pronesoft.Ecf.Sdk/Model/ImportTaxSequencesFromExcel200ResponseDataResultsInner.cs
 src/Pronesoft.Ecf.Sdk/Model/InvoiceType.cs
 src/Pronesoft.Ecf.Sdk/Model/InvoiceTypeSequence.cs
 src/Pronesoft.Ecf.Sdk/Model/Item.cs

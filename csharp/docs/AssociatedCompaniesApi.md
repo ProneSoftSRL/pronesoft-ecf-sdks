@@ -13,7 +13,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="createassociatedcompany"></a>
 # **CreateAssociatedCompany**
-> CreateAssociatedCompany201Response CreateAssociatedCompany (string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = null, string? lastName = null, string? jobTitle = null, string? website = null, string? category = null, string? monthlySalesRange = null, FileParameter? logo = null)
+> CreateAssociatedCompany201Response CreateAssociatedCompany (string name, string rnc, string? email = null, string? password = null, string? firstName = null, string? lastName = null, string? jobTitle = null, string? phone = null, string? address = null, string? city = null, string? country = null, string? website = null, string? category = null, string? monthlySalesRange = null, PrintFormat? printerType = null, FileParameter? logo = null)
 
 Crear empresa asociada / sucursal
 
@@ -41,27 +41,27 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new AssociatedCompaniesApi(httpClient, config, httpClientHandler);
-            var email = "email_example";  // string | 
-            var password = "password_example";  // string | 
             var name = "name_example";  // string | 
             var rnc = "rnc_example";  // string | 
-            var phone = "phone_example";  // string | 
-            var address = "address_example";  // string | 
-            var city = "city_example";  // string | 
-            var country = "country_example";  // string | 
-            var printerType = (PrintFormat) "A4";  // PrintFormat | 
+            var email = "email_example";  // string? |  (optional) 
+            var password = "password_example";  // string? |  (optional) 
             var firstName = "firstName_example";  // string? |  (optional) 
             var lastName = "lastName_example";  // string? |  (optional) 
             var jobTitle = "jobTitle_example";  // string? |  (optional) 
+            var phone = "phone_example";  // string? |  (optional) 
+            var address = "address_example";  // string? |  (optional) 
+            var city = "city_example";  // string? |  (optional) 
+            var country = "country_example";  // string? |  (optional) 
             var website = "website_example";  // string? |  (optional) 
             var category = "category_example";  // string? |  (optional) 
             var monthlySalesRange = "monthlySalesRange_example";  // string? |  (optional) 
+            var printerType = new PrintFormat?(); // PrintFormat? |  (optional) 
             var logo = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter? |  (optional) 
 
             try
             {
                 // Crear empresa asociada / sucursal
-                CreateAssociatedCompany201Response result = apiInstance.CreateAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
+                CreateAssociatedCompany201Response result = apiInstance.CreateAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -82,7 +82,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Crear empresa asociada / sucursal
-    ApiResponse<CreateAssociatedCompany201Response> response = apiInstance.CreateAssociatedCompanyWithHttpInfo(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
+    ApiResponse<CreateAssociatedCompany201Response> response = apiInstance.CreateAssociatedCompanyWithHttpInfo(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -99,21 +99,21 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **email** | **string** |  |  |
-| **password** | **string** |  |  |
 | **name** | **string** |  |  |
 | **rnc** | **string** |  |  |
-| **phone** | **string** |  |  |
-| **address** | **string** |  |  |
-| **city** | **string** |  |  |
-| **country** | **string** |  |  |
-| **printerType** | **PrintFormat** |  |  |
+| **email** | **string?** |  | [optional]  |
+| **password** | **string?** |  | [optional]  |
 | **firstName** | **string?** |  | [optional]  |
 | **lastName** | **string?** |  | [optional]  |
 | **jobTitle** | **string?** |  | [optional]  |
+| **phone** | **string?** |  | [optional]  |
+| **address** | **string?** |  | [optional]  |
+| **city** | **string?** |  | [optional]  |
+| **country** | **string?** |  | [optional]  |
 | **website** | **string?** |  | [optional]  |
 | **category** | **string?** |  | [optional]  |
 | **monthlySalesRange** | **string?** |  | [optional]  |
+| **printerType** | [**PrintFormat?**](PrintFormat?.md) |  | [optional]  |
 | **logo** | **FileParameter?****FileParameter?** |  | [optional]  |
 
 ### Return type

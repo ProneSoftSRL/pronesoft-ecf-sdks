@@ -74,6 +74,31 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <returns>ApiResponse of GetNextNumber200Response</returns>
         ApiResponse<GetNextNumber200Response> GetNextNumberWithHttpInfo(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default);
         /// <summary>
+        /// Importar secuencias desde archivo Excel de la DGII
+        /// </summary>
+        /// <remarks>
+        /// Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="environment"></param>
+        /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <returns>ImportTaxSequencesFromExcel200Response</returns>
+        ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default);
+
+        /// <summary>
+        /// Importar secuencias desde archivo Excel de la DGII
+        /// </summary>
+        /// <remarks>
+        /// Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="environment"></param>
+        /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <returns>ApiResponse of ImportTaxSequencesFromExcel200Response</returns>
+        ApiResponse<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelWithHttpInfo(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default);
+        /// <summary>
         /// Listar secuencias de NCF
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
@@ -205,6 +230,33 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetNextNumber200Response)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetNextNumber200Response>> GetNextNumberWithHttpInfoAsync(InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Importar secuencias desde archivo Excel de la DGII
+        /// </summary>
+        /// <remarks>
+        /// Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="environment"></param>
+        /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ImportTaxSequencesFromExcel200Response</returns>
+        System.Threading.Tasks.Task<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelAsync(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Importar secuencias desde archivo Excel de la DGII
+        /// </summary>
+        /// <remarks>
+        /// Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="environment"></param>
+        /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ImportTaxSequencesFromExcel200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ImportTaxSequencesFromExcel200Response>> ImportTaxSequencesFromExcelWithHttpInfoAsync(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Listar secuencias de NCF
         /// </summary>
@@ -773,6 +825,153 @@ namespace Pronesoft.Ecf.Sdk.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetNextNumber", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Importar secuencias desde archivo Excel de la DGII Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="environment"></param>
+        /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <returns>ImportTaxSequencesFromExcel200Response</returns>
+        public ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default)
+        {
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response> localVarResponse = ImportTaxSequencesFromExcelWithHttpInfo(environment, file, xTenantId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Importar secuencias desde archivo Excel de la DGII Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="environment"></param>
+        /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <returns>ApiResponse of ImportTaxSequencesFromExcel200Response</returns>
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelWithHttpInfo(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default)
+        {
+            // verify the required parameter 'file' is set
+            if (file == null)
+                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'file' when calling TaxSequencesApi->ImportTaxSequencesFromExcel");
+
+            Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "environment", environment));
+            if (xTenantId != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("x-tenant-id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(xTenantId)); // header parameter
+            }
+            localVarRequestOptions.FileParameters.Add("file", file);
+
+            // authentication (oauth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<ImportTaxSequencesFromExcel200Response>("/tax-sequences/import", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ImportTaxSequencesFromExcel", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Importar secuencias desde archivo Excel de la DGII Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="environment"></param>
+        /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ImportTaxSequencesFromExcel200Response</returns>
+        public async System.Threading.Tasks.Task<ImportTaxSequencesFromExcel200Response> ImportTaxSequencesFromExcelAsync(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response> localVarResponse = await ImportTaxSequencesFromExcelWithHttpInfoAsync(environment, file, xTenantId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Importar secuencias desde archivo Excel de la DGII Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="environment"></param>
+        /// <param name="file">Archivo Excel (.xlsx o .xls) exportado desde la DGII</param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ImportTaxSequencesFromExcel200Response)</returns>
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ImportTaxSequencesFromExcel200Response>> ImportTaxSequencesFromExcelWithHttpInfoAsync(ModelEnvironment environment, FileParameter file, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'file' is set
+            if (file == null)
+                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'file' when calling TaxSequencesApi->ImportTaxSequencesFromExcel");
+
+
+            Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.QueryParameters.Add(Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToMultiMap("", "environment", environment));
+            if (xTenantId != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("x-tenant-id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(xTenantId)); // header parameter
+            }
+            localVarRequestOptions.FileParameters.Add("file", file);
+
+            // authentication (oauth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<ImportTaxSequencesFromExcel200Response>("/tax-sequences/import", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ImportTaxSequencesFromExcel", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

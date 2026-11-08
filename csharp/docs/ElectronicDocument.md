@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **PaymentType** | **string** | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed | [optional] 
 **PaymentDeadline** | **DateTime** |  | [optional] 
 **PaymentTerms** | **string** |  | [optional] 
-**PaymentForms** | [**List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. | 
+**PaymentForms** | [**List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional] 
 **PaymentAccountType** | **AccountType** |  | [optional] 
 **PaymentAccountNumber** | **string** |  | [optional] 
 **PaymentBank** | **string** |  | [optional] 
@@ -44,7 +44,7 @@ Name | Type | Description | Notes
 **AdditionalIssuerInfo** | **string** |  | [optional] 
 **Buyer** | [**Buyer**](Buyer.md) |  | [optional] 
 **Items** | [**List&lt;Item&gt;**](Item.md) |  | 
-**Totals** | [**Totals**](Totals.md) |  | 
+**Totals** | [**Totals**](Totals.md) |  | [optional] 
 **Transport** | [**Transport**](Transport.md) |  | [optional] 
 **AdditionalInfo** | [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
 **AlternativeCurrency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 

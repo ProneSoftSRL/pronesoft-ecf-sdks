@@ -32,24 +32,24 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Crear empresa asociada / sucursal
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
         /// <param name="name"></param>
         /// <param name="rnc"></param>
-        /// <param name="phone"></param>
-        /// <param name="address"></param>
-        /// <param name="city"></param>
-        /// <param name="country"></param>
-        /// <param name="printerType"></param>
+        /// <param name="email"> (optional)</param>
+        /// <param name="password"> (optional)</param>
         /// <param name="firstName"> (optional)</param>
         /// <param name="lastName"> (optional)</param>
         /// <param name="jobTitle"> (optional)</param>
+        /// <param name="phone"> (optional)</param>
+        /// <param name="address"> (optional)</param>
+        /// <param name="city"> (optional)</param>
+        /// <param name="country"> (optional)</param>
         /// <param name="website"> (optional)</param>
         /// <param name="category"> (optional)</param>
         /// <param name="monthlySalesRange"> (optional)</param>
+        /// <param name="printerType"> (optional)</param>
         /// <param name="logo"> (optional)</param>
         /// <returns>CreateAssociatedCompany201Response</returns>
-        CreateAssociatedCompany201Response CreateAssociatedCompany(string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = default, string? lastName = default, string? jobTitle = default, string? website = default, string? category = default, string? monthlySalesRange = default, FileParameter? logo = default);
+        CreateAssociatedCompany201Response CreateAssociatedCompany(string name, string rnc, string? email = default, string? password = default, string? firstName = default, string? lastName = default, string? jobTitle = default, string? phone = default, string? address = default, string? city = default, string? country = default, string? website = default, string? category = default, string? monthlySalesRange = default, PrintFormat? printerType = default, FileParameter? logo = default);
 
         /// <summary>
         /// Crear empresa asociada / sucursal
@@ -58,24 +58,24 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
         /// <param name="name"></param>
         /// <param name="rnc"></param>
-        /// <param name="phone"></param>
-        /// <param name="address"></param>
-        /// <param name="city"></param>
-        /// <param name="country"></param>
-        /// <param name="printerType"></param>
+        /// <param name="email"> (optional)</param>
+        /// <param name="password"> (optional)</param>
         /// <param name="firstName"> (optional)</param>
         /// <param name="lastName"> (optional)</param>
         /// <param name="jobTitle"> (optional)</param>
+        /// <param name="phone"> (optional)</param>
+        /// <param name="address"> (optional)</param>
+        /// <param name="city"> (optional)</param>
+        /// <param name="country"> (optional)</param>
         /// <param name="website"> (optional)</param>
         /// <param name="category"> (optional)</param>
         /// <param name="monthlySalesRange"> (optional)</param>
+        /// <param name="printerType"> (optional)</param>
         /// <param name="logo"> (optional)</param>
         /// <returns>ApiResponse of CreateAssociatedCompany201Response</returns>
-        ApiResponse<CreateAssociatedCompany201Response> CreateAssociatedCompanyWithHttpInfo(string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = default, string? lastName = default, string? jobTitle = default, string? website = default, string? category = default, string? monthlySalesRange = default, FileParameter? logo = default);
+        ApiResponse<CreateAssociatedCompany201Response> CreateAssociatedCompanyWithHttpInfo(string name, string rnc, string? email = default, string? password = default, string? firstName = default, string? lastName = default, string? jobTitle = default, string? phone = default, string? address = default, string? city = default, string? country = default, string? website = default, string? category = default, string? monthlySalesRange = default, PrintFormat? printerType = default, FileParameter? logo = default);
         /// <summary>
         /// Eliminar empresa asociada
         /// </summary>
@@ -199,25 +199,25 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
         /// <param name="name"></param>
         /// <param name="rnc"></param>
-        /// <param name="phone"></param>
-        /// <param name="address"></param>
-        /// <param name="city"></param>
-        /// <param name="country"></param>
-        /// <param name="printerType"></param>
+        /// <param name="email"> (optional)</param>
+        /// <param name="password"> (optional)</param>
         /// <param name="firstName"> (optional)</param>
         /// <param name="lastName"> (optional)</param>
         /// <param name="jobTitle"> (optional)</param>
+        /// <param name="phone"> (optional)</param>
+        /// <param name="address"> (optional)</param>
+        /// <param name="city"> (optional)</param>
+        /// <param name="country"> (optional)</param>
         /// <param name="website"> (optional)</param>
         /// <param name="category"> (optional)</param>
         /// <param name="monthlySalesRange"> (optional)</param>
+        /// <param name="printerType"> (optional)</param>
         /// <param name="logo"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CreateAssociatedCompany201Response</returns>
-        System.Threading.Tasks.Task<CreateAssociatedCompany201Response> CreateAssociatedCompanyAsync(string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = default, string? lastName = default, string? jobTitle = default, string? website = default, string? category = default, string? monthlySalesRange = default, FileParameter? logo = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<CreateAssociatedCompany201Response> CreateAssociatedCompanyAsync(string name, string rnc, string? email = default, string? password = default, string? firstName = default, string? lastName = default, string? jobTitle = default, string? phone = default, string? address = default, string? city = default, string? country = default, string? website = default, string? category = default, string? monthlySalesRange = default, PrintFormat? printerType = default, FileParameter? logo = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Crear empresa asociada / sucursal
@@ -226,25 +226,25 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
         /// <param name="name"></param>
         /// <param name="rnc"></param>
-        /// <param name="phone"></param>
-        /// <param name="address"></param>
-        /// <param name="city"></param>
-        /// <param name="country"></param>
-        /// <param name="printerType"></param>
+        /// <param name="email"> (optional)</param>
+        /// <param name="password"> (optional)</param>
         /// <param name="firstName"> (optional)</param>
         /// <param name="lastName"> (optional)</param>
         /// <param name="jobTitle"> (optional)</param>
+        /// <param name="phone"> (optional)</param>
+        /// <param name="address"> (optional)</param>
+        /// <param name="city"> (optional)</param>
+        /// <param name="country"> (optional)</param>
         /// <param name="website"> (optional)</param>
         /// <param name="category"> (optional)</param>
         /// <param name="monthlySalesRange"> (optional)</param>
+        /// <param name="printerType"> (optional)</param>
         /// <param name="logo"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateAssociatedCompany201Response)</returns>
-        System.Threading.Tasks.Task<ApiResponse<CreateAssociatedCompany201Response>> CreateAssociatedCompanyWithHttpInfoAsync(string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = default, string? lastName = default, string? jobTitle = default, string? website = default, string? category = default, string? monthlySalesRange = default, FileParameter? logo = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<CreateAssociatedCompany201Response>> CreateAssociatedCompanyWithHttpInfoAsync(string name, string rnc, string? email = default, string? password = default, string? firstName = default, string? lastName = default, string? jobTitle = default, string? phone = default, string? address = default, string? city = default, string? country = default, string? website = default, string? category = default, string? monthlySalesRange = default, PrintFormat? printerType = default, FileParameter? logo = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Eliminar empresa asociada
         /// </summary>
@@ -591,26 +591,26 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Crear empresa asociada / sucursal 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
         /// <param name="name"></param>
         /// <param name="rnc"></param>
-        /// <param name="phone"></param>
-        /// <param name="address"></param>
-        /// <param name="city"></param>
-        /// <param name="country"></param>
-        /// <param name="printerType"></param>
+        /// <param name="email"> (optional)</param>
+        /// <param name="password"> (optional)</param>
         /// <param name="firstName"> (optional)</param>
         /// <param name="lastName"> (optional)</param>
         /// <param name="jobTitle"> (optional)</param>
+        /// <param name="phone"> (optional)</param>
+        /// <param name="address"> (optional)</param>
+        /// <param name="city"> (optional)</param>
+        /// <param name="country"> (optional)</param>
         /// <param name="website"> (optional)</param>
         /// <param name="category"> (optional)</param>
         /// <param name="monthlySalesRange"> (optional)</param>
+        /// <param name="printerType"> (optional)</param>
         /// <param name="logo"> (optional)</param>
         /// <returns>CreateAssociatedCompany201Response</returns>
-        public CreateAssociatedCompany201Response CreateAssociatedCompany(string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = default, string? lastName = default, string? jobTitle = default, string? website = default, string? category = default, string? monthlySalesRange = default, FileParameter? logo = default)
+        public CreateAssociatedCompany201Response CreateAssociatedCompany(string name, string rnc, string? email = default, string? password = default, string? firstName = default, string? lastName = default, string? jobTitle = default, string? phone = default, string? address = default, string? city = default, string? country = default, string? website = default, string? category = default, string? monthlySalesRange = default, PrintFormat? printerType = default, FileParameter? logo = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateAssociatedCompany201Response> localVarResponse = CreateAssociatedCompanyWithHttpInfo(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateAssociatedCompany201Response> localVarResponse = CreateAssociatedCompanyWithHttpInfo(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo);
             return localVarResponse.Data;
         }
 
@@ -618,33 +618,25 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Crear empresa asociada / sucursal 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
         /// <param name="name"></param>
         /// <param name="rnc"></param>
-        /// <param name="phone"></param>
-        /// <param name="address"></param>
-        /// <param name="city"></param>
-        /// <param name="country"></param>
-        /// <param name="printerType"></param>
+        /// <param name="email"> (optional)</param>
+        /// <param name="password"> (optional)</param>
         /// <param name="firstName"> (optional)</param>
         /// <param name="lastName"> (optional)</param>
         /// <param name="jobTitle"> (optional)</param>
+        /// <param name="phone"> (optional)</param>
+        /// <param name="address"> (optional)</param>
+        /// <param name="city"> (optional)</param>
+        /// <param name="country"> (optional)</param>
         /// <param name="website"> (optional)</param>
         /// <param name="category"> (optional)</param>
         /// <param name="monthlySalesRange"> (optional)</param>
+        /// <param name="printerType"> (optional)</param>
         /// <param name="logo"> (optional)</param>
         /// <returns>ApiResponse of CreateAssociatedCompany201Response</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateAssociatedCompany201Response> CreateAssociatedCompanyWithHttpInfo(string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = default, string? lastName = default, string? jobTitle = default, string? website = default, string? category = default, string? monthlySalesRange = default, FileParameter? logo = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateAssociatedCompany201Response> CreateAssociatedCompanyWithHttpInfo(string name, string rnc, string? email = default, string? password = default, string? firstName = default, string? lastName = default, string? jobTitle = default, string? phone = default, string? address = default, string? city = default, string? country = default, string? website = default, string? category = default, string? monthlySalesRange = default, PrintFormat? printerType = default, FileParameter? logo = default)
         {
-            // verify the required parameter 'email' is set
-            if (email == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'email' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'password' is set
-            if (password == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'password' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
             // verify the required parameter 'name' is set
             if (name == null)
                 throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'name' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
@@ -652,22 +644,6 @@ namespace Pronesoft.Ecf.Sdk.Api
             // verify the required parameter 'rnc' is set
             if (rnc == null)
                 throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'rnc' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'phone' is set
-            if (phone == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'phone' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'address' is set
-            if (address == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'address' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'city' is set
-            if (city == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'city' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'country' is set
-            if (country == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'country' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -686,8 +662,14 @@ namespace Pronesoft.Ecf.Sdk.Api
             var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.FormParameters.Add("email", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(email)); // form parameter
-            localVarRequestOptions.FormParameters.Add("password", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(password)); // form parameter
+            if (email != null)
+            {
+                localVarRequestOptions.FormParameters.Add("email", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(email)); // form parameter
+            }
+            if (password != null)
+            {
+                localVarRequestOptions.FormParameters.Add("password", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(password)); // form parameter
+            }
             if (firstName != null)
             {
                 localVarRequestOptions.FormParameters.Add("firstName", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(firstName)); // form parameter
@@ -702,10 +684,22 @@ namespace Pronesoft.Ecf.Sdk.Api
             }
             localVarRequestOptions.FormParameters.Add("name", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(name)); // form parameter
             localVarRequestOptions.FormParameters.Add("rnc", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(rnc)); // form parameter
-            localVarRequestOptions.FormParameters.Add("phone", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(phone)); // form parameter
-            localVarRequestOptions.FormParameters.Add("address", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(address)); // form parameter
-            localVarRequestOptions.FormParameters.Add("city", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(city)); // form parameter
-            localVarRequestOptions.FormParameters.Add("country", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(country)); // form parameter
+            if (phone != null)
+            {
+                localVarRequestOptions.FormParameters.Add("phone", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(phone)); // form parameter
+            }
+            if (address != null)
+            {
+                localVarRequestOptions.FormParameters.Add("address", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(address)); // form parameter
+            }
+            if (city != null)
+            {
+                localVarRequestOptions.FormParameters.Add("city", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(city)); // form parameter
+            }
+            if (country != null)
+            {
+                localVarRequestOptions.FormParameters.Add("country", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(country)); // form parameter
+            }
             if (website != null)
             {
                 localVarRequestOptions.FormParameters.Add("website", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(website)); // form parameter
@@ -718,7 +712,10 @@ namespace Pronesoft.Ecf.Sdk.Api
             {
                 localVarRequestOptions.FormParameters.Add("monthlySalesRange", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(monthlySalesRange)); // form parameter
             }
-            localVarRequestOptions.FormParameters.Add("printerType", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(printerType)); // form parameter
+            if (printerType != null)
+            {
+                localVarRequestOptions.FormParameters.Add("printerType", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(printerType)); // form parameter
+            }
             if (logo != null)
             {
                 localVarRequestOptions.FileParameters.Add("logo", logo);
@@ -747,27 +744,27 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Crear empresa asociada / sucursal 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
         /// <param name="name"></param>
         /// <param name="rnc"></param>
-        /// <param name="phone"></param>
-        /// <param name="address"></param>
-        /// <param name="city"></param>
-        /// <param name="country"></param>
-        /// <param name="printerType"></param>
+        /// <param name="email"> (optional)</param>
+        /// <param name="password"> (optional)</param>
         /// <param name="firstName"> (optional)</param>
         /// <param name="lastName"> (optional)</param>
         /// <param name="jobTitle"> (optional)</param>
+        /// <param name="phone"> (optional)</param>
+        /// <param name="address"> (optional)</param>
+        /// <param name="city"> (optional)</param>
+        /// <param name="country"> (optional)</param>
         /// <param name="website"> (optional)</param>
         /// <param name="category"> (optional)</param>
         /// <param name="monthlySalesRange"> (optional)</param>
+        /// <param name="printerType"> (optional)</param>
         /// <param name="logo"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CreateAssociatedCompany201Response</returns>
-        public async System.Threading.Tasks.Task<CreateAssociatedCompany201Response> CreateAssociatedCompanyAsync(string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = default, string? lastName = default, string? jobTitle = default, string? website = default, string? category = default, string? monthlySalesRange = default, FileParameter? logo = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<CreateAssociatedCompany201Response> CreateAssociatedCompanyAsync(string name, string rnc, string? email = default, string? password = default, string? firstName = default, string? lastName = default, string? jobTitle = default, string? phone = default, string? address = default, string? city = default, string? country = default, string? website = default, string? category = default, string? monthlySalesRange = default, PrintFormat? printerType = default, FileParameter? logo = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateAssociatedCompany201Response> localVarResponse = await CreateAssociatedCompanyWithHttpInfoAsync(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo, cancellationToken).ConfigureAwait(false);
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateAssociatedCompany201Response> localVarResponse = await CreateAssociatedCompanyWithHttpInfoAsync(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -775,34 +772,26 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Crear empresa asociada / sucursal 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
         /// <param name="name"></param>
         /// <param name="rnc"></param>
-        /// <param name="phone"></param>
-        /// <param name="address"></param>
-        /// <param name="city"></param>
-        /// <param name="country"></param>
-        /// <param name="printerType"></param>
+        /// <param name="email"> (optional)</param>
+        /// <param name="password"> (optional)</param>
         /// <param name="firstName"> (optional)</param>
         /// <param name="lastName"> (optional)</param>
         /// <param name="jobTitle"> (optional)</param>
+        /// <param name="phone"> (optional)</param>
+        /// <param name="address"> (optional)</param>
+        /// <param name="city"> (optional)</param>
+        /// <param name="country"> (optional)</param>
         /// <param name="website"> (optional)</param>
         /// <param name="category"> (optional)</param>
         /// <param name="monthlySalesRange"> (optional)</param>
+        /// <param name="printerType"> (optional)</param>
         /// <param name="logo"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CreateAssociatedCompany201Response)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateAssociatedCompany201Response>> CreateAssociatedCompanyWithHttpInfoAsync(string email, string password, string name, string rnc, string phone, string address, string city, string country, PrintFormat printerType, string? firstName = default, string? lastName = default, string? jobTitle = default, string? website = default, string? category = default, string? monthlySalesRange = default, FileParameter? logo = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<CreateAssociatedCompany201Response>> CreateAssociatedCompanyWithHttpInfoAsync(string name, string rnc, string? email = default, string? password = default, string? firstName = default, string? lastName = default, string? jobTitle = default, string? phone = default, string? address = default, string? city = default, string? country = default, string? website = default, string? category = default, string? monthlySalesRange = default, PrintFormat? printerType = default, FileParameter? logo = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            // verify the required parameter 'email' is set
-            if (email == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'email' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'password' is set
-            if (password == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'password' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
             // verify the required parameter 'name' is set
             if (name == null)
                 throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'name' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
@@ -810,22 +799,6 @@ namespace Pronesoft.Ecf.Sdk.Api
             // verify the required parameter 'rnc' is set
             if (rnc == null)
                 throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'rnc' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'phone' is set
-            if (phone == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'phone' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'address' is set
-            if (address == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'address' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'city' is set
-            if (city == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'city' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
-
-            // verify the required parameter 'country' is set
-            if (country == null)
-                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'country' when calling AssociatedCompaniesApi->CreateAssociatedCompany");
 
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -846,8 +819,14 @@ namespace Pronesoft.Ecf.Sdk.Api
             var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.FormParameters.Add("email", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(email)); // form parameter
-            localVarRequestOptions.FormParameters.Add("password", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(password)); // form parameter
+            if (email != null)
+            {
+                localVarRequestOptions.FormParameters.Add("email", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(email)); // form parameter
+            }
+            if (password != null)
+            {
+                localVarRequestOptions.FormParameters.Add("password", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(password)); // form parameter
+            }
             if (firstName != null)
             {
                 localVarRequestOptions.FormParameters.Add("firstName", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(firstName)); // form parameter
@@ -862,10 +841,22 @@ namespace Pronesoft.Ecf.Sdk.Api
             }
             localVarRequestOptions.FormParameters.Add("name", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(name)); // form parameter
             localVarRequestOptions.FormParameters.Add("rnc", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(rnc)); // form parameter
-            localVarRequestOptions.FormParameters.Add("phone", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(phone)); // form parameter
-            localVarRequestOptions.FormParameters.Add("address", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(address)); // form parameter
-            localVarRequestOptions.FormParameters.Add("city", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(city)); // form parameter
-            localVarRequestOptions.FormParameters.Add("country", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(country)); // form parameter
+            if (phone != null)
+            {
+                localVarRequestOptions.FormParameters.Add("phone", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(phone)); // form parameter
+            }
+            if (address != null)
+            {
+                localVarRequestOptions.FormParameters.Add("address", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(address)); // form parameter
+            }
+            if (city != null)
+            {
+                localVarRequestOptions.FormParameters.Add("city", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(city)); // form parameter
+            }
+            if (country != null)
+            {
+                localVarRequestOptions.FormParameters.Add("country", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(country)); // form parameter
+            }
             if (website != null)
             {
                 localVarRequestOptions.FormParameters.Add("website", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(website)); // form parameter
@@ -878,7 +869,10 @@ namespace Pronesoft.Ecf.Sdk.Api
             {
                 localVarRequestOptions.FormParameters.Add("monthlySalesRange", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(monthlySalesRange)); // form parameter
             }
-            localVarRequestOptions.FormParameters.Add("printerType", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(printerType)); // form parameter
+            if (printerType != null)
+            {
+                localVarRequestOptions.FormParameters.Add("printerType", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(printerType)); // form parameter
+            }
             if (logo != null)
             {
                 localVarRequestOptions.FileParameters.Add("logo", logo);

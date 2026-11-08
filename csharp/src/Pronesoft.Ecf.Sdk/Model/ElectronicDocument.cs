@@ -221,7 +221,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="paymentType">1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed.</param>
         /// <param name="paymentDeadline">paymentDeadline.</param>
         /// <param name="paymentTerms">paymentTerms.</param>
-        /// <param name="paymentForms">Payment breakdown. Required. (required).</param>
+        /// <param name="paymentForms">Payment breakdown. Optional; if omitted, the XML is sent without the payment table..</param>
         /// <param name="paymentAccountType">paymentAccountType.</param>
         /// <param name="paymentAccountNumber">paymentAccountNumber.</param>
         /// <param name="paymentBank">paymentBank.</param>
@@ -247,7 +247,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="additionalIssuerInfo">additionalIssuerInfo.</param>
         /// <param name="buyer">buyer.</param>
         /// <param name="items">items (required).</param>
-        /// <param name="totals">totals (required).</param>
+        /// <param name="totals">totals.</param>
         /// <param name="transport">transport.</param>
         /// <param name="additionalInfo">additionalInfo.</param>
         /// <param name="alternativeCurrency">alternativeCurrency.</param>
@@ -259,24 +259,12 @@ namespace Pronesoft.Ecf.Sdk.Model
         {
             this.InvoiceType = invoiceType;
             this.IssueDate = issueDate;
-            // to ensure "paymentForms" is required (not null)
-            if (paymentForms == null)
-            {
-                throw new ArgumentNullException("paymentForms is a required property for ElectronicDocument and cannot be null");
-            }
-            this.PaymentForms = paymentForms;
             // to ensure "items" is required (not null)
             if (items == null)
             {
                 throw new ArgumentNullException("items is a required property for ElectronicDocument and cannot be null");
             }
             this.Items = items;
-            // to ensure "totals" is required (not null)
-            if (totals == null)
-            {
-                throw new ArgumentNullException("totals is a required property for ElectronicDocument and cannot be null");
-            }
-            this.Totals = totals;
             // use default value if no "varVersion" provided
             this.VarVersion = varVersion ?? @"1.0";
             this.InvoiceNumber = invoiceNumber;
@@ -289,6 +277,7 @@ namespace Pronesoft.Ecf.Sdk.Model
             this.PaymentType = paymentType;
             this.PaymentDeadline = paymentDeadline;
             this.PaymentTerms = paymentTerms;
+            this.PaymentForms = paymentForms;
             this.PaymentAccountType = paymentAccountType;
             this.PaymentAccountNumber = paymentAccountNumber;
             this.PaymentBank = paymentBank;
@@ -313,6 +302,7 @@ namespace Pronesoft.Ecf.Sdk.Model
             this.SalesRoute = salesRoute;
             this.AdditionalIssuerInfo = additionalIssuerInfo;
             this.Buyer = buyer;
+            this.Totals = totals;
             this.Transport = transport;
             this.AdditionalInfo = additionalInfo;
             this.AlternativeCurrency = alternativeCurrency;
@@ -377,13 +367,13 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string PaymentTerms { get; set; }
 
         /// <summary>
-        /// Payment breakdown. Required.
+        /// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
         /// </summary>
-        /// <value>Payment breakdown. Required.</value>
+        /// <value>Payment breakdown. Optional; if omitted, the XML is sent without the payment table.</value>
         /*
         <example>[{&quot;method&quot;:&quot;1&quot;,&quot;amount&quot;:11800.0}]</example>
         */
-        [DataMember(Name = "paymentForms", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "paymentForms", EmitDefaultValue = false)]
         public List<PaymentForm> PaymentForms { get; set; }
 
         /// <summary>
@@ -534,7 +524,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Gets or Sets Totals
         /// </summary>
-        [DataMember(Name = "totals", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "totals", EmitDefaultValue = false)]
         public Totals Totals { get; set; }
 
         /// <summary>
