@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_SPEC_DEFAULT="/home/joselm/Documentos/Proyectos Pronesoft/pronesoft-ecf/ecf-server/openapi.yaml"
+SOURCE_SPEC_DEFAULT="$ROOT_DIR/../pronesoft-ecf/server/openapi.yaml"
 SOURCE_SPEC="${SOURCE_SPEC:-$SOURCE_SPEC_DEFAULT}"
 TARGET_SPEC="$ROOT_DIR/spec/openapi.yaml"
 
