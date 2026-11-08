@@ -1,3 +1,6 @@
 # Handwritten: OAuth token cache, refresh on 401 and tenant sessions.
 integration_client.go
 integration_client_token_test.go
+# Kept tidy by `go mod tidy`; the generator would drop the indirect requirements.
+go.mod
+go.sum

@@ -1818,7 +1818,7 @@ components:
     Environment:
       type: string
       enum: [TesteCF, CerteCF, eCF]
-      description: "TesteCF=testing no DGII, CerteCF=official certification, eCF=production"
+      description: "TesteCF=DGII test environment (no fiscal validity), CerteCF=DGII certification, eCF=production"
 
     InvoiceType:
       type: string

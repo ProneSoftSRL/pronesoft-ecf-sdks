@@ -2698,7 +2698,8 @@ components:
       description: Rate limit exceeded. Retry after indicated seconds.
   schemas:
     Environment:
-      description: "TesteCF=testing no DGII, CerteCF=official certification, eCF=production"
+      description: "TesteCF=DGII test environment (no fiscal validity), CerteCF=DGII\
+        \ certification, eCF=production"
       enum:
       - TesteCF
       - CerteCF

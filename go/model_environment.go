@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-// Environment TesteCF=testing no DGII, CerteCF=official certification, eCF=production
+// Environment TesteCF=DGII test environment (no fiscal validity), CerteCF=DGII certification, eCF=production
 type Environment string
 
 // List of Environment

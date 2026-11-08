@@ -4,3 +4,6 @@ src/integration-client.ts
 src/index.ts
 # Edited by hand (title without a hardcoded version, usage of IntegrationClient).
 README.md
+# Manifest with a test script; bump "version" by hand on each release.
+package.json
+.npmignore

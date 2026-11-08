@@ -5,7 +5,8 @@
 #   OUT_ROOT=/tmp/gen bash generate.sh typescript go   # chosen languages, somewhere else
 #
 # Handwritten files (IntegrationClient, manifests with manual metadata) are protected by each
-# language's .openapi-generator-ignore; their versions are bumped by hand.
+# language's .openapi-generator-ignore. Protected manifests (typescript/package.json, go/go.mod)
+# keep their version: bump it there by hand on each release.
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
