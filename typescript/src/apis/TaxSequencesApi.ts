@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -98,7 +98,7 @@ export interface TaxSequencesApiInterface {
     /**
      * Creates request options for createTaxSequence without sending the request
      * @param {CreateTaxSequenceRequest} createTaxSequenceRequest 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
      */
@@ -108,7 +108,7 @@ export interface TaxSequencesApiInterface {
      * 
      * @summary Crear nueva secuencia de NCF
      * @param {CreateTaxSequenceRequest} createTaxSequenceRequest 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
@@ -124,7 +124,7 @@ export interface TaxSequencesApiInterface {
      * Creates request options for getNextNumber without sending the request
      * @param {InvoiceTypeSequence} type 
      * @param {Environment} environment 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
      */
@@ -135,7 +135,7 @@ export interface TaxSequencesApiInterface {
      * @summary Obtener siguiente número fiscal disponible
      * @param {InvoiceTypeSequence} type 
      * @param {Environment} environment 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
@@ -152,7 +152,7 @@ export interface TaxSequencesApiInterface {
      * Creates request options for importTaxSequencesFromExcel without sending the request
      * @param {Environment} environment 
      * @param {Blob} file Archivo Excel (.xlsx o .xls) exportado desde la DGII
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
      */
@@ -163,7 +163,7 @@ export interface TaxSequencesApiInterface {
      * @summary Importar secuencias desde archivo Excel de la DGII
      * @param {Environment} environment 
      * @param {Blob} file Archivo Excel (.xlsx o .xls) exportado desde la DGII
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
@@ -178,7 +178,7 @@ export interface TaxSequencesApiInterface {
 
     /**
      * Creates request options for listTaxSequences without sending the request
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {InvoiceTypeSequence} [type] 
      * @param {Environment} [environment] 
      * @param {number} [page] 
@@ -191,7 +191,7 @@ export interface TaxSequencesApiInterface {
     /**
      * 
      * @summary Listar secuencias de NCF
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {InvoiceTypeSequence} [type] 
      * @param {Environment} [environment] 
      * @param {number} [page] 
@@ -211,7 +211,7 @@ export interface TaxSequencesApiInterface {
      * Creates request options for updateTaxSequence without sending the request
      * @param {string} id 
      * @param {UpdateTaxSequenceRequest} updateTaxSequenceRequest 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
      */
@@ -222,7 +222,7 @@ export interface TaxSequencesApiInterface {
      * @summary Actualizar secuencia de NCF
      * @param {string} id 
      * @param {UpdateTaxSequenceRequest} updateTaxSequenceRequest 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
@@ -237,7 +237,7 @@ export interface TaxSequencesApiInterface {
     /**
      * Creates request options for voidTaxSequence without sending the request
      * @param {VoidTaxSequenceRequest} voidTaxSequenceRequest 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface
      */
@@ -247,7 +247,7 @@ export interface TaxSequencesApiInterface {
      * Cancela números fiscales no utilizados y notifica a la DGII.
      * @summary Anular rango de números fiscales
      * @param {VoidTaxSequenceRequest} voidTaxSequenceRequest 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TaxSequencesApiInterface

@@ -104,7 +104,7 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     $config
 );
 $id = 'id_example'; // string
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->getSentDocumentById($id, $x_tenant_id);
@@ -119,7 +119,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -164,7 +164,7 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     $config
 );
 $id = 'id_example'; // string
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->getSentDocumentLogs($id, $x_tenant_id);
@@ -179,7 +179,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -223,7 +223,7 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     new GuzzleHttp\Client(),
     $config
 );
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->getSentDocumentStats($x_tenant_id);
@@ -237,7 +237,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -281,7 +281,7 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     new GuzzleHttp\Client(),
     $config
 );
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->getSentDocumentStatsByEnvironment($x_tenant_id);
@@ -295,7 +295,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -454,7 +454,7 @@ $apiInstance = new PronesoftEcf\Api\DocumentsSentApi(
     new GuzzleHttp\Client(),
     $config
 );
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 $env = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
 $ecf = 'ecf_example'; // string
 $type = 'type_example'; // string
@@ -476,7 +476,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 | **env** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | [optional] |
 | **ecf** | **string**|  | [optional] |
 | **type** | **string**|  | [optional] |

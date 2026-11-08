@@ -68,7 +68,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * Crear nueva secuencia de NCF
      * 
      * @param createTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return CreateTaxSequence201Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -78,7 +78,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: java.util.UUID? = null) : CreateTaxSequence201Response {
+    fun createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: kotlin.String? = null) : CreateTaxSequence201Response {
         val localVarResponse = createTaxSequenceWithHttpInfo(createTaxSequenceRequest = createTaxSequenceRequest, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -101,14 +101,14 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * Crear nueva secuencia de NCF
      * 
      * @param createTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<CreateTaxSequence201Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createTaxSequenceWithHttpInfo(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: java.util.UUID?) : ApiResponse<CreateTaxSequence201Response?> {
+    fun createTaxSequenceWithHttpInfo(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: kotlin.String?) : ApiResponse<CreateTaxSequence201Response?> {
         val localVariableConfig = createTaxSequenceRequestConfig(createTaxSequenceRequest = createTaxSequenceRequest, xTenantId = xTenantId)
 
         return request<CreateTaxSequenceRequest, CreateTaxSequence201Response>(
@@ -120,10 +120,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * To obtain the request config of the operation createTaxSequence
      *
      * @param createTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun createTaxSequenceRequestConfig(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<CreateTaxSequenceRequest> {
+    fun createTaxSequenceRequestConfig(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: kotlin.String?) : RequestConfig<CreateTaxSequenceRequest> {
         val localVariableBody = createTaxSequenceRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -147,7 +147,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
      * @param type 
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return GetNextNumber200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -157,7 +157,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: java.util.UUID? = null) : GetNextNumber200Response {
+    fun getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: kotlin.String? = null) : GetNextNumber200Response {
         val localVarResponse = getNextNumberWithHttpInfo(type = type, environment = environment, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -181,14 +181,14 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * Retorna el siguiente número e-NCF disponible. Úsalo como invoiceNumber al enviar.
      * @param type 
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<GetNextNumber200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getNextNumberWithHttpInfo(type: InvoiceTypeSequence, environment: Environment, xTenantId: java.util.UUID?) : ApiResponse<GetNextNumber200Response?> {
+    fun getNextNumberWithHttpInfo(type: InvoiceTypeSequence, environment: Environment, xTenantId: kotlin.String?) : ApiResponse<GetNextNumber200Response?> {
         val localVariableConfig = getNextNumberRequestConfig(type = type, environment = environment, xTenantId = xTenantId)
 
         return request<Unit, GetNextNumber200Response>(
@@ -201,10 +201,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      *
      * @param type 
      * @param environment 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun getNextNumberRequestConfig(type: InvoiceTypeSequence, environment: Environment, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getNextNumberRequestConfig(type: InvoiceTypeSequence, environment: Environment, xTenantId: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -231,7 +231,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
      * @param environment 
      * @param file Archivo Excel (.xlsx o .xls) exportado desde la DGII
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ImportTaxSequencesFromExcel200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -241,7 +241,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun importTaxSequencesFromExcel(environment: Environment, file: java.io.File, xTenantId: java.util.UUID? = null) : ImportTaxSequencesFromExcel200Response {
+    fun importTaxSequencesFromExcel(environment: Environment, file: java.io.File, xTenantId: kotlin.String? = null) : ImportTaxSequencesFromExcel200Response {
         val localVarResponse = importTaxSequencesFromExcelWithHttpInfo(environment = environment, file = file, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -265,14 +265,14 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
      * @param environment 
      * @param file Archivo Excel (.xlsx o .xls) exportado desde la DGII
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<ImportTaxSequencesFromExcel200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun importTaxSequencesFromExcelWithHttpInfo(environment: Environment, file: java.io.File, xTenantId: java.util.UUID?) : ApiResponse<ImportTaxSequencesFromExcel200Response?> {
+    fun importTaxSequencesFromExcelWithHttpInfo(environment: Environment, file: java.io.File, xTenantId: kotlin.String?) : ApiResponse<ImportTaxSequencesFromExcel200Response?> {
         val localVariableConfig = importTaxSequencesFromExcelRequestConfig(environment = environment, file = file, xTenantId = xTenantId)
 
         return request<Map<String, PartConfig<*>>, ImportTaxSequencesFromExcel200Response>(
@@ -285,10 +285,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      *
      * @param environment 
      * @param file Archivo Excel (.xlsx o .xls) exportado desde la DGII
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun importTaxSequencesFromExcelRequestConfig(environment: Environment, file: java.io.File, xTenantId: java.util.UUID?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun importTaxSequencesFromExcelRequestConfig(environment: Environment, file: java.io.File, xTenantId: kotlin.String?) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "file" to PartConfig(body = file, headers = mutableMapOf()),)
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
@@ -313,7 +313,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * GET /tax-sequences
      * Listar secuencias de NCF
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -327,7 +327,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listTaxSequences(xTenantId: java.util.UUID? = null, type: InvoiceTypeSequence? = null, environment: Environment? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ListTaxSequences200Response {
+    fun listTaxSequences(xTenantId: kotlin.String? = null, type: InvoiceTypeSequence? = null, environment: Environment? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ListTaxSequences200Response {
         val localVarResponse = listTaxSequencesWithHttpInfo(xTenantId = xTenantId, type = type, environment = environment, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -349,7 +349,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * GET /tax-sequences
      * Listar secuencias de NCF
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
@@ -360,7 +360,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listTaxSequencesWithHttpInfo(xTenantId: java.util.UUID?, type: InvoiceTypeSequence?, environment: Environment?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ListTaxSequences200Response?> {
+    fun listTaxSequencesWithHttpInfo(xTenantId: kotlin.String?, type: InvoiceTypeSequence?, environment: Environment?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ListTaxSequences200Response?> {
         val localVariableConfig = listTaxSequencesRequestConfig(xTenantId = xTenantId, type = type, environment = environment, page = page, limit = limit)
 
         return request<Unit, ListTaxSequences200Response>(
@@ -371,14 +371,14 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
     /**
      * To obtain the request config of the operation listTaxSequences
      *
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param type  (optional)
      * @param environment  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listTaxSequencesRequestConfig(xTenantId: java.util.UUID?, type: InvoiceTypeSequence?, environment: Environment?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listTaxSequencesRequestConfig(xTenantId: kotlin.String?, type: InvoiceTypeSequence?, environment: Environment?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -415,7 +415,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * 
      * @param id 
      * @param updateTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -424,7 +424,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateTaxSequence(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID? = null) : Unit {
+    fun updateTaxSequence(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: kotlin.String? = null) : Unit {
         val localVarResponse = updateTaxSequenceWithHttpInfo(id = id, updateTaxSequenceRequest = updateTaxSequenceRequest, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -448,13 +448,13 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * 
      * @param id 
      * @param updateTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateTaxSequenceWithHttpInfo(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : ApiResponse<Unit?> {
+    fun updateTaxSequenceWithHttpInfo(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: kotlin.String?) : ApiResponse<Unit?> {
         val localVariableConfig = updateTaxSequenceRequestConfig(id = id, updateTaxSequenceRequest = updateTaxSequenceRequest, xTenantId = xTenantId)
 
         return request<UpdateTaxSequenceRequest, Unit>(
@@ -467,10 +467,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      *
      * @param id 
      * @param updateTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun updateTaxSequenceRequestConfig(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<UpdateTaxSequenceRequest> {
+    fun updateTaxSequenceRequestConfig(id: kotlin.String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: kotlin.String?) : RequestConfig<UpdateTaxSequenceRequest> {
         val localVariableBody = updateTaxSequenceRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -496,7 +496,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * Anular rango de números fiscales
      * Cancela números fiscales no utilizados y notifica a la DGII.
      * @param voidTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return VoidTaxSequence200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -506,7 +506,7 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: java.util.UUID? = null) : VoidTaxSequence200Response {
+    fun voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: kotlin.String? = null) : VoidTaxSequence200Response {
         val localVarResponse = voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest = voidTaxSequenceRequest, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -529,14 +529,14 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * Anular rango de números fiscales
      * Cancela números fiscales no utilizados y notifica a la DGII.
      * @param voidTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<VoidTaxSequence200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: java.util.UUID?) : ApiResponse<VoidTaxSequence200Response?> {
+    fun voidTaxSequenceWithHttpInfo(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: kotlin.String?) : ApiResponse<VoidTaxSequence200Response?> {
         val localVariableConfig = voidTaxSequenceRequestConfig(voidTaxSequenceRequest = voidTaxSequenceRequest, xTenantId = xTenantId)
 
         return request<VoidTaxSequenceRequest, VoidTaxSequence200Response>(
@@ -548,10 +548,10 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
      * To obtain the request config of the operation voidTaxSequence
      *
      * @param voidTaxSequenceRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun voidTaxSequenceRequestConfig(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: java.util.UUID?) : RequestConfig<VoidTaxSequenceRequest> {
+    fun voidTaxSequenceRequestConfig(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: kotlin.String?) : RequestConfig<VoidTaxSequenceRequest> {
         val localVariableBody = voidTaxSequenceRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

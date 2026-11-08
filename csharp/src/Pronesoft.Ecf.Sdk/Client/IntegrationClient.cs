@@ -208,7 +208,9 @@ namespace Pronesoft.Ecf.Sdk.Client
                 _refreshSkewSeconds = refreshSkewSeconds;
             }
 
-            public async Task<string> GetTokenAsync(bool forceRefresh, CancellationToken cancellationToken)
+            /// <param name="rejectedToken">Token a 401 came back with: if another request already replaced it,
+            /// the newer token is reused instead of requesting one more (concurrent 401s refresh once).</param>
+            public async Task<string> GetTokenAsync(bool forceRefresh, CancellationToken cancellationToken, string rejectedToken = null)
             {
                 var now = DateTimeOffset.UtcNow;
                 if (!forceRefresh && !string.IsNullOrWhiteSpace(_accessToken) && now < _expiresAt.AddSeconds(-_refreshSkewSeconds))
@@ -221,6 +223,10 @@ namespace Pronesoft.Ecf.Sdk.Client
                 {
                     now = DateTimeOffset.UtcNow;
                     if (!forceRefresh && !string.IsNullOrWhiteSpace(_accessToken) && now < _expiresAt.AddSeconds(-_refreshSkewSeconds))
+                    {
+                        return _accessToken;
+                    }
+                    if (forceRefresh && rejectedToken != null && !string.IsNullOrWhiteSpace(_accessToken) && _accessToken != rejectedToken)
                     {
                         return _accessToken;
                     }
@@ -273,7 +279,7 @@ namespace Pronesoft.Ecf.Sdk.Client
 
                 response.Dispose();
 
-                var refreshedToken = await _tokenManager.GetTokenAsync(true, cancellationToken).ConfigureAwait(false);
+                var refreshedToken = await _tokenManager.GetTokenAsync(true, cancellationToken, token).ConfigureAwait(false);
                 var retryRequest = await CloneRequestAsync(request).ConfigureAwait(false);
                 retryRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", refreshedToken);
                 return await base.SendAsync(retryRequest, cancellationToken).ConfigureAwait(false);

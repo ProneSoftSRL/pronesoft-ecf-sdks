@@ -44,7 +44,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.ECFSubmissionApi(api_client)
     environment = pronesoft_ecf.Environment() # Environment | 
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    x_tenant_id = '468a4aa1-1b80-447e-9ecb-400e39f7d798' # str | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
     try:
         # Obtener estadísticas de envíos (últimos 30 días)
@@ -63,7 +63,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
- **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **x_tenant_id** | **str**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -122,7 +122,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     api_instance = pronesoft_ecf.ECFSubmissionApi(api_client)
     environment = pronesoft_ecf.Environment() # Environment | 
     id = 'id_example' # str | 
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    x_tenant_id = '468a4aa1-1b80-447e-9ecb-400e39f7d798' # str | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
     try:
         # Consultar estado del documento por ID interno
@@ -142,7 +142,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
  **id** | **str**|  | 
- **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **x_tenant_id** | **str**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -200,7 +200,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.ECFSubmissionApi(api_client)
     environment = pronesoft_ecf.Environment() # Environment | 
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    x_tenant_id = '468a4aa1-1b80-447e-9ecb-400e39f7d798' # str | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
     page = 1 # int |  (optional) (default to 1)
     limit = 20 # int |  (optional) (default to 20)
 
@@ -221,7 +221,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
- **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **x_tenant_id** | **str**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
  **page** | **int**|  | [optional] [default to 1]
  **limit** | **int**|  | [optional] [default to 20]
 
@@ -288,7 +288,7 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     api_instance = pronesoft_ecf.ECFSubmissionApi(api_client)
     environment = pronesoft_ecf.Environment() # Environment | 
     electronic_document = {"invoiceType":"31","issueDate":"2025-06-04","paymentType":"1","incomeType":"01","taxedAmountIndicator":"0","issuerRNC":"133190907","issuerBusinessName":"Mi Empresa SRL","issuerAddress":"Av. Winston Churchill 1099, Santo Domingo","buyer":{"taxId":"101234567","name":"Cliente Corporativo SRL"},"items":[{"name":"Servicio de desarrollo de software","quantity":1,"unitPrice":"50000.00","unitOfMeasure":1,"type":"2","billingIndicator":"1"}],"totals":{"taxableAmount":50000.0,"exemptAmount":0,"totalITBIS":9000.0,"totalAmount":59000.0},"paymentForms":[{"method":"1","amount":59000.0}]} # ElectronicDocument | 
-    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    x_tenant_id = '468a4aa1-1b80-447e-9ecb-400e39f7d798' # str | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
     try:
         # Enviar documento e-CF a la DGII
@@ -308,7 +308,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
  **electronic_document** | [**ElectronicDocument**](ElectronicDocument.md)|  | 
- **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **x_tenant_id** | **str**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 

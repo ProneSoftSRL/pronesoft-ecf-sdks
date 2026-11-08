@@ -30,7 +30,7 @@ import 'package:pronesoft_ecf/api.dart';
 
 final api_instance = TaxSequencesApi();
 final createTaxSequenceRequest = CreateTaxSequenceRequest(); // CreateTaxSequenceRequest | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 
 try {
     final result = api_instance.createTaxSequence(createTaxSequenceRequest, xTenantId);
@@ -45,7 +45,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md)|  | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -78,7 +78,7 @@ import 'package:pronesoft_ecf/api.dart';
 final api_instance = TaxSequencesApi();
 final type = ; // InvoiceTypeSequence | 
 final environment = ; // Environment | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 
 try {
     final result = api_instance.getNextNumber(type, environment, xTenantId);
@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **type** | [**InvoiceTypeSequence**](.md)|  | 
  **environment** | [**Environment**](.md)|  | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -127,7 +127,7 @@ import 'package:pronesoft_ecf/api.dart';
 final api_instance = TaxSequencesApi();
 final environment = ; // Environment | 
 final file = BINARY_DATA_HERE; // MultipartFile | Archivo Excel (.xlsx o .xls) exportado desde la DGII
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 
 try {
     final result = api_instance.importTaxSequencesFromExcel(environment, file, xTenantId);
@@ -143,7 +143,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
  **file** | **MultipartFile**| Archivo Excel (.xlsx o .xls) exportado desde la DGII | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -172,7 +172,7 @@ import 'package:pronesoft_ecf/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api_instance = TaxSequencesApi();
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 final type = ; // InvoiceTypeSequence | 
 final environment = ; // Environment | 
 final page = 56; // int | 
@@ -190,7 +190,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
  **type** | [**InvoiceTypeSequence**](.md)|  | [optional] 
  **environment** | [**Environment**](.md)|  | [optional] 
  **page** | **int**|  | [optional] [default to 1]
@@ -225,7 +225,7 @@ import 'package:pronesoft_ecf/api.dart';
 final api_instance = TaxSequencesApi();
 final id = id_example; // String | 
 final updateTaxSequenceRequest = UpdateTaxSequenceRequest(); // UpdateTaxSequenceRequest | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 
 try {
     api_instance.updateTaxSequence(id, updateTaxSequenceRequest, xTenantId);
@@ -240,7 +240,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String**|  | 
  **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md)|  | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -272,7 +272,7 @@ import 'package:pronesoft_ecf/api.dart';
 
 final api_instance = TaxSequencesApi();
 final voidTaxSequenceRequest = VoidTaxSequenceRequest(); // VoidTaxSequenceRequest | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 
 try {
     final result = api_instance.voidTaxSequence(voidTaxSequenceRequest, xTenantId);
@@ -287,7 +287,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **voidTaxSequenceRequest** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md)|  | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 

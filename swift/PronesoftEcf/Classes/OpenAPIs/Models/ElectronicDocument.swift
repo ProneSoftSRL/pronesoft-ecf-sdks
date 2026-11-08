@@ -79,8 +79,8 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public var paymentType: PaymentType?
     public var paymentDeadline: Date?
     public var paymentTerms: String?
-    /** Payment breakdown. Required. */
-    public var paymentForms: [PaymentForm]
+    /** Payment breakdown. Optional; if omitted, the XML is sent without the payment table. */
+    public var paymentForms: [PaymentForm]?
     public var paymentAccountType: AccountType?
     public var paymentAccountNumber: String?
     public var paymentBank: String?
@@ -107,7 +107,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public var additionalIssuerInfo: String?
     public var buyer: Buyer?
     public var items: [Item]
-    public var totals: Totals
+    public var totals: Totals?
     public var transport: Transport?
     public var additionalInfo: AdditionalInfo?
     public var alternativeCurrency: AlternativeCurrency?
@@ -116,7 +116,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
     public var discountsOrSurcharges: [DiscountOrSurcharge]?
     public var pages: Page?
 
-    public init(version: String? = "1.0", invoiceType: InvoiceType, invoiceNumber: String? = nil, groupId: String? = nil, issueDate: Date, expirationDate: Date? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, deferredSendingIndicator: DeferredSendingIndicator? = nil, taxedAmountIndicator: TaxedAmountIndicator? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentForms: [PaymentForm], paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, serviceStartDate: Date? = nil, serviceEndDate: Date? = nil, totalPages: Int? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerCommercialName: String? = nil, branchName: String? = nil, issuerAddress: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, issuerPhones: [String]? = nil, issuerEmail: String? = nil, issuerWebsite: String? = nil, issuerEconomicActivity: String? = nil, sellerCode: String? = nil, internalInvoiceNumber: String? = nil, internalOrderNumber: Int? = nil, salesZone: String? = nil, salesRoute: String? = nil, additionalIssuerInfo: String? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: Subtotal? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: Page? = nil) {
+    public init(version: String? = "1.0", invoiceType: InvoiceType, invoiceNumber: String? = nil, groupId: String? = nil, issueDate: Date, expirationDate: Date? = nil, creditNoteIndicator: CreditNoteIndicator? = nil, deferredSendingIndicator: DeferredSendingIndicator? = nil, taxedAmountIndicator: TaxedAmountIndicator? = nil, incomeType: IncomeType? = nil, paymentType: PaymentType? = nil, paymentDeadline: Date? = nil, paymentTerms: String? = nil, paymentForms: [PaymentForm]? = nil, paymentAccountType: AccountType? = nil, paymentAccountNumber: String? = nil, paymentBank: String? = nil, serviceStartDate: Date? = nil, serviceEndDate: Date? = nil, totalPages: Int? = nil, issuerRNC: String? = nil, issuerBusinessName: String? = nil, issuerCommercialName: String? = nil, branchName: String? = nil, issuerAddress: String? = nil, municipalityCode: String? = nil, provinceCode: String? = nil, issuerPhones: [String]? = nil, issuerEmail: String? = nil, issuerWebsite: String? = nil, issuerEconomicActivity: String? = nil, sellerCode: String? = nil, internalInvoiceNumber: String? = nil, internalOrderNumber: Int? = nil, salesZone: String? = nil, salesRoute: String? = nil, additionalIssuerInfo: String? = nil, buyer: Buyer? = nil, items: [Item], totals: Totals? = nil, transport: Transport? = nil, additionalInfo: AdditionalInfo? = nil, alternativeCurrency: AlternativeCurrency? = nil, referenceInfo: ReferenceInfo? = nil, subtotals: Subtotal? = nil, discountsOrSurcharges: [DiscountOrSurcharge]? = nil, pages: Page? = nil) {
         self.version = version
         self.invoiceType = invoiceType
         self.invoiceNumber = invoiceNumber
@@ -233,7 +233,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(paymentType, forKey: .paymentType)
         try container.encodeIfPresent(paymentDeadline, forKey: .paymentDeadline)
         try container.encodeIfPresent(paymentTerms, forKey: .paymentTerms)
-        try container.encode(paymentForms, forKey: .paymentForms)
+        try container.encodeIfPresent(paymentForms, forKey: .paymentForms)
         try container.encodeIfPresent(paymentAccountType, forKey: .paymentAccountType)
         try container.encodeIfPresent(paymentAccountNumber, forKey: .paymentAccountNumber)
         try container.encodeIfPresent(paymentBank, forKey: .paymentBank)
@@ -259,7 +259,7 @@ public struct ElectronicDocument: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(additionalIssuerInfo, forKey: .additionalIssuerInfo)
         try container.encodeIfPresent(buyer, forKey: .buyer)
         try container.encode(items, forKey: .items)
-        try container.encode(totals, forKey: .totals)
+        try container.encodeIfPresent(totals, forKey: .totals)
         try container.encodeIfPresent(transport, forKey: .transport)
         try container.encodeIfPresent(additionalInfo, forKey: .additionalInfo)
         try container.encodeIfPresent(alternativeCurrency, forKey: .alternativeCurrency)

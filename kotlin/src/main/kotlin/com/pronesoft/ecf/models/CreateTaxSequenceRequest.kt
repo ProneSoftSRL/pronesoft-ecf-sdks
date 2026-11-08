@@ -35,8 +35,8 @@ import com.google.gson.annotations.SerializedName
  * @param from 
  * @param to 
  * @param quantity 
- * @param expiration 
  * @param environment 
+ * @param expiration 
  */
 
 
@@ -52,13 +52,13 @@ data class CreateTaxSequenceRequest (
     val to: kotlin.Int,
 
     @SerializedName("quantity")
-    val quantity: kotlin.Int? = null,
-
-    @SerializedName("expiration")
-    val expiration: java.time.LocalDate? = null,
+    val quantity: kotlin.Int,
 
     @SerializedName("environment")
-    val environment: Environment? = null
+    val environment: Environment,
+
+    @SerializedName("expiration")
+    val expiration: java.time.LocalDate? = null
 
 ) {
 

@@ -39,7 +39,7 @@ async function example() {
   const body = {
     // CreateTaxSequenceRequest
     createTaxSequenceRequest: {"type":"E32","from":1,"to":10000,"quantity":10000,"expiration":"2025-12-31","environment":"TesteCF"},
-    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies CreateTaxSequenceOperationRequest;
 
@@ -61,7 +61,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **createTaxSequenceRequest** | [CreateTaxSequenceRequest](CreateTaxSequenceRequest.md) |  | |
-| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -117,7 +117,7 @@ async function example() {
     type: ...,
     // Environment
     environment: ...,
-    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies GetNextNumberRequest;
 
@@ -140,7 +140,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **type** | `InvoiceTypeSequence` |  | [Defaults to `undefined`] [Enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
 | **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
-| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -195,7 +195,7 @@ async function example() {
     environment: ...,
     // Blob | Archivo Excel (.xlsx o .xls) exportado desde la DGII
     file: BINARY_DATA_HERE,
-    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies ImportTaxSequencesFromExcelRequest;
 
@@ -218,7 +218,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **environment** | `Environment` |  | [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
 | **file** | `Blob` | Archivo Excel (.xlsx o .xls) exportado desde la DGII | [Defaults to `undefined`] |
-| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -268,7 +268,7 @@ async function example() {
   const api = new TaxSequencesApi(config);
 
   const body = {
-    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
     // InvoiceTypeSequence (optional)
     type: ...,
@@ -297,7 +297,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [Optional] [Defaults to `undefined`] |
 | **type** | `InvoiceTypeSequence` |  | [Optional] [Defaults to `undefined`] [Enum: E31, E32, E33, E34, E41, E43, E44, E45, E46, E47] |
 | **environment** | `Environment` |  | [Optional] [Defaults to `undefined`] [Enum: TesteCF, CerteCF, eCF] |
 | **page** | `number` |  | [Optional] [Defaults to `1`] |
@@ -354,7 +354,7 @@ async function example() {
     id: id_example,
     // UpdateTaxSequenceRequest
     updateTaxSequenceRequest: ...,
-    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies UpdateTaxSequenceOperationRequest;
 
@@ -377,7 +377,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **id** | `string` |  | [Defaults to `undefined`] |
 | **updateTaxSequenceRequest** | [UpdateTaxSequenceRequest](UpdateTaxSequenceRequest.md) |  | |
-| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -430,7 +430,7 @@ async function example() {
   const body = {
     // VoidTaxSequenceRequest
     voidTaxSequenceRequest: ...,
-    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
     xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
   } satisfies VoidTaxSequenceOperationRequest;
 
@@ -452,7 +452,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **voidTaxSequenceRequest** | [VoidTaxSequenceRequest](VoidTaxSequenceRequest.md) |  | |
-| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+| **xTenantId** | `string` | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

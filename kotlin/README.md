@@ -16,7 +16,8 @@ República Dominicana a través de la plataforma Pronesoft.
 
 ### Delegación multi-empresa
 Para actuar en nombre de una empresa asociada (sucursal), agrega:
-  x-tenant-id: <business-uuid>
+  x-tenant-id: <ID (UUID) o RNC de la empresa asociada>
+Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 NO envíes x-tenant-id cuando actúes como la empresa principal.
 
 ### Detalles del Sandbox

@@ -36,7 +36,7 @@ $apiInstance = new PronesoftEcf\Api\CommercialApprovalsApi(
     $config
 );
 $id = 'id_example'; // string
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 
 try {
     $result = $apiInstance->getCommercialApprovalById($id, $x_tenant_id);
@@ -51,7 +51,7 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **id** | **string**|  | |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 
 ### Return type
 
@@ -95,7 +95,7 @@ $apiInstance = new PronesoftEcf\Api\CommercialApprovalsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 $ecf = 'ecf_example'; // string
 $type = 'type_example'; // string | Tipo de documento
 $status = 56; // int
@@ -116,7 +116,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+| **x_tenant_id** | **string**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. | [optional] |
 | **ecf** | **string**|  | [optional] |
 | **type** | **string**| Tipo de documento | [optional] |
 | **status** | **int**|  | [optional] |

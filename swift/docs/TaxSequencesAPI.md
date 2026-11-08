@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **createTaxSequence**
 ```swift
-    open class func createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: CreateTaxSequence201Response?, _ error: Error?) -> Void)
+    open class func createTaxSequence(createTaxSequenceRequest: CreateTaxSequenceRequest, xTenantId: String? = nil, completion: @escaping (_ data: CreateTaxSequence201Response?, _ error: Error?) -> Void)
 ```
 
 Crear nueva secuencia de NCF
@@ -25,7 +25,7 @@ Crear nueva secuencia de NCF
 import PronesoftEcf
 
 let createTaxSequenceRequest = CreateTaxSequenceRequest(type: InvoiceTypeSequence(), from: 123, to: 123, quantity: 123, expiration: Date(), environment: Environment()) // CreateTaxSequenceRequest | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Crear nueva secuencia de NCF
 TaxSequencesAPI.createTaxSequence(createTaxSequenceRequest: createTaxSequenceRequest, xTenantId: xTenantId) { (response, error) in
@@ -45,7 +45,7 @@ TaxSequencesAPI.createTaxSequence(createTaxSequenceRequest: createTaxSequenceReq
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 # **getNextNumber**
 ```swift
-    open class func getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: UUID? = nil, completion: @escaping (_ data: GetNextNumber200Response?, _ error: Error?) -> Void)
+    open class func getNextNumber(type: InvoiceTypeSequence, environment: Environment, xTenantId: String? = nil, completion: @escaping (_ data: GetNextNumber200Response?, _ error: Error?) -> Void)
 ```
 
 Obtener siguiente número fiscal disponible
@@ -78,7 +78,7 @@ import PronesoftEcf
 
 let type = InvoiceTypeSequence() // InvoiceTypeSequence | 
 let environment = Environment() // Environment | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Obtener siguiente número fiscal disponible
 TaxSequencesAPI.getNextNumber(type: type, environment: environment, xTenantId: xTenantId) { (response, error) in
@@ -99,7 +99,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **type** | [**InvoiceTypeSequence**](.md) |  | 
  **environment** | [**Environment**](.md) |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -118,7 +118,7 @@ Name | Type | Description  | Notes
 
 # **importTaxSequencesFromExcel**
 ```swift
-    open class func importTaxSequencesFromExcel(environment: Environment, file: URL, xTenantId: UUID? = nil, completion: @escaping (_ data: ImportTaxSequencesFromExcel200Response?, _ error: Error?) -> Void)
+    open class func importTaxSequencesFromExcel(environment: Environment, file: URL, xTenantId: String? = nil, completion: @escaping (_ data: ImportTaxSequencesFromExcel200Response?, _ error: Error?) -> Void)
 ```
 
 Importar secuencias desde archivo Excel de la DGII
@@ -132,7 +132,7 @@ import PronesoftEcf
 
 let environment = Environment() // Environment | 
 let file = URL(string: "https://example.com")! // URL | Archivo Excel (.xlsx o .xls) exportado desde la DGII
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Importar secuencias desde archivo Excel de la DGII
 TaxSequencesAPI.importTaxSequencesFromExcel(environment: environment, file: file, xTenantId: xTenantId) { (response, error) in
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md) |  | 
  **file** | **URL** | Archivo Excel (.xlsx o .xls) exportado desde la DGII | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -172,7 +172,7 @@ Name | Type | Description  | Notes
 
 # **listTaxSequences**
 ```swift
-    open class func listTaxSequences(xTenantId: UUID? = nil, type: InvoiceTypeSequence? = nil, environment: Environment? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
+    open class func listTaxSequences(xTenantId: String? = nil, type: InvoiceTypeSequence? = nil, environment: Environment? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ListTaxSequences200Response?, _ error: Error?) -> Void)
 ```
 
 Listar secuencias de NCF
@@ -182,7 +182,7 @@ Listar secuencias de NCF
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 let type = InvoiceTypeSequence() // InvoiceTypeSequence |  (optional)
 let environment = Environment() // Environment |  (optional)
 let page = 987 // Int |  (optional) (default to 1)
@@ -205,7 +205,7 @@ TaxSequencesAPI.listTaxSequences(xTenantId: xTenantId, type: type, environment: 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
  **type** | [**InvoiceTypeSequence**](.md) |  | [optional] 
  **environment** | [**Environment**](.md) |  | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
@@ -228,7 +228,7 @@ Name | Type | Description  | Notes
 
 # **updateTaxSequence**
 ```swift
-    open class func updateTaxSequence(id: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updateTaxSequence(id: String, updateTaxSequenceRequest: UpdateTaxSequenceRequest, xTenantId: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Actualizar secuencia de NCF
@@ -240,7 +240,7 @@ import PronesoftEcf
 
 let id = "id_example" // String | 
 let updateTaxSequenceRequest = UpdateTaxSequenceRequest(type: InvoiceTypeSequence(), from: 123, to: 123, quantity: 123, expiration: Date(), environment: Environment()) // UpdateTaxSequenceRequest | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Actualizar secuencia de NCF
 TaxSequencesAPI.updateTaxSequence(id: id, updateTaxSequenceRequest: updateTaxSequenceRequest, xTenantId: xTenantId) { (response, error) in
@@ -261,7 +261,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **String** |  | 
  **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -280,7 +280,7 @@ Void (empty response body)
 
 # **voidTaxSequence**
 ```swift
-    open class func voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: VoidTaxSequence200Response?, _ error: Error?) -> Void)
+    open class func voidTaxSequence(voidTaxSequenceRequest: VoidTaxSequenceRequest, xTenantId: String? = nil, completion: @escaping (_ data: VoidTaxSequence200Response?, _ error: Error?) -> Void)
 ```
 
 Anular rango de números fiscales
@@ -293,7 +293,7 @@ Cancela números fiscales no utilizados y notifica a la DGII.
 import PronesoftEcf
 
 let voidTaxSequenceRequest = VoidTaxSequenceRequest(sequenceId: "sequenceId_example", startNumber: "startNumber_example", endNumber: "endNumber_example", reason: "reason_example") // VoidTaxSequenceRequest | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Anular rango de números fiscales
 TaxSequencesAPI.voidTaxSequence(voidTaxSequenceRequest: voidTaxSequenceRequest, xTenantId: xTenantId) { (response, error) in
@@ -313,7 +313,7 @@ TaxSequencesAPI.voidTaxSequence(voidTaxSequenceRequest: voidTaxSequenceRequest, 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **voidTaxSequenceRequest** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md) |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 

@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -33,9 +33,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApprovalItem</returns>
-        ApprovalItem GetCommercialApprovalById(Guid id, Guid? xTenantId = default);
+        ApprovalItem GetCommercialApprovalById(Guid id, string? xTenantId = default);
 
         /// <summary>
         /// Obtener aprobación comercial por ID
@@ -45,14 +45,14 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of ApprovalItem</returns>
-        ApiResponse<ApprovalItem> GetCommercialApprovalByIdWithHttpInfo(Guid id, Guid? xTenantId = default);
+        ApiResponse<ApprovalItem> GetCommercialApprovalByIdWithHttpInfo(Guid id, string? xTenantId = default);
         /// <summary>
         /// Listar aprobaciones comerciales
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type">Tipo de documento (optional)</param>
         /// <param name="status"> (optional)</param>
@@ -61,7 +61,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApprovalListResponse</returns>
-        ApprovalListResponse ListCommercialApprovals(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
+        ApprovalListResponse ListCommercialApprovals(string? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
 
         /// <summary>
         /// Listar aprobaciones comerciales
@@ -70,7 +70,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type">Tipo de documento (optional)</param>
         /// <param name="status"> (optional)</param>
@@ -79,7 +79,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ApprovalListResponse</returns>
-        ApiResponse<ApprovalListResponse> ListCommercialApprovalsWithHttpInfo(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
+        ApiResponse<ApprovalListResponse> ListCommercialApprovalsWithHttpInfo(string? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
         #endregion Synchronous Operations
     }
 
@@ -97,10 +97,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApprovalItem</returns>
-        System.Threading.Tasks.Task<ApprovalItem> GetCommercialApprovalByIdAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApprovalItem> GetCommercialApprovalByIdAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Obtener aprobación comercial por ID
@@ -110,10 +110,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApprovalItem)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApprovalItem>> GetCommercialApprovalByIdWithHttpInfoAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<ApprovalItem>> GetCommercialApprovalByIdWithHttpInfoAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Listar aprobaciones comerciales
         /// </summary>
@@ -121,7 +121,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type">Tipo de documento (optional)</param>
         /// <param name="status"> (optional)</param>
@@ -131,7 +131,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApprovalListResponse</returns>
-        System.Threading.Tasks.Task<ApprovalListResponse> ListCommercialApprovalsAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApprovalListResponse> ListCommercialApprovalsAsync(string? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Listar aprobaciones comerciales
@@ -140,7 +140,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type">Tipo de documento (optional)</param>
         /// <param name="status"> (optional)</param>
@@ -150,7 +150,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApprovalListResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApprovalListResponse>> ListCommercialApprovalsWithHttpInfoAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<ApprovalListResponse>> ListCommercialApprovalsWithHttpInfoAsync(string? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -369,9 +369,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApprovalItem</returns>
-        public ApprovalItem GetCommercialApprovalById(Guid id, Guid? xTenantId = default)
+        public ApprovalItem GetCommercialApprovalById(Guid id, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalItem> localVarResponse = GetCommercialApprovalByIdWithHttpInfo(id, xTenantId);
             return localVarResponse.Data;
@@ -382,9 +382,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of ApprovalItem</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalItem> GetCommercialApprovalByIdWithHttpInfo(Guid id, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalItem> GetCommercialApprovalByIdWithHttpInfo(Guid id, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -432,10 +432,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApprovalItem</returns>
-        public async System.Threading.Tasks.Task<ApprovalItem> GetCommercialApprovalByIdAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<ApprovalItem> GetCommercialApprovalByIdAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalItem> localVarResponse = await GetCommercialApprovalByIdWithHttpInfoAsync(id, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -446,10 +446,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApprovalItem)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalItem>> GetCommercialApprovalByIdWithHttpInfoAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalItem>> GetCommercialApprovalByIdWithHttpInfoAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -499,7 +499,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar aprobaciones comerciales 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type">Tipo de documento (optional)</param>
         /// <param name="status"> (optional)</param>
@@ -508,7 +508,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApprovalListResponse</returns>
-        public ApprovalListResponse ListCommercialApprovals(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
+        public ApprovalListResponse ListCommercialApprovals(string? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> localVarResponse = ListCommercialApprovalsWithHttpInfo(xTenantId, ecf, type, status, dateFrom, dateTo, page, limit);
             return localVarResponse.Data;
@@ -518,7 +518,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar aprobaciones comerciales 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type">Tipo de documento (optional)</param>
         /// <param name="status"> (optional)</param>
@@ -527,7 +527,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ApprovalListResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> ListCommercialApprovalsWithHttpInfo(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> ListCommercialApprovalsWithHttpInfo(string? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -601,7 +601,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar aprobaciones comerciales 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type">Tipo de documento (optional)</param>
         /// <param name="status"> (optional)</param>
@@ -611,7 +611,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApprovalListResponse</returns>
-        public async System.Threading.Tasks.Task<ApprovalListResponse> ListCommercialApprovalsAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<ApprovalListResponse> ListCommercialApprovalsAsync(string? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse> localVarResponse = await ListCommercialApprovalsWithHttpInfoAsync(xTenantId, ecf, type, status, dateFrom, dateTo, page, limit, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -621,7 +621,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar aprobaciones comerciales 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type">Tipo de documento (optional)</param>
         /// <param name="status"> (optional)</param>
@@ -631,7 +631,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApprovalListResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse>> ListCommercialApprovalsWithHttpInfoAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ApprovalListResponse>> ListCommercialApprovalsWithHttpInfoAsync(string? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();

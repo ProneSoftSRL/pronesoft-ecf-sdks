@@ -31,7 +31,7 @@ import (
 
 func main() {
 	environment := openapiclient.Environment("TesteCF") // Environment | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -61,7 +61,7 @@ Other parameters are passed through a pointer to a apiGetEcfStatsRequest struct 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
 
 ### Return type
 
@@ -102,7 +102,7 @@ import (
 func main() {
 	environment := openapiclient.Environment("TesteCF") // Environment | 
 	id := "id_example" // string | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -134,7 +134,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
 
 ### Return type
 
@@ -174,7 +174,7 @@ import (
 
 func main() {
 	environment := openapiclient.Environment("TesteCF") // Environment | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 20)
 
@@ -206,7 +206,7 @@ Other parameters are passed through a pointer to a apiGetEcfSubmissionHistoryReq
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
  **page** | **int32** |  | [default to 1]
  **limit** | **int32** |  | [default to 20]
 
@@ -251,8 +251,8 @@ import (
 
 func main() {
 	environment := openapiclient.Environment("TesteCF") // Environment | 
-	electronicDocument := *openapiclient.NewElectronicDocument(openapiclient.InvoiceType("31"), time.Now(), []openapiclient.PaymentForm{*openapiclient.NewPaymentForm(openapiclient.PaymentMethod("1"), float32(11800.0))}, []openapiclient.Item{*openapiclient.NewItem("Servicio profesional", "Type_example", openapiclient.BillingIndicator("0"), openapiclient.Item_quantity{Float32: new(float32)}, openapiclient.Item_unitPrice{Float32: new(float32)})}, *openapiclient.NewTotals()) // ElectronicDocument | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	electronicDocument := *openapiclient.NewElectronicDocument(openapiclient.InvoiceType("31"), time.Now(), []openapiclient.Item{*openapiclient.NewItem("Servicio profesional", "Type_example", openapiclient.BillingIndicator("0"), openapiclient.Item_quantity{Float32: new(float32)}, openapiclient.Item_unitPrice{Float32: new(float32)})}) // ElectronicDocument | 
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -283,7 +283,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **electronicDocument** | [**ElectronicDocument**](ElectronicDocument.md) |  | 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
 
 ### Return type
 

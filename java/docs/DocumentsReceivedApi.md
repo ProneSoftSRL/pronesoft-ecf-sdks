@@ -41,7 +41,7 @@ public class Example {
     DocumentsReceivedApi apiInstance = new DocumentsReceivedApi(defaultClient);
     UUID id = UUID.randomUUID(); // UUID | ID del documento recibido (TaxDocumentReceived.id)
     DecideCommercialApprovalRequest decideCommercialApprovalRequest = new DecideCommercialApprovalRequest(); // DecideCommercialApprovalRequest | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       DecideCommercialApprovalResponse result = apiInstance.decideCommercialApproval(id, decideCommercialApprovalRequest, xTenantId);
       System.out.println(result);
@@ -62,7 +62,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **id** | **UUID**| ID del documento recibido (TaxDocumentReceived.id) | |
 | **decideCommercialApprovalRequest** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md)|  | |
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -112,7 +112,7 @@ public class Example {
 
     DocumentsReceivedApi apiInstance = new DocumentsReceivedApi(defaultClient);
     UUID id = UUID.randomUUID(); // UUID | 
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       ReceivedDocument result = apiInstance.getReceivedDocumentById(id, xTenantId);
       System.out.println(result);
@@ -132,7 +132,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | **UUID**|  | |
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -180,7 +180,7 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     DocumentsReceivedApi apiInstance = new DocumentsReceivedApi(defaultClient);
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       List<GetReceivedDocumentStatsBySupplier200ResponseInner> result = apiInstance.getReceivedDocumentStatsBySupplier(xTenantId);
       System.out.println(result);
@@ -199,7 +199,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -246,7 +246,7 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     DocumentsReceivedApi apiInstance = new DocumentsReceivedApi(defaultClient);
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     try {
       ReceivedDocumentStatsResponse result = apiInstance.getReceivedDocumentStatsSummary(xTenantId);
       System.out.println(result);
@@ -265,7 +265,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -312,7 +312,7 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     DocumentsReceivedApi apiInstance = new DocumentsReceivedApi(defaultClient);
-    UUID xTenantId = UUID.fromString("468a4aa1-1b80-447e-9ecb-400e39f7d798"); // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    String xTenantId = "468a4aa1-1b80-447e-9ecb-400e39f7d798"; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     String ecf = "ecf_example"; // String | 
     String type = "type_example"; // String | Tipo de documento (31, 32, 33, etc.)
     Integer status = 1; // Integer | 
@@ -342,7 +342,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **xTenantId** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 | **ecf** | **String**|  | [optional] |
 | **type** | **String**| Tipo de documento (31, 32, 33, etc.) | [optional] |
 | **status** | **Integer**|  | [optional] [enum: 1, 2, 3] |

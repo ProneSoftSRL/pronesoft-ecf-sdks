@@ -1,8 +1,46 @@
 # ecf-sdk
 
+<!-- integration-client:start -->
+## Inicio rápido con `IntegrationClient`
+
+`IntegrationClient` gestiona la autenticación por ti. Solo necesita la URL base y las credenciales de tu App (Portal → Integraciones → Apps):
+
+- obtiene el token OAuth 2.0 y lo reutiliza mientras sea válido (24 horas);
+- si la API responde `401` (token vencido), pide uno nuevo y repite la llamada una vez;
+- si varias llamadas reciben `401` a la vez, renueva una sola vez;
+- con una sesión, agrega `x-tenant-id` para actuar en nombre de una empresa asociada (acepta su ID UUID o su RNC; una empresa ajena a tu cuenta responde `403`).
+
+Crea **un solo** `IntegrationClient` por aplicación y reutilízalo.
+
+| Entorno | URL base |
+| :--- | :--- |
+| Sandbox | `https://api.ecf.sandbox.pronesoft.com/api/v1` |
+| Producción | `https://api.ecf.pronesoft.com/api/v1` |
+
+Guía completa: https://docs.ecf.pronesoft.com/guides/sdks
+
+Instálalo desde este repositorio con `mvn install` (ver la sección *Installation*). `IntegrationClient` renueva el token cuando la API responde `401`.
+
+```java
+import com.pronesoft.ecf.IntegrationClient;
+
+IntegrationClient pronesoft = new IntegrationClient(
+    "https://api.ecf.sandbox.pronesoft.com/api/v1",
+    System.getenv("PRONESOFT_CLIENT_ID"),
+    System.getenv("PRONESOFT_CLIENT_SECRET"));
+
+// Empresa principal
+var enviados = pronesoft.documentsSent.listSentDocuments(null, null, null, null, null, null, null, 1, 10);
+
+// Empresa asociada (RNC o ID UUID)
+var sucursal = pronesoft.startSession("987654321").getClient();
+var enviadosSucursal = sucursal.documentsSent.listSentDocuments(null, null, null, null, null, null, null, 1, 10);
+```
+<!-- integration-client:end -->
+
 eCF-Pronesoft Integration API
 - API version: 1.2.0
-  - Build date: 2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]
+  - Build date: 2026-11-08T15:39:24.548838388-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Descripción general
@@ -21,7 +59,8 @@ República Dominicana a través de la plataforma Pronesoft.
 
 ### Delegación multi-empresa
 Para actuar en nombre de una empresa asociada (sucursal), agrega:
-  x-tenant-id: <business-uuid>
+  x-tenant-id: <ID (UUID) o RNC de la empresa asociada>
+Si la empresa no es asociada de tu cuenta principal, la API responde 403.
 NO envíes x-tenant-id cuando actúes como la empresa principal.
 
 ### Detalles del Sandbox
@@ -74,7 +113,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.pronesoft</groupId>
   <artifactId>ecf-sdk</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -90,7 +129,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.pronesoft:ecf-sdk:0.0.5"
+     implementation "com.pronesoft:ecf-sdk:0.0.6"
   }
 ```
 
@@ -104,7 +143,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/ecf-sdk-0.0.5.jar`
+* `target/ecf-sdk-0.0.6.jar`
 * `target/lib/*.jar`
 
 ## Getting Started

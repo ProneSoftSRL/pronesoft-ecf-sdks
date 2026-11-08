@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * eCF-Pronesoft Integration API
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -118,7 +118,7 @@ export interface DocumentsSentApiInterface {
     /**
      * Creates request options for getSentDocumentById without sending the request
      * @param {string} id 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
@@ -128,7 +128,7 @@ export interface DocumentsSentApiInterface {
      * 
      * @summary Obtener detalle del documento
      * @param {string} id 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
@@ -143,7 +143,7 @@ export interface DocumentsSentApiInterface {
     /**
      * Creates request options for getSentDocumentLogs without sending the request
      * @param {string} id 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
@@ -153,7 +153,7 @@ export interface DocumentsSentApiInterface {
      * 
      * @summary Logs de procesamiento del documento
      * @param {string} id 
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
@@ -167,7 +167,7 @@ export interface DocumentsSentApiInterface {
 
     /**
      * Creates request options for getSentDocumentStats without sending the request
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
@@ -176,7 +176,7 @@ export interface DocumentsSentApiInterface {
     /**
      * 
      * @summary Estadísticas de documentos enviados
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
@@ -190,7 +190,7 @@ export interface DocumentsSentApiInterface {
 
     /**
      * Creates request options for getSentDocumentStatsByEnvironment without sending the request
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
      */
@@ -199,7 +199,7 @@ export interface DocumentsSentApiInterface {
     /**
      * 
      * @summary Estadísticas agrupadas por ambiente y estado
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DocumentsSentApiInterface
@@ -259,7 +259,7 @@ export interface DocumentsSentApiInterface {
 
     /**
      * Creates request options for listSentDocuments without sending the request
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {Environment} [env] 
      * @param {string} [ecf] 
      * @param {string} [type] 
@@ -276,7 +276,7 @@ export interface DocumentsSentApiInterface {
     /**
      * 
      * @summary Listar documentos enviados
-     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {string} [xTenantId] ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
      * @param {Environment} [env] 
      * @param {string} [ecf] 
      * @param {string} [type] 

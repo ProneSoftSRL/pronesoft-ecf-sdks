@@ -13,7 +13,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -736,9 +736,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             $invalidProperties[] = "invalid value for 'payment_terms', the character length must be smaller than or equal to 15.";
         }
 
-        if ($this->container['payment_forms'] === null) {
-            $invalidProperties[] = "'payment_forms' can't be null";
-        }
         if (!is_null($this->container['payment_account_number']) && (mb_strlen($this->container['payment_account_number']) > 28)) {
             $invalidProperties[] = "invalid value for 'payment_account_number', the character length must be smaller than or equal to 28.";
         }
@@ -814,9 +811,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             $invalidProperties[] = "invalid value for 'items', number of items must be greater than or equal to 1.";
         }
 
-        if ($this->container['totals'] === null) {
-            $invalidProperties[] = "'totals' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -1240,7 +1234,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets payment_forms
      *
-     * @return \PronesoftEcf\Model\PaymentForm[]
+     * @return \PronesoftEcf\Model\PaymentForm[]|null
      */
     public function getPaymentForms()
     {
@@ -1250,7 +1244,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_forms
      *
-     * @param \PronesoftEcf\Model\PaymentForm[] $payment_forms Payment breakdown. Required.
+     * @param \PronesoftEcf\Model\PaymentForm[]|null $payment_forms Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
      *
      * @return self
      */
@@ -2013,7 +2007,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets totals
      *
-     * @return \PronesoftEcf\Model\Totals
+     * @return \PronesoftEcf\Model\Totals|null
      */
     public function getTotals()
     {
@@ -2023,7 +2017,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets totals
      *
-     * @param \PronesoftEcf\Model\Totals $totals totals
+     * @param \PronesoftEcf\Model\Totals|null $totals totals
      *
      * @return self
      */

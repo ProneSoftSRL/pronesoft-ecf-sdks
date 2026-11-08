@@ -28,7 +28,7 @@ import 'package:pronesoft_ecf/api.dart';
 
 final api_instance = ECFSubmissionApi();
 final environment = ; // Environment | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 
 try {
     final result = api_instance.getEcfStats(environment, xTenantId);
@@ -43,7 +43,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -74,7 +74,7 @@ import 'package:pronesoft_ecf/api.dart';
 final api_instance = ECFSubmissionApi();
 final environment = ; // Environment | 
 final id = id_example; // String | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 
 try {
     final result = api_instance.getEcfStatus(environment, id, xTenantId);
@@ -90,7 +90,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
  **id** | **String**|  | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -120,7 +120,7 @@ import 'package:pronesoft_ecf/api.dart';
 
 final api_instance = ECFSubmissionApi();
 final environment = ; // Environment | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 final page = 56; // int | 
 final limit = 56; // int | 
 
@@ -137,7 +137,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
  **page** | **int**|  | [optional] [default to 1]
  **limit** | **int**|  | [optional] [default to 20]
 
@@ -172,7 +172,7 @@ import 'package:pronesoft_ecf/api.dart';
 final api_instance = ECFSubmissionApi();
 final environment = ; // Environment | 
 final electronicDocument = ElectronicDocument(); // ElectronicDocument | 
-final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 
 try {
     final result = api_instance.submitEcf(environment, electronicDocument, xTenantId);
@@ -188,7 +188,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](.md)|  | 
  **electronicDocument** | [**ElectronicDocument**](ElectronicDocument.md)|  | 
- **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 

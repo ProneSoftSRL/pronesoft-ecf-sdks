@@ -21,7 +21,8 @@ info:
 
     ### Delegación multi-empresa
     Para actuar en nombre de una empresa asociada (sucursal), agrega:
-      x-tenant-id: <business-uuid>
+      x-tenant-id: <ID (UUID) o RNC de la empresa asociada>
+    Si la empresa no es asociada de tu cuenta principal, la API responde 403.
     NO envíes x-tenant-id cuando actúes como la empresa principal.
 
     ### Detalles del Sandbox
@@ -128,7 +129,7 @@ paths:
     post:
       description: |
         Sube el certificado de firma digital emitido por DGII para una empresa.
-        Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga.
+        Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga.
         Tip Sandbox: Los RNC con prefijo SBX no requieren certificado.
       operationId: uploadCertificate
       parameters:
@@ -192,15 +193,15 @@ paths:
       operationId: listTaxSequences
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: true
@@ -262,15 +263,15 @@ paths:
       operationId: createTaxSequence
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       requestBody:
@@ -324,15 +325,15 @@ paths:
       operationId: getNextNumber
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: true
@@ -378,15 +379,15 @@ paths:
       operationId: updateTaxSequence
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: true
@@ -431,15 +432,15 @@ paths:
       operationId: importTaxSequencesFromExcel
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: true
@@ -492,15 +493,15 @@ paths:
       operationId: voidTaxSequence
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       requestBody:
@@ -542,15 +543,15 @@ paths:
       operationId: submitEcf
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: false
@@ -968,15 +969,15 @@ paths:
       operationId: getEcfStatus
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: false
@@ -1022,15 +1023,15 @@ paths:
       operationId: getEcfStats
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: false
@@ -1069,15 +1070,15 @@ paths:
       operationId: getEcfSubmissionHistory
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: false
@@ -1133,15 +1134,15 @@ paths:
       operationId: listSentDocuments
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: true
@@ -1240,15 +1241,15 @@ paths:
       operationId: getSentDocumentById
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: false
@@ -1423,15 +1424,15 @@ paths:
       operationId: getSentDocumentStats
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       responses:
@@ -1463,15 +1464,15 @@ paths:
       operationId: getSentDocumentStatsByEnvironment
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       responses:
@@ -1505,15 +1506,15 @@ paths:
       operationId: getSentDocumentLogs
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: false
@@ -1557,15 +1558,15 @@ paths:
       operationId: listReceivedDocuments
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: true
@@ -1686,15 +1687,15 @@ paths:
       operationId: getReceivedDocumentStatsSummary
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       responses:
@@ -1726,15 +1727,15 @@ paths:
       operationId: getReceivedDocumentStatsBySupplier
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       responses:
@@ -1768,15 +1769,15 @@ paths:
       operationId: getReceivedDocumentById
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: false
@@ -1821,15 +1822,15 @@ paths:
       operationId: decideCommercialApproval
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - description: ID del documento recibido (TaxDocumentReceived.id)
@@ -1885,15 +1886,15 @@ paths:
       operationId: listCommercialApprovals
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: true
@@ -1986,15 +1987,15 @@ paths:
       operationId: getCommercialApprovalById
       parameters:
       - description: |
-          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+          ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+          Si la empresa no es asociada de tu cuenta principal, la API responde 403.
         explode: false
         in: header
         name: x-tenant-id
         required: false
         schema:
           example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-          format: uuid
           type: string
         style: simple
       - explode: false
@@ -2746,15 +2747,15 @@ components:
   parameters:
     TenantIdHeaderOptional:
       description: |
-        UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-        en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+        ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+        en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+        Si la empresa no es asociada de tu cuenta principal, la API responde 403.
       explode: false
       in: header
       name: x-tenant-id
       required: false
       schema:
         example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
-        format: uuid
         type: string
       style: simple
     RncPath:
@@ -2800,7 +2801,8 @@ components:
       description: Rate limit exceeded. Retry after indicated seconds.
   schemas:
     Environment:
-      description: "TesteCF=testing no DGII, CerteCF=official certification, eCF=production"
+      description: "TesteCF=DGII test environment (no fiscal validity), CerteCF=DGII\
+        \ certification, eCF=production"
       enum:
       - TesteCF
       - CerteCF
@@ -3573,7 +3575,8 @@ components:
           maxLength: 15
           type: string
         paymentForms:
-          description: Payment breakdown. Required.
+          description: "Payment breakdown. Optional; if omitted, the XML is sent without\
+            \ the payment table."
           example:
           - method: "1"
             amount: 11800.0
@@ -3679,8 +3682,6 @@ components:
       - invoiceType
       - issueDate
       - items
-      - paymentForms
-      - totals
       type: object
     Buyer:
       example:
@@ -4370,7 +4371,9 @@ components:
         environment:
           $ref: "#/components/schemas/Environment"
       required:
+      - environment
       - from
+      - quantity
       - to
       - type
       type: object
@@ -6879,6 +6882,6 @@ components:
             certification:read: Ver progreso de certificación DGII.
             certification:write: Ejecutar pruebas de certificación automática DGII.
             reports:read: Generar y exportar reportes (ej. formato 606).
-          tokenUrl: /oauth/token
+          tokenUrl: /api/v1/oauth/token
       type: oauth2
 

@@ -13,7 +13,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="createtaxsequence"></a>
 # **CreateTaxSequence**
-> CreateTaxSequence201Response CreateTaxSequence (CreateTaxSequenceRequest createTaxSequenceRequest, Guid? xTenantId = null)
+> CreateTaxSequence201Response CreateTaxSequence (CreateTaxSequenceRequest createTaxSequenceRequest, string? xTenantId = null)
 
 Crear nueva secuencia de NCF
 
@@ -42,7 +42,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new TaxSequencesApi(httpClient, config, httpClientHandler);
             var createTaxSequenceRequest = new CreateTaxSequenceRequest(); // CreateTaxSequenceRequest | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -86,7 +86,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -113,7 +113,7 @@ catch (ApiException e)
 
 <a id="getnextnumber"></a>
 # **GetNextNumber**
-> GetNextNumber200Response GetNextNumber (InvoiceTypeSequence type, ModelEnvironment environment, Guid? xTenantId = null)
+> GetNextNumber200Response GetNextNumber (InvoiceTypeSequence type, ModelEnvironment environment, string? xTenantId = null)
 
 Obtener siguiente número fiscal disponible
 
@@ -145,7 +145,7 @@ namespace Example
             var apiInstance = new TaxSequencesApi(httpClient, config, httpClientHandler);
             var type = (InvoiceTypeSequence) "E31";  // InvoiceTypeSequence | 
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -190,7 +190,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **type** | **InvoiceTypeSequence** |  |  |
 | **environment** | **ModelEnvironment** |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -216,7 +216,7 @@ catch (ApiException e)
 
 <a id="importtaxsequencesfromexcel"></a>
 # **ImportTaxSequencesFromExcel**
-> ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel (ModelEnvironment environment, FileParameter file, Guid? xTenantId = null)
+> ImportTaxSequencesFromExcel200Response ImportTaxSequencesFromExcel (ModelEnvironment environment, FileParameter file, string? xTenantId = null)
 
 Importar secuencias desde archivo Excel de la DGII
 
@@ -248,7 +248,7 @@ namespace Example
             var apiInstance = new TaxSequencesApi(httpClient, config, httpClientHandler);
             var environment = (ModelEnvironment) "TesteCF";  // ModelEnvironment | 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | Archivo Excel (.xlsx o .xls) exportado desde la DGII
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -293,7 +293,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **environment** | **ModelEnvironment** |  |  |
 | **file** | **FileParameter****FileParameter** | Archivo Excel (.xlsx o .xls) exportado desde la DGII |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -320,7 +320,7 @@ catch (ApiException e)
 
 <a id="listtaxsequences"></a>
 # **ListTaxSequences**
-> ListTaxSequences200Response ListTaxSequences (Guid? xTenantId = null, InvoiceTypeSequence? type = null, ModelEnvironment? environment = null, int? page = null, int? limit = null)
+> ListTaxSequences200Response ListTaxSequences (string? xTenantId = null, InvoiceTypeSequence? type = null, ModelEnvironment? environment = null, int? page = null, int? limit = null)
 
 Listar secuencias de NCF
 
@@ -348,7 +348,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new TaxSequencesApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
             var type = new InvoiceTypeSequence?(); // InvoiceTypeSequence? |  (optional) 
             var environment = new ModelEnvironment?(); // ModelEnvironment? |  (optional) 
             var page = 1;  // int? |  (optional)  (default to 1)
@@ -395,7 +395,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 | **type** | [**InvoiceTypeSequence?**](InvoiceTypeSequence?.md) |  | [optional]  |
 | **environment** | [**ModelEnvironment?**](ModelEnvironment?.md) |  | [optional]  |
 | **page** | **int?** |  | [optional] [default to 1] |
@@ -425,7 +425,7 @@ catch (ApiException e)
 
 <a id="updatetaxsequence"></a>
 # **UpdateTaxSequence**
-> void UpdateTaxSequence (string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, Guid? xTenantId = null)
+> void UpdateTaxSequence (string id, UpdateTaxSequenceRequest updateTaxSequenceRequest, string? xTenantId = null)
 
 Actualizar secuencia de NCF
 
@@ -455,7 +455,7 @@ namespace Example
             var apiInstance = new TaxSequencesApi(httpClient, config, httpClientHandler);
             var id = "id_example";  // string | 
             var updateTaxSequenceRequest = new UpdateTaxSequenceRequest(); // UpdateTaxSequenceRequest | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -496,7 +496,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **id** | **string** |  |  |
 | **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -522,7 +522,7 @@ void (empty response body)
 
 <a id="voidtaxsequence"></a>
 # **VoidTaxSequence**
-> VoidTaxSequence200Response VoidTaxSequence (VoidTaxSequenceRequest voidTaxSequenceRequest, Guid? xTenantId = null)
+> VoidTaxSequence200Response VoidTaxSequence (VoidTaxSequenceRequest voidTaxSequenceRequest, string? xTenantId = null)
 
 Anular rango de números fiscales
 
@@ -553,7 +553,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new TaxSequencesApi(httpClient, config, httpClientHandler);
             var voidTaxSequenceRequest = new VoidTaxSequenceRequest(); // VoidTaxSequenceRequest | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -597,7 +597,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **voidTaxSequenceRequest** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md) |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 

@@ -1,7 +1,7 @@
 =begin
 #eCF-Pronesoft Integration API
 
-### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+### Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
 
 The version of the OpenAPI document: 1.2.0
 Contact: support@pronesoft.com
@@ -24,7 +24,7 @@ module PronesoftEcf
     # @param id [String] ID del documento recibido (TaxDocumentReceived.id)
     # @param decide_commercial_approval_request [DecideCommercialApprovalRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [DecideCommercialApprovalResponse]
     def decide_commercial_approval(id, decide_commercial_approval_request, opts = {})
       data, _status_code, _headers = decide_commercial_approval_with_http_info(id, decide_commercial_approval_request, opts)
@@ -36,7 +36,7 @@ module PronesoftEcf
     # @param id [String] ID del documento recibido (TaxDocumentReceived.id)
     # @param decide_commercial_approval_request [DecideCommercialApprovalRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(DecideCommercialApprovalResponse, Integer, Hash)>] DecideCommercialApprovalResponse data, response status code and response headers
     def decide_commercial_approval_with_http_info(id, decide_commercial_approval_request, opts = {})
       if @api_client.config.debugging
@@ -99,7 +99,7 @@ module PronesoftEcf
     # Obtener documento recibido por ID
     # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [ReceivedDocument]
     def get_received_document_by_id(id, opts = {})
       data, _status_code, _headers = get_received_document_by_id_with_http_info(id, opts)
@@ -109,7 +109,7 @@ module PronesoftEcf
     # Obtener documento recibido por ID
     # @param id [String] 
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(ReceivedDocument, Integer, Hash)>] ReceivedDocument data, response status code and response headers
     def get_received_document_by_id_with_http_info(id, opts = {})
       if @api_client.config.debugging
@@ -162,7 +162,7 @@ module PronesoftEcf
 
     # Top 10 proveedores por volumen de documentos recibidos
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<GetReceivedDocumentStatsBySupplier200ResponseInner>]
     def get_received_document_stats_by_supplier(opts = {})
       data, _status_code, _headers = get_received_document_stats_by_supplier_with_http_info(opts)
@@ -171,7 +171,7 @@ module PronesoftEcf
 
     # Top 10 proveedores por volumen de documentos recibidos
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(Array<GetReceivedDocumentStatsBySupplier200ResponseInner>, Integer, Hash)>] Array<GetReceivedDocumentStatsBySupplier200ResponseInner> data, response status code and response headers
     def get_received_document_stats_by_supplier_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -220,7 +220,7 @@ module PronesoftEcf
 
     # Estadísticas de documentos recibidos
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [ReceivedDocumentStatsResponse]
     def get_received_document_stats_summary(opts = {})
       data, _status_code, _headers = get_received_document_stats_summary_with_http_info(opts)
@@ -229,7 +229,7 @@ module PronesoftEcf
 
     # Estadísticas de documentos recibidos
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @return [Array<(ReceivedDocumentStatsResponse, Integer, Hash)>] ReceivedDocumentStatsResponse data, response status code and response headers
     def get_received_document_stats_summary_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -278,7 +278,7 @@ module PronesoftEcf
 
     # Listar documentos recibidos
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @option opts [String] :ecf 
     # @option opts [String] :type Tipo de documento (31, 32, 33, etc.)
     # @option opts [Integer] :status 
@@ -298,7 +298,7 @@ module PronesoftEcf
 
     # Listar documentos recibidos
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @option opts [String] :x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
     # @option opts [String] :ecf 
     # @option opts [String] :type Tipo de documento (31, 32, 33, etc.)
     # @option opts [Integer] :status 

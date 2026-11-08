@@ -20,11 +20,11 @@ public struct CreateTaxSequenceRequest: Codable, JSONEncodable, Hashable {
     public var type: InvoiceTypeSequence
     public var from: Int
     public var to: Int
-    public var quantity: Int?
+    public var quantity: Int
     public var expiration: Date?
-    public var environment: Environment?
+    public var environment: Environment
 
-    public init(type: InvoiceTypeSequence, from: Int, to: Int, quantity: Int? = nil, expiration: Date? = nil, environment: Environment? = nil) {
+    public init(type: InvoiceTypeSequence, from: Int, to: Int, quantity: Int, expiration: Date? = nil, environment: Environment) {
         self.type = type
         self.from = from
         self.to = to
@@ -49,9 +49,9 @@ public struct CreateTaxSequenceRequest: Codable, JSONEncodable, Hashable {
         try container.encode(type, forKey: .type)
         try container.encode(from, forKey: .from)
         try container.encode(to, forKey: .to)
-        try container.encodeIfPresent(quantity, forKey: .quantity)
+        try container.encode(quantity, forKey: .quantity)
         try container.encodeIfPresent(expiration, forKey: .expiration)
-        try container.encodeIfPresent(environment, forKey: .environment)
+        try container.encode(environment, forKey: .environment)
     }
 }
 

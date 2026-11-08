@@ -44,9 +44,7 @@ import com.google.gson.annotations.SerializedName
  *
  * @param invoiceType 
  * @param issueDate 
- * @param paymentForms Payment breakdown. Required.
  * @param items 
- * @param totals 
  * @param version Siempre \"1.0\".
  * @param invoiceNumber Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`. 
  * @param groupId ID de grupo opcional para procesamiento en lote.
@@ -58,6 +56,7 @@ import com.google.gson.annotations.SerializedName
  * @param paymentType 1=Contado, 2=Crédito, 3=Mixto
  * @param paymentDeadline 
  * @param paymentTerms 
+ * @param paymentForms Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
  * @param paymentAccountType 
  * @param paymentAccountNumber 
  * @param paymentBank 
@@ -82,6 +81,7 @@ import com.google.gson.annotations.SerializedName
  * @param salesRoute 
  * @param additionalIssuerInfo 
  * @param buyer 
+ * @param totals 
  * @param transport 
  * @param additionalInfo 
  * @param alternativeCurrency 
@@ -100,15 +100,8 @@ data class ElectronicDocument (
     @SerializedName("issueDate")
     val issueDate: java.time.OffsetDateTime,
 
-    /* Payment breakdown. Required. */
-    @SerializedName("paymentForms")
-    val paymentForms: kotlin.collections.List<PaymentForm>,
-
     @SerializedName("items")
     val items: kotlin.collections.List<Item>,
-
-    @SerializedName("totals")
-    val totals: Totals,
 
     /* Siempre \"1.0\". */
     @SerializedName("version")
@@ -148,6 +141,10 @@ data class ElectronicDocument (
 
     @SerializedName("paymentTerms")
     val paymentTerms: kotlin.String? = null,
+
+    /* Payment breakdown. Optional; if omitted, the XML is sent without the payment table. */
+    @SerializedName("paymentForms")
+    val paymentForms: kotlin.collections.List<PaymentForm>? = null,
 
     @SerializedName("paymentAccountType")
     val paymentAccountType: AccountType? = null,
@@ -221,6 +218,9 @@ data class ElectronicDocument (
 
     @SerializedName("buyer")
     val buyer: Buyer? = null,
+
+    @SerializedName("totals")
+    val totals: Totals? = null,
 
     @SerializedName("transport")
     val transport: Transport? = null,

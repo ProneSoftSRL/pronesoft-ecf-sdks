@@ -32,8 +32,8 @@ import (
 )
 
 func main() {
-	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceTypeSequence("E31"), int32(1), int32(10000)) // CreateTaxSequenceRequest | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceTypeSequence("E31"), int32(1), int32(10000), int32(10000), openapiclient.Environment("TesteCF")) // CreateTaxSequenceRequest | 
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -59,7 +59,7 @@ Other parameters are passed through a pointer to a apiCreateTaxSequenceRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **createTaxSequenceRequest** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  | 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
 
 ### Return type
 
@@ -102,7 +102,7 @@ import (
 func main() {
 	type_ := openapiclient.InvoiceTypeSequence("E31") // InvoiceTypeSequence | 
 	environment := openapiclient.Environment("TesteCF") // Environment | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -129,7 +129,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **type_** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
  **environment** | [**Environment**](Environment.md) |  | 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
 
 ### Return type
 
@@ -172,7 +172,7 @@ import (
 func main() {
 	environment := openapiclient.Environment("TesteCF") // Environment | 
 	file := os.NewFile(1234, "some_file") // *os.File | Archivo Excel (.xlsx o .xls) exportado desde la DGII
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -199,7 +199,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **environment** | [**Environment**](Environment.md) |  | 
  **file** | ***os.File** | Archivo Excel (.xlsx o .xls) exportado desde la DGII | 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
 
 ### Return type
 
@@ -238,7 +238,7 @@ import (
 )
 
 func main() {
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 	type_ := openapiclient.InvoiceTypeSequence("E31") // InvoiceTypeSequence |  (optional)
 	environment := openapiclient.Environment("TesteCF") // Environment |  (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
@@ -267,7 +267,7 @@ Other parameters are passed through a pointer to a apiListTaxSequencesRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
  **type_** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
  **environment** | [**Environment**](Environment.md) |  | 
  **page** | **int32** |  | [default to 1]
@@ -312,7 +312,7 @@ import (
 func main() {
 	id := "id_example" // string | 
 	updateTaxSequenceRequest := *openapiclient.NewUpdateTaxSequenceRequest() // UpdateTaxSequenceRequest | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -337,7 +337,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **string** |  | 
  **updateTaxSequenceRequest** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  | 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
 
 ### Return type
 
@@ -379,7 +379,7 @@ import (
 
 func main() {
 	voidTaxSequenceRequest := *openapiclient.NewVoidTaxSequenceRequest("SequenceId_example", "E32000005251", "E32000005300", "Reason_example") // VoidTaxSequenceRequest | 
-	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -405,7 +405,7 @@ Other parameters are passed through a pointer to a apiVoidTaxSequenceRequest str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **voidTaxSequenceRequest** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md) |  | 
- **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+ **xTenantId** | **string** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | 
 
 ### Return type
 

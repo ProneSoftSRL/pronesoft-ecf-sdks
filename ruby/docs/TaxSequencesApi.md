@@ -30,9 +30,9 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceTypeSequence::E31, from: 1, to: 10000}) # CreateTaxSequenceRequest | 
+create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceTypeSequence::E31, from: 1, to: 10000, quantity: 10000, environment: PronesoftEcf::Environment::TESTE_CF}) # CreateTaxSequenceRequest | 
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 }
 
 begin
@@ -67,7 +67,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **create_tax_sequence_request** | [**CreateTaxSequenceRequest**](CreateTaxSequenceRequest.md) |  |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -106,7 +106,7 @@ api_instance = PronesoftEcf::TaxSequencesApi.new
 type = PronesoftEcf::InvoiceTypeSequence::E31 # InvoiceTypeSequence | 
 environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 }
 
 begin
@@ -142,7 +142,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **type** | [**InvoiceTypeSequence**](.md) |  |  |
 | **environment** | [**Environment**](.md) |  |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -181,7 +181,7 @@ api_instance = PronesoftEcf::TaxSequencesApi.new
 environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
 file = File.new('/path/to/some/file') # File | Archivo Excel (.xlsx o .xls) exportado desde la DGII
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 }
 
 begin
@@ -217,7 +217,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **environment** | [**Environment**](.md) |  |  |
 | **file** | **File** | Archivo Excel (.xlsx o .xls) exportado desde la DGII |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -252,7 +252,7 @@ end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798', # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798', # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   type: PronesoftEcf::InvoiceTypeSequence::E31, # InvoiceTypeSequence | 
   environment: PronesoftEcf::Environment::TESTE_CF, # Environment | 
   page: 56, # Integer | 
@@ -290,7 +290,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 | **type** | [**InvoiceTypeSequence**](.md) |  | [optional] |
 | **environment** | [**Environment**](.md) |  | [optional] |
 | **page** | **Integer** |  | [optional][default to 1] |
@@ -331,7 +331,7 @@ api_instance = PronesoftEcf::TaxSequencesApi.new
 id = 'id_example' # String | 
 update_tax_sequence_request = PronesoftEcf::UpdateTaxSequenceRequest.new # UpdateTaxSequenceRequest | 
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 }
 
 begin
@@ -366,7 +366,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **id** | **String** |  |  |
 | **update_tax_sequence_request** | [**UpdateTaxSequenceRequest**](UpdateTaxSequenceRequest.md) |  |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -404,7 +404,7 @@ end
 api_instance = PronesoftEcf::TaxSequencesApi.new
 void_tax_sequence_request = PronesoftEcf::VoidTaxSequenceRequest.new({sequence_id: 'sequence_id_example', start_number: 'E32000005251', end_number: 'E32000005300', reason: 'reason_example'}) # VoidTaxSequenceRequest | 
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 }
 
 begin
@@ -439,7 +439,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **void_tax_sequence_request** | [**VoidTaxSequenceRequest**](VoidTaxSequenceRequest.md) |  |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 

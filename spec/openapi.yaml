@@ -36,7 +36,8 @@ info:
 
     ### Delegación multi-empresa
     Para actuar en nombre de una empresa asociada (sucursal), agrega:
-      x-tenant-id: <business-uuid>
+      x-tenant-id: <ID (UUID) o RNC de la empresa asociada>
+    Si la empresa no es asociada de tu cuenta principal, la API responde 403.
     NO envíes x-tenant-id cuando actúes como la empresa principal.
 
     ### Detalles del Sandbox
@@ -138,7 +139,7 @@ paths:
       summary: Subir certificado digital (P12/PFX)
       description: |
         Sube el certificado de firma digital emitido por DGII para una empresa.
-        Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga.
+        Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga.
         Tip Sandbox: Los RNC con prefijo SBX no requieren certificado.
       operationId: uploadCertificate
       security:
@@ -1809,7 +1810,7 @@ components:
         Credentials from https://ecf.sandbox.pronesoft.com or https://ecf.pronesoft.com
       flows:
         clientCredentials:
-          tokenUrl: /oauth/token
+          tokenUrl: /api/v1/oauth/token
           scopes:
             "business:read": Consultar datos de la empresa.
             "business:create": Crear una nueva empresa.
@@ -1842,11 +1843,11 @@ components:
       in: header
       required: false
       description: |
-        UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
-        en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+        ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+        en nombre de una sucursal; omitir cuando se actúa como empresa principal.
+        Si la empresa no es asociada de tu cuenta principal, la API responde 403.
       schema:
         type: string
-        format: uuid
         example: "468a4aa1-1b80-447e-9ecb-400e39f7d798"
 
     RncPath:
@@ -1895,7 +1896,7 @@ components:
     Environment:
       type: string
       enum: [TesteCF, CerteCF, eCF]
-      description: "TesteCF=testing no DGII, CerteCF=official certification, eCF=production"
+      description: "TesteCF=DGII test environment (no fiscal validity), CerteCF=DGII certification, eCF=production"
 
     InvoiceType:
       type: string
@@ -2009,7 +2010,7 @@ components:
 
     ElectronicDocument:
       type: object
-      required: [invoiceType, issueDate, items, totals, paymentForms]
+      required: [invoiceType, issueDate, items]
       description: |
         Payload del comprobante fiscal electrónico (e-CF).
 
@@ -2069,7 +2070,7 @@ components:
           maxLength: 15
         paymentForms:
           type: array
-          description: Payment breakdown. Required.
+          description: Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
           items:
             $ref: "#/components/schemas/PaymentForm"
           example:
@@ -2552,7 +2553,7 @@ components:
 
     CreateTaxSequenceRequest:
       type: object
-      required: [type, from, to]
+      required: [type, from, to, quantity, environment]
       properties:
         type: { $ref: "#/components/schemas/InvoiceTypeSequence" }
         from: { type: integer, example: 1 }

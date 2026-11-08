@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -221,7 +221,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="paymentType">1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto.</param>
         /// <param name="paymentDeadline">paymentDeadline.</param>
         /// <param name="paymentTerms">paymentTerms.</param>
-        /// <param name="paymentForms">Payment breakdown. Required. (required).</param>
+        /// <param name="paymentForms">Payment breakdown. Optional; if omitted, the XML is sent without the payment table..</param>
         /// <param name="paymentAccountType">paymentAccountType.</param>
         /// <param name="paymentAccountNumber">paymentAccountNumber.</param>
         /// <param name="paymentBank">paymentBank.</param>
@@ -247,7 +247,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="additionalIssuerInfo">additionalIssuerInfo.</param>
         /// <param name="buyer">buyer.</param>
         /// <param name="items">items (required).</param>
-        /// <param name="totals">totals (required).</param>
+        /// <param name="totals">totals.</param>
         /// <param name="transport">transport.</param>
         /// <param name="additionalInfo">additionalInfo.</param>
         /// <param name="alternativeCurrency">alternativeCurrency.</param>
@@ -259,24 +259,12 @@ namespace Pronesoft.Ecf.Sdk.Model
         {
             this.InvoiceType = invoiceType;
             this.IssueDate = issueDate;
-            // to ensure "paymentForms" is required (not null)
-            if (paymentForms == null)
-            {
-                throw new ArgumentNullException("paymentForms is a required property for ElectronicDocument and cannot be null");
-            }
-            this.PaymentForms = paymentForms;
             // to ensure "items" is required (not null)
             if (items == null)
             {
                 throw new ArgumentNullException("items is a required property for ElectronicDocument and cannot be null");
             }
             this.Items = items;
-            // to ensure "totals" is required (not null)
-            if (totals == null)
-            {
-                throw new ArgumentNullException("totals is a required property for ElectronicDocument and cannot be null");
-            }
-            this.Totals = totals;
             // use default value if no "varVersion" provided
             this.VarVersion = varVersion ?? @"1.0";
             this.InvoiceNumber = invoiceNumber;
@@ -289,6 +277,7 @@ namespace Pronesoft.Ecf.Sdk.Model
             this.PaymentType = paymentType;
             this.PaymentDeadline = paymentDeadline;
             this.PaymentTerms = paymentTerms;
+            this.PaymentForms = paymentForms;
             this.PaymentAccountType = paymentAccountType;
             this.PaymentAccountNumber = paymentAccountNumber;
             this.PaymentBank = paymentBank;
@@ -313,6 +302,7 @@ namespace Pronesoft.Ecf.Sdk.Model
             this.SalesRoute = salesRoute;
             this.AdditionalIssuerInfo = additionalIssuerInfo;
             this.Buyer = buyer;
+            this.Totals = totals;
             this.Transport = transport;
             this.AdditionalInfo = additionalInfo;
             this.AlternativeCurrency = alternativeCurrency;
@@ -377,13 +367,13 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string PaymentTerms { get; set; }
 
         /// <summary>
-        /// Payment breakdown. Required.
+        /// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
         /// </summary>
-        /// <value>Payment breakdown. Required.</value>
+        /// <value>Payment breakdown. Optional; if omitted, the XML is sent without the payment table.</value>
         /*
         <example>[{&quot;method&quot;:&quot;1&quot;,&quot;amount&quot;:11800.0}]</example>
         */
-        [DataMember(Name = "paymentForms", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "paymentForms", EmitDefaultValue = false)]
         public List<PaymentForm> PaymentForms { get; set; }
 
         /// <summary>
@@ -534,7 +524,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Gets or Sets Totals
         /// </summary>
-        [DataMember(Name = "totals", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "totals", EmitDefaultValue = false)]
         public Totals Totals { get; set; }
 
         /// <summary>

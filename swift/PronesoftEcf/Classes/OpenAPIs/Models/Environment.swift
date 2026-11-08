@@ -15,7 +15,7 @@ public typealias Environment = PronesoftEcfAPI.Environment
 
 extension PronesoftEcfAPI {
 
-/** TesteCF&#x3D;testing no DGII, CerteCF&#x3D;official certification, eCF&#x3D;production */
+/** TesteCF&#x3D;DGII test environment (no fiscal validity), CerteCF&#x3D;DGII certification, eCF&#x3D;production */
 public enum Environment: String, Codable, CaseIterable {
     case testeCF = "TesteCF"
     case certeCF = "CerteCF"

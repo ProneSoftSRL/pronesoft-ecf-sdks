@@ -30,7 +30,7 @@ end
 api_instance = PronesoftEcf::ECFSubmissionApi.new
 environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 }
 
 begin
@@ -65,7 +65,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **environment** | [**Environment**](.md) |  |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -102,7 +102,7 @@ api_instance = PronesoftEcf::ECFSubmissionApi.new
 environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
 id = 'id_example' # String | 
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 }
 
 begin
@@ -138,7 +138,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **environment** | [**Environment**](.md) |  |  |
 | **id** | **String** |  |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -174,7 +174,7 @@ end
 api_instance = PronesoftEcf::ECFSubmissionApi.new
 environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798', # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798', # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   page: 56, # Integer | 
   limit: 56 # Integer | 
 }
@@ -211,7 +211,7 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **environment** | [**Environment**](.md) |  |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 | **page** | **Integer** |  | [optional][default to 1] |
 | **limit** | **Integer** |  | [optional][default to 20] |
 
@@ -250,9 +250,9 @@ end
 
 api_instance = PronesoftEcf::ECFSubmissionApi.new
 environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
-electronic_document = PronesoftEcf::ElectronicDocument.new({invoice_type: PronesoftEcf::InvoiceType::N31, issue_date: Time.parse('2025-01-15T10:30Z'), payment_forms: [{"method": "1", "amount": 11800.0}], items: [PronesoftEcf::Item.new({name: 'Servicio profesional', type: '1', billing_indicator: PronesoftEcf::BillingIndicator::N0, quantity: nil, unit_price: nil})], totals: PronesoftEcf::Totals.new}) # ElectronicDocument | 
+electronic_document = PronesoftEcf::ElectronicDocument.new({invoice_type: PronesoftEcf::InvoiceType::N31, issue_date: Time.parse('2025-01-15T10:30Z'), items: [PronesoftEcf::Item.new({name: 'Servicio profesional', type: '1', billing_indicator: PronesoftEcf::BillingIndicator::N0, quantity: nil, unit_price: nil})]}) # ElectronicDocument | 
 opts = {
-  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 }
 
 begin
@@ -288,7 +288,7 @@ end
 | ---- | ---- | ----------- | ----- |
 | **environment** | [**Environment**](.md) |  |  |
 | **electronic_document** | [**ElectronicDocument**](ElectronicDocument.md) |  |  |
-| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **x_tenant_id** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 

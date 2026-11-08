@@ -295,6 +295,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_decide_commercial_approval_request.py
-test/test_decide_commercial_approval_response.py
 tox.ini

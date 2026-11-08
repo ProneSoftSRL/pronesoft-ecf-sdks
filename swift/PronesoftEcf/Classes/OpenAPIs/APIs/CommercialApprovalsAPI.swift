@@ -19,12 +19,12 @@ open class CommercialApprovalsAPI {
      Obtener aprobación comercial por ID
      
      - parameter id: (path)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getCommercialApprovalById(id: UUID, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalItem?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func getCommercialApprovalById(id: UUID, xTenantId: String? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalItem?, _ error: Error?) -> Void)) -> RequestTask {
         return getCommercialApprovalByIdWithRequestBuilder(id: id, xTenantId: xTenantId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -42,10 +42,10 @@ open class CommercialApprovalsAPI {
        - type: oauth2
        - name: oauth2
      - parameter id: (path)  
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - returns: RequestBuilder<ApprovalItem> 
      */
-    open class func getCommercialApprovalByIdWithRequestBuilder(id: UUID, xTenantId: UUID? = nil) -> RequestBuilder<ApprovalItem> {
+    open class func getCommercialApprovalByIdWithRequestBuilder(id: UUID, xTenantId: String? = nil) -> RequestBuilder<ApprovalItem> {
         var localVariablePath = "/documents/approvals/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -79,7 +79,7 @@ open class CommercialApprovalsAPI {
     /**
      Listar aprobaciones comerciales
      
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter ecf: (query)  (optional)
      - parameter type: (query) Tipo de documento (optional)
      - parameter status: (query)  (optional)
@@ -91,7 +91,7 @@ open class CommercialApprovalsAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listCommercialApprovals(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func listCommercialApprovals(xTenantId: String? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalListResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return listCommercialApprovalsWithRequestBuilder(xTenantId: xTenantId, ecf: ecf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -108,7 +108,7 @@ open class CommercialApprovalsAPI {
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter xTenantId: (header) ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      - parameter ecf: (query)  (optional)
      - parameter type: (query) Tipo de documento (optional)
      - parameter status: (query)  (optional)
@@ -118,7 +118,7 @@ open class CommercialApprovalsAPI {
      - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<ApprovalListResponse> 
      */
-    open class func listCommercialApprovalsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ApprovalListResponse> {
+    open class func listCommercialApprovalsWithRequestBuilder(xTenantId: String? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ApprovalListResponse> {
         let localVariablePath = "/documents/approvals"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

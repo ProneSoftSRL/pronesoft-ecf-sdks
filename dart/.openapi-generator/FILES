@@ -289,5 +289,3 @@ lib/model/webhook_notification_payload_data.dart
 lib/model/webhook_stats.dart
 lib/model/webhook_stats_stats.dart
 pubspec.yaml
-test/decide_commercial_approval_request_test.dart
-test/decide_commercial_approval_response_test.dart

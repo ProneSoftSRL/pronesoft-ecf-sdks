@@ -78,7 +78,7 @@ Obtener detalle del documento
 
 val apiInstance = DocumentsSentApi()
 val id : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     val result : SentDocumentDetail = apiInstance.getSentDocumentById(id, xTenantId)
     println(result)
@@ -95,7 +95,7 @@ try {
 | **id** | **java.util.UUID**|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -126,7 +126,7 @@ Logs de procesamiento del documento
 
 val apiInstance = DocumentsSentApi()
 val id : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | 
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     val result : kotlin.collections.List<GetSentDocumentLogs200ResponseInner> = apiInstance.getSentDocumentLogs(id, xTenantId)
     println(result)
@@ -143,7 +143,7 @@ try {
 | **id** | **java.util.UUID**|  | |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -173,7 +173,7 @@ Estadísticas de documentos enviados
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = DocumentsSentApi()
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     val result : DocumentStatsResponse = apiInstance.getSentDocumentStats(xTenantId)
     println(result)
@@ -189,7 +189,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -219,7 +219,7 @@ Estadísticas agrupadas por ambiente y estado
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = DocumentsSentApi()
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 try {
     val result : kotlin.collections.Map<kotlin.String, kotlin.Any> = apiInstance.getSentDocumentStatsByEnvironment(xTenantId)
     println(result)
@@ -235,7 +235,7 @@ try {
 ### Parameters
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 
 ### Return type
 
@@ -356,7 +356,7 @@ Listar documentos enviados
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = DocumentsSentApi()
-val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+val xTenantId : kotlin.String = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // kotlin.String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
 val env : Environment =  // Environment | 
 val ecf : kotlin.String = ecf_example // kotlin.String | 
 val type : kotlin.String = type_example // kotlin.String | 
@@ -378,7 +378,7 @@ try {
 ```
 
 ### Parameters
-| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+| **xTenantId** | **kotlin.String**| ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] |
 | **env** | [**Environment**](.md)|  | [optional] [enum: TesteCF, CerteCF, eCF] |
 | **ecf** | **kotlin.String**|  | [optional] |
 | **type** | **kotlin.String**|  | [optional] |

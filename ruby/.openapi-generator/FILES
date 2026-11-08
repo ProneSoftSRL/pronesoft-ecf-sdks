@@ -290,6 +290,4 @@ lib/pronesoft_ecf/models/webhook_stats.rb
 lib/pronesoft_ecf/models/webhook_stats_stats.rb
 lib/pronesoft_ecf/version.rb
 pronesoft_ecf.gemspec
-spec/models/decide_commercial_approval_request_spec.rb
-spec/models/decide_commercial_approval_response_spec.rb
 spec/spec_helper.rb

@@ -65,7 +65,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
      * @param id ID del documento recibido (TaxDocumentReceived.id)
      * @param decideCommercialApprovalRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return DecideCommercialApprovalResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -75,7 +75,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun decideCommercialApproval(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: java.util.UUID? = null) : DecideCommercialApprovalResponse {
+    fun decideCommercialApproval(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: kotlin.String? = null) : DecideCommercialApprovalResponse {
         val localVarResponse = decideCommercialApprovalWithHttpInfo(id = id, decideCommercialApprovalRequest = decideCommercialApprovalRequest, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -99,14 +99,14 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
      * @param id ID del documento recibido (TaxDocumentReceived.id)
      * @param decideCommercialApprovalRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<DecideCommercialApprovalResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun decideCommercialApprovalWithHttpInfo(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: java.util.UUID?) : ApiResponse<DecideCommercialApprovalResponse?> {
+    fun decideCommercialApprovalWithHttpInfo(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: kotlin.String?) : ApiResponse<DecideCommercialApprovalResponse?> {
         val localVariableConfig = decideCommercialApprovalRequestConfig(id = id, decideCommercialApprovalRequest = decideCommercialApprovalRequest, xTenantId = xTenantId)
 
         return request<DecideCommercialApprovalRequest, DecideCommercialApprovalResponse>(
@@ -119,10 +119,10 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      *
      * @param id ID del documento recibido (TaxDocumentReceived.id)
      * @param decideCommercialApprovalRequest 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun decideCommercialApprovalRequestConfig(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: java.util.UUID?) : RequestConfig<DecideCommercialApprovalRequest> {
+    fun decideCommercialApprovalRequestConfig(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: kotlin.String?) : RequestConfig<DecideCommercialApprovalRequest> {
         val localVariableBody = decideCommercialApprovalRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -145,7 +145,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * Obtener documento recibido por ID
      * 
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ReceivedDocument
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -155,7 +155,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getReceivedDocumentById(id: java.util.UUID, xTenantId: java.util.UUID? = null) : ReceivedDocument {
+    fun getReceivedDocumentById(id: java.util.UUID, xTenantId: kotlin.String? = null) : ReceivedDocument {
         val localVarResponse = getReceivedDocumentByIdWithHttpInfo(id = id, xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -178,14 +178,14 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * Obtener documento recibido por ID
      * 
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<ReceivedDocument?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getReceivedDocumentByIdWithHttpInfo(id: java.util.UUID, xTenantId: java.util.UUID?) : ApiResponse<ReceivedDocument?> {
+    fun getReceivedDocumentByIdWithHttpInfo(id: java.util.UUID, xTenantId: kotlin.String?) : ApiResponse<ReceivedDocument?> {
         val localVariableConfig = getReceivedDocumentByIdRequestConfig(id = id, xTenantId = xTenantId)
 
         return request<Unit, ReceivedDocument>(
@@ -197,10 +197,10 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * To obtain the request config of the operation getReceivedDocumentById
      *
      * @param id 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun getReceivedDocumentByIdRequestConfig(id: java.util.UUID, xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getReceivedDocumentByIdRequestConfig(id: java.util.UUID, xTenantId: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -221,7 +221,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * GET /documents/received/stats/by-supplier
      * Top 10 proveedores por volumen de documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -231,7 +231,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getReceivedDocumentStatsBySupplier(xTenantId: java.util.UUID? = null) : kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner> {
+    fun getReceivedDocumentStatsBySupplier(xTenantId: kotlin.String? = null) : kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner> {
         val localVarResponse = getReceivedDocumentStatsBySupplierWithHttpInfo(xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -253,14 +253,14 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * GET /documents/received/stats/by-supplier
      * Top 10 proveedores por volumen de documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getReceivedDocumentStatsBySupplierWithHttpInfo(xTenantId: java.util.UUID?) : ApiResponse<kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>?> {
+    fun getReceivedDocumentStatsBySupplierWithHttpInfo(xTenantId: kotlin.String?) : ApiResponse<kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>?> {
         val localVariableConfig = getReceivedDocumentStatsBySupplierRequestConfig(xTenantId = xTenantId)
 
         return request<Unit, kotlin.collections.List<GetReceivedDocumentStatsBySupplier200ResponseInner>>(
@@ -271,10 +271,10 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * To obtain the request config of the operation getReceivedDocumentStatsBySupplier
      *
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun getReceivedDocumentStatsBySupplierRequestConfig(xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getReceivedDocumentStatsBySupplierRequestConfig(xTenantId: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -295,7 +295,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * GET /documents/received/stats/summary
      * Estadísticas de documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ReceivedDocumentStatsResponse
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -305,7 +305,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getReceivedDocumentStatsSummary(xTenantId: java.util.UUID? = null) : ReceivedDocumentStatsResponse {
+    fun getReceivedDocumentStatsSummary(xTenantId: kotlin.String? = null) : ReceivedDocumentStatsResponse {
         val localVarResponse = getReceivedDocumentStatsSummaryWithHttpInfo(xTenantId = xTenantId)
 
         return when (localVarResponse.responseType) {
@@ -327,14 +327,14 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * GET /documents/received/stats/summary
      * Estadísticas de documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse<ReceivedDocumentStatsResponse?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getReceivedDocumentStatsSummaryWithHttpInfo(xTenantId: java.util.UUID?) : ApiResponse<ReceivedDocumentStatsResponse?> {
+    fun getReceivedDocumentStatsSummaryWithHttpInfo(xTenantId: kotlin.String?) : ApiResponse<ReceivedDocumentStatsResponse?> {
         val localVariableConfig = getReceivedDocumentStatsSummaryRequestConfig(xTenantId = xTenantId)
 
         return request<Unit, ReceivedDocumentStatsResponse>(
@@ -345,10 +345,10 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * To obtain the request config of the operation getReceivedDocumentStatsSummary
      *
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return RequestConfig
      */
-    fun getReceivedDocumentStatsSummaryRequestConfig(xTenantId: java.util.UUID?) : RequestConfig<Unit> {
+    fun getReceivedDocumentStatsSummaryRequestConfig(xTenantId: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -387,7 +387,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * GET /documents/received
      * Listar documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
@@ -408,7 +408,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listReceivedDocuments(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListReceivedDocuments? = null, supplierRnc: kotlin.String? = null, amountFrom: java.math.BigDecimal? = null, amountTo: java.math.BigDecimal? = null, processed: kotlin.Boolean? = null, dateFrom: kotlin.String? = null, dateTo: kotlin.String? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ReceivedDocumentListResponse {
+    fun listReceivedDocuments(xTenantId: kotlin.String? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListReceivedDocuments? = null, supplierRnc: kotlin.String? = null, amountFrom: java.math.BigDecimal? = null, amountTo: java.math.BigDecimal? = null, processed: kotlin.Boolean? = null, dateFrom: kotlin.String? = null, dateTo: kotlin.String? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ReceivedDocumentListResponse {
         val localVarResponse = listReceivedDocumentsWithHttpInfo(xTenantId = xTenantId, ecf = ecf, type = type, status = status, supplierRnc = supplierRnc, amountFrom = amountFrom, amountTo = amountTo, processed = processed, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -430,7 +430,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * GET /documents/received
      * Listar documentos recibidos
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
@@ -448,7 +448,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listReceivedDocumentsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ReceivedDocumentListResponse?> {
+    fun listReceivedDocumentsWithHttpInfo(xTenantId: kotlin.String?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ReceivedDocumentListResponse?> {
         val localVariableConfig = listReceivedDocumentsRequestConfig(xTenantId = xTenantId, ecf = ecf, type = type, status = status, supplierRnc = supplierRnc, amountFrom = amountFrom, amountTo = amountTo, processed = processed, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return request<Unit, ReceivedDocumentListResponse>(
@@ -459,7 +459,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
     /**
      * To obtain the request config of the operation listReceivedDocuments
      *
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param ecf  (optional)
      * @param type Tipo de documento (31, 32, 33, etc.) (optional)
      * @param status  (optional)
@@ -473,7 +473,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listReceivedDocumentsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listReceivedDocumentsRequestConfig(xTenantId: kotlin.String?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

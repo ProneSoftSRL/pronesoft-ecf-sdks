@@ -25,7 +25,7 @@ class ECFSubmissionApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getEcfStatsWithHttpInfo(Environment environment, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/{environment}/ecf/responses/stats'
@@ -63,7 +63,7 @@ class ECFSubmissionApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<EcfStatsResponse?> getEcfStats(Environment environment, { String? xTenantId, }) async {
     final response = await getEcfStatsWithHttpInfo(environment,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -90,7 +90,7 @@ class ECFSubmissionApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> getEcfStatusWithHttpInfo(Environment environment, String id, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/{environment}/ecf/status/{id}'
@@ -131,7 +131,7 @@ class ECFSubmissionApi {
   /// * [String] id (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<EcfStatusResponse?> getEcfStatus(Environment environment, String id, { String? xTenantId, }) async {
     final response = await getEcfStatusWithHttpInfo(environment, id,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -156,7 +156,7 @@ class ECFSubmissionApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [int] page:
   ///
@@ -205,7 +205,7 @@ class ECFSubmissionApi {
   /// * [Environment] environment (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   ///
   /// * [int] page:
   ///
@@ -238,7 +238,7 @@ class ECFSubmissionApi {
   /// * [ElectronicDocument] electronicDocument (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<Response> submitEcfWithHttpInfo(Environment environment, ElectronicDocument electronicDocument, { String? xTenantId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/{environment}/ecf/submit'
@@ -280,7 +280,7 @@ class ECFSubmissionApi {
   /// * [ElectronicDocument] electronicDocument (required):
   ///
   /// * [String] xTenantId:
-  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  ///   ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. 
   Future<EcfSubmitResponse?> submitEcf(Environment environment, ElectronicDocument electronicDocument, { String? xTenantId, }) async {
     final response = await submitEcfWithHttpInfo(environment, electronicDocument,  xTenantId: xTenantId, );
     if (response.statusCode >= HttpStatus.badRequest) {

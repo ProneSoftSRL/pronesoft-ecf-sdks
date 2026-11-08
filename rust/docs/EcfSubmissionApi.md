@@ -22,7 +22,7 @@ Obtener estadísticas de envíos (últimos 30 días)
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
+**x_tenant_id** | Option<**String**> | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  |  |
 
 ### Return type
 
@@ -52,7 +52,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [required] |
 **id** | **String** |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
+**x_tenant_id** | Option<**String**> | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  |  |
 
 ### Return type
 
@@ -81,7 +81,7 @@ Historial de envíos (paginado)
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
+**x_tenant_id** | Option<**String**> | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  |  |
 **page** | Option<**i32**> |  |  |[default to 1]
 **limit** | Option<**i32**> |  |  |[default to 20]
 
@@ -115,7 +115,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **environment** | [**Environment**](Environment.md) |  | [required] |
 **electronic_document** | [**ElectronicDocument**](ElectronicDocument.md) |  | [required] |
-**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
+**x_tenant_id** | Option<**String**> | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  |  |
 
 ### Return type
 

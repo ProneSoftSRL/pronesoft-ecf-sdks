@@ -16,9 +16,9 @@ class CreateTaxSequenceRequest {
     required this.type,
     required this.from,
     required this.to,
-    this.quantity,
+    required this.quantity,
     this.expiration,
-    this.environment,
+    required this.environment,
   });
 
   InvoiceTypeSequence type;
@@ -27,13 +27,7 @@ class CreateTaxSequenceRequest {
 
   int to;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  int? quantity;
+  int quantity;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -43,13 +37,7 @@ class CreateTaxSequenceRequest {
   ///
   DateTime? expiration;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  Environment? environment;
+  Environment environment;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CreateTaxSequenceRequest &&
@@ -66,9 +54,9 @@ class CreateTaxSequenceRequest {
     (type.hashCode) +
     (from.hashCode) +
     (to.hashCode) +
-    (quantity == null ? 0 : quantity!.hashCode) +
+    (quantity.hashCode) +
     (expiration == null ? 0 : expiration!.hashCode) +
-    (environment == null ? 0 : environment!.hashCode);
+    (environment.hashCode);
 
   @override
   String toString() => 'CreateTaxSequenceRequest[type=$type, from=$from, to=$to, quantity=$quantity, expiration=$expiration, environment=$environment]';
@@ -78,21 +66,13 @@ class CreateTaxSequenceRequest {
       json[r'type'] = this.type;
       json[r'from'] = this.from;
       json[r'to'] = this.to;
-    if (this.quantity != null) {
       json[r'quantity'] = this.quantity;
-    } else {
-      json[r'quantity'] = null;
-    }
     if (this.expiration != null) {
       json[r'expiration'] = _dateFormatter.format(this.expiration!.toUtc());
     } else {
       json[r'expiration'] = null;
     }
-    if (this.environment != null) {
       json[r'environment'] = this.environment;
-    } else {
-      json[r'environment'] = null;
-    }
     return json;
   }
 
@@ -113,6 +93,10 @@ class CreateTaxSequenceRequest {
         assert(json[r'from'] != null, 'Required key "CreateTaxSequenceRequest[from]" has a null value in JSON.');
         assert(json.containsKey(r'to'), 'Required key "CreateTaxSequenceRequest[to]" is missing from JSON.');
         assert(json[r'to'] != null, 'Required key "CreateTaxSequenceRequest[to]" has a null value in JSON.');
+        assert(json.containsKey(r'quantity'), 'Required key "CreateTaxSequenceRequest[quantity]" is missing from JSON.');
+        assert(json[r'quantity'] != null, 'Required key "CreateTaxSequenceRequest[quantity]" has a null value in JSON.');
+        assert(json.containsKey(r'environment'), 'Required key "CreateTaxSequenceRequest[environment]" is missing from JSON.');
+        assert(json[r'environment'] != null, 'Required key "CreateTaxSequenceRequest[environment]" has a null value in JSON.');
         return true;
       }());
 
@@ -120,9 +104,9 @@ class CreateTaxSequenceRequest {
         type: InvoiceTypeSequence.fromJson(json[r'type'])!,
         from: mapValueOfType<int>(json, r'from')!,
         to: mapValueOfType<int>(json, r'to')!,
-        quantity: mapValueOfType<int>(json, r'quantity'),
+        quantity: mapValueOfType<int>(json, r'quantity')!,
         expiration: mapDateTime(json, r'expiration', r''),
-        environment: Environment.fromJson(json[r'environment']),
+        environment: Environment.fromJson(json[r'environment'])!,
       );
     }
     return null;
@@ -173,6 +157,8 @@ class CreateTaxSequenceRequest {
     'type',
     'from',
     'to',
+    'quantity',
+    'environment',
   };
 }
 

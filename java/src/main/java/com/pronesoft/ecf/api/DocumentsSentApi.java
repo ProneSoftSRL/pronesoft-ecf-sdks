@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -229,7 +229,7 @@ public class DocumentsSentApi {
     /**
      * Build call for getSentDocumentById
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -241,7 +241,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getSentDocumentByIdCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getSentDocumentByIdCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -292,7 +292,7 @@ public class DocumentsSentApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSentDocumentByIdValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getSentDocumentByIdValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'id' is set
         if (id == null) {
             throw new ApiException("Missing the required parameter 'id' when calling getSentDocumentById(Async)");
@@ -306,7 +306,7 @@ public class DocumentsSentApi {
      * Obtener detalle del documento
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return SentDocumentDetail
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -317,7 +317,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public SentDocumentDetail getSentDocumentById(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public SentDocumentDetail getSentDocumentById(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<SentDocumentDetail> localVarResp = getSentDocumentByIdWithHttpInfo(id, xTenantId);
         return localVarResp.getData();
     }
@@ -326,7 +326,7 @@ public class DocumentsSentApi {
      * Obtener detalle del documento
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;SentDocumentDetail&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -337,7 +337,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<SentDocumentDetail> getSentDocumentByIdWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<SentDocumentDetail> getSentDocumentByIdWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getSentDocumentByIdValidateBeforeCall(id, xTenantId, null);
         Type localVarReturnType = new TypeToken<SentDocumentDetail>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -347,7 +347,7 @@ public class DocumentsSentApi {
      * Obtener detalle del documento (asynchronously)
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -359,7 +359,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getSentDocumentByIdAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<SentDocumentDetail> _callback) throws ApiException {
+    public okhttp3.Call getSentDocumentByIdAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback<SentDocumentDetail> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getSentDocumentByIdValidateBeforeCall(id, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<SentDocumentDetail>(){}.getType();
@@ -369,7 +369,7 @@ public class DocumentsSentApi {
     /**
      * Build call for getSentDocumentLogs
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -382,7 +382,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getSentDocumentLogsCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getSentDocumentLogsCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -433,7 +433,7 @@ public class DocumentsSentApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSentDocumentLogsValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getSentDocumentLogsValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'id' is set
         if (id == null) {
             throw new ApiException("Missing the required parameter 'id' when calling getSentDocumentLogs(Async)");
@@ -447,7 +447,7 @@ public class DocumentsSentApi {
      * Logs de procesamiento del documento
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return List&lt;GetSentDocumentLogs200ResponseInner&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -459,7 +459,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public List<GetSentDocumentLogs200ResponseInner> getSentDocumentLogs(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public List<GetSentDocumentLogs200ResponseInner> getSentDocumentLogs(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<List<GetSentDocumentLogs200ResponseInner>> localVarResp = getSentDocumentLogsWithHttpInfo(id, xTenantId);
         return localVarResp.getData();
     }
@@ -468,7 +468,7 @@ public class DocumentsSentApi {
      * Logs de procesamiento del documento
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;List&lt;GetSentDocumentLogs200ResponseInner&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -480,7 +480,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<List<GetSentDocumentLogs200ResponseInner>> getSentDocumentLogsWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<List<GetSentDocumentLogs200ResponseInner>> getSentDocumentLogsWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getSentDocumentLogsValidateBeforeCall(id, xTenantId, null);
         Type localVarReturnType = new TypeToken<List<GetSentDocumentLogs200ResponseInner>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -490,7 +490,7 @@ public class DocumentsSentApi {
      * Logs de procesamiento del documento (asynchronously)
      * 
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -503,7 +503,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getSentDocumentLogsAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<List<GetSentDocumentLogs200ResponseInner>> _callback) throws ApiException {
+    public okhttp3.Call getSentDocumentLogsAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nullable String xTenantId, final ApiCallback<List<GetSentDocumentLogs200ResponseInner>> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getSentDocumentLogsValidateBeforeCall(id, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<List<GetSentDocumentLogs200ResponseInner>>(){}.getType();
@@ -512,7 +512,7 @@ public class DocumentsSentApi {
     }
     /**
      * Build call for getSentDocumentStats
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -524,7 +524,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getSentDocumentStatsCall(@javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getSentDocumentStatsCall(@javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -574,7 +574,7 @@ public class DocumentsSentApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSentDocumentStatsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getSentDocumentStatsValidateBeforeCall(@javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         return getSentDocumentStatsCall(xTenantId, _callback);
 
     }
@@ -582,7 +582,7 @@ public class DocumentsSentApi {
     /**
      * Estadísticas de documentos enviados
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return DocumentStatsResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -593,7 +593,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public DocumentStatsResponse getSentDocumentStats(@javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public DocumentStatsResponse getSentDocumentStats(@javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<DocumentStatsResponse> localVarResp = getSentDocumentStatsWithHttpInfo(xTenantId);
         return localVarResp.getData();
     }
@@ -601,7 +601,7 @@ public class DocumentsSentApi {
     /**
      * Estadísticas de documentos enviados
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;DocumentStatsResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -612,7 +612,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<DocumentStatsResponse> getSentDocumentStatsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<DocumentStatsResponse> getSentDocumentStatsWithHttpInfo(@javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getSentDocumentStatsValidateBeforeCall(xTenantId, null);
         Type localVarReturnType = new TypeToken<DocumentStatsResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -621,7 +621,7 @@ public class DocumentsSentApi {
     /**
      * Estadísticas de documentos enviados (asynchronously)
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -633,7 +633,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getSentDocumentStatsAsync(@javax.annotation.Nullable UUID xTenantId, final ApiCallback<DocumentStatsResponse> _callback) throws ApiException {
+    public okhttp3.Call getSentDocumentStatsAsync(@javax.annotation.Nullable String xTenantId, final ApiCallback<DocumentStatsResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getSentDocumentStatsValidateBeforeCall(xTenantId, _callback);
         Type localVarReturnType = new TypeToken<DocumentStatsResponse>(){}.getType();
@@ -642,7 +642,7 @@ public class DocumentsSentApi {
     }
     /**
      * Build call for getSentDocumentStatsByEnvironment
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -654,7 +654,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getSentDocumentStatsByEnvironmentCall(@javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getSentDocumentStatsByEnvironmentCall(@javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -704,7 +704,7 @@ public class DocumentsSentApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getSentDocumentStatsByEnvironmentValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getSentDocumentStatsByEnvironmentValidateBeforeCall(@javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         return getSentDocumentStatsByEnvironmentCall(xTenantId, _callback);
 
     }
@@ -712,7 +712,7 @@ public class DocumentsSentApi {
     /**
      * Estadísticas agrupadas por ambiente y estado
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return Map&lt;String, Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -723,7 +723,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public Map<String, Object> getSentDocumentStatsByEnvironment(@javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public Map<String, Object> getSentDocumentStatsByEnvironment(@javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<Map<String, Object>> localVarResp = getSentDocumentStatsByEnvironmentWithHttpInfo(xTenantId);
         return localVarResp.getData();
     }
@@ -731,7 +731,7 @@ public class DocumentsSentApi {
     /**
      * Estadísticas agrupadas por ambiente y estado
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;Map&lt;String, Object&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -742,7 +742,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Map<String, Object>> getSentDocumentStatsByEnvironmentWithHttpInfo(@javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<Map<String, Object>> getSentDocumentStatsByEnvironmentWithHttpInfo(@javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getSentDocumentStatsByEnvironmentValidateBeforeCall(xTenantId, null);
         Type localVarReturnType = new TypeToken<Map<String, Object>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -751,7 +751,7 @@ public class DocumentsSentApi {
     /**
      * Estadísticas agrupadas por ambiente y estado (asynchronously)
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -763,7 +763,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getSentDocumentStatsByEnvironmentAsync(@javax.annotation.Nullable UUID xTenantId, final ApiCallback<Map<String, Object>> _callback) throws ApiException {
+    public okhttp3.Call getSentDocumentStatsByEnvironmentAsync(@javax.annotation.Nullable String xTenantId, final ApiCallback<Map<String, Object>> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getSentDocumentStatsByEnvironmentValidateBeforeCall(xTenantId, _callback);
         Type localVarReturnType = new TypeToken<Map<String, Object>>(){}.getType();
@@ -1037,7 +1037,7 @@ public class DocumentsSentApi {
     }
     /**
      * Build call for listSentDocuments
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param env  (optional)
      * @param ecf  (optional)
      * @param type  (optional)
@@ -1057,7 +1057,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listSentDocumentsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listSentDocumentsCall(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1139,7 +1139,7 @@ public class DocumentsSentApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listSentDocumentsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listSentDocumentsValidateBeforeCall(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         return listSentDocumentsCall(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit, _callback);
 
     }
@@ -1147,7 +1147,7 @@ public class DocumentsSentApi {
     /**
      * Listar documentos enviados
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param env  (optional)
      * @param ecf  (optional)
      * @param type  (optional)
@@ -1166,7 +1166,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public SentDocumentListResponse listSentDocuments(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public SentDocumentListResponse listSentDocuments(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         ApiResponse<SentDocumentListResponse> localVarResp = listSentDocumentsWithHttpInfo(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit);
         return localVarResp.getData();
     }
@@ -1174,7 +1174,7 @@ public class DocumentsSentApi {
     /**
      * Listar documentos enviados
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param env  (optional)
      * @param ecf  (optional)
      * @param type  (optional)
@@ -1193,7 +1193,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<SentDocumentListResponse> listSentDocumentsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ApiResponse<SentDocumentListResponse> listSentDocumentsWithHttpInfo(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         okhttp3.Call localVarCall = listSentDocumentsValidateBeforeCall(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit, null);
         Type localVarReturnType = new TypeToken<SentDocumentListResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1202,7 +1202,7 @@ public class DocumentsSentApi {
     /**
      * Listar documentos enviados (asynchronously)
      * 
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param env  (optional)
      * @param ecf  (optional)
      * @param type  (optional)
@@ -1222,7 +1222,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listSentDocumentsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<SentDocumentListResponse> _callback) throws ApiException {
+    public okhttp3.Call listSentDocumentsAsync(@javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<SentDocumentListResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = listSentDocumentsValidateBeforeCall(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit, _callback);
         Type localVarReturnType = new TypeToken<SentDocumentListResponse>(){}.getType();

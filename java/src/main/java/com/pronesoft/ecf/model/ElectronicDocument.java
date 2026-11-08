@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -65,7 +65,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el &#x60;invoiceType&#x60;. Usa &#x60;GET /tax-sequences/next?invoiceType&#x3D;31&#x60; solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: &#x60;POST /{environment}/ecf/submit&#x60; (ej. &#x60;TesteCF&#x60; o &#x60;eCF&#x60;). 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T15:39:24.548838388-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ElectronicDocument {
   public static final String SERIALIZED_NAME_VERSION = "version";
   @SerializedName(SERIALIZED_NAME_VERSION)
@@ -402,7 +402,7 @@ public class ElectronicDocument {
 
   public static final String SERIALIZED_NAME_PAYMENT_FORMS = "paymentForms";
   @SerializedName(SERIALIZED_NAME_PAYMENT_FORMS)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private List<PaymentForm> paymentForms = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PAYMENT_ACCOUNT_TYPE = "paymentAccountType";
@@ -532,7 +532,7 @@ public class ElectronicDocument {
 
   public static final String SERIALIZED_NAME_TOTALS = "totals";
   @SerializedName(SERIALIZED_NAME_TOTALS)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private Totals totals;
 
   public static final String SERIALIZED_NAME_TRANSPORT = "transport";
@@ -820,7 +820,7 @@ public class ElectronicDocument {
   }
 
 
-  public ElectronicDocument paymentForms(@javax.annotation.Nonnull List<PaymentForm> paymentForms) {
+  public ElectronicDocument paymentForms(@javax.annotation.Nullable List<PaymentForm> paymentForms) {
     this.paymentForms = paymentForms;
     return this;
   }
@@ -834,15 +834,15 @@ public class ElectronicDocument {
   }
 
   /**
-   * Payment breakdown. Required.
+   * Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
    * @return paymentForms
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public List<PaymentForm> getPaymentForms() {
     return paymentForms;
   }
 
-  public void setPaymentForms(@javax.annotation.Nonnull List<PaymentForm> paymentForms) {
+  public void setPaymentForms(@javax.annotation.Nullable List<PaymentForm> paymentForms) {
     this.paymentForms = paymentForms;
   }
 
@@ -1338,7 +1338,7 @@ public class ElectronicDocument {
   }
 
 
-  public ElectronicDocument totals(@javax.annotation.Nonnull Totals totals) {
+  public ElectronicDocument totals(@javax.annotation.Nullable Totals totals) {
     this.totals = totals;
     return this;
   }
@@ -1347,12 +1347,12 @@ public class ElectronicDocument {
    * Get totals
    * @return totals
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Totals getTotals() {
     return totals;
   }
 
-  public void setTotals(@javax.annotation.Nonnull Totals totals) {
+  public void setTotals(@javax.annotation.Nullable Totals totals) {
     this.totals = totals;
   }
 
@@ -1680,7 +1680,7 @@ public class ElectronicDocument {
     openapiFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "groupId", "issueDate", "expirationDate", "creditNoteIndicator", "deferredSendingIndicator", "taxedAmountIndicator", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentForms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "serviceStartDate", "serviceEndDate", "totalPages", "issuerRNC", "issuerBusinessName", "issuerCommercialName", "branchName", "issuerAddress", "municipalityCode", "provinceCode", "issuerPhones", "issuerEmail", "issuerWebsite", "issuerEconomicActivity", "sellerCode", "internalInvoiceNumber", "internalOrderNumber", "salesZone", "salesRoute", "additionalIssuerInfo", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("invoiceType", "issueDate", "paymentForms", "items", "totals"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("invoiceType", "issueDate", "items"));
   }
 
   /**
@@ -1752,14 +1752,18 @@ public class ElectronicDocument {
       if ((jsonObj.get("paymentTerms") != null && !jsonObj.get("paymentTerms").isJsonNull()) && !jsonObj.get("paymentTerms").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentTerms` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentTerms").toString()));
       }
-      if (jsonObj.get("paymentForms") != null) {
-        if (!jsonObj.get("paymentForms").isJsonArray()) {
-          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentForms` to be an array in the JSON string but got `%s`", jsonObj.get("paymentForms").toString()));
-        }
+      if (jsonObj.get("paymentForms") != null && !jsonObj.get("paymentForms").isJsonNull()) {
         JsonArray jsonArraypaymentForms = jsonObj.getAsJsonArray("paymentForms");
-        // validate the required field `paymentForms` (array)
-        for (int i = 0; i < jsonArraypaymentForms.size(); i++) {
-          PaymentForm.validateJsonElement(jsonArraypaymentForms.get(i));
+        if (jsonArraypaymentForms != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("paymentForms").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentForms` to be an array in the JSON string but got `%s`", jsonObj.get("paymentForms").toString()));
+          }
+
+          // validate the optional field `paymentForms` (array)
+          for (int i = 0; i < jsonArraypaymentForms.size(); i++) {
+            PaymentForm.validateJsonElement(jsonArraypaymentForms.get(i));
+          };
         }
       }
       // validate the optional field `paymentAccountType`
@@ -1835,8 +1839,10 @@ public class ElectronicDocument {
           Item.validateJsonElement(jsonArrayitems.get(i));
         }
       }
-      // validate the required field `totals`
-      Totals.validateJsonElement(jsonObj.get("totals"));
+      // validate the optional field `totals`
+      if (jsonObj.get("totals") != null && !jsonObj.get("totals").isJsonNull()) {
+        Totals.validateJsonElement(jsonObj.get("totals"));
+      }
       // validate the optional field `transport`
       if (jsonObj.get("transport") != null && !jsonObj.get("transport").isJsonNull()) {
         Transport.validateJsonElement(jsonObj.get("transport"));

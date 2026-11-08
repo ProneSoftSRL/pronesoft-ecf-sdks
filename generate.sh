@@ -45,17 +45,17 @@ generate() {
 }
 
 declare -A CONFIG=(
-  [typescript]="typescript-fetch|npmName=@pronesoft-rd/ecf-sdk,npmVersion=0.0.10,supportsES6=true,typescriptThreePlus=true,withInterfaces=true"
-  [go]="go|packageName=ecf,packageVersion=0.0.22,moduleName=github.com/ProneSoftSRL/pronesoft-ecf-sdks/go,isGoSubmodule=true,withGoMod=true,enumClassPrefix=true"
-  [python]="python|packageName=pronesoft_ecf,projectName=pronesoft-ecf,packageVersion=0.0.5,generateSourceCodeOnly=false"
-  [php]="php|invokerPackage=PronesoftEcf,packageName=pronesoft-ecf-sdk,packageVersion=0.0.4,composerVendorName=pronesoft,composerProjectName=ecf-sdk"
-  [csharp]="csharp|packageName=Pronesoft.Ecf.Sdk,targetFramework=net8.0,packageVersion=0.0.4,nullableReferenceTypes=true,netCoreProjectFile=true,library=httpclient"
-  [java]="java|invokerPackage=com.pronesoft.ecf,apiPackage=com.pronesoft.ecf.api,modelPackage=com.pronesoft.ecf.model,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.5,library=okhttp-gson,java8=true,disallowAdditionalPropertiesIfNotPresent=false"
-  [dart]="dart|pubName=pronesoft_ecf,pubVersion=0.0.4,pubDescription=Pronesoft eCF SDK for Dart/Flutter"
-  [kotlin]="kotlin|packageName=com.pronesoft.ecf,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.4,serializationLibrary=gson"
-  [swift]="swift5|projectName=PronesoftEcf,podVersion=0.0.4,swiftUseApiNamespace=true"
-  [ruby]="ruby|gemName=pronesoft_ecf,gemVersion=0.0.4,moduleName=PronesoftEcf"
-  [rust]="rust|packageName=pronesoft-ecf,packageVersion=0.0.4,packageDescription=Pronesoft eCF SDK for Rust,library=reqwest"
+  [typescript]="typescript-fetch|npmName=@pronesoft-rd/ecf-sdk,npmVersion=0.0.13,supportsES6=true,typescriptThreePlus=true,withInterfaces=true"
+  [go]="go|packageName=ecf,packageVersion=0.0.24,moduleName=github.com/ProneSoftSRL/pronesoft-ecf-sdks/go,isGoSubmodule=true,withGoMod=true,enumClassPrefix=true"
+  [python]="python|packageName=pronesoft_ecf,projectName=pronesoft-ecf,packageVersion=0.0.6,generateSourceCodeOnly=false"
+  [php]="php|invokerPackage=PronesoftEcf,packageName=pronesoft-ecf-sdk,packageVersion=0.0.5,composerVendorName=pronesoft,composerProjectName=ecf-sdk"
+  [csharp]="csharp|packageName=Pronesoft.Ecf.Sdk,targetFramework=net8.0,packageVersion=0.0.6,nullableReferenceTypes=true,netCoreProjectFile=true,library=httpclient"
+  [java]="java|invokerPackage=com.pronesoft.ecf,apiPackage=com.pronesoft.ecf.api,modelPackage=com.pronesoft.ecf.model,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.6,library=okhttp-gson,java8=true,disallowAdditionalPropertiesIfNotPresent=false"
+  [dart]="dart|pubName=pronesoft_ecf,pubVersion=0.0.5,pubDescription=Pronesoft eCF SDK for Dart/Flutter"
+  [kotlin]="kotlin|packageName=com.pronesoft.ecf,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.5,serializationLibrary=gson"
+  [swift]="swift5|projectName=PronesoftEcf,podVersion=0.0.5,swiftUseApiNamespace=true"
+  [ruby]="ruby|gemName=pronesoft_ecf,gemVersion=0.0.5,moduleName=PronesoftEcf"
+  [rust]="rust|packageName=pronesoft-ecf,packageVersion=0.0.5,packageDescription=Pronesoft eCF SDK for Rust,library=reqwest"
 )
 ORDER=(typescript go python php csharp java dart kotlin swift ruby rust)
 if [[ $# -gt 0 ]]; then LANGS=("$@"); else LANGS=("${ORDER[@]}"); fi
@@ -90,5 +90,11 @@ from pronesoft_ecf.integration_client import TenantSessionClient as TenantSessio
 __all__ += ["IntegrationClient", "TenantScopedClient", "TenantSessionClient"]
 PY
 fi
+
+# READMEs: insert the handwritten IntegrationClient quick start (readme-intro/) after the generated title.
+for lang in typescript python go php csharp java; do
+  readme="$OUT_ROOT/$lang/README.md"
+  [[ " ${LANGS[*]} " == *" $lang "* && -f "$readme" ]] && python3 readme-intro/apply.py "$readme" "$lang"
+done
 
 echo "Done: ${LANGS[*]}"

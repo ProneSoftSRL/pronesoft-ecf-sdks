@@ -12,7 +12,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -147,7 +147,7 @@ class TaxSequencesApi
      * Crear nueva secuencia de NCF
      *
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request create_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -166,7 +166,7 @@ class TaxSequencesApi
      * Crear nueva secuencia de NCF
      *
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -280,7 +280,7 @@ class TaxSequencesApi
      * Crear nueva secuencia de NCF
      *
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -302,7 +302,7 @@ class TaxSequencesApi
      * Crear nueva secuencia de NCF
      *
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -353,7 +353,7 @@ class TaxSequencesApi
      * Create request for operation 'createTaxSequence'
      *
      * @param  \PronesoftEcf\Model\CreateTaxSequenceRequest $create_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -457,7 +457,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence $type type (required)
      * @param  \PronesoftEcf\Model\Environment $environment environment (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getNextNumber'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -477,7 +477,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence $type (required)
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getNextNumber'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -578,7 +578,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence $type (required)
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getNextNumber'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -601,7 +601,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence $type (required)
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getNextNumber'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -653,7 +653,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence $type (required)
      * @param  \PronesoftEcf\Model\Environment $environment (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getNextNumber'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -775,7 +775,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\Environment $environment environment (required)
      * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -795,7 +795,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
      * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -910,7 +910,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
      * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -933,7 +933,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
      * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -985,7 +985,7 @@ class TaxSequencesApi
      *
      * @param  \PronesoftEcf\Model\Environment $environment (required)
      * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1106,7 +1106,7 @@ class TaxSequencesApi
      *
      * Listar secuencias de NCF
      *
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type type (optional)
      * @param  \PronesoftEcf\Model\Environment|null $environment environment (optional)
      * @param  int|null $page page (optional, default to 1)
@@ -1128,7 +1128,7 @@ class TaxSequencesApi
      *
      * Listar secuencias de NCF
      *
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type (optional)
      * @param  \PronesoftEcf\Model\Environment|null $environment (optional)
      * @param  int|null $page (optional, default to 1)
@@ -1231,7 +1231,7 @@ class TaxSequencesApi
      *
      * Listar secuencias de NCF
      *
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type (optional)
      * @param  \PronesoftEcf\Model\Environment|null $environment (optional)
      * @param  int|null $page (optional, default to 1)
@@ -1256,7 +1256,7 @@ class TaxSequencesApi
      *
      * Listar secuencias de NCF
      *
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type (optional)
      * @param  \PronesoftEcf\Model\Environment|null $environment (optional)
      * @param  int|null $page (optional, default to 1)
@@ -1310,7 +1310,7 @@ class TaxSequencesApi
     /**
      * Create request for operation 'listTaxSequences'
      *
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  \PronesoftEcf\Model\InvoiceTypeSequence|null $type (optional)
      * @param  \PronesoftEcf\Model\Environment|null $environment (optional)
      * @param  int|null $page (optional, default to 1)
@@ -1444,7 +1444,7 @@ class TaxSequencesApi
      *
      * @param  string $id id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request update_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -1463,7 +1463,7 @@ class TaxSequencesApi
      *
      * @param  string $id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -1522,7 +1522,7 @@ class TaxSequencesApi
      *
      * @param  string $id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1545,7 +1545,7 @@ class TaxSequencesApi
      *
      * @param  string $id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1584,7 +1584,7 @@ class TaxSequencesApi
      *
      * @param  string $id (required)
      * @param  \PronesoftEcf\Model\UpdateTaxSequenceRequest $update_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['updateTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1703,7 +1703,7 @@ class TaxSequencesApi
      * Anular rango de números fiscales
      *
      * @param  \PronesoftEcf\Model\VoidTaxSequenceRequest $void_tax_sequence_request void_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['voidTaxSequence'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -1722,7 +1722,7 @@ class TaxSequencesApi
      * Anular rango de números fiscales
      *
      * @param  \PronesoftEcf\Model\VoidTaxSequenceRequest $void_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['voidTaxSequence'] to see the possible values for this operation
      *
      * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
@@ -1822,7 +1822,7 @@ class TaxSequencesApi
      * Anular rango de números fiscales
      *
      * @param  \PronesoftEcf\Model\VoidTaxSequenceRequest $void_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['voidTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1844,7 +1844,7 @@ class TaxSequencesApi
      * Anular rango de números fiscales
      *
      * @param  \PronesoftEcf\Model\VoidTaxSequenceRequest $void_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['voidTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -1895,7 +1895,7 @@ class TaxSequencesApi
      * Create request for operation 'voidTaxSequence'
      *
      * @param  \PronesoftEcf\Model\VoidTaxSequenceRequest $void_tax_sequence_request (required)
-     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string|null $x_tenant_id ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['voidTaxSequence'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException

@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -51,7 +51,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * CreateTaxSequenceRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T15:39:24.548838388-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class CreateTaxSequenceRequest {
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
@@ -70,7 +70,7 @@ public class CreateTaxSequenceRequest {
 
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
   @SerializedName(SERIALIZED_NAME_QUANTITY)
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Integer quantity;
 
   public static final String SERIALIZED_NAME_EXPIRATION = "expiration";
@@ -80,7 +80,7 @@ public class CreateTaxSequenceRequest {
 
   public static final String SERIALIZED_NAME_ENVIRONMENT = "environment";
   @SerializedName(SERIALIZED_NAME_ENVIRONMENT)
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Environment environment;
 
   public CreateTaxSequenceRequest() {
@@ -143,7 +143,7 @@ public class CreateTaxSequenceRequest {
   }
 
 
-  public CreateTaxSequenceRequest quantity(@javax.annotation.Nullable Integer quantity) {
+  public CreateTaxSequenceRequest quantity(@javax.annotation.Nonnull Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -152,12 +152,12 @@ public class CreateTaxSequenceRequest {
    * Get quantity
    * @return quantity
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   public Integer getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(@javax.annotation.Nullable Integer quantity) {
+  public void setQuantity(@javax.annotation.Nonnull Integer quantity) {
     this.quantity = quantity;
   }
 
@@ -181,7 +181,7 @@ public class CreateTaxSequenceRequest {
   }
 
 
-  public CreateTaxSequenceRequest environment(@javax.annotation.Nullable Environment environment) {
+  public CreateTaxSequenceRequest environment(@javax.annotation.Nonnull Environment environment) {
     this.environment = environment;
     return this;
   }
@@ -190,12 +190,12 @@ public class CreateTaxSequenceRequest {
    * Get environment
    * @return environment
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   public Environment getEnvironment() {
     return environment;
   }
 
-  public void setEnvironment(@javax.annotation.Nullable Environment environment) {
+  public void setEnvironment(@javax.annotation.Nonnull Environment environment) {
     this.environment = environment;
   }
 
@@ -300,7 +300,7 @@ public class CreateTaxSequenceRequest {
     openapiFields = new HashSet<String>(Arrays.asList("type", "from", "to", "quantity", "expiration", "environment"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("type", "from", "to"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("type", "from", "to", "quantity", "environment"));
   }
 
   /**
@@ -325,10 +325,8 @@ public class CreateTaxSequenceRequest {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the required field `type`
       InvoiceTypeSequence.validateJsonElement(jsonObj.get("type"));
-      // validate the optional field `environment`
-      if (jsonObj.get("environment") != null && !jsonObj.get("environment").isJsonNull()) {
-        Environment.validateJsonElement(jsonObj.get("environment"));
-      }
+      // validate the required field `environment`
+      Environment.validateJsonElement(jsonObj.get("environment"));
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

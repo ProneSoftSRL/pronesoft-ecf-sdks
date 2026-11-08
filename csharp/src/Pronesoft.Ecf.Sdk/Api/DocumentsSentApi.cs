@@ -1,7 +1,7 @@
 /*
  * eCF-Pronesoft Integration API
  *
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -55,9 +55,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>SentDocumentDetail</returns>
-        SentDocumentDetail GetSentDocumentById(Guid id, Guid? xTenantId = default);
+        SentDocumentDetail GetSentDocumentById(Guid id, string? xTenantId = default);
 
         /// <summary>
         /// Obtener detalle del documento
@@ -67,17 +67,17 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of SentDocumentDetail</returns>
-        ApiResponse<SentDocumentDetail> GetSentDocumentByIdWithHttpInfo(Guid id, Guid? xTenantId = default);
+        ApiResponse<SentDocumentDetail> GetSentDocumentByIdWithHttpInfo(Guid id, string? xTenantId = default);
         /// <summary>
         /// Logs de procesamiento del documento
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>List&lt;GetSentDocumentLogs200ResponseInner&gt;</returns>
-        List<GetSentDocumentLogs200ResponseInner> GetSentDocumentLogs(Guid id, Guid? xTenantId = default);
+        List<GetSentDocumentLogs200ResponseInner> GetSentDocumentLogs(Guid id, string? xTenantId = default);
 
         /// <summary>
         /// Logs de procesamiento del documento
@@ -87,16 +87,16 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of List&lt;GetSentDocumentLogs200ResponseInner&gt;</returns>
-        ApiResponse<List<GetSentDocumentLogs200ResponseInner>> GetSentDocumentLogsWithHttpInfo(Guid id, Guid? xTenantId = default);
+        ApiResponse<List<GetSentDocumentLogs200ResponseInner>> GetSentDocumentLogsWithHttpInfo(Guid id, string? xTenantId = default);
         /// <summary>
         /// Estadísticas de documentos enviados
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>DocumentStatsResponse</returns>
-        DocumentStatsResponse GetSentDocumentStats(Guid? xTenantId = default);
+        DocumentStatsResponse GetSentDocumentStats(string? xTenantId = default);
 
         /// <summary>
         /// Estadísticas de documentos enviados
@@ -105,16 +105,16 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of DocumentStatsResponse</returns>
-        ApiResponse<DocumentStatsResponse> GetSentDocumentStatsWithHttpInfo(Guid? xTenantId = default);
+        ApiResponse<DocumentStatsResponse> GetSentDocumentStatsWithHttpInfo(string? xTenantId = default);
         /// <summary>
         /// Estadísticas agrupadas por ambiente y estado
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>Dictionary&lt;string, Object&gt;</returns>
-        Dictionary<string, Object> GetSentDocumentStatsByEnvironment(Guid? xTenantId = default);
+        Dictionary<string, Object> GetSentDocumentStatsByEnvironment(string? xTenantId = default);
 
         /// <summary>
         /// Estadísticas agrupadas por ambiente y estado
@@ -123,9 +123,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of Dictionary&lt;string, Object&gt;</returns>
-        ApiResponse<Dictionary<string, Object>> GetSentDocumentStatsByEnvironmentWithHttpInfo(Guid? xTenantId = default);
+        ApiResponse<Dictionary<string, Object>> GetSentDocumentStatsByEnvironmentWithHttpInfo(string? xTenantId = default);
         /// <summary>
         /// Opciones de filtro de estado disponibles
         /// </summary>
@@ -166,7 +166,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar documentos enviados
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="env"> (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
@@ -176,7 +176,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>SentDocumentListResponse</returns>
-        SentDocumentListResponse ListSentDocuments(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
+        SentDocumentListResponse ListSentDocuments(string? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
 
         /// <summary>
         /// Listar documentos enviados
@@ -185,7 +185,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="env"> (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
@@ -195,7 +195,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of SentDocumentListResponse</returns>
-        ApiResponse<SentDocumentListResponse> ListSentDocumentsWithHttpInfo(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
+        ApiResponse<SentDocumentListResponse> ListSentDocumentsWithHttpInfo(string? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
         #endregion Synchronous Operations
     }
 
@@ -240,10 +240,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SentDocumentDetail</returns>
-        System.Threading.Tasks.Task<SentDocumentDetail> GetSentDocumentByIdAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<SentDocumentDetail> GetSentDocumentByIdAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Obtener detalle del documento
@@ -253,10 +253,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SentDocumentDetail)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SentDocumentDetail>> GetSentDocumentByIdWithHttpInfoAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<SentDocumentDetail>> GetSentDocumentByIdWithHttpInfoAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Logs de procesamiento del documento
         /// </summary>
@@ -265,10 +265,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;GetSentDocumentLogs200ResponseInner&gt;</returns>
-        System.Threading.Tasks.Task<List<GetSentDocumentLogs200ResponseInner>> GetSentDocumentLogsAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<List<GetSentDocumentLogs200ResponseInner>> GetSentDocumentLogsAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs de procesamiento del documento
@@ -278,10 +278,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;GetSentDocumentLogs200ResponseInner&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<GetSentDocumentLogs200ResponseInner>>> GetSentDocumentLogsWithHttpInfoAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<List<GetSentDocumentLogs200ResponseInner>>> GetSentDocumentLogsWithHttpInfoAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Estadísticas de documentos enviados
         /// </summary>
@@ -289,10 +289,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of DocumentStatsResponse</returns>
-        System.Threading.Tasks.Task<DocumentStatsResponse> GetSentDocumentStatsAsync(Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<DocumentStatsResponse> GetSentDocumentStatsAsync(string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Estadísticas de documentos enviados
@@ -301,10 +301,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (DocumentStatsResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<DocumentStatsResponse>> GetSentDocumentStatsWithHttpInfoAsync(Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<DocumentStatsResponse>> GetSentDocumentStatsWithHttpInfoAsync(string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Estadísticas agrupadas por ambiente y estado
         /// </summary>
@@ -312,10 +312,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Dictionary&lt;string, Object&gt;</returns>
-        System.Threading.Tasks.Task<Dictionary<string, Object>> GetSentDocumentStatsByEnvironmentAsync(Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<Dictionary<string, Object>> GetSentDocumentStatsByEnvironmentAsync(string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Estadísticas agrupadas por ambiente y estado
@@ -324,10 +324,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, Object&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, Object>>> GetSentDocumentStatsByEnvironmentWithHttpInfoAsync(Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, Object>>> GetSentDocumentStatsByEnvironmentWithHttpInfoAsync(string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Opciones de filtro de estado disponibles
         /// </summary>
@@ -381,7 +381,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="env"> (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
@@ -392,7 +392,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SentDocumentListResponse</returns>
-        System.Threading.Tasks.Task<SentDocumentListResponse> ListSentDocumentsAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<SentDocumentListResponse> ListSentDocumentsAsync(string? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Listar documentos enviados
@@ -401,7 +401,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// 
         /// </remarks>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="env"> (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
@@ -412,7 +412,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SentDocumentListResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SentDocumentListResponse>> ListSentDocumentsWithHttpInfoAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<SentDocumentListResponse>> ListSentDocumentsWithHttpInfoAsync(string? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -782,9 +782,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>SentDocumentDetail</returns>
-        public SentDocumentDetail GetSentDocumentById(Guid id, Guid? xTenantId = default)
+        public SentDocumentDetail GetSentDocumentById(Guid id, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentDetail> localVarResponse = GetSentDocumentByIdWithHttpInfo(id, xTenantId);
             return localVarResponse.Data;
@@ -795,9 +795,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of SentDocumentDetail</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentDetail> GetSentDocumentByIdWithHttpInfo(Guid id, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentDetail> GetSentDocumentByIdWithHttpInfo(Guid id, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -845,10 +845,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SentDocumentDetail</returns>
-        public async System.Threading.Tasks.Task<SentDocumentDetail> GetSentDocumentByIdAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<SentDocumentDetail> GetSentDocumentByIdAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentDetail> localVarResponse = await GetSentDocumentByIdWithHttpInfoAsync(id, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -859,10 +859,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SentDocumentDetail)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentDetail>> GetSentDocumentByIdWithHttpInfoAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentDetail>> GetSentDocumentByIdWithHttpInfoAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -913,9 +913,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>List&lt;GetSentDocumentLogs200ResponseInner&gt;</returns>
-        public List<GetSentDocumentLogs200ResponseInner> GetSentDocumentLogs(Guid id, Guid? xTenantId = default)
+        public List<GetSentDocumentLogs200ResponseInner> GetSentDocumentLogs(Guid id, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<List<GetSentDocumentLogs200ResponseInner>> localVarResponse = GetSentDocumentLogsWithHttpInfo(id, xTenantId);
             return localVarResponse.Data;
@@ -926,9 +926,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of List&lt;GetSentDocumentLogs200ResponseInner&gt;</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<List<GetSentDocumentLogs200ResponseInner>> GetSentDocumentLogsWithHttpInfo(Guid id, Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<List<GetSentDocumentLogs200ResponseInner>> GetSentDocumentLogsWithHttpInfo(Guid id, string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -976,10 +976,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;GetSentDocumentLogs200ResponseInner&gt;</returns>
-        public async System.Threading.Tasks.Task<List<GetSentDocumentLogs200ResponseInner>> GetSentDocumentLogsAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<List<GetSentDocumentLogs200ResponseInner>> GetSentDocumentLogsAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<List<GetSentDocumentLogs200ResponseInner>> localVarResponse = await GetSentDocumentLogsWithHttpInfoAsync(id, xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -990,10 +990,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;GetSentDocumentLogs200ResponseInner&gt;)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<List<GetSentDocumentLogs200ResponseInner>>> GetSentDocumentLogsWithHttpInfoAsync(Guid id, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<List<GetSentDocumentLogs200ResponseInner>>> GetSentDocumentLogsWithHttpInfoAsync(Guid id, string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -1043,9 +1043,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Estadísticas de documentos enviados 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>DocumentStatsResponse</returns>
-        public DocumentStatsResponse GetSentDocumentStats(Guid? xTenantId = default)
+        public DocumentStatsResponse GetSentDocumentStats(string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<DocumentStatsResponse> localVarResponse = GetSentDocumentStatsWithHttpInfo(xTenantId);
             return localVarResponse.Data;
@@ -1055,9 +1055,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Estadísticas de documentos enviados 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of DocumentStatsResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<DocumentStatsResponse> GetSentDocumentStatsWithHttpInfo(Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<DocumentStatsResponse> GetSentDocumentStatsWithHttpInfo(string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -1103,10 +1103,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Estadísticas de documentos enviados 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of DocumentStatsResponse</returns>
-        public async System.Threading.Tasks.Task<DocumentStatsResponse> GetSentDocumentStatsAsync(Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<DocumentStatsResponse> GetSentDocumentStatsAsync(string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<DocumentStatsResponse> localVarResponse = await GetSentDocumentStatsWithHttpInfoAsync(xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1116,10 +1116,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Estadísticas de documentos enviados 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (DocumentStatsResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<DocumentStatsResponse>> GetSentDocumentStatsWithHttpInfoAsync(Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<DocumentStatsResponse>> GetSentDocumentStatsWithHttpInfoAsync(string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -1168,9 +1168,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Estadísticas agrupadas por ambiente y estado 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>Dictionary&lt;string, Object&gt;</returns>
-        public Dictionary<string, Object> GetSentDocumentStatsByEnvironment(Guid? xTenantId = default)
+        public Dictionary<string, Object> GetSentDocumentStatsByEnvironment(string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<Dictionary<string, Object>> localVarResponse = GetSentDocumentStatsByEnvironmentWithHttpInfo(xTenantId);
             return localVarResponse.Data;
@@ -1180,9 +1180,9 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Estadísticas agrupadas por ambiente y estado 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <returns>ApiResponse of Dictionary&lt;string, Object&gt;</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<Dictionary<string, Object>> GetSentDocumentStatsByEnvironmentWithHttpInfo(Guid? xTenantId = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<Dictionary<string, Object>> GetSentDocumentStatsByEnvironmentWithHttpInfo(string? xTenantId = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -1228,10 +1228,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Estadísticas agrupadas por ambiente y estado 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Dictionary&lt;string, Object&gt;</returns>
-        public async System.Threading.Tasks.Task<Dictionary<string, Object>> GetSentDocumentStatsByEnvironmentAsync(Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Dictionary<string, Object>> GetSentDocumentStatsByEnvironmentAsync(string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<Dictionary<string, Object>> localVarResponse = await GetSentDocumentStatsByEnvironmentWithHttpInfoAsync(xTenantId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1241,10 +1241,10 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Estadísticas agrupadas por ambiente y estado 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, Object&gt;)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<Dictionary<string, Object>>> GetSentDocumentStatsByEnvironmentWithHttpInfoAsync(Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<Dictionary<string, Object>>> GetSentDocumentStatsByEnvironmentWithHttpInfoAsync(string? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
@@ -1539,7 +1539,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar documentos enviados 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="env"> (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
@@ -1549,7 +1549,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>SentDocumentListResponse</returns>
-        public SentDocumentListResponse ListSentDocuments(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
+        public SentDocumentListResponse ListSentDocuments(string? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse> localVarResponse = ListSentDocumentsWithHttpInfo(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit);
             return localVarResponse.Data;
@@ -1559,7 +1559,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar documentos enviados 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="env"> (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
@@ -1569,7 +1569,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of SentDocumentListResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse> ListSentDocumentsWithHttpInfo(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse> ListSentDocumentsWithHttpInfo(string? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -1647,7 +1647,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar documentos enviados 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="env"> (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
@@ -1658,7 +1658,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SentDocumentListResponse</returns>
-        public async System.Threading.Tasks.Task<SentDocumentListResponse> ListSentDocumentsAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<SentDocumentListResponse> ListSentDocumentsAsync(string? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse> localVarResponse = await ListSentDocumentsWithHttpInfoAsync(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1668,7 +1668,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// Listar documentos enviados 
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="xTenantId">ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)</param>
         /// <param name="env"> (optional)</param>
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
@@ -1679,7 +1679,7 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SentDocumentListResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse>> ListSentDocumentsWithHttpInfoAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse>> ListSentDocumentsWithHttpInfoAsync(string? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();

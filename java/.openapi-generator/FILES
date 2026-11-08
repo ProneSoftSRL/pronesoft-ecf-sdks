@@ -312,5 +312,3 @@ src/main/java/com/pronesoft/ecf/model/WebhookNotificationPayload.java
 src/main/java/com/pronesoft/ecf/model/WebhookNotificationPayloadData.java
 src/main/java/com/pronesoft/ecf/model/WebhookStats.java
 src/main/java/com/pronesoft/ecf/model/WebhookStatsStats.java
-src/test/java/com/pronesoft/ecf/model/DecideCommercialApprovalRequestTest.java
-src/test/java/com/pronesoft/ecf/model/DecideCommercialApprovalResponseTest.java

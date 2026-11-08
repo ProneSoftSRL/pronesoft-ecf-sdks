@@ -12,7 +12,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="decidecommercialapproval"></a>
 # **DecideCommercialApproval**
-> DecideCommercialApprovalResponse DecideCommercialApproval (Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = null)
+> DecideCommercialApprovalResponse DecideCommercialApproval (Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, string? xTenantId = null)
 
 Aprobar o rechazar comercialmente un documento recibido
 
@@ -44,7 +44,7 @@ namespace Example
             var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
             var id = "id_example";  // Guid | ID del documento recibido (TaxDocumentReceived.id)
             var decideCommercialApprovalRequest = new DecideCommercialApprovalRequest(); // DecideCommercialApprovalRequest | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -89,7 +89,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **id** | **Guid** | ID del documento recibido (TaxDocumentReceived.id) |  |
 | **decideCommercialApprovalRequest** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md) |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -117,7 +117,7 @@ catch (ApiException e)
 
 <a id="getreceiveddocumentbyid"></a>
 # **GetReceivedDocumentById**
-> ReceivedDocument GetReceivedDocumentById (Guid id, Guid? xTenantId = null)
+> ReceivedDocument GetReceivedDocumentById (Guid id, string? xTenantId = null)
 
 Obtener documento recibido por ID
 
@@ -146,7 +146,7 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
             var id = "id_example";  // Guid | 
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -190,7 +190,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **id** | **Guid** |  |  |
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -217,7 +217,7 @@ catch (ApiException e)
 
 <a id="getreceiveddocumentstatsbysupplier"></a>
 # **GetReceivedDocumentStatsBySupplier**
-> List&lt;GetReceivedDocumentStatsBySupplier200ResponseInner&gt; GetReceivedDocumentStatsBySupplier (Guid? xTenantId = null)
+> List&lt;GetReceivedDocumentStatsBySupplier200ResponseInner&gt; GetReceivedDocumentStatsBySupplier (string? xTenantId = null)
 
 Top 10 proveedores por volumen de documentos recibidos
 
@@ -245,7 +245,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -288,7 +288,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -314,7 +314,7 @@ catch (ApiException e)
 
 <a id="getreceiveddocumentstatssummary"></a>
 # **GetReceivedDocumentStatsSummary**
-> ReceivedDocumentStatsResponse GetReceivedDocumentStatsSummary (Guid? xTenantId = null)
+> ReceivedDocumentStatsResponse GetReceivedDocumentStatsSummary (string? xTenantId = null)
 
 Estadísticas de documentos recibidos
 
@@ -342,7 +342,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
 
             try
             {
@@ -385,7 +385,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 
 ### Return type
 
@@ -411,7 +411,7 @@ catch (ApiException e)
 
 <a id="listreceiveddocuments"></a>
 # **ListReceivedDocuments**
-> ReceivedDocumentListResponse ListReceivedDocuments (Guid? xTenantId = null, string? ecf = null, string? type = null, int? status = null, string? supplierRnc = null, decimal? amountFrom = null, decimal? amountTo = null, bool? processed = null, string? dateFrom = null, string? dateTo = null, int? page = null, int? limit = null)
+> ReceivedDocumentListResponse ListReceivedDocuments (string? xTenantId = null, string? ecf = null, string? type = null, int? status = null, string? supplierRnc = null, decimal? amountFrom = null, decimal? amountTo = null, bool? processed = null, string? dateFrom = null, string? dateTo = null, int? page = null, int? limit = null)
 
 Listar documentos recibidos
 
@@ -439,7 +439,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
-            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // string? | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional) 
             var ecf = "ecf_example";  // string? |  (optional) 
             var type = "type_example";  // string? | Tipo de documento (31, 32, 33, etc.) (optional) 
             var status = 1;  // int? |  (optional) 
@@ -493,7 +493,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+| **xTenantId** | **string?** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional]  |
 | **ecf** | **string?** |  | [optional]  |
 | **type** | **string?** | Tipo de documento (31, 32, 33, etc.) | [optional]  |
 | **status** | **int?** |  | [optional]  |

@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **paymentType** | **String** | 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto | [optional] 
 **paymentDeadline** | **Date** |  | [optional] 
 **paymentTerms** | **String** |  | [optional] 
-**paymentForms** | [PaymentForm] | Payment breakdown. Required. | 
+**paymentForms** | [PaymentForm] | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional] 
 **paymentAccountType** | [**AccountType**](AccountType.md) |  | [optional] 
 **paymentAccountNumber** | **String** |  | [optional] 
 **paymentBank** | **String** |  | [optional] 
@@ -42,7 +42,7 @@ Name | Type | Description | Notes
 **additionalIssuerInfo** | **String** |  | [optional] 
 **buyer** | [**Buyer**](Buyer.md) |  | [optional] 
 **items** | [Item] |  | 
-**totals** | [**Totals**](Totals.md) |  | 
+**totals** | [**Totals**](Totals.md) |  | [optional] 
 **transport** | [**Transport**](Transport.md) |  | [optional] 
 **additionalInfo** | [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
 **alternativeCurrency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 

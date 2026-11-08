@@ -1,6 +1,6 @@
 /*
  * eCF-Pronesoft Integration API
- * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <ID (UUID) o RNC de la empresa asociada> Si la empresa no es asociada de tu cuenta principal, la API responde 403. NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read 
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -35,7 +35,6 @@ import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.ErrorResponse;
 import com.pronesoft.ecf.model.GetEcfSubmissionHistory200Response;
 import com.pronesoft.ecf.model.RateLimitErrorResponse;
-import java.util.UUID;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -83,7 +82,7 @@ public class ECfSubmissionApi {
     /**
      * Build call for getEcfStats
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -95,7 +94,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getEcfStatsCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getEcfStatsCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -146,7 +145,7 @@ public class ECfSubmissionApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getEcfStatsValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getEcfStatsValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'environment' is set
         if (environment == null) {
             throw new ApiException("Missing the required parameter 'environment' when calling getEcfStats(Async)");
@@ -160,7 +159,7 @@ public class ECfSubmissionApi {
      * Obtener estadísticas de envíos (últimos 30 días)
      * 
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return EcfStatsResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -171,7 +170,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public EcfStatsResponse getEcfStats(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public EcfStatsResponse getEcfStats(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<EcfStatsResponse> localVarResp = getEcfStatsWithHttpInfo(environment, xTenantId);
         return localVarResp.getData();
     }
@@ -180,7 +179,7 @@ public class ECfSubmissionApi {
      * Obtener estadísticas de envíos (últimos 30 días)
      * 
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;EcfStatsResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -191,7 +190,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<EcfStatsResponse> getEcfStatsWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<EcfStatsResponse> getEcfStatsWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getEcfStatsValidateBeforeCall(environment, xTenantId, null);
         Type localVarReturnType = new TypeToken<EcfStatsResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -201,7 +200,7 @@ public class ECfSubmissionApi {
      * Obtener estadísticas de envíos (últimos 30 días) (asynchronously)
      * 
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -213,7 +212,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getEcfStatsAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<EcfStatsResponse> _callback) throws ApiException {
+    public okhttp3.Call getEcfStatsAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, final ApiCallback<EcfStatsResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getEcfStatsValidateBeforeCall(environment, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<EcfStatsResponse>(){}.getType();
@@ -224,7 +223,7 @@ public class ECfSubmissionApi {
      * Build call for getEcfStatus
      * @param environment  (required)
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -236,7 +235,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getEcfStatusCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getEcfStatusCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -288,7 +287,7 @@ public class ECfSubmissionApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getEcfStatusValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getEcfStatusValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'environment' is set
         if (environment == null) {
             throw new ApiException("Missing the required parameter 'environment' when calling getEcfStatus(Async)");
@@ -308,7 +307,7 @@ public class ECfSubmissionApi {
      * 
      * @param environment  (required)
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return EcfStatusResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -319,7 +318,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public EcfStatusResponse getEcfStatus(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public EcfStatusResponse getEcfStatus(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<EcfStatusResponse> localVarResp = getEcfStatusWithHttpInfo(environment, id, xTenantId);
         return localVarResp.getData();
     }
@@ -329,7 +328,7 @@ public class ECfSubmissionApi {
      * 
      * @param environment  (required)
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;EcfStatusResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -340,7 +339,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<EcfStatusResponse> getEcfStatusWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<EcfStatusResponse> getEcfStatusWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = getEcfStatusValidateBeforeCall(environment, id, xTenantId, null);
         Type localVarReturnType = new TypeToken<EcfStatusResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -351,7 +350,7 @@ public class ECfSubmissionApi {
      * 
      * @param environment  (required)
      * @param id  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -363,7 +362,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getEcfStatusAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<EcfStatusResponse> _callback) throws ApiException {
+    public okhttp3.Call getEcfStatusAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull String id, @javax.annotation.Nullable String xTenantId, final ApiCallback<EcfStatusResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getEcfStatusValidateBeforeCall(environment, id, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<EcfStatusResponse>(){}.getType();
@@ -373,7 +372,7 @@ public class ECfSubmissionApi {
     /**
      * Build call for getEcfSubmissionHistory
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
      * @param _callback Callback for upload/download progress
@@ -387,7 +386,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getEcfSubmissionHistoryCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getEcfSubmissionHistoryCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -446,7 +445,7 @@ public class ECfSubmissionApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getEcfSubmissionHistoryValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getEcfSubmissionHistoryValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'environment' is set
         if (environment == null) {
             throw new ApiException("Missing the required parameter 'environment' when calling getEcfSubmissionHistory(Async)");
@@ -460,7 +459,7 @@ public class ECfSubmissionApi {
      * Historial de envíos (paginado)
      * 
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
      * @return GetEcfSubmissionHistory200Response
@@ -473,7 +472,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public GetEcfSubmissionHistory200Response getEcfSubmissionHistory(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public GetEcfSubmissionHistory200Response getEcfSubmissionHistory(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         ApiResponse<GetEcfSubmissionHistory200Response> localVarResp = getEcfSubmissionHistoryWithHttpInfo(environment, xTenantId, page, limit);
         return localVarResp.getData();
     }
@@ -482,7 +481,7 @@ public class ECfSubmissionApi {
      * Historial de envíos (paginado)
      * 
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
      * @return ApiResponse&lt;GetEcfSubmissionHistory200Response&gt;
@@ -495,7 +494,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<GetEcfSubmissionHistory200Response> getEcfSubmissionHistoryWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ApiResponse<GetEcfSubmissionHistory200Response> getEcfSubmissionHistoryWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         okhttp3.Call localVarCall = getEcfSubmissionHistoryValidateBeforeCall(environment, xTenantId, page, limit, null);
         Type localVarReturnType = new TypeToken<GetEcfSubmissionHistory200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -505,7 +504,7 @@ public class ECfSubmissionApi {
      * Historial de envíos (paginado) (asynchronously)
      * 
      * @param environment  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 20)
      * @param _callback The callback to be executed when the API call finishes
@@ -519,7 +518,7 @@ public class ECfSubmissionApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getEcfSubmissionHistoryAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<GetEcfSubmissionHistory200Response> _callback) throws ApiException {
+    public okhttp3.Call getEcfSubmissionHistoryAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nullable String xTenantId, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<GetEcfSubmissionHistory200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getEcfSubmissionHistoryValidateBeforeCall(environment, xTenantId, page, limit, _callback);
         Type localVarReturnType = new TypeToken<GetEcfSubmissionHistory200Response>(){}.getType();
@@ -530,7 +529,7 @@ public class ECfSubmissionApi {
      * Build call for submitEcf
      * @param environment  (required)
      * @param electronicDocument  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -546,7 +545,7 @@ public class ECfSubmissionApi {
         <tr><td> 429 </td><td> Rate limit exceeded. Retry after indicated seconds. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call submitEcfCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call submitEcfCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -598,7 +597,7 @@ public class ECfSubmissionApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call submitEcfValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call submitEcfValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable String xTenantId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'environment' is set
         if (environment == null) {
             throw new ApiException("Missing the required parameter 'environment' when calling submitEcf(Async)");
@@ -618,7 +617,7 @@ public class ECfSubmissionApi {
      * Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
      * @param environment  (required)
      * @param electronicDocument  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return EcfSubmitResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -633,7 +632,7 @@ public class ECfSubmissionApi {
         <tr><td> 429 </td><td> Rate limit exceeded. Retry after indicated seconds. </td><td>  -  </td></tr>
      </table>
      */
-    public EcfSubmitResponse submitEcf(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public EcfSubmitResponse submitEcf(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable String xTenantId) throws ApiException {
         ApiResponse<EcfSubmitResponse> localVarResp = submitEcfWithHttpInfo(environment, electronicDocument, xTenantId);
         return localVarResp.getData();
     }
@@ -643,7 +642,7 @@ public class ECfSubmissionApi {
      * Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
      * @param environment  (required)
      * @param electronicDocument  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @return ApiResponse&lt;EcfSubmitResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -658,7 +657,7 @@ public class ECfSubmissionApi {
         <tr><td> 429 </td><td> Rate limit exceeded. Retry after indicated seconds. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<EcfSubmitResponse> submitEcfWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+    public ApiResponse<EcfSubmitResponse> submitEcfWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable String xTenantId) throws ApiException {
         okhttp3.Call localVarCall = submitEcfValidateBeforeCall(environment, electronicDocument, xTenantId, null);
         Type localVarReturnType = new TypeToken<EcfSubmitResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -669,7 +668,7 @@ public class ECfSubmissionApi {
      * Envía un comprobante fiscal electrónico. Maneja automáticamente la firma XML, la cola de envío, el modo contingencia y la comunicación con la DGII. IMPORTANTE: En Sandbox el campo environment en el cuerpo DEBE ser TesteCF. 
      * @param environment  (required)
      * @param electronicDocument  (required)
-     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param xTenantId ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -685,7 +684,7 @@ public class ECfSubmissionApi {
         <tr><td> 429 </td><td> Rate limit exceeded. Retry after indicated seconds. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call submitEcfAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<EcfSubmitResponse> _callback) throws ApiException {
+    public okhttp3.Call submitEcfAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull ElectronicDocument electronicDocument, @javax.annotation.Nullable String xTenantId, final ApiCallback<EcfSubmitResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = submitEcfValidateBeforeCall(environment, electronicDocument, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<EcfSubmitResponse>(){}.getType();

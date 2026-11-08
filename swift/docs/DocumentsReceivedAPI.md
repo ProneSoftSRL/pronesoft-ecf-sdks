@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 # **decideCommercialApproval**
 ```swift
-    open class func decideCommercialApproval(id: UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: UUID? = nil, completion: @escaping (_ data: DecideCommercialApprovalResponse?, _ error: Error?) -> Void)
+    open class func decideCommercialApproval(id: UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: String? = nil, completion: @escaping (_ data: DecideCommercialApprovalResponse?, _ error: Error?) -> Void)
 ```
 
 Aprobar o rechazar comercialmente un documento recibido
@@ -27,7 +27,7 @@ import PronesoftEcf
 
 let id = 987 // UUID | ID del documento recibido (TaxDocumentReceived.id)
 let decideCommercialApprovalRequest = DecideCommercialApprovalRequest(decision: "decision_example", rejectionDescription: "rejectionDescription_example") // DecideCommercialApprovalRequest | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Aprobar o rechazar comercialmente un documento recibido
 DocumentsReceivedAPI.decideCommercialApproval(id: id, decideCommercialApprovalRequest: decideCommercialApprovalRequest, xTenantId: xTenantId) { (response, error) in
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **UUID** | ID del documento recibido (TaxDocumentReceived.id) | 
  **decideCommercialApprovalRequest** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md) |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 
 # **getReceivedDocumentById**
 ```swift
-    open class func getReceivedDocumentById(id: UUID, xTenantId: UUID? = nil, completion: @escaping (_ data: ReceivedDocument?, _ error: Error?) -> Void)
+    open class func getReceivedDocumentById(id: UUID, xTenantId: String? = nil, completion: @escaping (_ data: ReceivedDocument?, _ error: Error?) -> Void)
 ```
 
 Obtener documento recibido por ID
@@ -78,7 +78,7 @@ Obtener documento recibido por ID
 import PronesoftEcf
 
 let id = 987 // UUID | 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Obtener documento recibido por ID
 DocumentsReceivedAPI.getReceivedDocumentById(id: id, xTenantId: xTenantId) { (response, error) in
@@ -98,7 +98,7 @@ DocumentsReceivedAPI.getReceivedDocumentById(id: id, xTenantId: xTenantId) { (re
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **UUID** |  | 
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -117,7 +117,7 @@ Name | Type | Description  | Notes
 
 # **getReceivedDocumentStatsBySupplier**
 ```swift
-    open class func getReceivedDocumentStatsBySupplier(xTenantId: UUID? = nil, completion: @escaping (_ data: [GetReceivedDocumentStatsBySupplier200ResponseInner]?, _ error: Error?) -> Void)
+    open class func getReceivedDocumentStatsBySupplier(xTenantId: String? = nil, completion: @escaping (_ data: [GetReceivedDocumentStatsBySupplier200ResponseInner]?, _ error: Error?) -> Void)
 ```
 
 Top 10 proveedores por volumen de documentos recibidos
@@ -127,7 +127,7 @@ Top 10 proveedores por volumen de documentos recibidos
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Top 10 proveedores por volumen de documentos recibidos
 DocumentsReceivedAPI.getReceivedDocumentStatsBySupplier(xTenantId: xTenantId) { (response, error) in
@@ -146,7 +146,7 @@ DocumentsReceivedAPI.getReceivedDocumentStatsBySupplier(xTenantId: xTenantId) { 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -165,7 +165,7 @@ Name | Type | Description  | Notes
 
 # **getReceivedDocumentStatsSummary**
 ```swift
-    open class func getReceivedDocumentStatsSummary(xTenantId: UUID? = nil, completion: @escaping (_ data: ReceivedDocumentStatsResponse?, _ error: Error?) -> Void)
+    open class func getReceivedDocumentStatsSummary(xTenantId: String? = nil, completion: @escaping (_ data: ReceivedDocumentStatsResponse?, _ error: Error?) -> Void)
 ```
 
 Estadísticas de documentos recibidos
@@ -175,7 +175,7 @@ Estadísticas de documentos recibidos
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 
 // Estadísticas de documentos recibidos
 DocumentsReceivedAPI.getReceivedDocumentStatsSummary(xTenantId: xTenantId) { (response, error) in
@@ -194,7 +194,7 @@ DocumentsReceivedAPI.getReceivedDocumentStatsSummary(xTenantId: xTenantId) { (re
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
 
 ### Return type
 
@@ -213,7 +213,7 @@ Name | Type | Description  | Notes
 
 # **listReceivedDocuments**
 ```swift
-    open class func listReceivedDocuments(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listReceivedDocuments? = nil, supplierRnc: String? = nil, amountFrom: Double? = nil, amountTo: Double? = nil, processed: Bool? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)
+    open class func listReceivedDocuments(xTenantId: String? = nil, ecf: String? = nil, type: String? = nil, status: Status_listReceivedDocuments? = nil, supplierRnc: String? = nil, amountFrom: Double? = nil, amountTo: Double? = nil, processed: Bool? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)
 ```
 
 Listar documentos recibidos
@@ -223,7 +223,7 @@ Listar documentos recibidos
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PronesoftEcf
 
-let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+let xTenantId = "xTenantId_example" // String | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  (optional)
 let ecf = "ecf_example" // String |  (optional)
 let type = "type_example" // String | Tipo de documento (31, 32, 33, etc.) (optional)
 let status = 987 // Int |  (optional)
@@ -253,7 +253,7 @@ DocumentsReceivedAPI.listReceivedDocuments(xTenantId: xTenantId, ecf: ecf, type:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+ **xTenantId** | **String** | ID (UUID) o RNC de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal; omitir cuando se actúa como empresa principal. Si la empresa no es asociada de tu cuenta principal, la API responde 403.  | [optional] 
  **ecf** | **String** |  | [optional] 
  **type** | **String** | Tipo de documento (31, 32, 33, etc.) | [optional] 
  **status** | **Int** |  | [optional] 
