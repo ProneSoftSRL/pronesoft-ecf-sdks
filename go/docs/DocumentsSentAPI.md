@@ -30,7 +30,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func main() {
@@ -98,7 +98,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func main() {
@@ -168,7 +168,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func main() {
@@ -238,7 +238,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func main() {
@@ -302,7 +302,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func main() {
@@ -366,7 +366,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func main() {
@@ -425,7 +425,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func main() {
@@ -495,7 +495,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/go"
 )
 
 func main() {

@@ -69,6 +69,7 @@ done
 if [[ " ${LANGS[*]} " == *" go "* && -f "$OUT_ROOT/go/go.mod" ]]; then
   cp LICENSE "$OUT_ROOT/go/LICENSE" 2>/dev/null || true
   sed -i 's|github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf|github.com/ProneSoftSRL/pronesoft-ecf-sdks/go|g' "$OUT_ROOT/go/go.mod"
+  sed -i 's|github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf|github.com/ProneSoftSRL/pronesoft-ecf-sdks/go|g' "$OUT_ROOT/go/README.md" "$OUT_ROOT"/go/docs/*.md 2>/dev/null || true
 fi
 
 # Rust: the generator writes models::models::X for enum fields of multipart forms (does not compile).
