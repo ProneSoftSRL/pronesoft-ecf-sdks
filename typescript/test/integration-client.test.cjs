@@ -13,11 +13,11 @@ const fakeFetch = async (url, init = {}) => {
 };
 (async () => {
   const client = new sdk.IntegrationClient({ baseUrl: "https://api.test/api/v1", clientId: "id", clientSecret: "secret", fetchApi: fakeFetch });
-  const api = client.startSession("131111111").getClient();
+  const api = client.startSession("468a4aa1-1b80-447e-9ecb-400e39f7d798").getClient();
   const sent = api.documentsSent;
   await sent.listSentDocuments({});
   await sent.listSentDocuments({});
-  const firstOk = tokens === 1 && calls.length === 2 && calls.every(c => c.auth === "Bearer tok-1" && c.tenant === "131111111");
+  const firstOk = tokens === 1 && calls.length === 2 && calls.every(c => c.auth === "Bearer tok-1" && c.tenant === "468a4aa1-1b80-447e-9ecb-400e39f7d798");
   rejectNext = true;
   await sent.listSentDocuments({});
   const ok = firstOk && tokens === 2 && calls.length === 4 && calls[2].auth === "Bearer tok-1" && calls[3].auth === "Bearer tok-2";
