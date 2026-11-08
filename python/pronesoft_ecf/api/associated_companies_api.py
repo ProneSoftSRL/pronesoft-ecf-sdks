@@ -48,21 +48,21 @@ class AssociatedCompaniesApi:
     @validate_call
     def create_associated_company(
         self,
-        email: StrictStr,
-        password: Annotated[str, Field(min_length=8, strict=True)],
         name: StrictStr,
         rnc: StrictStr,
-        phone: StrictStr,
-        address: StrictStr,
-        city: StrictStr,
-        country: StrictStr,
-        printer_type: PrintFormat,
+        email: Optional[StrictStr] = None,
+        password: Optional[Annotated[str, Field(min_length=8, strict=True)]] = None,
         first_name: Optional[StrictStr] = None,
         last_name: Optional[StrictStr] = None,
         job_title: Optional[StrictStr] = None,
+        phone: Optional[StrictStr] = None,
+        address: Optional[StrictStr] = None,
+        city: Optional[StrictStr] = None,
+        country: Optional[StrictStr] = None,
         website: Optional[StrictStr] = None,
         category: Optional[StrictStr] = None,
         monthly_sales_range: Optional[StrictStr] = None,
+        printer_type: Optional[PrintFormat] = None,
         logo: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
@@ -80,36 +80,36 @@ class AssociatedCompaniesApi:
         """Crear empresa asociada / sucursal
 
 
-        :param email: (required)
-        :type email: str
-        :param password: (required)
-        :type password: str
         :param name: (required)
         :type name: str
         :param rnc: (required)
         :type rnc: str
-        :param phone: (required)
-        :type phone: str
-        :param address: (required)
-        :type address: str
-        :param city: (required)
-        :type city: str
-        :param country: (required)
-        :type country: str
-        :param printer_type: (required)
-        :type printer_type: PrintFormat
+        :param email:
+        :type email: str
+        :param password:
+        :type password: str
         :param first_name:
         :type first_name: str
         :param last_name:
         :type last_name: str
         :param job_title:
         :type job_title: str
+        :param phone:
+        :type phone: str
+        :param address:
+        :type address: str
+        :param city:
+        :type city: str
+        :param country:
+        :type country: str
         :param website:
         :type website: str
         :param category:
         :type category: str
         :param monthly_sales_range:
         :type monthly_sales_range: str
+        :param printer_type:
+        :type printer_type: PrintFormat
         :param logo:
         :type logo: bytes
         :param _request_timeout: timeout setting for this request. If one
@@ -135,21 +135,21 @@ class AssociatedCompaniesApi:
         """ # noqa: E501
 
         _param = self._create_associated_company_serialize(
-            email=email,
-            password=password,
             name=name,
             rnc=rnc,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            job_title=job_title,
             phone=phone,
             address=address,
             city=city,
             country=country,
-            printer_type=printer_type,
-            first_name=first_name,
-            last_name=last_name,
-            job_title=job_title,
             website=website,
             category=category,
             monthly_sales_range=monthly_sales_range,
+            printer_type=printer_type,
             logo=logo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -176,21 +176,21 @@ class AssociatedCompaniesApi:
     @validate_call
     def create_associated_company_with_http_info(
         self,
-        email: StrictStr,
-        password: Annotated[str, Field(min_length=8, strict=True)],
         name: StrictStr,
         rnc: StrictStr,
-        phone: StrictStr,
-        address: StrictStr,
-        city: StrictStr,
-        country: StrictStr,
-        printer_type: PrintFormat,
+        email: Optional[StrictStr] = None,
+        password: Optional[Annotated[str, Field(min_length=8, strict=True)]] = None,
         first_name: Optional[StrictStr] = None,
         last_name: Optional[StrictStr] = None,
         job_title: Optional[StrictStr] = None,
+        phone: Optional[StrictStr] = None,
+        address: Optional[StrictStr] = None,
+        city: Optional[StrictStr] = None,
+        country: Optional[StrictStr] = None,
         website: Optional[StrictStr] = None,
         category: Optional[StrictStr] = None,
         monthly_sales_range: Optional[StrictStr] = None,
+        printer_type: Optional[PrintFormat] = None,
         logo: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
@@ -208,36 +208,36 @@ class AssociatedCompaniesApi:
         """Crear empresa asociada / sucursal
 
 
-        :param email: (required)
-        :type email: str
-        :param password: (required)
-        :type password: str
         :param name: (required)
         :type name: str
         :param rnc: (required)
         :type rnc: str
-        :param phone: (required)
-        :type phone: str
-        :param address: (required)
-        :type address: str
-        :param city: (required)
-        :type city: str
-        :param country: (required)
-        :type country: str
-        :param printer_type: (required)
-        :type printer_type: PrintFormat
+        :param email:
+        :type email: str
+        :param password:
+        :type password: str
         :param first_name:
         :type first_name: str
         :param last_name:
         :type last_name: str
         :param job_title:
         :type job_title: str
+        :param phone:
+        :type phone: str
+        :param address:
+        :type address: str
+        :param city:
+        :type city: str
+        :param country:
+        :type country: str
         :param website:
         :type website: str
         :param category:
         :type category: str
         :param monthly_sales_range:
         :type monthly_sales_range: str
+        :param printer_type:
+        :type printer_type: PrintFormat
         :param logo:
         :type logo: bytes
         :param _request_timeout: timeout setting for this request. If one
@@ -263,21 +263,21 @@ class AssociatedCompaniesApi:
         """ # noqa: E501
 
         _param = self._create_associated_company_serialize(
-            email=email,
-            password=password,
             name=name,
             rnc=rnc,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            job_title=job_title,
             phone=phone,
             address=address,
             city=city,
             country=country,
-            printer_type=printer_type,
-            first_name=first_name,
-            last_name=last_name,
-            job_title=job_title,
             website=website,
             category=category,
             monthly_sales_range=monthly_sales_range,
+            printer_type=printer_type,
             logo=logo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -304,21 +304,21 @@ class AssociatedCompaniesApi:
     @validate_call
     def create_associated_company_without_preload_content(
         self,
-        email: StrictStr,
-        password: Annotated[str, Field(min_length=8, strict=True)],
         name: StrictStr,
         rnc: StrictStr,
-        phone: StrictStr,
-        address: StrictStr,
-        city: StrictStr,
-        country: StrictStr,
-        printer_type: PrintFormat,
+        email: Optional[StrictStr] = None,
+        password: Optional[Annotated[str, Field(min_length=8, strict=True)]] = None,
         first_name: Optional[StrictStr] = None,
         last_name: Optional[StrictStr] = None,
         job_title: Optional[StrictStr] = None,
+        phone: Optional[StrictStr] = None,
+        address: Optional[StrictStr] = None,
+        city: Optional[StrictStr] = None,
+        country: Optional[StrictStr] = None,
         website: Optional[StrictStr] = None,
         category: Optional[StrictStr] = None,
         monthly_sales_range: Optional[StrictStr] = None,
+        printer_type: Optional[PrintFormat] = None,
         logo: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
@@ -336,36 +336,36 @@ class AssociatedCompaniesApi:
         """Crear empresa asociada / sucursal
 
 
-        :param email: (required)
-        :type email: str
-        :param password: (required)
-        :type password: str
         :param name: (required)
         :type name: str
         :param rnc: (required)
         :type rnc: str
-        :param phone: (required)
-        :type phone: str
-        :param address: (required)
-        :type address: str
-        :param city: (required)
-        :type city: str
-        :param country: (required)
-        :type country: str
-        :param printer_type: (required)
-        :type printer_type: PrintFormat
+        :param email:
+        :type email: str
+        :param password:
+        :type password: str
         :param first_name:
         :type first_name: str
         :param last_name:
         :type last_name: str
         :param job_title:
         :type job_title: str
+        :param phone:
+        :type phone: str
+        :param address:
+        :type address: str
+        :param city:
+        :type city: str
+        :param country:
+        :type country: str
         :param website:
         :type website: str
         :param category:
         :type category: str
         :param monthly_sales_range:
         :type monthly_sales_range: str
+        :param printer_type:
+        :type printer_type: PrintFormat
         :param logo:
         :type logo: bytes
         :param _request_timeout: timeout setting for this request. If one
@@ -391,21 +391,21 @@ class AssociatedCompaniesApi:
         """ # noqa: E501
 
         _param = self._create_associated_company_serialize(
-            email=email,
-            password=password,
             name=name,
             rnc=rnc,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            job_title=job_title,
             phone=phone,
             address=address,
             city=city,
             country=country,
-            printer_type=printer_type,
-            first_name=first_name,
-            last_name=last_name,
-            job_title=job_title,
             website=website,
             category=category,
             monthly_sales_range=monthly_sales_range,
+            printer_type=printer_type,
             logo=logo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -427,21 +427,21 @@ class AssociatedCompaniesApi:
 
     def _create_associated_company_serialize(
         self,
-        email,
-        password,
         name,
         rnc,
+        email,
+        password,
+        first_name,
+        last_name,
+        job_title,
         phone,
         address,
         city,
         country,
-        printer_type,
-        first_name,
-        last_name,
-        job_title,
         website,
         category,
         monthly_sales_range,
+        printer_type,
         logo,
         _request_auth,
         _content_type,

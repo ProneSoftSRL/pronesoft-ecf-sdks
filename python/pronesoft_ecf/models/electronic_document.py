@@ -56,7 +56,7 @@ class ElectronicDocument(BaseModel):
     payment_type: Optional[StrictStr] = Field(default=None, description="1=Cash, 2=Credit, 3=Mixed", alias="paymentType")
     payment_deadline: Optional[datetime] = Field(default=None, alias="paymentDeadline")
     payment_terms: Optional[Annotated[str, Field(strict=True, max_length=15)]] = Field(default=None, alias="paymentTerms")
-    payment_forms: List[PaymentForm] = Field(description="Payment breakdown. Required.", alias="paymentForms")
+    payment_forms: Optional[List[PaymentForm]] = Field(default=None, description="Payment breakdown. Optional; if omitted, the XML is sent without the payment table.", alias="paymentForms")
     payment_account_type: Optional[AccountType] = Field(default=None, alias="paymentAccountType")
     payment_account_number: Optional[Annotated[str, Field(strict=True, max_length=28)]] = Field(default=None, alias="paymentAccountNumber")
     payment_bank: Optional[Annotated[str, Field(strict=True, max_length=75)]] = Field(default=None, alias="paymentBank")
@@ -82,7 +82,7 @@ class ElectronicDocument(BaseModel):
     additional_issuer_info: Optional[Annotated[str, Field(strict=True, max_length=250)]] = Field(default=None, alias="additionalIssuerInfo")
     buyer: Optional[Buyer] = None
     items: Annotated[List[Item], Field(min_length=1, max_length=1000)]
-    totals: Totals
+    totals: Optional[Totals] = None
     transport: Optional[Transport] = None
     additional_info: Optional[AdditionalInfo] = Field(default=None, alias="additionalInfo")
     alternative_currency: Optional[AlternativeCurrency] = Field(default=None, alias="alternativeCurrency")

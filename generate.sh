@@ -66,4 +66,18 @@ if [[ " ${LANGS[*]} " == *" go "* && -f "$OUT_ROOT/go/go.mod" ]]; then
   sed -i 's|github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf|github.com/ProneSoftSRL/pronesoft-ecf-sdks/go|g' "$OUT_ROOT/go/go.mod"
 fi
 
+# Python: __init__.py is generated, so re-export the handwritten IntegrationClient after each run.
+PY_INIT="$OUT_ROOT/python/pronesoft_ecf/__init__.py"
+if [[ " ${LANGS[*]} " == *" python "* && -f "$PY_INIT" ]] && ! grep -q "integration_client import IntegrationClient" "$PY_INIT"; then
+  cat >> "$PY_INIT" <<'PY'
+
+# Handwritten IntegrationClient (re-exported by generate.sh)
+from pronesoft_ecf.integration_client import IntegrationClient as IntegrationClient
+from pronesoft_ecf.integration_client import TenantScopedClient as TenantScopedClient
+from pronesoft_ecf.integration_client import TenantSessionClient as TenantSessionClient
+
+__all__ += ["IntegrationClient", "TenantScopedClient", "TenantSessionClient"]
+PY
+fi
+
 echo "Done: ${LANGS[*]}"

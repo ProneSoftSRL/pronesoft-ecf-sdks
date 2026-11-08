@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
 [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+[**import_tax_sequences_from_excel**](TaxSequencesApi.md#import_tax_sequences_from_excel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | Listar secuencias de NCF
 [**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
 [**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
@@ -167,6 +168,91 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Siguiente número e-NCF disponible |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **import_tax_sequences_from_excel**
+> ImportTaxSequencesFromExcel200Response import_tax_sequences_from_excel(environment, file, x_tenant_id=x_tenant_id)
+
+Importar secuencias desde archivo Excel de la DGII
+
+Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas
+e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA
+y TIPO_USO que contenga "ELECTR". Las filas inválidas se reportan sin interrumpir el proceso.
+
+
+### Example
+
+* OAuth Authentication (oauth2):
+
+```python
+import pronesoft_ecf
+from pronesoft_ecf.models.environment import Environment
+from pronesoft_ecf.models.import_tax_sequences_from_excel200_response import ImportTaxSequencesFromExcel200Response
+from pronesoft_ecf.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.ecf.sandbox.pronesoft.com/api/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = pronesoft_ecf.Configuration(
+    host = "https://api.ecf.sandbox.pronesoft.com/api/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with pronesoft_ecf.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = pronesoft_ecf.TaxSequencesApi(api_client)
+    environment = pronesoft_ecf.Environment() # Environment | 
+    file = None # bytes | Archivo Excel (.xlsx o .xls) exportado desde la DGII
+    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+
+    try:
+        # Importar secuencias desde archivo Excel de la DGII
+        api_response = api_instance.import_tax_sequences_from_excel(environment, file, x_tenant_id=x_tenant_id)
+        print("The response of TaxSequencesApi->import_tax_sequences_from_excel:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling TaxSequencesApi->import_tax_sequences_from_excel: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **environment** | [**Environment**](.md)|  | 
+ **file** | **bytes**| Archivo Excel (.xlsx o .xls) exportado desde la DGII | 
+ **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+
+### Return type
+
+[**ImportTaxSequencesFromExcel200Response**](ImportTaxSequencesFromExcel200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Proceso de importación completado (puede incluir filas fallidas) |  -  |
+**400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
 **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

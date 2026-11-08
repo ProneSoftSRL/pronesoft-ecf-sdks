@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "0.0.3"
+__version__ = "0.0.5"
 
 # Define package exports
 __all__ = [
@@ -93,6 +93,9 @@ __all__ = [
     "GetReceivedDocumentStatsBySupplier200ResponseInner",
     "GetSentDocumentLogs200ResponseInner",
     "GetSentDocumentStatusOptions200ResponseInner",
+    "ImportTaxSequencesFromExcel200Response",
+    "ImportTaxSequencesFromExcel200ResponseData",
+    "ImportTaxSequencesFromExcel200ResponseDataResultsInner",
     "InvoiceType",
     "InvoiceTypeSequence",
     "Item",
@@ -159,15 +162,7 @@ __all__ = [
     "WebhookNotificationPayloadData",
     "WebhookStats",
     "WebhookStatsStats",
-    "IntegrationClient",
-    "TenantScopedClient",
-    "TenantSessionClient",
 ]
-
-# import integration client
-from pronesoft_ecf.integration_client import IntegrationClient as IntegrationClient
-from pronesoft_ecf.integration_client import TenantScopedClient as TenantScopedClient
-from pronesoft_ecf.integration_client import TenantSessionClient as TenantSessionClient
 
 # import apis into sdk package
 from pronesoft_ecf.api.associated_companies_api import AssociatedCompaniesApi as AssociatedCompaniesApi
@@ -248,6 +243,9 @@ from pronesoft_ecf.models.get_next_number200_response_data import GetNextNumber2
 from pronesoft_ecf.models.get_received_document_stats_by_supplier200_response_inner import GetReceivedDocumentStatsBySupplier200ResponseInner as GetReceivedDocumentStatsBySupplier200ResponseInner
 from pronesoft_ecf.models.get_sent_document_logs200_response_inner import GetSentDocumentLogs200ResponseInner as GetSentDocumentLogs200ResponseInner
 from pronesoft_ecf.models.get_sent_document_status_options200_response_inner import GetSentDocumentStatusOptions200ResponseInner as GetSentDocumentStatusOptions200ResponseInner
+from pronesoft_ecf.models.import_tax_sequences_from_excel200_response import ImportTaxSequencesFromExcel200Response as ImportTaxSequencesFromExcel200Response
+from pronesoft_ecf.models.import_tax_sequences_from_excel200_response_data import ImportTaxSequencesFromExcel200ResponseData as ImportTaxSequencesFromExcel200ResponseData
+from pronesoft_ecf.models.import_tax_sequences_from_excel200_response_data_results_inner import ImportTaxSequencesFromExcel200ResponseDataResultsInner as ImportTaxSequencesFromExcel200ResponseDataResultsInner
 from pronesoft_ecf.models.invoice_type import InvoiceType as InvoiceType
 from pronesoft_ecf.models.invoice_type_sequence import InvoiceTypeSequence as InvoiceTypeSequence
 from pronesoft_ecf.models.item import Item as Item
@@ -315,3 +313,10 @@ from pronesoft_ecf.models.webhook_notification_payload_data import WebhookNotifi
 from pronesoft_ecf.models.webhook_stats import WebhookStats as WebhookStats
 from pronesoft_ecf.models.webhook_stats_stats import WebhookStatsStats as WebhookStatsStats
 
+
+# Handwritten IntegrationClient (re-exported by generate.sh)
+from pronesoft_ecf.integration_client import IntegrationClient as IntegrationClient
+from pronesoft_ecf.integration_client import TenantScopedClient as TenantScopedClient
+from pronesoft_ecf.integration_client import TenantSessionClient as TenantSessionClient
+
+__all__ += ["IntegrationClient", "TenantScopedClient", "TenantSessionClient"]

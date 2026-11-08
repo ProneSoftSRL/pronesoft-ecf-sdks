@@ -34,9 +34,9 @@ class CreateTaxSequenceRequest(BaseModel):
     type: InvoiceTypeSequence
     var_from: StrictInt = Field(alias="from")
     to: StrictInt
-    quantity: Optional[StrictInt] = None
+    quantity: StrictInt
     expiration: Optional[date] = None
-    environment: Optional[Environment] = None
+    environment: Environment
     __properties: ClassVar[List[str]] = ["type", "from", "to", "quantity", "expiration", "environment"]
 
     model_config = ConfigDict(

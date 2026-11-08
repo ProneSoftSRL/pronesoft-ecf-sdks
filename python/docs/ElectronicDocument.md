@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **payment_type** | **str** | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed | [optional] 
 **payment_deadline** | **datetime** |  | [optional] 
 **payment_terms** | **str** |  | [optional] 
-**payment_forms** | [**List[PaymentForm]**](PaymentForm.md) | Payment breakdown. Required. | 
+**payment_forms** | [**List[PaymentForm]**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional] 
 **payment_account_type** | [**AccountType**](AccountType.md) |  | [optional] 
 **payment_account_number** | **str** |  | [optional] 
 **payment_bank** | **str** |  | [optional] 
@@ -45,7 +45,7 @@ Name | Type | Description | Notes
 **additional_issuer_info** | **str** |  | [optional] 
 **buyer** | [**Buyer**](Buyer.md) |  | [optional] 
 **items** | [**List[Item]**](Item.md) |  | 
-**totals** | [**Totals**](Totals.md) |  | 
+**totals** | [**Totals**](Totals.md) |  | [optional] 
 **transport** | [**Transport**](Transport.md) |  | [optional] 
 **additional_info** | [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
 **alternative_currency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 

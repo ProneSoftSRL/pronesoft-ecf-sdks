@@ -30,7 +30,7 @@ class Buyer(BaseModel):
     """
     Buyer
     """ # noqa: E501
-    tax_id: Optional[StrictStr] = Field(default=None, description="RNC (9 digits) or cedula (11 digits). Required for type 31.", alias="taxId")
+    tax_id: Optional[StrictStr] = Field(default=None, description="RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 < 250k).", alias="taxId")
     foreign_id: Optional[StrictStr] = Field(default=None, alias="foreignId")
     name: Annotated[str, Field(strict=True, max_length=150)]
     contact: Optional[StrictStr] = None

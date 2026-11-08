@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **create_associated_company**
-> CreateAssociatedCompany201Response create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, first_name=first_name, last_name=last_name, job_title=job_title, website=website, category=category, monthly_sales_range=monthly_sales_range, logo=logo)
+> CreateAssociatedCompany201Response create_associated_company(name, rnc, email=email, password=password, first_name=first_name, last_name=last_name, job_title=job_title, phone=phone, address=address, city=city, country=country, website=website, category=category, monthly_sales_range=monthly_sales_range, printer_type=printer_type, logo=logo)
 
 Crear empresa asociada / sucursal
 
@@ -45,26 +45,26 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 with pronesoft_ecf.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = pronesoft_ecf.AssociatedCompaniesApi(api_client)
-    email = 'email_example' # str | 
-    password = 'password_example' # str | 
     name = 'name_example' # str | 
     rnc = 'rnc_example' # str | 
-    phone = 'phone_example' # str | 
-    address = 'address_example' # str | 
-    city = 'city_example' # str | 
-    country = 'country_example' # str | 
-    printer_type = pronesoft_ecf.PrintFormat() # PrintFormat | 
+    email = 'email_example' # str |  (optional)
+    password = 'password_example' # str |  (optional)
     first_name = 'first_name_example' # str |  (optional)
     last_name = 'last_name_example' # str |  (optional)
     job_title = 'job_title_example' # str |  (optional)
+    phone = 'phone_example' # str |  (optional)
+    address = 'address_example' # str |  (optional)
+    city = 'city_example' # str |  (optional)
+    country = 'country_example' # str |  (optional)
     website = 'website_example' # str |  (optional)
     category = 'category_example' # str |  (optional)
     monthly_sales_range = 'monthly_sales_range_example' # str |  (optional)
+    printer_type = pronesoft_ecf.PrintFormat() # PrintFormat |  (optional)
     logo = None # bytes |  (optional)
 
     try:
         # Crear empresa asociada / sucursal
-        api_response = api_instance.create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, first_name=first_name, last_name=last_name, job_title=job_title, website=website, category=category, monthly_sales_range=monthly_sales_range, logo=logo)
+        api_response = api_instance.create_associated_company(name, rnc, email=email, password=password, first_name=first_name, last_name=last_name, job_title=job_title, phone=phone, address=address, city=city, country=country, website=website, category=category, monthly_sales_range=monthly_sales_range, printer_type=printer_type, logo=logo)
         print("The response of AssociatedCompaniesApi->create_associated_company:\n")
         pprint(api_response)
     except Exception as e:
@@ -78,21 +78,21 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email** | **str**|  | 
- **password** | **str**|  | 
  **name** | **str**|  | 
  **rnc** | **str**|  | 
- **phone** | **str**|  | 
- **address** | **str**|  | 
- **city** | **str**|  | 
- **country** | **str**|  | 
- **printer_type** | [**PrintFormat**](PrintFormat.md)|  | 
+ **email** | **str**|  | [optional] 
+ **password** | **str**|  | [optional] 
  **first_name** | **str**|  | [optional] 
  **last_name** | **str**|  | [optional] 
  **job_title** | **str**|  | [optional] 
+ **phone** | **str**|  | [optional] 
+ **address** | **str**|  | [optional] 
+ **city** | **str**|  | [optional] 
+ **country** | **str**|  | [optional] 
  **website** | **str**|  | [optional] 
  **category** | **str**|  | [optional] 
  **monthly_sales_range** | **str**|  | [optional] 
+ **printer_type** | [**PrintFormat**](PrintFormat.md)|  | [optional] 
  **logo** | **bytes**|  | [optional] 
 
 ### Return type
