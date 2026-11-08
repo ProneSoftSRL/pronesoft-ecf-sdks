@@ -146,6 +146,9 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetReceivedDocumentStatsBySupplier200ResponseInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetSentDocumentLogs200ResponseInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.GetSentDocumentStatusOptions200ResponseInner.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ImportTaxSequencesFromExcel200Response.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ImportTaxSequencesFromExcel200ResponseData.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ImportTaxSequencesFromExcel200ResponseDataResultsInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.Item.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ItemAdditionalTax.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ItemAlternativeCurrency.CustomTypeAdapterFactory());

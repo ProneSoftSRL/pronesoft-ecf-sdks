@@ -2,7 +2,7 @@
 
 eCF-Pronesoft Integration API
 - API version: 1.2.0
-  - Build date: 2026-04-26T18:17:40.003641260-04:00[America/Santo_Domingo]
+  - Build date: 2026-11-08T08:03:57.464040759-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Descripción general
@@ -74,7 +74,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.pronesoft</groupId>
   <artifactId>ecf-sdk</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.5</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -90,7 +90,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.pronesoft:ecf-sdk:0.0.3"
+     implementation "com.pronesoft:ecf-sdk:0.0.5"
   }
 ```
 
@@ -104,7 +104,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/ecf-sdk-0.0.3.jar`
+* `target/ecf-sdk-0.0.5.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -131,24 +131,24 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
-    String email = "email_example"; // String | 
-    String password = "password_example"; // String | 
     String name = "name_example"; // String | 
     String rnc = "rnc_example"; // String | 
+    String email = "email_example"; // String | 
+    String password = "password_example"; // String | 
+    String firstName = "firstName_example"; // String | 
+    String lastName = "lastName_example"; // String | 
+    String jobTitle = "jobTitle_example"; // String | 
     String phone = "phone_example"; // String | 
     String address = "address_example"; // String | 
     String city = "city_example"; // String | 
     String country = "country_example"; // String | 
-    PrintFormat printerType = PrintFormat.fromValue("A4"); // PrintFormat | 
-    String firstName = "firstName_example"; // String | 
-    String lastName = "lastName_example"; // String | 
-    String jobTitle = "jobTitle_example"; // String | 
     URI website = new URI(); // URI | 
     String category = "category_example"; // String | 
     String monthlySalesRange = "monthlySalesRange_example"; // String | 
+    PrintFormat printerType = PrintFormat.fromValue("A4"); // PrintFormat | 
     File logo = new File("/path/to/file"); // File | 
     try {
-      CreateAssociatedCompany201Response result = apiInstance.createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
+      CreateAssociatedCompany201Response result = apiInstance.createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AssociatedCompaniesApi#createAssociatedCompany");
@@ -202,6 +202,7 @@ Class | Method | HTTP request | Description
 *ReportsApi* | [**exportSentDocuments**](docs/ReportsApi.md#exportSentDocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
 *TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
 *TaxSequencesApi* | [**getNextNumber**](docs/TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+*TaxSequencesApi* | [**importTaxSequencesFromExcel**](docs/TaxSequencesApi.md#importTaxSequencesFromExcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 *TaxSequencesApi* | [**listTaxSequences**](docs/TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | Listar secuencias de NCF
 *TaxSequencesApi* | [**updateTaxSequence**](docs/TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
 *TaxSequencesApi* | [**voidTaxSequence**](docs/TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
@@ -266,6 +267,9 @@ Class | Method | HTTP request | Description
  - [GetReceivedDocumentStatsBySupplier200ResponseInner](docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md)
  - [GetSentDocumentLogs200ResponseInner](docs/GetSentDocumentLogs200ResponseInner.md)
  - [GetSentDocumentStatusOptions200ResponseInner](docs/GetSentDocumentStatusOptions200ResponseInner.md)
+ - [ImportTaxSequencesFromExcel200Response](docs/ImportTaxSequencesFromExcel200Response.md)
+ - [ImportTaxSequencesFromExcel200ResponseData](docs/ImportTaxSequencesFromExcel200ResponseData.md)
+ - [ImportTaxSequencesFromExcel200ResponseDataResultsInner](docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md)
  - [InvoiceType](docs/InvoiceType.md)
  - [InvoiceTypeSequence](docs/InvoiceTypeSequence.md)
  - [Item](docs/Item.md)

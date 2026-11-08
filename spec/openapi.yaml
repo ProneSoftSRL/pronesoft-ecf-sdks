@@ -1732,7 +1732,7 @@ components:
         Credentials from https://ecf.sandbox.pronesoft.com or https://ecf.pronesoft.com
       flows:
         clientCredentials:
-          tokenUrl: /oauth/token
+          tokenUrl: /api/v1/oauth/token
           scopes:
             "business:read": Consultar datos de la empresa.
             "business:create": Crear una nueva empresa.

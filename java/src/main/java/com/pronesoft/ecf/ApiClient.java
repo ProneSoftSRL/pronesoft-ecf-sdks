@@ -178,7 +178,7 @@ public class ApiClient {
             this.basePath = basePath;
         }
 
-        String tokenUrl = "/oauth/token";
+        String tokenUrl = "/api/v1/oauth/token";
         if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
             URI uri = URI.create(getBasePath());
             tokenUrl = uri.getScheme() + ":" +
@@ -221,7 +221,7 @@ public class ApiClient {
         json = new JSON();
 
         // Set default User-Agent.
-        setUserAgent("OpenAPI-Generator/0.0.3/java");
+        setUserAgent("OpenAPI-Generator/0.0.5/java");
 
         authentications = new HashMap<String, Authentication>();
     }

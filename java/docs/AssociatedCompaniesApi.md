@@ -14,7 +14,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="createAssociatedCompany"></a>
 # **createAssociatedCompany**
-> CreateAssociatedCompany201Response createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo)
+> CreateAssociatedCompany201Response createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo)
 
 Crear empresa asociada / sucursal
 
@@ -38,24 +38,24 @@ public class Example {
     oauth2.setAccessToken("YOUR ACCESS TOKEN");
 
     AssociatedCompaniesApi apiInstance = new AssociatedCompaniesApi(defaultClient);
-    String email = "email_example"; // String | 
-    String password = "password_example"; // String | 
     String name = "name_example"; // String | 
     String rnc = "rnc_example"; // String | 
+    String email = "email_example"; // String | 
+    String password = "password_example"; // String | 
+    String firstName = "firstName_example"; // String | 
+    String lastName = "lastName_example"; // String | 
+    String jobTitle = "jobTitle_example"; // String | 
     String phone = "phone_example"; // String | 
     String address = "address_example"; // String | 
     String city = "city_example"; // String | 
     String country = "country_example"; // String | 
-    PrintFormat printerType = PrintFormat.fromValue("A4"); // PrintFormat | 
-    String firstName = "firstName_example"; // String | 
-    String lastName = "lastName_example"; // String | 
-    String jobTitle = "jobTitle_example"; // String | 
     URI website = new URI(); // URI | 
     String category = "category_example"; // String | 
     String monthlySalesRange = "monthlySalesRange_example"; // String | 
+    PrintFormat printerType = PrintFormat.fromValue("A4"); // PrintFormat | 
     File logo = new File("/path/to/file"); // File | 
     try {
-      CreateAssociatedCompany201Response result = apiInstance.createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
+      CreateAssociatedCompany201Response result = apiInstance.createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling AssociatedCompaniesApi#createAssociatedCompany");
@@ -72,21 +72,21 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **email** | **String**|  | |
-| **password** | **String**|  | |
 | **name** | **String**|  | |
 | **rnc** | **String**|  | |
-| **phone** | **String**|  | |
-| **address** | **String**|  | |
-| **city** | **String**|  | |
-| **country** | **String**|  | |
-| **printerType** | [**PrintFormat**](PrintFormat.md)|  | [enum: A4, thermal_80, thermal_58] |
+| **email** | **String**|  | [optional] |
+| **password** | **String**|  | [optional] |
 | **firstName** | **String**|  | [optional] |
 | **lastName** | **String**|  | [optional] |
 | **jobTitle** | **String**|  | [optional] |
+| **phone** | **String**|  | [optional] |
+| **address** | **String**|  | [optional] |
+| **city** | **String**|  | [optional] |
+| **country** | **String**|  | [optional] |
 | **website** | **URI**|  | [optional] |
 | **category** | **String**|  | [optional] |
 | **monthlySalesRange** | **String**|  | [optional] |
+| **printerType** | [**PrintFormat**](PrintFormat.md)|  | [optional] [enum: A4, thermal_80, thermal_58] |
 | **logo** | **File**|  | [optional] |
 
 ### Return type

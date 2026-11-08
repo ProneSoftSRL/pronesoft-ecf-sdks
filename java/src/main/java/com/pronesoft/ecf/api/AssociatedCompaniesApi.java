@@ -83,21 +83,21 @@ public class AssociatedCompaniesApi {
 
     /**
      * Build call for createAssociatedCompany
-     * @param email  (required)
-     * @param password  (required)
      * @param name  (required)
      * @param rnc  (required)
-     * @param phone  (required)
-     * @param address  (required)
-     * @param city  (required)
-     * @param country  (required)
-     * @param printerType  (required)
+     * @param email  (optional)
+     * @param password  (optional)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
+     * @param phone  (optional)
+     * @param address  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
      * @param website  (optional)
      * @param category  (optional)
      * @param monthlySalesRange  (optional)
+     * @param printerType  (optional)
      * @param logo  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -111,7 +111,7 @@ public class AssociatedCompaniesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createAssociatedCompanyCall(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createAssociatedCompanyCall(@javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nullable String email, @javax.annotation.Nullable String password, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable String phone, @javax.annotation.Nullable String address, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -221,17 +221,7 @@ public class AssociatedCompaniesApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createAssociatedCompanyValidateBeforeCall(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'email' is set
-        if (email == null) {
-            throw new ApiException("Missing the required parameter 'email' when calling createAssociatedCompany(Async)");
-        }
-
-        // verify the required parameter 'password' is set
-        if (password == null) {
-            throw new ApiException("Missing the required parameter 'password' when calling createAssociatedCompany(Async)");
-        }
-
+    private okhttp3.Call createAssociatedCompanyValidateBeforeCall(@javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nullable String email, @javax.annotation.Nullable String password, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable String phone, @javax.annotation.Nullable String address, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'name' is set
         if (name == null) {
             throw new ApiException("Missing the required parameter 'name' when calling createAssociatedCompany(Async)");
@@ -242,53 +232,28 @@ public class AssociatedCompaniesApi {
             throw new ApiException("Missing the required parameter 'rnc' when calling createAssociatedCompany(Async)");
         }
 
-        // verify the required parameter 'phone' is set
-        if (phone == null) {
-            throw new ApiException("Missing the required parameter 'phone' when calling createAssociatedCompany(Async)");
-        }
-
-        // verify the required parameter 'address' is set
-        if (address == null) {
-            throw new ApiException("Missing the required parameter 'address' when calling createAssociatedCompany(Async)");
-        }
-
-        // verify the required parameter 'city' is set
-        if (city == null) {
-            throw new ApiException("Missing the required parameter 'city' when calling createAssociatedCompany(Async)");
-        }
-
-        // verify the required parameter 'country' is set
-        if (country == null) {
-            throw new ApiException("Missing the required parameter 'country' when calling createAssociatedCompany(Async)");
-        }
-
-        // verify the required parameter 'printerType' is set
-        if (printerType == null) {
-            throw new ApiException("Missing the required parameter 'printerType' when calling createAssociatedCompany(Async)");
-        }
-
-        return createAssociatedCompanyCall(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo, _callback);
+        return createAssociatedCompanyCall(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo, _callback);
 
     }
 
     /**
      * Crear empresa asociada / sucursal
      * 
-     * @param email  (required)
-     * @param password  (required)
      * @param name  (required)
      * @param rnc  (required)
-     * @param phone  (required)
-     * @param address  (required)
-     * @param city  (required)
-     * @param country  (required)
-     * @param printerType  (required)
+     * @param email  (optional)
+     * @param password  (optional)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
+     * @param phone  (optional)
+     * @param address  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
      * @param website  (optional)
      * @param category  (optional)
      * @param monthlySalesRange  (optional)
+     * @param printerType  (optional)
      * @param logo  (optional)
      * @return CreateAssociatedCompany201Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -301,29 +266,29 @@ public class AssociatedCompaniesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public CreateAssociatedCompany201Response createAssociatedCompany(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo) throws ApiException {
-        ApiResponse<CreateAssociatedCompany201Response> localVarResp = createAssociatedCompanyWithHttpInfo(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
+    public CreateAssociatedCompany201Response createAssociatedCompany(@javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nullable String email, @javax.annotation.Nullable String password, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable String phone, @javax.annotation.Nullable String address, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo) throws ApiException {
+        ApiResponse<CreateAssociatedCompany201Response> localVarResp = createAssociatedCompanyWithHttpInfo(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo);
         return localVarResp.getData();
     }
 
     /**
      * Crear empresa asociada / sucursal
      * 
-     * @param email  (required)
-     * @param password  (required)
      * @param name  (required)
      * @param rnc  (required)
-     * @param phone  (required)
-     * @param address  (required)
-     * @param city  (required)
-     * @param country  (required)
-     * @param printerType  (required)
+     * @param email  (optional)
+     * @param password  (optional)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
+     * @param phone  (optional)
+     * @param address  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
      * @param website  (optional)
      * @param category  (optional)
      * @param monthlySalesRange  (optional)
+     * @param printerType  (optional)
      * @param logo  (optional)
      * @return ApiResponse&lt;CreateAssociatedCompany201Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -336,8 +301,8 @@ public class AssociatedCompaniesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<CreateAssociatedCompany201Response> createAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo) throws ApiException {
-        okhttp3.Call localVarCall = createAssociatedCompanyValidateBeforeCall(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo, null);
+    public ApiResponse<CreateAssociatedCompany201Response> createAssociatedCompanyWithHttpInfo(@javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nullable String email, @javax.annotation.Nullable String password, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable String phone, @javax.annotation.Nullable String address, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo) throws ApiException {
+        okhttp3.Call localVarCall = createAssociatedCompanyValidateBeforeCall(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo, null);
         Type localVarReturnType = new TypeToken<CreateAssociatedCompany201Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -345,21 +310,21 @@ public class AssociatedCompaniesApi {
     /**
      * Crear empresa asociada / sucursal (asynchronously)
      * 
-     * @param email  (required)
-     * @param password  (required)
      * @param name  (required)
      * @param rnc  (required)
-     * @param phone  (required)
-     * @param address  (required)
-     * @param city  (required)
-     * @param country  (required)
-     * @param printerType  (required)
+     * @param email  (optional)
+     * @param password  (optional)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
+     * @param phone  (optional)
+     * @param address  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
      * @param website  (optional)
      * @param category  (optional)
      * @param monthlySalesRange  (optional)
+     * @param printerType  (optional)
      * @param logo  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -373,9 +338,9 @@ public class AssociatedCompaniesApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createAssociatedCompanyAsync(@javax.annotation.Nonnull String email, @javax.annotation.Nonnull String password, @javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nonnull String phone, @javax.annotation.Nonnull String address, @javax.annotation.Nonnull String city, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull PrintFormat printerType, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable File logo, final ApiCallback<CreateAssociatedCompany201Response> _callback) throws ApiException {
+    public okhttp3.Call createAssociatedCompanyAsync(@javax.annotation.Nonnull String name, @javax.annotation.Nonnull String rnc, @javax.annotation.Nullable String email, @javax.annotation.Nullable String password, @javax.annotation.Nullable String firstName, @javax.annotation.Nullable String lastName, @javax.annotation.Nullable String jobTitle, @javax.annotation.Nullable String phone, @javax.annotation.Nullable String address, @javax.annotation.Nullable String city, @javax.annotation.Nullable String country, @javax.annotation.Nullable URI website, @javax.annotation.Nullable String category, @javax.annotation.Nullable String monthlySalesRange, @javax.annotation.Nullable PrintFormat printerType, @javax.annotation.Nullable File logo, final ApiCallback<CreateAssociatedCompany201Response> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createAssociatedCompanyValidateBeforeCall(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo, _callback);
+        okhttp3.Call localVarCall = createAssociatedCompanyValidateBeforeCall(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo, _callback);
         Type localVarReturnType = new TypeToken<CreateAssociatedCompany201Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

@@ -31,7 +31,9 @@ import com.pronesoft.ecf.model.CreateTaxSequence201Response;
 import com.pronesoft.ecf.model.CreateTaxSequenceRequest;
 import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.ErrorResponse;
+import java.io.File;
 import com.pronesoft.ecf.model.GetNextNumber200Response;
+import com.pronesoft.ecf.model.ImportTaxSequencesFromExcel200Response;
 import com.pronesoft.ecf.model.InvoiceTypeSequence;
 import com.pronesoft.ecf.model.ListTaxSequences200Response;
 import java.util.UUID;
@@ -379,6 +381,167 @@ public class TaxSequencesApi {
 
         okhttp3.Call localVarCall = getNextNumberValidateBeforeCall(type, environment, xTenantId, _callback);
         Type localVarReturnType = new TypeToken<GetNextNumber200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for importTaxSequencesFromExcel
+     * @param environment  (required)
+     * @param _file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Proceso de importación completado (puede incluir filas fallidas) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call importTaxSequencesFromExcelCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/tax-sequences/import";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (_file != null) {
+            localVarFormParams.put("file", _file);
+        }
+
+        if (environment != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("environment", environment));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "multipart/form-data"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xTenantId != null) {
+            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "oauth2" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call importTaxSequencesFromExcelValidateBeforeCall(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'environment' is set
+        if (environment == null) {
+            throw new ApiException("Missing the required parameter 'environment' when calling importTaxSequencesFromExcel(Async)");
+        }
+
+        // verify the required parameter '_file' is set
+        if (_file == null) {
+            throw new ApiException("Missing the required parameter '_file' when calling importTaxSequencesFromExcel(Async)");
+        }
+
+        return importTaxSequencesFromExcelCall(environment, _file, xTenantId, _callback);
+
+    }
+
+    /**
+     * Importar secuencias desde archivo Excel de la DGII
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+     * @param environment  (required)
+     * @param _file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ImportTaxSequencesFromExcel200Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Proceso de importación completado (puede incluir filas fallidas) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ImportTaxSequencesFromExcel200Response importTaxSequencesFromExcel(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<ImportTaxSequencesFromExcel200Response> localVarResp = importTaxSequencesFromExcelWithHttpInfo(environment, _file, xTenantId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Importar secuencias desde archivo Excel de la DGII
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+     * @param environment  (required)
+     * @param _file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse&lt;ImportTaxSequencesFromExcel200Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Proceso de importación completado (puede incluir filas fallidas) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<ImportTaxSequencesFromExcel200Response> importTaxSequencesFromExcelWithHttpInfo(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = importTaxSequencesFromExcelValidateBeforeCall(environment, _file, xTenantId, null);
+        Type localVarReturnType = new TypeToken<ImportTaxSequencesFromExcel200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Importar secuencias desde archivo Excel de la DGII (asynchronously)
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+     * @param environment  (required)
+     * @param _file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Proceso de importación completado (puede incluir filas fallidas) </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call importTaxSequencesFromExcelAsync(@javax.annotation.Nonnull Environment environment, @javax.annotation.Nonnull File _file, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<ImportTaxSequencesFromExcel200Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = importTaxSequencesFromExcelValidateBeforeCall(environment, _file, xTenantId, _callback);
+        Type localVarReturnType = new TypeToken<ImportTaxSequencesFromExcel200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

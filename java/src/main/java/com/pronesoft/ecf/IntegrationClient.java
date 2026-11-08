@@ -7,7 +7,7 @@ import com.pronesoft.ecf.api.CommercialApprovalsApi;
 import com.pronesoft.ecf.api.DigitalCertificatesApi;
 import com.pronesoft.ecf.api.DocumentsReceivedApi;
 import com.pronesoft.ecf.api.DocumentsSentApi;
-import com.pronesoft.ecf.api.ECFSubmissionApi;
+import com.pronesoft.ecf.api.ECfSubmissionApi;
 import com.pronesoft.ecf.api.ReportsApi;
 import com.pronesoft.ecf.api.TaxSequencesApi;
 import com.pronesoft.ecf.api.WebhookConfigurationApi;
@@ -25,7 +25,7 @@ public class IntegrationClient {
     public final DigitalCertificatesApi digitalCertificates;
     public final DocumentsReceivedApi documentsReceived;
     public final DocumentsSentApi documentsSent;
-    public final ECFSubmissionApi ecfSubmission;
+    public final ECfSubmissionApi ecfSubmission;
     public final ReportsApi reports;
     public final TaxSequencesApi taxSequences;
     public final WebhookConfigurationApi webhooks;
@@ -47,6 +47,9 @@ public class IntegrationClient {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.apiClient = new ApiClient(normalizedBaseUrl, clientId, clientSecret, null);
+        // The generated constructor keeps serverIndex 0 (the first server in the spec, sandbox) and ignores
+        // basePath when building URLs; setBasePath clears it so requests go to the URL the caller passed.
+        this.apiClient.setBasePath(normalizedBaseUrl);
 
         this.associatedCompanies = new AssociatedCompaniesApi(this.apiClient);
         this.authentication = new AuthenticationApi(this.apiClient);
@@ -55,7 +58,7 @@ public class IntegrationClient {
         this.digitalCertificates = new DigitalCertificatesApi(this.apiClient);
         this.documentsReceived = new DocumentsReceivedApi(this.apiClient);
         this.documentsSent = new DocumentsSentApi(this.apiClient);
-        this.ecfSubmission = new ECFSubmissionApi(this.apiClient);
+        this.ecfSubmission = new ECfSubmissionApi(this.apiClient);
         this.reports = new ReportsApi(this.apiClient);
         this.taxSequences = new TaxSequencesApi(this.apiClient);
         this.webhooks = new WebhookConfigurationApi(this.apiClient);
@@ -70,7 +73,10 @@ public class IntegrationClient {
             throw new IllegalArgumentException("tenantId is required");
         }
 
-        ApiClient tenantApiClient = new ApiClient(this.normalizedBaseUrl, this.clientId, this.clientSecret, null);
+        // Share the main client's OkHttpClient: its RetryingOAuth interceptor holds the token, so every tenant
+        // session reuses one token (and its refresh) instead of requesting a new one per getClient().
+        ApiClient tenantApiClient = new ApiClient(this.apiClient.getHttpClient());
+        tenantApiClient.setBasePath(this.normalizedBaseUrl);
         tenantApiClient.addDefaultHeader("x-tenant-id", tenantId.trim());
         return new TenantScopedClient(tenantApiClient);
     }
@@ -87,7 +93,7 @@ public class IntegrationClient {
         public final DigitalCertificatesApi digitalCertificates;
         public final DocumentsReceivedApi documentsReceived;
         public final DocumentsSentApi documentsSent;
-        public final ECFSubmissionApi ecfSubmission;
+        public final ECfSubmissionApi ecfSubmission;
         public final ReportsApi reports;
         public final TaxSequencesApi taxSequences;
         public final WebhookConfigurationApi webhooks;
@@ -100,7 +106,7 @@ public class IntegrationClient {
             this.digitalCertificates = new DigitalCertificatesApi(apiClient);
             this.documentsReceived = new DocumentsReceivedApi(apiClient);
             this.documentsSent = new DocumentsSentApi(apiClient);
-            this.ecfSubmission = new ECFSubmissionApi(apiClient);
+            this.ecfSubmission = new ECfSubmissionApi(apiClient);
             this.reports = new ReportsApi(apiClient);
             this.taxSequences = new TaxSequencesApi(apiClient);
             this.webhooks = new WebhookConfigurationApi(apiClient);

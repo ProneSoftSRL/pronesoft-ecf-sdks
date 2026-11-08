@@ -67,6 +67,9 @@ docs/GetNextNumber200ResponseData.md
 docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 docs/GetSentDocumentLogs200ResponseInner.md
 docs/GetSentDocumentStatusOptions200ResponseInner.md
+docs/ImportTaxSequencesFromExcel200Response.md
+docs/ImportTaxSequencesFromExcel200ResponseData.md
+docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 docs/InvoiceType.md
 docs/InvoiceTypeSequence.md
 docs/Item.md
@@ -232,6 +235,9 @@ src/main/java/com/pronesoft/ecf/model/GetNextNumber200ResponseData.java
 src/main/java/com/pronesoft/ecf/model/GetReceivedDocumentStatsBySupplier200ResponseInner.java
 src/main/java/com/pronesoft/ecf/model/GetSentDocumentLogs200ResponseInner.java
 src/main/java/com/pronesoft/ecf/model/GetSentDocumentStatusOptions200ResponseInner.java
+src/main/java/com/pronesoft/ecf/model/ImportTaxSequencesFromExcel200Response.java
+src/main/java/com/pronesoft/ecf/model/ImportTaxSequencesFromExcel200ResponseData.java
+src/main/java/com/pronesoft/ecf/model/ImportTaxSequencesFromExcel200ResponseDataResultsInner.java
 src/main/java/com/pronesoft/ecf/model/InvoiceType.java
 src/main/java/com/pronesoft/ecf/model/InvoiceTypeSequence.java
 src/main/java/com/pronesoft/ecf/model/Item.java
