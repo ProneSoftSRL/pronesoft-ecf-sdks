@@ -30,9 +30,13 @@ class _IntegrationTokenManager:
         self._access_token: Optional[str] = None
         self._expires_at: float = 0.0
 
-    def get_token(self, force_refresh: bool = False) -> str:
+    def get_token(self, force_refresh: bool = False, rejected_token: Optional[str] = None) -> str:
+        """`rejected_token` is the token a 401 came back with: if another thread already replaced it,
+        that newer token is reused instead of requesting one more (concurrent 401s refresh once)."""
         with self._lock:
             now = time.time()
+            if force_refresh and rejected_token is not None and self._access_token and self._access_token != rejected_token:
+                return self._access_token
             if (
                 not force_refresh
                 and self._access_token
@@ -64,6 +68,7 @@ class _IntegrationRestClient:
         is_oauth_request = parsed_path.endswith("/oauth/token")
 
         headers = dict(headers or {})
+        token = None
         if not is_oauth_request:
             token = self._token_manager.get_token(False)
             headers["Authorization"] = "Bearer " + token
@@ -82,7 +87,7 @@ class _IntegrationRestClient:
         if is_oauth_request or response.status != 401:
             return response
 
-        token = self._token_manager.get_token(True)
+        token = self._token_manager.get_token(True, rejected_token=token)
         retry_headers = dict(headers)
         retry_headers["Authorization"] = "Bearer " + token
         return self._base_rest_client.request(
