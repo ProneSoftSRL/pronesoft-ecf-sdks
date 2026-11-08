@@ -2,7 +2,7 @@
 
 eCF-Pronesoft Integration API
 - API version: 1.2.0
-  - Build date: 2026-11-08T08:03:57.464040759-04:00[America/Santo_Domingo]
+  - Build date: 2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Descripción general

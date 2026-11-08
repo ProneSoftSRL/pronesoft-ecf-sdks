@@ -54,7 +54,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. &#x60;status&#x60; siempre es &#x60;REGISTERED&#x60;. &#x60;legalStatus&#x60; y &#x60;trackId&#x60; siempre son &#x60;null&#x60; en este momento — se populan una vez que la DGII procesa el documento. Usa &#x60;GET /ecf/status/{id}&#x60; o escucha el webhook &#x60;document.status_changed&#x60; para obtener el resultado fiscal final. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:03:57.464040759-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class EcfSubmitResponse {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -548,6 +548,50 @@ public class EcfSubmitResponse {
     this.sequenceConsumed = sequenceConsumed;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the EcfSubmitResponse instance itself
+   */
+  public EcfSubmitResponse putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
 
   @Override
@@ -574,7 +618,8 @@ public class EcfSubmitResponse {
         Objects.equals(this.xmlUrl, ecfSubmitResponse.xmlUrl) &&
         Objects.equals(this.signatureDate, ecfSubmitResponse.signatureDate) &&
         Objects.equals(this.securityCode, ecfSubmitResponse.securityCode) &&
-        Objects.equals(this.sequenceConsumed, ecfSubmitResponse.sequenceConsumed);
+        Objects.equals(this.sequenceConsumed, ecfSubmitResponse.sequenceConsumed)&&
+        Objects.equals(this.additionalProperties, ecfSubmitResponse.additionalProperties);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -583,7 +628,7 @@ public class EcfSubmitResponse {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, stampDate, status, legalStatus, companyIdentification, trackId, documentNumber, encf, contingencyMode, contingencyMessage, documentStampUrl, pdf, xmlUrl, signatureDate, securityCode, sequenceConsumed);
+    return Objects.hash(id, stampDate, status, legalStatus, companyIdentification, trackId, documentNumber, encf, contingencyMode, contingencyMessage, documentStampUrl, pdf, xmlUrl, signatureDate, securityCode, sequenceConsumed, additionalProperties);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -613,6 +658,7 @@ public class EcfSubmitResponse {
     sb.append("    signatureDate: ").append(toIndentedString(signatureDate)).append("\n");
     sb.append("    securityCode: ").append(toIndentedString(securityCode)).append("\n");
     sb.append("    sequenceConsumed: ").append(toIndentedString(sequenceConsumed)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -647,14 +693,6 @@ public class EcfSubmitResponse {
       if (jsonElement == null) {
         if (!EcfSubmitResponse.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in EcfSubmitResponse is not found in the empty JSON string", EcfSubmitResponse.openapiRequiredFields.toString()));
-        }
-      }
-
-      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
-      // check to see if the JSON string contains additional fields
-      for (Map.Entry<String, JsonElement> entry : entries) {
-        if (!EcfSubmitResponse.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `EcfSubmitResponse` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
 
@@ -723,6 +761,28 @@ public class EcfSubmitResponse {
            @Override
            public void write(JsonWriter out, EcfSubmitResponse value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             obj.remove("additionalProperties");
+             // serialize additional properties
+             if (value.getAdditionalProperties() != null) {
+               for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                 if (entry.getValue() instanceof String)
+                   obj.addProperty(entry.getKey(), (String) entry.getValue());
+                 else if (entry.getValue() instanceof Number)
+                   obj.addProperty(entry.getKey(), (Number) entry.getValue());
+                 else if (entry.getValue() instanceof Boolean)
+                   obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
+                 else if (entry.getValue() instanceof Character)
+                   obj.addProperty(entry.getKey(), (Character) entry.getValue());
+                 else {
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
+                 }
+               }
+             }
              elementAdapter.write(out, obj);
            }
 
@@ -730,7 +790,28 @@ public class EcfSubmitResponse {
            public EcfSubmitResponse read(JsonReader in) throws IOException {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
-             return thisAdapter.fromJsonTree(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
+             // store additional fields in the deserialized instance
+             EcfSubmitResponse instance = thisAdapter.fromJsonTree(jsonObj);
+             for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
+               if (!openapiFields.contains(entry.getKey())) {
+                 if (entry.getValue().isJsonPrimitive()) { // primitive type
+                   if (entry.getValue().getAsJsonPrimitive().isString())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsString());
+                   else if (entry.getValue().getAsJsonPrimitive().isNumber())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsNumber());
+                   else if (entry.getValue().getAsJsonPrimitive().isBoolean())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
+                   else
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 }
+               }
+             }
+             return instance;
            }
 
        }.nullSafe();

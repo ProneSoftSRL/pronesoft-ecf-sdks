@@ -50,7 +50,7 @@ declare -A CONFIG=(
   [python]="python|packageName=pronesoft_ecf,projectName=pronesoft-ecf,packageVersion=0.0.5,generateSourceCodeOnly=false"
   [php]="php|invokerPackage=PronesoftEcf,packageName=pronesoft-ecf-sdk,packageVersion=0.0.4,composerVendorName=pronesoft,composerProjectName=ecf-sdk"
   [csharp]="csharp|packageName=Pronesoft.Ecf.Sdk,targetFramework=net8.0,packageVersion=0.0.4,nullableReferenceTypes=true,netCoreProjectFile=true,library=httpclient"
-  [java]="java|invokerPackage=com.pronesoft.ecf,apiPackage=com.pronesoft.ecf.api,modelPackage=com.pronesoft.ecf.model,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.5,library=okhttp-gson,java8=true"
+  [java]="java|invokerPackage=com.pronesoft.ecf,apiPackage=com.pronesoft.ecf.api,modelPackage=com.pronesoft.ecf.model,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.5,library=okhttp-gson,java8=true,disallowAdditionalPropertiesIfNotPresent=false"
   [dart]="dart|pubName=pronesoft_ecf,pubVersion=0.0.4,pubDescription=Pronesoft eCF SDK for Dart/Flutter"
   [kotlin]="kotlin|packageName=com.pronesoft.ecf,groupId=com.pronesoft,artifactId=ecf-sdk,artifactVersion=0.0.4,serializationLibrary=gson"
   [swift]="swift5|projectName=PronesoftEcf,podVersion=0.0.4,swiftUseApiNamespace=true"
