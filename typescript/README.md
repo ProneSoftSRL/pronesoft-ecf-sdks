@@ -42,8 +42,8 @@ async function main() {
   });
   console.log('Empresa creada con ID:', sucursal.business?.id);
 
-  // 3. Multi-empresa: Operar en nombre de una empresa asociada
-  const tenantClient = client.forTenant('SBX133190907');
+  // 3. Multi-empresa: Operar en nombre de una empresa asociada usando su ID (UUID)
+  const tenantClient = client.forTenant(sucursal.business!.id);
   const emitidos = await tenantClient.documentsSent.listSentDocuments({});
   console.log('Documentos emitidos por la sucursal:', emitidos.data?.length);
 
