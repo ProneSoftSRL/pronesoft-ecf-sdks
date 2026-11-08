@@ -162,6 +162,85 @@ module PronesoftEcf
       return data, status_code, headers
     end
 
+    # Importar secuencias desde archivo Excel de la DGII
+    # Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+    # @param environment [Environment] 
+    # @param file [File] Archivo Excel (.xlsx o .xls) exportado desde la DGII
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [ImportTaxSequencesFromExcel200Response]
+    def import_tax_sequences_from_excel(environment, file, opts = {})
+      data, _status_code, _headers = import_tax_sequences_from_excel_with_http_info(environment, file, opts)
+      data
+    end
+
+    # Importar secuencias desde archivo Excel de la DGII
+    # Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+    # @param environment [Environment] 
+    # @param file [File] Archivo Excel (.xlsx o .xls) exportado desde la DGII
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Array<(ImportTaxSequencesFromExcel200Response, Integer, Hash)>] ImportTaxSequencesFromExcel200Response data, response status code and response headers
+    def import_tax_sequences_from_excel_with_http_info(environment, file, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TaxSequencesApi.import_tax_sequences_from_excel ...'
+      end
+      # verify the required parameter 'environment' is set
+      if @api_client.config.client_side_validation && environment.nil?
+        fail ArgumentError, "Missing the required parameter 'environment' when calling TaxSequencesApi.import_tax_sequences_from_excel"
+      end
+      # verify the required parameter 'file' is set
+      if @api_client.config.client_side_validation && file.nil?
+        fail ArgumentError, "Missing the required parameter 'file' when calling TaxSequencesApi.import_tax_sequences_from_excel"
+      end
+      # resource path
+      local_var_path = '/tax-sequences/import'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'environment'] = environment
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['multipart/form-data'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+      header_params[:'x-tenant-id'] = opts[:'x_tenant_id'] if !opts[:'x_tenant_id'].nil?
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+      form_params['file'] = file
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'ImportTaxSequencesFromExcel200Response'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['oauth2']
+
+      new_options = opts.merge(
+        :operation => :"TaxSequencesApi.import_tax_sequences_from_excel",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TaxSequencesApi#import_tax_sequences_from_excel\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Listar secuencias de NCF
     # @param [Hash] opts the optional parameters
     # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 

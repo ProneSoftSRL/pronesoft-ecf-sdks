@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **payment_type** | Option<**PaymentType**> | 1=Cash, 2=Credit, 3=Mixed (enum: 1, 2, 3) | [optional]
 **payment_deadline** | Option<**String**> |  | [optional]
 **payment_terms** | Option<**String**> |  | [optional]
-**payment_forms** | [**Vec<models::PaymentForm>**](PaymentForm.md) | Payment breakdown. Required. | 
+**payment_forms** | Option<[**Vec<models::PaymentForm>**](PaymentForm.md)> | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional]
 **payment_account_type** | Option<[**models::AccountType**](AccountType.md)> |  | [optional]
 **payment_account_number** | Option<**String**> |  | [optional]
 **payment_bank** | Option<**String**> |  | [optional]
@@ -43,7 +43,7 @@ Name | Type | Description | Notes
 **additional_issuer_info** | Option<**String**> |  | [optional]
 **buyer** | Option<[**models::Buyer**](Buyer.md)> |  | [optional]
 **items** | [**Vec<models::Item>**](Item.md) |  | 
-**totals** | [**models::Totals**](Totals.md) |  | 
+**totals** | Option<[**models::Totals**](Totals.md)> |  | [optional]
 **transport** | Option<[**models::Transport**](Transport.md)> |  | [optional]
 **additional_info** | Option<[**models::AdditionalInfo**](AdditionalInfo.md)> |  | [optional]
 **alternative_currency** | Option<[**models::AlternativeCurrency**](AlternativeCurrency.md)> |  | [optional]

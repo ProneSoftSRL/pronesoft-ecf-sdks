@@ -14,7 +14,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 ## create_associated_company
 
-> <CreateAssociatedCompany201Response> create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, opts)
+> <CreateAssociatedCompany201Response> create_associated_company(name, rnc, opts)
 
 Crear empresa asociada / sucursal
 
@@ -30,28 +30,28 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::AssociatedCompaniesApi.new
-email = 'email_example' # String | 
-password = 'password_example' # String | 
 name = 'name_example' # String | 
 rnc = 'rnc_example' # String | 
-phone = 'phone_example' # String | 
-address = 'address_example' # String | 
-city = 'city_example' # String | 
-country = 'country_example' # String | 
-printer_type = PronesoftEcf::PrintFormat::A4 # PrintFormat | 
 opts = {
+  email: 'email_example', # String | 
+  password: 'password_example', # String | 
   first_name: 'first_name_example', # String | 
   last_name: 'last_name_example', # String | 
   job_title: 'job_title_example', # String | 
+  phone: 'phone_example', # String | 
+  address: 'address_example', # String | 
+  city: 'city_example', # String | 
+  country: 'country_example', # String | 
   website: 'website_example', # String | 
   category: 'category_example', # String | 
   monthly_sales_range: 'monthly_sales_range_example', # String | 
+  printer_type: PronesoftEcf::PrintFormat::A4, # PrintFormat | 
   logo: File.new('/path/to/some/file') # File | 
 }
 
 begin
   # Crear empresa asociada / sucursal
-  result = api_instance.create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, opts)
+  result = api_instance.create_associated_company(name, rnc, opts)
   p result
 rescue PronesoftEcf::ApiError => e
   puts "Error when calling AssociatedCompaniesApi->create_associated_company: #{e}"
@@ -62,12 +62,12 @@ end
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(<CreateAssociatedCompany201Response>, Integer, Hash)> create_associated_company_with_http_info(email, password, name, rnc, phone, address, city, country, printer_type, opts)
+> <Array(<CreateAssociatedCompany201Response>, Integer, Hash)> create_associated_company_with_http_info(name, rnc, opts)
 
 ```ruby
 begin
   # Crear empresa asociada / sucursal
-  data, status_code, headers = api_instance.create_associated_company_with_http_info(email, password, name, rnc, phone, address, city, country, printer_type, opts)
+  data, status_code, headers = api_instance.create_associated_company_with_http_info(name, rnc, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => <CreateAssociatedCompany201Response>
@@ -80,21 +80,21 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **email** | **String** |  |  |
-| **password** | **String** |  |  |
 | **name** | **String** |  |  |
 | **rnc** | **String** |  |  |
-| **phone** | **String** |  |  |
-| **address** | **String** |  |  |
-| **city** | **String** |  |  |
-| **country** | **String** |  |  |
-| **printer_type** | [**PrintFormat**](PrintFormat.md) |  |  |
+| **email** | **String** |  | [optional] |
+| **password** | **String** |  | [optional] |
 | **first_name** | **String** |  | [optional] |
 | **last_name** | **String** |  | [optional] |
 | **job_title** | **String** |  | [optional] |
+| **phone** | **String** |  | [optional] |
+| **address** | **String** |  | [optional] |
+| **city** | **String** |  | [optional] |
+| **country** | **String** |  | [optional] |
 | **website** | **String** |  | [optional] |
 | **category** | **String** |  | [optional] |
 | **monthly_sales_range** | **String** |  | [optional] |
+| **printer_type** | [**PrintFormat**](PrintFormat.md) |  | [optional] |
 | **logo** | **File** |  | [optional] |
 
 ### Return type

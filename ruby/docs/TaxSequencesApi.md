@@ -6,6 +6,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | ------ | ------------ | ----------- |
 | [**create_tax_sequence**](TaxSequencesApi.md#create_tax_sequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF |
 | [**get_next_number**](TaxSequencesApi.md#get_next_number) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible |
+| [**import_tax_sequences_from_excel**](TaxSequencesApi.md#import_tax_sequences_from_excel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII |
 | [**list_tax_sequences**](TaxSequencesApi.md#list_tax_sequences) | **GET** /tax-sequences | Listar secuencias de NCF |
 | [**update_tax_sequence**](TaxSequencesApi.md#update_tax_sequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF |
 | [**void_tax_sequence**](TaxSequencesApi.md#void_tax_sequence) | **POST** /tax-sequences/void | Anular rango de números fiscales |
@@ -29,7 +30,7 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceTypeSequence::E31, from: 1, to: 10000}) # CreateTaxSequenceRequest | 
+create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceTypeSequence::E31, from: 1, to: 10000, quantity: 10000, environment: PronesoftEcf::Environment::TESTE_CF}) # CreateTaxSequenceRequest | 
 opts = {
   x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
 }
@@ -154,6 +155,81 @@ end
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## import_tax_sequences_from_excel
+
+> <ImportTaxSequencesFromExcel200Response> import_tax_sequences_from_excel(environment, file, opts)
+
+Importar secuencias desde archivo Excel de la DGII
+
+Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
+
+api_instance = PronesoftEcf::TaxSequencesApi.new
+environment = PronesoftEcf::Environment::TESTE_CF # Environment | 
+file = File.new('/path/to/some/file') # File | Archivo Excel (.xlsx o .xls) exportado desde la DGII
+opts = {
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+}
+
+begin
+  # Importar secuencias desde archivo Excel de la DGII
+  result = api_instance.import_tax_sequences_from_excel(environment, file, opts)
+  p result
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling TaxSequencesApi->import_tax_sequences_from_excel: #{e}"
+end
+```
+
+#### Using the import_tax_sequences_from_excel_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<ImportTaxSequencesFromExcel200Response>, Integer, Hash)> import_tax_sequences_from_excel_with_http_info(environment, file, opts)
+
+```ruby
+begin
+  # Importar secuencias desde archivo Excel de la DGII
+  data, status_code, headers = api_instance.import_tax_sequences_from_excel_with_http_info(environment, file, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <ImportTaxSequencesFromExcel200Response>
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling TaxSequencesApi->import_tax_sequences_from_excel_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **environment** | [**Environment**](.md) |  |  |
+| **file** | **File** | Archivo Excel (.xlsx o .xls) exportado desde la DGII |  |
+| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+
+### Return type
+
+[**ImportTaxSequencesFromExcel200Response**](ImportTaxSequencesFromExcel200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: application/json
 
 

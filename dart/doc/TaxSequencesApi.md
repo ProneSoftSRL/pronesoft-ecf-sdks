@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**createTaxSequence**](TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
 [**getNextNumber**](TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+[**importTaxSequencesFromExcel**](TaxSequencesApi.md#importtaxsequencesfromexcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 [**listTaxSequences**](TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF
 [**updateTaxSequence**](TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
 [**voidTaxSequence**](TaxSequencesApi.md#voidtaxsequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
@@ -106,6 +107,55 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **importTaxSequencesFromExcel**
+> ImportTaxSequencesFromExcel200Response importTaxSequencesFromExcel(environment, file, xTenantId)
+
+Importar secuencias desde archivo Excel de la DGII
+
+Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+
+### Example
+```dart
+import 'package:pronesoft_ecf/api.dart';
+// TODO Configure OAuth2 access token for authorization: oauth2
+//defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
+
+final api_instance = TaxSequencesApi();
+final environment = ; // Environment | 
+final file = BINARY_DATA_HERE; // MultipartFile | Archivo Excel (.xlsx o .xls) exportado desde la DGII
+final xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+
+try {
+    final result = api_instance.importTaxSequencesFromExcel(environment, file, xTenantId);
+    print(result);
+} catch (e) {
+    print('Exception when calling TaxSequencesApi->importTaxSequencesFromExcel: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **environment** | [**Environment**](.md)|  | 
+ **file** | **MultipartFile**| Archivo Excel (.xlsx o .xls) exportado desde la DGII | 
+ **xTenantId** | **String**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+
+### Return type
+
+[**ImportTaxSequencesFromExcel200Response**](ImportTaxSequencesFromExcel200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

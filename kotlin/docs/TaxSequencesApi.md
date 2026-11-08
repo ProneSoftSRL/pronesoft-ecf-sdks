@@ -6,6 +6,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | ------------- | ------------- | ------------- |
 | [**createTaxSequence**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF |
 | [**getNextNumber**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible |
+| [**importTaxSequencesFromExcel**](TaxSequencesApi.md#importTaxSequencesFromExcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII |
 | [**listTaxSequences**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | Listar secuencias de NCF |
 | [**updateTaxSequence**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF |
 | [**voidTaxSequence**](TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Anular rango de números fiscales |
@@ -109,6 +110,58 @@ Configure oauth2:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a id="importTaxSequencesFromExcel"></a>
+# **importTaxSequencesFromExcel**
+> ImportTaxSequencesFromExcel200Response importTaxSequencesFromExcel(environment, file, xTenantId)
+
+Importar secuencias desde archivo Excel de la DGII
+
+Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+
+### Example
+```kotlin
+// Import classes:
+//import com.pronesoft.ecf.infrastructure.*
+//import com.pronesoft.ecf.models.*
+
+val apiInstance = TaxSequencesApi()
+val environment : Environment =  // Environment | 
+val file : java.io.File = BINARY_DATA_HERE // java.io.File | Archivo Excel (.xlsx o .xls) exportado desde la DGII
+val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+try {
+    val result : ImportTaxSequencesFromExcel200Response = apiInstance.importTaxSequencesFromExcel(environment, file, xTenantId)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling TaxSequencesApi#importTaxSequencesFromExcel")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling TaxSequencesApi#importTaxSequencesFromExcel")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **environment** | [**Environment**](.md)|  | [enum: TesteCF, CerteCF, eCF] |
+| **file** | **java.io.File**| Archivo Excel (.xlsx o .xls) exportado desde la DGII | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+
+### Return type
+
+[**ImportTaxSequencesFromExcel200Response**](ImportTaxSequencesFromExcel200Response.md)
+
+### Authorization
+
+
+Configure oauth2:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 <a id="listTaxSequences"></a>

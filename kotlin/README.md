@@ -112,6 +112,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | *ReportsApi* | [**exportSentDocuments**](docs/ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados |
 | *TaxSequencesApi* | [**createTaxSequence**](docs/TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF |
 | *TaxSequencesApi* | [**getNextNumber**](docs/TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible |
+| *TaxSequencesApi* | [**importTaxSequencesFromExcel**](docs/TaxSequencesApi.md#importtaxsequencesfromexcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII |
 | *TaxSequencesApi* | [**listTaxSequences**](docs/TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF |
 | *TaxSequencesApi* | [**updateTaxSequence**](docs/TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF |
 | *TaxSequencesApi* | [**voidTaxSequence**](docs/TaxSequencesApi.md#voidtaxsequence) | **POST** /tax-sequences/void | Anular rango de números fiscales |
@@ -177,6 +178,9 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
  - [com.pronesoft.ecf.models.GetReceivedDocumentStatsBySupplier200ResponseInner](docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md)
  - [com.pronesoft.ecf.models.GetSentDocumentLogs200ResponseInner](docs/GetSentDocumentLogs200ResponseInner.md)
  - [com.pronesoft.ecf.models.GetSentDocumentStatusOptions200ResponseInner](docs/GetSentDocumentStatusOptions200ResponseInner.md)
+ - [com.pronesoft.ecf.models.ImportTaxSequencesFromExcel200Response](docs/ImportTaxSequencesFromExcel200Response.md)
+ - [com.pronesoft.ecf.models.ImportTaxSequencesFromExcel200ResponseData](docs/ImportTaxSequencesFromExcel200ResponseData.md)
+ - [com.pronesoft.ecf.models.ImportTaxSequencesFromExcel200ResponseDataResultsInner](docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md)
  - [com.pronesoft.ecf.models.InvoiceType](docs/InvoiceType.md)
  - [com.pronesoft.ecf.models.InvoiceTypeSequence](docs/InvoiceTypeSequence.md)
  - [com.pronesoft.ecf.models.Item](docs/Item.md)

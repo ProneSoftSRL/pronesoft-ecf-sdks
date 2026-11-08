@@ -22,23 +22,13 @@ class AssociatedCompaniesApi {
   ///
   /// Parameters:
   ///
-  /// * [String] email (required):
-  ///
-  /// * [String] password (required):
-  ///
   /// * [String] name (required):
   ///
   /// * [String] rnc (required):
   ///
-  /// * [String] phone (required):
+  /// * [String] email:
   ///
-  /// * [String] address (required):
-  ///
-  /// * [String] city (required):
-  ///
-  /// * [String] country (required):
-  ///
-  /// * [PrintFormat] printerType (required):
+  /// * [String] password:
   ///
   /// * [String] firstName:
   ///
@@ -46,14 +36,24 @@ class AssociatedCompaniesApi {
   ///
   /// * [String] jobTitle:
   ///
+  /// * [String] phone:
+  ///
+  /// * [String] address:
+  ///
+  /// * [String] city:
+  ///
+  /// * [String] country:
+  ///
   /// * [String] website:
   ///
   /// * [String] category:
   ///
   /// * [String] monthlySalesRange:
   ///
+  /// * [PrintFormat] printerType:
+  ///
   /// * [MultipartFile] logo:
-  Future<Response> createAssociatedCompanyWithHttpInfo(String email, String password, String name, String rnc, String phone, String address, String city, String country, PrintFormat printerType, { String? firstName, String? lastName, String? jobTitle, String? website, String? category, String? monthlySalesRange, MultipartFile? logo, }) async {
+  Future<Response> createAssociatedCompanyWithHttpInfo(String name, String rnc, { String? email, String? password, String? firstName, String? lastName, String? jobTitle, String? phone, String? address, String? city, String? country, String? website, String? category, String? monthlySalesRange, PrintFormat? printerType, MultipartFile? logo, }) async {
     // ignore: prefer_const_declarations
     final path = r'/associated-companies';
 
@@ -152,23 +152,13 @@ class AssociatedCompaniesApi {
   ///
   /// Parameters:
   ///
-  /// * [String] email (required):
-  ///
-  /// * [String] password (required):
-  ///
   /// * [String] name (required):
   ///
   /// * [String] rnc (required):
   ///
-  /// * [String] phone (required):
+  /// * [String] email:
   ///
-  /// * [String] address (required):
-  ///
-  /// * [String] city (required):
-  ///
-  /// * [String] country (required):
-  ///
-  /// * [PrintFormat] printerType (required):
+  /// * [String] password:
   ///
   /// * [String] firstName:
   ///
@@ -176,15 +166,25 @@ class AssociatedCompaniesApi {
   ///
   /// * [String] jobTitle:
   ///
+  /// * [String] phone:
+  ///
+  /// * [String] address:
+  ///
+  /// * [String] city:
+  ///
+  /// * [String] country:
+  ///
   /// * [String] website:
   ///
   /// * [String] category:
   ///
   /// * [String] monthlySalesRange:
   ///
+  /// * [PrintFormat] printerType:
+  ///
   /// * [MultipartFile] logo:
-  Future<CreateAssociatedCompany201Response?> createAssociatedCompany(String email, String password, String name, String rnc, String phone, String address, String city, String country, PrintFormat printerType, { String? firstName, String? lastName, String? jobTitle, String? website, String? category, String? monthlySalesRange, MultipartFile? logo, }) async {
-    final response = await createAssociatedCompanyWithHttpInfo(email, password, name, rnc, phone, address, city, country, printerType,  firstName: firstName, lastName: lastName, jobTitle: jobTitle, website: website, category: category, monthlySalesRange: monthlySalesRange, logo: logo, );
+  Future<CreateAssociatedCompany201Response?> createAssociatedCompany(String name, String rnc, { String? email, String? password, String? firstName, String? lastName, String? jobTitle, String? phone, String? address, String? city, String? country, String? website, String? category, String? monthlySalesRange, PrintFormat? printerType, MultipartFile? logo, }) async {
+    final response = await createAssociatedCompanyWithHttpInfo(name, rnc,  email: email, password: password, firstName: firstName, lastName: lastName, jobTitle: jobTitle, phone: phone, address: address, city: city, country: country, website: website, category: category, monthlySalesRange: monthlySalesRange, printerType: printerType, logo: logo, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

@@ -62,6 +62,9 @@ docs/GetNextNumber200ResponseData.md
 docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 docs/GetSentDocumentLogs200ResponseInner.md
 docs/GetSentDocumentStatusOptions200ResponseInner.md
+docs/ImportTaxSequencesFromExcel200Response.md
+docs/ImportTaxSequencesFromExcel200ResponseData.md
+docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 docs/InvoiceType.md
 docs/InvoiceTypeSequence.md
 docs/Item.md
@@ -214,6 +217,9 @@ src/main/kotlin/com/pronesoft/ecf/models/GetNextNumber200ResponseData.kt
 src/main/kotlin/com/pronesoft/ecf/models/GetReceivedDocumentStatsBySupplier200ResponseInner.kt
 src/main/kotlin/com/pronesoft/ecf/models/GetSentDocumentLogs200ResponseInner.kt
 src/main/kotlin/com/pronesoft/ecf/models/GetSentDocumentStatusOptions200ResponseInner.kt
+src/main/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200Response.kt
+src/main/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200ResponseData.kt
+src/main/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200ResponseDataResultsInner.kt
 src/main/kotlin/com/pronesoft/ecf/models/InvoiceType.kt
 src/main/kotlin/com/pronesoft/ecf/models/InvoiceTypeSequence.kt
 src/main/kotlin/com/pronesoft/ecf/models/Item.kt
@@ -280,3 +286,6 @@ src/main/kotlin/com/pronesoft/ecf/models/WebhookNotificationPayload.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookNotificationPayloadData.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookStats.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookStatsStats.kt
+src/test/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200ResponseDataResultsInnerTest.kt
+src/test/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200ResponseDataTest.kt
+src/test/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200ResponseTest.kt

@@ -19,23 +19,23 @@ pub struct CreateTaxSequenceRequest {
     pub from: i32,
     #[serde(rename = "to")]
     pub to: i32,
-    #[serde(rename = "quantity", skip_serializing_if = "Option::is_none")]
-    pub quantity: Option<i32>,
+    #[serde(rename = "quantity")]
+    pub quantity: i32,
     #[serde(rename = "expiration", skip_serializing_if = "Option::is_none")]
     pub expiration: Option<String>,
-    #[serde(rename = "environment", skip_serializing_if = "Option::is_none")]
-    pub environment: Option<models::Environment>,
+    #[serde(rename = "environment")]
+    pub environment: models::Environment,
 }
 
 impl CreateTaxSequenceRequest {
-    pub fn new(r#type: models::InvoiceTypeSequence, from: i32, to: i32) -> CreateTaxSequenceRequest {
+    pub fn new(r#type: models::InvoiceTypeSequence, from: i32, to: i32, quantity: i32, environment: models::Environment) -> CreateTaxSequenceRequest {
         CreateTaxSequenceRequest {
             r#type,
             from,
             to,
-            quantity: None,
+            quantity,
             expiration: None,
-            environment: None,
+            environment,
         }
     }
 }

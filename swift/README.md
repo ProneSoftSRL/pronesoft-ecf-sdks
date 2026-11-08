@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *ReportsAPI* | [**exportSentDocuments**](docs/ReportsAPI.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
 *TaxSequencesAPI* | [**createTaxSequence**](docs/TaxSequencesAPI.md#createtaxsequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
 *TaxSequencesAPI* | [**getNextNumber**](docs/TaxSequencesAPI.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+*TaxSequencesAPI* | [**importTaxSequencesFromExcel**](docs/TaxSequencesAPI.md#importtaxsequencesfromexcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 *TaxSequencesAPI* | [**listTaxSequences**](docs/TaxSequencesAPI.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF
 *TaxSequencesAPI* | [**updateTaxSequence**](docs/TaxSequencesAPI.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
 *TaxSequencesAPI* | [**voidTaxSequence**](docs/TaxSequencesAPI.md#voidtaxsequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
@@ -156,6 +157,9 @@ Class | Method | HTTP request | Description
  - [GetReceivedDocumentStatsBySupplier200ResponseInner](docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md)
  - [GetSentDocumentLogs200ResponseInner](docs/GetSentDocumentLogs200ResponseInner.md)
  - [GetSentDocumentStatusOptions200ResponseInner](docs/GetSentDocumentStatusOptions200ResponseInner.md)
+ - [ImportTaxSequencesFromExcel200Response](docs/ImportTaxSequencesFromExcel200Response.md)
+ - [ImportTaxSequencesFromExcel200ResponseData](docs/ImportTaxSequencesFromExcel200ResponseData.md)
+ - [ImportTaxSequencesFromExcel200ResponseDataResultsInner](docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md)
  - [InvoiceType](docs/InvoiceType.md)
  - [InvoiceTypeSequence](docs/InvoiceTypeSequence.md)
  - [Item](docs/Item.md)

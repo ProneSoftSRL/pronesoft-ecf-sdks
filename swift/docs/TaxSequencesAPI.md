@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**createTaxSequence**](TaxSequencesAPI.md#createtaxsequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
 [**getNextNumber**](TaxSequencesAPI.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+[**importTaxSequencesFromExcel**](TaxSequencesAPI.md#importtaxsequencesfromexcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 [**listTaxSequences**](TaxSequencesAPI.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF
 [**updateTaxSequence**](TaxSequencesAPI.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
 [**voidTaxSequence**](TaxSequencesAPI.md#voidtaxsequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
@@ -111,6 +112,60 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **importTaxSequencesFromExcel**
+```swift
+    open class func importTaxSequencesFromExcel(environment: Environment, file: URL, xTenantId: UUID? = nil, completion: @escaping (_ data: ImportTaxSequencesFromExcel200Response?, _ error: Error?) -> Void)
+```
+
+Importar secuencias desde archivo Excel de la DGII
+
+Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PronesoftEcf
+
+let environment = Environment() // Environment | 
+let file = URL(string: "https://example.com")! // URL | Archivo Excel (.xlsx o .xls) exportado desde la DGII
+let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+
+// Importar secuencias desde archivo Excel de la DGII
+TaxSequencesAPI.importTaxSequencesFromExcel(environment: environment, file: file, xTenantId: xTenantId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **environment** | [**Environment**](.md) |  | 
+ **file** | **URL** | Archivo Excel (.xlsx o .xls) exportado desde la DGII | 
+ **xTenantId** | **UUID** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+
+### Return type
+
+[**ImportTaxSequencesFromExcel200Response**](ImportTaxSequencesFromExcel200Response.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

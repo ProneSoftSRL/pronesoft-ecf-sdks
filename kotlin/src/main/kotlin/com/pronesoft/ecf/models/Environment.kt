@@ -27,7 +27,7 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * TesteCF=testing no DGII, CerteCF=official certification, eCF=production
+ * TesteCF=DGII test environment (no fiscal validity), CerteCF=DGII certification, eCF=production
  *
  * Values: TesteCF,CerteCF,eCF
  */

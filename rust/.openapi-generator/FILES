@@ -64,6 +64,9 @@ docs/GetNextNumber200ResponseData.md
 docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 docs/GetSentDocumentLogs200ResponseInner.md
 docs/GetSentDocumentStatusOptions200ResponseInner.md
+docs/ImportTaxSequencesFromExcel200Response.md
+docs/ImportTaxSequencesFromExcel200ResponseData.md
+docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 docs/InvoiceType.md
 docs/InvoiceTypeSequence.md
 docs/Item.md
@@ -202,6 +205,9 @@ src/models/get_next_number_200_response_data.rs
 src/models/get_received_document_stats_by_supplier_200_response_inner.rs
 src/models/get_sent_document_logs_200_response_inner.rs
 src/models/get_sent_document_status_options_200_response_inner.rs
+src/models/import_tax_sequences_from_excel_200_response.rs
+src/models/import_tax_sequences_from_excel_200_response_data.rs
+src/models/import_tax_sequences_from_excel_200_response_data_results_inner.rs
 src/models/invoice_type.rs
 src/models/invoice_type_sequence.rs
 src/models/item.rs

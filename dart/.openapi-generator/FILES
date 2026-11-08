@@ -64,6 +64,9 @@ doc/GetNextNumber200ResponseData.md
 doc/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 doc/GetSentDocumentLogs200ResponseInner.md
 doc/GetSentDocumentStatusOptions200ResponseInner.md
+doc/ImportTaxSequencesFromExcel200Response.md
+doc/ImportTaxSequencesFromExcel200ResponseData.md
+doc/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 doc/InvoiceType.md
 doc/InvoiceTypeSequence.md
 doc/Item.md
@@ -208,6 +211,9 @@ lib/model/get_next_number200_response_data.dart
 lib/model/get_received_document_stats_by_supplier200_response_inner.dart
 lib/model/get_sent_document_logs200_response_inner.dart
 lib/model/get_sent_document_status_options200_response_inner.dart
+lib/model/import_tax_sequences_from_excel200_response.dart
+lib/model/import_tax_sequences_from_excel200_response_data.dart
+lib/model/import_tax_sequences_from_excel200_response_data_results_inner.dart
 lib/model/invoice_type.dart
 lib/model/invoice_type_sequence.dart
 lib/model/item.dart
@@ -275,3 +281,6 @@ lib/model/webhook_notification_payload_data.dart
 lib/model/webhook_stats.dart
 lib/model/webhook_stats_stats.dart
 pubspec.yaml
+test/import_tax_sequences_from_excel200_response_data_results_inner_test.dart
+test/import_tax_sequences_from_excel200_response_data_test.dart
+test/import_tax_sequences_from_excel200_response_test.dart

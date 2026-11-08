@@ -63,21 +63,21 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      * POST /associated-companies
      * Crear empresa asociada / sucursal
      * 
-     * @param email 
-     * @param password 
      * @param name 
      * @param rnc 
-     * @param phone 
-     * @param address 
-     * @param city 
-     * @param country 
-     * @param printerType 
+     * @param email  (optional)
+     * @param password  (optional)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
+     * @param phone  (optional)
+     * @param address  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
      * @param website  (optional)
      * @param category  (optional)
      * @param monthlySalesRange  (optional)
+     * @param printerType  (optional)
      * @param logo  (optional)
      * @return CreateAssociatedCompany201Response
      * @throws IllegalStateException If the request is not correctly configured
@@ -88,8 +88,8 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createAssociatedCompany(email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, printerType: PrintFormat, firstName: kotlin.String? = null, lastName: kotlin.String? = null, jobTitle: kotlin.String? = null, website: java.net.URI? = null, category: kotlin.String? = null, monthlySalesRange: kotlin.String? = null, logo: java.io.File? = null) : CreateAssociatedCompany201Response {
-        val localVarResponse = createAssociatedCompanyWithHttpInfo(email = email, password = password, name = name, rnc = rnc, phone = phone, address = address, city = city, country = country, printerType = printerType, firstName = firstName, lastName = lastName, jobTitle = jobTitle, website = website, category = category, monthlySalesRange = monthlySalesRange, logo = logo)
+    fun createAssociatedCompany(name: kotlin.String, rnc: kotlin.String, email: kotlin.String? = null, password: kotlin.String? = null, firstName: kotlin.String? = null, lastName: kotlin.String? = null, jobTitle: kotlin.String? = null, phone: kotlin.String? = null, address: kotlin.String? = null, city: kotlin.String? = null, country: kotlin.String? = null, website: java.net.URI? = null, category: kotlin.String? = null, monthlySalesRange: kotlin.String? = null, printerType: PrintFormat? = null, logo: java.io.File? = null) : CreateAssociatedCompany201Response {
+        val localVarResponse = createAssociatedCompanyWithHttpInfo(name = name, rnc = rnc, email = email, password = password, firstName = firstName, lastName = lastName, jobTitle = jobTitle, phone = phone, address = address, city = city, country = country, website = website, category = category, monthlySalesRange = monthlySalesRange, printerType = printerType, logo = logo)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateAssociatedCompany201Response
@@ -110,21 +110,21 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      * POST /associated-companies
      * Crear empresa asociada / sucursal
      * 
-     * @param email 
-     * @param password 
      * @param name 
      * @param rnc 
-     * @param phone 
-     * @param address 
-     * @param city 
-     * @param country 
-     * @param printerType 
+     * @param email  (optional)
+     * @param password  (optional)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
+     * @param phone  (optional)
+     * @param address  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
      * @param website  (optional)
      * @param category  (optional)
      * @param monthlySalesRange  (optional)
+     * @param printerType  (optional)
      * @param logo  (optional)
      * @return ApiResponse<CreateAssociatedCompany201Response?>
      * @throws IllegalStateException If the request is not correctly configured
@@ -132,8 +132,8 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createAssociatedCompanyWithHttpInfo(email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, printerType: PrintFormat, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, logo: java.io.File?) : ApiResponse<CreateAssociatedCompany201Response?> {
-        val localVariableConfig = createAssociatedCompanyRequestConfig(email = email, password = password, name = name, rnc = rnc, phone = phone, address = address, city = city, country = country, printerType = printerType, firstName = firstName, lastName = lastName, jobTitle = jobTitle, website = website, category = category, monthlySalesRange = monthlySalesRange, logo = logo)
+    fun createAssociatedCompanyWithHttpInfo(name: kotlin.String, rnc: kotlin.String, email: kotlin.String?, password: kotlin.String?, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, phone: kotlin.String?, address: kotlin.String?, city: kotlin.String?, country: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, printerType: PrintFormat?, logo: java.io.File?) : ApiResponse<CreateAssociatedCompany201Response?> {
+        val localVariableConfig = createAssociatedCompanyRequestConfig(name = name, rnc = rnc, email = email, password = password, firstName = firstName, lastName = lastName, jobTitle = jobTitle, phone = phone, address = address, city = city, country = country, website = website, category = category, monthlySalesRange = monthlySalesRange, printerType = printerType, logo = logo)
 
         return request<Map<String, PartConfig<*>>, CreateAssociatedCompany201Response>(
             localVariableConfig
@@ -143,25 +143,25 @@ open class AssociatedCompaniesApi(basePath: kotlin.String = defaultBasePath, cli
     /**
      * To obtain the request config of the operation createAssociatedCompany
      *
-     * @param email 
-     * @param password 
      * @param name 
      * @param rnc 
-     * @param phone 
-     * @param address 
-     * @param city 
-     * @param country 
-     * @param printerType 
+     * @param email  (optional)
+     * @param password  (optional)
      * @param firstName  (optional)
      * @param lastName  (optional)
      * @param jobTitle  (optional)
+     * @param phone  (optional)
+     * @param address  (optional)
+     * @param city  (optional)
+     * @param country  (optional)
      * @param website  (optional)
      * @param category  (optional)
      * @param monthlySalesRange  (optional)
+     * @param printerType  (optional)
      * @param logo  (optional)
      * @return RequestConfig
      */
-    fun createAssociatedCompanyRequestConfig(email: kotlin.String, password: kotlin.String, name: kotlin.String, rnc: kotlin.String, phone: kotlin.String, address: kotlin.String, city: kotlin.String, country: kotlin.String, printerType: PrintFormat, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, logo: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun createAssociatedCompanyRequestConfig(name: kotlin.String, rnc: kotlin.String, email: kotlin.String?, password: kotlin.String?, firstName: kotlin.String?, lastName: kotlin.String?, jobTitle: kotlin.String?, phone: kotlin.String?, address: kotlin.String?, city: kotlin.String?, country: kotlin.String?, website: java.net.URI?, category: kotlin.String?, monthlySalesRange: kotlin.String?, printerType: PrintFormat?, logo: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "email" to PartConfig(body = email, headers = mutableMapOf()),
             "password" to PartConfig(body = password, headers = mutableMapOf()),

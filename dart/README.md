@@ -77,25 +77,25 @@ import 'package:pronesoft_ecf/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api_instance = AssociatedCompaniesApi();
-final email = email_example; // String | 
-final password = password_example; // String | 
 final name = name_example; // String | 
 final rnc = rnc_example; // String | 
+final email = email_example; // String | 
+final password = password_example; // String | 
+final firstName = firstName_example; // String | 
+final lastName = lastName_example; // String | 
+final jobTitle = jobTitle_example; // String | 
 final phone = phone_example; // String | 
 final address = address_example; // String | 
 final city = city_example; // String | 
 final country = country_example; // String | 
-final printerType = ; // PrintFormat | 
-final firstName = firstName_example; // String | 
-final lastName = lastName_example; // String | 
-final jobTitle = jobTitle_example; // String | 
 final website = website_example; // String | 
 final category = category_example; // String | 
 final monthlySalesRange = monthlySalesRange_example; // String | 
+final printerType = ; // PrintFormat | 
 final logo = BINARY_DATA_HERE; // MultipartFile | 
 
 try {
-    final result = api_instance.createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
+    final result = api_instance.createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo);
     print(result);
 } catch (e) {
     print('Exception when calling AssociatedCompaniesApi->createAssociatedCompany: $e\n');
@@ -143,6 +143,7 @@ Class | Method | HTTP request | Description
 *ReportsApi* | [**exportSentDocuments**](doc//ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
 *TaxSequencesApi* | [**createTaxSequence**](doc//TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
 *TaxSequencesApi* | [**getNextNumber**](doc//TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+*TaxSequencesApi* | [**importTaxSequencesFromExcel**](doc//TaxSequencesApi.md#importtaxsequencesfromexcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 *TaxSequencesApi* | [**listTaxSequences**](doc//TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF
 *TaxSequencesApi* | [**updateTaxSequence**](doc//TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
 *TaxSequencesApi* | [**voidTaxSequence**](doc//TaxSequencesApi.md#voidtaxsequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
@@ -207,6 +208,9 @@ Class | Method | HTTP request | Description
  - [GetReceivedDocumentStatsBySupplier200ResponseInner](doc//GetReceivedDocumentStatsBySupplier200ResponseInner.md)
  - [GetSentDocumentLogs200ResponseInner](doc//GetSentDocumentLogs200ResponseInner.md)
  - [GetSentDocumentStatusOptions200ResponseInner](doc//GetSentDocumentStatusOptions200ResponseInner.md)
+ - [ImportTaxSequencesFromExcel200Response](doc//ImportTaxSequencesFromExcel200Response.md)
+ - [ImportTaxSequencesFromExcel200ResponseData](doc//ImportTaxSequencesFromExcel200ResponseData.md)
+ - [ImportTaxSequencesFromExcel200ResponseDataResultsInner](doc//ImportTaxSequencesFromExcel200ResponseDataResultsInner.md)
  - [InvoiceType](doc//InvoiceType.md)
  - [InvoiceTypeSequence](doc//InvoiceTypeSequence.md)
  - [Item](doc//Item.md)

@@ -48,7 +48,7 @@ module PronesoftEcf
 
     attr_accessor :payment_terms
 
-    # Payment breakdown. Required.
+    # Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
     attr_accessor :payment_forms
 
     attr_accessor :payment_account_type
@@ -340,8 +340,6 @@ module PronesoftEcf
         if (value = attributes[:'payment_forms']).is_a?(Array)
           self.payment_forms = value
         end
-      else
-        self.payment_forms = nil
       end
 
       if attributes.key?(:'payment_account_type')
@@ -452,8 +450,6 @@ module PronesoftEcf
 
       if attributes.key?(:'totals')
         self.totals = attributes[:'totals']
-      else
-        self.totals = nil
       end
 
       if attributes.key?(:'transport')
@@ -502,10 +498,6 @@ module PronesoftEcf
 
       if !@payment_terms.nil? && @payment_terms.to_s.length > 15
         invalid_properties.push('invalid value for "payment_terms", the character length must be smaller than or equal to 15.')
-      end
-
-      if @payment_forms.nil?
-        invalid_properties.push('invalid value for "payment_forms", payment_forms cannot be nil.')
       end
 
       if !@payment_account_number.nil? && @payment_account_number.to_s.length > 28
@@ -584,10 +576,6 @@ module PronesoftEcf
         invalid_properties.push('invalid value for "items", number of items must be greater than or equal to 1.')
       end
 
-      if @totals.nil?
-        invalid_properties.push('invalid value for "totals", totals cannot be nil.')
-      end
-
       invalid_properties
     end
 
@@ -608,7 +596,6 @@ module PronesoftEcf
       payment_type_validator = EnumAttributeValidator.new('String', ["1", "2", "3"])
       return false unless payment_type_validator.valid?(@payment_type)
       return false if !@payment_terms.nil? && @payment_terms.to_s.length > 15
-      return false if @payment_forms.nil?
       return false if !@payment_account_number.nil? && @payment_account_number.to_s.length > 28
       return false if !@payment_bank.nil? && @payment_bank.to_s.length > 75
       return false if !@issuer_business_name.nil? && @issuer_business_name.to_s.length > 150
@@ -628,7 +615,6 @@ module PronesoftEcf
       return false if @items.nil?
       return false if @items.length > 1000
       return false if @items.length < 1
-      return false if @totals.nil?
       true
     end
 
@@ -714,16 +700,6 @@ module PronesoftEcf
       end
 
       @payment_terms = payment_terms
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] payment_forms Value to be assigned
-    def payment_forms=(payment_forms)
-      if payment_forms.nil?
-        fail ArgumentError, 'payment_forms cannot be nil'
-      end
-
-      @payment_forms = payment_forms
     end
 
     # Custom attribute writer method with validation
@@ -966,16 +942,6 @@ module PronesoftEcf
       end
 
       @items = items
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] totals Value to be assigned
-    def totals=(totals)
-      if totals.nil?
-        fail ArgumentError, 'totals cannot be nil'
-      end
-
-      @totals = totals
     end
 
     # Checks equality by comparing each attribute.

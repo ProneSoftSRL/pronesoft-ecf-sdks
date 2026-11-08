@@ -32,6 +32,7 @@ import com.pronesoft.ecf.models.CreateTaxSequenceRequest
 import com.pronesoft.ecf.models.Environment
 import com.pronesoft.ecf.models.ErrorResponse
 import com.pronesoft.ecf.models.GetNextNumber200Response
+import com.pronesoft.ecf.models.ImportTaxSequencesFromExcel200Response
 import com.pronesoft.ecf.models.InvoiceTypeSequence
 import com.pronesoft.ecf.models.ListTaxSequences200Response
 import com.pronesoft.ecf.models.UpdateTaxSequenceRequest
@@ -217,6 +218,90 @@ open class TaxSequencesApi(basePath: kotlin.String = defaultBasePath, client: Ca
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/tax-sequences/next",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /tax-sequences/import
+     * Importar secuencias desde archivo Excel de la DGII
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+     * @param environment 
+     * @param file Archivo Excel (.xlsx o .xls) exportado desde la DGII
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ImportTaxSequencesFromExcel200Response
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun importTaxSequencesFromExcel(environment: Environment, file: java.io.File, xTenantId: java.util.UUID? = null) : ImportTaxSequencesFromExcel200Response {
+        val localVarResponse = importTaxSequencesFromExcelWithHttpInfo(environment = environment, file = file, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ImportTaxSequencesFromExcel200Response
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /tax-sequences/import
+     * Importar secuencias desde archivo Excel de la DGII
+     * Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS&#x3D;APROBADA y TIPO_USO que contenga \&quot;ELECTR\&quot;. Las filas inválidas se reportan sin interrumpir el proceso. 
+     * @param environment 
+     * @param file Archivo Excel (.xlsx o .xls) exportado desde la DGII
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse<ImportTaxSequencesFromExcel200Response?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun importTaxSequencesFromExcelWithHttpInfo(environment: Environment, file: java.io.File, xTenantId: java.util.UUID?) : ApiResponse<ImportTaxSequencesFromExcel200Response?> {
+        val localVariableConfig = importTaxSequencesFromExcelRequestConfig(environment = environment, file = file, xTenantId = xTenantId)
+
+        return request<Map<String, PartConfig<*>>, ImportTaxSequencesFromExcel200Response>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation importTaxSequencesFromExcel
+     *
+     * @param environment 
+     * @param file Archivo Excel (.xlsx o .xls) exportado desde la DGII
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return RequestConfig
+     */
+    fun importTaxSequencesFromExcelRequestConfig(environment: Environment, file: java.io.File, xTenantId: java.util.UUID?) : RequestConfig<Map<String, PartConfig<*>>> {
+        val localVariableBody = mapOf(
+            "file" to PartConfig(body = file, headers = mutableMapOf()),)
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                put("environment", listOf(environment.toString()))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/tax-sequences/import",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

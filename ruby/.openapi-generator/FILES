@@ -68,6 +68,9 @@ docs/GetNextNumber200ResponseData.md
 docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 docs/GetSentDocumentLogs200ResponseInner.md
 docs/GetSentDocumentStatusOptions200ResponseInner.md
+docs/ImportTaxSequencesFromExcel200Response.md
+docs/ImportTaxSequencesFromExcel200ResponseData.md
+docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 docs/InvoiceType.md
 docs/InvoiceTypeSequence.md
 docs/Item.md
@@ -208,6 +211,9 @@ lib/pronesoft_ecf/models/get_next_number200_response_data.rb
 lib/pronesoft_ecf/models/get_received_document_stats_by_supplier200_response_inner.rb
 lib/pronesoft_ecf/models/get_sent_document_logs200_response_inner.rb
 lib/pronesoft_ecf/models/get_sent_document_status_options200_response_inner.rb
+lib/pronesoft_ecf/models/import_tax_sequences_from_excel200_response.rb
+lib/pronesoft_ecf/models/import_tax_sequences_from_excel200_response_data.rb
+lib/pronesoft_ecf/models/import_tax_sequences_from_excel200_response_data_results_inner.rb
 lib/pronesoft_ecf/models/invoice_type.rb
 lib/pronesoft_ecf/models/invoice_type_sequence.rb
 lib/pronesoft_ecf/models/item.rb
@@ -276,4 +282,7 @@ lib/pronesoft_ecf/models/webhook_stats.rb
 lib/pronesoft_ecf/models/webhook_stats_stats.rb
 lib/pronesoft_ecf/version.rb
 pronesoft_ecf.gemspec
+spec/models/import_tax_sequences_from_excel200_response_data_results_inner_spec.rb
+spec/models/import_tax_sequences_from_excel200_response_data_spec.rb
+spec/models/import_tax_sequences_from_excel200_response_spec.rb
 spec/spec_helper.rb

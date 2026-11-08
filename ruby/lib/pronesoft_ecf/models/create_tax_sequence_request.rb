@@ -125,6 +125,8 @@ module PronesoftEcf
 
       if attributes.key?(:'quantity')
         self.quantity = attributes[:'quantity']
+      else
+        self.quantity = nil
       end
 
       if attributes.key?(:'expiration')
@@ -133,6 +135,8 @@ module PronesoftEcf
 
       if attributes.key?(:'environment')
         self.environment = attributes[:'environment']
+      else
+        self.environment = nil
       end
     end
 
@@ -153,6 +157,14 @@ module PronesoftEcf
         invalid_properties.push('invalid value for "to", to cannot be nil.')
       end
 
+      if @quantity.nil?
+        invalid_properties.push('invalid value for "quantity", quantity cannot be nil.')
+      end
+
+      if @environment.nil?
+        invalid_properties.push('invalid value for "environment", environment cannot be nil.')
+      end
+
       invalid_properties
     end
 
@@ -163,6 +175,8 @@ module PronesoftEcf
       return false if @type.nil?
       return false if @from.nil?
       return false if @to.nil?
+      return false if @quantity.nil?
+      return false if @environment.nil?
       true
     end
 
@@ -194,6 +208,26 @@ module PronesoftEcf
       end
 
       @to = to
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] quantity Value to be assigned
+    def quantity=(quantity)
+      if quantity.nil?
+        fail ArgumentError, 'quantity cannot be nil'
+      end
+
+      @quantity = quantity
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] environment Value to be assigned
+    def environment=(environment)
+      if environment.nil?
+        fail ArgumentError, 'environment cannot be nil'
+      end
+
+      @environment = environment
     end
 
     # Checks equality by comparing each attribute.

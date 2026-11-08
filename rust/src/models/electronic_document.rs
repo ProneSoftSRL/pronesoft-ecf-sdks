@@ -46,9 +46,9 @@ pub struct ElectronicDocument {
     pub payment_deadline: Option<String>,
     #[serde(rename = "paymentTerms", skip_serializing_if = "Option::is_none")]
     pub payment_terms: Option<String>,
-    /// Payment breakdown. Required.
-    #[serde(rename = "paymentForms")]
-    pub payment_forms: Vec<models::PaymentForm>,
+    /// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
+    #[serde(rename = "paymentForms", skip_serializing_if = "Option::is_none")]
+    pub payment_forms: Option<Vec<models::PaymentForm>>,
     #[serde(rename = "paymentAccountType", skip_serializing_if = "Option::is_none")]
     pub payment_account_type: Option<models::AccountType>,
     #[serde(rename = "paymentAccountNumber", skip_serializing_if = "Option::is_none")]
@@ -100,8 +100,8 @@ pub struct ElectronicDocument {
     pub buyer: Option<Box<models::Buyer>>,
     #[serde(rename = "items")]
     pub items: Vec<models::Item>,
-    #[serde(rename = "totals")]
-    pub totals: Box<models::Totals>,
+    #[serde(rename = "totals", skip_serializing_if = "Option::is_none")]
+    pub totals: Option<Box<models::Totals>>,
     #[serde(rename = "transport", skip_serializing_if = "Option::is_none")]
     pub transport: Option<Box<models::Transport>>,
     #[serde(rename = "additionalInfo", skip_serializing_if = "Option::is_none")]
@@ -120,7 +120,7 @@ pub struct ElectronicDocument {
 
 impl ElectronicDocument {
     /// Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el `invoiceType`. Usa `GET /tax-sequences/next?invoiceType=31` solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: `POST /{environment}/ecf/submit` (ej. `TesteCF` o `eCF`). 
-    pub fn new(invoice_type: models::InvoiceType, issue_date: String, payment_forms: Vec<models::PaymentForm>, items: Vec<models::Item>, totals: models::Totals) -> ElectronicDocument {
+    pub fn new(invoice_type: models::InvoiceType, issue_date: String, items: Vec<models::Item>) -> ElectronicDocument {
         ElectronicDocument {
             version: None,
             invoice_type,
@@ -135,7 +135,7 @@ impl ElectronicDocument {
             payment_type: None,
             payment_deadline: None,
             payment_terms: None,
-            payment_forms,
+            payment_forms: None,
             payment_account_type: None,
             payment_account_number: None,
             payment_bank: None,
@@ -161,7 +161,7 @@ impl ElectronicDocument {
             additional_issuer_info: None,
             buyer: None,
             items,
-            totals: Box::new(totals),
+            totals: None,
             transport: None,
             additional_info: None,
             alternative_currency: None,

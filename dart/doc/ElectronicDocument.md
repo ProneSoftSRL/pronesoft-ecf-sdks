@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **paymentType** | **String** | 1=Cash, 2=Credit, 3=Mixed | [optional] 
 **paymentDeadline** | [**DateTime**](DateTime.md) |  | [optional] 
 **paymentTerms** | **String** |  | [optional] 
-**paymentForms** | [**List<PaymentForm>**](PaymentForm.md) | Payment breakdown. Required. | [default to const []]
+**paymentForms** | [**List<PaymentForm>**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional] [default to const []]
 **paymentAccountType** | [**AccountType**](AccountType.md) |  | [optional] 
 **paymentAccountNumber** | **String** |  | [optional] 
 **paymentBank** | **String** |  | [optional] 
@@ -47,7 +47,7 @@ Name | Type | Description | Notes
 **additionalIssuerInfo** | **String** |  | [optional] 
 **buyer** | [**Buyer**](Buyer.md) |  | [optional] 
 **items** | [**List<Item>**](Item.md) |  | [default to const []]
-**totals** | [**Totals**](Totals.md) |  | 
+**totals** | [**Totals**](Totals.md) |  | [optional] 
 **transport** | [**Transport**](Transport.md) |  | [optional] 
 **additionalInfo** | [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
 **alternativeCurrency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 

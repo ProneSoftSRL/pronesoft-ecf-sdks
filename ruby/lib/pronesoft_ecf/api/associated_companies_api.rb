@@ -20,64 +20,52 @@ module PronesoftEcf
       @api_client = api_client
     end
     # Crear empresa asociada / sucursal
-    # @param email [String] 
-    # @param password [String] 
     # @param name [String] 
     # @param rnc [String] 
-    # @param phone [String] 
-    # @param address [String] 
-    # @param city [String] 
-    # @param country [String] 
-    # @param printer_type [PrintFormat] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :email 
+    # @option opts [String] :password 
     # @option opts [String] :first_name 
     # @option opts [String] :last_name 
     # @option opts [String] :job_title 
+    # @option opts [String] :phone 
+    # @option opts [String] :address 
+    # @option opts [String] :city 
+    # @option opts [String] :country 
     # @option opts [String] :website 
     # @option opts [String] :category 
     # @option opts [String] :monthly_sales_range 
+    # @option opts [PrintFormat] :printer_type 
     # @option opts [File] :logo 
     # @return [CreateAssociatedCompany201Response]
-    def create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, opts = {})
-      data, _status_code, _headers = create_associated_company_with_http_info(email, password, name, rnc, phone, address, city, country, printer_type, opts)
+    def create_associated_company(name, rnc, opts = {})
+      data, _status_code, _headers = create_associated_company_with_http_info(name, rnc, opts)
       data
     end
 
     # Crear empresa asociada / sucursal
-    # @param email [String] 
-    # @param password [String] 
     # @param name [String] 
     # @param rnc [String] 
-    # @param phone [String] 
-    # @param address [String] 
-    # @param city [String] 
-    # @param country [String] 
-    # @param printer_type [PrintFormat] 
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :email 
+    # @option opts [String] :password 
     # @option opts [String] :first_name 
     # @option opts [String] :last_name 
     # @option opts [String] :job_title 
+    # @option opts [String] :phone 
+    # @option opts [String] :address 
+    # @option opts [String] :city 
+    # @option opts [String] :country 
     # @option opts [String] :website 
     # @option opts [String] :category 
     # @option opts [String] :monthly_sales_range 
+    # @option opts [PrintFormat] :printer_type 
     # @option opts [File] :logo 
     # @return [Array<(CreateAssociatedCompany201Response, Integer, Hash)>] CreateAssociatedCompany201Response data, response status code and response headers
-    def create_associated_company_with_http_info(email, password, name, rnc, phone, address, city, country, printer_type, opts = {})
+    def create_associated_company_with_http_info(name, rnc, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AssociatedCompaniesApi.create_associated_company ...'
       end
-      # verify the required parameter 'email' is set
-      if @api_client.config.client_side_validation && email.nil?
-        fail ArgumentError, "Missing the required parameter 'email' when calling AssociatedCompaniesApi.create_associated_company"
-      end
-      # verify the required parameter 'password' is set
-      if @api_client.config.client_side_validation && password.nil?
-        fail ArgumentError, "Missing the required parameter 'password' when calling AssociatedCompaniesApi.create_associated_company"
-      end
-      if @api_client.config.client_side_validation && password.to_s.length < 8
-        fail ArgumentError, 'invalid value for "password" when calling AssociatedCompaniesApi.create_associated_company, the character length must be greater than or equal to 8.'
-      end
-
       # verify the required parameter 'name' is set
       if @api_client.config.client_side_validation && name.nil?
         fail ArgumentError, "Missing the required parameter 'name' when calling AssociatedCompaniesApi.create_associated_company"
@@ -86,26 +74,10 @@ module PronesoftEcf
       if @api_client.config.client_side_validation && rnc.nil?
         fail ArgumentError, "Missing the required parameter 'rnc' when calling AssociatedCompaniesApi.create_associated_company"
       end
-      # verify the required parameter 'phone' is set
-      if @api_client.config.client_side_validation && phone.nil?
-        fail ArgumentError, "Missing the required parameter 'phone' when calling AssociatedCompaniesApi.create_associated_company"
+      if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length < 8
+        fail ArgumentError, 'invalid value for "opts[:"password"]" when calling AssociatedCompaniesApi.create_associated_company, the character length must be greater than or equal to 8.'
       end
-      # verify the required parameter 'address' is set
-      if @api_client.config.client_side_validation && address.nil?
-        fail ArgumentError, "Missing the required parameter 'address' when calling AssociatedCompaniesApi.create_associated_company"
-      end
-      # verify the required parameter 'city' is set
-      if @api_client.config.client_side_validation && city.nil?
-        fail ArgumentError, "Missing the required parameter 'city' when calling AssociatedCompaniesApi.create_associated_company"
-      end
-      # verify the required parameter 'country' is set
-      if @api_client.config.client_side_validation && country.nil?
-        fail ArgumentError, "Missing the required parameter 'country' when calling AssociatedCompaniesApi.create_associated_company"
-      end
-      # verify the required parameter 'printer_type' is set
-      if @api_client.config.client_side_validation && printer_type.nil?
-        fail ArgumentError, "Missing the required parameter 'printer_type' when calling AssociatedCompaniesApi.create_associated_company"
-      end
+
       # resource path
       local_var_path = '/associated-companies'
 
@@ -124,21 +96,21 @@ module PronesoftEcf
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['email'] = email
-      form_params['password'] = password
       form_params['name'] = name
       form_params['rnc'] = rnc
-      form_params['phone'] = phone
-      form_params['address'] = address
-      form_params['city'] = city
-      form_params['country'] = country
-      form_params['printerType'] = printer_type
+      form_params['email'] = opts[:'email'] if !opts[:'email'].nil?
+      form_params['password'] = opts[:'password'] if !opts[:'password'].nil?
       form_params['firstName'] = opts[:'first_name'] if !opts[:'first_name'].nil?
       form_params['lastName'] = opts[:'last_name'] if !opts[:'last_name'].nil?
       form_params['jobTitle'] = opts[:'job_title'] if !opts[:'job_title'].nil?
+      form_params['phone'] = opts[:'phone'] if !opts[:'phone'].nil?
+      form_params['address'] = opts[:'address'] if !opts[:'address'].nil?
+      form_params['city'] = opts[:'city'] if !opts[:'city'].nil?
+      form_params['country'] = opts[:'country'] if !opts[:'country'].nil?
       form_params['website'] = opts[:'website'] if !opts[:'website'].nil?
       form_params['category'] = opts[:'category'] if !opts[:'category'].nil?
       form_params['monthlySalesRange'] = opts[:'monthly_sales_range'] if !opts[:'monthly_sales_range'].nil?
+      form_params['printerType'] = opts[:'printer_type'] if !opts[:'printer_type'].nil?
       form_params['logo'] = opts[:'logo'] if !opts[:'logo'].nil?
 
       # http body (model)

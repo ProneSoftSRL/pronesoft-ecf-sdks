@@ -67,23 +67,23 @@ pub enum UpdateAssociatedCompanyError {
 }
 
 
-pub async fn create_associated_company(configuration: &configuration::Configuration, email: &str, password: &str, name: &str, rnc: &str, phone: &str, address: &str, city: &str, country: &str, printer_type: models::models::PrintFormat, first_name: Option<&str>, last_name: Option<&str>, job_title: Option<&str>, website: Option<&str>, category: Option<&str>, monthly_sales_range: Option<&str>, logo: Option<std::path::PathBuf>) -> Result<models::CreateAssociatedCompany201Response, Error<CreateAssociatedCompanyError>> {
+pub async fn create_associated_company(configuration: &configuration::Configuration, name: &str, rnc: &str, email: Option<&str>, password: Option<&str>, first_name: Option<&str>, last_name: Option<&str>, job_title: Option<&str>, phone: Option<&str>, address: Option<&str>, city: Option<&str>, country: Option<&str>, website: Option<&str>, category: Option<&str>, monthly_sales_range: Option<&str>, printer_type: Option<models::PrintFormat>, logo: Option<std::path::PathBuf>) -> Result<models::CreateAssociatedCompany201Response, Error<CreateAssociatedCompanyError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_form_email = email;
-    let p_form_password = password;
     let p_form_name = name;
     let p_form_rnc = rnc;
+    let p_form_email = email;
+    let p_form_password = password;
+    let p_form_first_name = first_name;
+    let p_form_last_name = last_name;
+    let p_form_job_title = job_title;
     let p_form_phone = phone;
     let p_form_address = address;
     let p_form_city = city;
     let p_form_country = country;
-    let p_form_printer_type = printer_type;
-    let p_form_first_name = first_name;
-    let p_form_last_name = last_name;
-    let p_form_job_title = job_title;
     let p_form_website = website;
     let p_form_category = category;
     let p_form_monthly_sales_range = monthly_sales_range;
+    let p_form_printer_type = printer_type;
     let p_form_logo = logo;
 
     let uri_str = format!("{}/associated-companies", configuration.base_path);
@@ -96,8 +96,12 @@ pub async fn create_associated_company(configuration: &configuration::Configurat
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
     let mut multipart_form = reqwest::multipart::Form::new();
-    multipart_form = multipart_form.text("email", p_form_email.to_string());
-    multipart_form = multipart_form.text("password", p_form_password.to_string());
+    if let Some(param_value) = p_form_email {
+        multipart_form = multipart_form.text("email", param_value.to_string());
+    }
+    if let Some(param_value) = p_form_password {
+        multipart_form = multipart_form.text("password", param_value.to_string());
+    }
     if let Some(param_value) = p_form_first_name {
         multipart_form = multipart_form.text("firstName", param_value.to_string());
     }
@@ -109,10 +113,18 @@ pub async fn create_associated_company(configuration: &configuration::Configurat
     }
     multipart_form = multipart_form.text("name", p_form_name.to_string());
     multipart_form = multipart_form.text("rnc", p_form_rnc.to_string());
-    multipart_form = multipart_form.text("phone", p_form_phone.to_string());
-    multipart_form = multipart_form.text("address", p_form_address.to_string());
-    multipart_form = multipart_form.text("city", p_form_city.to_string());
-    multipart_form = multipart_form.text("country", p_form_country.to_string());
+    if let Some(param_value) = p_form_phone {
+        multipart_form = multipart_form.text("phone", param_value.to_string());
+    }
+    if let Some(param_value) = p_form_address {
+        multipart_form = multipart_form.text("address", param_value.to_string());
+    }
+    if let Some(param_value) = p_form_city {
+        multipart_form = multipart_form.text("city", param_value.to_string());
+    }
+    if let Some(param_value) = p_form_country {
+        multipart_form = multipart_form.text("country", param_value.to_string());
+    }
     if let Some(param_value) = p_form_website {
         multipart_form = multipart_form.text("website", param_value.to_string());
     }
@@ -122,7 +134,9 @@ pub async fn create_associated_company(configuration: &configuration::Configurat
     if let Some(param_value) = p_form_monthly_sales_range {
         multipart_form = multipart_form.text("monthlySalesRange", param_value.to_string());
     }
-    multipart_form = multipart_form.text("printerType", p_form_printer_type.to_string());
+    if let Some(param_value) = p_form_printer_type {
+        multipart_form = multipart_form.text("printerType", serde_json::to_string(&param_value)?);
+    }
     if let Some(ref param_value) = p_form_logo {
                 let file = TokioFile::open(param_value).await?;
                 let stream = FramedRead::new(file, BytesCodec::new());

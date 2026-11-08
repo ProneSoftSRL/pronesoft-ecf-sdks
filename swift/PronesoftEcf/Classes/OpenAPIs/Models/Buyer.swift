@@ -19,7 +19,7 @@ public struct Buyer: Codable, JSONEncodable, Hashable {
 
     public static let nameRule = StringRule(minLength: nil, maxLength: 150, pattern: nil)
     public static let addressRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
-    /** RNC (9 digits) or cedula (11 digits). Required for type 31. */
+    /** RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 < 250k). */
     public var taxId: String?
     public var foreignId: String?
     public var name: String

@@ -18,28 +18,28 @@ open class AssociatedCompaniesAPI {
     /**
      Crear empresa asociada / sucursal
      
-     - parameter email: (form)  
-     - parameter password: (form)  
      - parameter name: (form)  
      - parameter rnc: (form)  
-     - parameter phone: (form)  
-     - parameter address: (form)  
-     - parameter city: (form)  
-     - parameter country: (form)  
-     - parameter printerType: (form)  
+     - parameter email: (form)  (optional)
+     - parameter password: (form)  (optional)
      - parameter firstName: (form)  (optional)
      - parameter lastName: (form)  (optional)
      - parameter jobTitle: (form)  (optional)
+     - parameter phone: (form)  (optional)
+     - parameter address: (form)  (optional)
+     - parameter city: (form)  (optional)
+     - parameter country: (form)  (optional)
      - parameter website: (form)  (optional)
      - parameter category: (form)  (optional)
      - parameter monthlySalesRange: (form)  (optional)
+     - parameter printerType: (form)  (optional)
      - parameter logo: (form)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func createAssociatedCompany(email: String, password: String, name: String, rnc: String, phone: String, address: String, city: String, country: String, printerType: PrintFormat, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, logo: URL? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CreateAssociatedCompany201Response?, _ error: Error?) -> Void)) -> RequestTask {
-        return createAssociatedCompanyWithRequestBuilder(email: email, password: password, name: name, rnc: rnc, phone: phone, address: address, city: city, country: country, printerType: printerType, firstName: firstName, lastName: lastName, jobTitle: jobTitle, website: website, category: category, monthlySalesRange: monthlySalesRange, logo: logo).execute(apiResponseQueue) { result in
+    open class func createAssociatedCompany(name: String, rnc: String, email: String? = nil, password: String? = nil, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, phone: String? = nil, address: String? = nil, city: String? = nil, country: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, printerType: PrintFormat? = nil, logo: URL? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: CreateAssociatedCompany201Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return createAssociatedCompanyWithRequestBuilder(name: name, rnc: rnc, email: email, password: password, firstName: firstName, lastName: lastName, jobTitle: jobTitle, phone: phone, address: address, city: city, country: country, website: website, category: category, monthlySalesRange: monthlySalesRange, printerType: printerType, logo: logo).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -55,43 +55,43 @@ open class AssociatedCompaniesAPI {
      - OAuth:
        - type: oauth2
        - name: oauth2
-     - parameter email: (form)  
-     - parameter password: (form)  
      - parameter name: (form)  
      - parameter rnc: (form)  
-     - parameter phone: (form)  
-     - parameter address: (form)  
-     - parameter city: (form)  
-     - parameter country: (form)  
-     - parameter printerType: (form)  
+     - parameter email: (form)  (optional)
+     - parameter password: (form)  (optional)
      - parameter firstName: (form)  (optional)
      - parameter lastName: (form)  (optional)
      - parameter jobTitle: (form)  (optional)
+     - parameter phone: (form)  (optional)
+     - parameter address: (form)  (optional)
+     - parameter city: (form)  (optional)
+     - parameter country: (form)  (optional)
      - parameter website: (form)  (optional)
      - parameter category: (form)  (optional)
      - parameter monthlySalesRange: (form)  (optional)
+     - parameter printerType: (form)  (optional)
      - parameter logo: (form)  (optional)
      - returns: RequestBuilder<CreateAssociatedCompany201Response> 
      */
-    open class func createAssociatedCompanyWithRequestBuilder(email: String, password: String, name: String, rnc: String, phone: String, address: String, city: String, country: String, printerType: PrintFormat, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, logo: URL? = nil) -> RequestBuilder<CreateAssociatedCompany201Response> {
+    open class func createAssociatedCompanyWithRequestBuilder(name: String, rnc: String, email: String? = nil, password: String? = nil, firstName: String? = nil, lastName: String? = nil, jobTitle: String? = nil, phone: String? = nil, address: String? = nil, city: String? = nil, country: String? = nil, website: String? = nil, category: String? = nil, monthlySalesRange: String? = nil, printerType: PrintFormat? = nil, logo: URL? = nil) -> RequestBuilder<CreateAssociatedCompany201Response> {
         let localVariablePath = "/associated-companies"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "email": email.encodeToJSON(),
-            "password": password.encodeToJSON(),
+            "email": email?.encodeToJSON(),
+            "password": password?.encodeToJSON(),
             "firstName": firstName?.encodeToJSON(),
             "lastName": lastName?.encodeToJSON(),
             "jobTitle": jobTitle?.encodeToJSON(),
             "name": name.encodeToJSON(),
             "rnc": rnc.encodeToJSON(),
-            "phone": phone.encodeToJSON(),
-            "address": address.encodeToJSON(),
-            "city": city.encodeToJSON(),
-            "country": country.encodeToJSON(),
+            "phone": phone?.encodeToJSON(),
+            "address": address?.encodeToJSON(),
+            "city": city?.encodeToJSON(),
+            "country": country?.encodeToJSON(),
             "website": website?.encodeToJSON(),
             "category": category?.encodeToJSON(),
             "monthlySalesRange": monthlySalesRange?.encodeToJSON(),
-            "printerType": printerType.encodeToJSON(),
+            "printerType": printerType?.encodeToJSON(),
             "logo": logo?.encodeToJSON(),
         ]
 

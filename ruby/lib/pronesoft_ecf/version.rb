@@ -11,5 +11,5 @@ Generator version: 7.21.0
 =end
 
 module PronesoftEcf
-  VERSION = '0.0.3'
+  VERSION = '0.0.4'
 end

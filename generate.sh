@@ -36,8 +36,12 @@ generate() {
   if [[ "$OUT_ROOT" != "$ROOT_DIR" && -f "$ROOT_DIR/$lang/.openapi-generator-ignore" ]]; then
     cp "$ROOT_DIR/$lang/.openapi-generator-ignore" "$out/"
   fi
+  # Properties go through a config file: the CLI wrapper splits values that contain spaces.
+  local config=".generate-$lang.json"
+  python3 -c 'import json,sys; print(json.dumps(dict(kv.split("=",1) for kv in sys.argv[1].split(","))))' "$props" > "$config"
   npx --yes @openapitools/openapi-generator-cli generate -i "./spec/openapi.yaml" -g "$generator" -o "$out" \
-    --additional-properties="$props" "${GIT_ARGS[@]}" >/dev/null
+    -c "$config" "${GIT_ARGS[@]}" >/dev/null
+  rm -f "$config"
 }
 
 declare -A CONFIG=(
@@ -65,6 +69,11 @@ done
 if [[ " ${LANGS[*]} " == *" go "* && -f "$OUT_ROOT/go/go.mod" ]]; then
   cp LICENSE "$OUT_ROOT/go/LICENSE" 2>/dev/null || true
   sed -i 's|github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf|github.com/ProneSoftSRL/pronesoft-ecf-sdks/go|g' "$OUT_ROOT/go/go.mod"
+fi
+
+# Rust: the generator writes models::models::X for enum fields of multipart forms (does not compile).
+if [[ " ${LANGS[*]} " == *" rust "* && -d "$OUT_ROOT/rust/src/apis" ]]; then
+  sed -i 's/models::models::/models::/g' "$OUT_ROOT"/rust/src/apis/*.rs
 fi
 
 # Python: __init__.py is generated, so re-export the handwritten IntegrationClient after each run.

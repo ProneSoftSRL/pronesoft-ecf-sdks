@@ -14,7 +14,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 <a id="createAssociatedCompany"></a>
 # **createAssociatedCompany**
-> CreateAssociatedCompany201Response createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo)
+> CreateAssociatedCompany201Response createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo)
 
 Crear empresa asociada / sucursal
 
@@ -25,24 +25,24 @@ Crear empresa asociada / sucursal
 //import com.pronesoft.ecf.models.*
 
 val apiInstance = AssociatedCompaniesApi()
-val email : kotlin.String = email_example // kotlin.String | 
-val password : kotlin.String = password_example // kotlin.String | 
 val name : kotlin.String = name_example // kotlin.String | 
 val rnc : kotlin.String = rnc_example // kotlin.String | 
+val email : kotlin.String = email_example // kotlin.String | 
+val password : kotlin.String = password_example // kotlin.String | 
+val firstName : kotlin.String = firstName_example // kotlin.String | 
+val lastName : kotlin.String = lastName_example // kotlin.String | 
+val jobTitle : kotlin.String = jobTitle_example // kotlin.String | 
 val phone : kotlin.String = phone_example // kotlin.String | 
 val address : kotlin.String = address_example // kotlin.String | 
 val city : kotlin.String = city_example // kotlin.String | 
 val country : kotlin.String = country_example // kotlin.String | 
-val printerType : PrintFormat =  // PrintFormat | 
-val firstName : kotlin.String = firstName_example // kotlin.String | 
-val lastName : kotlin.String = lastName_example // kotlin.String | 
-val jobTitle : kotlin.String = jobTitle_example // kotlin.String | 
 val website : java.net.URI = website_example // java.net.URI | 
 val category : kotlin.String = category_example // kotlin.String | 
 val monthlySalesRange : kotlin.String = monthlySalesRange_example // kotlin.String | 
+val printerType : PrintFormat =  // PrintFormat | 
 val logo : java.io.File = BINARY_DATA_HERE // java.io.File | 
 try {
-    val result : CreateAssociatedCompany201Response = apiInstance.createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo)
+    val result : CreateAssociatedCompany201Response = apiInstance.createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling AssociatedCompaniesApi#createAssociatedCompany")
@@ -54,21 +54,21 @@ try {
 ```
 
 ### Parameters
-| **email** | **kotlin.String**|  | |
-| **password** | **kotlin.String**|  | |
 | **name** | **kotlin.String**|  | |
 | **rnc** | **kotlin.String**|  | |
-| **phone** | **kotlin.String**|  | |
-| **address** | **kotlin.String**|  | |
-| **city** | **kotlin.String**|  | |
-| **country** | **kotlin.String**|  | |
-| **printerType** | [**PrintFormat**](PrintFormat.md)|  | [enum: A4, thermal_80, thermal_58] |
+| **email** | **kotlin.String**|  | [optional] |
+| **password** | **kotlin.String**|  | [optional] |
 | **firstName** | **kotlin.String**|  | [optional] |
 | **lastName** | **kotlin.String**|  | [optional] |
 | **jobTitle** | **kotlin.String**|  | [optional] |
+| **phone** | **kotlin.String**|  | [optional] |
+| **address** | **kotlin.String**|  | [optional] |
+| **city** | **kotlin.String**|  | [optional] |
+| **country** | **kotlin.String**|  | [optional] |
 | **website** | **java.net.URI**|  | [optional] |
 | **category** | **kotlin.String**|  | [optional] |
 | **monthlySalesRange** | **kotlin.String**|  | [optional] |
+| **printerType** | [**PrintFormat**](PrintFormat.md)|  | [optional] [enum: A4, thermal_80, thermal_58] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **logo** | **java.io.File**|  | [optional] |

@@ -290,6 +290,12 @@ class ApiClient {
           return GetSentDocumentLogs200ResponseInner.fromJson(value);
         case 'GetSentDocumentStatusOptions200ResponseInner':
           return GetSentDocumentStatusOptions200ResponseInner.fromJson(value);
+        case 'ImportTaxSequencesFromExcel200Response':
+          return ImportTaxSequencesFromExcel200Response.fromJson(value);
+        case 'ImportTaxSequencesFromExcel200ResponseData':
+          return ImportTaxSequencesFromExcel200ResponseData.fromJson(value);
+        case 'ImportTaxSequencesFromExcel200ResponseDataResultsInner':
+          return ImportTaxSequencesFromExcel200ResponseDataResultsInner.fromJson(value);
         case 'InvoiceType':
           return InvoiceTypeTypeTransformer().decode(value);
         case 'InvoiceTypeSequence':

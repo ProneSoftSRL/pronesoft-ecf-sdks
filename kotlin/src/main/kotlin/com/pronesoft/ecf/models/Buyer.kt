@@ -30,7 +30,7 @@ import com.google.gson.annotations.SerializedName
  * 
  *
  * @param name 
- * @param taxId RNC (9 digits) or cedula (11 digits). Required for type 31.
+ * @param taxId RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 < 250k).
  * @param foreignId 
  * @param contact 
  * @param email 
@@ -54,7 +54,7 @@ data class Buyer (
     @SerializedName("name")
     val name: kotlin.String,
 
-    /* RNC (9 digits) or cedula (11 digits). Required for type 31. */
+    /* RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 < 250k). */
     @SerializedName("taxId")
     val taxId: kotlin.String? = null,
 

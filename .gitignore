@@ -24,3 +24,4 @@ venv/
 
 # SO
 .DS_Store
+.generate-*.json

@@ -6,9 +6,7 @@
 | ------------ | ------------- | ------------- | ------------- |
 | **invoiceType** | [**InvoiceType**](InvoiceType.md) |  |  |
 | **issueDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
-| **paymentForms** | [**kotlin.collections.List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
 | **items** | [**kotlin.collections.List&lt;Item&gt;**](Item.md) |  |  |
-| **totals** | [**Totals**](Totals.md) |  |  |
 | **version** | **kotlin.String** | Siempre \&quot;1.0\&quot;. |  [optional] |
 | **invoiceNumber** | **kotlin.String** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;.  |  [optional] |
 | **groupId** | **kotlin.String** | Optional Group ID for batch processing |  [optional] |
@@ -20,6 +18,7 @@
 | **paymentType** | [**inline**](#PaymentType) | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed |  [optional] |
 | **paymentDeadline** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **paymentTerms** | **kotlin.String** |  |  [optional] |
+| **paymentForms** | [**kotlin.collections.List&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. |  [optional] |
 | **paymentAccountType** | [**AccountType**](AccountType.md) |  |  [optional] |
 | **paymentAccountNumber** | **kotlin.String** |  |  [optional] |
 | **paymentBank** | **kotlin.String** |  |  [optional] |
@@ -44,6 +43,7 @@
 | **salesRoute** | **kotlin.String** |  |  [optional] |
 | **additionalIssuerInfo** | **kotlin.String** |  |  [optional] |
 | **buyer** | [**Buyer**](Buyer.md) |  |  [optional] |
+| **totals** | [**Totals**](Totals.md) |  |  [optional] |
 | **transport** | [**Transport**](Transport.md) |  |  [optional] |
 | **additionalInfo** | [**AdditionalInfo**](AdditionalInfo.md) |  |  [optional] |
 | **alternativeCurrency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  |  [optional] |

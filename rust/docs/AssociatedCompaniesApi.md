@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## create_associated_company
 
-> models::CreateAssociatedCompany201Response create_associated_company(email, password, name, rnc, phone, address, city, country, printer_type, first_name, last_name, job_title, website, category, monthly_sales_range, logo)
+> models::CreateAssociatedCompany201Response create_associated_company(name, rnc, email, password, first_name, last_name, job_title, phone, address, city, country, website, category, monthly_sales_range, printer_type, logo)
 Crear empresa asociada / sucursal
 
 ### Parameters
@@ -23,21 +23,21 @@ Crear empresa asociada / sucursal
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**email** | **String** |  | [required] |
-**password** | **String** |  | [required] |
 **name** | **String** |  | [required] |
 **rnc** | **String** |  | [required] |
-**phone** | **String** |  | [required] |
-**address** | **String** |  | [required] |
-**city** | **String** |  | [required] |
-**country** | **String** |  | [required] |
-**printer_type** | [**models::PrintFormat**](PrintFormat.md) |  | [required] |
+**email** | Option<**String**> |  |  |
+**password** | Option<**String**> |  |  |
 **first_name** | Option<**String**> |  |  |
 **last_name** | Option<**String**> |  |  |
 **job_title** | Option<**String**> |  |  |
+**phone** | Option<**String**> |  |  |
+**address** | Option<**String**> |  |  |
+**city** | Option<**String**> |  |  |
+**country** | Option<**String**> |  |  |
 **website** | Option<**String**> |  |  |
 **category** | Option<**String**> |  |  |
 **monthly_sales_range** | Option<**String**> |  |  |
+**printer_type** | Option<[**models::PrintFormat**](PrintFormat.md)> |  |  |
 **logo** | Option<**std::path::PathBuf**> |  |  |
 
 ### Return type

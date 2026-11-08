@@ -29,7 +29,7 @@ pub enum UploadCertificateError {
 }
 
 
-/// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+/// Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 pub async fn upload_certificate(configuration: &configuration::Configuration, rnc: &str, file: std::path::PathBuf, password: &str) -> Result<models::UploadCertificateResponse, Error<UploadCertificateError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_rnc = rnc;

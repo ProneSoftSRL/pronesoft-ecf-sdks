@@ -120,6 +120,66 @@ open class TaxSequencesAPI {
     }
 
     /**
+     Importar secuencias desde archivo Excel de la DGII
+     
+     - parameter environment: (query)  
+     - parameter file: (form) Archivo Excel (.xlsx o .xls) exportado desde la DGII 
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func importTaxSequencesFromExcel(environment: Environment, file: URL, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ImportTaxSequencesFromExcel200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return importTaxSequencesFromExcelWithRequestBuilder(environment: environment, file: file, xTenantId: xTenantId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Importar secuencias desde archivo Excel de la DGII
+     - POST /tax-sequences/import
+     - Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter environment: (query)  
+     - parameter file: (form) Archivo Excel (.xlsx o .xls) exportado desde la DGII 
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - returns: RequestBuilder<ImportTaxSequencesFromExcel200Response> 
+     */
+    open class func importTaxSequencesFromExcelWithRequestBuilder(environment: Environment, file: URL, xTenantId: UUID? = nil) -> RequestBuilder<ImportTaxSequencesFromExcel200Response> {
+        let localVariablePath = "/tax-sequences/import"
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableFormParams: [String: Any?] = [
+            "file": file.encodeToJSON(),
+        ]
+
+        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "environment": (wrappedValue: environment.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "multipart/form-data",
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ImportTaxSequencesFromExcel200Response>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Listar secuencias de NCF
      
      - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)

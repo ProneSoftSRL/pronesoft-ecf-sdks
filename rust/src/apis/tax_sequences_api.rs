@@ -13,6 +13,8 @@ use reqwest;
 use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
+use tokio::fs::File as TokioFile;
+use tokio_util::codec::{BytesCodec, FramedRead};
 
 
 /// struct for typed errors of method [`create_tax_sequence`]
@@ -28,6 +30,15 @@ pub enum CreateTaxSequenceError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetNextNumberError {
+    Status401(models::ErrorResponse),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`import_tax_sequences_from_excel`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ImportTaxSequencesFromExcelError {
+    Status400(models::ErrorResponse),
     Status401(models::ErrorResponse),
     UnknownValue(serde_json::Value),
 }
@@ -144,6 +155,59 @@ pub async fn get_next_number(configuration: &configuration::Configuration, r#typ
     } else {
         let content = resp.text().await?;
         let entity: Option<GetNextNumberError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
+
+/// Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso. 
+pub async fn import_tax_sequences_from_excel(configuration: &configuration::Configuration, environment: models::Environment, file: std::path::PathBuf, x_tenant_id: Option<&str>) -> Result<models::ImportTaxSequencesFromExcel200Response, Error<ImportTaxSequencesFromExcelError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_query_environment = environment;
+    let p_form_file = file;
+    let p_header_x_tenant_id = x_tenant_id;
+
+    let uri_str = format!("{}/tax-sequences/import", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    req_builder = req_builder.query(&[("environment", &p_query_environment.to_string())]);
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(param_value) = p_header_x_tenant_id {
+        req_builder = req_builder.header("x-tenant-id", param_value.to_string());
+    }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    let mut multipart_form = reqwest::multipart::Form::new();
+    let file = TokioFile::open(&p_form_file).await?;
+    let stream = FramedRead::new(file, BytesCodec::new());
+    let file_name = p_form_file.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+    let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+    multipart_form = multipart_form.part("file", file_part);
+    req_builder = req_builder.multipart(multipart_form);
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::ImportTaxSequencesFromExcel200Response`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::ImportTaxSequencesFromExcel200Response`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<ImportTaxSequencesFromExcelError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }

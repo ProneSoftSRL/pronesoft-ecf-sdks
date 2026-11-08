@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**tax_id** | Option<**String**> | RNC (9 digits) or cedula (11 digits). Required for type 31. | [optional]
+**tax_id** | Option<**String**> | RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 < 250k). | [optional]
 **foreign_id** | Option<**String**> |  | [optional]
 **name** | **String** |  | 
 **contact** | Option<**String**> |  | [optional]

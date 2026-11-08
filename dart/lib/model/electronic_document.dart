@@ -52,7 +52,7 @@ class ElectronicDocument {
     this.additionalIssuerInfo,
     this.buyer,
     this.items = const [],
-    required this.totals,
+    this.totals,
     this.transport,
     this.additionalInfo,
     this.alternativeCurrency,
@@ -124,7 +124,7 @@ class ElectronicDocument {
   ///
   String? paymentTerms;
 
-  /// Payment breakdown. Required.
+  /// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
   List<PaymentForm> paymentForms;
 
   ///
@@ -316,7 +316,13 @@ class ElectronicDocument {
 
   List<Item> items;
 
-  Totals totals;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  Totals? totals;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -460,7 +466,7 @@ class ElectronicDocument {
     (additionalIssuerInfo == null ? 0 : additionalIssuerInfo!.hashCode) +
     (buyer == null ? 0 : buyer!.hashCode) +
     (items.hashCode) +
-    (totals.hashCode) +
+    (totals == null ? 0 : totals!.hashCode) +
     (transport == null ? 0 : transport!.hashCode) +
     (additionalInfo == null ? 0 : additionalInfo!.hashCode) +
     (alternativeCurrency == null ? 0 : alternativeCurrency!.hashCode) +
@@ -645,7 +651,11 @@ class ElectronicDocument {
       json[r'buyer'] = null;
     }
       json[r'items'] = this.items;
+    if (this.totals != null) {
       json[r'totals'] = this.totals;
+    } else {
+      json[r'totals'] = null;
+    }
     if (this.transport != null) {
       json[r'transport'] = this.transport;
     } else {
@@ -695,12 +705,8 @@ class ElectronicDocument {
         assert(json[r'invoiceType'] != null, 'Required key "ElectronicDocument[invoiceType]" has a null value in JSON.');
         assert(json.containsKey(r'issueDate'), 'Required key "ElectronicDocument[issueDate]" is missing from JSON.');
         assert(json[r'issueDate'] != null, 'Required key "ElectronicDocument[issueDate]" has a null value in JSON.');
-        assert(json.containsKey(r'paymentForms'), 'Required key "ElectronicDocument[paymentForms]" is missing from JSON.');
-        assert(json[r'paymentForms'] != null, 'Required key "ElectronicDocument[paymentForms]" has a null value in JSON.');
         assert(json.containsKey(r'items'), 'Required key "ElectronicDocument[items]" is missing from JSON.');
         assert(json[r'items'] != null, 'Required key "ElectronicDocument[items]" has a null value in JSON.');
-        assert(json.containsKey(r'totals'), 'Required key "ElectronicDocument[totals]" is missing from JSON.');
-        assert(json[r'totals'] != null, 'Required key "ElectronicDocument[totals]" has a null value in JSON.');
         return true;
       }());
 
@@ -746,7 +752,7 @@ class ElectronicDocument {
         additionalIssuerInfo: mapValueOfType<String>(json, r'additionalIssuerInfo'),
         buyer: Buyer.fromJson(json[r'buyer']),
         items: Item.listFromJson(json[r'items']),
-        totals: Totals.fromJson(json[r'totals'])!,
+        totals: Totals.fromJson(json[r'totals']),
         transport: Transport.fromJson(json[r'transport']),
         additionalInfo: AdditionalInfo.fromJson(json[r'additionalInfo']),
         alternativeCurrency: AlternativeCurrency.fromJson(json[r'alternativeCurrency']),
@@ -803,9 +809,7 @@ class ElectronicDocument {
   static const requiredKeys = <String>{
     'invoiceType',
     'issueDate',
-    'paymentForms',
     'items',
-    'totals',
   };
 }
 

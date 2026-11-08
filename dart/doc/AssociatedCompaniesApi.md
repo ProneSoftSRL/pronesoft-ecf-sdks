@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 
 # **createAssociatedCompany**
-> CreateAssociatedCompany201Response createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo)
+> CreateAssociatedCompany201Response createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo)
 
 Crear empresa asociada / sucursal
 
@@ -29,25 +29,25 @@ import 'package:pronesoft_ecf/api.dart';
 //defaultApiClient.getAuthentication<OAuth>('oauth2').accessToken = 'YOUR_ACCESS_TOKEN';
 
 final api_instance = AssociatedCompaniesApi();
-final email = email_example; // String | 
-final password = password_example; // String | 
 final name = name_example; // String | 
 final rnc = rnc_example; // String | 
+final email = email_example; // String | 
+final password = password_example; // String | 
+final firstName = firstName_example; // String | 
+final lastName = lastName_example; // String | 
+final jobTitle = jobTitle_example; // String | 
 final phone = phone_example; // String | 
 final address = address_example; // String | 
 final city = city_example; // String | 
 final country = country_example; // String | 
-final printerType = ; // PrintFormat | 
-final firstName = firstName_example; // String | 
-final lastName = lastName_example; // String | 
-final jobTitle = jobTitle_example; // String | 
 final website = website_example; // String | 
 final category = category_example; // String | 
 final monthlySalesRange = monthlySalesRange_example; // String | 
+final printerType = ; // PrintFormat | 
 final logo = BINARY_DATA_HERE; // MultipartFile | 
 
 try {
-    final result = api_instance.createAssociatedCompany(email, password, name, rnc, phone, address, city, country, printerType, firstName, lastName, jobTitle, website, category, monthlySalesRange, logo);
+    final result = api_instance.createAssociatedCompany(name, rnc, email, password, firstName, lastName, jobTitle, phone, address, city, country, website, category, monthlySalesRange, printerType, logo);
     print(result);
 } catch (e) {
     print('Exception when calling AssociatedCompaniesApi->createAssociatedCompany: $e\n');
@@ -58,21 +58,21 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email** | **String**|  | 
- **password** | **String**|  | 
  **name** | **String**|  | 
  **rnc** | **String**|  | 
- **phone** | **String**|  | 
- **address** | **String**|  | 
- **city** | **String**|  | 
- **country** | **String**|  | 
- **printerType** | [**PrintFormat**](PrintFormat.md)|  | 
+ **email** | **String**|  | [optional] 
+ **password** | **String**|  | [optional] 
  **firstName** | **String**|  | [optional] 
  **lastName** | **String**|  | [optional] 
  **jobTitle** | **String**|  | [optional] 
+ **phone** | **String**|  | [optional] 
+ **address** | **String**|  | [optional] 
+ **city** | **String**|  | [optional] 
+ **country** | **String**|  | [optional] 
  **website** | **String**|  | [optional] 
  **category** | **String**|  | [optional] 
  **monthlySalesRange** | **String**|  | [optional] 
+ **printerType** | [**PrintFormat**](PrintFormat.md)|  | [optional] 
  **logo** | **MultipartFile**|  | [optional] 
 
 ### Return type

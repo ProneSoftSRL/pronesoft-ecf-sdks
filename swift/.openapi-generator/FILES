@@ -75,6 +75,9 @@ PronesoftEcf/Classes/OpenAPIs/Models/GetNextNumber200ResponseData.swift
 PronesoftEcf/Classes/OpenAPIs/Models/GetReceivedDocumentStatsBySupplier200ResponseInner.swift
 PronesoftEcf/Classes/OpenAPIs/Models/GetSentDocumentLogs200ResponseInner.swift
 PronesoftEcf/Classes/OpenAPIs/Models/GetSentDocumentStatusOptions200ResponseInner.swift
+PronesoftEcf/Classes/OpenAPIs/Models/ImportTaxSequencesFromExcel200Response.swift
+PronesoftEcf/Classes/OpenAPIs/Models/ImportTaxSequencesFromExcel200ResponseData.swift
+PronesoftEcf/Classes/OpenAPIs/Models/ImportTaxSequencesFromExcel200ResponseDataResultsInner.swift
 PronesoftEcf/Classes/OpenAPIs/Models/InvoiceType.swift
 PronesoftEcf/Classes/OpenAPIs/Models/InvoiceTypeSequence.swift
 PronesoftEcf/Classes/OpenAPIs/Models/Item.swift
@@ -208,6 +211,9 @@ docs/GetNextNumber200ResponseData.md
 docs/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 docs/GetSentDocumentLogs200ResponseInner.md
 docs/GetSentDocumentStatusOptions200ResponseInner.md
+docs/ImportTaxSequencesFromExcel200Response.md
+docs/ImportTaxSequencesFromExcel200ResponseData.md
+docs/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 docs/InvoiceType.md
 docs/InvoiceTypeSequence.md
 docs/Item.md
