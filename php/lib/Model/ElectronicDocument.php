@@ -736,9 +736,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             $invalidProperties[] = "invalid value for 'payment_terms', the character length must be smaller than or equal to 15.";
         }
 
-        if ($this->container['payment_forms'] === null) {
-            $invalidProperties[] = "'payment_forms' can't be null";
-        }
         if (!is_null($this->container['payment_account_number']) && (mb_strlen($this->container['payment_account_number']) > 28)) {
             $invalidProperties[] = "invalid value for 'payment_account_number', the character length must be smaller than or equal to 28.";
         }
@@ -814,9 +811,6 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             $invalidProperties[] = "invalid value for 'items', number of items must be greater than or equal to 1.";
         }
 
-        if ($this->container['totals'] === null) {
-            $invalidProperties[] = "'totals' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -1240,7 +1234,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets payment_forms
      *
-     * @return \PronesoftEcf\Model\PaymentForm[]
+     * @return \PronesoftEcf\Model\PaymentForm[]|null
      */
     public function getPaymentForms()
     {
@@ -1250,7 +1244,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_forms
      *
-     * @param \PronesoftEcf\Model\PaymentForm[] $payment_forms Payment breakdown. Required.
+     * @param \PronesoftEcf\Model\PaymentForm[]|null $payment_forms Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
      *
      * @return self
      */
@@ -2013,7 +2007,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets totals
      *
-     * @return \PronesoftEcf\Model\Totals
+     * @return \PronesoftEcf\Model\Totals|null
      */
     public function getTotals()
     {
@@ -2023,7 +2017,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets totals
      *
-     * @param \PronesoftEcf\Model\Totals $totals totals
+     * @param \PronesoftEcf\Model\Totals|null $totals totals
      *
      * @return self
      */

@@ -8,6 +8,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 | ------------- | ------------- | ------------- |
 | [**createTaxSequence()**](TaxSequencesApi.md#createTaxSequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF |
 | [**getNextNumber()**](TaxSequencesApi.md#getNextNumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible |
+| [**importTaxSequencesFromExcel()**](TaxSequencesApi.md#importTaxSequencesFromExcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII |
 | [**listTaxSequences()**](TaxSequencesApi.md#listTaxSequences) | **GET** /tax-sequences | Listar secuencias de NCF |
 | [**updateTaxSequence()**](TaxSequencesApi.md#updateTaxSequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF |
 | [**voidTaxSequence()**](TaxSequencesApi.md#voidTaxSequence) | **POST** /tax-sequences/void | Anular rango de números fiscales |
@@ -131,6 +132,70 @@ try {
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `importTaxSequencesFromExcel()`
+
+```php
+importTaxSequencesFromExcel($environment, $file, $x_tenant_id): \PronesoftEcf\Model\ImportTaxSequencesFromExcel200Response
+```
+
+Importar secuencias desde archivo Excel de la DGII
+
+Procesa el archivo Excel (.xlsx/.xls) descargado desde la DGII con las secuencias aprobadas e importa automáticamente cada rango válido. Solo se importan filas con ESTATUS=APROBADA y TIPO_USO que contenga \"ELECTR\". Las filas inválidas se reportan sin interrumpir el proceso.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new PronesoftEcf\Api\TaxSequencesApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$environment = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftEcf\Model\Environment
+$file = '/path/to/file.txt'; // \SplFileObject | Archivo Excel (.xlsx o .xls) exportado desde la DGII
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+
+try {
+    $result = $apiInstance->importTaxSequencesFromExcel($environment, $file, $x_tenant_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling TaxSequencesApi->importTaxSequencesFromExcel: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **environment** | [**\PronesoftEcf\Model\Environment**](../Model/.md)|  | |
+| **file** | **\SplFileObject****\SplFileObject**| Archivo Excel (.xlsx o .xls) exportado desde la DGII | |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+
+### Return type
+
+[**\PronesoftEcf\Model\ImportTaxSequencesFromExcel200Response**](../Model/ImportTaxSequencesFromExcel200Response.md)
+
+### Authorization
+
+[oauth2](../../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: `multipart/form-data`
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)

@@ -1,11 +1,10 @@
-# UploadCertificate201Response
+# ImportTaxSequencesFromExcel200Response
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**message** | **string** |  | [optional]
-**representative** | **string** |  | [optional]
-**expirationDate** | **\DateTime** |  | [optional]
+**success** | **bool** |  | [optional]
+**data** | [**\PronesoftEcf\Model\ImportTaxSequencesFromExcel200ResponseData**](ImportTaxSequencesFromExcel200ResponseData.md) |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

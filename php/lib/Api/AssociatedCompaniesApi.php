@@ -146,21 +146,21 @@ class AssociatedCompaniesApi
      *
      * Crear empresa asociada / sucursal
      *
-     * @param  string $email email (required)
-     * @param  string $password password (required)
      * @param  string $name name (required)
      * @param  string $rnc rnc (required)
-     * @param  string $phone phone (required)
-     * @param  string $address address (required)
-     * @param  string $city city (required)
-     * @param  string $country country (required)
-     * @param  \PronesoftEcf\Model\PrintFormat $printer_type printer_type (required)
+     * @param  string|null $email email (optional)
+     * @param  string|null $password password (optional)
      * @param  string|null $first_name first_name (optional)
      * @param  string|null $last_name last_name (optional)
      * @param  string|null $job_title job_title (optional)
+     * @param  string|null $phone phone (optional)
+     * @param  string|null $address address (optional)
+     * @param  string|null $city city (optional)
+     * @param  string|null $country country (optional)
      * @param  string|null $website website (optional)
      * @param  string|null $category category (optional)
      * @param  string|null $monthly_sales_range monthly_sales_range (optional)
+     * @param  \PronesoftEcf\Model\PrintFormat|null $printer_type printer_type (optional)
      * @param  \SplFileObject|null $logo logo (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAssociatedCompany'] to see the possible values for this operation
      *
@@ -168,9 +168,9 @@ class AssociatedCompaniesApi
      * @throws \InvalidArgumentException
      * @return \PronesoftEcf\Model\CreateAssociatedCompany201Response|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse
      */
-    public function createAssociatedCompany($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name = null, $last_name = null, $job_title = null, $website = null, $category = null, $monthly_sales_range = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
+    public function createAssociatedCompany($name, $rnc, $email = null, $password = null, $first_name = null, $last_name = null, $job_title = null, $phone = null, $address = null, $city = null, $country = null, $website = null, $category = null, $monthly_sales_range = null, $printer_type = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
     {
-        list($response) = $this->createAssociatedCompanyWithHttpInfo($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $logo, $contentType);
+        list($response) = $this->createAssociatedCompanyWithHttpInfo($name, $rnc, $email, $password, $first_name, $last_name, $job_title, $phone, $address, $city, $country, $website, $category, $monthly_sales_range, $printer_type, $logo, $contentType);
         return $response;
     }
 
@@ -179,21 +179,21 @@ class AssociatedCompaniesApi
      *
      * Crear empresa asociada / sucursal
      *
-     * @param  string $email (required)
-     * @param  string $password (required)
      * @param  string $name (required)
      * @param  string $rnc (required)
-     * @param  string $phone (required)
-     * @param  string $address (required)
-     * @param  string $city (required)
-     * @param  string $country (required)
-     * @param  \PronesoftEcf\Model\PrintFormat $printer_type (required)
+     * @param  string|null $email (optional)
+     * @param  string|null $password (optional)
      * @param  string|null $first_name (optional)
      * @param  string|null $last_name (optional)
      * @param  string|null $job_title (optional)
+     * @param  string|null $phone (optional)
+     * @param  string|null $address (optional)
+     * @param  string|null $city (optional)
+     * @param  string|null $country (optional)
      * @param  string|null $website (optional)
      * @param  string|null $category (optional)
      * @param  string|null $monthly_sales_range (optional)
+     * @param  \PronesoftEcf\Model\PrintFormat|null $printer_type (optional)
      * @param  \SplFileObject|null $logo (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAssociatedCompany'] to see the possible values for this operation
      *
@@ -201,9 +201,9 @@ class AssociatedCompaniesApi
      * @throws \InvalidArgumentException
      * @return array of \PronesoftEcf\Model\CreateAssociatedCompany201Response|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createAssociatedCompanyWithHttpInfo($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name = null, $last_name = null, $job_title = null, $website = null, $category = null, $monthly_sales_range = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
+    public function createAssociatedCompanyWithHttpInfo($name, $rnc, $email = null, $password = null, $first_name = null, $last_name = null, $job_title = null, $phone = null, $address = null, $city = null, $country = null, $website = null, $category = null, $monthly_sales_range = null, $printer_type = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
     {
-        $request = $this->createAssociatedCompanyRequest($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $logo, $contentType);
+        $request = $this->createAssociatedCompanyRequest($name, $rnc, $email, $password, $first_name, $last_name, $job_title, $phone, $address, $city, $country, $website, $category, $monthly_sales_range, $printer_type, $logo, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -307,30 +307,30 @@ class AssociatedCompaniesApi
      *
      * Crear empresa asociada / sucursal
      *
-     * @param  string $email (required)
-     * @param  string $password (required)
      * @param  string $name (required)
      * @param  string $rnc (required)
-     * @param  string $phone (required)
-     * @param  string $address (required)
-     * @param  string $city (required)
-     * @param  string $country (required)
-     * @param  \PronesoftEcf\Model\PrintFormat $printer_type (required)
+     * @param  string|null $email (optional)
+     * @param  string|null $password (optional)
      * @param  string|null $first_name (optional)
      * @param  string|null $last_name (optional)
      * @param  string|null $job_title (optional)
+     * @param  string|null $phone (optional)
+     * @param  string|null $address (optional)
+     * @param  string|null $city (optional)
+     * @param  string|null $country (optional)
      * @param  string|null $website (optional)
      * @param  string|null $category (optional)
      * @param  string|null $monthly_sales_range (optional)
+     * @param  \PronesoftEcf\Model\PrintFormat|null $printer_type (optional)
      * @param  \SplFileObject|null $logo (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAssociatedCompany'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createAssociatedCompanyAsync($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name = null, $last_name = null, $job_title = null, $website = null, $category = null, $monthly_sales_range = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
+    public function createAssociatedCompanyAsync($name, $rnc, $email = null, $password = null, $first_name = null, $last_name = null, $job_title = null, $phone = null, $address = null, $city = null, $country = null, $website = null, $category = null, $monthly_sales_range = null, $printer_type = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
     {
-        return $this->createAssociatedCompanyAsyncWithHttpInfo($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $logo, $contentType)
+        return $this->createAssociatedCompanyAsyncWithHttpInfo($name, $rnc, $email, $password, $first_name, $last_name, $job_title, $phone, $address, $city, $country, $website, $category, $monthly_sales_range, $printer_type, $logo, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -343,31 +343,31 @@ class AssociatedCompaniesApi
      *
      * Crear empresa asociada / sucursal
      *
-     * @param  string $email (required)
-     * @param  string $password (required)
      * @param  string $name (required)
      * @param  string $rnc (required)
-     * @param  string $phone (required)
-     * @param  string $address (required)
-     * @param  string $city (required)
-     * @param  string $country (required)
-     * @param  \PronesoftEcf\Model\PrintFormat $printer_type (required)
+     * @param  string|null $email (optional)
+     * @param  string|null $password (optional)
      * @param  string|null $first_name (optional)
      * @param  string|null $last_name (optional)
      * @param  string|null $job_title (optional)
+     * @param  string|null $phone (optional)
+     * @param  string|null $address (optional)
+     * @param  string|null $city (optional)
+     * @param  string|null $country (optional)
      * @param  string|null $website (optional)
      * @param  string|null $category (optional)
      * @param  string|null $monthly_sales_range (optional)
+     * @param  \PronesoftEcf\Model\PrintFormat|null $printer_type (optional)
      * @param  \SplFileObject|null $logo (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAssociatedCompany'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createAssociatedCompanyAsyncWithHttpInfo($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name = null, $last_name = null, $job_title = null, $website = null, $category = null, $monthly_sales_range = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
+    public function createAssociatedCompanyAsyncWithHttpInfo($name, $rnc, $email = null, $password = null, $first_name = null, $last_name = null, $job_title = null, $phone = null, $address = null, $city = null, $country = null, $website = null, $category = null, $monthly_sales_range = null, $printer_type = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
     {
         $returnType = '\PronesoftEcf\Model\CreateAssociatedCompany201Response';
-        $request = $this->createAssociatedCompanyRequest($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $logo, $contentType);
+        $request = $this->createAssociatedCompanyRequest($name, $rnc, $email, $password, $first_name, $last_name, $job_title, $phone, $address, $city, $country, $website, $category, $monthly_sales_range, $printer_type, $logo, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -408,47 +408,30 @@ class AssociatedCompaniesApi
     /**
      * Create request for operation 'createAssociatedCompany'
      *
-     * @param  string $email (required)
-     * @param  string $password (required)
      * @param  string $name (required)
      * @param  string $rnc (required)
-     * @param  string $phone (required)
-     * @param  string $address (required)
-     * @param  string $city (required)
-     * @param  string $country (required)
-     * @param  \PronesoftEcf\Model\PrintFormat $printer_type (required)
+     * @param  string|null $email (optional)
+     * @param  string|null $password (optional)
      * @param  string|null $first_name (optional)
      * @param  string|null $last_name (optional)
      * @param  string|null $job_title (optional)
+     * @param  string|null $phone (optional)
+     * @param  string|null $address (optional)
+     * @param  string|null $city (optional)
+     * @param  string|null $country (optional)
      * @param  string|null $website (optional)
      * @param  string|null $category (optional)
      * @param  string|null $monthly_sales_range (optional)
+     * @param  \PronesoftEcf\Model\PrintFormat|null $printer_type (optional)
      * @param  \SplFileObject|null $logo (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['createAssociatedCompany'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function createAssociatedCompanyRequest($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name = null, $last_name = null, $job_title = null, $website = null, $category = null, $monthly_sales_range = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
+    public function createAssociatedCompanyRequest($name, $rnc, $email = null, $password = null, $first_name = null, $last_name = null, $job_title = null, $phone = null, $address = null, $city = null, $country = null, $website = null, $category = null, $monthly_sales_range = null, $printer_type = null, $logo = null, string $contentType = self::contentTypes['createAssociatedCompany'][0])
     {
 
-        // verify the required parameter 'email' is set
-        if ($email === null || (is_array($email) && count($email) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $email when calling createAssociatedCompany'
-            );
-        }
-
-        // verify the required parameter 'password' is set
-        if ($password === null || (is_array($password) && count($password) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $password when calling createAssociatedCompany'
-            );
-        }
-        if (strlen($password) < 8) {
-            throw new \InvalidArgumentException('invalid length for "$password" when calling AssociatedCompaniesApi.createAssociatedCompany, must be bigger than or equal to 8.');
-        }
-        
         // verify the required parameter 'name' is set
         if ($name === null || (is_array($name) && count($name) === 0)) {
             throw new \InvalidArgumentException(
@@ -463,40 +446,15 @@ class AssociatedCompaniesApi
             );
         }
 
-        // verify the required parameter 'phone' is set
-        if ($phone === null || (is_array($phone) && count($phone) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $phone when calling createAssociatedCompany'
-            );
-        }
 
-        // verify the required parameter 'address' is set
-        if ($address === null || (is_array($address) && count($address) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $address when calling createAssociatedCompany'
-            );
+        if ($password !== null && strlen($password) < 8) {
+            throw new \InvalidArgumentException('invalid length for "$password" when calling AssociatedCompaniesApi.createAssociatedCompany, must be bigger than or equal to 8.');
         }
+        
 
-        // verify the required parameter 'city' is set
-        if ($city === null || (is_array($city) && count($city) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $city when calling createAssociatedCompany'
-            );
-        }
 
-        // verify the required parameter 'country' is set
-        if ($country === null || (is_array($country) && count($country) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $country when calling createAssociatedCompany'
-            );
-        }
 
-        // verify the required parameter 'printer_type' is set
-        if ($printer_type === null || (is_array($printer_type) && count($printer_type) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $printer_type when calling createAssociatedCompany'
-            );
-        }
+
 
 
 

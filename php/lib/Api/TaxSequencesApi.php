@@ -81,6 +81,9 @@ class TaxSequencesApi
         'getNextNumber' => [
             'application/json',
         ],
+        'importTaxSequencesFromExcel' => [
+            'multipart/form-data',
+        ],
         'listTaxSequences' => [
             'application/json',
         ],
@@ -759,6 +762,339 @@ class TaxSequencesApi
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation importTaxSequencesFromExcel
+     *
+     * Importar secuencias desde archivo Excel de la DGII
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment environment (required)
+     * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \PronesoftEcf\Model\ImportTaxSequencesFromExcel200Response|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse
+     */
+    public function importTaxSequencesFromExcel($environment, $file, $x_tenant_id = null, string $contentType = self::contentTypes['importTaxSequencesFromExcel'][0])
+    {
+        list($response) = $this->importTaxSequencesFromExcelWithHttpInfo($environment, $file, $x_tenant_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation importTaxSequencesFromExcelWithHttpInfo
+     *
+     * Importar secuencias desde archivo Excel de la DGII
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment (required)
+     * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
+     *
+     * @throws \PronesoftEcf\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \PronesoftEcf\Model\ImportTaxSequencesFromExcel200Response|\PronesoftEcf\Model\ErrorResponse|\PronesoftEcf\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function importTaxSequencesFromExcelWithHttpInfo($environment, $file, $x_tenant_id = null, string $contentType = self::contentTypes['importTaxSequencesFromExcel'][0])
+    {
+        $request = $this->importTaxSequencesFromExcelRequest($environment, $file, $x_tenant_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ImportTaxSequencesFromExcel200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\PronesoftEcf\Model\ImportTaxSequencesFromExcel200Response',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ImportTaxSequencesFromExcel200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\PronesoftEcf\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation importTaxSequencesFromExcelAsync
+     *
+     * Importar secuencias desde archivo Excel de la DGII
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment (required)
+     * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function importTaxSequencesFromExcelAsync($environment, $file, $x_tenant_id = null, string $contentType = self::contentTypes['importTaxSequencesFromExcel'][0])
+    {
+        return $this->importTaxSequencesFromExcelAsyncWithHttpInfo($environment, $file, $x_tenant_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation importTaxSequencesFromExcelAsyncWithHttpInfo
+     *
+     * Importar secuencias desde archivo Excel de la DGII
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment (required)
+     * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function importTaxSequencesFromExcelAsyncWithHttpInfo($environment, $file, $x_tenant_id = null, string $contentType = self::contentTypes['importTaxSequencesFromExcel'][0])
+    {
+        $returnType = '\PronesoftEcf\Model\ImportTaxSequencesFromExcel200Response';
+        $request = $this->importTaxSequencesFromExcelRequest($environment, $file, $x_tenant_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'importTaxSequencesFromExcel'
+     *
+     * @param  \PronesoftEcf\Model\Environment $environment (required)
+     * @param  \SplFileObject $file Archivo Excel (.xlsx o .xls) exportado desde la DGII (required)
+     * @param  string|null $x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['importTaxSequencesFromExcel'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function importTaxSequencesFromExcelRequest($environment, $file, $x_tenant_id = null, string $contentType = self::contentTypes['importTaxSequencesFromExcel'][0])
+    {
+
+        // verify the required parameter 'environment' is set
+        if ($environment === null || (is_array($environment) && count($environment) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $environment when calling importTaxSequencesFromExcel'
+            );
+        }
+
+        // verify the required parameter 'file' is set
+        if ($file === null || (is_array($file) && count($file) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $file when calling importTaxSequencesFromExcel'
+            );
+        }
+
+
+
+        $resourcePath = '/tax-sequences/import';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $environment,
+            'environment', // param base name
+            'Environment', // openApiType
+            'form', // style
+            true, // explode
+            true // required
+        ) ?? []);
+
+        // header params
+        if ($x_tenant_id !== null) {
+            $headerParams['x-tenant-id'] = ObjectSerializer::toHeaderValue($x_tenant_id);
+        }
+
+
+        // form params
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'file' => $file,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
+
+        $multipart = true;
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody

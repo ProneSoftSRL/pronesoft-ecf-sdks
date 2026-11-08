@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **payment_type** | **string** | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed | [optional]
 **payment_deadline** | **\DateTime** |  | [optional]
 **payment_terms** | **string** |  | [optional]
-**payment_forms** | [**\PronesoftEcf\Model\PaymentForm[]**](PaymentForm.md) | Payment breakdown. Required. |
+**payment_forms** | [**\PronesoftEcf\Model\PaymentForm[]**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional]
 **payment_account_type** | [**\PronesoftEcf\Model\AccountType**](AccountType.md) |  | [optional]
 **payment_account_number** | **string** |  | [optional]
 **payment_bank** | **string** |  | [optional]
@@ -43,7 +43,7 @@ Name | Type | Description | Notes
 **additional_issuer_info** | **string** |  | [optional]
 **buyer** | [**\PronesoftEcf\Model\Buyer**](Buyer.md) |  | [optional]
 **items** | [**\PronesoftEcf\Model\Item[]**](Item.md) |  |
-**totals** | [**\PronesoftEcf\Model\Totals**](Totals.md) |  |
+**totals** | [**\PronesoftEcf\Model\Totals**](Totals.md) |  | [optional]
 **transport** | [**\PronesoftEcf\Model\Transport**](Transport.md) |  | [optional]
 **additional_info** | [**\PronesoftEcf\Model\AdditionalInfo**](AdditionalInfo.md) |  | [optional]
 **alternative_currency** | [**\PronesoftEcf\Model\AlternativeCurrency**](AlternativeCurrency.md) |  | [optional]

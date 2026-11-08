@@ -1,6 +1,6 @@
 <?php
 /**
- * EcfSubmissionResponseDgiiResponse
+ * ImportTaxSequencesFromExcel200Response
  *
  * PHP version 8.1
  *
@@ -13,7 +13,7 @@
 /**
  * eCF-Pronesoft Integration API
  *
- * ## Overview Production-grade API for issuing Electronic Tax Receipts (e-CF) in the Dominican Republic through the Pronesoft platform.  ## Authentication — OAuth 2.0 Client Credentials  ### Steps 1. Get credentials from the portal:    - Sandbox: https://ecf.sandbox.pronesoft.com -> Apps -> Default Sandbox App    - Production: https://ecf.pronesoft.com -> Integrations -> Apps -> Create App 2. Request a token via POST /oauth/token — valid for 24 hours (86400s). 3. Use: Authorization: Bearer <accessToken> on every request. 4. Renew on HTTP 401. Best practice: renew 5 minutes before expiry.  ### Multi-company delegation To act on behalf of an associated company (branch), add:   x-tenant-id: <business-uuid> Do NOT send x-tenant-id when acting as the main company.  ### Sandbox specifics - Use any RNC starting with SBX (e.g. SBX123456) — no real certificate needed. - Sequences are automatic — no need to create them manually. - The environment field in the document body MUST be TesteCF.  ### Scopes business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
+ * ## Descripción general API de nivel productivo para emitir Comprobantes Fiscales Electrónicos (e-CF) en la República Dominicana a través de la plataforma Pronesoft.  ## Autenticación — OAuth 2.0 Client Credentials  ### Pasos 1. Obtén tus credenciales desde el portal:    - Sandbox: https://ecf.sandbox.pronesoft.com → Apps → Default Sandbox App    - Producción: https://ecf.pronesoft.com → Integraciones → Apps → Crear App 2. Solicita un token via POST /oauth/token — válido por 24 horas (86400s). 3. Usa: Authorization: Bearer <accessToken> en cada request. 4. Renueva al recibir HTTP 401. Buena práctica: renovar 5 minutos antes del vencimiento.  ### Delegación multi-empresa Para actuar en nombre de una empresa asociada (sucursal), agrega:   x-tenant-id: <business-uuid> NO envíes x-tenant-id cuando actúes como la empresa principal.  ### Detalles del Sandbox - Usa cualquier RNC que comience con SBX (ej. SBX123456) — no se requiere certificado real. - Las secuencias son automáticas — no es necesario crearlas manualmente. - El campo environment en el cuerpo del documento DEBE ser TesteCF.  ### Scopes disponibles business:read, business:create, business:update, members:read, members:invite, members:revoke, certificates:read, certificates:upload, certificates:update, documents:read, documents:create, documents:send, documents:receive, documents:update, approvals:read, approvals:commercial, sequences:read, sequences:create, sequences:update, sequences:cancel, business_info:read, certification:read, certification:write, reports:read
  *
  * The version of the OpenAPI document: 1.2.0
  * Contact: support@pronesoft.com
@@ -33,7 +33,7 @@ use \ArrayAccess;
 use \PronesoftEcf\ObjectSerializer;
 
 /**
- * EcfSubmissionResponseDgiiResponse Class Doc Comment
+ * ImportTaxSequencesFromExcel200Response Class Doc Comment
  *
  * @category Class
  * @package  PronesoftEcf
@@ -41,7 +41,7 @@ use \PronesoftEcf\ObjectSerializer;
  * @link     https://openapi-generator.tech
  * @implements \ArrayAccess<string, mixed>
  */
-class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
+class ImportTaxSequencesFromExcel200Response implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
      *
      * @var string
      */
-    protected static $openAPIModelName = 'EcfSubmissionResponse_dgiiResponse';
+    protected static $openAPIModelName = 'importTaxSequencesFromExcel_200_response';
 
     /**
      * Array of property to type mappings. Used for (de)serialization
@@ -58,12 +58,8 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
      * @var string[]
      */
     protected static $openAPITypes = [
-        'track_id' => 'string',
-        'estado' => 'string',
-        'rnc' => 'string',
-        'encf' => 'string',
-        'fecha_recepcion' => '\DateTime',
-        'mensajes' => '\PronesoftEcf\Model\DgiiMessage[]'
+        'success' => 'bool',
+        'data' => '\PronesoftEcf\Model\ImportTaxSequencesFromExcel200ResponseData'
     ];
 
     /**
@@ -74,12 +70,8 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'track_id' => null,
-        'estado' => null,
-        'rnc' => null,
-        'encf' => null,
-        'fecha_recepcion' => 'date-time',
-        'mensajes' => null
+        'success' => null,
+        'data' => null
     ];
 
     /**
@@ -88,12 +80,8 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'track_id' => false,
-        'estado' => false,
-        'rnc' => false,
-        'encf' => false,
-        'fecha_recepcion' => false,
-        'mensajes' => false
+        'success' => false,
+        'data' => false
     ];
 
     /**
@@ -182,12 +170,8 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
      * @var string[]
      */
     protected static $attributeMap = [
-        'track_id' => 'trackId',
-        'estado' => 'estado',
-        'rnc' => 'rnc',
-        'encf' => 'encf',
-        'fecha_recepcion' => 'fechaRecepcion',
-        'mensajes' => 'mensajes'
+        'success' => 'success',
+        'data' => 'data'
     ];
 
     /**
@@ -196,12 +180,8 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
      * @var string[]
      */
     protected static $setters = [
-        'track_id' => 'setTrackId',
-        'estado' => 'setEstado',
-        'rnc' => 'setRnc',
-        'encf' => 'setEncf',
-        'fecha_recepcion' => 'setFechaRecepcion',
-        'mensajes' => 'setMensajes'
+        'success' => 'setSuccess',
+        'data' => 'setData'
     ];
 
     /**
@@ -210,12 +190,8 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
      * @var string[]
      */
     protected static $getters = [
-        'track_id' => 'getTrackId',
-        'estado' => 'getEstado',
-        'rnc' => 'getRnc',
-        'encf' => 'getEncf',
-        'fecha_recepcion' => 'getFechaRecepcion',
-        'mensajes' => 'getMensajes'
+        'success' => 'getSuccess',
+        'data' => 'getData'
     ];
 
     /**
@@ -275,12 +251,8 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('track_id', $data ?? [], null);
-        $this->setIfExists('estado', $data ?? [], null);
-        $this->setIfExists('rnc', $data ?? [], null);
-        $this->setIfExists('encf', $data ?? [], null);
-        $this->setIfExists('fecha_recepcion', $data ?? [], null);
-        $this->setIfExists('mensajes', $data ?? [], null);
+        $this->setIfExists('success', $data ?? [], null);
+        $this->setIfExists('data', $data ?? [], null);
     }
 
     /**
@@ -326,163 +298,55 @@ class EcfSubmissionResponseDgiiResponse implements ModelInterface, ArrayAccess, 
 
 
     /**
-     * Gets track_id
+     * Gets success
      *
-     * @return string|null
+     * @return bool|null
      */
-    public function getTrackId()
+    public function getSuccess()
     {
-        return $this->container['track_id'];
+        return $this->container['success'];
     }
 
     /**
-     * Sets track_id
+     * Sets success
      *
-     * @param string|null $track_id track_id
+     * @param bool|null $success success
      *
      * @return self
      */
-    public function setTrackId($track_id)
+    public function setSuccess($success)
     {
-        if (is_null($track_id)) {
-            throw new \InvalidArgumentException('non-nullable track_id cannot be null');
+        if (is_null($success)) {
+            throw new \InvalidArgumentException('non-nullable success cannot be null');
         }
-        $this->container['track_id'] = $track_id;
+        $this->container['success'] = $success;
 
         return $this;
     }
 
     /**
-     * Gets estado
+     * Gets data
      *
-     * @return string|null
+     * @return \PronesoftEcf\Model\ImportTaxSequencesFromExcel200ResponseData|null
      */
-    public function getEstado()
+    public function getData()
     {
-        return $this->container['estado'];
+        return $this->container['data'];
     }
 
     /**
-     * Sets estado
+     * Sets data
      *
-     * @param string|null $estado Aprobado, Rechazado, En Proceso
+     * @param \PronesoftEcf\Model\ImportTaxSequencesFromExcel200ResponseData|null $data data
      *
      * @return self
      */
-    public function setEstado($estado)
+    public function setData($data)
     {
-        if (is_null($estado)) {
-            throw new \InvalidArgumentException('non-nullable estado cannot be null');
+        if (is_null($data)) {
+            throw new \InvalidArgumentException('non-nullable data cannot be null');
         }
-        $this->container['estado'] = $estado;
-
-        return $this;
-    }
-
-    /**
-     * Gets rnc
-     *
-     * @return string|null
-     */
-    public function getRnc()
-    {
-        return $this->container['rnc'];
-    }
-
-    /**
-     * Sets rnc
-     *
-     * @param string|null $rnc rnc
-     *
-     * @return self
-     */
-    public function setRnc($rnc)
-    {
-        if (is_null($rnc)) {
-            throw new \InvalidArgumentException('non-nullable rnc cannot be null');
-        }
-        $this->container['rnc'] = $rnc;
-
-        return $this;
-    }
-
-    /**
-     * Gets encf
-     *
-     * @return string|null
-     */
-    public function getEncf()
-    {
-        return $this->container['encf'];
-    }
-
-    /**
-     * Sets encf
-     *
-     * @param string|null $encf encf
-     *
-     * @return self
-     */
-    public function setEncf($encf)
-    {
-        if (is_null($encf)) {
-            throw new \InvalidArgumentException('non-nullable encf cannot be null');
-        }
-        $this->container['encf'] = $encf;
-
-        return $this;
-    }
-
-    /**
-     * Gets fecha_recepcion
-     *
-     * @return \DateTime|null
-     */
-    public function getFechaRecepcion()
-    {
-        return $this->container['fecha_recepcion'];
-    }
-
-    /**
-     * Sets fecha_recepcion
-     *
-     * @param \DateTime|null $fecha_recepcion fecha_recepcion
-     *
-     * @return self
-     */
-    public function setFechaRecepcion($fecha_recepcion)
-    {
-        if (is_null($fecha_recepcion)) {
-            throw new \InvalidArgumentException('non-nullable fecha_recepcion cannot be null');
-        }
-        $this->container['fecha_recepcion'] = $fecha_recepcion;
-
-        return $this;
-    }
-
-    /**
-     * Gets mensajes
-     *
-     * @return \PronesoftEcf\Model\DgiiMessage[]|null
-     */
-    public function getMensajes()
-    {
-        return $this->container['mensajes'];
-    }
-
-    /**
-     * Sets mensajes
-     *
-     * @param \PronesoftEcf\Model\DgiiMessage[]|null $mensajes mensajes
-     *
-     * @return self
-     */
-    public function setMensajes($mensajes)
-    {
-        if (is_null($mensajes)) {
-            throw new \InvalidArgumentException('non-nullable mensajes cannot be null');
-        }
-        $this->container['mensajes'] = $mensajes;
+        $this->container['data'] = $data;
 
         return $this;
     }

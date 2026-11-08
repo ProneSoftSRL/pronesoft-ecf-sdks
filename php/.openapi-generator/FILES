@@ -68,6 +68,9 @@ docs/Model/GetNextNumber200ResponseData.md
 docs/Model/GetReceivedDocumentStatsBySupplier200ResponseInner.md
 docs/Model/GetSentDocumentLogs200ResponseInner.md
 docs/Model/GetSentDocumentStatusOptions200ResponseInner.md
+docs/Model/ImportTaxSequencesFromExcel200Response.md
+docs/Model/ImportTaxSequencesFromExcel200ResponseData.md
+docs/Model/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md
 docs/Model/InvoiceType.md
 docs/Model/InvoiceTypeSequence.md
 docs/Model/Item.md
@@ -204,6 +207,9 @@ lib/Model/GetNextNumber200ResponseData.php
 lib/Model/GetReceivedDocumentStatsBySupplier200ResponseInner.php
 lib/Model/GetSentDocumentLogs200ResponseInner.php
 lib/Model/GetSentDocumentStatusOptions200ResponseInner.php
+lib/Model/ImportTaxSequencesFromExcel200Response.php
+lib/Model/ImportTaxSequencesFromExcel200ResponseData.php
+lib/Model/ImportTaxSequencesFromExcel200ResponseDataResultsInner.php
 lib/Model/InvoiceType.php
 lib/Model/InvoiceTypeSequence.php
 lib/Model/Item.php
@@ -273,3 +279,6 @@ lib/Model/WebhookStats.php
 lib/Model/WebhookStatsStats.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
+test/Model/ImportTaxSequencesFromExcel200ResponseDataResultsInnerTest.php
+test/Model/ImportTaxSequencesFromExcel200ResponseDataTest.php
+test/Model/ImportTaxSequencesFromExcel200ResponseTest.php

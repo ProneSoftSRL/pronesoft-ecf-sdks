@@ -91,25 +91,25 @@ $apiInstance = new PronesoftEcf\Api\AssociatedCompaniesApi(
     new GuzzleHttp\Client(),
     $config
 );
-$email = 'email_example'; // string
-$password = 'password_example'; // string
 $name = 'name_example'; // string
 $rnc = 'rnc_example'; // string
+$email = 'email_example'; // string
+$password = 'password_example'; // string
+$first_name = 'first_name_example'; // string
+$last_name = 'last_name_example'; // string
+$job_title = 'job_title_example'; // string
 $phone = 'phone_example'; // string
 $address = 'address_example'; // string
 $city = 'city_example'; // string
 $country = 'country_example'; // string
-$printer_type = new \PronesoftEcf\Model\PrintFormat(); // \PronesoftEcf\Model\PrintFormat
-$first_name = 'first_name_example'; // string
-$last_name = 'last_name_example'; // string
-$job_title = 'job_title_example'; // string
 $website = 'website_example'; // string
 $category = 'category_example'; // string
 $monthly_sales_range = 'monthly_sales_range_example'; // string
+$printer_type = new \PronesoftEcf\Model\PrintFormat(); // \PronesoftEcf\Model\PrintFormat
 $logo = '/path/to/file.txt'; // \SplFileObject
 
 try {
-    $result = $apiInstance->createAssociatedCompany($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $logo);
+    $result = $apiInstance->createAssociatedCompany($name, $rnc, $email, $password, $first_name, $last_name, $job_title, $phone, $address, $city, $country, $website, $category, $monthly_sales_range, $printer_type, $logo);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AssociatedCompaniesApi->createAssociatedCompany: ', $e->getMessage(), PHP_EOL;
@@ -157,6 +157,7 @@ Class | Method | HTTP request | Description
 *ReportsApi* | [**exportSentDocuments**](docs/Api/ReportsApi.md#exportsentdocuments) | **GET** /dgii/sent/export | Exportar reporte de documentos enviados
 *TaxSequencesApi* | [**createTaxSequence**](docs/Api/TaxSequencesApi.md#createtaxsequence) | **POST** /tax-sequences/create | Crear nueva secuencia de NCF
 *TaxSequencesApi* | [**getNextNumber**](docs/Api/TaxSequencesApi.md#getnextnumber) | **GET** /tax-sequences/next | Obtener siguiente número fiscal disponible
+*TaxSequencesApi* | [**importTaxSequencesFromExcel**](docs/Api/TaxSequencesApi.md#importtaxsequencesfromexcel) | **POST** /tax-sequences/import | Importar secuencias desde archivo Excel de la DGII
 *TaxSequencesApi* | [**listTaxSequences**](docs/Api/TaxSequencesApi.md#listtaxsequences) | **GET** /tax-sequences | Listar secuencias de NCF
 *TaxSequencesApi* | [**updateTaxSequence**](docs/Api/TaxSequencesApi.md#updatetaxsequence) | **PATCH** /tax-sequences/update | Actualizar secuencia de NCF
 *TaxSequencesApi* | [**voidTaxSequence**](docs/Api/TaxSequencesApi.md#voidtaxsequence) | **POST** /tax-sequences/void | Anular rango de números fiscales
@@ -220,6 +221,9 @@ Class | Method | HTTP request | Description
 - [GetReceivedDocumentStatsBySupplier200ResponseInner](docs/Model/GetReceivedDocumentStatsBySupplier200ResponseInner.md)
 - [GetSentDocumentLogs200ResponseInner](docs/Model/GetSentDocumentLogs200ResponseInner.md)
 - [GetSentDocumentStatusOptions200ResponseInner](docs/Model/GetSentDocumentStatusOptions200ResponseInner.md)
+- [ImportTaxSequencesFromExcel200Response](docs/Model/ImportTaxSequencesFromExcel200Response.md)
+- [ImportTaxSequencesFromExcel200ResponseData](docs/Model/ImportTaxSequencesFromExcel200ResponseData.md)
+- [ImportTaxSequencesFromExcel200ResponseDataResultsInner](docs/Model/ImportTaxSequencesFromExcel200ResponseDataResultsInner.md)
 - [InvoiceType](docs/Model/InvoiceType.md)
 - [InvoiceTypeSequence](docs/Model/InvoiceTypeSequence.md)
 - [Item](docs/Model/Item.md)

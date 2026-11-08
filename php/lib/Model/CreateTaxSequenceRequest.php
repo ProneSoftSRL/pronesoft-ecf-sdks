@@ -319,6 +319,12 @@ class CreateTaxSequenceRequest implements ModelInterface, ArrayAccess, \JsonSeri
         if ($this->container['to'] === null) {
             $invalidProperties[] = "'to' can't be null";
         }
+        if ($this->container['quantity'] === null) {
+            $invalidProperties[] = "'quantity' can't be null";
+        }
+        if ($this->container['environment'] === null) {
+            $invalidProperties[] = "'environment' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -418,7 +424,7 @@ class CreateTaxSequenceRequest implements ModelInterface, ArrayAccess, \JsonSeri
     /**
      * Gets quantity
      *
-     * @return int|null
+     * @return int
      */
     public function getQuantity()
     {
@@ -428,7 +434,7 @@ class CreateTaxSequenceRequest implements ModelInterface, ArrayAccess, \JsonSeri
     /**
      * Sets quantity
      *
-     * @param int|null $quantity quantity
+     * @param int $quantity quantity
      *
      * @return self
      */
@@ -472,7 +478,7 @@ class CreateTaxSequenceRequest implements ModelInterface, ArrayAccess, \JsonSeri
     /**
      * Gets environment
      *
-     * @return \PronesoftEcf\Model\Environment|null
+     * @return \PronesoftEcf\Model\Environment
      */
     public function getEnvironment()
     {
@@ -482,7 +488,7 @@ class CreateTaxSequenceRequest implements ModelInterface, ArrayAccess, \JsonSeri
     /**
      * Sets environment
      *
-     * @param \PronesoftEcf\Model\Environment|null $environment environment
+     * @param \PronesoftEcf\Model\Environment $environment environment
      *
      * @return self
      */

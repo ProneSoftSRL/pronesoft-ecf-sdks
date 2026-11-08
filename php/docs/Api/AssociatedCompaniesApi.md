@@ -17,7 +17,7 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 ## `createAssociatedCompany()`
 
 ```php
-createAssociatedCompany($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $logo): \PronesoftEcf\Model\CreateAssociatedCompany201Response
+createAssociatedCompany($name, $rnc, $email, $password, $first_name, $last_name, $job_title, $phone, $address, $city, $country, $website, $category, $monthly_sales_range, $printer_type, $logo): \PronesoftEcf\Model\CreateAssociatedCompany201Response
 ```
 
 Crear empresa asociada / sucursal
@@ -39,25 +39,25 @@ $apiInstance = new PronesoftEcf\Api\AssociatedCompaniesApi(
     new GuzzleHttp\Client(),
     $config
 );
-$email = 'email_example'; // string
-$password = 'password_example'; // string
 $name = 'name_example'; // string
 $rnc = 'rnc_example'; // string
+$email = 'email_example'; // string
+$password = 'password_example'; // string
+$first_name = 'first_name_example'; // string
+$last_name = 'last_name_example'; // string
+$job_title = 'job_title_example'; // string
 $phone = 'phone_example'; // string
 $address = 'address_example'; // string
 $city = 'city_example'; // string
 $country = 'country_example'; // string
-$printer_type = new \PronesoftEcf\Model\PrintFormat(); // \PronesoftEcf\Model\PrintFormat
-$first_name = 'first_name_example'; // string
-$last_name = 'last_name_example'; // string
-$job_title = 'job_title_example'; // string
 $website = 'website_example'; // string
 $category = 'category_example'; // string
 $monthly_sales_range = 'monthly_sales_range_example'; // string
+$printer_type = new \PronesoftEcf\Model\PrintFormat(); // \PronesoftEcf\Model\PrintFormat
 $logo = '/path/to/file.txt'; // \SplFileObject
 
 try {
-    $result = $apiInstance->createAssociatedCompany($email, $password, $name, $rnc, $phone, $address, $city, $country, $printer_type, $first_name, $last_name, $job_title, $website, $category, $monthly_sales_range, $logo);
+    $result = $apiInstance->createAssociatedCompany($name, $rnc, $email, $password, $first_name, $last_name, $job_title, $phone, $address, $city, $country, $website, $category, $monthly_sales_range, $printer_type, $logo);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AssociatedCompaniesApi->createAssociatedCompany: ', $e->getMessage(), PHP_EOL;
@@ -68,21 +68,21 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **email** | **string**|  | |
-| **password** | **string**|  | |
 | **name** | **string**|  | |
 | **rnc** | **string**|  | |
-| **phone** | **string**|  | |
-| **address** | **string**|  | |
-| **city** | **string**|  | |
-| **country** | **string**|  | |
-| **printer_type** | [**\PronesoftEcf\Model\PrintFormat**](../Model/PrintFormat.md)|  | |
+| **email** | **string**|  | [optional] |
+| **password** | **string**|  | [optional] |
 | **first_name** | **string**|  | [optional] |
 | **last_name** | **string**|  | [optional] |
 | **job_title** | **string**|  | [optional] |
+| **phone** | **string**|  | [optional] |
+| **address** | **string**|  | [optional] |
+| **city** | **string**|  | [optional] |
+| **country** | **string**|  | [optional] |
 | **website** | **string**|  | [optional] |
 | **category** | **string**|  | [optional] |
 | **monthly_sales_range** | **string**|  | [optional] |
+| **printer_type** | [**\PronesoftEcf\Model\PrintFormat**](../Model/PrintFormat.md)|  | [optional] |
 | **logo** | **\SplFileObject****\SplFileObject**|  | [optional] |
 
 ### Return type

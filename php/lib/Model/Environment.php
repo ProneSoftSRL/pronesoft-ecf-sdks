@@ -34,7 +34,7 @@ use \PronesoftEcf\ObjectSerializer;
  * Environment Class Doc Comment
  *
  * @category Class
- * @description TesteCF&#x3D;testing no DGII, CerteCF&#x3D;official certification, eCF&#x3D;production
+ * @description TesteCF&#x3D;DGII test environment (no fiscal validity), CerteCF&#x3D;DGII certification, eCF&#x3D;production
  * @package  PronesoftEcf
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
