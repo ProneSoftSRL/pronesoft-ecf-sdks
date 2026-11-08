@@ -34,9 +34,9 @@ namespace Pronesoft.Ecf.Sdk.Model
     public partial class ReceivedDocument : IValidatableObject
     {
         /// <summary>
-        /// 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending
+        /// 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente
         /// </summary>
-        /// <value>1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending</value>
+        /// <value>1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente</value>
         public enum StatusEnum
         {
             /// <summary>
@@ -57,9 +57,9 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending
+        /// 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente
         /// </summary>
-        /// <value>1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending</value>
+        /// <value>1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status { get; set; }
         /// <summary>
@@ -70,7 +70,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="senderRnc">senderRnc.</param>
         /// <param name="receiverRnc">receiverRnc.</param>
         /// <param name="totalAmount">totalAmount.</param>
-        /// <param name="status">1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending.</param>
+        /// <param name="status">1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente.</param>
         /// <param name="statusLabel">statusLabel.</param>
         /// <param name="issueDate">issueDate.</param>
         /// <param name="receivedAt">receivedAt.</param>

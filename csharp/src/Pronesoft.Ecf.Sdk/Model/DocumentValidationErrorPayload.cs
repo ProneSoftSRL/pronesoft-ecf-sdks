@@ -41,17 +41,23 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentValidationErrorPayload" /> class.
         /// </summary>
-        /// <param name="encf">encf (required).</param>
-        /// <param name="errorCode">Código de error de validación. (required).</param>
-        /// <param name="message">Descripción del error. (required).</param>
-        public DocumentValidationErrorPayload(string encf = default, string errorCode = default, string message = default)
+        /// <param name="documentId">ID interno del documento en Pronesoft. (required).</param>
+        /// <param name="encf">Número e-NCF del documento (si llegó a asignarse antes del fallo de validación)..</param>
+        /// <param name="issuerRnc">RNC de la empresa emisora del documento. (required).</param>
+        /// <param name="documentType">Tipo de comprobante (31, 32, 33, 34, etc.)..</param>
+        /// <param name="errorCode">Código del error de validación. (required).</param>
+        /// <param name="message">Descripción detallada del error de validación. (required).</param>
+        /// <param name="error">Mensaje de error (alias legado)..</param>
+        /// <param name="code">Código de error (alias legado)..</param>
+        public DocumentValidationErrorPayload(Guid documentId = default, string encf = default, string issuerRnc = default, string documentType = default, string errorCode = default, string message = default, string error = default, Object code = default)
         {
-            // to ensure "encf" is required (not null)
-            if (encf == null)
+            this.DocumentId = documentId;
+            // to ensure "issuerRnc" is required (not null)
+            if (issuerRnc == null)
             {
-                throw new ArgumentNullException("encf is a required property for DocumentValidationErrorPayload and cannot be null");
+                throw new ArgumentNullException("issuerRnc is a required property for DocumentValidationErrorPayload and cannot be null");
             }
-            this.Encf = encf;
+            this.IssuerRnc = issuerRnc;
             // to ensure "errorCode" is required (not null)
             if (errorCode == null)
             {
@@ -64,21 +70,56 @@ namespace Pronesoft.Ecf.Sdk.Model
                 throw new ArgumentNullException("message is a required property for DocumentValidationErrorPayload and cannot be null");
             }
             this.Message = message;
+            this.Encf = encf;
+            this.DocumentType = documentType;
+            this.Error = error;
+            this.Code = code;
         }
 
         /// <summary>
-        /// Gets or Sets Encf
+        /// ID interno del documento en Pronesoft.
         /// </summary>
+        /// <value>ID interno del documento en Pronesoft.</value>
+        /*
+        <example>550e8400-e29b-41d4-a716-446655440000</example>
+        */
+        [DataMember(Name = "documentId", IsRequired = true, EmitDefaultValue = true)]
+        public Guid DocumentId { get; set; }
+
+        /// <summary>
+        /// Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).
+        /// </summary>
+        /// <value>Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).</value>
         /*
         <example>E31000000001</example>
         */
-        [DataMember(Name = "encf", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "encf", EmitDefaultValue = true)]
         public string Encf { get; set; }
 
         /// <summary>
-        /// Código de error de validación.
+        /// RNC de la empresa emisora del documento.
         /// </summary>
-        /// <value>Código de error de validación.</value>
+        /// <value>RNC de la empresa emisora del documento.</value>
+        /*
+        <example>133190907</example>
+        */
+        [DataMember(Name = "issuerRnc", IsRequired = true, EmitDefaultValue = true)]
+        public string IssuerRnc { get; set; }
+
+        /// <summary>
+        /// Tipo de comprobante (31, 32, 33, 34, etc.).
+        /// </summary>
+        /// <value>Tipo de comprobante (31, 32, 33, 34, etc.).</value>
+        /*
+        <example>31</example>
+        */
+        [DataMember(Name = "documentType", EmitDefaultValue = true)]
+        public string DocumentType { get; set; }
+
+        /// <summary>
+        /// Código del error de validación.
+        /// </summary>
+        /// <value>Código del error de validación.</value>
         /*
         <example>SCHEMA_VALIDATION_FAILED</example>
         */
@@ -86,14 +127,34 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string ErrorCode { get; set; }
 
         /// <summary>
-        /// Descripción del error.
+        /// Descripción detallada del error de validación.
         /// </summary>
-        /// <value>Descripción del error.</value>
+        /// <value>Descripción detallada del error de validación.</value>
         /*
         <example>El campo FechaVencimientoSecuencia es requerido</example>
         */
         [DataMember(Name = "message", IsRequired = true, EmitDefaultValue = true)]
         public string Message { get; set; }
+
+        /// <summary>
+        /// Mensaje de error (alias legado).
+        /// </summary>
+        /// <value>Mensaje de error (alias legado).</value>
+        /*
+        <example>El campo FechaVencimientoSecuencia es requerido</example>
+        */
+        [DataMember(Name = "error", EmitDefaultValue = false)]
+        public string Error { get; set; }
+
+        /// <summary>
+        /// Código de error (alias legado).
+        /// </summary>
+        /// <value>Código de error (alias legado).</value>
+        /*
+        <example>SCHEMA_VALIDATION_FAILED</example>
+        */
+        [DataMember(Name = "code", EmitDefaultValue = true)]
+        public Object Code { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,9 +164,14 @@ namespace Pronesoft.Ecf.Sdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class DocumentValidationErrorPayload {\n");
+            sb.Append("  DocumentId: ").Append(DocumentId).Append("\n");
             sb.Append("  Encf: ").Append(Encf).Append("\n");
+            sb.Append("  IssuerRnc: ").Append(IssuerRnc).Append("\n");
+            sb.Append("  DocumentType: ").Append(DocumentType).Append("\n");
             sb.Append("  ErrorCode: ").Append(ErrorCode).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Error: ").Append(Error).Append("\n");
+            sb.Append("  Code: ").Append(Code).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

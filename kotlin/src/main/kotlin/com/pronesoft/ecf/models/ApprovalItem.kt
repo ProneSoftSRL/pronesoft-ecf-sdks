@@ -37,7 +37,7 @@ import com.google.gson.annotations.SerializedName
  * @param buyerRnc 
  * @param totalAmount 
  * @param approvalStatus 
- * @param status 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+ * @param status 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
  * @param statusLabel 
  * @param issueDate 
  * @param receivedAt 
@@ -70,7 +70,7 @@ data class ApprovalItem (
     @SerializedName("approvalStatus")
     val approvalStatus: kotlin.String? = null,
 
-    /* 1=Approved, 2=Rejected, 3=Pending, 4=Under Review */
+    /* 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión */
     @SerializedName("status")
     val status: ApprovalItem.Status? = null,
 
@@ -95,7 +95,7 @@ data class ApprovalItem (
 ) {
 
     /**
-     * 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+     * 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
      *
      * Values: _1,_2,_3,_4
      */

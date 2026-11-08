@@ -29,7 +29,7 @@ class ItemAdditionalTax(BaseModel):
     """
     ItemAdditionalTax
     """ # noqa: E501
-    code: StrictStr = Field(description="DGII tax code (e.g. ISC, IECS)")
+    code: StrictStr = Field(description="Código de impuesto DGII (ej. ISC, IECS)")
     amount: Optional[ItemWithheldITBISAmount] = None
     rate: Optional[Union[StrictFloat, StrictInt]] = None
     alternative_currency_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="alternativeCurrencyAmount")

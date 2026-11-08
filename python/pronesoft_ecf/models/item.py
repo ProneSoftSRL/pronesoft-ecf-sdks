@@ -46,7 +46,7 @@ class Item(BaseModel):
     codes: Optional[List[ItemCodesInner]] = None
     name: Annotated[str, Field(strict=True, max_length=80)]
     description: Optional[Annotated[str, Field(strict=True, max_length=1000)]] = None
-    type: StrictStr = Field(description="1=Good, 2=Service")
+    type: StrictStr = Field(description="1=Bien, 2=Servicio")
     billing_indicator: BillingIndicator = Field(alias="billingIndicator")
     withholding_agent_indicator: Optional[StrictInt] = Field(default=None, alias="withholdingAgentIndicator")
     withheld_itbis_amount: Optional[ItemWithheldITBISAmount] = Field(default=None, alias="withheldITBISAmount")

@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **buyerRnc** | **String** |  | [optional] 
 **totalAmount** | **num** |  | [optional] 
 **approvalStatus** | **String** |  | [optional] 
-**status** | **int** | 1=Approved, 2=Rejected, 3=Pending, 4=Under Review | [optional] 
+**status** | **int** | 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión | [optional] 
 **statusLabel** | **String** |  | [optional] 
 **issueDate** | [**DateTime**](DateTime.md) |  | [optional] 
 **receivedAt** | [**DateTime**](DateTime.md) |  | [optional] 

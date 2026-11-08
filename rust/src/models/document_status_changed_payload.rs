@@ -11,37 +11,37 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// DocumentStatusChangedPayload : Payload inside `data` when event is `document.status_changed`. Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed. `issuerRnc` identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
+/// DocumentStatusChangedPayload : Contenido del campo `data` cuando el evento es `document.status_changed`. Usa `documentId` para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. `issuerRnc` identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió). 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct DocumentStatusChangedPayload {
-    /// Internal document ID for polling.
+    /// ID interno del documento para hacer polling.
     #[serde(rename = "documentId")]
     pub document_id: uuid::Uuid,
-    /// e-NCF fiscal number.
+    /// Número fiscal e-NCF.
     #[serde(rename = "encf")]
     pub encf: String,
-    /// RNC of the issuing company (associated or main).
+    /// RNC de la empresa emisora (asociada o principal).
     #[serde(rename = "issuerRnc")]
     pub issuer_rnc: String,
-    /// Public lifecycle status.
+    /// Estado del ciclo de vida del documento.
     #[serde(rename = "status")]
     pub status: Status,
-    /// Fiscal result from DGII. Only present when status=FINISHED.
+    /// Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
     #[serde(rename = "legalStatus", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub legal_status: Option<Option<LegalStatus>>,
-    /// Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+    /// Código del tipo de documento (31=Factura, 32=Nota de Crédito, etc.)
     #[serde(rename = "documentType", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub document_type: Option<Option<String>>,
-    /// DGII tracking ID.
+    /// ID de seguimiento asignado por la DGII.
     #[serde(rename = "trackId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub track_id: Option<Option<String>>,
-    /// Human-readable DGII response message.
+    /// Mensaje legible de respuesta de la DGII.
     #[serde(rename = "dgiiMessage", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub dgii_message: Option<Option<String>>,
 }
 
 impl DocumentStatusChangedPayload {
-    /// Payload inside `data` when event is `document.status_changed`. Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed. `issuerRnc` identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
+    /// Contenido del campo `data` cuando el evento es `document.status_changed`. Usa `documentId` para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. `issuerRnc` identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió). 
     pub fn new(document_id: uuid::Uuid, encf: String, issuer_rnc: String, status: Status) -> DocumentStatusChangedPayload {
         DocumentStatusChangedPayload {
             document_id,
@@ -55,7 +55,7 @@ impl DocumentStatusChangedPayload {
         }
     }
 }
-/// Public lifecycle status.
+/// Estado del ciclo de vida del documento.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {
     #[serde(rename = "REGISTERED")]
@@ -73,7 +73,7 @@ impl Default for Status {
         Self::Registered
     }
 }
-/// Fiscal result from DGII. Only present when status=FINISHED.
+/// Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum LegalStatus {
     #[serde(rename = "ACCEPTED")]

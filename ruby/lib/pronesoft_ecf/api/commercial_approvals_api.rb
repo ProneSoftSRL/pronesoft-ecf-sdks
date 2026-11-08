@@ -89,8 +89,8 @@ module PronesoftEcf
     # @option opts [String] :ecf 
     # @option opts [String] :type Tipo de documento
     # @option opts [Integer] :status 
-    # @option opts [Date] :date_from 
-    # @option opts [Date] :date_to 
+    # @option opts [String] :date_from Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+    # @option opts [String] :date_to Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :limit  (default to 10)
     # @return [ApprovalListResponse]
@@ -105,8 +105,8 @@ module PronesoftEcf
     # @option opts [String] :ecf 
     # @option opts [String] :type Tipo de documento
     # @option opts [Integer] :status 
-    # @option opts [Date] :date_from 
-    # @option opts [Date] :date_to 
+    # @option opts [String] :date_from Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+    # @option opts [String] :date_to Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :limit  (default to 10)
     # @return [Array<(ApprovalListResponse, Integer, Hash)>] ApprovalListResponse data, response status code and response headers

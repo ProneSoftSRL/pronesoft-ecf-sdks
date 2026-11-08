@@ -75,8 +75,8 @@ export interface ListSentDocumentsRequest {
     ecf?: string;
     type?: string;
     status?: ListSentDocumentsStatusEnum;
-    dateFrom?: Date;
-    dateTo?: Date;
+    dateFrom?: string;
+    dateTo?: string;
     page?: number;
     limit?: number;
 }
@@ -264,8 +264,8 @@ export interface DocumentsSentApiInterface {
      * @param {string} [ecf] 
      * @param {string} [type] 
      * @param {'APPROVED' | 'REJECTED' | 'IN_PROCESS' | 'CONTINGENCY' | 'ERROR'} [status] 
-     * @param {Date} [dateFrom] 
-     * @param {Date} [dateTo] 
+     * @param {string} [dateFrom] Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+     * @param {string} [dateTo] Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
      * @param {number} [page] 
      * @param {number} [limit] 
      * @throws {RequiredError}
@@ -281,8 +281,8 @@ export interface DocumentsSentApiInterface {
      * @param {string} [ecf] 
      * @param {string} [type] 
      * @param {'APPROVED' | 'REJECTED' | 'IN_PROCESS' | 'CONTINGENCY' | 'ERROR'} [status] 
-     * @param {Date} [dateFrom] 
-     * @param {Date} [dateTo] 
+     * @param {string} [dateFrom] Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+     * @param {string} [dateTo] Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
      * @param {number} [page] 
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
@@ -684,11 +684,11 @@ export class DocumentsSentApi extends runtime.BaseAPI implements DocumentsSentAp
         }
 
         if (requestParameters['dateFrom'] != null) {
-            queryParameters['dateFrom'] = (requestParameters['dateFrom'] as any).toISOString().substring(0,10);
+            queryParameters['dateFrom'] = requestParameters['dateFrom'];
         }
 
         if (requestParameters['dateTo'] != null) {
-            queryParameters['dateTo'] = (requestParameters['dateTo'] as any).toISOString().substring(0,10);
+            queryParameters['dateTo'] = requestParameters['dateTo'];
         }
 
         if (requestParameters['page'] != null) {

@@ -29,6 +29,31 @@ namespace Pronesoft.Ecf.Sdk.Api
     {
         #region Synchronous Operations
         /// <summary>
+        /// Aprobar o rechazar comercialmente un documento recibido
+        /// </summary>
+        /// <remarks>
+        /// Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID del documento recibido (TaxDocumentReceived.id)</param>
+        /// <param name="decideCommercialApprovalRequest"></param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <returns>DecideCommercialApprovalResponse</returns>
+        DecideCommercialApprovalResponse DecideCommercialApproval(Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = default);
+
+        /// <summary>
+        /// Aprobar o rechazar comercialmente un documento recibido
+        /// </summary>
+        /// <remarks>
+        /// Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID del documento recibido (TaxDocumentReceived.id)</param>
+        /// <param name="decideCommercialApprovalRequest"></param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <returns>ApiResponse of DecideCommercialApprovalResponse</returns>
+        ApiResponse<DecideCommercialApprovalResponse> DecideCommercialApprovalWithHttpInfo(Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = default);
+        /// <summary>
         /// Obtener documento recibido por ID
         /// </summary>
         /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
@@ -96,12 +121,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="amountFrom"> (optional)</param>
         /// <param name="amountTo"> (optional)</param>
         /// <param name="processed"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ReceivedDocumentListResponse</returns>
-        ReceivedDocumentListResponse ListReceivedDocuments(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default);
+        ReceivedDocumentListResponse ListReceivedDocuments(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
 
         /// <summary>
         /// Listar documentos recibidos
@@ -118,12 +143,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="amountFrom"> (optional)</param>
         /// <param name="amountTo"> (optional)</param>
         /// <param name="processed"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ReceivedDocumentListResponse</returns>
-        ApiResponse<ReceivedDocumentListResponse> ListReceivedDocumentsWithHttpInfo(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default);
+        ApiResponse<ReceivedDocumentListResponse> ListReceivedDocumentsWithHttpInfo(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
         #endregion Synchronous Operations
     }
 
@@ -133,6 +158,33 @@ namespace Pronesoft.Ecf.Sdk.Api
     public interface IDocumentsReceivedApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
+        /// <summary>
+        /// Aprobar o rechazar comercialmente un documento recibido
+        /// </summary>
+        /// <remarks>
+        /// Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID del documento recibido (TaxDocumentReceived.id)</param>
+        /// <param name="decideCommercialApprovalRequest"></param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of DecideCommercialApprovalResponse</returns>
+        System.Threading.Tasks.Task<DecideCommercialApprovalResponse> DecideCommercialApprovalAsync(Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Aprobar o rechazar comercialmente un documento recibido
+        /// </summary>
+        /// <remarks>
+        /// Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+        /// </remarks>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID del documento recibido (TaxDocumentReceived.id)</param>
+        /// <param name="decideCommercialApprovalRequest"></param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (DecideCommercialApprovalResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<DecideCommercialApprovalResponse>> DecideCommercialApprovalWithHttpInfoAsync(Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Obtener documento recibido por ID
         /// </summary>
@@ -219,13 +271,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="amountFrom"> (optional)</param>
         /// <param name="amountTo"> (optional)</param>
         /// <param name="processed"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ReceivedDocumentListResponse</returns>
-        System.Threading.Tasks.Task<ReceivedDocumentListResponse> ListReceivedDocumentsAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ReceivedDocumentListResponse> ListReceivedDocumentsAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Listar documentos recibidos
@@ -242,13 +294,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="amountFrom"> (optional)</param>
         /// <param name="amountTo"> (optional)</param>
         /// <param name="processed"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ReceivedDocumentListResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ReceivedDocumentListResponse>> ListReceivedDocumentsWithHttpInfoAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<ReceivedDocumentListResponse>> ListReceivedDocumentsWithHttpInfoAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -460,6 +512,153 @@ namespace Pronesoft.Ecf.Sdk.Api
                 return _exceptionFactory;
             }
             set { _exceptionFactory = value; }
+        }
+
+        /// <summary>
+        /// Aprobar o rechazar comercialmente un documento recibido Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID del documento recibido (TaxDocumentReceived.id)</param>
+        /// <param name="decideCommercialApprovalRequest"></param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <returns>DecideCommercialApprovalResponse</returns>
+        public DecideCommercialApprovalResponse DecideCommercialApproval(Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = default)
+        {
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<DecideCommercialApprovalResponse> localVarResponse = DecideCommercialApprovalWithHttpInfo(id, decideCommercialApprovalRequest, xTenantId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Aprobar o rechazar comercialmente un documento recibido Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID del documento recibido (TaxDocumentReceived.id)</param>
+        /// <param name="decideCommercialApprovalRequest"></param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <returns>ApiResponse of DecideCommercialApprovalResponse</returns>
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<DecideCommercialApprovalResponse> DecideCommercialApprovalWithHttpInfo(Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = default)
+        {
+            // verify the required parameter 'decideCommercialApprovalRequest' is set
+            if (decideCommercialApprovalRequest == null)
+                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'decideCommercialApprovalRequest' when calling DocumentsReceivedApi->DecideCommercialApproval");
+
+            Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(id)); // path parameter
+            if (xTenantId != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("x-tenant-id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(xTenantId)); // header parameter
+            }
+            localVarRequestOptions.Data = decideCommercialApprovalRequest;
+
+            // authentication (oauth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<DecideCommercialApprovalResponse>("/documents/received/{id}/commercial-approval", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DecideCommercialApproval", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Aprobar o rechazar comercialmente un documento recibido Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID del documento recibido (TaxDocumentReceived.id)</param>
+        /// <param name="decideCommercialApprovalRequest"></param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of DecideCommercialApprovalResponse</returns>
+        public async System.Threading.Tasks.Task<DecideCommercialApprovalResponse> DecideCommercialApprovalAsync(Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Pronesoft.Ecf.Sdk.Client.ApiResponse<DecideCommercialApprovalResponse> localVarResponse = await DecideCommercialApprovalWithHttpInfoAsync(id, decideCommercialApprovalRequest, xTenantId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Aprobar o rechazar comercialmente un documento recibido Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+        /// </summary>
+        /// <exception cref="Pronesoft.Ecf.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="id">ID del documento recibido (TaxDocumentReceived.id)</param>
+        /// <param name="decideCommercialApprovalRequest"></param>
+        /// <param name="xTenantId">UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (DecideCommercialApprovalResponse)</returns>
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<DecideCommercialApprovalResponse>> DecideCommercialApprovalWithHttpInfoAsync(Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'decideCommercialApprovalRequest' is set
+            if (decideCommercialApprovalRequest == null)
+                throw new Pronesoft.Ecf.Sdk.Client.ApiException(400, "Missing required parameter 'decideCommercialApprovalRequest' when calling DocumentsReceivedApi->DecideCommercialApproval");
+
+
+            Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Pronesoft.Ecf.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.PathParameters.Add("id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(id)); // path parameter
+            if (xTenantId != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("x-tenant-id", Pronesoft.Ecf.Sdk.Client.ClientUtils.ParameterToString(xTenantId)); // header parameter
+            }
+            localVarRequestOptions.Data = decideCommercialApprovalRequest;
+
+            // authentication (oauth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<DecideCommercialApprovalResponse>("/documents/received/{id}/commercial-approval", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("DecideCommercialApproval", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
         }
 
         /// <summary>
@@ -855,12 +1054,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="amountFrom"> (optional)</param>
         /// <param name="amountTo"> (optional)</param>
         /// <param name="processed"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ReceivedDocumentListResponse</returns>
-        public ReceivedDocumentListResponse ListReceivedDocuments(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default)
+        public ReceivedDocumentListResponse ListReceivedDocuments(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> localVarResponse = ListReceivedDocumentsWithHttpInfo(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit);
             return localVarResponse.Data;
@@ -878,12 +1077,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="amountFrom"> (optional)</param>
         /// <param name="amountTo"> (optional)</param>
         /// <param name="processed"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of ReceivedDocumentListResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> ListReceivedDocumentsWithHttpInfo(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> ListReceivedDocumentsWithHttpInfo(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -981,13 +1180,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="amountFrom"> (optional)</param>
         /// <param name="amountTo"> (optional)</param>
         /// <param name="processed"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ReceivedDocumentListResponse</returns>
-        public async System.Threading.Tasks.Task<ReceivedDocumentListResponse> ListReceivedDocumentsAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<ReceivedDocumentListResponse> ListReceivedDocumentsAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse> localVarResponse = await ListReceivedDocumentsWithHttpInfoAsync(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1005,13 +1204,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="amountFrom"> (optional)</param>
         /// <param name="amountTo"> (optional)</param>
         /// <param name="processed"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ReceivedDocumentListResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse>> ListReceivedDocumentsWithHttpInfoAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<ReceivedDocumentListResponse>> ListReceivedDocumentsWithHttpInfoAsync(Guid? xTenantId = default, string? ecf = default, string? type = default, int? status = default, string? supplierRnc = default, decimal? amountFrom = default, decimal? amountTo = default, bool? processed = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();

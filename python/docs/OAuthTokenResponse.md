@@ -1,6 +1,6 @@
 # OAuthTokenResponse
 
-Bearer token valid for 24 hours (86400 seconds).
+Token de acceso Bearer válido por 24 horas (86400 segundos).
 
 ## Properties
 
@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **access_token** | **str** |  | [optional] 
 **token_type** | **str** |  | [optional] 
-**expires_in** | **int** | Token lifetime in seconds (24 hours &#x3D; 86400). | [optional] 
+**expires_in** | **int** | Duración del token en segundos (24 horas &#x3D; 86400). | [optional] 
 **scope** | **List[str]** |  | [optional] 
 
 ## Example

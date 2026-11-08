@@ -99,8 +99,8 @@ $x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empr
 $ecf = 'ecf_example'; // string
 $type = 'type_example'; // string | Tipo de documento
 $status = 56; // int
-$date_from = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
-$date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
+$date_from = 'date_from_example'; // string | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+$date_to = 'date_to_example'; // string | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 $page = 1; // int
 $limit = 10; // int
 
@@ -120,8 +120,8 @@ try {
 | **ecf** | **string**|  | [optional] |
 | **type** | **string**| Tipo de documento | [optional] |
 | **status** | **int**|  | [optional] |
-| **date_from** | **\DateTime**|  | [optional] |
-| **date_to** | **\DateTime**|  | [optional] |
+| **date_from** | **string**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
+| **date_to** | **string**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
 | **page** | **int**|  | [optional] [default to 1] |
 | **limit** | **int**|  | [optional] [default to 10] |
 

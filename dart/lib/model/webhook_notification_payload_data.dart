@@ -29,6 +29,8 @@ class WebhookNotificationPayloadData {
     this.rejectionReason,
     required this.errorCode,
     required this.message,
+    this.error,
+    this.code,
     required this.reason,
     this.retryAt,
     required this.approvalStatus,
@@ -67,27 +69,27 @@ class WebhookNotificationPayloadData {
     required this.completedAt,
   });
 
-  /// Internal document ID for polling.
+  /// ID interno del documento en Pronesoft.
   String documentId;
 
   String encf;
 
-  /// RNC of the issuing company (associated or main).
+  /// RNC de la empresa emisora del documento.
   String issuerRnc;
 
   /// Estado final del proceso.
   String status;
 
-  /// Fiscal result from DGII. Only present when status=FINISHED.
+  /// Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
   WebhookNotificationPayloadDataLegalStatusEnum? legalStatus;
 
-  /// Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+  /// Tipo de comprobante (31, 32, 33, 34, etc.).
   String? documentType;
 
-  /// DGII tracking ID.
+  /// ID de seguimiento asignado por la DGII.
   String? trackId;
 
-  /// Human-readable DGII response message.
+  /// Mensaje legible de respuesta de la DGII.
   String? dgiiMessage;
 
   String senderRnc;
@@ -104,11 +106,23 @@ class WebhookNotificationPayloadData {
   /// Razón del rechazo (solo si status es 'rejected').
   String? rejectionReason;
 
-  /// Código de error de validación.
+  /// Código del error de validación.
   String errorCode;
 
-  /// Descripción del error.
+  /// Descripción detallada del error de validación.
   String message;
+
+  /// Mensaje de error (alias legado).
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? error;
+
+  /// Código de error (alias legado).
+  Object? code;
 
   /// Motivo de la anulación.
   String reason;
@@ -218,6 +232,8 @@ class WebhookNotificationPayloadData {
     other.rejectionReason == rejectionReason &&
     other.errorCode == errorCode &&
     other.message == message &&
+    other.error == error &&
+    other.code == code &&
     other.reason == reason &&
     other.retryAt == retryAt &&
     other.approvalStatus == approvalStatus &&
@@ -274,6 +290,8 @@ class WebhookNotificationPayloadData {
     (rejectionReason == null ? 0 : rejectionReason!.hashCode) +
     (errorCode.hashCode) +
     (message.hashCode) +
+    (error == null ? 0 : error!.hashCode) +
+    (code == null ? 0 : code!.hashCode) +
     (reason.hashCode) +
     (retryAt == null ? 0 : retryAt!.hashCode) +
     (approvalStatus.hashCode) +
@@ -312,7 +330,7 @@ class WebhookNotificationPayloadData {
     (completedAt.hashCode);
 
   @override
-  String toString() => 'WebhookNotificationPayloadData[documentId=$documentId, encf=$encf, issuerRnc=$issuerRnc, status=$status, legalStatus=$legalStatus, documentType=$documentType, trackId=$trackId, dgiiMessage=$dgiiMessage, senderRnc=$senderRnc, receiverRnc=$receiverRnc, totalAmount=$totalAmount, issueDate=$issueDate, receivedAt=$receivedAt, rejectionReason=$rejectionReason, errorCode=$errorCode, message=$message, reason=$reason, retryAt=$retryAt, approvalStatus=$approvalStatus, approvalDate=$approvalDate, rejectionCode=$rejectionCode, rejectionDescription=$rejectionDescription, expirationDate=$expirationDate, daysLeft=$daysLeft, ip=$ip, userAgent=$userAgent, city=$city, appId=$appId, rotatedAt=$rotatedAt, usagePercent=$usagePercent, remainingDocs=$remainingDocs, invoiceId=$invoiceId, amount=$amount, pdfUrl=$pdfUrl, sequenceType=$sequenceType, remaining=$remaining, alertLevel=$alertLevel, voidedRange=$voidedRange, branchId=$branchId, rnc=$rnc, name=$name, newStatus=$newStatus, email=$email, role=$role, invitedBy=$invitedBy, userId=$userId, joinedAt=$joinedAt, removedBy=$removedBy, processId=$processId, businessName=$businessName, downloadUrl=$downloadUrl, completedAt=$completedAt]';
+  String toString() => 'WebhookNotificationPayloadData[documentId=$documentId, encf=$encf, issuerRnc=$issuerRnc, status=$status, legalStatus=$legalStatus, documentType=$documentType, trackId=$trackId, dgiiMessage=$dgiiMessage, senderRnc=$senderRnc, receiverRnc=$receiverRnc, totalAmount=$totalAmount, issueDate=$issueDate, receivedAt=$receivedAt, rejectionReason=$rejectionReason, errorCode=$errorCode, message=$message, error=$error, code=$code, reason=$reason, retryAt=$retryAt, approvalStatus=$approvalStatus, approvalDate=$approvalDate, rejectionCode=$rejectionCode, rejectionDescription=$rejectionDescription, expirationDate=$expirationDate, daysLeft=$daysLeft, ip=$ip, userAgent=$userAgent, city=$city, appId=$appId, rotatedAt=$rotatedAt, usagePercent=$usagePercent, remainingDocs=$remainingDocs, invoiceId=$invoiceId, amount=$amount, pdfUrl=$pdfUrl, sequenceType=$sequenceType, remaining=$remaining, alertLevel=$alertLevel, voidedRange=$voidedRange, branchId=$branchId, rnc=$rnc, name=$name, newStatus=$newStatus, email=$email, role=$role, invitedBy=$invitedBy, userId=$userId, joinedAt=$joinedAt, removedBy=$removedBy, processId=$processId, businessName=$businessName, downloadUrl=$downloadUrl, completedAt=$completedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -352,6 +370,16 @@ class WebhookNotificationPayloadData {
     }
       json[r'errorCode'] = this.errorCode;
       json[r'message'] = this.message;
+    if (this.error != null) {
+      json[r'error'] = this.error;
+    } else {
+      json[r'error'] = null;
+    }
+    if (this.code != null) {
+      json[r'code'] = this.code;
+    } else {
+      json[r'code'] = null;
+    }
       json[r'reason'] = this.reason;
     if (this.retryAt != null) {
       json[r'retryAt'] = this.retryAt!.toUtc().toIso8601String();
@@ -526,6 +554,8 @@ class WebhookNotificationPayloadData {
         rejectionReason: mapValueOfType<String>(json, r'rejectionReason'),
         errorCode: mapValueOfType<String>(json, r'errorCode')!,
         message: mapValueOfType<String>(json, r'message')!,
+        error: mapValueOfType<String>(json, r'error'),
+        code: mapValueOfType<Object>(json, r'code'),
         reason: mapValueOfType<String>(json, r'reason')!,
         retryAt: mapDateTime(json, r'retryAt', r''),
         approvalStatus: WebhookNotificationPayloadDataApprovalStatusEnum.fromJson(json[r'approvalStatus'])!,
@@ -654,7 +684,7 @@ class WebhookNotificationPayloadData {
   };
 }
 
-/// Fiscal result from DGII. Only present when status=FINISHED.
+/// Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
 class WebhookNotificationPayloadDataLegalStatusEnum {
   /// Instantiate a new enum with the provided [value].
   const WebhookNotificationPayloadDataLegalStatusEnum._(this.value);

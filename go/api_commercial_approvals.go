@@ -180,11 +180,13 @@ func (r ApiListCommercialApprovalsRequest) Status(status int32) ApiListCommercia
 	return r
 }
 
+// Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
 func (r ApiListCommercialApprovalsRequest) DateFrom(dateFrom string) ApiListCommercialApprovalsRequest {
 	r.dateFrom = &dateFrom
 	return r
 }
 
+// Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 func (r ApiListCommercialApprovalsRequest) DateTo(dateTo string) ApiListCommercialApprovalsRequest {
 	r.dateTo = &dateTo
 	return r

@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **codes** | Option<[**Vec<models::ItemCodesInner>**](ItemCodesInner.md)> |  | [optional]
 **name** | **String** |  | 
 **description** | Option<**String**> |  | [optional]
-**r#type** | **Type** | 1=Good, 2=Service (enum: 1, 2) | 
+**r#type** | **Type** | 1=Bien, 2=Servicio (enum: 1, 2) | 
 **billing_indicator** | [**models::BillingIndicator**](BillingIndicator.md) |  | 
 **withholding_agent_indicator** | Option<**i32**> |  | [optional]
 **withheld_itbis_amount** | Option<[**models::ItemWithheldItbisAmount**](ItemWithheldITBISAmount.md)> |  | [optional]

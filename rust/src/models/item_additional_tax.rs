@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ItemAdditionalTax {
-    /// DGII tax code (e.g. ISC, IECS)
+    /// Código de impuesto DGII (ej. ISC, IECS)
     #[serde(rename = "code")]
     pub code: String,
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]

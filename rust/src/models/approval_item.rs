@@ -27,7 +27,7 @@ pub struct ApprovalItem {
     pub total_amount: Option<f64>,
     #[serde(rename = "approvalStatus", skip_serializing_if = "Option::is_none")]
     pub approval_status: Option<String>,
-    /// 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+    /// 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
     #[serde(rename = "statusLabel", skip_serializing_if = "Option::is_none")]
@@ -64,7 +64,7 @@ impl ApprovalItem {
         }
     }
 }
-/// 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+/// 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {
     #[serde(rename = "1")]

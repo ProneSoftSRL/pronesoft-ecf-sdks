@@ -7,9 +7,9 @@
 | **type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  |  |
 | **from** | **Integer** |  |  |
 | **to** | **Integer** |  |  |
-| **quantity** | **Integer** |  |  |
+| **quantity** | **Integer** |  | [optional] |
 | **expiration** | **Date** |  | [optional] |
-| **environment** | [**Environment**](Environment.md) |  |  |
+| **environment** | [**Environment**](Environment.md) |  | [optional] |
 
 ## Example
 

@@ -50,6 +50,8 @@ docs/ContingencyActivatedPayload.md
 docs/CreateAssociatedCompany201Response.md
 docs/CreateTaxSequence201Response.md
 docs/CreateTaxSequenceRequest.md
+docs/DecideCommercialApprovalRequest.md
+docs/DecideCommercialApprovalResponse.md
 docs/DeleteAssociatedCompany200Response.md
 docs/DgiiMessage.md
 docs/DigitalCertificatesAPI.md
@@ -66,6 +68,8 @@ docs/ECFSubmissionAPI.md
 docs/EcfHistoryItem.md
 docs/EcfStatsResponse.md
 docs/EcfStatusResponse.md
+docs/EcfStatusResponseGovernmentResponse.md
+docs/EcfStatusResponseGovernmentResponseValueInner.md
 docs/EcfSubmitResponse.md
 docs/EcfSubmitResponseCompanyIdentification.md
 docs/ElectronicDocument.md
@@ -150,8 +154,6 @@ docs/WebhookNotificationPayloadData.md
 docs/WebhookStats.md
 docs/WebhookStatsStats.md
 git_push.sh
-go.mod
-go.sum
 model_account_type.go
 model_additional_info.go
 model_additional_tax.go
@@ -183,6 +185,8 @@ model_contingency_activated_payload.go
 model_create_associated_company_201_response.go
 model_create_tax_sequence_201_response.go
 model_create_tax_sequence_request.go
+model_decide_commercial_approval_request.go
+model_decide_commercial_approval_response.go
 model_delete_associated_company_200_response.go
 model_dgii_message.go
 model_discount_or_surcharge.go
@@ -195,6 +199,8 @@ model_document_validation_error_payload.go
 model_ecf_history_item.go
 model_ecf_stats_response.go
 model_ecf_status_response.go
+model_ecf_status_response_government_response.go
+model_ecf_status_response_government_response_value_inner.go
 model_ecf_submit_response.go
 model_ecf_submit_response_company_identification.go
 model_electronic_document.go

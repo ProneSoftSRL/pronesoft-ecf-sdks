@@ -17,7 +17,7 @@ extension PronesoftEcfAPI {
 
 public struct ItemAdditionalTax: Codable, JSONEncodable, Hashable {
 
-    /** DGII tax code (e.g. ISC, IECS) */
+    /** Código de impuesto DGII (ej. ISC, IECS) */
     public var code: String
     public var amount: ItemWithheldITBISAmount?
     public var rate: Double?

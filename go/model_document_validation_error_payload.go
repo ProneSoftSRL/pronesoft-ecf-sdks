@@ -22,11 +22,22 @@ var _ MappedNullable = &DocumentValidationErrorPayload{}
 
 // DocumentValidationErrorPayload Payload del evento `document.validation_error`. El documento fue rechazado por validación local antes de enviarse a la DGII.
 type DocumentValidationErrorPayload struct {
-	Encf string `json:"encf"`
-	// Código de error de validación.
+	// ID interno del documento en Pronesoft.
+	DocumentId string `json:"documentId"`
+	// Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).
+	Encf NullableString `json:"encf,omitempty"`
+	// RNC de la empresa emisora del documento.
+	IssuerRnc string `json:"issuerRnc"`
+	// Tipo de comprobante (31, 32, 33, 34, etc.).
+	DocumentType NullableString `json:"documentType,omitempty"`
+	// Código del error de validación.
 	ErrorCode string `json:"errorCode"`
-	// Descripción del error.
+	// Descripción detallada del error de validación.
 	Message string `json:"message"`
+	// Mensaje de error (alias legado).
+	Error *string `json:"error,omitempty"`
+	// Código de error (alias legado).
+	Code interface{} `json:"code,omitempty"`
 }
 
 type _DocumentValidationErrorPayload DocumentValidationErrorPayload
@@ -35,9 +46,10 @@ type _DocumentValidationErrorPayload DocumentValidationErrorPayload
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDocumentValidationErrorPayload(encf string, errorCode string, message string) *DocumentValidationErrorPayload {
+func NewDocumentValidationErrorPayload(documentId string, issuerRnc string, errorCode string, message string) *DocumentValidationErrorPayload {
 	this := DocumentValidationErrorPayload{}
-	this.Encf = encf
+	this.DocumentId = documentId
+	this.IssuerRnc = issuerRnc
 	this.ErrorCode = errorCode
 	this.Message = message
 	return &this
@@ -51,28 +63,136 @@ func NewDocumentValidationErrorPayloadWithDefaults() *DocumentValidationErrorPay
 	return &this
 }
 
-// GetEncf returns the Encf field value
-func (o *DocumentValidationErrorPayload) GetEncf() string {
+// GetDocumentId returns the DocumentId field value
+func (o *DocumentValidationErrorPayload) GetDocumentId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Encf
+	return o.DocumentId
 }
 
-// GetEncfOk returns a tuple with the Encf field value
+// GetDocumentIdOk returns a tuple with the DocumentId field value
 // and a boolean to check if the value has been set.
+func (o *DocumentValidationErrorPayload) GetDocumentIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DocumentId, true
+}
+
+// SetDocumentId sets field value
+func (o *DocumentValidationErrorPayload) SetDocumentId(v string) {
+	o.DocumentId = v
+}
+
+// GetEncf returns the Encf field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DocumentValidationErrorPayload) GetEncf() string {
+	if o == nil || IsNil(o.Encf.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Encf.Get()
+}
+
+// GetEncfOk returns a tuple with the Encf field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DocumentValidationErrorPayload) GetEncfOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Encf, true
+	return o.Encf.Get(), o.Encf.IsSet()
 }
 
-// SetEncf sets field value
+// HasEncf returns a boolean if a field has been set.
+func (o *DocumentValidationErrorPayload) HasEncf() bool {
+	if o != nil && o.Encf.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetEncf gets a reference to the given NullableString and assigns it to the Encf field.
 func (o *DocumentValidationErrorPayload) SetEncf(v string) {
-	o.Encf = v
+	o.Encf.Set(&v)
+}
+// SetEncfNil sets the value for Encf to be an explicit nil
+func (o *DocumentValidationErrorPayload) SetEncfNil() {
+	o.Encf.Set(nil)
+}
+
+// UnsetEncf ensures that no value is present for Encf, not even an explicit nil
+func (o *DocumentValidationErrorPayload) UnsetEncf() {
+	o.Encf.Unset()
+}
+
+// GetIssuerRnc returns the IssuerRnc field value
+func (o *DocumentValidationErrorPayload) GetIssuerRnc() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.IssuerRnc
+}
+
+// GetIssuerRncOk returns a tuple with the IssuerRnc field value
+// and a boolean to check if the value has been set.
+func (o *DocumentValidationErrorPayload) GetIssuerRncOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IssuerRnc, true
+}
+
+// SetIssuerRnc sets field value
+func (o *DocumentValidationErrorPayload) SetIssuerRnc(v string) {
+	o.IssuerRnc = v
+}
+
+// GetDocumentType returns the DocumentType field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DocumentValidationErrorPayload) GetDocumentType() string {
+	if o == nil || IsNil(o.DocumentType.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.DocumentType.Get()
+}
+
+// GetDocumentTypeOk returns a tuple with the DocumentType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *DocumentValidationErrorPayload) GetDocumentTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DocumentType.Get(), o.DocumentType.IsSet()
+}
+
+// HasDocumentType returns a boolean if a field has been set.
+func (o *DocumentValidationErrorPayload) HasDocumentType() bool {
+	if o != nil && o.DocumentType.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetDocumentType gets a reference to the given NullableString and assigns it to the DocumentType field.
+func (o *DocumentValidationErrorPayload) SetDocumentType(v string) {
+	o.DocumentType.Set(&v)
+}
+// SetDocumentTypeNil sets the value for DocumentType to be an explicit nil
+func (o *DocumentValidationErrorPayload) SetDocumentTypeNil() {
+	o.DocumentType.Set(nil)
+}
+
+// UnsetDocumentType ensures that no value is present for DocumentType, not even an explicit nil
+func (o *DocumentValidationErrorPayload) UnsetDocumentType() {
+	o.DocumentType.Unset()
 }
 
 // GetErrorCode returns the ErrorCode field value
@@ -123,6 +243,71 @@ func (o *DocumentValidationErrorPayload) SetMessage(v string) {
 	o.Message = v
 }
 
+// GetError returns the Error field value if set, zero value otherwise.
+func (o *DocumentValidationErrorPayload) GetError() string {
+	if o == nil || IsNil(o.Error) {
+		var ret string
+		return ret
+	}
+	return *o.Error
+}
+
+// GetErrorOk returns a tuple with the Error field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DocumentValidationErrorPayload) GetErrorOk() (*string, bool) {
+	if o == nil || IsNil(o.Error) {
+		return nil, false
+	}
+	return o.Error, true
+}
+
+// HasError returns a boolean if a field has been set.
+func (o *DocumentValidationErrorPayload) HasError() bool {
+	if o != nil && !IsNil(o.Error) {
+		return true
+	}
+
+	return false
+}
+
+// SetError gets a reference to the given string and assigns it to the Error field.
+func (o *DocumentValidationErrorPayload) SetError(v string) {
+	o.Error = &v
+}
+
+// GetCode returns the Code field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DocumentValidationErrorPayload) GetCode() interface{} {
+	if o == nil {
+		var ret interface{}
+		return ret
+	}
+	return o.Code
+}
+
+// GetCodeOk returns a tuple with the Code field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *DocumentValidationErrorPayload) GetCodeOk() (*interface{}, bool) {
+	if o == nil || IsNil(o.Code) {
+		return nil, false
+	}
+	return &o.Code, true
+}
+
+// HasCode returns a boolean if a field has been set.
+func (o *DocumentValidationErrorPayload) HasCode() bool {
+	if o != nil && !IsNil(o.Code) {
+		return true
+	}
+
+	return false
+}
+
+// SetCode gets a reference to the given interface{} and assigns it to the Code field.
+func (o *DocumentValidationErrorPayload) SetCode(v interface{}) {
+	o.Code = v
+}
+
 func (o DocumentValidationErrorPayload) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -133,9 +318,22 @@ func (o DocumentValidationErrorPayload) MarshalJSON() ([]byte, error) {
 
 func (o DocumentValidationErrorPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["encf"] = o.Encf
+	toSerialize["documentId"] = o.DocumentId
+	if o.Encf.IsSet() {
+		toSerialize["encf"] = o.Encf.Get()
+	}
+	toSerialize["issuerRnc"] = o.IssuerRnc
+	if o.DocumentType.IsSet() {
+		toSerialize["documentType"] = o.DocumentType.Get()
+	}
 	toSerialize["errorCode"] = o.ErrorCode
 	toSerialize["message"] = o.Message
+	if !IsNil(o.Error) {
+		toSerialize["error"] = o.Error
+	}
+	if o.Code != nil {
+		toSerialize["code"] = o.Code
+	}
 	return toSerialize, nil
 }
 
@@ -144,7 +342,8 @@ func (o *DocumentValidationErrorPayload) UnmarshalJSON(data []byte) (err error) 
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"encf",
+		"documentId",
+		"issuerRnc",
 		"errorCode",
 		"message",
 	}

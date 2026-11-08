@@ -28,9 +28,9 @@ using OpenAPIDateConverter = Pronesoft.Ecf.Sdk.Client.OpenAPIDateConverter;
 namespace Pronesoft.Ecf.Sdk.Model
 {
     /// <summary>
-    /// TesteCF&#x3D;DGII test environment (no fiscal validity), CerteCF&#x3D;DGII certification, eCF&#x3D;production
+    /// TesteCF&#x3D;testing no DGII, CerteCF&#x3D;official certification, eCF&#x3D;production
     /// </summary>
-    /// <value>TesteCF&#x3D;DGII test environment (no fiscal validity), CerteCF&#x3D;DGII certification, eCF&#x3D;production</value>
+    /// <value>TesteCF&#x3D;testing no DGII, CerteCF&#x3D;official certification, eCF&#x3D;production</value>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum ModelEnvironment
     {

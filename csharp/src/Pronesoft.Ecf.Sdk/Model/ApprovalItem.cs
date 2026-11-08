@@ -34,9 +34,9 @@ namespace Pronesoft.Ecf.Sdk.Model
     public partial class ApprovalItem : IValidatableObject
     {
         /// <summary>
-        /// 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review
+        /// 1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión
         /// </summary>
-        /// <value>1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review</value>
+        /// <value>1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión</value>
         public enum StatusEnum
         {
             /// <summary>
@@ -62,9 +62,9 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review
+        /// 1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión
         /// </summary>
-        /// <value>1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review</value>
+        /// <value>1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status { get; set; }
         /// <summary>
@@ -77,7 +77,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="buyerRnc">buyerRnc.</param>
         /// <param name="totalAmount">totalAmount.</param>
         /// <param name="approvalStatus">approvalStatus.</param>
-        /// <param name="status">1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review.</param>
+        /// <param name="status">1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión.</param>
         /// <param name="statusLabel">statusLabel.</param>
         /// <param name="issueDate">issueDate.</param>
         /// <param name="receivedAt">receivedAt.</param>

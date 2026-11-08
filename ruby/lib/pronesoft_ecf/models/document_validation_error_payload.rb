@@ -16,20 +16,41 @@ require 'time'
 module PronesoftEcf
   # Payload del evento `document.validation_error`. El documento fue rechazado por validación local antes de enviarse a la DGII.
   class DocumentValidationErrorPayload < ApiModelBase
+    # ID interno del documento en Pronesoft.
+    attr_accessor :document_id
+
+    # Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).
     attr_accessor :encf
 
-    # Código de error de validación.
+    # RNC de la empresa emisora del documento.
+    attr_accessor :issuer_rnc
+
+    # Tipo de comprobante (31, 32, 33, 34, etc.).
+    attr_accessor :document_type
+
+    # Código del error de validación.
     attr_accessor :error_code
 
-    # Descripción del error.
+    # Descripción detallada del error de validación.
     attr_accessor :message
+
+    # Mensaje de error (alias legado).
+    attr_accessor :error
+
+    # Código de error (alias legado).
+    attr_accessor :code
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'document_id' => :'documentId',
         :'encf' => :'encf',
+        :'issuer_rnc' => :'issuerRnc',
+        :'document_type' => :'documentType',
         :'error_code' => :'errorCode',
-        :'message' => :'message'
+        :'message' => :'message',
+        :'error' => :'error',
+        :'code' => :'code'
       }
     end
 
@@ -46,15 +67,23 @@ module PronesoftEcf
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'document_id' => :'String',
         :'encf' => :'String',
+        :'issuer_rnc' => :'String',
+        :'document_type' => :'String',
         :'error_code' => :'String',
-        :'message' => :'String'
+        :'message' => :'String',
+        :'error' => :'String',
+        :'code' => :'Object'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'encf',
+        :'document_type',
+        :'code'
       ])
     end
 
@@ -74,10 +103,24 @@ module PronesoftEcf
         h[k.to_sym] = v
       }
 
+      if attributes.key?(:'document_id')
+        self.document_id = attributes[:'document_id']
+      else
+        self.document_id = nil
+      end
+
       if attributes.key?(:'encf')
         self.encf = attributes[:'encf']
+      end
+
+      if attributes.key?(:'issuer_rnc')
+        self.issuer_rnc = attributes[:'issuer_rnc']
       else
-        self.encf = nil
+        self.issuer_rnc = nil
+      end
+
+      if attributes.key?(:'document_type')
+        self.document_type = attributes[:'document_type']
       end
 
       if attributes.key?(:'error_code')
@@ -91,6 +134,14 @@ module PronesoftEcf
       else
         self.message = nil
       end
+
+      if attributes.key?(:'error')
+        self.error = attributes[:'error']
+      end
+
+      if attributes.key?(:'code')
+        self.code = attributes[:'code']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -98,8 +149,12 @@ module PronesoftEcf
     def list_invalid_properties
       warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
-      if @encf.nil?
-        invalid_properties.push('invalid value for "encf", encf cannot be nil.')
+      if @document_id.nil?
+        invalid_properties.push('invalid value for "document_id", document_id cannot be nil.')
+      end
+
+      if @issuer_rnc.nil?
+        invalid_properties.push('invalid value for "issuer_rnc", issuer_rnc cannot be nil.')
       end
 
       if @error_code.nil?
@@ -117,20 +172,31 @@ module PronesoftEcf
     # @return true if the model is valid
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if @encf.nil?
+      return false if @document_id.nil?
+      return false if @issuer_rnc.nil?
       return false if @error_code.nil?
       return false if @message.nil?
       true
     end
 
     # Custom attribute writer method with validation
-    # @param [Object] encf Value to be assigned
-    def encf=(encf)
-      if encf.nil?
-        fail ArgumentError, 'encf cannot be nil'
+    # @param [Object] document_id Value to be assigned
+    def document_id=(document_id)
+      if document_id.nil?
+        fail ArgumentError, 'document_id cannot be nil'
       end
 
-      @encf = encf
+      @document_id = document_id
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] issuer_rnc Value to be assigned
+    def issuer_rnc=(issuer_rnc)
+      if issuer_rnc.nil?
+        fail ArgumentError, 'issuer_rnc cannot be nil'
+      end
+
+      @issuer_rnc = issuer_rnc
     end
 
     # Custom attribute writer method with validation
@@ -158,9 +224,14 @@ module PronesoftEcf
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          document_id == o.document_id &&
           encf == o.encf &&
+          issuer_rnc == o.issuer_rnc &&
+          document_type == o.document_type &&
           error_code == o.error_code &&
-          message == o.message
+          message == o.message &&
+          error == o.error &&
+          code == o.code
     end
 
     # @see the `==` method
@@ -172,7 +243,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [encf, error_code, message].hash
+      [document_id, encf, issuer_rnc, document_type, error_code, message, error, code].hash
     end
 
     # Builds the object from hash

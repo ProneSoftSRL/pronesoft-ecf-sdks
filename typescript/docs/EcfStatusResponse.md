@@ -13,17 +13,14 @@ Name | Type
 `legalStatus` | string
 `companyIdentification` | [EcfSubmitResponseCompanyIdentification](EcfSubmitResponseCompanyIdentification.md)
 `trackId` | string
-`documentNumber` | string
 `encf` | string
-`contingencyMode` | boolean
-`contingencyMessage` | string
 `documentStampUrl` | string
 `pdf` | string
 `xmlUrl` | string
-`signatureDate` | Date
+`signatureDate` | string
 `securityCode` | string
 `sequenceConsumed` | boolean
-`governmentResponse` | { [key: string]: any; }
+`governmentResponse` | [EcfStatusResponseGovernmentResponse](EcfStatusResponseGovernmentResponse.md)
 
 ## Example
 
@@ -38,10 +35,7 @@ const example = {
   "legalStatus": null,
   "companyIdentification": null,
   "trackId": null,
-  "documentNumber": null,
   "encf": null,
-  "contingencyMode": null,
-  "contingencyMessage": null,
   "documentStampUrl": null,
   "pdf": null,
   "xmlUrl": null,

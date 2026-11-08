@@ -8,7 +8,7 @@
 | **codes** | [**Array&lt;ItemCodesInner&gt;**](ItemCodesInner.md) |  | [optional] |
 | **name** | **String** |  |  |
 | **description** | **String** |  | [optional] |
-| **type** | **String** | 1&#x3D;Good, 2&#x3D;Service |  |
+| **type** | **String** | 1&#x3D;Bien, 2&#x3D;Servicio |  |
 | **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  |  |
 | **withholding_agent_indicator** | **Integer** |  | [optional] |
 | **withheld_itbis_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] |

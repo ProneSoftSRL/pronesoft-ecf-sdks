@@ -37,6 +37,8 @@ docs/ContingencyActivatedPayload.md
 docs/CreateAssociatedCompany201Response.md
 docs/CreateTaxSequence201Response.md
 docs/CreateTaxSequenceRequest.md
+docs/DecideCommercialApprovalRequest.md
+docs/DecideCommercialApprovalResponse.md
 docs/DeleteAssociatedCompany200Response.md
 docs/DgiiMessage.md
 docs/DigitalCertificatesApi.md
@@ -52,6 +54,8 @@ docs/DocumentsSentApi.md
 docs/EcfHistoryItem.md
 docs/EcfStatsResponse.md
 docs/EcfStatusResponse.md
+docs/EcfStatusResponseGovernmentResponse.md
+docs/EcfStatusResponseGovernmentResponseValueInner.md
 docs/EcfSubmissionApi.md
 docs/EcfSubmitResponse.md
 docs/EcfSubmitResponseCompanyIdentification.md
@@ -182,6 +186,8 @@ src/models/contingency_activated_payload.rs
 src/models/create_associated_company_201_response.rs
 src/models/create_tax_sequence_201_response.rs
 src/models/create_tax_sequence_request.rs
+src/models/decide_commercial_approval_request.rs
+src/models/decide_commercial_approval_response.rs
 src/models/delete_associated_company_200_response.rs
 src/models/dgii_message.rs
 src/models/discount_or_surcharge.rs
@@ -194,6 +200,8 @@ src/models/document_validation_error_payload.rs
 src/models/ecf_history_item.rs
 src/models/ecf_stats_response.rs
 src/models/ecf_status_response.rs
+src/models/ecf_status_response_government_response.rs
+src/models/ecf_status_response_government_response_value_inner.rs
 src/models/ecf_submit_response.rs
 src/models/ecf_submit_response_company_identification.rs
 src/models/electronic_document.rs

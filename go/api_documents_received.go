@@ -24,6 +24,154 @@ import (
 // DocumentsReceivedAPIService DocumentsReceivedAPI service
 type DocumentsReceivedAPIService service
 
+type ApiDecideCommercialApprovalRequest struct {
+	ctx context.Context
+	ApiService *DocumentsReceivedAPIService
+	id string
+	decideCommercialApprovalRequest *DecideCommercialApprovalRequest
+	xTenantId *string
+}
+
+func (r ApiDecideCommercialApprovalRequest) DecideCommercialApprovalRequest(decideCommercialApprovalRequest DecideCommercialApprovalRequest) ApiDecideCommercialApprovalRequest {
+	r.decideCommercialApprovalRequest = &decideCommercialApprovalRequest
+	return r
+}
+
+// UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+func (r ApiDecideCommercialApprovalRequest) XTenantId(xTenantId string) ApiDecideCommercialApprovalRequest {
+	r.xTenantId = &xTenantId
+	return r
+}
+
+func (r ApiDecideCommercialApprovalRequest) Execute() (*DecideCommercialApprovalResponse, *http.Response, error) {
+	return r.ApiService.DecideCommercialApprovalExecute(r)
+}
+
+/*
+DecideCommercialApproval Aprobar o rechazar comercialmente un documento recibido
+
+Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte.
+La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento.
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id ID del documento recibido (TaxDocumentReceived.id)
+ @return ApiDecideCommercialApprovalRequest
+*/
+func (a *DocumentsReceivedAPIService) DecideCommercialApproval(ctx context.Context, id string) ApiDecideCommercialApprovalRequest {
+	return ApiDecideCommercialApprovalRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+// Execute executes the request
+//  @return DecideCommercialApprovalResponse
+func (a *DocumentsReceivedAPIService) DecideCommercialApprovalExecute(r ApiDecideCommercialApprovalRequest) (*DecideCommercialApprovalResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DecideCommercialApprovalResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DocumentsReceivedAPIService.DecideCommercialApproval")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/documents/received/{id}/commercial-approval"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.decideCommercialApprovalRequest == nil {
+		return localVarReturnValue, nil, reportError("decideCommercialApprovalRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xTenantId != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-tenant-id", r.xTenantId, "simple", "")
+	}
+	// body params
+	localVarPostBody = r.decideCommercialApprovalRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetReceivedDocumentByIdRequest struct {
 	ctx context.Context
 	ApiService *DocumentsReceivedAPIService
@@ -439,11 +587,13 @@ func (r ApiListReceivedDocumentsRequest) Processed(processed bool) ApiListReceiv
 	return r
 }
 
+// Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
 func (r ApiListReceivedDocumentsRequest) DateFrom(dateFrom string) ApiListReceivedDocumentsRequest {
 	r.dateFrom = &dateFrom
 	return r
 }
 
+// Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 func (r ApiListReceivedDocumentsRequest) DateTo(dateTo string) ApiListReceivedDocumentsRequest {
 	r.dateTo = &dateTo
 	return r

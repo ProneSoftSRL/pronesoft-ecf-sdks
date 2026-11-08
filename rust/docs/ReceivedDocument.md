@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **sender_rnc** | Option<**String**> |  | [optional]
 **receiver_rnc** | Option<**String**> |  | [optional]
 **total_amount** | Option<**f64**> |  | [optional]
-**status** | Option<**Status**> | 1=Valid, 2=Voided, 3=Pending (enum: 1, 2, 3) | [optional]
+**status** | Option<**Status**> | 1=Válido, 2=Anulado, 3=Pendiente (enum: 1, 2, 3) | [optional]
 **status_label** | Option<**String**> |  | [optional]
 **issue_date** | Option<**String**> |  | [optional]
 **received_at** | Option<**String**> |  | [optional]

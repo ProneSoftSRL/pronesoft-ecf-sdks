@@ -16,13 +16,9 @@ class EcfSubmitResponse {
     required this.id,
     this.stampDate,
     required this.status,
-    this.legalStatus,
     required this.companyIdentification,
-    this.trackId,
-    this.documentNumber,
-    this.encf,
+    required this.encf,
     this.contingencyMode,
-    this.contingencyMessage,
     this.documentStampUrl,
     this.pdf,
     this.xmlUrl,
@@ -40,19 +36,10 @@ class EcfSubmitResponse {
   /// Siempre `REGISTERED` al enviar. El estado fiscal llega vía webhook o polling.
   EcfSubmitResponseStatusEnum status;
 
-  /// Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
-  EcfSubmitResponseLegalStatusEnum? legalStatus;
-
   EcfSubmitResponseCompanyIdentification companyIdentification;
 
-  /// Siempre `null` al enviar. Lo asigna DGII al procesar el documento.
-  String? trackId;
-
-  /// Número de control electrónico (e-NCF). Igual a `encf`.
-  String? documentNumber;
-
   /// Número e-NCF asignado al documento (ej. E310000000001).
-  String? encf;
+  String encf;
 
   /// `true` si el documento fue emitido en modo contingencia (DGII no disponible).
   ///
@@ -63,10 +50,13 @@ class EcfSubmitResponse {
   ///
   bool? contingencyMode;
 
-  /// Mensaje oficial DGII cuando `contingencyMode` es `true`.
-  String? contingencyMessage;
-
-  /// URL del código QR del documento.
+  /// URL de consulta del timbre en DGII.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? documentStampUrl;
 
   /// URL pre-firmada del PDF (expira en 1 hora).
@@ -76,12 +66,24 @@ class EcfSubmitResponse {
   String? xmlUrl;
 
   /// Fecha y hora de la firma digital.
-  DateTime? signatureDate;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? signatureDate;
 
-  /// Código de seguridad del documento.
+  /// Código de seguridad de 6 caracteres del documento.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? securityCode;
 
-  /// Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
+  /// `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
   bool sequenceConsumed;
 
   @override
@@ -89,13 +91,9 @@ class EcfSubmitResponse {
     other.id == id &&
     other.stampDate == stampDate &&
     other.status == status &&
-    other.legalStatus == legalStatus &&
     other.companyIdentification == companyIdentification &&
-    other.trackId == trackId &&
-    other.documentNumber == documentNumber &&
     other.encf == encf &&
     other.contingencyMode == contingencyMode &&
-    other.contingencyMessage == contingencyMessage &&
     other.documentStampUrl == documentStampUrl &&
     other.pdf == pdf &&
     other.xmlUrl == xmlUrl &&
@@ -109,13 +107,9 @@ class EcfSubmitResponse {
     (id.hashCode) +
     (stampDate == null ? 0 : stampDate!.hashCode) +
     (status.hashCode) +
-    (legalStatus == null ? 0 : legalStatus!.hashCode) +
     (companyIdentification.hashCode) +
-    (trackId == null ? 0 : trackId!.hashCode) +
-    (documentNumber == null ? 0 : documentNumber!.hashCode) +
-    (encf == null ? 0 : encf!.hashCode) +
+    (encf.hashCode) +
     (contingencyMode == null ? 0 : contingencyMode!.hashCode) +
-    (contingencyMessage == null ? 0 : contingencyMessage!.hashCode) +
     (documentStampUrl == null ? 0 : documentStampUrl!.hashCode) +
     (pdf == null ? 0 : pdf!.hashCode) +
     (xmlUrl == null ? 0 : xmlUrl!.hashCode) +
@@ -124,7 +118,7 @@ class EcfSubmitResponse {
     (sequenceConsumed.hashCode);
 
   @override
-  String toString() => 'EcfSubmitResponse[id=$id, stampDate=$stampDate, status=$status, legalStatus=$legalStatus, companyIdentification=$companyIdentification, trackId=$trackId, documentNumber=$documentNumber, encf=$encf, contingencyMode=$contingencyMode, contingencyMessage=$contingencyMessage, documentStampUrl=$documentStampUrl, pdf=$pdf, xmlUrl=$xmlUrl, signatureDate=$signatureDate, securityCode=$securityCode, sequenceConsumed=$sequenceConsumed]';
+  String toString() => 'EcfSubmitResponse[id=$id, stampDate=$stampDate, status=$status, companyIdentification=$companyIdentification, encf=$encf, contingencyMode=$contingencyMode, documentStampUrl=$documentStampUrl, pdf=$pdf, xmlUrl=$xmlUrl, signatureDate=$signatureDate, securityCode=$securityCode, sequenceConsumed=$sequenceConsumed]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -135,36 +129,12 @@ class EcfSubmitResponse {
       json[r'stampDate'] = null;
     }
       json[r'status'] = this.status;
-    if (this.legalStatus != null) {
-      json[r'legalStatus'] = this.legalStatus;
-    } else {
-      json[r'legalStatus'] = null;
-    }
       json[r'companyIdentification'] = this.companyIdentification;
-    if (this.trackId != null) {
-      json[r'trackId'] = this.trackId;
-    } else {
-      json[r'trackId'] = null;
-    }
-    if (this.documentNumber != null) {
-      json[r'documentNumber'] = this.documentNumber;
-    } else {
-      json[r'documentNumber'] = null;
-    }
-    if (this.encf != null) {
       json[r'encf'] = this.encf;
-    } else {
-      json[r'encf'] = null;
-    }
     if (this.contingencyMode != null) {
       json[r'contingencyMode'] = this.contingencyMode;
     } else {
       json[r'contingencyMode'] = null;
-    }
-    if (this.contingencyMessage != null) {
-      json[r'contingencyMessage'] = this.contingencyMessage;
-    } else {
-      json[r'contingencyMessage'] = null;
     }
     if (this.documentStampUrl != null) {
       json[r'documentStampUrl'] = this.documentStampUrl;
@@ -182,7 +152,7 @@ class EcfSubmitResponse {
       json[r'xmlUrl'] = null;
     }
     if (this.signatureDate != null) {
-      json[r'signatureDate'] = this.signatureDate!.toUtc().toIso8601String();
+      json[r'signatureDate'] = this.signatureDate;
     } else {
       json[r'signatureDate'] = null;
     }
@@ -212,6 +182,8 @@ class EcfSubmitResponse {
         assert(json[r'status'] != null, 'Required key "EcfSubmitResponse[status]" has a null value in JSON.');
         assert(json.containsKey(r'companyIdentification'), 'Required key "EcfSubmitResponse[companyIdentification]" is missing from JSON.');
         assert(json[r'companyIdentification'] != null, 'Required key "EcfSubmitResponse[companyIdentification]" has a null value in JSON.');
+        assert(json.containsKey(r'encf'), 'Required key "EcfSubmitResponse[encf]" is missing from JSON.');
+        assert(json[r'encf'] != null, 'Required key "EcfSubmitResponse[encf]" has a null value in JSON.');
         assert(json.containsKey(r'sequenceConsumed'), 'Required key "EcfSubmitResponse[sequenceConsumed]" is missing from JSON.');
         assert(json[r'sequenceConsumed'] != null, 'Required key "EcfSubmitResponse[sequenceConsumed]" has a null value in JSON.');
         return true;
@@ -221,17 +193,13 @@ class EcfSubmitResponse {
         id: mapValueOfType<String>(json, r'id')!,
         stampDate: mapDateTime(json, r'stampDate', r''),
         status: EcfSubmitResponseStatusEnum.fromJson(json[r'status'])!,
-        legalStatus: EcfSubmitResponseLegalStatusEnum.fromJson(json[r'legalStatus']),
         companyIdentification: EcfSubmitResponseCompanyIdentification.fromJson(json[r'companyIdentification'])!,
-        trackId: mapValueOfType<String>(json, r'trackId'),
-        documentNumber: mapValueOfType<String>(json, r'documentNumber'),
-        encf: mapValueOfType<String>(json, r'encf'),
+        encf: mapValueOfType<String>(json, r'encf')!,
         contingencyMode: mapValueOfType<bool>(json, r'contingencyMode'),
-        contingencyMessage: mapValueOfType<String>(json, r'contingencyMessage'),
         documentStampUrl: mapValueOfType<String>(json, r'documentStampUrl'),
         pdf: mapValueOfType<String>(json, r'pdf'),
         xmlUrl: mapValueOfType<String>(json, r'xmlUrl'),
-        signatureDate: mapDateTime(json, r'signatureDate', r''),
+        signatureDate: mapValueOfType<String>(json, r'signatureDate'),
         securityCode: mapValueOfType<String>(json, r'securityCode'),
         sequenceConsumed: mapValueOfType<bool>(json, r'sequenceConsumed')!,
       );
@@ -284,6 +252,7 @@ class EcfSubmitResponse {
     'id',
     'status',
     'companyIdentification',
+    'encf',
     'sequenceConsumed',
   };
 }
@@ -356,86 +325,6 @@ class EcfSubmitResponseStatusEnumTypeTransformer {
 
   /// Singleton [EcfSubmitResponseStatusEnumTypeTransformer] instance.
   static EcfSubmitResponseStatusEnumTypeTransformer? _instance;
-}
-
-
-/// Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
-class EcfSubmitResponseLegalStatusEnum {
-  /// Instantiate a new enum with the provided [value].
-  const EcfSubmitResponseLegalStatusEnum._(this.value);
-
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const ACCEPTED = EcfSubmitResponseLegalStatusEnum._(r'ACCEPTED');
-  static const ACCEPTED_WITH_OBSERVATIONS = EcfSubmitResponseLegalStatusEnum._(r'ACCEPTED_WITH_OBSERVATIONS');
-  static const REJECTED = EcfSubmitResponseLegalStatusEnum._(r'REJECTED');
-  static const ERROR = EcfSubmitResponseLegalStatusEnum._(r'ERROR');
-
-  /// List of all possible values in this [enum][EcfSubmitResponseLegalStatusEnum].
-  static const values = <EcfSubmitResponseLegalStatusEnum>[
-    ACCEPTED,
-    ACCEPTED_WITH_OBSERVATIONS,
-    REJECTED,
-    ERROR,
-  ];
-
-  static EcfSubmitResponseLegalStatusEnum? fromJson(dynamic value) => EcfSubmitResponseLegalStatusEnumTypeTransformer().decode(value);
-
-  static List<EcfSubmitResponseLegalStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <EcfSubmitResponseLegalStatusEnum>[];
-    if (json is List && json.isNotEmpty) {
-      for (final row in json) {
-        final value = EcfSubmitResponseLegalStatusEnum.fromJson(row);
-        if (value != null) {
-          result.add(value);
-        }
-      }
-    }
-    return result.toList(growable: growable);
-  }
-}
-
-/// Transformation class that can [encode] an instance of [EcfSubmitResponseLegalStatusEnum] to String,
-/// and [decode] dynamic data back to [EcfSubmitResponseLegalStatusEnum].
-class EcfSubmitResponseLegalStatusEnumTypeTransformer {
-  factory EcfSubmitResponseLegalStatusEnumTypeTransformer() => _instance ??= const EcfSubmitResponseLegalStatusEnumTypeTransformer._();
-
-  const EcfSubmitResponseLegalStatusEnumTypeTransformer._();
-
-  String encode(EcfSubmitResponseLegalStatusEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a EcfSubmitResponseLegalStatusEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  EcfSubmitResponseLegalStatusEnum? decode(dynamic data, {bool allowNull = true}) {
-    if (data != null) {
-      switch (data) {
-        case r'ACCEPTED': return EcfSubmitResponseLegalStatusEnum.ACCEPTED;
-        case r'ACCEPTED_WITH_OBSERVATIONS': return EcfSubmitResponseLegalStatusEnum.ACCEPTED_WITH_OBSERVATIONS;
-        case r'REJECTED': return EcfSubmitResponseLegalStatusEnum.REJECTED;
-        case r'ERROR': return EcfSubmitResponseLegalStatusEnum.ERROR;
-        default:
-          if (!allowNull) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
-    }
-    return null;
-  }
-
-  /// Singleton [EcfSubmitResponseLegalStatusEnumTypeTransformer] instance.
-  static EcfSubmitResponseLegalStatusEnumTypeTransformer? _instance;
 }
 
 

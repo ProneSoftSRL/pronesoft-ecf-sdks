@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **codes** | [**\PronesoftEcf\Model\ItemCodesInner[]**](ItemCodesInner.md) |  | [optional]
 **name** | **string** |  |
 **description** | **string** |  | [optional]
-**type** | **string** | 1&#x3D;Good, 2&#x3D;Service |
+**type** | **string** | 1&#x3D;Bien, 2&#x3D;Servicio |
 **billing_indicator** | [**\PronesoftEcf\Model\BillingIndicator**](BillingIndicator.md) |  |
 **withholding_agent_indicator** | **int** |  | [optional]
 **withheld_itbis_amount** | [**\PronesoftEcf\Model\ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional]

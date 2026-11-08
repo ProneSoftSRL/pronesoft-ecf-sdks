@@ -15,12 +15,12 @@ public typealias OAuthTokenResponse = PronesoftEcfAPI.OAuthTokenResponse
 
 extension PronesoftEcfAPI {
 
-/** Bearer token valid for 24 hours (86400 seconds). */
+/** Token de acceso Bearer válido por 24 horas (86400 segundos). */
 public struct OAuthTokenResponse: Codable, JSONEncodable, Hashable {
 
     public var accessToken: String?
     public var tokenType: String?
-    /** Token lifetime in seconds (24 hours = 86400). */
+    /** Duración del token en segundos (24 horas = 86400). */
     public var expiresIn: Int?
     public var scope: [String]?
 

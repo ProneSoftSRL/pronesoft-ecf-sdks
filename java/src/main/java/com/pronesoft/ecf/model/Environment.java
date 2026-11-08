@@ -24,7 +24,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * TesteCF&#x3D;DGII test environment (no fiscal validity), CerteCF&#x3D;DGII certification, eCF&#x3D;production
+ * TesteCF&#x3D;testing no DGII, CerteCF&#x3D;official certification, eCF&#x3D;production
  */
 @JsonAdapter(Environment.Adapter.class)
 public enum Environment {

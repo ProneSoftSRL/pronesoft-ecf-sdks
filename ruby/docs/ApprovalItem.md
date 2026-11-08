@@ -11,7 +11,7 @@
 | **buyer_rnc** | **String** |  | [optional] |
 | **total_amount** | **Float** |  | [optional] |
 | **approval_status** | **String** |  | [optional] |
-| **status** | **Integer** | 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review | [optional] |
+| **status** | **Integer** | 1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión | [optional] |
 | **status_label** | **String** |  | [optional] |
 | **issue_date** | **Time** |  | [optional] |
 | **received_at** | **Time** |  | [optional] |

@@ -11,7 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// EcfSubmitResponse : Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. `status` siempre es `REGISTERED`. `legalStatus` y `trackId` siempre son `null` en este momento — se populan una vez que la DGII procesa el documento. Usa `GET /ecf/status/{id}` o escucha el webhook `document.status_changed` para obtener el resultado fiscal final. 
+/// EcfSubmitResponse : Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. `status` siempre es `REGISTERED`. Usa `GET /ecf/status/{id}` o escucha el webhook `document.status_changed` para obtener el resultado fiscal final de DGII. 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EcfSubmitResponse {
     /// ID interno del documento. Úsalo para `GET /ecf/status/{id}`.
@@ -23,29 +23,17 @@ pub struct EcfSubmitResponse {
     /// Siempre `REGISTERED` al enviar. El estado fiscal llega vía webhook o polling.
     #[serde(rename = "status")]
     pub status: Status,
-    /// Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
-    #[serde(rename = "legalStatus", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub legal_status: Option<Option<LegalStatus>>,
     #[serde(rename = "companyIdentification")]
     pub company_identification: Box<models::EcfSubmitResponseCompanyIdentification>,
-    /// Siempre `null` al enviar. Lo asigna DGII al procesar el documento.
-    #[serde(rename = "trackId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub track_id: Option<Option<String>>,
-    /// Número de control electrónico (e-NCF). Igual a `encf`.
-    #[serde(rename = "documentNumber", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub document_number: Option<Option<String>>,
     /// Número e-NCF asignado al documento (ej. E310000000001).
-    #[serde(rename = "encf", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub encf: Option<Option<String>>,
+    #[serde(rename = "encf")]
+    pub encf: String,
     /// `true` si el documento fue emitido en modo contingencia (DGII no disponible).
     #[serde(rename = "contingencyMode", skip_serializing_if = "Option::is_none")]
     pub contingency_mode: Option<bool>,
-    /// Mensaje oficial DGII cuando `contingencyMode` es `true`.
-    #[serde(rename = "contingencyMessage", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub contingency_message: Option<Option<String>>,
-    /// URL del código QR del documento.
-    #[serde(rename = "documentStampUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub document_stamp_url: Option<Option<String>>,
+    /// URL de consulta del timbre en DGII.
+    #[serde(rename = "documentStampUrl", skip_serializing_if = "Option::is_none")]
+    pub document_stamp_url: Option<String>,
     /// URL pre-firmada del PDF (expira en 1 hora).
     #[serde(rename = "pdf", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub pdf: Option<Option<String>>,
@@ -53,30 +41,26 @@ pub struct EcfSubmitResponse {
     #[serde(rename = "xmlUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub xml_url: Option<Option<String>>,
     /// Fecha y hora de la firma digital.
-    #[serde(rename = "signatureDate", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub signature_date: Option<Option<String>>,
-    /// Código de seguridad del documento.
-    #[serde(rename = "securityCode", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub security_code: Option<Option<String>>,
-    /// Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
+    #[serde(rename = "signatureDate", skip_serializing_if = "Option::is_none")]
+    pub signature_date: Option<String>,
+    /// Código de seguridad de 6 caracteres del documento.
+    #[serde(rename = "securityCode", skip_serializing_if = "Option::is_none")]
+    pub security_code: Option<String>,
+    /// `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
     #[serde(rename = "sequenceConsumed")]
     pub sequence_consumed: bool,
 }
 
 impl EcfSubmitResponse {
-    /// Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. `status` siempre es `REGISTERED`. `legalStatus` y `trackId` siempre son `null` en este momento — se populan una vez que la DGII procesa el documento. Usa `GET /ecf/status/{id}` o escucha el webhook `document.status_changed` para obtener el resultado fiscal final. 
-    pub fn new(id: uuid::Uuid, status: Status, company_identification: models::EcfSubmitResponseCompanyIdentification, sequence_consumed: bool) -> EcfSubmitResponse {
+    /// Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. `status` siempre es `REGISTERED`. Usa `GET /ecf/status/{id}` o escucha el webhook `document.status_changed` para obtener el resultado fiscal final de DGII. 
+    pub fn new(id: uuid::Uuid, status: Status, company_identification: models::EcfSubmitResponseCompanyIdentification, encf: String, sequence_consumed: bool) -> EcfSubmitResponse {
         EcfSubmitResponse {
             id,
             stamp_date: None,
             status,
-            legal_status: None,
             company_identification: Box::new(company_identification),
-            track_id: None,
-            document_number: None,
-            encf: None,
+            encf,
             contingency_mode: None,
-            contingency_message: None,
             document_stamp_url: None,
             pdf: None,
             xml_url: None,
@@ -96,24 +80,6 @@ pub enum Status {
 impl Default for Status {
     fn default() -> Status {
         Self::Registered
-    }
-}
-/// Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
-pub enum LegalStatus {
-    #[serde(rename = "ACCEPTED")]
-    Accepted,
-    #[serde(rename = "ACCEPTED_WITH_OBSERVATIONS")]
-    AcceptedWithObservations,
-    #[serde(rename = "REJECTED")]
-    Rejected,
-    #[serde(rename = "ERROR")]
-    Error,
-}
-
-impl Default for LegalStatus {
-    fn default() -> LegalStatus {
-        Self::Accepted
     }
 }
 

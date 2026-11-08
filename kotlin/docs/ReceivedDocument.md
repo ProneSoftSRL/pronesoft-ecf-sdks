@@ -9,7 +9,7 @@
 | **senderRnc** | **kotlin.String** |  |  [optional] |
 | **receiverRnc** | **kotlin.String** |  |  [optional] |
 | **totalAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional] |
-| **status** | [**inline**](#Status) | 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending |  [optional] |
+| **status** | [**inline**](#Status) | 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente |  [optional] |
 | **statusLabel** | **kotlin.String** |  |  [optional] |
 | **issueDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |
 | **receivedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  [optional] |

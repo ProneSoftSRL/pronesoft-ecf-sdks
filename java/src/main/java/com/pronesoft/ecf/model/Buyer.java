@@ -49,7 +49,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Buyer
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Buyer {
   public static final String SERIALIZED_NAME_TAX_ID = "taxId";
   @SerializedName(SERIALIZED_NAME_TAX_ID)
@@ -145,7 +145,7 @@ public class Buyer {
   }
 
   /**
-   * RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k).
+   * RNC (9 dígitos) o cédula (11 dígitos). Requerido para tipo 31 y tipo 34 que modifique crédito fiscal. Opcional para tipo 32 y tipo 34 que modifique factura de consumo (&lt; RD$ 250,000).
    * @return taxId
    */
   @javax.annotation.Nullable

@@ -36,7 +36,7 @@ use \PronesoftEcf\ObjectSerializer;
  * EcfSubmitResponse Class Doc Comment
  *
  * @category Class
- * @description Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. &#x60;status&#x60; siempre es &#x60;REGISTERED&#x60;. &#x60;legalStatus&#x60; y &#x60;trackId&#x60; siempre son &#x60;null&#x60; en este momento — se populan una vez que la DGII procesa el documento. Usa &#x60;GET /ecf/status/{id}&#x60; o escucha el webhook &#x60;document.status_changed&#x60; para obtener el resultado fiscal final.
+ * @description Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. &#x60;status&#x60; siempre es &#x60;REGISTERED&#x60;. Usa &#x60;GET /ecf/status/{id}&#x60; o escucha el webhook &#x60;document.status_changed&#x60; para obtener el resultado fiscal final de DGII.
  * @package  PronesoftEcf
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -62,17 +62,13 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'id' => 'string',
         'stamp_date' => '\DateTime',
         'status' => 'string',
-        'legal_status' => 'string',
         'company_identification' => '\PronesoftEcf\Model\EcfSubmitResponseCompanyIdentification',
-        'track_id' => 'string',
-        'document_number' => 'string',
         'encf' => 'string',
         'contingency_mode' => 'bool',
-        'contingency_message' => 'string',
         'document_stamp_url' => 'string',
         'pdf' => 'string',
         'xml_url' => 'string',
-        'signature_date' => '\DateTime',
+        'signature_date' => 'string',
         'security_code' => 'string',
         'sequence_consumed' => 'bool'
     ];
@@ -88,17 +84,13 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'id' => 'uuid',
         'stamp_date' => 'date',
         'status' => null,
-        'legal_status' => null,
         'company_identification' => null,
-        'track_id' => null,
-        'document_number' => null,
         'encf' => null,
         'contingency_mode' => null,
-        'contingency_message' => null,
         'document_stamp_url' => 'uri',
         'pdf' => 'uri',
         'xml_url' => 'uri',
-        'signature_date' => 'date-time',
+        'signature_date' => null,
         'security_code' => null,
         'sequence_consumed' => null
     ];
@@ -112,18 +104,14 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'id' => false,
         'stamp_date' => true,
         'status' => false,
-        'legal_status' => true,
         'company_identification' => false,
-        'track_id' => true,
-        'document_number' => true,
-        'encf' => true,
+        'encf' => false,
         'contingency_mode' => false,
-        'contingency_message' => true,
-        'document_stamp_url' => true,
+        'document_stamp_url' => false,
         'pdf' => true,
         'xml_url' => true,
-        'signature_date' => true,
-        'security_code' => true,
+        'signature_date' => false,
+        'security_code' => false,
         'sequence_consumed' => false
     ];
 
@@ -216,13 +204,9 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'id' => 'id',
         'stamp_date' => 'stampDate',
         'status' => 'status',
-        'legal_status' => 'legalStatus',
         'company_identification' => 'companyIdentification',
-        'track_id' => 'trackId',
-        'document_number' => 'documentNumber',
         'encf' => 'encf',
         'contingency_mode' => 'contingencyMode',
-        'contingency_message' => 'contingencyMessage',
         'document_stamp_url' => 'documentStampUrl',
         'pdf' => 'pdf',
         'xml_url' => 'xmlUrl',
@@ -240,13 +224,9 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'id' => 'setId',
         'stamp_date' => 'setStampDate',
         'status' => 'setStatus',
-        'legal_status' => 'setLegalStatus',
         'company_identification' => 'setCompanyIdentification',
-        'track_id' => 'setTrackId',
-        'document_number' => 'setDocumentNumber',
         'encf' => 'setEncf',
         'contingency_mode' => 'setContingencyMode',
-        'contingency_message' => 'setContingencyMessage',
         'document_stamp_url' => 'setDocumentStampUrl',
         'pdf' => 'setPdf',
         'xml_url' => 'setXmlUrl',
@@ -264,13 +244,9 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'id' => 'getId',
         'stamp_date' => 'getStampDate',
         'status' => 'getStatus',
-        'legal_status' => 'getLegalStatus',
         'company_identification' => 'getCompanyIdentification',
-        'track_id' => 'getTrackId',
-        'document_number' => 'getDocumentNumber',
         'encf' => 'getEncf',
         'contingency_mode' => 'getContingencyMode',
-        'contingency_message' => 'getContingencyMessage',
         'document_stamp_url' => 'getDocumentStampUrl',
         'pdf' => 'getPdf',
         'xml_url' => 'getXmlUrl',
@@ -321,10 +297,6 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     public const STATUS_REGISTERED = 'REGISTERED';
-    public const LEGAL_STATUS_ACCEPTED = 'ACCEPTED';
-    public const LEGAL_STATUS_ACCEPTED_WITH_OBSERVATIONS = 'ACCEPTED_WITH_OBSERVATIONS';
-    public const LEGAL_STATUS_REJECTED = 'REJECTED';
-    public const LEGAL_STATUS_ERROR = 'ERROR';
 
     /**
      * Gets allowable values of the enum
@@ -335,21 +307,6 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     {
         return [
             self::STATUS_REGISTERED,
-        ];
-    }
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getLegalStatusAllowableValues()
-    {
-        return [
-            self::LEGAL_STATUS_ACCEPTED,
-            self::LEGAL_STATUS_ACCEPTED_WITH_OBSERVATIONS,
-            self::LEGAL_STATUS_REJECTED,
-            self::LEGAL_STATUS_ERROR,
         ];
     }
 
@@ -371,13 +328,9 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         $this->setIfExists('id', $data ?? [], null);
         $this->setIfExists('stamp_date', $data ?? [], null);
         $this->setIfExists('status', $data ?? [], null);
-        $this->setIfExists('legal_status', $data ?? [], null);
         $this->setIfExists('company_identification', $data ?? [], null);
-        $this->setIfExists('track_id', $data ?? [], null);
-        $this->setIfExists('document_number', $data ?? [], null);
         $this->setIfExists('encf', $data ?? [], null);
         $this->setIfExists('contingency_mode', $data ?? [], null);
-        $this->setIfExists('contingency_message', $data ?? [], null);
         $this->setIfExists('document_stamp_url', $data ?? [], null);
         $this->setIfExists('pdf', $data ?? [], null);
         $this->setIfExists('xml_url', $data ?? [], null);
@@ -428,17 +381,11 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
             );
         }
 
-        $allowedValues = $this->getLegalStatusAllowableValues();
-        if (!is_null($this->container['legal_status']) && !in_array($this->container['legal_status'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'legal_status', must be one of '%s'",
-                $this->container['legal_status'],
-                implode("', '", $allowedValues)
-            );
-        }
-
         if ($this->container['company_identification'] === null) {
             $invalidProperties[] = "'company_identification' can't be null";
+        }
+        if ($this->container['encf'] === null) {
+            $invalidProperties[] = "'encf' can't be null";
         }
         if ($this->container['sequence_consumed'] === null) {
             $invalidProperties[] = "'sequence_consumed' can't be null";
@@ -557,50 +504,6 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets legal_status
-     *
-     * @return string|null
-     */
-    public function getLegalStatus()
-    {
-        return $this->container['legal_status'];
-    }
-
-    /**
-     * Sets legal_status
-     *
-     * @param string|null $legal_status Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
-     *
-     * @return self
-     */
-    public function setLegalStatus($legal_status)
-    {
-        if (is_null($legal_status)) {
-            array_push($this->openAPINullablesSetToNull, 'legal_status');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('legal_status', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $allowedValues = $this->getLegalStatusAllowableValues();
-        if (!is_null($legal_status) && !in_array($legal_status, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'legal_status', must be one of '%s'",
-                    $legal_status,
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['legal_status'] = $legal_status;
-
-        return $this;
-    }
-
-    /**
      * Gets company_identification
      *
      * @return \PronesoftEcf\Model\EcfSubmitResponseCompanyIdentification
@@ -628,77 +531,9 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets track_id
-     *
-     * @return string|null
-     */
-    public function getTrackId()
-    {
-        return $this->container['track_id'];
-    }
-
-    /**
-     * Sets track_id
-     *
-     * @param string|null $track_id Siempre `null` al enviar. Lo asigna DGII al procesar el documento.
-     *
-     * @return self
-     */
-    public function setTrackId($track_id)
-    {
-        if (is_null($track_id)) {
-            array_push($this->openAPINullablesSetToNull, 'track_id');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('track_id', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['track_id'] = $track_id;
-
-        return $this;
-    }
-
-    /**
-     * Gets document_number
-     *
-     * @return string|null
-     */
-    public function getDocumentNumber()
-    {
-        return $this->container['document_number'];
-    }
-
-    /**
-     * Sets document_number
-     *
-     * @param string|null $document_number Número de control electrónico (e-NCF). Igual a `encf`.
-     *
-     * @return self
-     */
-    public function setDocumentNumber($document_number)
-    {
-        if (is_null($document_number)) {
-            array_push($this->openAPINullablesSetToNull, 'document_number');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('document_number', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['document_number'] = $document_number;
-
-        return $this;
-    }
-
-    /**
      * Gets encf
      *
-     * @return string|null
+     * @return string
      */
     public function getEncf()
     {
@@ -708,21 +543,14 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets encf
      *
-     * @param string|null $encf Número e-NCF asignado al documento (ej. E310000000001).
+     * @param string $encf Número e-NCF asignado al documento (ej. E310000000001).
      *
      * @return self
      */
     public function setEncf($encf)
     {
         if (is_null($encf)) {
-            array_push($this->openAPINullablesSetToNull, 'encf');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('encf', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable encf cannot be null');
         }
         $this->container['encf'] = $encf;
 
@@ -757,40 +585,6 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets contingency_message
-     *
-     * @return string|null
-     */
-    public function getContingencyMessage()
-    {
-        return $this->container['contingency_message'];
-    }
-
-    /**
-     * Sets contingency_message
-     *
-     * @param string|null $contingency_message Mensaje oficial DGII cuando `contingencyMode` es `true`.
-     *
-     * @return self
-     */
-    public function setContingencyMessage($contingency_message)
-    {
-        if (is_null($contingency_message)) {
-            array_push($this->openAPINullablesSetToNull, 'contingency_message');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('contingency_message', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['contingency_message'] = $contingency_message;
-
-        return $this;
-    }
-
-    /**
      * Gets document_stamp_url
      *
      * @return string|null
@@ -803,21 +597,14 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets document_stamp_url
      *
-     * @param string|null $document_stamp_url URL del código QR del documento.
+     * @param string|null $document_stamp_url URL de consulta del timbre en DGII.
      *
      * @return self
      */
     public function setDocumentStampUrl($document_stamp_url)
     {
         if (is_null($document_stamp_url)) {
-            array_push($this->openAPINullablesSetToNull, 'document_stamp_url');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('document_stamp_url', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable document_stamp_url cannot be null');
         }
         $this->container['document_stamp_url'] = $document_stamp_url;
 
@@ -895,7 +682,7 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Gets signature_date
      *
-     * @return \DateTime|null
+     * @return string|null
      */
     public function getSignatureDate()
     {
@@ -905,21 +692,14 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets signature_date
      *
-     * @param \DateTime|null $signature_date Fecha y hora de la firma digital.
+     * @param string|null $signature_date Fecha y hora de la firma digital.
      *
      * @return self
      */
     public function setSignatureDate($signature_date)
     {
         if (is_null($signature_date)) {
-            array_push($this->openAPINullablesSetToNull, 'signature_date');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('signature_date', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable signature_date cannot be null');
         }
         $this->container['signature_date'] = $signature_date;
 
@@ -939,21 +719,14 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets security_code
      *
-     * @param string|null $security_code Código de seguridad del documento.
+     * @param string|null $security_code Código de seguridad de 6 caracteres del documento.
      *
      * @return self
      */
     public function setSecurityCode($security_code)
     {
         if (is_null($security_code)) {
-            array_push($this->openAPINullablesSetToNull, 'security_code');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('security_code', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable security_code cannot be null');
         }
         $this->container['security_code'] = $security_code;
 
@@ -973,7 +746,7 @@ class EcfSubmitResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets sequence_consumed
      *
-     * @param bool $sequence_consumed Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
+     * @param bool $sequence_consumed `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
      *
      * @return self
      */

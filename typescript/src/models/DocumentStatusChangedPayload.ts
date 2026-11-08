@@ -14,59 +14,59 @@
 
 import { mapValues } from '../runtime';
 /**
- * Payload inside `data` when event is `document.status_changed`.
- * Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed.
- * `issuerRnc` identifies the company that issued the document
- * (useful in multi-company setups where an associated company sent it).
+ * Contenido del campo `data` cuando el evento es `document.status_changed`.
+ * Usa `documentId` para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas.
+ * `issuerRnc` identifica la empresa que emitió el documento
+ * (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió).
  * 
  * @export
  * @interface DocumentStatusChangedPayload
  */
 export interface DocumentStatusChangedPayload {
     /**
-     * Internal document ID for polling.
+     * ID interno del documento para hacer polling.
      * @type {string}
      * @memberof DocumentStatusChangedPayload
      */
     documentId: string;
     /**
-     * e-NCF fiscal number.
+     * Número fiscal e-NCF.
      * @type {string}
      * @memberof DocumentStatusChangedPayload
      */
     encf: string;
     /**
-     * RNC of the issuing company (associated or main).
+     * RNC de la empresa emisora (asociada o principal).
      * @type {string}
      * @memberof DocumentStatusChangedPayload
      */
     issuerRnc: string;
     /**
-     * Public lifecycle status.
+     * Estado del ciclo de vida del documento.
      * @type {DocumentStatusChangedPayloadStatusEnum}
      * @memberof DocumentStatusChangedPayload
      */
     status: DocumentStatusChangedPayloadStatusEnum;
     /**
-     * Fiscal result from DGII. Only present when status=FINISHED.
+     * Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
      * @type {DocumentStatusChangedPayloadLegalStatusEnum}
      * @memberof DocumentStatusChangedPayload
      */
     legalStatus?: DocumentStatusChangedPayloadLegalStatusEnum | null;
     /**
-     * Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+     * Código del tipo de documento (31=Factura, 32=Nota de Crédito, etc.)
      * @type {string}
      * @memberof DocumentStatusChangedPayload
      */
     documentType?: string | null;
     /**
-     * DGII tracking ID.
+     * ID de seguimiento asignado por la DGII.
      * @type {string}
      * @memberof DocumentStatusChangedPayload
      */
     trackId?: string | null;
     /**
-     * Human-readable DGII response message.
+     * Mensaje legible de respuesta de la DGII.
      * @type {string}
      * @memberof DocumentStatusChangedPayload
      */

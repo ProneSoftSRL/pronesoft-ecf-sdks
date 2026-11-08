@@ -15,6 +15,16 @@ use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
 
+/// struct for typed errors of method [`decide_commercial_approval`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DecideCommercialApprovalError {
+    Status400(models::ErrorResponse),
+    Status401(models::ErrorResponse),
+    Status404(),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`get_received_document_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -48,6 +58,52 @@ pub enum ListReceivedDocumentsError {
     UnknownValue(serde_json::Value),
 }
 
+
+/// Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+pub async fn decide_commercial_approval(configuration: &configuration::Configuration, id: &str, decide_commercial_approval_request: models::DecideCommercialApprovalRequest, x_tenant_id: Option<&str>) -> Result<models::DecideCommercialApprovalResponse, Error<DecideCommercialApprovalError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_path_id = id;
+    let p_body_decide_commercial_approval_request = decide_commercial_approval_request;
+    let p_header_x_tenant_id = x_tenant_id;
+
+    let uri_str = format!("{}/documents/received/{id}/commercial-approval", configuration.base_path, id=crate::apis::urlencode(p_path_id));
+    let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    if let Some(param_value) = p_header_x_tenant_id {
+        req_builder = req_builder.header("x-tenant-id", param_value.to_string());
+    }
+    if let Some(ref token) = configuration.oauth_access_token {
+        req_builder = req_builder.bearer_auth(token.to_owned());
+    };
+    req_builder = req_builder.json(&p_body_decide_commercial_approval_request);
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::DecideCommercialApprovalResponse`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::DecideCommercialApprovalResponse`")))),
+        }
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<DecideCommercialApprovalError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
 
 pub async fn get_received_document_by_id(configuration: &configuration::Configuration, id: &str, x_tenant_id: Option<&str>) -> Result<models::ReceivedDocument, Error<GetReceivedDocumentByIdError>> {
     // add a prefix to parameters to efficiently prevent name collisions
@@ -176,7 +232,7 @@ pub async fn get_received_document_stats_summary(configuration: &configuration::
     }
 }
 
-pub async fn list_received_documents(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, ecf: Option<&str>, r#type: Option<&str>, status: Option<i32>, supplier_rnc: Option<&str>, amount_from: Option<f64>, amount_to: Option<f64>, processed: Option<bool>, date_from: Option<String>, date_to: Option<String>, page: Option<i32>, limit: Option<i32>) -> Result<models::ReceivedDocumentListResponse, Error<ListReceivedDocumentsError>> {
+pub async fn list_received_documents(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, ecf: Option<&str>, r#type: Option<&str>, status: Option<i32>, supplier_rnc: Option<&str>, amount_from: Option<f64>, amount_to: Option<f64>, processed: Option<bool>, date_from: Option<&str>, date_to: Option<&str>, page: Option<i32>, limit: Option<i32>) -> Result<models::ReceivedDocumentListResponse, Error<ListReceivedDocumentsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_header_x_tenant_id = x_tenant_id;
     let p_query_ecf = ecf;

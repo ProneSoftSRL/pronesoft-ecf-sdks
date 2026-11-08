@@ -49,7 +49,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del evento &#x60;security.new_login&#x60;. Se detectó un inicio de sesión desde una IP o dispositivo nuevo.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class SecurityNewLoginPayload {
   public static final String SERIALIZED_NAME_IP = "ip";
   @SerializedName(SERIALIZED_NAME_IP)

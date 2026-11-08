@@ -23,7 +23,7 @@ module PronesoftEcf
 
     attr_accessor :description
 
-    # 1=Good, 2=Service
+    # 1=Bien, 2=Servicio
     attr_accessor :type
 
     attr_accessor :billing_indicator

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **buyer_rnc** | **str** |  | [optional] 
 **total_amount** | **float** |  | [optional] 
 **approval_status** | **str** |  | [optional] 
-**status** | **int** | 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review | [optional] 
+**status** | **int** | 1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión | [optional] 
 **status_label** | **str** |  | [optional] 
 **issue_date** | **datetime** |  | [optional] 
 **received_at** | **datetime** |  | [optional] 

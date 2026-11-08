@@ -37,6 +37,8 @@ docs/ContingencyActivatedPayload.md
 docs/CreateAssociatedCompany201Response.md
 docs/CreateTaxSequence201Response.md
 docs/CreateTaxSequenceRequest.md
+docs/DecideCommercialApprovalRequest.md
+docs/DecideCommercialApprovalResponse.md
 docs/DeleteAssociatedCompany200Response.md
 docs/DgiiMessage.md
 docs/DigitalCertificatesApi.md
@@ -53,6 +55,8 @@ docs/ECFSubmissionApi.md
 docs/EcfHistoryItem.md
 docs/EcfStatsResponse.md
 docs/EcfStatusResponse.md
+docs/EcfStatusResponseGovernmentResponse.md
+docs/EcfStatusResponseGovernmentResponseValueInner.md
 docs/EcfSubmitResponse.md
 docs/EcfSubmitResponseCompanyIdentification.md
 docs/ElectronicDocument.md
@@ -137,9 +141,8 @@ docs/WebhookNotificationPayloadData.md
 docs/WebhookStats.md
 docs/WebhookStatsStats.md
 git_push.sh
-src/Pronesoft.Ecf.Sdk.Test/Model/ImportTaxSequencesFromExcel200ResponseDataResultsInnerTests.cs
-src/Pronesoft.Ecf.Sdk.Test/Model/ImportTaxSequencesFromExcel200ResponseDataTests.cs
-src/Pronesoft.Ecf.Sdk.Test/Model/ImportTaxSequencesFromExcel200ResponseTests.cs
+src/Pronesoft.Ecf.Sdk.Test/Model/DecideCommercialApprovalRequestTests.cs
+src/Pronesoft.Ecf.Sdk.Test/Model/DecideCommercialApprovalResponseTests.cs
 src/Pronesoft.Ecf.Sdk.Test/Pronesoft.Ecf.Sdk.Test.csproj
 src/Pronesoft.Ecf.Sdk/Api/AssociatedCompaniesApi.cs
 src/Pronesoft.Ecf.Sdk/Api/AuthenticationApi.cs
@@ -201,6 +204,8 @@ src/Pronesoft.Ecf.Sdk/Model/ContingencyActivatedPayload.cs
 src/Pronesoft.Ecf.Sdk/Model/CreateAssociatedCompany201Response.cs
 src/Pronesoft.Ecf.Sdk/Model/CreateTaxSequence201Response.cs
 src/Pronesoft.Ecf.Sdk/Model/CreateTaxSequenceRequest.cs
+src/Pronesoft.Ecf.Sdk/Model/DecideCommercialApprovalRequest.cs
+src/Pronesoft.Ecf.Sdk/Model/DecideCommercialApprovalResponse.cs
 src/Pronesoft.Ecf.Sdk/Model/DeleteAssociatedCompany200Response.cs
 src/Pronesoft.Ecf.Sdk/Model/DgiiMessage.cs
 src/Pronesoft.Ecf.Sdk/Model/DiscountOrSurcharge.cs
@@ -213,6 +218,8 @@ src/Pronesoft.Ecf.Sdk/Model/DocumentValidationErrorPayload.cs
 src/Pronesoft.Ecf.Sdk/Model/EcfHistoryItem.cs
 src/Pronesoft.Ecf.Sdk/Model/EcfStatsResponse.cs
 src/Pronesoft.Ecf.Sdk/Model/EcfStatusResponse.cs
+src/Pronesoft.Ecf.Sdk/Model/EcfStatusResponseGovernmentResponse.cs
+src/Pronesoft.Ecf.Sdk/Model/EcfStatusResponseGovernmentResponseValueInner.cs
 src/Pronesoft.Ecf.Sdk/Model/EcfSubmitResponse.cs
 src/Pronesoft.Ecf.Sdk/Model/EcfSubmitResponseCompanyIdentification.cs
 src/Pronesoft.Ecf.Sdk/Model/ElectronicDocument.cs

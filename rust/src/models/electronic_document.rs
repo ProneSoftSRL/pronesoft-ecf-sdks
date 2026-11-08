@@ -22,33 +22,33 @@ pub struct ElectronicDocument {
     /// Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`. 
     #[serde(rename = "invoiceNumber", skip_serializing_if = "Option::is_none")]
     pub invoice_number: Option<String>,
-    /// Optional Group ID for batch processing
+    /// ID de grupo opcional para procesamiento en lote.
     #[serde(rename = "groupId", skip_serializing_if = "Option::is_none")]
     pub group_id: Option<String>,
     #[serde(rename = "issueDate")]
     pub issue_date: String,
     #[serde(rename = "expirationDate", skip_serializing_if = "Option::is_none")]
     pub expiration_date: Option<String>,
-    /// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+    /// Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días
     #[serde(rename = "creditNoteIndicator", skip_serializing_if = "Option::is_none")]
     pub credit_note_indicator: Option<CreditNoteIndicator>,
     #[serde(rename = "deferredSendingIndicator", skip_serializing_if = "Option::is_none")]
     pub deferred_sending_indicator: Option<DeferredSendingIndicator>,
     #[serde(rename = "taxedAmountIndicator", skip_serializing_if = "Option::is_none")]
     pub taxed_amount_indicator: Option<TaxedAmountIndicator>,
-    /// 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
+    /// 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro
     #[serde(rename = "incomeType", skip_serializing_if = "Option::is_none")]
     pub income_type: Option<IncomeType>,
-    /// 1=Cash, 2=Credit, 3=Mixed
+    /// 1=Contado, 2=Crédito, 3=Mixto
     #[serde(rename = "paymentType", skip_serializing_if = "Option::is_none")]
     pub payment_type: Option<PaymentType>,
     #[serde(rename = "paymentDeadline", skip_serializing_if = "Option::is_none")]
     pub payment_deadline: Option<String>,
     #[serde(rename = "paymentTerms", skip_serializing_if = "Option::is_none")]
     pub payment_terms: Option<String>,
-    /// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
-    #[serde(rename = "paymentForms", skip_serializing_if = "Option::is_none")]
-    pub payment_forms: Option<Vec<models::PaymentForm>>,
+    /// Payment breakdown. Required.
+    #[serde(rename = "paymentForms")]
+    pub payment_forms: Vec<models::PaymentForm>,
     #[serde(rename = "paymentAccountType", skip_serializing_if = "Option::is_none")]
     pub payment_account_type: Option<models::AccountType>,
     #[serde(rename = "paymentAccountNumber", skip_serializing_if = "Option::is_none")]
@@ -61,7 +61,7 @@ pub struct ElectronicDocument {
     pub service_end_date: Option<String>,
     #[serde(rename = "totalPages", skip_serializing_if = "Option::is_none")]
     pub total_pages: Option<i32>,
-    /// RNC of the issuing company.
+    /// RNC de la empresa emisora.
     #[serde(rename = "issuerRNC", skip_serializing_if = "Option::is_none")]
     pub issuer_rnc: Option<String>,
     #[serde(rename = "issuerBusinessName", skip_serializing_if = "Option::is_none")]
@@ -100,8 +100,8 @@ pub struct ElectronicDocument {
     pub buyer: Option<Box<models::Buyer>>,
     #[serde(rename = "items")]
     pub items: Vec<models::Item>,
-    #[serde(rename = "totals", skip_serializing_if = "Option::is_none")]
-    pub totals: Option<Box<models::Totals>>,
+    #[serde(rename = "totals")]
+    pub totals: Box<models::Totals>,
     #[serde(rename = "transport", skip_serializing_if = "Option::is_none")]
     pub transport: Option<Box<models::Transport>>,
     #[serde(rename = "additionalInfo", skip_serializing_if = "Option::is_none")]
@@ -120,7 +120,7 @@ pub struct ElectronicDocument {
 
 impl ElectronicDocument {
     /// Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el `invoiceType`. Usa `GET /tax-sequences/next?invoiceType=31` solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: `POST /{environment}/ecf/submit` (ej. `TesteCF` o `eCF`). 
-    pub fn new(invoice_type: models::InvoiceType, issue_date: String, items: Vec<models::Item>) -> ElectronicDocument {
+    pub fn new(invoice_type: models::InvoiceType, issue_date: String, payment_forms: Vec<models::PaymentForm>, items: Vec<models::Item>, totals: models::Totals) -> ElectronicDocument {
         ElectronicDocument {
             version: None,
             invoice_type,
@@ -135,7 +135,7 @@ impl ElectronicDocument {
             payment_type: None,
             payment_deadline: None,
             payment_terms: None,
-            payment_forms: None,
+            payment_forms,
             payment_account_type: None,
             payment_account_number: None,
             payment_bank: None,
@@ -161,7 +161,7 @@ impl ElectronicDocument {
             additional_issuer_info: None,
             buyer: None,
             items,
-            totals: None,
+            totals: Box::new(totals),
             transport: None,
             additional_info: None,
             alternative_currency: None,
@@ -172,7 +172,7 @@ impl ElectronicDocument {
         }
     }
 }
-/// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+/// Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum CreditNoteIndicator {
     #[serde(rename = "0")]
@@ -212,7 +212,7 @@ impl Default for TaxedAmountIndicator {
         Self::Variant0
     }
 }
-/// 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
+/// 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum IncomeType {
     #[serde(rename = "01")]
@@ -234,7 +234,7 @@ impl Default for IncomeType {
         Self::Variant01
     }
 }
-/// 1=Cash, 2=Credit, 3=Mixed
+/// 1=Contado, 2=Crédito, 3=Mixto
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum PaymentType {
     #[serde(rename = "1")]

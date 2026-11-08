@@ -27,11 +27,11 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Bearer token valid for 24 hours (86400 seconds).
+ * Token de acceso Bearer válido por 24 horas (86400 segundos).
  *
  * @param accessToken 
  * @param tokenType 
- * @param expiresIn Token lifetime in seconds (24 hours = 86400).
+ * @param expiresIn Duración del token en segundos (24 horas = 86400).
  * @param scope 
  */
 
@@ -44,7 +44,7 @@ data class OAuthTokenResponse (
     @SerializedName("tokenType")
     val tokenType: kotlin.String? = null,
 
-    /* Token lifetime in seconds (24 hours = 86400). */
+    /* Duración del token en segundos (24 horas = 86400). */
     @SerializedName("expiresIn")
     val expiresIn: kotlin.Int? = null,
 

@@ -23,9 +23,8 @@ import {
 
 /**
  * Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente.
- * `status` siempre es `REGISTERED`. `legalStatus` y `trackId` siempre son `null` en este momento
- * — se populan una vez que la DGII procesa el documento. Usa `GET /ecf/status/{id}` o
- * escucha el webhook `document.status_changed` para obtener el resultado fiscal final.
+ * `status` siempre es `REGISTERED`. Usa `GET /ecf/status/{id}` o escucha el webhook
+ * `document.status_changed` para obtener el resultado fiscal final de DGII.
  * 
  * @export
  * @interface EcfSubmitResponse
@@ -50,35 +49,17 @@ export interface EcfSubmitResponse {
      */
     status: EcfSubmitResponseStatusEnum;
     /**
-     * Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
-     * @type {EcfSubmitResponseLegalStatusEnum}
-     * @memberof EcfSubmitResponse
-     */
-    legalStatus?: EcfSubmitResponseLegalStatusEnum | null;
-    /**
      * 
      * @type {EcfSubmitResponseCompanyIdentification}
      * @memberof EcfSubmitResponse
      */
     companyIdentification: EcfSubmitResponseCompanyIdentification;
     /**
-     * Siempre `null` al enviar. Lo asigna DGII al procesar el documento.
-     * @type {string}
-     * @memberof EcfSubmitResponse
-     */
-    trackId?: string | null;
-    /**
-     * Número de control electrónico (e-NCF). Igual a `encf`.
-     * @type {string}
-     * @memberof EcfSubmitResponse
-     */
-    documentNumber?: string | null;
-    /**
      * Número e-NCF asignado al documento (ej. E310000000001).
      * @type {string}
      * @memberof EcfSubmitResponse
      */
-    encf?: string | null;
+    encf: string;
     /**
      * `true` si el documento fue emitido en modo contingencia (DGII no disponible).
      * @type {boolean}
@@ -86,17 +67,11 @@ export interface EcfSubmitResponse {
      */
     contingencyMode?: boolean;
     /**
-     * Mensaje oficial DGII cuando `contingencyMode` es `true`.
+     * URL de consulta del timbre en DGII.
      * @type {string}
      * @memberof EcfSubmitResponse
      */
-    contingencyMessage?: string | null;
-    /**
-     * URL del código QR del documento.
-     * @type {string}
-     * @memberof EcfSubmitResponse
-     */
-    documentStampUrl?: string | null;
+    documentStampUrl?: string;
     /**
      * URL pre-firmada del PDF (expira en 1 hora).
      * @type {string}
@@ -111,18 +86,18 @@ export interface EcfSubmitResponse {
     xmlUrl?: string | null;
     /**
      * Fecha y hora de la firma digital.
-     * @type {Date}
-     * @memberof EcfSubmitResponse
-     */
-    signatureDate?: Date | null;
-    /**
-     * Código de seguridad del documento.
      * @type {string}
      * @memberof EcfSubmitResponse
      */
-    securityCode?: string | null;
+    signatureDate?: string;
     /**
-     * Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
+     * Código de seguridad de 6 caracteres del documento.
+     * @type {string}
+     * @memberof EcfSubmitResponse
+     */
+    securityCode?: string;
+    /**
+     * `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
      * @type {boolean}
      * @memberof EcfSubmitResponse
      */
@@ -138,17 +113,6 @@ export const EcfSubmitResponseStatusEnum = {
 } as const;
 export type EcfSubmitResponseStatusEnum = typeof EcfSubmitResponseStatusEnum[keyof typeof EcfSubmitResponseStatusEnum];
 
-/**
- * @export
- */
-export const EcfSubmitResponseLegalStatusEnum = {
-    Accepted: 'ACCEPTED',
-    AcceptedWithObservations: 'ACCEPTED_WITH_OBSERVATIONS',
-    Rejected: 'REJECTED',
-    Error: 'ERROR'
-} as const;
-export type EcfSubmitResponseLegalStatusEnum = typeof EcfSubmitResponseLegalStatusEnum[keyof typeof EcfSubmitResponseLegalStatusEnum];
-
 
 /**
  * Check if a given object implements the EcfSubmitResponse interface.
@@ -157,6 +121,7 @@ export function instanceOfEcfSubmitResponse(value: object): value is EcfSubmitRe
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
     if (!('companyIdentification' in value) || value['companyIdentification'] === undefined) return false;
+    if (!('encf' in value) || value['encf'] === undefined) return false;
     if (!('sequenceConsumed' in value) || value['sequenceConsumed'] === undefined) return false;
     return true;
 }
@@ -174,17 +139,13 @@ export function EcfSubmitResponseFromJSONTyped(json: any, ignoreDiscriminator: b
         'id': json['id'],
         'stampDate': json['stampDate'] == null ? undefined : (new Date(json['stampDate'])),
         'status': json['status'],
-        'legalStatus': json['legalStatus'] == null ? undefined : json['legalStatus'],
         'companyIdentification': EcfSubmitResponseCompanyIdentificationFromJSON(json['companyIdentification']),
-        'trackId': json['trackId'] == null ? undefined : json['trackId'],
-        'documentNumber': json['documentNumber'] == null ? undefined : json['documentNumber'],
-        'encf': json['encf'] == null ? undefined : json['encf'],
+        'encf': json['encf'],
         'contingencyMode': json['contingencyMode'] == null ? undefined : json['contingencyMode'],
-        'contingencyMessage': json['contingencyMessage'] == null ? undefined : json['contingencyMessage'],
         'documentStampUrl': json['documentStampUrl'] == null ? undefined : json['documentStampUrl'],
         'pdf': json['pdf'] == null ? undefined : json['pdf'],
         'xmlUrl': json['xmlUrl'] == null ? undefined : json['xmlUrl'],
-        'signatureDate': json['signatureDate'] == null ? undefined : (new Date(json['signatureDate'])),
+        'signatureDate': json['signatureDate'] == null ? undefined : json['signatureDate'],
         'securityCode': json['securityCode'] == null ? undefined : json['securityCode'],
         'sequenceConsumed': json['sequenceConsumed'],
     };
@@ -204,17 +165,13 @@ export function EcfSubmitResponseToJSONTyped(value?: EcfSubmitResponse | null, i
         'id': value['id'],
         'stampDate': value['stampDate'] == null ? value['stampDate'] : value['stampDate'].toISOString().substring(0,10),
         'status': value['status'],
-        'legalStatus': value['legalStatus'],
         'companyIdentification': EcfSubmitResponseCompanyIdentificationToJSON(value['companyIdentification']),
-        'trackId': value['trackId'],
-        'documentNumber': value['documentNumber'],
         'encf': value['encf'],
         'contingencyMode': value['contingencyMode'],
-        'contingencyMessage': value['contingencyMessage'],
         'documentStampUrl': value['documentStampUrl'],
         'pdf': value['pdf'],
         'xmlUrl': value['xmlUrl'],
-        'signatureDate': value['signatureDate'] == null ? value['signatureDate'] : value['signatureDate'].toISOString(),
+        'signatureDate': value['signatureDate'],
         'securityCode': value['securityCode'],
         'sequenceConsumed': value['sequenceConsumed'],
     };

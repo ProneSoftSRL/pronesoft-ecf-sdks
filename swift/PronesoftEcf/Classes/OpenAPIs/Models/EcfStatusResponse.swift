@@ -40,42 +40,32 @@ public struct EcfStatusResponse: Codable, JSONEncodable, Hashable {
     /** Estado fiscal según la respuesta de DGII. null mientras no hay respuesta. */
     public var legalStatus: LegalStatus?
     public var companyIdentification: EcfSubmitResponseCompanyIdentification
-    /** ID de seguimiento asignado por DGII. */
+    /** ID de seguimiento asignado por DGII. null mientras procesa. */
     public var trackId: String?
-    /** Número de control electrónico (e-NCF). */
-    public var documentNumber: String?
     /** Número e-NCF del documento. */
     public var encf: String?
-    /** true si fue emitido en modo contingencia. */
-    public var contingencyMode: Bool?
-    /** Mensaje oficial DGII cuando contingencyMode es true. */
-    public var contingencyMessage: String?
-    /** URL del código QR del documento. */
+    /** URL de consulta del timbre en DGII. */
     public var documentStampUrl: String?
-    /** URL pre-firmada del PDF (expira en 1 hora). */
+    /** URL del PDF del documento. */
     public var pdf: String?
-    /** URL pre-firmada del XML firmado (expira en 1 hora). */
+    /** URL del XML firmado. */
     public var xmlUrl: String?
     /** Fecha y hora de la firma digital. */
-    public var signatureDate: Date?
-    /** Código de seguridad del documento. */
+    public var signatureDate: String?
+    /** Código de seguridad de 6 caracteres. */
     public var securityCode: String?
-    /** true si DGII confirmó el consumo de la secuencia. */
+    /** true cuando DGII confirmó el uso de la secuencia. */
     public var sequenceConsumed: Bool
-    /** Respuesta completa de DGII (disponible cuando status es FINISHED). */
-    public var governmentResponse: [String: AnyCodable]?
+    public var governmentResponse: EcfStatusResponseGovernmentResponse?
 
-    public init(id: UUID, stampDate: Date? = nil, status: Status, legalStatus: LegalStatus? = nil, companyIdentification: EcfSubmitResponseCompanyIdentification, trackId: String? = nil, documentNumber: String? = nil, encf: String? = nil, contingencyMode: Bool? = nil, contingencyMessage: String? = nil, documentStampUrl: String? = nil, pdf: String? = nil, xmlUrl: String? = nil, signatureDate: Date? = nil, securityCode: String? = nil, sequenceConsumed: Bool, governmentResponse: [String: AnyCodable]? = nil) {
+    public init(id: UUID, stampDate: Date? = nil, status: Status, legalStatus: LegalStatus? = nil, companyIdentification: EcfSubmitResponseCompanyIdentification, trackId: String? = nil, encf: String? = nil, documentStampUrl: String? = nil, pdf: String? = nil, xmlUrl: String? = nil, signatureDate: String? = nil, securityCode: String? = nil, sequenceConsumed: Bool, governmentResponse: EcfStatusResponseGovernmentResponse? = nil) {
         self.id = id
         self.stampDate = stampDate
         self.status = status
         self.legalStatus = legalStatus
         self.companyIdentification = companyIdentification
         self.trackId = trackId
-        self.documentNumber = documentNumber
         self.encf = encf
-        self.contingencyMode = contingencyMode
-        self.contingencyMessage = contingencyMessage
         self.documentStampUrl = documentStampUrl
         self.pdf = pdf
         self.xmlUrl = xmlUrl
@@ -92,10 +82,7 @@ public struct EcfStatusResponse: Codable, JSONEncodable, Hashable {
         case legalStatus
         case companyIdentification
         case trackId
-        case documentNumber
         case encf
-        case contingencyMode
-        case contingencyMessage
         case documentStampUrl
         case pdf
         case xmlUrl
@@ -115,10 +102,7 @@ public struct EcfStatusResponse: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(legalStatus, forKey: .legalStatus)
         try container.encode(companyIdentification, forKey: .companyIdentification)
         try container.encodeIfPresent(trackId, forKey: .trackId)
-        try container.encodeIfPresent(documentNumber, forKey: .documentNumber)
         try container.encodeIfPresent(encf, forKey: .encf)
-        try container.encodeIfPresent(contingencyMode, forKey: .contingencyMode)
-        try container.encodeIfPresent(contingencyMessage, forKey: .contingencyMessage)
         try container.encodeIfPresent(documentStampUrl, forKey: .documentStampUrl)
         try container.encodeIfPresent(pdf, forKey: .pdf)
         try container.encodeIfPresent(xmlUrl, forKey: .xmlUrl)

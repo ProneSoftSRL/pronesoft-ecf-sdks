@@ -15,7 +15,7 @@ public typealias DocumentStatusChangedPayload = PronesoftEcfAPI.DocumentStatusCh
 
 extension PronesoftEcfAPI {
 
-/** Payload inside &#x60;data&#x60; when event is &#x60;document.status_changed&#x60;. Use &#x60;documentId&#x60; to poll GET /{environment}/ecf/status/{id} if needed. &#x60;issuerRnc&#x60; identifies the company that issued the document (useful in multi-company setups where an associated company sent it).  */
+/** Contenido del campo &#x60;data&#x60; cuando el evento es &#x60;document.status_changed&#x60;. Usa &#x60;documentId&#x60; para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. &#x60;issuerRnc&#x60; identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió).  */
 public struct DocumentStatusChangedPayload: Codable, JSONEncodable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
@@ -30,21 +30,21 @@ public struct DocumentStatusChangedPayload: Codable, JSONEncodable, Hashable {
         case rejected = "REJECTED"
         case error = "ERROR"
     }
-    /** Internal document ID for polling. */
+    /** ID interno del documento para hacer polling. */
     public var documentId: UUID
-    /** e-NCF fiscal number. */
+    /** Número fiscal e-NCF. */
     public var encf: String
-    /** RNC of the issuing company (associated or main). */
+    /** RNC de la empresa emisora (asociada o principal). */
     public var issuerRnc: String
-    /** Public lifecycle status. */
+    /** Estado del ciclo de vida del documento. */
     public var status: Status
-    /** Fiscal result from DGII. Only present when status=FINISHED. */
+    /** Resultado fiscal de la DGII. Solo presente cuando status=FINISHED. */
     public var legalStatus: LegalStatus?
-    /** Tipo de documento code (31=Invoice, 32=Credit Note, etc.) */
+    /** Código del tipo de documento (31=Factura, 32=Nota de Crédito, etc.) */
     public var documentType: String?
-    /** DGII tracking ID. */
+    /** ID de seguimiento asignado por la DGII. */
     public var trackId: String?
-    /** Human-readable DGII response message. */
+    /** Mensaje legible de respuesta de la DGII. */
     public var dgiiMessage: String?
 
     public init(documentId: UUID, encf: String, issuerRnc: String, status: Status, legalStatus: LegalStatus? = nil, documentType: String? = nil, trackId: String? = nil, dgiiMessage: String? = nil) {

@@ -26,7 +26,7 @@ type ReceivedDocument struct {
 	SenderRnc *string `json:"senderRnc,omitempty"`
 	ReceiverRnc *string `json:"receiverRnc,omitempty"`
 	TotalAmount *float32 `json:"totalAmount,omitempty"`
-	// 1=Valid, 2=Voided, 3=Pending
+	// 1=Válido, 2=Anulado, 3=Pendiente
 	Status *int32 `json:"status,omitempty"`
 	StatusLabel *string `json:"statusLabel,omitempty"`
 	IssueDate *time.Time `json:"issueDate,omitempty"`

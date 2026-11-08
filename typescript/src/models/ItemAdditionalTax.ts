@@ -28,7 +28,7 @@ import {
  */
 export interface ItemAdditionalTax {
     /**
-     * DGII tax code (e.g. ISC, IECS)
+     * Código de impuesto DGII (ej. ISC, IECS)
      * @type {string}
      * @memberof ItemAdditionalTax
      */

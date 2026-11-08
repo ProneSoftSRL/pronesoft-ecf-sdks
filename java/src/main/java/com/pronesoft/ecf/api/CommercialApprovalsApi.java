@@ -30,7 +30,6 @@ import java.io.IOException;
 import com.pronesoft.ecf.model.ApprovalItem;
 import com.pronesoft.ecf.model.ApprovalListResponse;
 import com.pronesoft.ecf.model.ErrorResponse;
-import java.time.LocalDate;
 import java.util.UUID;
 
 import java.lang.reflect.Type;
@@ -226,8 +225,8 @@ public class CommercialApprovalsApi {
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @param _callback Callback for upload/download progress
@@ -241,7 +240,7 @@ public class CommercialApprovalsApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listCommercialApprovalsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listCommercialApprovalsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -319,7 +318,7 @@ public class CommercialApprovalsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listCommercialApprovalsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listCommercialApprovalsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         return listCommercialApprovalsCall(xTenantId, ecf, type, status, dateFrom, dateTo, page, limit, _callback);
 
     }
@@ -331,8 +330,8 @@ public class CommercialApprovalsApi {
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApprovalListResponse
@@ -345,7 +344,7 @@ public class CommercialApprovalsApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApprovalListResponse listCommercialApprovals(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ApprovalListResponse listCommercialApprovals(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         ApiResponse<ApprovalListResponse> localVarResp = listCommercialApprovalsWithHttpInfo(xTenantId, ecf, type, status, dateFrom, dateTo, page, limit);
         return localVarResp.getData();
     }
@@ -357,8 +356,8 @@ public class CommercialApprovalsApi {
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApiResponse&lt;ApprovalListResponse&gt;
@@ -371,7 +370,7 @@ public class CommercialApprovalsApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ApprovalListResponse> listCommercialApprovalsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ApiResponse<ApprovalListResponse> listCommercialApprovalsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         okhttp3.Call localVarCall = listCommercialApprovalsValidateBeforeCall(xTenantId, ecf, type, status, dateFrom, dateTo, page, limit, null);
         Type localVarReturnType = new TypeToken<ApprovalListResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -384,8 +383,8 @@ public class CommercialApprovalsApi {
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @param _callback The callback to be executed when the API call finishes
@@ -399,7 +398,7 @@ public class CommercialApprovalsApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listCommercialApprovalsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ApprovalListResponse> _callback) throws ApiException {
+    public okhttp3.Call listCommercialApprovalsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ApprovalListResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = listCommercialApprovalsValidateBeforeCall(xTenantId, ecf, type, status, dateFrom, dateTo, page, limit, _callback);
         Type localVarReturnType = new TypeToken<ApprovalListResponse>(){}.getType();

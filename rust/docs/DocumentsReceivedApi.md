@@ -4,11 +4,44 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**decide_commercial_approval**](DocumentsReceivedApi.md#decide_commercial_approval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
 [**get_received_document_by_id**](DocumentsReceivedApi.md#get_received_document_by_id) | **GET** /documents/received/{id} | Obtener documento recibido por ID
 [**get_received_document_stats_by_supplier**](DocumentsReceivedApi.md#get_received_document_stats_by_supplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
 [**get_received_document_stats_summary**](DocumentsReceivedApi.md#get_received_document_stats_summary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos
 [**list_received_documents**](DocumentsReceivedApi.md#list_received_documents) | **GET** /documents/received | Listar documentos recibidos
 
+
+
+## decide_commercial_approval
+
+> models::DecideCommercialApprovalResponse decide_commercial_approval(id, decide_commercial_approval_request, x_tenant_id)
+Aprobar o rechazar comercialmente un documento recibido
+
+Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**id** | **uuid::Uuid** | ID del documento recibido (TaxDocumentReceived.id) | [required] |
+**decide_commercial_approval_request** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md) |  | [required] |
+**x_tenant_id** | Option<**uuid::Uuid**> | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  |  |
+
+### Return type
+
+[**models::DecideCommercialApprovalResponse**](DecideCommercialApprovalResponse.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
 ## get_received_document_by_id
@@ -114,8 +147,8 @@ Name | Type | Description  | Required | Notes
 **amount_from** | Option<**f64**> |  |  |
 **amount_to** | Option<**f64**> |  |  |
 **processed** | Option<**bool**> |  |  |
-**date_from** | Option<**String**> |  |  |
-**date_to** | Option<**String**> |  |  |
+**date_from** | Option<**String**> | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). |  |
+**date_to** | Option<**String**> | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). |  |
 **page** | Option<**i32**> |  |  |[default to 1]
 **limit** | Option<**i32**> |  |  |[default to 10]
 

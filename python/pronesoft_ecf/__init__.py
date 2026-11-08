@@ -70,6 +70,8 @@ __all__ = [
     "CreateAssociatedCompany201Response",
     "CreateTaxSequence201Response",
     "CreateTaxSequenceRequest",
+    "DecideCommercialApprovalRequest",
+    "DecideCommercialApprovalResponse",
     "DeleteAssociatedCompany200Response",
     "DgiiMessage",
     "DiscountOrSurcharge",
@@ -82,6 +84,8 @@ __all__ = [
     "EcfHistoryItem",
     "EcfStatsResponse",
     "EcfStatusResponse",
+    "EcfStatusResponseGovernmentResponse",
+    "EcfStatusResponseGovernmentResponseValueInner",
     "EcfSubmitResponse",
     "EcfSubmitResponseCompanyIdentification",
     "ElectronicDocument",
@@ -220,6 +224,8 @@ from pronesoft_ecf.models.contingency_activated_payload import ContingencyActiva
 from pronesoft_ecf.models.create_associated_company201_response import CreateAssociatedCompany201Response as CreateAssociatedCompany201Response
 from pronesoft_ecf.models.create_tax_sequence201_response import CreateTaxSequence201Response as CreateTaxSequence201Response
 from pronesoft_ecf.models.create_tax_sequence_request import CreateTaxSequenceRequest as CreateTaxSequenceRequest
+from pronesoft_ecf.models.decide_commercial_approval_request import DecideCommercialApprovalRequest as DecideCommercialApprovalRequest
+from pronesoft_ecf.models.decide_commercial_approval_response import DecideCommercialApprovalResponse as DecideCommercialApprovalResponse
 from pronesoft_ecf.models.delete_associated_company200_response import DeleteAssociatedCompany200Response as DeleteAssociatedCompany200Response
 from pronesoft_ecf.models.dgii_message import DgiiMessage as DgiiMessage
 from pronesoft_ecf.models.discount_or_surcharge import DiscountOrSurcharge as DiscountOrSurcharge
@@ -232,6 +238,8 @@ from pronesoft_ecf.models.document_validation_error_payload import DocumentValid
 from pronesoft_ecf.models.ecf_history_item import EcfHistoryItem as EcfHistoryItem
 from pronesoft_ecf.models.ecf_stats_response import EcfStatsResponse as EcfStatsResponse
 from pronesoft_ecf.models.ecf_status_response import EcfStatusResponse as EcfStatusResponse
+from pronesoft_ecf.models.ecf_status_response_government_response import EcfStatusResponseGovernmentResponse as EcfStatusResponseGovernmentResponse
+from pronesoft_ecf.models.ecf_status_response_government_response_value_inner import EcfStatusResponseGovernmentResponseValueInner as EcfStatusResponseGovernmentResponseValueInner
 from pronesoft_ecf.models.ecf_submit_response import EcfSubmitResponse as EcfSubmitResponse
 from pronesoft_ecf.models.ecf_submit_response_company_identification import EcfSubmitResponseCompanyIdentification as EcfSubmitResponseCompanyIdentification
 from pronesoft_ecf.models.electronic_document import ElectronicDocument as ElectronicDocument

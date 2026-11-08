@@ -8,7 +8,7 @@ import 'package:pronesoft_ecf/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**code** | **String** | DGII tax code (e.g. ISC, IECS) | 
+**code** | **String** | Código de impuesto DGII (ej. ISC, IECS) | 
 **amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 **rate** | **num** |  | [optional] 
 **alternativeCurrencyAmount** | **num** |  | [optional] 

@@ -19,6 +19,83 @@ module PronesoftEcf
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
+    # Aprobar o rechazar comercialmente un documento recibido
+    # Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+    # @param id [String] ID del documento recibido (TaxDocumentReceived.id)
+    # @param decide_commercial_approval_request [DecideCommercialApprovalRequest] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [DecideCommercialApprovalResponse]
+    def decide_commercial_approval(id, decide_commercial_approval_request, opts = {})
+      data, _status_code, _headers = decide_commercial_approval_with_http_info(id, decide_commercial_approval_request, opts)
+      data
+    end
+
+    # Aprobar o rechazar comercialmente un documento recibido
+    # Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+    # @param id [String] ID del documento recibido (TaxDocumentReceived.id)
+    # @param decide_commercial_approval_request [DecideCommercialApprovalRequest] 
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :x_tenant_id UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+    # @return [Array<(DecideCommercialApprovalResponse, Integer, Hash)>] DecideCommercialApprovalResponse data, response status code and response headers
+    def decide_commercial_approval_with_http_info(id, decide_commercial_approval_request, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: DocumentsReceivedApi.decide_commercial_approval ...'
+      end
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling DocumentsReceivedApi.decide_commercial_approval"
+      end
+      # verify the required parameter 'decide_commercial_approval_request' is set
+      if @api_client.config.client_side_validation && decide_commercial_approval_request.nil?
+        fail ArgumentError, "Missing the required parameter 'decide_commercial_approval_request' when calling DocumentsReceivedApi.decide_commercial_approval"
+      end
+      # resource path
+      local_var_path = '/documents/received/{id}/commercial-approval'.sub('{' + 'id' + '}', CGI.escape(id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+      header_params[:'x-tenant-id'] = opts[:'x_tenant_id'] if !opts[:'x_tenant_id'].nil?
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(decide_commercial_approval_request)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'DecideCommercialApprovalResponse'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['oauth2']
+
+      new_options = opts.merge(
+        :operation => :"DocumentsReceivedApi.decide_commercial_approval",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: DocumentsReceivedApi#decide_commercial_approval\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Obtener documento recibido por ID
     # @param id [String] 
     # @param [Hash] opts the optional parameters
@@ -209,8 +286,8 @@ module PronesoftEcf
     # @option opts [Float] :amount_from 
     # @option opts [Float] :amount_to 
     # @option opts [Boolean] :processed 
-    # @option opts [Date] :date_from 
-    # @option opts [Date] :date_to 
+    # @option opts [String] :date_from Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+    # @option opts [String] :date_to Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :limit  (default to 10)
     # @return [ReceivedDocumentListResponse]
@@ -229,8 +306,8 @@ module PronesoftEcf
     # @option opts [Float] :amount_from 
     # @option opts [Float] :amount_to 
     # @option opts [Boolean] :processed 
-    # @option opts [Date] :date_from 
-    # @option opts [Date] :date_to 
+    # @option opts [String] :date_from Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+    # @option opts [String] :date_to Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
     # @option opts [Integer] :page  (default to 1)
     # @option opts [Integer] :limit  (default to 10)
     # @return [Array<(ReceivedDocumentListResponse, Integer, Hash)>] ReceivedDocumentListResponse data, response status code and response headers

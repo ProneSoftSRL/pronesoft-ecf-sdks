@@ -4,11 +4,97 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**decide_commercial_approval**](DocumentsReceivedApi.md#decide_commercial_approval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
 [**get_received_document_by_id**](DocumentsReceivedApi.md#get_received_document_by_id) | **GET** /documents/received/{id} | Obtener documento recibido por ID
 [**get_received_document_stats_by_supplier**](DocumentsReceivedApi.md#get_received_document_stats_by_supplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
 [**get_received_document_stats_summary**](DocumentsReceivedApi.md#get_received_document_stats_summary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos
 [**list_received_documents**](DocumentsReceivedApi.md#list_received_documents) | **GET** /documents/received | Listar documentos recibidos
 
+
+# **decide_commercial_approval**
+> DecideCommercialApprovalResponse decide_commercial_approval(id, decide_commercial_approval_request, x_tenant_id=x_tenant_id)
+
+Aprobar o rechazar comercialmente un documento recibido
+
+Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte.
+La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento.
+
+
+### Example
+
+* OAuth Authentication (oauth2):
+
+```python
+import pronesoft_ecf
+from pronesoft_ecf.models.decide_commercial_approval_request import DecideCommercialApprovalRequest
+from pronesoft_ecf.models.decide_commercial_approval_response import DecideCommercialApprovalResponse
+from pronesoft_ecf.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.ecf.sandbox.pronesoft.com/api/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = pronesoft_ecf.Configuration(
+    host = "https://api.ecf.sandbox.pronesoft.com/api/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+configuration.access_token = os.environ["ACCESS_TOKEN"]
+
+# Enter a context with an instance of the API client
+with pronesoft_ecf.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = pronesoft_ecf.DocumentsReceivedApi(api_client)
+    id = UUID('38400000-8cf0-11bd-b23e-10b96e4ef00d') # UUID | ID del documento recibido (TaxDocumentReceived.id)
+    decide_commercial_approval_request = pronesoft_ecf.DecideCommercialApprovalRequest() # DecideCommercialApprovalRequest | 
+    x_tenant_id = UUID('468a4aa1-1b80-447e-9ecb-400e39f7d798') # UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+
+    try:
+        # Aprobar o rechazar comercialmente un documento recibido
+        api_response = api_instance.decide_commercial_approval(id, decide_commercial_approval_request, x_tenant_id=x_tenant_id)
+        print("The response of DocumentsReceivedApi->decide_commercial_approval:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DocumentsReceivedApi->decide_commercial_approval: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **UUID**| ID del documento recibido (TaxDocumentReceived.id) | 
+ **decide_commercial_approval_request** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md)|  | 
+ **x_tenant_id** | **UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] 
+
+### Return type
+
+[**DecideCommercialApprovalResponse**](DecideCommercialApprovalResponse.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Decisión registrada y encolada para envío |  -  |
+**400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+**401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+**404** | Documento recibido no encontrado |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_received_document_by_id**
 > ReceivedDocument get_received_document_by_id(id, x_tenant_id=x_tenant_id)
@@ -275,8 +361,8 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     amount_from = 3.4 # float |  (optional)
     amount_to = 3.4 # float |  (optional)
     processed = True # bool |  (optional)
-    date_from = '2013-10-20' # date |  (optional)
-    date_to = '2013-10-20' # date |  (optional)
+    date_from = 'date_from_example' # str | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+    date_to = 'date_to_example' # str | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
     page = 1 # int |  (optional) (default to 1)
     limit = 10 # int |  (optional) (default to 10)
 
@@ -304,8 +390,8 @@ Name | Type | Description  | Notes
  **amount_from** | **float**|  | [optional] 
  **amount_to** | **float**|  | [optional] 
  **processed** | **bool**|  | [optional] 
- **date_from** | **date**|  | [optional] 
- **date_to** | **date**|  | [optional] 
+ **date_from** | **str**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
+ **date_to** | **str**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
  **page** | **int**|  | [optional] [default to 1]
  **limit** | **int**|  | [optional] [default to 10]
 

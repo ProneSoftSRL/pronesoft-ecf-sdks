@@ -45,6 +45,8 @@ docs/Model/ContingencyActivatedPayload.md
 docs/Model/CreateAssociatedCompany201Response.md
 docs/Model/CreateTaxSequence201Response.md
 docs/Model/CreateTaxSequenceRequest.md
+docs/Model/DecideCommercialApprovalRequest.md
+docs/Model/DecideCommercialApprovalResponse.md
 docs/Model/DeleteAssociatedCompany200Response.md
 docs/Model/DgiiMessage.md
 docs/Model/DiscountOrSurcharge.md
@@ -57,6 +59,8 @@ docs/Model/DocumentValidationErrorPayload.md
 docs/Model/EcfHistoryItem.md
 docs/Model/EcfStatsResponse.md
 docs/Model/EcfStatusResponse.md
+docs/Model/EcfStatusResponseGovernmentResponse.md
+docs/Model/EcfStatusResponseGovernmentResponseValueInner.md
 docs/Model/EcfSubmitResponse.md
 docs/Model/EcfSubmitResponseCompanyIdentification.md
 docs/Model/ElectronicDocument.md
@@ -184,6 +188,8 @@ lib/Model/ContingencyActivatedPayload.php
 lib/Model/CreateAssociatedCompany201Response.php
 lib/Model/CreateTaxSequence201Response.php
 lib/Model/CreateTaxSequenceRequest.php
+lib/Model/DecideCommercialApprovalRequest.php
+lib/Model/DecideCommercialApprovalResponse.php
 lib/Model/DeleteAssociatedCompany200Response.php
 lib/Model/DgiiMessage.php
 lib/Model/DiscountOrSurcharge.php
@@ -196,6 +202,8 @@ lib/Model/DocumentValidationErrorPayload.php
 lib/Model/EcfHistoryItem.php
 lib/Model/EcfStatsResponse.php
 lib/Model/EcfStatusResponse.php
+lib/Model/EcfStatusResponseGovernmentResponse.php
+lib/Model/EcfStatusResponseGovernmentResponseValueInner.php
 lib/Model/EcfSubmitResponse.php
 lib/Model/EcfSubmitResponseCompanyIdentification.php
 lib/Model/ElectronicDocument.php
@@ -279,6 +287,5 @@ lib/Model/WebhookStats.php
 lib/Model/WebhookStatsStats.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
-test/Model/ImportTaxSequencesFromExcel200ResponseDataResultsInnerTest.php
-test/Model/ImportTaxSequencesFromExcel200ResponseDataTest.php
-test/Model/ImportTaxSequencesFromExcel200ResponseTest.php
+test/Model/DecideCommercialApprovalRequestTest.php
+test/Model/DecideCommercialApprovalResponseTest.php

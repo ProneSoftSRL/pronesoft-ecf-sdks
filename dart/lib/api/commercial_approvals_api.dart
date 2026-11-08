@@ -95,14 +95,16 @@ class CommercialApprovalsApi {
   ///
   /// * [int] status:
   ///
-  /// * [DateTime] dateFrom:
+  /// * [String] dateFrom:
+  ///   Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
   ///
-  /// * [DateTime] dateTo:
+  /// * [String] dateTo:
+  ///   Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
   ///
   /// * [int] page:
   ///
   /// * [int] limit:
-  Future<Response> listCommercialApprovalsWithHttpInfo({ String? xTenantId, String? ecf, String? type, int? status, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+  Future<Response> listCommercialApprovalsWithHttpInfo({ String? xTenantId, String? ecf, String? type, int? status, String? dateFrom, String? dateTo, int? page, int? limit, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/approvals';
 
@@ -167,14 +169,16 @@ class CommercialApprovalsApi {
   ///
   /// * [int] status:
   ///
-  /// * [DateTime] dateFrom:
+  /// * [String] dateFrom:
+  ///   Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
   ///
-  /// * [DateTime] dateTo:
+  /// * [String] dateTo:
+  ///   Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
   ///
   /// * [int] page:
   ///
   /// * [int] limit:
-  Future<ApprovalListResponse?> listCommercialApprovals({ String? xTenantId, String? ecf, String? type, int? status, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+  Future<ApprovalListResponse?> listCommercialApprovals({ String? xTenantId, String? ecf, String? type, int? status, String? dateFrom, String? dateTo, int? page, int? limit, }) async {
     final response = await listCommercialApprovalsWithHttpInfo( xTenantId: xTenantId, ecf: ecf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

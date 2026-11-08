@@ -60,7 +60,7 @@ Name | Type | Description  | Notes
 
 # **listCommercialApprovals**
 ```swift
-    open class func listCommercialApprovals(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ApprovalListResponse?, _ error: Error?) -> Void)
+    open class func listCommercialApprovals(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: ApprovalListResponse?, _ error: Error?) -> Void)
 ```
 
 Listar aprobaciones comerciales
@@ -74,8 +74,8 @@ let xTenantId = 987 // UUID | UUID de la empresa asociada (sucursal). Incluir SO
 let ecf = "ecf_example" // String |  (optional)
 let type = "type_example" // String | Tipo de documento (optional)
 let status = 987 // Int |  (optional)
-let dateFrom = Date() // Date |  (optional)
-let dateTo = Date() // Date |  (optional)
+let dateFrom = "dateFrom_example" // String | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+let dateTo = "dateTo_example" // String | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let limit = 987 // Int |  (optional) (default to 10)
 
@@ -100,8 +100,8 @@ Name | Type | Description  | Notes
  **ecf** | **String** |  | [optional] 
  **type** | **String** | Tipo de documento | [optional] 
  **status** | **Int** |  | [optional] 
- **dateFrom** | **Date** |  | [optional] 
- **dateTo** | **Date** |  | [optional] 
+ **dateFrom** | **String** | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
+ **dateTo** | **String** | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **limit** | **Int** |  | [optional] [default to 10]
 

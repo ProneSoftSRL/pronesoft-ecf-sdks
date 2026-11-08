@@ -30,7 +30,7 @@ public struct ApprovalItem: Codable, JSONEncodable, Hashable {
     public var buyerRnc: String?
     public var totalAmount: Double?
     public var approvalStatus: String?
-    /** 1=Approved, 2=Rejected, 3=Pending, 4=Under Review */
+    /** 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión */
     public var status: Status?
     public var statusLabel: String?
     public var issueDate: Date?

@@ -130,19 +130,16 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="status">Estado del proceso de envío a DGII. (required).</param>
         /// <param name="legalStatus">Estado fiscal según la respuesta de DGII. null mientras no hay respuesta..</param>
         /// <param name="companyIdentification">companyIdentification (required).</param>
-        /// <param name="trackId">ID de seguimiento asignado por DGII..</param>
-        /// <param name="documentNumber">Número de control electrónico (e-NCF)..</param>
+        /// <param name="trackId">ID de seguimiento asignado por DGII. null mientras procesa..</param>
         /// <param name="encf">Número e-NCF del documento..</param>
-        /// <param name="contingencyMode">true si fue emitido en modo contingencia..</param>
-        /// <param name="contingencyMessage">Mensaje oficial DGII cuando contingencyMode es true..</param>
-        /// <param name="documentStampUrl">URL del código QR del documento..</param>
-        /// <param name="pdf">URL pre-firmada del PDF (expira en 1 hora)..</param>
-        /// <param name="xmlUrl">URL pre-firmada del XML firmado (expira en 1 hora)..</param>
+        /// <param name="documentStampUrl">URL de consulta del timbre en DGII..</param>
+        /// <param name="pdf">URL del PDF del documento..</param>
+        /// <param name="xmlUrl">URL del XML firmado..</param>
         /// <param name="signatureDate">Fecha y hora de la firma digital..</param>
-        /// <param name="securityCode">Código de seguridad del documento..</param>
-        /// <param name="sequenceConsumed">true si DGII confirmó el consumo de la secuencia. (required).</param>
-        /// <param name="governmentResponse">Respuesta completa de DGII (disponible cuando status es FINISHED)..</param>
-        public EcfStatusResponse(Guid id = default, DateOnly? stampDate = default, StatusEnum status = default, LegalStatusEnum? legalStatus = default, EcfSubmitResponseCompanyIdentification companyIdentification = default, string trackId = default, string documentNumber = default, string encf = default, bool contingencyMode = default, string contingencyMessage = default, string documentStampUrl = default, string pdf = default, string xmlUrl = default, DateTime? signatureDate = default, string securityCode = default, bool sequenceConsumed = default, Dictionary<string, Object> governmentResponse = default)
+        /// <param name="securityCode">Código de seguridad de 6 caracteres..</param>
+        /// <param name="sequenceConsumed">true cuando DGII confirmó el uso de la secuencia. (required).</param>
+        /// <param name="governmentResponse">governmentResponse.</param>
+        public EcfStatusResponse(Guid id = default, DateOnly? stampDate = default, StatusEnum status = default, LegalStatusEnum? legalStatus = default, EcfSubmitResponseCompanyIdentification companyIdentification = default, string trackId = default, string encf = default, string documentStampUrl = default, string pdf = default, string xmlUrl = default, string signatureDate = default, string securityCode = default, bool sequenceConsumed = default, EcfStatusResponseGovernmentResponse governmentResponse = default)
         {
             this.Id = id;
             this.Status = status;
@@ -156,10 +153,7 @@ namespace Pronesoft.Ecf.Sdk.Model
             this.StampDate = stampDate;
             this.LegalStatus = legalStatus;
             this.TrackId = trackId;
-            this.DocumentNumber = documentNumber;
             this.Encf = encf;
-            this.ContingencyMode = contingencyMode;
-            this.ContingencyMessage = contingencyMessage;
             this.DocumentStampUrl = documentStampUrl;
             this.Pdf = pdf;
             this.XmlUrl = xmlUrl;
@@ -189,18 +183,11 @@ namespace Pronesoft.Ecf.Sdk.Model
         public EcfSubmitResponseCompanyIdentification CompanyIdentification { get; set; }
 
         /// <summary>
-        /// ID de seguimiento asignado por DGII.
+        /// ID de seguimiento asignado por DGII. null mientras procesa.
         /// </summary>
-        /// <value>ID de seguimiento asignado por DGII.</value>
+        /// <value>ID de seguimiento asignado por DGII. null mientras procesa.</value>
         [DataMember(Name = "trackId", EmitDefaultValue = true)]
         public string TrackId { get; set; }
-
-        /// <summary>
-        /// Número de control electrónico (e-NCF).
-        /// </summary>
-        /// <value>Número de control electrónico (e-NCF).</value>
-        [DataMember(Name = "documentNumber", EmitDefaultValue = true)]
-        public string DocumentNumber { get; set; }
 
         /// <summary>
         /// Número e-NCF del documento.
@@ -210,37 +197,23 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string Encf { get; set; }
 
         /// <summary>
-        /// true si fue emitido en modo contingencia.
+        /// URL de consulta del timbre en DGII.
         /// </summary>
-        /// <value>true si fue emitido en modo contingencia.</value>
-        [DataMember(Name = "contingencyMode", EmitDefaultValue = true)]
-        public bool ContingencyMode { get; set; }
-
-        /// <summary>
-        /// Mensaje oficial DGII cuando contingencyMode es true.
-        /// </summary>
-        /// <value>Mensaje oficial DGII cuando contingencyMode es true.</value>
-        [DataMember(Name = "contingencyMessage", EmitDefaultValue = false)]
-        public string ContingencyMessage { get; set; }
-
-        /// <summary>
-        /// URL del código QR del documento.
-        /// </summary>
-        /// <value>URL del código QR del documento.</value>
+        /// <value>URL de consulta del timbre en DGII.</value>
         [DataMember(Name = "documentStampUrl", EmitDefaultValue = true)]
         public string DocumentStampUrl { get; set; }
 
         /// <summary>
-        /// URL pre-firmada del PDF (expira en 1 hora).
+        /// URL del PDF del documento.
         /// </summary>
-        /// <value>URL pre-firmada del PDF (expira en 1 hora).</value>
+        /// <value>URL del PDF del documento.</value>
         [DataMember(Name = "pdf", EmitDefaultValue = true)]
         public string Pdf { get; set; }
 
         /// <summary>
-        /// URL pre-firmada del XML firmado (expira en 1 hora).
+        /// URL del XML firmado.
         /// </summary>
-        /// <value>URL pre-firmada del XML firmado (expira en 1 hora).</value>
+        /// <value>URL del XML firmado.</value>
         [DataMember(Name = "xmlUrl", EmitDefaultValue = true)]
         public string XmlUrl { get; set; }
 
@@ -249,28 +222,27 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// </summary>
         /// <value>Fecha y hora de la firma digital.</value>
         [DataMember(Name = "signatureDate", EmitDefaultValue = true)]
-        public DateTime? SignatureDate { get; set; }
+        public string SignatureDate { get; set; }
 
         /// <summary>
-        /// Código de seguridad del documento.
+        /// Código de seguridad de 6 caracteres.
         /// </summary>
-        /// <value>Código de seguridad del documento.</value>
+        /// <value>Código de seguridad de 6 caracteres.</value>
         [DataMember(Name = "securityCode", EmitDefaultValue = true)]
         public string SecurityCode { get; set; }
 
         /// <summary>
-        /// true si DGII confirmó el consumo de la secuencia.
+        /// true cuando DGII confirmó el uso de la secuencia.
         /// </summary>
-        /// <value>true si DGII confirmó el consumo de la secuencia.</value>
+        /// <value>true cuando DGII confirmó el uso de la secuencia.</value>
         [DataMember(Name = "sequenceConsumed", IsRequired = true, EmitDefaultValue = true)]
         public bool SequenceConsumed { get; set; }
 
         /// <summary>
-        /// Respuesta completa de DGII (disponible cuando status es FINISHED).
+        /// Gets or Sets GovernmentResponse
         /// </summary>
-        /// <value>Respuesta completa de DGII (disponible cuando status es FINISHED).</value>
-        [DataMember(Name = "governmentResponse", EmitDefaultValue = false)]
-        public Dictionary<string, Object> GovernmentResponse { get; set; }
+        [DataMember(Name = "governmentResponse", EmitDefaultValue = true)]
+        public EcfStatusResponseGovernmentResponse GovernmentResponse { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -286,10 +258,7 @@ namespace Pronesoft.Ecf.Sdk.Model
             sb.Append("  LegalStatus: ").Append(LegalStatus).Append("\n");
             sb.Append("  CompanyIdentification: ").Append(CompanyIdentification).Append("\n");
             sb.Append("  TrackId: ").Append(TrackId).Append("\n");
-            sb.Append("  DocumentNumber: ").Append(DocumentNumber).Append("\n");
             sb.Append("  Encf: ").Append(Encf).Append("\n");
-            sb.Append("  ContingencyMode: ").Append(ContingencyMode).Append("\n");
-            sb.Append("  ContingencyMessage: ").Append(ContingencyMessage).Append("\n");
             sb.Append("  DocumentStampUrl: ").Append(DocumentStampUrl).Append("\n");
             sb.Append("  Pdf: ").Append(Pdf).Append("\n");
             sb.Append("  XmlUrl: ").Append(XmlUrl).Append("\n");

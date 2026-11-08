@@ -48,9 +48,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Payload inside &#x60;data&#x60; when event is &#x60;document.status_changed&#x60;. Use &#x60;documentId&#x60; to poll GET /{environment}/ecf/status/{id} if needed. &#x60;issuerRnc&#x60; identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
+ * Contenido del campo &#x60;data&#x60; cuando el evento es &#x60;document.status_changed&#x60;. Usa &#x60;documentId&#x60; para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. &#x60;issuerRnc&#x60; identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió). 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class DocumentStatusChangedPayload {
   public static final String SERIALIZED_NAME_DOCUMENT_ID = "documentId";
   @SerializedName(SERIALIZED_NAME_DOCUMENT_ID)
@@ -68,7 +68,7 @@ public class DocumentStatusChangedPayload {
   private String issuerRnc;
 
   /**
-   * Public lifecycle status.
+   * Estado del ciclo de vida del documento.
    */
   @JsonAdapter(StatusEnum.Adapter.class)
   public enum StatusEnum {
@@ -129,7 +129,7 @@ public class DocumentStatusChangedPayload {
   private StatusEnum status;
 
   /**
-   * Fiscal result from DGII. Only present when status&#x3D;FINISHED.
+   * Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED.
    */
   @JsonAdapter(LegalStatusEnum.Adapter.class)
   public enum LegalStatusEnum {
@@ -213,7 +213,7 @@ public class DocumentStatusChangedPayload {
   }
 
   /**
-   * Internal document ID for polling.
+   * ID interno del documento para hacer polling.
    * @return documentId
    */
   @javax.annotation.Nonnull
@@ -232,7 +232,7 @@ public class DocumentStatusChangedPayload {
   }
 
   /**
-   * e-NCF fiscal number.
+   * Número fiscal e-NCF.
    * @return encf
    */
   @javax.annotation.Nonnull
@@ -251,7 +251,7 @@ public class DocumentStatusChangedPayload {
   }
 
   /**
-   * RNC of the issuing company (associated or main).
+   * RNC de la empresa emisora (asociada o principal).
    * @return issuerRnc
    */
   @javax.annotation.Nonnull
@@ -270,7 +270,7 @@ public class DocumentStatusChangedPayload {
   }
 
   /**
-   * Public lifecycle status.
+   * Estado del ciclo de vida del documento.
    * @return status
    */
   @javax.annotation.Nonnull
@@ -289,7 +289,7 @@ public class DocumentStatusChangedPayload {
   }
 
   /**
-   * Fiscal result from DGII. Only present when status&#x3D;FINISHED.
+   * Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED.
    * @return legalStatus
    */
   @javax.annotation.Nullable
@@ -308,7 +308,7 @@ public class DocumentStatusChangedPayload {
   }
 
   /**
-   * Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.)
+   * Código del tipo de documento (31&#x3D;Factura, 32&#x3D;Nota de Crédito, etc.)
    * @return documentType
    */
   @javax.annotation.Nullable
@@ -327,7 +327,7 @@ public class DocumentStatusChangedPayload {
   }
 
   /**
-   * DGII tracking ID.
+   * ID de seguimiento asignado por la DGII.
    * @return trackId
    */
   @javax.annotation.Nullable
@@ -346,7 +346,7 @@ public class DocumentStatusChangedPayload {
   }
 
   /**
-   * Human-readable DGII response message.
+   * Mensaje legible de respuesta de la DGII.
    * @return dgiiMessage
    */
   @javax.annotation.Nullable

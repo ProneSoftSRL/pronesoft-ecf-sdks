@@ -4,17 +4,17 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **documentId** | [**java.util.UUID**](java.util.UUID.md) | Internal document ID for polling. |  |
+| **documentId** | [**java.util.UUID**](java.util.UUID.md) | ID interno del documento en Pronesoft. |  |
 | **encf** | **kotlin.String** |  |  |
-| **issuerRnc** | **kotlin.String** | RNC of the issuing company (associated or main). |  |
+| **issuerRnc** | **kotlin.String** | RNC de la empresa emisora del documento. |  |
 | **status** | **kotlin.String** | Estado final del proceso. |  |
 | **senderRnc** | **kotlin.String** |  |  |
 | **receiverRnc** | **kotlin.String** |  |  |
 | **totalAmount** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  |
 | **issueDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
 | **receivedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) | Fecha de recepción del documento. |  |
-| **errorCode** | **kotlin.String** | Código de error de validación. |  |
-| **message** | **kotlin.String** | Descripción del error. |  |
+| **errorCode** | **kotlin.String** | Código del error de validación. |  |
+| **message** | **kotlin.String** | Descripción detallada del error de validación. |  |
 | **reason** | **kotlin.String** | Motivo de la anulación. |  |
 | **approvalStatus** | [**inline**](#ApprovalStatus) |  |  |
 | **approvalDate** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
@@ -46,11 +46,13 @@
 | **processId** | **kotlin.String** |  |  |
 | **businessName** | **kotlin.String** |  |  |
 | **completedAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) |  |  |
-| **legalStatus** | [**inline**](#LegalStatus) | Fiscal result from DGII. Only present when status&#x3D;FINISHED. |  [optional] |
-| **documentType** | **kotlin.String** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) |  [optional] |
-| **trackId** | **kotlin.String** | DGII tracking ID. |  [optional] |
-| **dgiiMessage** | **kotlin.String** | Human-readable DGII response message. |  [optional] |
+| **legalStatus** | [**inline**](#LegalStatus) | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. |  [optional] |
+| **documentType** | **kotlin.String** | Tipo de comprobante (31, 32, 33, 34, etc.). |  [optional] |
+| **trackId** | **kotlin.String** | ID de seguimiento asignado por la DGII. |  [optional] |
+| **dgiiMessage** | **kotlin.String** | Mensaje legible de respuesta de la DGII. |  [optional] |
 | **rejectionReason** | **kotlin.String** | Razón del rechazo (solo si status es &#39;rejected&#39;). |  [optional] |
+| **error** | **kotlin.String** | Mensaje de error (alias legado). |  [optional] |
+| **code** | [**kotlin.Any**](.md) | Código de error (alias legado). |  [optional] |
 | **retryAt** | [**java.time.OffsetDateTime**](java.time.OffsetDateTime.md) | Fecha estimada de reintento de envío. |  [optional] |
 | **rejectionCode** | **kotlin.String** | Código de rechazo (solo si approvalStatus es &#39;rejected&#39;). |  [optional] |
 | **rejectionDescription** | **kotlin.String** | Descripción del rechazo (solo si approvalStatus es &#39;rejected&#39;). |  [optional] |

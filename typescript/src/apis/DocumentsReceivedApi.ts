@@ -15,6 +15,8 @@
 
 import * as runtime from '../runtime';
 import type {
+  DecideCommercialApprovalRequest,
+  DecideCommercialApprovalResponse,
   ErrorResponse,
   GetReceivedDocumentStatsBySupplier200ResponseInner,
   ReceivedDocument,
@@ -22,6 +24,10 @@ import type {
   ReceivedDocumentStatsResponse,
 } from '../models/index';
 import {
+    DecideCommercialApprovalRequestFromJSON,
+    DecideCommercialApprovalRequestToJSON,
+    DecideCommercialApprovalResponseFromJSON,
+    DecideCommercialApprovalResponseToJSON,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
     GetReceivedDocumentStatsBySupplier200ResponseInnerFromJSON,
@@ -33,6 +39,12 @@ import {
     ReceivedDocumentStatsResponseFromJSON,
     ReceivedDocumentStatsResponseToJSON,
 } from '../models/index';
+
+export interface DecideCommercialApprovalOperationRequest {
+    id: string;
+    decideCommercialApprovalRequest: DecideCommercialApprovalRequest;
+    xTenantId?: string;
+}
 
 export interface GetReceivedDocumentByIdRequest {
     id: string;
@@ -56,8 +68,8 @@ export interface ListReceivedDocumentsRequest {
     amountFrom?: number;
     amountTo?: number;
     processed?: boolean;
-    dateFrom?: Date;
-    dateTo?: Date;
+    dateFrom?: string;
+    dateTo?: string;
     page?: number;
     limit?: number;
 }
@@ -69,6 +81,34 @@ export interface ListReceivedDocumentsRequest {
  * @interface DocumentsReceivedApiInterface
  */
 export interface DocumentsReceivedApiInterface {
+    /**
+     * Creates request options for decideCommercialApproval without sending the request
+     * @param {string} id ID del documento recibido (TaxDocumentReceived.id)
+     * @param {DecideCommercialApprovalRequest} decideCommercialApprovalRequest 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @throws {RequiredError}
+     * @memberof DocumentsReceivedApiInterface
+     */
+    decideCommercialApprovalRequestOpts(requestParameters: DecideCommercialApprovalOperationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * @summary Aprobar o rechazar comercialmente un documento recibido
+     * @param {string} id ID del documento recibido (TaxDocumentReceived.id)
+     * @param {DecideCommercialApprovalRequest} decideCommercialApprovalRequest 
+     * @param {string} [xTenantId] UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DocumentsReceivedApiInterface
+     */
+    decideCommercialApprovalRaw(requestParameters: DecideCommercialApprovalOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DecideCommercialApprovalResponse>>;
+
+    /**
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * Aprobar o rechazar comercialmente un documento recibido
+     */
+    decideCommercialApproval(requestParameters: DecideCommercialApprovalOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DecideCommercialApprovalResponse>;
+
     /**
      * Creates request options for getReceivedDocumentById without sending the request
      * @param {string} id 
@@ -150,8 +190,8 @@ export interface DocumentsReceivedApiInterface {
      * @param {number} [amountFrom] 
      * @param {number} [amountTo] 
      * @param {boolean} [processed] 
-     * @param {Date} [dateFrom] 
-     * @param {Date} [dateTo] 
+     * @param {string} [dateFrom] Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+     * @param {string} [dateTo] Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
      * @param {number} [page] 
      * @param {number} [limit] 
      * @throws {RequiredError}
@@ -170,8 +210,8 @@ export interface DocumentsReceivedApiInterface {
      * @param {number} [amountFrom] 
      * @param {number} [amountTo] 
      * @param {boolean} [processed] 
-     * @param {Date} [dateFrom] 
-     * @param {Date} [dateTo] 
+     * @param {string} [dateFrom] Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+     * @param {string} [dateTo] Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
      * @param {number} [page] 
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
@@ -191,6 +231,72 @@ export interface DocumentsReceivedApiInterface {
  * 
  */
 export class DocumentsReceivedApi extends runtime.BaseAPI implements DocumentsReceivedApiInterface {
+
+    /**
+     * Creates request options for decideCommercialApproval without sending the request
+     */
+    async decideCommercialApprovalRequestOpts(requestParameters: DecideCommercialApprovalOperationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling decideCommercialApproval().'
+            );
+        }
+
+        if (requestParameters['decideCommercialApprovalRequest'] == null) {
+            throw new runtime.RequiredError(
+                'decideCommercialApprovalRequest',
+                'Required parameter "decideCommercialApprovalRequest" was null or undefined when calling decideCommercialApproval().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['xTenantId'] != null) {
+            headerParameters['x-tenant-id'] = String(requestParameters['xTenantId']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("oauth2", ["approvals:commercial"]);
+        }
+
+
+        let urlPath = `/documents/received/{id}/commercial-approval`;
+        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DecideCommercialApprovalRequestToJSON(requestParameters['decideCommercialApprovalRequest']),
+        };
+    }
+
+    /**
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * Aprobar o rechazar comercialmente un documento recibido
+     */
+    async decideCommercialApprovalRaw(requestParameters: DecideCommercialApprovalOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DecideCommercialApprovalResponse>> {
+        const requestOptions = await this.decideCommercialApprovalRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DecideCommercialApprovalResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * Aprobar o rechazar comercialmente un documento recibido
+     */
+    async decideCommercialApproval(requestParameters: DecideCommercialApprovalOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DecideCommercialApprovalResponse> {
+        const response = await this.decideCommercialApprovalRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Creates request options for getReceivedDocumentById without sending the request
@@ -373,11 +479,11 @@ export class DocumentsReceivedApi extends runtime.BaseAPI implements DocumentsRe
         }
 
         if (requestParameters['dateFrom'] != null) {
-            queryParameters['dateFrom'] = (requestParameters['dateFrom'] as any).toISOString().substring(0,10);
+            queryParameters['dateFrom'] = requestParameters['dateFrom'];
         }
 
         if (requestParameters['dateTo'] != null) {
-            queryParameters['dateTo'] = (requestParameters['dateTo'] as any).toISOString().substring(0,10);
+            queryParameters['dateTo'] = requestParameters['dateTo'];
         }
 
         if (requestParameters['page'] != null) {

@@ -14,23 +14,44 @@ use serde::{Deserialize, Serialize};
 /// DocumentValidationErrorPayload : Payload del evento `document.validation_error`. El documento fue rechazado por validación local antes de enviarse a la DGII.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct DocumentValidationErrorPayload {
-    #[serde(rename = "encf")]
-    pub encf: String,
-    /// Código de error de validación.
+    /// ID interno del documento en Pronesoft.
+    #[serde(rename = "documentId")]
+    pub document_id: uuid::Uuid,
+    /// Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).
+    #[serde(rename = "encf", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub encf: Option<Option<String>>,
+    /// RNC de la empresa emisora del documento.
+    #[serde(rename = "issuerRnc")]
+    pub issuer_rnc: String,
+    /// Tipo de comprobante (31, 32, 33, 34, etc.).
+    #[serde(rename = "documentType", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub document_type: Option<Option<String>>,
+    /// Código del error de validación.
     #[serde(rename = "errorCode")]
     pub error_code: String,
-    /// Descripción del error.
+    /// Descripción detallada del error de validación.
     #[serde(rename = "message")]
     pub message: String,
+    /// Mensaje de error (alias legado).
+    #[serde(rename = "error", skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
+    /// Código de error (alias legado).
+    #[serde(rename = "code", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub code: Option<Option<serde_json::Value>>,
 }
 
 impl DocumentValidationErrorPayload {
     /// Payload del evento `document.validation_error`. El documento fue rechazado por validación local antes de enviarse a la DGII.
-    pub fn new(encf: String, error_code: String, message: String) -> DocumentValidationErrorPayload {
+    pub fn new(document_id: uuid::Uuid, issuer_rnc: String, error_code: String, message: String) -> DocumentValidationErrorPayload {
         DocumentValidationErrorPayload {
-            encf,
+            document_id,
+            encf: None,
+            issuer_rnc,
+            document_type: None,
             error_code,
             message,
+            error: None,
+            code: None,
         }
     }
 }

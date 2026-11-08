@@ -28,7 +28,7 @@ using OpenAPIDateConverter = Pronesoft.Ecf.Sdk.Client.OpenAPIDateConverter;
 namespace Pronesoft.Ecf.Sdk.Model
 {
     /// <summary>
-    /// Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. &#x60;status&#x60; siempre es &#x60;REGISTERED&#x60;. &#x60;legalStatus&#x60; y &#x60;trackId&#x60; siempre son &#x60;null&#x60; en este momento — se populan una vez que la DGII procesa el documento. Usa &#x60;GET /ecf/status/{id}&#x60; o escucha el webhook &#x60;document.status_changed&#x60; para obtener el resultado fiscal final. 
+    /// Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. &#x60;status&#x60; siempre es &#x60;REGISTERED&#x60;. Usa &#x60;GET /ecf/status/{id}&#x60; o escucha el webhook &#x60;document.status_changed&#x60; para obtener el resultado fiscal final de DGII. 
     /// </summary>
     [DataContract(Name = "EcfSubmitResponse")]
     public partial class EcfSubmitResponse : IValidatableObject
@@ -55,45 +55,6 @@ namespace Pronesoft.Ecf.Sdk.Model
         [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
         public StatusEnum Status { get; set; }
         /// <summary>
-        /// Siempre &#x60;null&#x60; al enviar. Se actualiza tras la respuesta de DGII.
-        /// </summary>
-        /// <value>Siempre &#x60;null&#x60; al enviar. Se actualiza tras la respuesta de DGII.</value>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum LegalStatusEnum
-        {
-            /// <summary>
-            /// Enum ACCEPTED for value: ACCEPTED
-            /// </summary>
-            [EnumMember(Value = "ACCEPTED")]
-            ACCEPTED = 1,
-
-            /// <summary>
-            /// Enum ACCEPTEDWITHOBSERVATIONS for value: ACCEPTED_WITH_OBSERVATIONS
-            /// </summary>
-            [EnumMember(Value = "ACCEPTED_WITH_OBSERVATIONS")]
-            ACCEPTEDWITHOBSERVATIONS = 2,
-
-            /// <summary>
-            /// Enum REJECTED for value: REJECTED
-            /// </summary>
-            [EnumMember(Value = "REJECTED")]
-            REJECTED = 3,
-
-            /// <summary>
-            /// Enum ERROR for value: ERROR
-            /// </summary>
-            [EnumMember(Value = "ERROR")]
-            ERROR = 4
-        }
-
-
-        /// <summary>
-        /// Siempre &#x60;null&#x60; al enviar. Se actualiza tras la respuesta de DGII.
-        /// </summary>
-        /// <value>Siempre &#x60;null&#x60; al enviar. Se actualiza tras la respuesta de DGII.</value>
-        [DataMember(Name = "legalStatus", EmitDefaultValue = true)]
-        public LegalStatusEnum? LegalStatus { get; set; }
-        /// <summary>
         /// Initializes a new instance of the <see cref="EcfSubmitResponse" /> class.
         /// </summary>
         [JsonConstructorAttribute]
@@ -104,20 +65,16 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="id">ID interno del documento. Úsalo para &#x60;GET /ecf/status/{id}&#x60;. (required).</param>
         /// <param name="stampDate">Fecha de emisión del documento (YYYY-MM-DD)..</param>
         /// <param name="status">Siempre &#x60;REGISTERED&#x60; al enviar. El estado fiscal llega vía webhook o polling. (required).</param>
-        /// <param name="legalStatus">Siempre &#x60;null&#x60; al enviar. Se actualiza tras la respuesta de DGII..</param>
         /// <param name="companyIdentification">companyIdentification (required).</param>
-        /// <param name="trackId">Siempre &#x60;null&#x60; al enviar. Lo asigna DGII al procesar el documento..</param>
-        /// <param name="documentNumber">Número de control electrónico (e-NCF). Igual a &#x60;encf&#x60;..</param>
-        /// <param name="encf">Número e-NCF asignado al documento (ej. E310000000001)..</param>
+        /// <param name="encf">Número e-NCF asignado al documento (ej. E310000000001). (required).</param>
         /// <param name="contingencyMode">&#x60;true&#x60; si el documento fue emitido en modo contingencia (DGII no disponible)..</param>
-        /// <param name="contingencyMessage">Mensaje oficial DGII cuando &#x60;contingencyMode&#x60; es &#x60;true&#x60;..</param>
-        /// <param name="documentStampUrl">URL del código QR del documento..</param>
+        /// <param name="documentStampUrl">URL de consulta del timbre en DGII..</param>
         /// <param name="pdf">URL pre-firmada del PDF (expira en 1 hora)..</param>
         /// <param name="xmlUrl">URL pre-firmada del XML firmado (expira en 1 hora)..</param>
         /// <param name="signatureDate">Fecha y hora de la firma digital..</param>
-        /// <param name="securityCode">Código de seguridad del documento..</param>
-        /// <param name="sequenceConsumed">Siempre &#x60;false&#x60; en el submit. Se confirma como &#x60;true&#x60; solo tras respuesta de DGII. (required).</param>
-        public EcfSubmitResponse(Guid id = default, DateOnly? stampDate = default, StatusEnum status = default, LegalStatusEnum? legalStatus = default, EcfSubmitResponseCompanyIdentification companyIdentification = default, string trackId = default, string documentNumber = default, string encf = default, bool contingencyMode = default, string contingencyMessage = default, string documentStampUrl = default, string pdf = default, string xmlUrl = default, DateTime? signatureDate = default, string securityCode = default, bool sequenceConsumed = default)
+        /// <param name="securityCode">Código de seguridad de 6 caracteres del documento..</param>
+        /// <param name="sequenceConsumed">&#x60;false&#x60; en el submit. Se confirma como &#x60;true&#x60; solo tras respuesta de DGII. (required).</param>
+        public EcfSubmitResponse(Guid id = default, DateOnly? stampDate = default, StatusEnum status = default, EcfSubmitResponseCompanyIdentification companyIdentification = default, string encf = default, bool contingencyMode = default, string documentStampUrl = default, string pdf = default, string xmlUrl = default, string signatureDate = default, string securityCode = default, bool sequenceConsumed = default)
         {
             this.Id = id;
             this.Status = status;
@@ -127,14 +84,15 @@ namespace Pronesoft.Ecf.Sdk.Model
                 throw new ArgumentNullException("companyIdentification is a required property for EcfSubmitResponse and cannot be null");
             }
             this.CompanyIdentification = companyIdentification;
+            // to ensure "encf" is required (not null)
+            if (encf == null)
+            {
+                throw new ArgumentNullException("encf is a required property for EcfSubmitResponse and cannot be null");
+            }
+            this.Encf = encf;
             this.SequenceConsumed = sequenceConsumed;
             this.StampDate = stampDate;
-            this.LegalStatus = legalStatus;
-            this.TrackId = trackId;
-            this.DocumentNumber = documentNumber;
-            this.Encf = encf;
             this.ContingencyMode = contingencyMode;
-            this.ContingencyMessage = contingencyMessage;
             this.DocumentStampUrl = documentStampUrl;
             this.Pdf = pdf;
             this.XmlUrl = xmlUrl;
@@ -163,24 +121,10 @@ namespace Pronesoft.Ecf.Sdk.Model
         public EcfSubmitResponseCompanyIdentification CompanyIdentification { get; set; }
 
         /// <summary>
-        /// Siempre &#x60;null&#x60; al enviar. Lo asigna DGII al procesar el documento.
-        /// </summary>
-        /// <value>Siempre &#x60;null&#x60; al enviar. Lo asigna DGII al procesar el documento.</value>
-        [DataMember(Name = "trackId", EmitDefaultValue = true)]
-        public string TrackId { get; set; }
-
-        /// <summary>
-        /// Número de control electrónico (e-NCF). Igual a &#x60;encf&#x60;.
-        /// </summary>
-        /// <value>Número de control electrónico (e-NCF). Igual a &#x60;encf&#x60;.</value>
-        [DataMember(Name = "documentNumber", EmitDefaultValue = true)]
-        public string DocumentNumber { get; set; }
-
-        /// <summary>
         /// Número e-NCF asignado al documento (ej. E310000000001).
         /// </summary>
         /// <value>Número e-NCF asignado al documento (ej. E310000000001).</value>
-        [DataMember(Name = "encf", EmitDefaultValue = true)]
+        [DataMember(Name = "encf", IsRequired = true, EmitDefaultValue = true)]
         public string Encf { get; set; }
 
         /// <summary>
@@ -191,17 +135,10 @@ namespace Pronesoft.Ecf.Sdk.Model
         public bool ContingencyMode { get; set; }
 
         /// <summary>
-        /// Mensaje oficial DGII cuando &#x60;contingencyMode&#x60; es &#x60;true&#x60;.
+        /// URL de consulta del timbre en DGII.
         /// </summary>
-        /// <value>Mensaje oficial DGII cuando &#x60;contingencyMode&#x60; es &#x60;true&#x60;.</value>
-        [DataMember(Name = "contingencyMessage", EmitDefaultValue = true)]
-        public string ContingencyMessage { get; set; }
-
-        /// <summary>
-        /// URL del código QR del documento.
-        /// </summary>
-        /// <value>URL del código QR del documento.</value>
-        [DataMember(Name = "documentStampUrl", EmitDefaultValue = true)]
+        /// <value>URL de consulta del timbre en DGII.</value>
+        [DataMember(Name = "documentStampUrl", EmitDefaultValue = false)]
         public string DocumentStampUrl { get; set; }
 
         /// <summary>
@@ -222,20 +159,20 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// Fecha y hora de la firma digital.
         /// </summary>
         /// <value>Fecha y hora de la firma digital.</value>
-        [DataMember(Name = "signatureDate", EmitDefaultValue = true)]
-        public DateTime? SignatureDate { get; set; }
+        [DataMember(Name = "signatureDate", EmitDefaultValue = false)]
+        public string SignatureDate { get; set; }
 
         /// <summary>
-        /// Código de seguridad del documento.
+        /// Código de seguridad de 6 caracteres del documento.
         /// </summary>
-        /// <value>Código de seguridad del documento.</value>
-        [DataMember(Name = "securityCode", EmitDefaultValue = true)]
+        /// <value>Código de seguridad de 6 caracteres del documento.</value>
+        [DataMember(Name = "securityCode", EmitDefaultValue = false)]
         public string SecurityCode { get; set; }
 
         /// <summary>
-        /// Siempre &#x60;false&#x60; en el submit. Se confirma como &#x60;true&#x60; solo tras respuesta de DGII.
+        /// &#x60;false&#x60; en el submit. Se confirma como &#x60;true&#x60; solo tras respuesta de DGII.
         /// </summary>
-        /// <value>Siempre &#x60;false&#x60; en el submit. Se confirma como &#x60;true&#x60; solo tras respuesta de DGII.</value>
+        /// <value>&#x60;false&#x60; en el submit. Se confirma como &#x60;true&#x60; solo tras respuesta de DGII.</value>
         [DataMember(Name = "sequenceConsumed", IsRequired = true, EmitDefaultValue = true)]
         public bool SequenceConsumed { get; set; }
 
@@ -250,13 +187,9 @@ namespace Pronesoft.Ecf.Sdk.Model
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  StampDate: ").Append(StampDate).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  LegalStatus: ").Append(LegalStatus).Append("\n");
             sb.Append("  CompanyIdentification: ").Append(CompanyIdentification).Append("\n");
-            sb.Append("  TrackId: ").Append(TrackId).Append("\n");
-            sb.Append("  DocumentNumber: ").Append(DocumentNumber).Append("\n");
             sb.Append("  Encf: ").Append(Encf).Append("\n");
             sb.Append("  ContingencyMode: ").Append(ContingencyMode).Append("\n");
-            sb.Append("  ContingencyMessage: ").Append(ContingencyMessage).Append("\n");
             sb.Append("  DocumentStampUrl: ").Append(DocumentStampUrl).Append("\n");
             sb.Append("  Pdf: ").Append(Pdf).Append("\n");
             sb.Append("  XmlUrl: ").Append(XmlUrl).Append("\n");

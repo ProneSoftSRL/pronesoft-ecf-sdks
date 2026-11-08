@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **access_token** | **String** |  | [optional] |
 | **token_type** | **String** |  | [optional] |
-| **expires_in** | **Integer** | Token lifetime in seconds (24 hours &#x3D; 86400). | [optional] |
+| **expires_in** | **Integer** | Duración del token en segundos (24 horas &#x3D; 86400). | [optional] |
 | **scope** | **Array&lt;String&gt;** |  | [optional] |
 
 ## Example

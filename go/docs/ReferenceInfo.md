@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **ModifiedInvoiceNumber** | **string** |  | 
 **OtherContributorRNC** | Pointer to **string** |  | [optional] 
 **ModifiedInvoiceDate** | Pointer to **time.Time** |  | [optional] 
-**ModificationCode** | **string** | 1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other | 
+**ModificationCode** | **string** | 1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro | 
 **ModificationReason** | Pointer to **string** |  | [optional] 
 
 ## Methods

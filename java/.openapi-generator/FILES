@@ -40,6 +40,8 @@ docs/ContingencyActivatedPayload.md
 docs/CreateAssociatedCompany201Response.md
 docs/CreateTaxSequence201Response.md
 docs/CreateTaxSequenceRequest.md
+docs/DecideCommercialApprovalRequest.md
+docs/DecideCommercialApprovalResponse.md
 docs/DeleteAssociatedCompany200Response.md
 docs/DgiiMessage.md
 docs/DigitalCertificatesApi.md
@@ -56,6 +58,8 @@ docs/ECfSubmissionApi.md
 docs/EcfHistoryItem.md
 docs/EcfStatsResponse.md
 docs/EcfStatusResponse.md
+docs/EcfStatusResponseGovernmentResponse.md
+docs/EcfStatusResponseGovernmentResponseValueInner.md
 docs/EcfSubmitResponse.md
 docs/EcfSubmitResponseCompanyIdentification.md
 docs/ElectronicDocument.md
@@ -212,6 +216,8 @@ src/main/java/com/pronesoft/ecf/model/ContingencyActivatedPayload.java
 src/main/java/com/pronesoft/ecf/model/CreateAssociatedCompany201Response.java
 src/main/java/com/pronesoft/ecf/model/CreateTaxSequence201Response.java
 src/main/java/com/pronesoft/ecf/model/CreateTaxSequenceRequest.java
+src/main/java/com/pronesoft/ecf/model/DecideCommercialApprovalRequest.java
+src/main/java/com/pronesoft/ecf/model/DecideCommercialApprovalResponse.java
 src/main/java/com/pronesoft/ecf/model/DeleteAssociatedCompany200Response.java
 src/main/java/com/pronesoft/ecf/model/DgiiMessage.java
 src/main/java/com/pronesoft/ecf/model/DiscountOrSurcharge.java
@@ -224,6 +230,8 @@ src/main/java/com/pronesoft/ecf/model/DocumentValidationErrorPayload.java
 src/main/java/com/pronesoft/ecf/model/EcfHistoryItem.java
 src/main/java/com/pronesoft/ecf/model/EcfStatsResponse.java
 src/main/java/com/pronesoft/ecf/model/EcfStatusResponse.java
+src/main/java/com/pronesoft/ecf/model/EcfStatusResponseGovernmentResponse.java
+src/main/java/com/pronesoft/ecf/model/EcfStatusResponseGovernmentResponseValueInner.java
 src/main/java/com/pronesoft/ecf/model/EcfSubmitResponse.java
 src/main/java/com/pronesoft/ecf/model/EcfSubmitResponseCompanyIdentification.java
 src/main/java/com/pronesoft/ecf/model/ElectronicDocument.java
@@ -304,3 +312,5 @@ src/main/java/com/pronesoft/ecf/model/WebhookNotificationPayload.java
 src/main/java/com/pronesoft/ecf/model/WebhookNotificationPayloadData.java
 src/main/java/com/pronesoft/ecf/model/WebhookStats.java
 src/main/java/com/pronesoft/ecf/model/WebhookStatsStats.java
+src/test/java/com/pronesoft/ecf/model/DecideCommercialApprovalRequestTest.java
+src/test/java/com/pronesoft/ecf/model/DecideCommercialApprovalResponseTest.java

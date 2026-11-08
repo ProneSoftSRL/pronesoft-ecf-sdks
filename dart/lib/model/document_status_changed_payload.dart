@@ -23,28 +23,28 @@ class DocumentStatusChangedPayload {
     this.dgiiMessage,
   });
 
-  /// Internal document ID for polling.
+  /// ID interno del documento para hacer polling.
   String documentId;
 
-  /// e-NCF fiscal number.
+  /// Número fiscal e-NCF.
   String encf;
 
-  /// RNC of the issuing company (associated or main).
+  /// RNC de la empresa emisora (asociada o principal).
   String issuerRnc;
 
-  /// Public lifecycle status.
+  /// Estado del ciclo de vida del documento.
   DocumentStatusChangedPayloadStatusEnum status;
 
-  /// Fiscal result from DGII. Only present when status=FINISHED.
+  /// Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
   DocumentStatusChangedPayloadLegalStatusEnum? legalStatus;
 
-  /// Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+  /// Código del tipo de documento (31=Factura, 32=Nota de Crédito, etc.)
   String? documentType;
 
-  /// DGII tracking ID.
+  /// ID de seguimiento asignado por la DGII.
   String? trackId;
 
-  /// Human-readable DGII response message.
+  /// Mensaje legible de respuesta de la DGII.
   String? dgiiMessage;
 
   @override
@@ -187,7 +187,7 @@ class DocumentStatusChangedPayload {
   };
 }
 
-/// Public lifecycle status.
+/// Estado del ciclo de vida del documento.
 class DocumentStatusChangedPayloadStatusEnum {
   /// Instantiate a new enum with the provided [value].
   const DocumentStatusChangedPayloadStatusEnum._(this.value);
@@ -267,7 +267,7 @@ class DocumentStatusChangedPayloadStatusEnumTypeTransformer {
 }
 
 
-/// Fiscal result from DGII. Only present when status=FINISHED.
+/// Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
 class DocumentStatusChangedPayloadLegalStatusEnum {
   /// Instantiate a new enum with the provided [value].
   const DocumentStatusChangedPayloadLegalStatusEnum._(this.value);

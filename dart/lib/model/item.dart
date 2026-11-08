@@ -62,7 +62,7 @@ class Item {
   ///
   String? description;
 
-  /// 1=Good, 2=Service
+  /// 1=Bien, 2=Servicio
   ItemTypeEnum type;
 
   BillingIndicator billingIndicator;
@@ -470,7 +470,7 @@ class Item {
   };
 }
 
-/// 1=Good, 2=Service
+/// 1=Bien, 2=Servicio
 class ItemTypeEnum {
   /// Instantiate a new enum with the provided [value].
   const ItemTypeEnum._(this.value);

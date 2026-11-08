@@ -736,6 +736,9 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             $invalidProperties[] = "invalid value for 'payment_terms', the character length must be smaller than or equal to 15.";
         }
 
+        if ($this->container['payment_forms'] === null) {
+            $invalidProperties[] = "'payment_forms' can't be null";
+        }
         if (!is_null($this->container['payment_account_number']) && (mb_strlen($this->container['payment_account_number']) > 28)) {
             $invalidProperties[] = "invalid value for 'payment_account_number', the character length must be smaller than or equal to 28.";
         }
@@ -811,6 +814,9 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
             $invalidProperties[] = "invalid value for 'items', number of items must be greater than or equal to 1.";
         }
 
+        if ($this->container['totals'] === null) {
+            $invalidProperties[] = "'totals' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -920,7 +926,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets group_id
      *
-     * @param string|null $group_id Optional Group ID for batch processing
+     * @param string|null $group_id ID de grupo opcional para procesamiento en lote.
      *
      * @return self
      */
@@ -1001,7 +1007,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets credit_note_indicator
      *
-     * @param string|null $credit_note_indicator Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+     * @param string|null $credit_note_indicator Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días
      *
      * @return self
      */
@@ -1112,7 +1118,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets income_type
      *
-     * @param string|null $income_type 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
+     * @param string|null $income_type 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro
      *
      * @return self
      */
@@ -1149,7 +1155,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_type
      *
-     * @param string|null $payment_type 1=Cash, 2=Credit, 3=Mixed
+     * @param string|null $payment_type 1=Contado, 2=Crédito, 3=Mixto
      *
      * @return self
      */
@@ -1234,7 +1240,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets payment_forms
      *
-     * @return \PronesoftEcf\Model\PaymentForm[]|null
+     * @return \PronesoftEcf\Model\PaymentForm[]
      */
     public function getPaymentForms()
     {
@@ -1244,7 +1250,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets payment_forms
      *
-     * @param \PronesoftEcf\Model\PaymentForm[]|null $payment_forms Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
+     * @param \PronesoftEcf\Model\PaymentForm[] $payment_forms Payment breakdown. Required.
      *
      * @return self
      */
@@ -1441,7 +1447,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets issuer_rnc
      *
-     * @param string|null $issuer_rnc RNC of the issuing company.
+     * @param string|null $issuer_rnc RNC de la empresa emisora.
      *
      * @return self
      */
@@ -2007,7 +2013,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Gets totals
      *
-     * @return \PronesoftEcf\Model\Totals|null
+     * @return \PronesoftEcf\Model\Totals
      */
     public function getTotals()
     {
@@ -2017,7 +2023,7 @@ class ElectronicDocument implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets totals
      *
-     * @param \PronesoftEcf\Model\Totals|null $totals totals
+     * @param \PronesoftEcf\Model\Totals $totals totals
      *
      * @return self
      */

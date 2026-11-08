@@ -19,7 +19,7 @@ class ItemAdditionalTax {
     this.alternativeCurrencyAmount,
   });
 
-  /// DGII tax code (e.g. ISC, IECS)
+  /// Código de impuesto DGII (ej. ISC, IECS)
   String code;
 
   ///

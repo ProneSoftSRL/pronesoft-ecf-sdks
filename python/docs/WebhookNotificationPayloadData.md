@@ -6,22 +6,24 @@ Payload específico del evento. El tipo varía según el campo `event`: - `docum
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**document_id** | **UUID** | Internal document ID for polling. | 
+**document_id** | **UUID** | ID interno del documento en Pronesoft. | 
 **encf** | **str** |  | 
-**issuer_rnc** | **str** | RNC of the issuing company (associated or main). | 
+**issuer_rnc** | **str** | RNC de la empresa emisora del documento. | 
 **status** | **str** | Estado final del proceso. | 
-**legal_status** | **str** | Fiscal result from DGII. Only present when status&#x3D;FINISHED. | [optional] 
-**document_type** | **str** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) | [optional] 
-**track_id** | **str** | DGII tracking ID. | [optional] 
-**dgii_message** | **str** | Human-readable DGII response message. | [optional] 
+**legal_status** | **str** | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. | [optional] 
+**document_type** | **str** | Tipo de comprobante (31, 32, 33, 34, etc.). | [optional] 
+**track_id** | **str** | ID de seguimiento asignado por la DGII. | [optional] 
+**dgii_message** | **str** | Mensaje legible de respuesta de la DGII. | [optional] 
 **sender_rnc** | **str** |  | 
 **receiver_rnc** | **str** |  | 
 **total_amount** | **float** |  | 
 **issue_date** | **datetime** |  | 
 **received_at** | **datetime** | Fecha de recepción del documento. | 
 **rejection_reason** | **str** | Razón del rechazo (solo si status es &#39;rejected&#39;). | [optional] 
-**error_code** | **str** | Código de error de validación. | 
-**message** | **str** | Descripción del error. | 
+**error_code** | **str** | Código del error de validación. | 
+**message** | **str** | Descripción detallada del error de validación. | 
+**error** | **str** | Mensaje de error (alias legado). | [optional] 
+**code** | **object** | Código de error (alias legado). | [optional] 
 **reason** | **str** | Motivo de la anulación. | 
 **retry_at** | **datetime** | Fecha estimada de reintento de envío. | [optional] 
 **approval_status** | **str** |  | 

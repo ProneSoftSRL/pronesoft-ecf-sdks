@@ -464,14 +464,16 @@ class DocumentsSentApi {
   ///
   /// * [String] status:
   ///
-  /// * [DateTime] dateFrom:
+  /// * [String] dateFrom:
+  ///   Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
   ///
-  /// * [DateTime] dateTo:
+  /// * [String] dateTo:
+  ///   Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
   ///
   /// * [int] page:
   ///
   /// * [int] limit:
-  Future<Response> listSentDocumentsWithHttpInfo({ String? xTenantId, Environment? env, String? ecf, String? type, String? status, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+  Future<Response> listSentDocumentsWithHttpInfo({ String? xTenantId, Environment? env, String? ecf, String? type, String? status, String? dateFrom, String? dateTo, int? page, int? limit, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/sent';
 
@@ -540,14 +542,16 @@ class DocumentsSentApi {
   ///
   /// * [String] status:
   ///
-  /// * [DateTime] dateFrom:
+  /// * [String] dateFrom:
+  ///   Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
   ///
-  /// * [DateTime] dateTo:
+  /// * [String] dateTo:
+  ///   Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
   ///
   /// * [int] page:
   ///
   /// * [int] limit:
-  Future<SentDocumentListResponse?> listSentDocuments({ String? xTenantId, Environment? env, String? ecf, String? type, String? status, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+  Future<SentDocumentListResponse?> listSentDocuments({ String? xTenantId, Environment? env, String? ecf, String? type, String? status, String? dateFrom, String? dateTo, int? page, int? limit, }) async {
     final response = await listSentDocumentsWithHttpInfo( xTenantId: xTenantId, env: env, ecf: ecf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

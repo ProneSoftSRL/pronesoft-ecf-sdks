@@ -34,9 +34,9 @@ namespace Pronesoft.Ecf.Sdk.Model
     public partial class Item : IValidatableObject
     {
         /// <summary>
-        /// 1&#x3D;Good, 2&#x3D;Service
+        /// 1&#x3D;Bien, 2&#x3D;Servicio
         /// </summary>
-        /// <value>1&#x3D;Good, 2&#x3D;Service</value>
+        /// <value>1&#x3D;Bien, 2&#x3D;Servicio</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum TypeEnum
         {
@@ -55,9 +55,9 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// 1&#x3D;Good, 2&#x3D;Service
+        /// 1&#x3D;Bien, 2&#x3D;Servicio
         /// </summary>
-        /// <value>1&#x3D;Good, 2&#x3D;Service</value>
+        /// <value>1&#x3D;Bien, 2&#x3D;Servicio</value>
         [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
         public TypeEnum Type { get; set; }
 
@@ -78,7 +78,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="codes">codes.</param>
         /// <param name="name">name (required).</param>
         /// <param name="description">description.</param>
-        /// <param name="type">1&#x3D;Good, 2&#x3D;Service (required).</param>
+        /// <param name="type">1&#x3D;Bien, 2&#x3D;Servicio (required).</param>
         /// <param name="billingIndicator">billingIndicator (required).</param>
         /// <param name="withholdingAgentIndicator">withholdingAgentIndicator.</param>
         /// <param name="withheldITBISAmount">withheldITBISAmount.</param>

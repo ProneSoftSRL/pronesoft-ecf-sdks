@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **codes** | [**List[ItemCodesInner]**](ItemCodesInner.md) |  | [optional] 
 **name** | **str** |  | 
 **description** | **str** |  | [optional] 
-**type** | **str** | 1&#x3D;Good, 2&#x3D;Service | 
+**type** | **str** | 1&#x3D;Bien, 2&#x3D;Servicio | 
 **billing_indicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
 **withholding_agent_indicator** | **int** |  | [optional] 
 **withheld_itbis_amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 

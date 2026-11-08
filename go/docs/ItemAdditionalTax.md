@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **string** | DGII tax code (e.g. ISC, IECS) | 
+**Code** | **string** | Código de impuesto DGII (ej. ISC, IECS) | 
 **Amount** | Pointer to [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 **Rate** | Pointer to **float32** |  | [optional] 
 **AlternativeCurrencyAmount** | Pointer to **float32** |  | [optional] 

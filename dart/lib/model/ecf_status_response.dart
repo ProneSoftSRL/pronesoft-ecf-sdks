@@ -19,17 +19,14 @@ class EcfStatusResponse {
     this.legalStatus,
     required this.companyIdentification,
     this.trackId,
-    this.documentNumber,
     this.encf,
-    this.contingencyMode,
-    this.contingencyMessage,
     this.documentStampUrl,
     this.pdf,
     this.xmlUrl,
     this.signatureDate,
     this.securityCode,
     required this.sequenceConsumed,
-    this.governmentResponse = const {},
+    this.governmentResponse,
   });
 
   /// ID interno del documento.
@@ -46,53 +43,31 @@ class EcfStatusResponse {
 
   EcfSubmitResponseCompanyIdentification companyIdentification;
 
-  /// ID de seguimiento asignado por DGII.
+  /// ID de seguimiento asignado por DGII. null mientras procesa.
   String? trackId;
-
-  /// Número de control electrónico (e-NCF).
-  String? documentNumber;
 
   /// Número e-NCF del documento.
   String? encf;
 
-  /// true si fue emitido en modo contingencia.
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  bool? contingencyMode;
-
-  /// Mensaje oficial DGII cuando contingencyMode es true.
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? contingencyMessage;
-
-  /// URL del código QR del documento.
+  /// URL de consulta del timbre en DGII.
   String? documentStampUrl;
 
-  /// URL pre-firmada del PDF (expira en 1 hora).
+  /// URL del PDF del documento.
   String? pdf;
 
-  /// URL pre-firmada del XML firmado (expira en 1 hora).
+  /// URL del XML firmado.
   String? xmlUrl;
 
   /// Fecha y hora de la firma digital.
-  DateTime? signatureDate;
+  String? signatureDate;
 
-  /// Código de seguridad del documento.
+  /// Código de seguridad de 6 caracteres.
   String? securityCode;
 
-  /// true si DGII confirmó el consumo de la secuencia.
+  /// true cuando DGII confirmó el uso de la secuencia.
   bool sequenceConsumed;
 
-  /// Respuesta completa de DGII (disponible cuando status es FINISHED).
-  Map<String, Object> governmentResponse;
+  EcfStatusResponseGovernmentResponse? governmentResponse;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EcfStatusResponse &&
@@ -102,17 +77,14 @@ class EcfStatusResponse {
     other.legalStatus == legalStatus &&
     other.companyIdentification == companyIdentification &&
     other.trackId == trackId &&
-    other.documentNumber == documentNumber &&
     other.encf == encf &&
-    other.contingencyMode == contingencyMode &&
-    other.contingencyMessage == contingencyMessage &&
     other.documentStampUrl == documentStampUrl &&
     other.pdf == pdf &&
     other.xmlUrl == xmlUrl &&
     other.signatureDate == signatureDate &&
     other.securityCode == securityCode &&
     other.sequenceConsumed == sequenceConsumed &&
-    _deepEquality.equals(other.governmentResponse, governmentResponse);
+    other.governmentResponse == governmentResponse;
 
   @override
   int get hashCode =>
@@ -123,20 +95,17 @@ class EcfStatusResponse {
     (legalStatus == null ? 0 : legalStatus!.hashCode) +
     (companyIdentification.hashCode) +
     (trackId == null ? 0 : trackId!.hashCode) +
-    (documentNumber == null ? 0 : documentNumber!.hashCode) +
     (encf == null ? 0 : encf!.hashCode) +
-    (contingencyMode == null ? 0 : contingencyMode!.hashCode) +
-    (contingencyMessage == null ? 0 : contingencyMessage!.hashCode) +
     (documentStampUrl == null ? 0 : documentStampUrl!.hashCode) +
     (pdf == null ? 0 : pdf!.hashCode) +
     (xmlUrl == null ? 0 : xmlUrl!.hashCode) +
     (signatureDate == null ? 0 : signatureDate!.hashCode) +
     (securityCode == null ? 0 : securityCode!.hashCode) +
     (sequenceConsumed.hashCode) +
-    (governmentResponse.hashCode);
+    (governmentResponse == null ? 0 : governmentResponse!.hashCode);
 
   @override
-  String toString() => 'EcfStatusResponse[id=$id, stampDate=$stampDate, status=$status, legalStatus=$legalStatus, companyIdentification=$companyIdentification, trackId=$trackId, documentNumber=$documentNumber, encf=$encf, contingencyMode=$contingencyMode, contingencyMessage=$contingencyMessage, documentStampUrl=$documentStampUrl, pdf=$pdf, xmlUrl=$xmlUrl, signatureDate=$signatureDate, securityCode=$securityCode, sequenceConsumed=$sequenceConsumed, governmentResponse=$governmentResponse]';
+  String toString() => 'EcfStatusResponse[id=$id, stampDate=$stampDate, status=$status, legalStatus=$legalStatus, companyIdentification=$companyIdentification, trackId=$trackId, encf=$encf, documentStampUrl=$documentStampUrl, pdf=$pdf, xmlUrl=$xmlUrl, signatureDate=$signatureDate, securityCode=$securityCode, sequenceConsumed=$sequenceConsumed, governmentResponse=$governmentResponse]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -158,25 +127,10 @@ class EcfStatusResponse {
     } else {
       json[r'trackId'] = null;
     }
-    if (this.documentNumber != null) {
-      json[r'documentNumber'] = this.documentNumber;
-    } else {
-      json[r'documentNumber'] = null;
-    }
     if (this.encf != null) {
       json[r'encf'] = this.encf;
     } else {
       json[r'encf'] = null;
-    }
-    if (this.contingencyMode != null) {
-      json[r'contingencyMode'] = this.contingencyMode;
-    } else {
-      json[r'contingencyMode'] = null;
-    }
-    if (this.contingencyMessage != null) {
-      json[r'contingencyMessage'] = this.contingencyMessage;
-    } else {
-      json[r'contingencyMessage'] = null;
     }
     if (this.documentStampUrl != null) {
       json[r'documentStampUrl'] = this.documentStampUrl;
@@ -194,7 +148,7 @@ class EcfStatusResponse {
       json[r'xmlUrl'] = null;
     }
     if (this.signatureDate != null) {
-      json[r'signatureDate'] = this.signatureDate!.toUtc().toIso8601String();
+      json[r'signatureDate'] = this.signatureDate;
     } else {
       json[r'signatureDate'] = null;
     }
@@ -204,7 +158,11 @@ class EcfStatusResponse {
       json[r'securityCode'] = null;
     }
       json[r'sequenceConsumed'] = this.sequenceConsumed;
+    if (this.governmentResponse != null) {
       json[r'governmentResponse'] = this.governmentResponse;
+    } else {
+      json[r'governmentResponse'] = null;
+    }
     return json;
   }
 
@@ -237,17 +195,14 @@ class EcfStatusResponse {
         legalStatus: EcfStatusResponseLegalStatusEnum.fromJson(json[r'legalStatus']),
         companyIdentification: EcfSubmitResponseCompanyIdentification.fromJson(json[r'companyIdentification'])!,
         trackId: mapValueOfType<String>(json, r'trackId'),
-        documentNumber: mapValueOfType<String>(json, r'documentNumber'),
         encf: mapValueOfType<String>(json, r'encf'),
-        contingencyMode: mapValueOfType<bool>(json, r'contingencyMode'),
-        contingencyMessage: mapValueOfType<String>(json, r'contingencyMessage'),
         documentStampUrl: mapValueOfType<String>(json, r'documentStampUrl'),
         pdf: mapValueOfType<String>(json, r'pdf'),
         xmlUrl: mapValueOfType<String>(json, r'xmlUrl'),
-        signatureDate: mapDateTime(json, r'signatureDate', r''),
+        signatureDate: mapValueOfType<String>(json, r'signatureDate'),
         securityCode: mapValueOfType<String>(json, r'securityCode'),
         sequenceConsumed: mapValueOfType<bool>(json, r'sequenceConsumed')!,
-        governmentResponse: mapCastOfType<String, Object>(json, r'governmentResponse') ?? const {},
+        governmentResponse: EcfStatusResponseGovernmentResponse.fromJson(json[r'governmentResponse']),
       );
     }
     return null;

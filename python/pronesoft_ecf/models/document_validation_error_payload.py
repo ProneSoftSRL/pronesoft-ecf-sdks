@@ -19,7 +19,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
+from uuid import UUID
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -28,10 +29,15 @@ class DocumentValidationErrorPayload(BaseModel):
     """
     Payload del evento `document.validation_error`. El documento fue rechazado por validación local antes de enviarse a la DGII.
     """ # noqa: E501
-    encf: StrictStr
-    error_code: StrictStr = Field(description="Código de error de validación.", alias="errorCode")
-    message: StrictStr = Field(description="Descripción del error.")
-    __properties: ClassVar[List[str]] = ["encf", "errorCode", "message"]
+    document_id: UUID = Field(description="ID interno del documento en Pronesoft.", alias="documentId")
+    encf: Optional[StrictStr] = Field(default=None, description="Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).")
+    issuer_rnc: StrictStr = Field(description="RNC de la empresa emisora del documento.", alias="issuerRnc")
+    document_type: Optional[StrictStr] = Field(default=None, description="Tipo de comprobante (31, 32, 33, 34, etc.).", alias="documentType")
+    error_code: StrictStr = Field(description="Código del error de validación.", alias="errorCode")
+    message: StrictStr = Field(description="Descripción detallada del error de validación.")
+    error: Optional[StrictStr] = Field(default=None, description="Mensaje de error (alias legado).")
+    code: Optional[Any] = Field(default=None, description="Código de error (alias legado).")
+    __properties: ClassVar[List[str]] = ["documentId", "encf", "issuerRnc", "documentType", "errorCode", "message", "error", "code"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -72,6 +78,21 @@ class DocumentValidationErrorPayload(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if encf (nullable) is None
+        # and model_fields_set contains the field
+        if self.encf is None and "encf" in self.model_fields_set:
+            _dict['encf'] = None
+
+        # set to None if document_type (nullable) is None
+        # and model_fields_set contains the field
+        if self.document_type is None and "document_type" in self.model_fields_set:
+            _dict['documentType'] = None
+
+        # set to None if code (nullable) is None
+        # and model_fields_set contains the field
+        if self.code is None and "code" in self.model_fields_set:
+            _dict['code'] = None
+
         return _dict
 
     @classmethod
@@ -84,9 +105,14 @@ class DocumentValidationErrorPayload(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "documentId": obj.get("documentId"),
             "encf": obj.get("encf"),
+            "issuerRnc": obj.get("issuerRnc"),
+            "documentType": obj.get("documentType"),
             "errorCode": obj.get("errorCode"),
-            "message": obj.get("message")
+            "message": obj.get("message"),
+            "error": obj.get("error"),
+            "code": obj.get("code")
         })
         return _obj
 

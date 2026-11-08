@@ -92,6 +92,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 | *CommercialApprovalsApi* | [**getCommercialApprovalById**](docs/CommercialApprovalsApi.md#getcommercialapprovalbyid) | **GET** /documents/approvals/{id} | Obtener aprobación comercial por ID |
 | *CommercialApprovalsApi* | [**listCommercialApprovals**](docs/CommercialApprovalsApi.md#listcommercialapprovals) | **GET** /documents/approvals | Listar aprobaciones comerciales |
 | *DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX) |
+| *DocumentsReceivedApi* | [**decideCommercialApproval**](docs/DocumentsReceivedApi.md#decidecommercialapproval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido |
 | *DocumentsReceivedApi* | [**getReceivedDocumentById**](docs/DocumentsReceivedApi.md#getreceiveddocumentbyid) | **GET** /documents/received/{id} | Obtener documento recibido por ID |
 | *DocumentsReceivedApi* | [**getReceivedDocumentStatsBySupplier**](docs/DocumentsReceivedApi.md#getreceiveddocumentstatsbysupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos |
 | *DocumentsReceivedApi* | [**getReceivedDocumentStatsSummary**](docs/DocumentsReceivedApi.md#getreceiveddocumentstatssummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos |
@@ -155,6 +156,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
  - [com.pronesoft.ecf.models.CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
  - [com.pronesoft.ecf.models.CreateTaxSequence201Response](docs/CreateTaxSequence201Response.md)
  - [com.pronesoft.ecf.models.CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
+ - [com.pronesoft.ecf.models.DecideCommercialApprovalRequest](docs/DecideCommercialApprovalRequest.md)
+ - [com.pronesoft.ecf.models.DecideCommercialApprovalResponse](docs/DecideCommercialApprovalResponse.md)
  - [com.pronesoft.ecf.models.DeleteAssociatedCompany200Response](docs/DeleteAssociatedCompany200Response.md)
  - [com.pronesoft.ecf.models.DgiiMessage](docs/DgiiMessage.md)
  - [com.pronesoft.ecf.models.DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
@@ -167,6 +170,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
  - [com.pronesoft.ecf.models.EcfHistoryItem](docs/EcfHistoryItem.md)
  - [com.pronesoft.ecf.models.EcfStatsResponse](docs/EcfStatsResponse.md)
  - [com.pronesoft.ecf.models.EcfStatusResponse](docs/EcfStatusResponse.md)
+ - [com.pronesoft.ecf.models.EcfStatusResponseGovernmentResponse](docs/EcfStatusResponseGovernmentResponse.md)
+ - [com.pronesoft.ecf.models.EcfStatusResponseGovernmentResponseValueInner](docs/EcfStatusResponseGovernmentResponseValueInner.md)
  - [com.pronesoft.ecf.models.EcfSubmitResponse](docs/EcfSubmitResponse.md)
  - [com.pronesoft.ecf.models.EcfSubmitResponseCompanyIdentification](docs/EcfSubmitResponseCompanyIdentification.md)
  - [com.pronesoft.ecf.models.ElectronicDocument](docs/ElectronicDocument.md)

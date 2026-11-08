@@ -41,7 +41,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Buyer" /> class.
         /// </summary>
-        /// <param name="taxId">RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k)..</param>
+        /// <param name="taxId">RNC (9 dígitos) o cédula (11 dígitos). Requerido para tipo 31 y tipo 34 que modifique crédito fiscal. Opcional para tipo 32 y tipo 34 que modifique factura de consumo (&lt; RD$ 250,000)..</param>
         /// <param name="foreignId">foreignId.</param>
         /// <param name="name">name (required).</param>
         /// <param name="contact">contact.</param>
@@ -85,9 +85,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         }
 
         /// <summary>
-        /// RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k).
+        /// RNC (9 dígitos) o cédula (11 dígitos). Requerido para tipo 31 y tipo 34 que modifique crédito fiscal. Opcional para tipo 32 y tipo 34 que modifique factura de consumo (&lt; RD$ 250,000).
         /// </summary>
-        /// <value>RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k).</value>
+        /// <value>RNC (9 dígitos) o cédula (11 dígitos). Requerido para tipo 31 y tipo 34 que modifique crédito fiscal. Opcional para tipo 32 y tipo 34 que modifique factura de consumo (&lt; RD$ 250,000).</value>
         /*
         <example>131415678</example>
         */

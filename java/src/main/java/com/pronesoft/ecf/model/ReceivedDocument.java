@@ -53,7 +53,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * ReceivedDocument
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ReceivedDocument {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -81,7 +81,7 @@ public class ReceivedDocument {
   private BigDecimal totalAmount;
 
   /**
-   * 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending
+   * 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente
    */
   @JsonAdapter(StatusEnum.Adapter.class)
   public enum StatusEnum {
@@ -278,7 +278,7 @@ public class ReceivedDocument {
   }
 
   /**
-   * 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending
+   * 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente
    * @return status
    */
   @javax.annotation.Nullable

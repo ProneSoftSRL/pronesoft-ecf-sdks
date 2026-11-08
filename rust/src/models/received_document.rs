@@ -23,7 +23,7 @@ pub struct ReceivedDocument {
     pub receiver_rnc: Option<String>,
     #[serde(rename = "totalAmount", skip_serializing_if = "Option::is_none")]
     pub total_amount: Option<f64>,
-    /// 1=Valid, 2=Voided, 3=Pending
+    /// 1=Válido, 2=Anulado, 3=Pendiente
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
     #[serde(rename = "statusLabel", skip_serializing_if = "Option::is_none")]
@@ -61,7 +61,7 @@ impl ReceivedDocument {
         }
     }
 }
-/// 1=Valid, 2=Voided, 3=Pending
+/// 1=Válido, 2=Anulado, 3=Pendiente
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {
     #[serde(rename = "1")]

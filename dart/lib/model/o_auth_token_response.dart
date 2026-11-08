@@ -35,7 +35,7 @@ class OAuthTokenResponse {
   ///
   String? tokenType;
 
-  /// Token lifetime in seconds (24 hours = 86400).
+  /// Duración del token en segundos (24 horas = 86400).
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated

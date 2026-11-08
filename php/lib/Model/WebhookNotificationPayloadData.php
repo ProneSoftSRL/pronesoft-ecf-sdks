@@ -75,6 +75,8 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
         'rejection_reason' => 'string',
         'error_code' => 'string',
         'message' => 'string',
+        'error' => 'string',
+        'code' => 'mixed',
         'reason' => 'string',
         'retry_at' => '\DateTime',
         'approval_status' => 'string',
@@ -137,6 +139,8 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
         'rejection_reason' => null,
         'error_code' => null,
         'message' => null,
+        'error' => null,
+        'code' => null,
         'reason' => null,
         'retry_at' => 'date-time',
         'approval_status' => null,
@@ -197,6 +201,8 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
         'rejection_reason' => true,
         'error_code' => false,
         'message' => false,
+        'error' => false,
+        'code' => true,
         'reason' => false,
         'retry_at' => true,
         'approval_status' => false,
@@ -337,6 +343,8 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
         'rejection_reason' => 'rejectionReason',
         'error_code' => 'errorCode',
         'message' => 'message',
+        'error' => 'error',
+        'code' => 'code',
         'reason' => 'reason',
         'retry_at' => 'retryAt',
         'approval_status' => 'approvalStatus',
@@ -397,6 +405,8 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
         'rejection_reason' => 'setRejectionReason',
         'error_code' => 'setErrorCode',
         'message' => 'setMessage',
+        'error' => 'setError',
+        'code' => 'setCode',
         'reason' => 'setReason',
         'retry_at' => 'setRetryAt',
         'approval_status' => 'setApprovalStatus',
@@ -457,6 +467,8 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
         'rejection_reason' => 'getRejectionReason',
         'error_code' => 'getErrorCode',
         'message' => 'getMessage',
+        'error' => 'getError',
+        'code' => 'getCode',
         'reason' => 'getReason',
         'retry_at' => 'getRetryAt',
         'approval_status' => 'getApprovalStatus',
@@ -617,6 +629,8 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
         $this->setIfExists('rejection_reason', $data ?? [], null);
         $this->setIfExists('error_code', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('code', $data ?? [], null);
         $this->setIfExists('reason', $data ?? [], null);
         $this->setIfExists('retry_at', $data ?? [], null);
         $this->setIfExists('approval_status', $data ?? [], null);
@@ -863,7 +877,7 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets document_id
      *
-     * @param string $document_id Internal document ID for polling.
+     * @param string $document_id ID interno del documento en Pronesoft.
      *
      * @return self
      */
@@ -917,7 +931,7 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets issuer_rnc
      *
-     * @param string $issuer_rnc RNC of the issuing company (associated or main).
+     * @param string $issuer_rnc RNC de la empresa emisora del documento.
      *
      * @return self
      */
@@ -971,7 +985,7 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets legal_status
      *
-     * @param string|null $legal_status Fiscal result from DGII. Only present when status=FINISHED.
+     * @param string|null $legal_status Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
      *
      * @return self
      */
@@ -1015,7 +1029,7 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets document_type
      *
-     * @param string|null $document_type Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+     * @param string|null $document_type Tipo de comprobante (31, 32, 33, 34, etc.).
      *
      * @return self
      */
@@ -1049,7 +1063,7 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets track_id
      *
-     * @param string|null $track_id DGII tracking ID.
+     * @param string|null $track_id ID de seguimiento asignado por la DGII.
      *
      * @return self
      */
@@ -1083,7 +1097,7 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets dgii_message
      *
-     * @param string|null $dgii_message Human-readable DGII response message.
+     * @param string|null $dgii_message Mensaje legible de respuesta de la DGII.
      *
      * @return self
      */
@@ -1286,7 +1300,7 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets error_code
      *
-     * @param string $error_code Código de error de validación.
+     * @param string $error_code Código del error de validación.
      *
      * @return self
      */
@@ -1313,7 +1327,7 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets message
      *
-     * @param string $message Descripción del error.
+     * @param string $message Descripción detallada del error de validación.
      *
      * @return self
      */
@@ -1323,6 +1337,67 @@ class WebhookNotificationPayloadData implements ModelInterface, ArrayAccess, \Js
             throw new \InvalidArgumentException('non-nullable message cannot be null');
         }
         $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets error
+     *
+     * @return string|null
+     */
+    public function getError()
+    {
+        return $this->container['error'];
+    }
+
+    /**
+     * Sets error
+     *
+     * @param string|null $error Mensaje de error (alias legado).
+     *
+     * @return self
+     */
+    public function setError($error)
+    {
+        if (is_null($error)) {
+            throw new \InvalidArgumentException('non-nullable error cannot be null');
+        }
+        $this->container['error'] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Gets code
+     *
+     * @return mixed|null
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /**
+     * Sets code
+     *
+     * @param mixed|null $code Código de error (alias legado).
+     *
+     * @return self
+     */
+    public function setCode($code)
+    {
+        if (is_null($code)) {
+            array_push($this->openAPINullablesSetToNull, 'code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('code', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['code'] = $code;
 
         return $this;
     }

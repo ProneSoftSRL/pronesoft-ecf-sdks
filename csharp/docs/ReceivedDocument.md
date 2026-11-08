@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **SenderRnc** | **string** |  | [optional] 
 **ReceiverRnc** | **string** |  | [optional] 
 **TotalAmount** | **decimal** |  | [optional] 
-**Status** | **int** | 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending | [optional] 
+**Status** | **int** | 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente | [optional] 
 **StatusLabel** | **string** |  | [optional] 
 **IssueDate** | **DateTime** |  | [optional] 
 **ReceivedAt** | **DateTime** |  | [optional] 

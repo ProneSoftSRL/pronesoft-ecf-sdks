@@ -27,7 +27,7 @@ public struct ReceivedDocument: Codable, JSONEncodable, Hashable {
     public var senderRnc: String?
     public var receiverRnc: String?
     public var totalAmount: Double?
-    /** 1=Valid, 2=Voided, 3=Pending */
+    /** 1=Válido, 2=Anulado, 3=Pendiente */
     public var status: Status?
     public var statusLabel: String?
     public var issueDate: Date?

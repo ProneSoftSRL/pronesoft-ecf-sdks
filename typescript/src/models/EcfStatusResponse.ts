@@ -20,6 +20,13 @@ import {
     EcfSubmitResponseCompanyIdentificationToJSON,
     EcfSubmitResponseCompanyIdentificationToJSONTyped,
 } from './EcfSubmitResponseCompanyIdentification';
+import type { EcfStatusResponseGovernmentResponse } from './EcfStatusResponseGovernmentResponse';
+import {
+    EcfStatusResponseGovernmentResponseFromJSON,
+    EcfStatusResponseGovernmentResponseFromJSONTyped,
+    EcfStatusResponseGovernmentResponseToJSON,
+    EcfStatusResponseGovernmentResponseToJSONTyped,
+} from './EcfStatusResponseGovernmentResponse';
 
 /**
  * Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado fiscal completo de DGII.
@@ -58,17 +65,11 @@ export interface EcfStatusResponse {
      */
     companyIdentification: EcfSubmitResponseCompanyIdentification;
     /**
-     * ID de seguimiento asignado por DGII.
+     * ID de seguimiento asignado por DGII. null mientras procesa.
      * @type {string}
      * @memberof EcfStatusResponse
      */
     trackId?: string | null;
-    /**
-     * Número de control electrónico (e-NCF).
-     * @type {string}
-     * @memberof EcfStatusResponse
-     */
-    documentNumber?: string | null;
     /**
      * Número e-NCF del documento.
      * @type {string}
@@ -76,59 +77,47 @@ export interface EcfStatusResponse {
      */
     encf?: string | null;
     /**
-     * true si fue emitido en modo contingencia.
-     * @type {boolean}
-     * @memberof EcfStatusResponse
-     */
-    contingencyMode?: boolean;
-    /**
-     * Mensaje oficial DGII cuando contingencyMode es true.
-     * @type {string}
-     * @memberof EcfStatusResponse
-     */
-    contingencyMessage?: string;
-    /**
-     * URL del código QR del documento.
+     * URL de consulta del timbre en DGII.
      * @type {string}
      * @memberof EcfStatusResponse
      */
     documentStampUrl?: string | null;
     /**
-     * URL pre-firmada del PDF (expira en 1 hora).
+     * URL del PDF del documento.
      * @type {string}
      * @memberof EcfStatusResponse
      */
     pdf?: string | null;
     /**
-     * URL pre-firmada del XML firmado (expira en 1 hora).
+     * URL del XML firmado.
      * @type {string}
      * @memberof EcfStatusResponse
      */
     xmlUrl?: string | null;
     /**
      * Fecha y hora de la firma digital.
-     * @type {Date}
+     * @type {string}
      * @memberof EcfStatusResponse
      */
-    signatureDate?: Date | null;
+    signatureDate?: string | null;
     /**
-     * Código de seguridad del documento.
+     * Código de seguridad de 6 caracteres.
      * @type {string}
      * @memberof EcfStatusResponse
      */
     securityCode?: string | null;
     /**
-     * true si DGII confirmó el consumo de la secuencia.
+     * true cuando DGII confirmó el uso de la secuencia.
      * @type {boolean}
      * @memberof EcfStatusResponse
      */
     sequenceConsumed: boolean;
     /**
-     * Respuesta completa de DGII (disponible cuando status es FINISHED).
-     * @type {{ [key: string]: any; }}
+     * 
+     * @type {EcfStatusResponseGovernmentResponse}
      * @memberof EcfStatusResponse
      */
-    governmentResponse?: { [key: string]: any; };
+    governmentResponse?: EcfStatusResponseGovernmentResponse | null;
 }
 
 
@@ -183,17 +172,14 @@ export function EcfStatusResponseFromJSONTyped(json: any, ignoreDiscriminator: b
         'legalStatus': json['legalStatus'] == null ? undefined : json['legalStatus'],
         'companyIdentification': EcfSubmitResponseCompanyIdentificationFromJSON(json['companyIdentification']),
         'trackId': json['trackId'] == null ? undefined : json['trackId'],
-        'documentNumber': json['documentNumber'] == null ? undefined : json['documentNumber'],
         'encf': json['encf'] == null ? undefined : json['encf'],
-        'contingencyMode': json['contingencyMode'] == null ? undefined : json['contingencyMode'],
-        'contingencyMessage': json['contingencyMessage'] == null ? undefined : json['contingencyMessage'],
         'documentStampUrl': json['documentStampUrl'] == null ? undefined : json['documentStampUrl'],
         'pdf': json['pdf'] == null ? undefined : json['pdf'],
         'xmlUrl': json['xmlUrl'] == null ? undefined : json['xmlUrl'],
-        'signatureDate': json['signatureDate'] == null ? undefined : (new Date(json['signatureDate'])),
+        'signatureDate': json['signatureDate'] == null ? undefined : json['signatureDate'],
         'securityCode': json['securityCode'] == null ? undefined : json['securityCode'],
         'sequenceConsumed': json['sequenceConsumed'],
-        'governmentResponse': json['governmentResponse'] == null ? undefined : json['governmentResponse'],
+        'governmentResponse': json['governmentResponse'] == null ? undefined : EcfStatusResponseGovernmentResponseFromJSON(json['governmentResponse']),
     };
 }
 
@@ -214,17 +200,14 @@ export function EcfStatusResponseToJSONTyped(value?: EcfStatusResponse | null, i
         'legalStatus': value['legalStatus'],
         'companyIdentification': EcfSubmitResponseCompanyIdentificationToJSON(value['companyIdentification']),
         'trackId': value['trackId'],
-        'documentNumber': value['documentNumber'],
         'encf': value['encf'],
-        'contingencyMode': value['contingencyMode'],
-        'contingencyMessage': value['contingencyMessage'],
         'documentStampUrl': value['documentStampUrl'],
         'pdf': value['pdf'],
         'xmlUrl': value['xmlUrl'],
-        'signatureDate': value['signatureDate'] == null ? value['signatureDate'] : value['signatureDate'].toISOString(),
+        'signatureDate': value['signatureDate'],
         'securityCode': value['securityCode'],
         'sequenceConsumed': value['sequenceConsumed'],
-        'governmentResponse': value['governmentResponse'],
+        'governmentResponse': EcfStatusResponseGovernmentResponseToJSON(value['governmentResponse']),
     };
 }
 

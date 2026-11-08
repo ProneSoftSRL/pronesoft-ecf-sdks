@@ -16,11 +16,12 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from datetime import date
 from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, field_validator
 from typing import List, Optional, Union
 from typing_extensions import Annotated
 from uuid import UUID
+from pronesoft_ecf.models.decide_commercial_approval_request import DecideCommercialApprovalRequest
+from pronesoft_ecf.models.decide_commercial_approval_response import DecideCommercialApprovalResponse
 from pronesoft_ecf.models.get_received_document_stats_by_supplier200_response_inner import GetReceivedDocumentStatsBySupplier200ResponseInner
 from pronesoft_ecf.models.received_document import ReceivedDocument
 from pronesoft_ecf.models.received_document_list_response import ReceivedDocumentListResponse
@@ -42,6 +43,319 @@ class DocumentsReceivedApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+
+    @validate_call
+    def decide_commercial_approval(
+        self,
+        id: Annotated[UUID, Field(description="ID del documento recibido (TaxDocumentReceived.id)")],
+        decide_commercial_approval_request: DecideCommercialApprovalRequest,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DecideCommercialApprovalResponse:
+        """Aprobar o rechazar comercialmente un documento recibido
+
+        Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+
+        :param id: ID del documento recibido (TaxDocumentReceived.id) (required)
+        :type id: UUID
+        :param decide_commercial_approval_request: (required)
+        :type decide_commercial_approval_request: DecideCommercialApprovalRequest
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._decide_commercial_approval_serialize(
+            id=id,
+            decide_commercial_approval_request=decide_commercial_approval_request,
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "DecideCommercialApprovalResponse",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def decide_commercial_approval_with_http_info(
+        self,
+        id: Annotated[UUID, Field(description="ID del documento recibido (TaxDocumentReceived.id)")],
+        decide_commercial_approval_request: DecideCommercialApprovalRequest,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DecideCommercialApprovalResponse]:
+        """Aprobar o rechazar comercialmente un documento recibido
+
+        Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+
+        :param id: ID del documento recibido (TaxDocumentReceived.id) (required)
+        :type id: UUID
+        :param decide_commercial_approval_request: (required)
+        :type decide_commercial_approval_request: DecideCommercialApprovalRequest
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._decide_commercial_approval_serialize(
+            id=id,
+            decide_commercial_approval_request=decide_commercial_approval_request,
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "DecideCommercialApprovalResponse",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def decide_commercial_approval_without_preload_content(
+        self,
+        id: Annotated[UUID, Field(description="ID del documento recibido (TaxDocumentReceived.id)")],
+        decide_commercial_approval_request: DecideCommercialApprovalRequest,
+        x_tenant_id: Annotated[Optional[UUID], Field(description="UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. ")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Aprobar o rechazar comercialmente un documento recibido
+
+        Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+
+        :param id: ID del documento recibido (TaxDocumentReceived.id) (required)
+        :type id: UUID
+        :param decide_commercial_approval_request: (required)
+        :type decide_commercial_approval_request: DecideCommercialApprovalRequest
+        :param x_tenant_id: UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+        :type x_tenant_id: UUID
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._decide_commercial_approval_serialize(
+            id=id,
+            decide_commercial_approval_request=decide_commercial_approval_request,
+            x_tenant_id=x_tenant_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "DecideCommercialApprovalResponse",
+            '400': "ErrorResponse",
+            '401': "ErrorResponse",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _decide_commercial_approval_serialize(
+        self,
+        id,
+        decide_commercial_approval_request,
+        x_tenant_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        if x_tenant_id is not None:
+            _header_params['x-tenant-id'] = x_tenant_id
+        # process the form parameters
+        # process the body parameter
+        if decide_commercial_approval_request is not None:
+            _body_params = decide_commercial_approval_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'oauth2'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/documents/received/{id}/commercial-approval',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
 
 
     @validate_call
@@ -856,8 +1170,8 @@ class DocumentsReceivedApi:
         amount_from: Optional[Union[StrictFloat, StrictInt]] = None,
         amount_to: Optional[Union[StrictFloat, StrictInt]] = None,
         processed: Optional[StrictBool] = None,
-        date_from: Optional[date] = None,
-        date_to: Optional[date] = None,
+        date_from: Annotated[Optional[StrictStr], Field(description="Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).")] = None,
+        date_to: Annotated[Optional[StrictStr], Field(description="Fecha fin (YYYY-MM-DD o timestamp ISO 8601).")] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
@@ -892,10 +1206,10 @@ class DocumentsReceivedApi:
         :type amount_to: float
         :param processed:
         :type processed: bool
-        :param date_from:
-        :type date_from: date
-        :param date_to:
-        :type date_to: date
+        :param date_from: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_from: str
+        :param date_to: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_to: str
         :param page:
         :type page: int
         :param limit:
@@ -967,8 +1281,8 @@ class DocumentsReceivedApi:
         amount_from: Optional[Union[StrictFloat, StrictInt]] = None,
         amount_to: Optional[Union[StrictFloat, StrictInt]] = None,
         processed: Optional[StrictBool] = None,
-        date_from: Optional[date] = None,
-        date_to: Optional[date] = None,
+        date_from: Annotated[Optional[StrictStr], Field(description="Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).")] = None,
+        date_to: Annotated[Optional[StrictStr], Field(description="Fecha fin (YYYY-MM-DD o timestamp ISO 8601).")] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
@@ -1003,10 +1317,10 @@ class DocumentsReceivedApi:
         :type amount_to: float
         :param processed:
         :type processed: bool
-        :param date_from:
-        :type date_from: date
-        :param date_to:
-        :type date_to: date
+        :param date_from: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_from: str
+        :param date_to: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_to: str
         :param page:
         :type page: int
         :param limit:
@@ -1078,8 +1392,8 @@ class DocumentsReceivedApi:
         amount_from: Optional[Union[StrictFloat, StrictInt]] = None,
         amount_to: Optional[Union[StrictFloat, StrictInt]] = None,
         processed: Optional[StrictBool] = None,
-        date_from: Optional[date] = None,
-        date_to: Optional[date] = None,
+        date_from: Annotated[Optional[StrictStr], Field(description="Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).")] = None,
+        date_to: Annotated[Optional[StrictStr], Field(description="Fecha fin (YYYY-MM-DD o timestamp ISO 8601).")] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
@@ -1114,10 +1428,10 @@ class DocumentsReceivedApi:
         :type amount_to: float
         :param processed:
         :type processed: bool
-        :param date_from:
-        :type date_from: date
-        :param date_to:
-        :type date_to: date
+        :param date_from: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_from: str
+        :param date_to: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_to: str
         :param page:
         :type page: int
         :param limit:
@@ -1239,30 +1553,12 @@ class DocumentsReceivedApi:
             _query_params.append(('processed', processed))
             
         if date_from is not None:
-            if isinstance(date_from, date):
-                _query_params.append(
-                    (
-                        'dateFrom',
-                        date_from.strftime(
-                            self.api_client.configuration.date_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('dateFrom', date_from))
+            
+            _query_params.append(('dateFrom', date_from))
             
         if date_to is not None:
-            if isinstance(date_to, date):
-                _query_params.append(
-                    (
-                        'dateTo',
-                        date_to.strftime(
-                            self.api_client.configuration.date_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('dateTo', date_to))
+            
+            _query_params.append(('dateTo', date_to))
             
         if page is not None:
             

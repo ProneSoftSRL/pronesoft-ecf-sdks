@@ -358,7 +358,7 @@ Name | Type | Description  | Notes
 
 # **listSentDocuments**
 ```swift
-    open class func listSentDocuments(xTenantId: UUID? = nil, env: Environment? = nil, ecf: String? = nil, type: String? = nil, status: Status_listSentDocuments? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: SentDocumentListResponse?, _ error: Error?) -> Void)
+    open class func listSentDocuments(xTenantId: UUID? = nil, env: Environment? = nil, ecf: String? = nil, type: String? = nil, status: Status_listSentDocuments? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, completion: @escaping (_ data: SentDocumentListResponse?, _ error: Error?) -> Void)
 ```
 
 Listar documentos enviados
@@ -373,8 +373,8 @@ let env = Environment() // Environment |  (optional)
 let ecf = "ecf_example" // String |  (optional)
 let type = "type_example" // String |  (optional)
 let status = "status_example" // String |  (optional)
-let dateFrom = Date() // Date |  (optional)
-let dateTo = Date() // Date |  (optional)
+let dateFrom = "dateFrom_example" // String | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+let dateTo = "dateTo_example" // String | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let limit = 987 // Int |  (optional) (default to 10)
 
@@ -400,8 +400,8 @@ Name | Type | Description  | Notes
  **ecf** | **String** |  | [optional] 
  **type** | **String** |  | [optional] 
  **status** | **String** |  | [optional] 
- **dateFrom** | **Date** |  | [optional] 
- **dateTo** | **Date** |  | [optional] 
+ **dateFrom** | **String** | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
+ **dateTo** | **String** | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **limit** | **Int** |  | [optional] [default to 10]
 

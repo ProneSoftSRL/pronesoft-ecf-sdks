@@ -4,11 +4,86 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**DecideCommercialApproval**](DocumentsReceivedAPI.md#DecideCommercialApproval) | **Post** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
 [**GetReceivedDocumentById**](DocumentsReceivedAPI.md#GetReceivedDocumentById) | **Get** /documents/received/{id} | Obtener documento recibido por ID
 [**GetReceivedDocumentStatsBySupplier**](DocumentsReceivedAPI.md#GetReceivedDocumentStatsBySupplier) | **Get** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
 [**GetReceivedDocumentStatsSummary**](DocumentsReceivedAPI.md#GetReceivedDocumentStatsSummary) | **Get** /documents/received/stats/summary | Estadísticas de documentos recibidos
 [**ListReceivedDocuments**](DocumentsReceivedAPI.md#ListReceivedDocuments) | **Get** /documents/received | Listar documentos recibidos
 
+
+
+## DecideCommercialApproval
+
+> DecideCommercialApprovalResponse DecideCommercialApproval(ctx, id).DecideCommercialApprovalRequest(decideCommercialApprovalRequest).XTenantId(xTenantId).Execute()
+
+Aprobar o rechazar comercialmente un documento recibido
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
+)
+
+func main() {
+	id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | ID del documento recibido (TaxDocumentReceived.id)
+	decideCommercialApprovalRequest := *openapiclient.NewDecideCommercialApprovalRequest("APPROVED") // DecideCommercialApprovalRequest | 
+	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DocumentsReceivedAPI.DecideCommercialApproval(context.Background(), id).DecideCommercialApprovalRequest(decideCommercialApprovalRequest).XTenantId(xTenantId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DocumentsReceivedAPI.DecideCommercialApproval``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DecideCommercialApproval`: DecideCommercialApprovalResponse
+	fmt.Fprintf(os.Stdout, "Response from `DocumentsReceivedAPI.DecideCommercialApproval`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** | ID del documento recibido (TaxDocumentReceived.id) | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDecideCommercialApprovalRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **decideCommercialApprovalRequest** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md) |  | 
+ **xTenantId** | **string** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | 
+
+### Return type
+
+[**DecideCommercialApprovalResponse**](DecideCommercialApprovalResponse.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## GetReceivedDocumentById
@@ -224,7 +299,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-    "time"
 	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
@@ -237,8 +311,8 @@ func main() {
 	amountFrom := float32(8.14) // float32 |  (optional)
 	amountTo := float32(8.14) // float32 |  (optional)
 	processed := true // bool |  (optional)
-	dateFrom := time.Now() // string |  (optional)
-	dateTo := time.Now() // string |  (optional)
+	dateFrom := "dateFrom_example" // string | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+	dateTo := "dateTo_example" // string | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 10)
 
@@ -273,8 +347,8 @@ Name | Type | Description  | Notes
  **amountFrom** | **float32** |  | 
  **amountTo** | **float32** |  | 
  **processed** | **bool** |  | 
- **dateFrom** | **string** |  | 
- **dateTo** | **string** |  | 
+ **dateFrom** | **string** | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | 
+ **dateTo** | **string** | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | 
  **page** | **int32** |  | [default to 1]
  **limit** | **int32** |  | [default to 10]
 

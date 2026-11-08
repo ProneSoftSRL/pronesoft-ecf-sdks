@@ -30,7 +30,7 @@ PronesoftEcf.configure do |config|
 end
 
 api_instance = PronesoftEcf::TaxSequencesApi.new
-create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceTypeSequence::E31, from: 1, to: 10000, quantity: 10000, environment: PronesoftEcf::Environment::TESTE_CF}) # CreateTaxSequenceRequest | 
+create_tax_sequence_request = PronesoftEcf::CreateTaxSequenceRequest.new({type: PronesoftEcf::InvoiceTypeSequence::E31, from: 1, to: 10000}) # CreateTaxSequenceRequest | 
 opts = {
   x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
 }

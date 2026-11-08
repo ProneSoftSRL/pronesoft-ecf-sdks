@@ -16,6 +16,79 @@ class DocumentsReceivedApi {
 
   final ApiClient apiClient;
 
+  /// Aprobar o rechazar comercialmente un documento recibido
+  ///
+  /// Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   ID del documento recibido (TaxDocumentReceived.id)
+  ///
+  /// * [DecideCommercialApprovalRequest] decideCommercialApprovalRequest (required):
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<Response> decideCommercialApprovalWithHttpInfo(String id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, { String? xTenantId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/documents/received/{id}/commercial-approval'
+      .replaceAll('{id}', id);
+
+    // ignore: prefer_final_locals
+    Object? postBody = decideCommercialApprovalRequest;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (xTenantId != null) {
+      headerParams[r'x-tenant-id'] = parameterToString(xTenantId);
+    }
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Aprobar o rechazar comercialmente un documento recibido
+  ///
+  /// Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+  ///
+  /// Parameters:
+  ///
+  /// * [String] id (required):
+  ///   ID del documento recibido (TaxDocumentReceived.id)
+  ///
+  /// * [DecideCommercialApprovalRequest] decideCommercialApprovalRequest (required):
+  ///
+  /// * [String] xTenantId:
+  ///   UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+  Future<DecideCommercialApprovalResponse?> decideCommercialApproval(String id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, { String? xTenantId, }) async {
+    final response = await decideCommercialApprovalWithHttpInfo(id, decideCommercialApprovalRequest,  xTenantId: xTenantId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'DecideCommercialApprovalResponse',) as DecideCommercialApprovalResponse;
+    
+    }
+    return null;
+  }
+
   /// Obtener documento recibido por ID
   ///
   /// Note: This method returns the HTTP [Response].
@@ -223,14 +296,16 @@ class DocumentsReceivedApi {
   ///
   /// * [bool] processed:
   ///
-  /// * [DateTime] dateFrom:
+  /// * [String] dateFrom:
+  ///   Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
   ///
-  /// * [DateTime] dateTo:
+  /// * [String] dateTo:
+  ///   Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
   ///
   /// * [int] page:
   ///
   /// * [int] limit:
-  Future<Response> listReceivedDocumentsWithHttpInfo({ String? xTenantId, String? ecf, String? type, int? status, String? supplierRnc, num? amountFrom, num? amountTo, bool? processed, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+  Future<Response> listReceivedDocumentsWithHttpInfo({ String? xTenantId, String? ecf, String? type, int? status, String? supplierRnc, num? amountFrom, num? amountTo, bool? processed, String? dateFrom, String? dateTo, int? page, int? limit, }) async {
     // ignore: prefer_const_declarations
     final path = r'/documents/received';
 
@@ -316,14 +391,16 @@ class DocumentsReceivedApi {
   ///
   /// * [bool] processed:
   ///
-  /// * [DateTime] dateFrom:
+  /// * [String] dateFrom:
+  ///   Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
   ///
-  /// * [DateTime] dateTo:
+  /// * [String] dateTo:
+  ///   Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
   ///
   /// * [int] page:
   ///
   /// * [int] limit:
-  Future<ReceivedDocumentListResponse?> listReceivedDocuments({ String? xTenantId, String? ecf, String? type, int? status, String? supplierRnc, num? amountFrom, num? amountTo, bool? processed, DateTime? dateFrom, DateTime? dateTo, int? page, int? limit, }) async {
+  Future<ReceivedDocumentListResponse?> listReceivedDocuments({ String? xTenantId, String? ecf, String? type, int? status, String? supplierRnc, num? amountFrom, num? amountTo, bool? processed, String? dateFrom, String? dateTo, int? page, int? limit, }) async {
     final response = await listReceivedDocumentsWithHttpInfo( xTenantId: xTenantId, ecf: ecf, type: type, status: status, supplierRnc: supplierRnc, amountFrom: amountFrom, amountTo: amountTo, processed: processed, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

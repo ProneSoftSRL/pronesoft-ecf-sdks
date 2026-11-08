@@ -28,7 +28,7 @@ using OpenAPIDateConverter = Pronesoft.Ecf.Sdk.Client.OpenAPIDateConverter;
 namespace Pronesoft.Ecf.Sdk.Model
 {
     /// <summary>
-    /// Bearer token valid for 24 hours (86400 seconds).
+    /// Token de acceso Bearer válido por 24 horas (86400 segundos).
     /// </summary>
     [DataContract(Name = "OAuthTokenResponse")]
     public partial class OAuthTokenResponse : IValidatableObject
@@ -38,7 +38,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// </summary>
         /// <param name="accessToken">accessToken.</param>
         /// <param name="tokenType">tokenType.</param>
-        /// <param name="expiresIn">Token lifetime in seconds (24 hours &#x3D; 86400)..</param>
+        /// <param name="expiresIn">Duración del token en segundos (24 horas &#x3D; 86400)..</param>
         /// <param name="scope">scope.</param>
         public OAuthTokenResponse(string accessToken = default, string tokenType = default, int expiresIn = default, List<string> scope = default)
         {
@@ -67,9 +67,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string TokenType { get; set; }
 
         /// <summary>
-        /// Token lifetime in seconds (24 hours &#x3D; 86400).
+        /// Duración del token en segundos (24 horas &#x3D; 86400).
         /// </summary>
-        /// <value>Token lifetime in seconds (24 hours &#x3D; 86400).</value>
+        /// <value>Duración del token en segundos (24 horas &#x3D; 86400).</value>
         /*
         <example>86400</example>
         */

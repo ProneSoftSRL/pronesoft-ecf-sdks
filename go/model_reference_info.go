@@ -21,12 +21,12 @@ import (
 // checks if the ReferenceInfo type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ReferenceInfo{}
 
-// ReferenceInfo Reference to previously issued document (for credit/debit notes).
+// ReferenceInfo Referencia al documento previamente emitido (para notas de crédito/débito).
 type ReferenceInfo struct {
 	ModifiedInvoiceNumber string `json:"modifiedInvoiceNumber"`
 	OtherContributorRNC *string `json:"otherContributorRNC,omitempty"`
 	ModifiedInvoiceDate *time.Time `json:"modifiedInvoiceDate,omitempty"`
-	// 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+	// 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
 	ModificationCode string `json:"modificationCode"`
 	ModificationReason *string `json:"modificationReason,omitempty"`
 }

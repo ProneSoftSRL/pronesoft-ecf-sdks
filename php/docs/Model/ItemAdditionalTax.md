@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**code** | **string** | DGII tax code (e.g. ISC, IECS) |
+**code** | **string** | Código de impuesto DGII (ej. ISC, IECS) |
 **amount** | [**\PronesoftEcf\Model\ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional]
 **rate** | **float** |  | [optional]
 **alternative_currency_amount** | **float** |  | [optional]

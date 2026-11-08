@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Reference to previously issued document (for credit/debit notes).
+ * Referencia al documento previamente emitido (para notas de crédito/débito).
  * @export
  * @interface ReferenceInfo
  */
@@ -38,7 +38,7 @@ export interface ReferenceInfo {
      */
     modifiedInvoiceDate?: Date;
     /**
-     * 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+     * 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
      * @type {ReferenceInfoModificationCodeEnum}
      * @memberof ReferenceInfo
      */

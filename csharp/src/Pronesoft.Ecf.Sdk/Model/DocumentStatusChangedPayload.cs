@@ -28,15 +28,15 @@ using OpenAPIDateConverter = Pronesoft.Ecf.Sdk.Client.OpenAPIDateConverter;
 namespace Pronesoft.Ecf.Sdk.Model
 {
     /// <summary>
-    /// Payload inside &#x60;data&#x60; when event is &#x60;document.status_changed&#x60;. Use &#x60;documentId&#x60; to poll GET /{environment}/ecf/status/{id} if needed. &#x60;issuerRnc&#x60; identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
+    /// Contenido del campo &#x60;data&#x60; cuando el evento es &#x60;document.status_changed&#x60;. Usa &#x60;documentId&#x60; para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. &#x60;issuerRnc&#x60; identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió). 
     /// </summary>
     [DataContract(Name = "DocumentStatusChangedPayload")]
     public partial class DocumentStatusChangedPayload : IValidatableObject
     {
         /// <summary>
-        /// Public lifecycle status.
+        /// Estado del ciclo de vida del documento.
         /// </summary>
-        /// <value>Public lifecycle status.</value>
+        /// <value>Estado del ciclo de vida del documento.</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum StatusEnum
         {
@@ -67,15 +67,15 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// Public lifecycle status.
+        /// Estado del ciclo de vida del documento.
         /// </summary>
-        /// <value>Public lifecycle status.</value>
+        /// <value>Estado del ciclo de vida del documento.</value>
         [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
         public StatusEnum Status { get; set; }
         /// <summary>
-        /// Fiscal result from DGII. Only present when status&#x3D;FINISHED.
+        /// Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED.
         /// </summary>
-        /// <value>Fiscal result from DGII. Only present when status&#x3D;FINISHED.</value>
+        /// <value>Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED.</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum LegalStatusEnum
         {
@@ -106,9 +106,9 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// Fiscal result from DGII. Only present when status&#x3D;FINISHED.
+        /// Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED.
         /// </summary>
-        /// <value>Fiscal result from DGII. Only present when status&#x3D;FINISHED.</value>
+        /// <value>Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED.</value>
         [DataMember(Name = "legalStatus", EmitDefaultValue = true)]
         public LegalStatusEnum? LegalStatus { get; set; }
         /// <summary>
@@ -119,14 +119,14 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentStatusChangedPayload" /> class.
         /// </summary>
-        /// <param name="documentId">Internal document ID for polling. (required).</param>
-        /// <param name="encf">e-NCF fiscal number. (required).</param>
-        /// <param name="issuerRnc">RNC of the issuing company (associated or main). (required).</param>
-        /// <param name="status">Public lifecycle status. (required).</param>
-        /// <param name="legalStatus">Fiscal result from DGII. Only present when status&#x3D;FINISHED..</param>
-        /// <param name="documentType">Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.).</param>
-        /// <param name="trackId">DGII tracking ID..</param>
-        /// <param name="dgiiMessage">Human-readable DGII response message..</param>
+        /// <param name="documentId">ID interno del documento para hacer polling. (required).</param>
+        /// <param name="encf">Número fiscal e-NCF. (required).</param>
+        /// <param name="issuerRnc">RNC de la empresa emisora (asociada o principal). (required).</param>
+        /// <param name="status">Estado del ciclo de vida del documento. (required).</param>
+        /// <param name="legalStatus">Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED..</param>
+        /// <param name="documentType">Código del tipo de documento (31&#x3D;Factura, 32&#x3D;Nota de Crédito, etc.).</param>
+        /// <param name="trackId">ID de seguimiento asignado por la DGII..</param>
+        /// <param name="dgiiMessage">Mensaje legible de respuesta de la DGII..</param>
         public DocumentStatusChangedPayload(Guid documentId = default, string encf = default, string issuerRnc = default, StatusEnum status = default, LegalStatusEnum? legalStatus = default, string documentType = default, string trackId = default, string dgiiMessage = default)
         {
             this.DocumentId = documentId;
@@ -150,9 +150,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         }
 
         /// <summary>
-        /// Internal document ID for polling.
+        /// ID interno del documento para hacer polling.
         /// </summary>
-        /// <value>Internal document ID for polling.</value>
+        /// <value>ID interno del documento para hacer polling.</value>
         /*
         <example>550e8400-e29b-41d4-a716-446655440000</example>
         */
@@ -160,9 +160,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         public Guid DocumentId { get; set; }
 
         /// <summary>
-        /// e-NCF fiscal number.
+        /// Número fiscal e-NCF.
         /// </summary>
-        /// <value>e-NCF fiscal number.</value>
+        /// <value>Número fiscal e-NCF.</value>
         /*
         <example>E31000000001</example>
         */
@@ -170,9 +170,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string Encf { get; set; }
 
         /// <summary>
-        /// RNC of the issuing company (associated or main).
+        /// RNC de la empresa emisora (asociada o principal).
         /// </summary>
-        /// <value>RNC of the issuing company (associated or main).</value>
+        /// <value>RNC de la empresa emisora (asociada o principal).</value>
         /*
         <example>133190907</example>
         */
@@ -180,9 +180,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string IssuerRnc { get; set; }
 
         /// <summary>
-        /// Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.)
+        /// Código del tipo de documento (31&#x3D;Factura, 32&#x3D;Nota de Crédito, etc.)
         /// </summary>
-        /// <value>Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.)</value>
+        /// <value>Código del tipo de documento (31&#x3D;Factura, 32&#x3D;Nota de Crédito, etc.)</value>
         /*
         <example>31</example>
         */
@@ -190,16 +190,16 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string DocumentType { get; set; }
 
         /// <summary>
-        /// DGII tracking ID.
+        /// ID de seguimiento asignado por la DGII.
         /// </summary>
-        /// <value>DGII tracking ID.</value>
+        /// <value>ID de seguimiento asignado por la DGII.</value>
         [DataMember(Name = "trackId", EmitDefaultValue = true)]
         public string TrackId { get; set; }
 
         /// <summary>
-        /// Human-readable DGII response message.
+        /// Mensaje legible de respuesta de la DGII.
         /// </summary>
-        /// <value>Human-readable DGII response message.</value>
+        /// <value>Mensaje legible de respuesta de la DGII.</value>
         [DataMember(Name = "dgiiMessage", EmitDefaultValue = true)]
         public string DgiiMessage { get; set; }
 

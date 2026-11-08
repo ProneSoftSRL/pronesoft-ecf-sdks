@@ -41,7 +41,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemAdditionalTax" /> class.
         /// </summary>
-        /// <param name="code">DGII tax code (e.g. ISC, IECS) (required).</param>
+        /// <param name="code">Código de impuesto DGII (ej. ISC, IECS) (required).</param>
         /// <param name="amount">amount.</param>
         /// <param name="rate">rate.</param>
         /// <param name="alternativeCurrencyAmount">alternativeCurrencyAmount.</param>
@@ -59,9 +59,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         }
 
         /// <summary>
-        /// DGII tax code (e.g. ISC, IECS)
+        /// Código de impuesto DGII (ej. ISC, IECS)
         /// </summary>
-        /// <value>DGII tax code (e.g. ISC, IECS)</value>
+        /// <value>Código de impuesto DGII (ej. ISC, IECS)</value>
         [DataMember(Name = "code", IsRequired = true, EmitDefaultValue = true)]
         public string Code { get; set; }
 

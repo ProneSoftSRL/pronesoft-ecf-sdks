@@ -28,9 +28,10 @@ import java.io.IOException;
 
 
 import java.math.BigDecimal;
+import com.pronesoft.ecf.model.DecideCommercialApprovalRequest;
+import com.pronesoft.ecf.model.DecideCommercialApprovalResponse;
 import com.pronesoft.ecf.model.ErrorResponse;
 import com.pronesoft.ecf.model.GetReceivedDocumentStatsBySupplier200ResponseInner;
-import java.time.LocalDate;
 import com.pronesoft.ecf.model.ReceivedDocument;
 import com.pronesoft.ecf.model.ReceivedDocumentListResponse;
 import com.pronesoft.ecf.model.ReceivedDocumentStatsResponse;
@@ -79,6 +80,164 @@ public class DocumentsReceivedApi {
         this.localCustomBaseUrl = customBaseUrl;
     }
 
+    /**
+     * Build call for decideCommercialApproval
+     * @param id ID del documento recibido (TaxDocumentReceived.id) (required)
+     * @param decideCommercialApprovalRequest  (required)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 201 </td><td> Decisión registrada y encolada para envío </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Documento recibido no encontrado </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call decideCommercialApprovalCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = decideCommercialApprovalRequest;
+
+        // create path and map variables
+        String localVarPath = "/documents/received/{id}/commercial-approval"
+            .replace("{" + "id" + "}", localVarApiClient.escapeString(id.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xTenantId != null) {
+            localVarHeaderParams.put("x-tenant-id", localVarApiClient.parameterToString(xTenantId));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "oauth2" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call decideCommercialApprovalValidateBeforeCall(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'id' is set
+        if (id == null) {
+            throw new ApiException("Missing the required parameter 'id' when calling decideCommercialApproval(Async)");
+        }
+
+        // verify the required parameter 'decideCommercialApprovalRequest' is set
+        if (decideCommercialApprovalRequest == null) {
+            throw new ApiException("Missing the required parameter 'decideCommercialApprovalRequest' when calling decideCommercialApproval(Async)");
+        }
+
+        return decideCommercialApprovalCall(id, decideCommercialApprovalRequest, xTenantId, _callback);
+
+    }
+
+    /**
+     * Aprobar o rechazar comercialmente un documento recibido
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * @param id ID del documento recibido (TaxDocumentReceived.id) (required)
+     * @param decideCommercialApprovalRequest  (required)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return DecideCommercialApprovalResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 201 </td><td> Decisión registrada y encolada para envío </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Documento recibido no encontrado </td><td>  -  </td></tr>
+     </table>
+     */
+    public DecideCommercialApprovalResponse decideCommercialApproval(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        ApiResponse<DecideCommercialApprovalResponse> localVarResp = decideCommercialApprovalWithHttpInfo(id, decideCommercialApprovalRequest, xTenantId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Aprobar o rechazar comercialmente un documento recibido
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * @param id ID del documento recibido (TaxDocumentReceived.id) (required)
+     * @param decideCommercialApprovalRequest  (required)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse&lt;DecideCommercialApprovalResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 201 </td><td> Decisión registrada y encolada para envío </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Documento recibido no encontrado </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<DecideCommercialApprovalResponse> decideCommercialApprovalWithHttpInfo(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId) throws ApiException {
+        okhttp3.Call localVarCall = decideCommercialApprovalValidateBeforeCall(id, decideCommercialApprovalRequest, xTenantId, null);
+        Type localVarReturnType = new TypeToken<DecideCommercialApprovalResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Aprobar o rechazar comercialmente un documento recibido (asynchronously)
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * @param id ID del documento recibido (TaxDocumentReceived.id) (required)
+     * @param decideCommercialApprovalRequest  (required)
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 201 </td><td> Decisión registrada y encolada para envío </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error de validación (400). Revisa el campo message para más detalles. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Documento recibido no encontrado </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call decideCommercialApprovalAsync(@javax.annotation.Nonnull UUID id, @javax.annotation.Nonnull DecideCommercialApprovalRequest decideCommercialApprovalRequest, @javax.annotation.Nullable UUID xTenantId, final ApiCallback<DecideCommercialApprovalResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = decideCommercialApprovalValidateBeforeCall(id, decideCommercialApprovalRequest, xTenantId, _callback);
+        Type localVarReturnType = new TypeToken<DecideCommercialApprovalResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
     /**
      * Build call for getReceivedDocumentById
      * @param id  (required)
@@ -493,8 +652,8 @@ public class DocumentsReceivedApi {
      * @param amountFrom  (optional)
      * @param amountTo  (optional)
      * @param processed  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @param _callback Callback for upload/download progress
@@ -508,7 +667,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listReceivedDocumentsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listReceivedDocumentsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -602,7 +761,7 @@ public class DocumentsReceivedApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listReceivedDocumentsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listReceivedDocumentsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         return listReceivedDocumentsCall(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit, _callback);
 
     }
@@ -618,8 +777,8 @@ public class DocumentsReceivedApi {
      * @param amountFrom  (optional)
      * @param amountTo  (optional)
      * @param processed  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ReceivedDocumentListResponse
@@ -632,7 +791,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ReceivedDocumentListResponse listReceivedDocuments(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ReceivedDocumentListResponse listReceivedDocuments(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         ApiResponse<ReceivedDocumentListResponse> localVarResp = listReceivedDocumentsWithHttpInfo(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit);
         return localVarResp.getData();
     }
@@ -648,8 +807,8 @@ public class DocumentsReceivedApi {
      * @param amountFrom  (optional)
      * @param amountTo  (optional)
      * @param processed  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApiResponse&lt;ReceivedDocumentListResponse&gt;
@@ -662,7 +821,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ReceivedDocumentListResponse> listReceivedDocumentsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ApiResponse<ReceivedDocumentListResponse> listReceivedDocumentsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         okhttp3.Call localVarCall = listReceivedDocumentsValidateBeforeCall(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit, null);
         Type localVarReturnType = new TypeToken<ReceivedDocumentListResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -679,8 +838,8 @@ public class DocumentsReceivedApi {
      * @param amountFrom  (optional)
      * @param amountTo  (optional)
      * @param processed  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @param _callback The callback to be executed when the API call finishes
@@ -694,7 +853,7 @@ public class DocumentsReceivedApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listReceivedDocumentsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ReceivedDocumentListResponse> _callback) throws ApiException {
+    public okhttp3.Call listReceivedDocumentsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable String supplierRnc, @javax.annotation.Nullable BigDecimal amountFrom, @javax.annotation.Nullable BigDecimal amountTo, @javax.annotation.Nullable Boolean processed, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<ReceivedDocumentListResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = listReceivedDocumentsValidateBeforeCall(xTenantId, ecf, type, status, supplierRnc, amountFrom, amountTo, processed, dateFrom, dateTo, page, limit, _callback);
         Type localVarReturnType = new TypeToken<ReceivedDocumentListResponse>(){}.getType();

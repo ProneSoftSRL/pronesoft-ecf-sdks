@@ -14,7 +14,7 @@ require 'date'
 require 'time'
 
 module PronesoftEcf
-  # Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. `status` siempre es `REGISTERED`. `legalStatus` y `trackId` siempre son `null` en este momento — se populan una vez que la DGII procesa el documento. Usa `GET /ecf/status/{id}` o escucha el webhook `document.status_changed` para obtener el resultado fiscal final. 
+  # Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. `status` siempre es `REGISTERED`. Usa `GET /ecf/status/{id}` o escucha el webhook `document.status_changed` para obtener el resultado fiscal final de DGII. 
   class EcfSubmitResponse < ApiModelBase
     # ID interno del documento. Úsalo para `GET /ecf/status/{id}`.
     attr_accessor :id
@@ -25,16 +25,7 @@ module PronesoftEcf
     # Siempre `REGISTERED` al enviar. El estado fiscal llega vía webhook o polling.
     attr_accessor :status
 
-    # Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
-    attr_accessor :legal_status
-
     attr_accessor :company_identification
-
-    # Siempre `null` al enviar. Lo asigna DGII al procesar el documento.
-    attr_accessor :track_id
-
-    # Número de control electrónico (e-NCF). Igual a `encf`.
-    attr_accessor :document_number
 
     # Número e-NCF asignado al documento (ej. E310000000001).
     attr_accessor :encf
@@ -42,10 +33,7 @@ module PronesoftEcf
     # `true` si el documento fue emitido en modo contingencia (DGII no disponible).
     attr_accessor :contingency_mode
 
-    # Mensaje oficial DGII cuando `contingencyMode` es `true`.
-    attr_accessor :contingency_message
-
-    # URL del código QR del documento.
+    # URL de consulta del timbre en DGII.
     attr_accessor :document_stamp_url
 
     # URL pre-firmada del PDF (expira en 1 hora).
@@ -57,10 +45,10 @@ module PronesoftEcf
     # Fecha y hora de la firma digital.
     attr_accessor :signature_date
 
-    # Código de seguridad del documento.
+    # Código de seguridad de 6 caracteres del documento.
     attr_accessor :security_code
 
-    # Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
+    # `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
     attr_accessor :sequence_consumed
 
     class EnumAttributeValidator
@@ -91,13 +79,9 @@ module PronesoftEcf
         :'id' => :'id',
         :'stamp_date' => :'stampDate',
         :'status' => :'status',
-        :'legal_status' => :'legalStatus',
         :'company_identification' => :'companyIdentification',
-        :'track_id' => :'trackId',
-        :'document_number' => :'documentNumber',
         :'encf' => :'encf',
         :'contingency_mode' => :'contingencyMode',
-        :'contingency_message' => :'contingencyMessage',
         :'document_stamp_url' => :'documentStampUrl',
         :'pdf' => :'pdf',
         :'xml_url' => :'xmlUrl',
@@ -123,17 +107,13 @@ module PronesoftEcf
         :'id' => :'String',
         :'stamp_date' => :'Date',
         :'status' => :'String',
-        :'legal_status' => :'String',
         :'company_identification' => :'EcfSubmitResponseCompanyIdentification',
-        :'track_id' => :'String',
-        :'document_number' => :'String',
         :'encf' => :'String',
         :'contingency_mode' => :'Boolean',
-        :'contingency_message' => :'String',
         :'document_stamp_url' => :'String',
         :'pdf' => :'String',
         :'xml_url' => :'String',
-        :'signature_date' => :'Time',
+        :'signature_date' => :'String',
         :'security_code' => :'String',
         :'sequence_consumed' => :'Boolean'
       }
@@ -143,16 +123,8 @@ module PronesoftEcf
     def self.openapi_nullable
       Set.new([
         :'stamp_date',
-        :'legal_status',
-        :'track_id',
-        :'document_number',
-        :'encf',
-        :'contingency_message',
-        :'document_stamp_url',
         :'pdf',
         :'xml_url',
-        :'signature_date',
-        :'security_code',
       ])
     end
 
@@ -188,34 +160,20 @@ module PronesoftEcf
         self.status = nil
       end
 
-      if attributes.key?(:'legal_status')
-        self.legal_status = attributes[:'legal_status']
-      end
-
       if attributes.key?(:'company_identification')
         self.company_identification = attributes[:'company_identification']
       else
         self.company_identification = nil
       end
 
-      if attributes.key?(:'track_id')
-        self.track_id = attributes[:'track_id']
-      end
-
-      if attributes.key?(:'document_number')
-        self.document_number = attributes[:'document_number']
-      end
-
       if attributes.key?(:'encf')
         self.encf = attributes[:'encf']
+      else
+        self.encf = nil
       end
 
       if attributes.key?(:'contingency_mode')
         self.contingency_mode = attributes[:'contingency_mode']
-      end
-
-      if attributes.key?(:'contingency_message')
-        self.contingency_message = attributes[:'contingency_message']
       end
 
       if attributes.key?(:'document_stamp_url')
@@ -262,6 +220,10 @@ module PronesoftEcf
         invalid_properties.push('invalid value for "company_identification", company_identification cannot be nil.')
       end
 
+      if @encf.nil?
+        invalid_properties.push('invalid value for "encf", encf cannot be nil.')
+      end
+
       if @sequence_consumed.nil?
         invalid_properties.push('invalid value for "sequence_consumed", sequence_consumed cannot be nil.')
       end
@@ -277,9 +239,8 @@ module PronesoftEcf
       return false if @status.nil?
       status_validator = EnumAttributeValidator.new('String', ["REGISTERED"])
       return false unless status_validator.valid?(@status)
-      legal_status_validator = EnumAttributeValidator.new('String', ["ACCEPTED", "ACCEPTED_WITH_OBSERVATIONS", "REJECTED", "ERROR"])
-      return false unless legal_status_validator.valid?(@legal_status)
       return false if @company_identification.nil?
+      return false if @encf.nil?
       return false if @sequence_consumed.nil?
       true
     end
@@ -304,16 +265,6 @@ module PronesoftEcf
       @status = status
     end
 
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] legal_status Object to be assigned
-    def legal_status=(legal_status)
-      validator = EnumAttributeValidator.new('String', ["ACCEPTED", "ACCEPTED_WITH_OBSERVATIONS", "REJECTED", "ERROR"])
-      unless validator.valid?(legal_status)
-        fail ArgumentError, "invalid value for \"legal_status\", must be one of #{validator.allowable_values}."
-      end
-      @legal_status = legal_status
-    end
-
     # Custom attribute writer method with validation
     # @param [Object] company_identification Value to be assigned
     def company_identification=(company_identification)
@@ -322,6 +273,16 @@ module PronesoftEcf
       end
 
       @company_identification = company_identification
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] encf Value to be assigned
+    def encf=(encf)
+      if encf.nil?
+        fail ArgumentError, 'encf cannot be nil'
+      end
+
+      @encf = encf
     end
 
     # Custom attribute writer method with validation
@@ -342,13 +303,9 @@ module PronesoftEcf
           id == o.id &&
           stamp_date == o.stamp_date &&
           status == o.status &&
-          legal_status == o.legal_status &&
           company_identification == o.company_identification &&
-          track_id == o.track_id &&
-          document_number == o.document_number &&
           encf == o.encf &&
           contingency_mode == o.contingency_mode &&
-          contingency_message == o.contingency_message &&
           document_stamp_url == o.document_stamp_url &&
           pdf == o.pdf &&
           xml_url == o.xml_url &&
@@ -366,7 +323,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, stamp_date, status, legal_status, company_identification, track_id, document_number, encf, contingency_mode, contingency_message, document_stamp_url, pdf, xml_url, signature_date, security_code, sequence_consumed].hash
+      [id, stamp_date, status, company_identification, encf, contingency_mode, document_stamp_url, pdf, xml_url, signature_date, security_code, sequence_consumed].hash
     end
 
     # Builds the object from hash

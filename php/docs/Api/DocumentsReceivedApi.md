@@ -6,11 +6,76 @@ All URIs are relative to https://api.ecf.sandbox.pronesoft.com/api/v1, except if
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
+| [**decideCommercialApproval()**](DocumentsReceivedApi.md#decideCommercialApproval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido |
 | [**getReceivedDocumentById()**](DocumentsReceivedApi.md#getReceivedDocumentById) | **GET** /documents/received/{id} | Obtener documento recibido por ID |
 | [**getReceivedDocumentStatsBySupplier()**](DocumentsReceivedApi.md#getReceivedDocumentStatsBySupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos |
 | [**getReceivedDocumentStatsSummary()**](DocumentsReceivedApi.md#getReceivedDocumentStatsSummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos |
 | [**listReceivedDocuments()**](DocumentsReceivedApi.md#listReceivedDocuments) | **GET** /documents/received | Listar documentos recibidos |
 
+
+## `decideCommercialApproval()`
+
+```php
+decideCommercialApproval($id, $decide_commercial_approval_request, $x_tenant_id): \PronesoftEcf\Model\DecideCommercialApprovalResponse
+```
+
+Aprobar o rechazar comercialmente un documento recibido
+
+Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure OAuth2 access token for authorization: oauth2
+$config = PronesoftEcf\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new PronesoftEcf\Api\DocumentsReceivedApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$id = 'id_example'; // string | ID del documento recibido (TaxDocumentReceived.id)
+$decide_commercial_approval_request = new \PronesoftEcf\Model\DecideCommercialApprovalRequest(); // \PronesoftEcf\Model\DecideCommercialApprovalRequest
+$x_tenant_id = 468a4aa1-1b80-447e-9ecb-400e39f7d798; // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+
+try {
+    $result = $apiInstance->decideCommercialApproval($id, $decide_commercial_approval_request, $x_tenant_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DocumentsReceivedApi->decideCommercialApproval: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **string**| ID del documento recibido (TaxDocumentReceived.id) | |
+| **decide_commercial_approval_request** | [**\PronesoftEcf\Model\DecideCommercialApprovalRequest**](../Model/DecideCommercialApprovalRequest.md)|  | |
+| **x_tenant_id** | **string**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. | [optional] |
+
+### Return type
+
+[**\PronesoftEcf\Model\DecideCommercialApprovalResponse**](../Model/DecideCommercialApprovalResponse.md)
+
+### Authorization
+
+[oauth2](../../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
 
 ## `getReceivedDocumentById()`
 
@@ -221,8 +286,8 @@ $supplier_rnc = 'supplier_rnc_example'; // string | RNC del emisor/proveedor
 $amount_from = 3.4; // float
 $amount_to = 3.4; // float
 $processed = True; // bool
-$date_from = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
-$date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
+$date_from = 'date_from_example'; // string | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+$date_to = 'date_to_example'; // string | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 $page = 1; // int
 $limit = 10; // int
 
@@ -246,8 +311,8 @@ try {
 | **amount_from** | **float**|  | [optional] |
 | **amount_to** | **float**|  | [optional] |
 | **processed** | **bool**|  | [optional] |
-| **date_from** | **\DateTime**|  | [optional] |
-| **date_to** | **\DateTime**|  | [optional] |
+| **date_from** | **string**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
+| **date_to** | **string**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
 | **page** | **int**|  | [optional] [default to 1] |
 | **limit** | **int**|  | [optional] [default to 10] |
 

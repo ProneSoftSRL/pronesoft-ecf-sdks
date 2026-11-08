@@ -9,7 +9,7 @@
 | **sender_rnc** | **String** |  | [optional] |
 | **receiver_rnc** | **String** |  | [optional] |
 | **total_amount** | **Float** |  | [optional] |
-| **status** | **Integer** | 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending | [optional] |
+| **status** | **Integer** | 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente | [optional] |
 | **status_label** | **String** |  | [optional] |
 | **issue_date** | **Time** |  | [optional] |
 | **received_at** | **Time** |  | [optional] |

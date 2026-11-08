@@ -27,12 +27,12 @@ from pydantic_core import to_jsonable_python
 
 class ReferenceInfo(BaseModel):
     """
-    Reference to previously issued document (for credit/debit notes).
+    Referencia al documento previamente emitido (para notas de crédito/débito).
     """ # noqa: E501
     modified_invoice_number: StrictStr = Field(alias="modifiedInvoiceNumber")
     other_contributor_rnc: Optional[StrictStr] = Field(default=None, alias="otherContributorRNC")
     modified_invoice_date: Optional[datetime] = Field(default=None, alias="modifiedInvoiceDate")
-    modification_code: StrictStr = Field(description="1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other", alias="modificationCode")
+    modification_code: StrictStr = Field(description="1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro", alias="modificationCode")
     modification_reason: Optional[StrictStr] = Field(default=None, alias="modificationReason")
     __properties: ClassVar[List[str]] = ["modifiedInvoiceNumber", "otherContributorRNC", "modifiedInvoiceDate", "modificationCode", "modificationReason"]
 

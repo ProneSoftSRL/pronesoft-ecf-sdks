@@ -171,12 +171,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="status"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>SentDocumentListResponse</returns>
-        SentDocumentListResponse ListSentDocuments(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default);
+        SentDocumentListResponse ListSentDocuments(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
 
         /// <summary>
         /// Listar documentos enviados
@@ -190,12 +190,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="status"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of SentDocumentListResponse</returns>
-        ApiResponse<SentDocumentListResponse> ListSentDocumentsWithHttpInfo(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default);
+        ApiResponse<SentDocumentListResponse> ListSentDocumentsWithHttpInfo(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default);
         #endregion Synchronous Operations
     }
 
@@ -386,13 +386,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="status"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SentDocumentListResponse</returns>
-        System.Threading.Tasks.Task<SentDocumentListResponse> ListSentDocumentsAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<SentDocumentListResponse> ListSentDocumentsAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Listar documentos enviados
@@ -406,13 +406,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="status"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SentDocumentListResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<SentDocumentListResponse>> ListSentDocumentsWithHttpInfoAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<SentDocumentListResponse>> ListSentDocumentsWithHttpInfoAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -1544,12 +1544,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="status"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>SentDocumentListResponse</returns>
-        public SentDocumentListResponse ListSentDocuments(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default)
+        public SentDocumentListResponse ListSentDocuments(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse> localVarResponse = ListSentDocumentsWithHttpInfo(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit);
             return localVarResponse.Data;
@@ -1564,12 +1564,12 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="status"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <returns>ApiResponse of SentDocumentListResponse</returns>
-        public Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse> ListSentDocumentsWithHttpInfo(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default)
+        public Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse> ListSentDocumentsWithHttpInfo(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default)
         {
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();
 
@@ -1652,13 +1652,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="status"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SentDocumentListResponse</returns>
-        public async System.Threading.Tasks.Task<SentDocumentListResponse> ListSentDocumentsAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<SentDocumentListResponse> ListSentDocumentsAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
             Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse> localVarResponse = await ListSentDocumentsWithHttpInfoAsync(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1673,13 +1673,13 @@ namespace Pronesoft.Ecf.Sdk.Api
         /// <param name="ecf"> (optional)</param>
         /// <param name="type"> (optional)</param>
         /// <param name="status"> (optional)</param>
-        /// <param name="dateFrom"> (optional)</param>
-        /// <param name="dateTo"> (optional)</param>
+        /// <param name="dateFrom">Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
+        /// <param name="dateTo">Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)</param>
         /// <param name="page"> (optional, default to 1)</param>
         /// <param name="limit"> (optional, default to 10)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SentDocumentListResponse)</returns>
-        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse>> ListSentDocumentsWithHttpInfoAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, DateOnly? dateFrom = default, DateOnly? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Pronesoft.Ecf.Sdk.Client.ApiResponse<SentDocumentListResponse>> ListSentDocumentsWithHttpInfoAsync(Guid? xTenantId = default, ModelEnvironment? env = default, string? ecf = default, string? type = default, string? status = default, string? dateFrom = default, string? dateTo = default, int? page = default, int? limit = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Pronesoft.Ecf.Sdk.Client.RequestOptions localVarRequestOptions = new Pronesoft.Ecf.Sdk.Client.RequestOptions();

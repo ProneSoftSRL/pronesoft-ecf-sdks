@@ -107,8 +107,8 @@ public class Example {
     String ecf = "ecf_example"; // String | 
     String type = "type_example"; // String | Tipo de documento
     Integer status = 1; // Integer | 
-    LocalDate dateFrom = LocalDate.now(); // LocalDate | 
-    LocalDate dateTo = LocalDate.now(); // LocalDate | 
+    String dateFrom = "dateFrom_example"; // String | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+    String dateTo = "dateTo_example"; // String | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
     Integer page = 1; // Integer | 
     Integer limit = 10; // Integer | 
     try {
@@ -133,8 +133,8 @@ public class Example {
 | **ecf** | **String**|  | [optional] |
 | **type** | **String**| Tipo de documento | [optional] |
 | **status** | **Integer**|  | [optional] [enum: 1, 2, 3, 4] |
-| **dateFrom** | **LocalDate**|  | [optional] |
-| **dateTo** | **LocalDate**|  | [optional] |
+| **dateFrom** | **String**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
+| **dateTo** | **String**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
 | **page** | **Integer**|  | [optional] [default to 1] |
 | **limit** | **Integer**|  | [optional] [default to 10] |
 

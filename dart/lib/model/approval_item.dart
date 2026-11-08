@@ -85,7 +85,7 @@ class ApprovalItem {
   ///
   String? approvalStatus;
 
-  /// 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+  /// 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
   ApprovalItemStatusEnum? status;
 
   ///
@@ -322,7 +322,7 @@ class ApprovalItem {
   };
 }
 
-/// 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+/// 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
 class ApprovalItemStatusEnum {
   /// Instantiate a new enum with the provided [value].
   const ApprovalItemStatusEnum._(this.value);

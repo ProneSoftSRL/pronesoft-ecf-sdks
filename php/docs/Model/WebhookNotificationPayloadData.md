@@ -4,22 +4,24 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**document_id** | **string** | Internal document ID for polling. |
+**document_id** | **string** | ID interno del documento en Pronesoft. |
 **encf** | **string** |  |
-**issuer_rnc** | **string** | RNC of the issuing company (associated or main). |
+**issuer_rnc** | **string** | RNC de la empresa emisora del documento. |
 **status** | **string** | Estado final del proceso. |
-**legal_status** | **string** | Fiscal result from DGII. Only present when status&#x3D;FINISHED. | [optional]
-**document_type** | **string** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) | [optional]
-**track_id** | **string** | DGII tracking ID. | [optional]
-**dgii_message** | **string** | Human-readable DGII response message. | [optional]
+**legal_status** | **string** | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. | [optional]
+**document_type** | **string** | Tipo de comprobante (31, 32, 33, 34, etc.). | [optional]
+**track_id** | **string** | ID de seguimiento asignado por la DGII. | [optional]
+**dgii_message** | **string** | Mensaje legible de respuesta de la DGII. | [optional]
 **sender_rnc** | **string** |  |
 **receiver_rnc** | **string** |  |
 **total_amount** | **float** |  |
 **issue_date** | **\DateTime** |  |
 **received_at** | **\DateTime** | Fecha de recepción del documento. |
 **rejection_reason** | **string** | Razón del rechazo (solo si status es &#39;rejected&#39;). | [optional]
-**error_code** | **string** | Código de error de validación. |
-**message** | **string** | Descripción del error. |
+**error_code** | **string** | Código del error de validación. |
+**message** | **string** | Descripción detallada del error de validación. |
+**error** | **string** | Mensaje de error (alias legado). | [optional]
+**code** | **mixed** | Código de error (alias legado). | [optional]
 **reason** | **string** | Motivo de la anulación. |
 **retry_at** | **\DateTime** | Fecha estimada de reintento de envío. | [optional]
 **approval_status** | **string** |  |

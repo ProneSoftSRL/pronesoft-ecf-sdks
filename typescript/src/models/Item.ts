@@ -129,7 +129,7 @@ export interface Item {
      */
     description?: string;
     /**
-     * 1=Good, 2=Service
+     * 1=Bien, 2=Servicio
      * @type {ItemTypeEnum}
      * @memberof Item
      */

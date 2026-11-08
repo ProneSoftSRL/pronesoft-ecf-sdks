@@ -48,17 +48,17 @@ import com.google.gson.annotations.SerializedName
 /**
  * Payload específico del evento. El tipo varía según el campo `event`: - `document.status_changed` → DocumentStatusChangedPayload - `document.received` → DocumentReceivedPayload - `document.validation_error` → DocumentValidationErrorPayload - `document.contingency_activated` → ContingencyActivatedPayload - `commercial.approval` → CommercialApprovalPayload - `certificate.expiring` → CertificateExpiringPayload - `security.new_login` → SecurityNewLoginPayload - `security.api_key_rotated` → SecurityApiKeyRotatedPayload - `plan.usage_alert` → PlanUsageAlertPayload - `plan.payment_failed` → PlanPaymentFailedPayload - `billing.invoice_ready` → BillingInvoiceReadyPayload - `sequence.depleted` → SequenceDepletedPayload - `sequence.voided` → SequenceVoidedPayload - `branch.created` → BranchCreatedPayload - `branch.status_changed` → BranchStatusChangedPayload - `member.invited` → MemberInvitedPayload - `member.joined` → MemberJoinedPayload - `member.removed` → MemberRemovedPayload - `certification.completed` → CertificationCompletedPayload 
  *
- * @param documentId Internal document ID for polling.
+ * @param documentId ID interno del documento en Pronesoft.
  * @param encf 
- * @param issuerRnc RNC of the issuing company (associated or main).
+ * @param issuerRnc RNC de la empresa emisora del documento.
  * @param status Estado final del proceso.
  * @param senderRnc 
  * @param receiverRnc 
  * @param totalAmount 
  * @param issueDate 
  * @param receivedAt Fecha de recepción del documento.
- * @param errorCode Código de error de validación.
- * @param message Descripción del error.
+ * @param errorCode Código del error de validación.
+ * @param message Descripción detallada del error de validación.
  * @param reason Motivo de la anulación.
  * @param approvalStatus 
  * @param approvalDate 
@@ -90,11 +90,13 @@ import com.google.gson.annotations.SerializedName
  * @param processId 
  * @param businessName 
  * @param completedAt 
- * @param legalStatus Fiscal result from DGII. Only present when status=FINISHED.
- * @param documentType Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
- * @param trackId DGII tracking ID.
- * @param dgiiMessage Human-readable DGII response message.
+ * @param legalStatus Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
+ * @param documentType Tipo de comprobante (31, 32, 33, 34, etc.).
+ * @param trackId ID de seguimiento asignado por la DGII.
+ * @param dgiiMessage Mensaje legible de respuesta de la DGII.
  * @param rejectionReason Razón del rechazo (solo si status es 'rejected').
+ * @param error Mensaje de error (alias legado).
+ * @param code Código de error (alias legado).
  * @param retryAt Fecha estimada de reintento de envío.
  * @param rejectionCode Código de rechazo (solo si approvalStatus es 'rejected').
  * @param rejectionDescription Descripción del rechazo (solo si approvalStatus es 'rejected').
@@ -105,14 +107,14 @@ import com.google.gson.annotations.SerializedName
 
 data class WebhookNotificationPayloadData (
 
-    /* Internal document ID for polling. */
+    /* ID interno del documento en Pronesoft. */
     @SerializedName("documentId")
     val documentId: java.util.UUID,
 
     @SerializedName("encf")
     val encf: kotlin.String,
 
-    /* RNC of the issuing company (associated or main). */
+    /* RNC de la empresa emisora del documento. */
     @SerializedName("issuerRnc")
     val issuerRnc: kotlin.String,
 
@@ -136,11 +138,11 @@ data class WebhookNotificationPayloadData (
     @SerializedName("receivedAt")
     val receivedAt: java.time.OffsetDateTime,
 
-    /* Código de error de validación. */
+    /* Código del error de validación. */
     @SerializedName("errorCode")
     val errorCode: kotlin.String,
 
-    /* Descripción del error. */
+    /* Descripción detallada del error de validación. */
     @SerializedName("message")
     val message: kotlin.String,
 
@@ -250,25 +252,33 @@ data class WebhookNotificationPayloadData (
     @SerializedName("completedAt")
     val completedAt: java.time.OffsetDateTime,
 
-    /* Fiscal result from DGII. Only present when status=FINISHED. */
+    /* Resultado fiscal de la DGII. Solo presente cuando status=FINISHED. */
     @SerializedName("legalStatus")
     val legalStatus: WebhookNotificationPayloadData.LegalStatus? = null,
 
-    /* Tipo de documento code (31=Invoice, 32=Credit Note, etc.) */
+    /* Tipo de comprobante (31, 32, 33, 34, etc.). */
     @SerializedName("documentType")
     val documentType: kotlin.String? = null,
 
-    /* DGII tracking ID. */
+    /* ID de seguimiento asignado por la DGII. */
     @SerializedName("trackId")
     val trackId: kotlin.String? = null,
 
-    /* Human-readable DGII response message. */
+    /* Mensaje legible de respuesta de la DGII. */
     @SerializedName("dgiiMessage")
     val dgiiMessage: kotlin.String? = null,
 
     /* Razón del rechazo (solo si status es 'rejected'). */
     @SerializedName("rejectionReason")
     val rejectionReason: kotlin.String? = null,
+
+    /* Mensaje de error (alias legado). */
+    @SerializedName("error")
+    val error: kotlin.String? = null,
+
+    /* Código de error (alias legado). */
+    @SerializedName("code")
+    val code: kotlin.Any? = null,
 
     /* Fecha estimada de reintento de envío. */
     @SerializedName("retryAt")
@@ -311,7 +321,7 @@ data class WebhookNotificationPayloadData (
         @SerializedName(value = "danger") danger("danger");
     }
     /**
-     * Fiscal result from DGII. Only present when status=FINISHED.
+     * Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
      *
      * Values: ACCEPTED,ACCEPTED_WITH_OBSERVATIONS,REJECTED,ERROR
      */

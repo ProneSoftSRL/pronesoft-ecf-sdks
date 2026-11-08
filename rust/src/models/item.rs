@@ -21,7 +21,7 @@ pub struct Item {
     pub name: String,
     #[serde(rename = "description", skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
-    /// 1=Good, 2=Service
+    /// 1=Bien, 2=Servicio
     #[serde(rename = "type")]
     pub r#type: Type,
     #[serde(rename = "billingIndicator")]
@@ -103,7 +103,7 @@ impl Item {
         }
     }
 }
-/// 1=Good, 2=Service
+/// 1=Bien, 2=Servicio
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Type {
     #[serde(rename = "1")]

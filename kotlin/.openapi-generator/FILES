@@ -35,6 +35,8 @@ docs/ContingencyActivatedPayload.md
 docs/CreateAssociatedCompany201Response.md
 docs/CreateTaxSequence201Response.md
 docs/CreateTaxSequenceRequest.md
+docs/DecideCommercialApprovalRequest.md
+docs/DecideCommercialApprovalResponse.md
 docs/DeleteAssociatedCompany200Response.md
 docs/DgiiMessage.md
 docs/DigitalCertificatesApi.md
@@ -51,6 +53,8 @@ docs/ECFSubmissionApi.md
 docs/EcfHistoryItem.md
 docs/EcfStatsResponse.md
 docs/EcfStatusResponse.md
+docs/EcfStatusResponseGovernmentResponse.md
+docs/EcfStatusResponseGovernmentResponseValueInner.md
 docs/EcfSubmitResponse.md
 docs/EcfSubmitResponseCompanyIdentification.md
 docs/ElectronicDocument.md
@@ -194,6 +198,8 @@ src/main/kotlin/com/pronesoft/ecf/models/ContingencyActivatedPayload.kt
 src/main/kotlin/com/pronesoft/ecf/models/CreateAssociatedCompany201Response.kt
 src/main/kotlin/com/pronesoft/ecf/models/CreateTaxSequence201Response.kt
 src/main/kotlin/com/pronesoft/ecf/models/CreateTaxSequenceRequest.kt
+src/main/kotlin/com/pronesoft/ecf/models/DecideCommercialApprovalRequest.kt
+src/main/kotlin/com/pronesoft/ecf/models/DecideCommercialApprovalResponse.kt
 src/main/kotlin/com/pronesoft/ecf/models/DeleteAssociatedCompany200Response.kt
 src/main/kotlin/com/pronesoft/ecf/models/DgiiMessage.kt
 src/main/kotlin/com/pronesoft/ecf/models/DiscountOrSurcharge.kt
@@ -206,6 +212,8 @@ src/main/kotlin/com/pronesoft/ecf/models/DocumentValidationErrorPayload.kt
 src/main/kotlin/com/pronesoft/ecf/models/EcfHistoryItem.kt
 src/main/kotlin/com/pronesoft/ecf/models/EcfStatsResponse.kt
 src/main/kotlin/com/pronesoft/ecf/models/EcfStatusResponse.kt
+src/main/kotlin/com/pronesoft/ecf/models/EcfStatusResponseGovernmentResponse.kt
+src/main/kotlin/com/pronesoft/ecf/models/EcfStatusResponseGovernmentResponseValueInner.kt
 src/main/kotlin/com/pronesoft/ecf/models/EcfSubmitResponse.kt
 src/main/kotlin/com/pronesoft/ecf/models/EcfSubmitResponseCompanyIdentification.kt
 src/main/kotlin/com/pronesoft/ecf/models/ElectronicDocument.kt
@@ -286,6 +294,5 @@ src/main/kotlin/com/pronesoft/ecf/models/WebhookNotificationPayload.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookNotificationPayloadData.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookStats.kt
 src/main/kotlin/com/pronesoft/ecf/models/WebhookStatsStats.kt
-src/test/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200ResponseDataResultsInnerTest.kt
-src/test/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200ResponseDataTest.kt
-src/test/kotlin/com/pronesoft/ecf/models/ImportTaxSequencesFromExcel200ResponseTest.kt
+src/test/kotlin/com/pronesoft/ecf/models/DecideCommercialApprovalRequestTest.kt
+src/test/kotlin/com/pronesoft/ecf/models/DecideCommercialApprovalResponseTest.kt

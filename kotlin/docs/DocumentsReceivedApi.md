@@ -4,11 +4,64 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
+| [**decideCommercialApproval**](DocumentsReceivedApi.md#decideCommercialApproval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido |
 | [**getReceivedDocumentById**](DocumentsReceivedApi.md#getReceivedDocumentById) | **GET** /documents/received/{id} | Obtener documento recibido por ID |
 | [**getReceivedDocumentStatsBySupplier**](DocumentsReceivedApi.md#getReceivedDocumentStatsBySupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos |
 | [**getReceivedDocumentStatsSummary**](DocumentsReceivedApi.md#getReceivedDocumentStatsSummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos |
 | [**listReceivedDocuments**](DocumentsReceivedApi.md#listReceivedDocuments) | **GET** /documents/received | Listar documentos recibidos |
 
+
+<a id="decideCommercialApproval"></a>
+# **decideCommercialApproval**
+> DecideCommercialApprovalResponse decideCommercialApproval(id, decideCommercialApprovalRequest, xTenantId)
+
+Aprobar o rechazar comercialmente un documento recibido
+
+Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+
+### Example
+```kotlin
+// Import classes:
+//import com.pronesoft.ecf.infrastructure.*
+//import com.pronesoft.ecf.models.*
+
+val apiInstance = DocumentsReceivedApi()
+val id : java.util.UUID = 38400000-8cf0-11bd-b23e-10b96e4ef00d // java.util.UUID | ID del documento recibido (TaxDocumentReceived.id)
+val decideCommercialApprovalRequest : DecideCommercialApprovalRequest =  // DecideCommercialApprovalRequest | 
+val xTenantId : java.util.UUID = 468a4aa1-1b80-447e-9ecb-400e39f7d798 // java.util.UUID | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+try {
+    val result : DecideCommercialApprovalResponse = apiInstance.decideCommercialApproval(id, decideCommercialApprovalRequest, xTenantId)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling DocumentsReceivedApi#decideCommercialApproval")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling DocumentsReceivedApi#decideCommercialApproval")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **id** | **java.util.UUID**| ID del documento recibido (TaxDocumentReceived.id) | |
+| **decideCommercialApprovalRequest** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md)|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **xTenantId** | **java.util.UUID**| UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+
+### Return type
+
+[**DecideCommercialApprovalResponse**](DecideCommercialApprovalResponse.md)
+
+### Authorization
+
+
+Configure oauth2:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a id="getReceivedDocumentById"></a>
 # **getReceivedDocumentById**
@@ -171,8 +224,8 @@ val supplierRnc : kotlin.String = supplierRnc_example // kotlin.String | RNC del
 val amountFrom : java.math.BigDecimal = 8.14 // java.math.BigDecimal | 
 val amountTo : java.math.BigDecimal = 8.14 // java.math.BigDecimal | 
 val processed : kotlin.Boolean = true // kotlin.Boolean | 
-val dateFrom : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
-val dateTo : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
+val dateFrom : kotlin.String = dateFrom_example // kotlin.String | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+val dateTo : kotlin.String = dateTo_example // kotlin.String | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 val page : kotlin.Int = 56 // kotlin.Int | 
 val limit : kotlin.Int = 56 // kotlin.Int | 
 try {
@@ -196,8 +249,8 @@ try {
 | **amountFrom** | **java.math.BigDecimal**|  | [optional] |
 | **amountTo** | **java.math.BigDecimal**|  | [optional] |
 | **processed** | **kotlin.Boolean**|  | [optional] |
-| **dateFrom** | **java.time.LocalDate**|  | [optional] |
-| **dateTo** | **java.time.LocalDate**|  | [optional] |
+| **dateFrom** | **kotlin.String**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
+| **dateTo** | **kotlin.String**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |

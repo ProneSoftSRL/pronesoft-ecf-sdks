@@ -1,7 +1,7 @@
 
 # ReferenceInfo
 
-Reference to previously issued document (for credit/debit notes).
+Referencia al documento previamente emitido (para notas de crédito/débito).
 
 ## Properties
 

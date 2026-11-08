@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **SenderRnc** | Pointer to **string** |  | [optional] 
 **ReceiverRnc** | Pointer to **string** |  | [optional] 
 **TotalAmount** | Pointer to **float32** |  | [optional] 
-**Status** | Pointer to **int32** | 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending | [optional] 
+**Status** | Pointer to **int32** | 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente | [optional] 
 **StatusLabel** | Pointer to **string** |  | [optional] 
 **IssueDate** | Pointer to **time.Time** |  | [optional] 
 **ReceivedAt** | Pointer to **time.Time** |  | [optional] 

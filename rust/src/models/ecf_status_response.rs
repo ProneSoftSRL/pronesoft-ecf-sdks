@@ -28,42 +28,32 @@ pub struct EcfStatusResponse {
     pub legal_status: Option<Option<LegalStatus>>,
     #[serde(rename = "companyIdentification")]
     pub company_identification: Box<models::EcfSubmitResponseCompanyIdentification>,
-    /// ID de seguimiento asignado por DGII.
+    /// ID de seguimiento asignado por DGII. null mientras procesa.
     #[serde(rename = "trackId", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub track_id: Option<Option<String>>,
-    /// Número de control electrónico (e-NCF).
-    #[serde(rename = "documentNumber", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub document_number: Option<Option<String>>,
     /// Número e-NCF del documento.
     #[serde(rename = "encf", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub encf: Option<Option<String>>,
-    /// true si fue emitido en modo contingencia.
-    #[serde(rename = "contingencyMode", skip_serializing_if = "Option::is_none")]
-    pub contingency_mode: Option<bool>,
-    /// Mensaje oficial DGII cuando contingencyMode es true.
-    #[serde(rename = "contingencyMessage", skip_serializing_if = "Option::is_none")]
-    pub contingency_message: Option<String>,
-    /// URL del código QR del documento.
+    /// URL de consulta del timbre en DGII.
     #[serde(rename = "documentStampUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub document_stamp_url: Option<Option<String>>,
-    /// URL pre-firmada del PDF (expira en 1 hora).
+    /// URL del PDF del documento.
     #[serde(rename = "pdf", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub pdf: Option<Option<String>>,
-    /// URL pre-firmada del XML firmado (expira en 1 hora).
+    /// URL del XML firmado.
     #[serde(rename = "xmlUrl", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub xml_url: Option<Option<String>>,
     /// Fecha y hora de la firma digital.
     #[serde(rename = "signatureDate", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub signature_date: Option<Option<String>>,
-    /// Código de seguridad del documento.
+    /// Código de seguridad de 6 caracteres.
     #[serde(rename = "securityCode", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub security_code: Option<Option<String>>,
-    /// true si DGII confirmó el consumo de la secuencia.
+    /// true cuando DGII confirmó el uso de la secuencia.
     #[serde(rename = "sequenceConsumed")]
     pub sequence_consumed: bool,
-    /// Respuesta completa de DGII (disponible cuando status es FINISHED).
-    #[serde(rename = "governmentResponse", skip_serializing_if = "Option::is_none")]
-    pub government_response: Option<std::collections::HashMap<String, serde_json::Value>>,
+    #[serde(rename = "governmentResponse", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
+    pub government_response: Option<Option<Box<models::EcfStatusResponseGovernmentResponse>>>,
 }
 
 impl EcfStatusResponse {
@@ -76,10 +66,7 @@ impl EcfStatusResponse {
             legal_status: None,
             company_identification: Box::new(company_identification),
             track_id: None,
-            document_number: None,
             encf: None,
-            contingency_mode: None,
-            contingency_message: None,
             document_stamp_url: None,
             pdf: None,
             xml_url: None,

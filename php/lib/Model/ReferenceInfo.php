@@ -36,7 +36,7 @@ use \PronesoftEcf\ObjectSerializer;
  * ReferenceInfo Class Doc Comment
  *
  * @category Class
- * @description Reference to previously issued document (for credit/debit notes).
+ * @description Referencia al documento previamente emitido (para notas de crédito/débito).
  * @package  PronesoftEcf
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -449,7 +449,7 @@ class ReferenceInfo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets modification_code
      *
-     * @param string $modification_code 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+     * @param string $modification_code 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
      *
      * @return self
      */

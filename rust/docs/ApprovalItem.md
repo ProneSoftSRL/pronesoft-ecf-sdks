@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **buyer_rnc** | Option<**String**> |  | [optional]
 **total_amount** | Option<**f64**> |  | [optional]
 **approval_status** | Option<**String**> |  | [optional]
-**status** | Option<**Status**> | 1=Approved, 2=Rejected, 3=Pending, 4=Under Review (enum: 1, 2, 3, 4) | [optional]
+**status** | Option<**Status**> | 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión (enum: 1, 2, 3, 4) | [optional]
 **status_label** | Option<**String**> |  | [optional]
 **issue_date** | Option<**String**> |  | [optional]
 **received_at** | Option<**String**> |  | [optional]

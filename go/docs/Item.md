@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Codes** | Pointer to [**[]ItemCodesInner**](ItemCodesInner.md) |  | [optional] 
 **Name** | **string** |  | 
 **Description** | Pointer to **string** |  | [optional] 
-**Type** | **string** | 1&#x3D;Good, 2&#x3D;Service | 
+**Type** | **string** | 1&#x3D;Bien, 2&#x3D;Servicio | 
 **BillingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
 **WithholdingAgentIndicator** | Pointer to **int32** |  | [optional] 
 **WithheldITBISAmount** | Pointer to [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 

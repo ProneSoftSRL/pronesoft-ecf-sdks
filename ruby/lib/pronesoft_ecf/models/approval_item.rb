@@ -29,7 +29,7 @@ module PronesoftEcf
 
     attr_accessor :approval_status
 
-    # 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+    # 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
     attr_accessor :status
 
     attr_accessor :status_label

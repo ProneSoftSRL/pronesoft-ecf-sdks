@@ -52,8 +52,8 @@ Name | Type | Description  | Required | Notes
 **ecf** | Option<**String**> |  |  |
 **r#type** | Option<**String**> | Tipo de documento |  |
 **status** | Option<**i32**> |  |  |
-**date_from** | Option<**String**> |  |  |
-**date_to** | Option<**String**> |  |  |
+**date_from** | Option<**String**> | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). |  |
+**date_to** | Option<**String**> | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). |  |
 **page** | Option<**i32**> |  |  |[default to 1]
 **limit** | Option<**i32**> |  |  |[default to 10]
 

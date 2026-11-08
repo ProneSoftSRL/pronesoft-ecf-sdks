@@ -83,15 +83,15 @@ open class CommercialApprovalsAPI {
      - parameter ecf: (query)  (optional)
      - parameter type: (query) Tipo de documento (optional)
      - parameter status: (query)  (optional)
-     - parameter dateFrom: (query)  (optional)
-     - parameter dateTo: (query)  (optional)
+     - parameter dateFrom: (query) Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     - parameter dateTo: (query) Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listCommercialApprovals(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func listCommercialApprovals(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ApprovalListResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return listCommercialApprovalsWithRequestBuilder(xTenantId: xTenantId, ecf: ecf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -112,13 +112,13 @@ open class CommercialApprovalsAPI {
      - parameter ecf: (query)  (optional)
      - parameter type: (query) Tipo de documento (optional)
      - parameter status: (query)  (optional)
-     - parameter dateFrom: (query)  (optional)
-     - parameter dateTo: (query)  (optional)
+     - parameter dateFrom: (query) Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     - parameter dateTo: (query) Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<ApprovalListResponse> 
      */
-    open class func listCommercialApprovalsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ApprovalListResponse> {
+    open class func listCommercialApprovalsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listCommercialApprovals? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ApprovalListResponse> {
         let localVariablePath = "/documents/approvals"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

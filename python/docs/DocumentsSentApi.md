@@ -575,8 +575,8 @@ with pronesoft_ecf.ApiClient(configuration) as api_client:
     ecf = 'ecf_example' # str |  (optional)
     type = 'type_example' # str |  (optional)
     status = 'status_example' # str |  (optional)
-    date_from = '2013-10-20' # date |  (optional)
-    date_to = '2013-10-20' # date |  (optional)
+    date_from = 'date_from_example' # str | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+    date_to = 'date_to_example' # str | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
     page = 1 # int |  (optional) (default to 1)
     limit = 10 # int |  (optional) (default to 10)
 
@@ -601,8 +601,8 @@ Name | Type | Description  | Notes
  **ecf** | **str**|  | [optional] 
  **type** | **str**|  | [optional] 
  **status** | **str**|  | [optional] 
- **date_from** | **date**|  | [optional] 
- **date_to** | **date**|  | [optional] 
+ **date_from** | **str**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
+ **date_to** | **str**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
  **page** | **int**|  | [optional] [default to 1]
  **limit** | **int**|  | [optional] [default to 10]
 

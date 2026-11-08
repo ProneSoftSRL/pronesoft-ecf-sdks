@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**code** | **str** | DGII tax code (e.g. ISC, IECS) | 
+**code** | **str** | Código de impuesto DGII (ej. ISC, IECS) | 
 **amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 **rate** | **float** |  | [optional] 
 **alternative_currency_amount** | **float** |  | [optional] 

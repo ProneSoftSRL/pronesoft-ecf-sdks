@@ -611,7 +611,7 @@ class ApprovalItem implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets status
      *
-     * @param int|null $status 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+     * @param int|null $status 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
      *
      * @return self
      */

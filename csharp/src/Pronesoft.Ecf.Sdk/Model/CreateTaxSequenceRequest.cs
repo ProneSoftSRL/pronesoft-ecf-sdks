@@ -43,8 +43,8 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Gets or Sets VarEnvironment
         /// </summary>
-        [DataMember(Name = "environment", IsRequired = true, EmitDefaultValue = true)]
-        public ModelEnvironment VarEnvironment { get; set; }
+        [DataMember(Name = "environment", EmitDefaultValue = false)]
+        public ModelEnvironment? VarEnvironment { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTaxSequenceRequest" /> class.
         /// </summary>
@@ -56,17 +56,17 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="type">type (required).</param>
         /// <param name="from">from (required).</param>
         /// <param name="to">to (required).</param>
-        /// <param name="quantity">quantity (required).</param>
+        /// <param name="quantity">quantity.</param>
         /// <param name="expiration">expiration.</param>
-        /// <param name="varEnvironment">varEnvironment (required).</param>
-        public CreateTaxSequenceRequest(InvoiceTypeSequence type = default, int from = default, int to = default, int quantity = default, DateOnly expiration = default, ModelEnvironment varEnvironment = default)
+        /// <param name="varEnvironment">varEnvironment.</param>
+        public CreateTaxSequenceRequest(InvoiceTypeSequence type = default, int from = default, int to = default, int quantity = default, DateOnly expiration = default, ModelEnvironment? varEnvironment = default)
         {
             this.Type = type;
             this.From = from;
             this.To = to;
             this.Quantity = quantity;
-            this.VarEnvironment = varEnvironment;
             this.Expiration = expiration;
+            this.VarEnvironment = varEnvironment;
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /*
         <example>10000</example>
         */
-        [DataMember(Name = "quantity", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "quantity", EmitDefaultValue = false)]
         public int Quantity { get; set; }
 
         /// <summary>

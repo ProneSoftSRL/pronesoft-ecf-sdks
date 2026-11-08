@@ -11,7 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// ReferenceInfo : Reference to previously issued document (for credit/debit notes).
+/// ReferenceInfo : Referencia al documento previamente emitido (para notas de crédito/débito).
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ReferenceInfo {
     #[serde(rename = "modifiedInvoiceNumber")]
@@ -20,7 +20,7 @@ pub struct ReferenceInfo {
     pub other_contributor_rnc: Option<String>,
     #[serde(rename = "modifiedInvoiceDate", skip_serializing_if = "Option::is_none")]
     pub modified_invoice_date: Option<String>,
-    /// 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+    /// 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
     #[serde(rename = "modificationCode")]
     pub modification_code: ModificationCode,
     #[serde(rename = "modificationReason", skip_serializing_if = "Option::is_none")]
@@ -28,7 +28,7 @@ pub struct ReferenceInfo {
 }
 
 impl ReferenceInfo {
-    /// Reference to previously issued document (for credit/debit notes).
+    /// Referencia al documento previamente emitido (para notas de crédito/débito).
     pub fn new(modified_invoice_number: String, modification_code: ModificationCode) -> ReferenceInfo {
         ReferenceInfo {
             modified_invoice_number,
@@ -39,7 +39,7 @@ impl ReferenceInfo {
         }
     }
 }
-/// 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+/// 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum ModificationCode {
     #[serde(rename = "1")]

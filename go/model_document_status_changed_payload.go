@@ -20,23 +20,23 @@ import (
 // checks if the DocumentStatusChangedPayload type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DocumentStatusChangedPayload{}
 
-// DocumentStatusChangedPayload Payload inside `data` when event is `document.status_changed`. Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed. `issuerRnc` identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
+// DocumentStatusChangedPayload Contenido del campo `data` cuando el evento es `document.status_changed`. Usa `documentId` para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. `issuerRnc` identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió). 
 type DocumentStatusChangedPayload struct {
-	// Internal document ID for polling.
+	// ID interno del documento para hacer polling.
 	DocumentId string `json:"documentId"`
-	// e-NCF fiscal number.
+	// Número fiscal e-NCF.
 	Encf string `json:"encf"`
-	// RNC of the issuing company (associated or main).
+	// RNC de la empresa emisora (asociada o principal).
 	IssuerRnc string `json:"issuerRnc"`
-	// Public lifecycle status.
+	// Estado del ciclo de vida del documento.
 	Status string `json:"status"`
-	// Fiscal result from DGII. Only present when status=FINISHED.
+	// Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
 	LegalStatus NullableString `json:"legalStatus,omitempty"`
-	// Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+	// Código del tipo de documento (31=Factura, 32=Nota de Crédito, etc.)
 	DocumentType NullableString `json:"documentType,omitempty"`
-	// DGII tracking ID.
+	// ID de seguimiento asignado por la DGII.
 	TrackId NullableString `json:"trackId,omitempty"`
-	// Human-readable DGII response message.
+	// Mensaje legible de respuesta de la DGII.
 	DgiiMessage NullableString `json:"dgiiMessage,omitempty"`
 }
 

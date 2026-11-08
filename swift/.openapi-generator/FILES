@@ -53,6 +53,8 @@ PronesoftEcf/Classes/OpenAPIs/Models/ContingencyActivatedPayload.swift
 PronesoftEcf/Classes/OpenAPIs/Models/CreateAssociatedCompany201Response.swift
 PronesoftEcf/Classes/OpenAPIs/Models/CreateTaxSequence201Response.swift
 PronesoftEcf/Classes/OpenAPIs/Models/CreateTaxSequenceRequest.swift
+PronesoftEcf/Classes/OpenAPIs/Models/DecideCommercialApprovalRequest.swift
+PronesoftEcf/Classes/OpenAPIs/Models/DecideCommercialApprovalResponse.swift
 PronesoftEcf/Classes/OpenAPIs/Models/DeleteAssociatedCompany200Response.swift
 PronesoftEcf/Classes/OpenAPIs/Models/DgiiMessage.swift
 PronesoftEcf/Classes/OpenAPIs/Models/DiscountOrSurcharge.swift
@@ -65,6 +67,8 @@ PronesoftEcf/Classes/OpenAPIs/Models/DocumentValidationErrorPayload.swift
 PronesoftEcf/Classes/OpenAPIs/Models/EcfHistoryItem.swift
 PronesoftEcf/Classes/OpenAPIs/Models/EcfStatsResponse.swift
 PronesoftEcf/Classes/OpenAPIs/Models/EcfStatusResponse.swift
+PronesoftEcf/Classes/OpenAPIs/Models/EcfStatusResponseGovernmentResponse.swift
+PronesoftEcf/Classes/OpenAPIs/Models/EcfStatusResponseGovernmentResponseValueInner.swift
 PronesoftEcf/Classes/OpenAPIs/Models/EcfSubmitResponse.swift
 PronesoftEcf/Classes/OpenAPIs/Models/EcfSubmitResponseCompanyIdentification.swift
 PronesoftEcf/Classes/OpenAPIs/Models/ElectronicDocument.swift
@@ -185,6 +189,8 @@ docs/ContingencyActivatedPayload.md
 docs/CreateAssociatedCompany201Response.md
 docs/CreateTaxSequence201Response.md
 docs/CreateTaxSequenceRequest.md
+docs/DecideCommercialApprovalRequest.md
+docs/DecideCommercialApprovalResponse.md
 docs/DeleteAssociatedCompany200Response.md
 docs/DgiiMessage.md
 docs/DigitalCertificatesAPI.md
@@ -201,6 +207,8 @@ docs/ECFSubmissionAPI.md
 docs/EcfHistoryItem.md
 docs/EcfStatsResponse.md
 docs/EcfStatusResponse.md
+docs/EcfStatusResponseGovernmentResponse.md
+docs/EcfStatusResponseGovernmentResponseValueInner.md
 docs/EcfSubmitResponse.md
 docs/EcfSubmitResponseCompanyIdentification.md
 docs/ElectronicDocument.md

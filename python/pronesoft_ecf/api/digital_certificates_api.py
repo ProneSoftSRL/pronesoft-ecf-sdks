@@ -60,7 +60,7 @@ class DigitalCertificatesApi:
     ) -> UploadCertificateResponse:
         """Subir certificado digital (P12/PFX)
 
-        Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 
         :param rnc: RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
         :type rnc: str
@@ -139,7 +139,7 @@ class DigitalCertificatesApi:
     ) -> ApiResponse[UploadCertificateResponse]:
         """Subir certificado digital (P12/PFX)
 
-        Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 
         :param rnc: RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
         :type rnc: str
@@ -218,7 +218,7 @@ class DigitalCertificatesApi:
     ) -> RESTResponseType:
         """Subir certificado digital (P12/PFX)
 
-        Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
+        Sube el certificado de firma digital emitido por DGII para una empresa. Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga. Tip Sandbox: Los RNC con prefijo SBX no requieren certificado. 
 
         :param rnc: RNC de la empresa (9 u 11 dígitos). En Sandbox usar valores con prefijo SBX. (required)
         :type rnc: str

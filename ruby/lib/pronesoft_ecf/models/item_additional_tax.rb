@@ -15,7 +15,7 @@ require 'time'
 
 module PronesoftEcf
   class ItemAdditionalTax < ApiModelBase
-    # DGII tax code (e.g. ISC, IECS)
+    # Código de impuesto DGII (ej. ISC, IECS)
     attr_accessor :code
 
     attr_accessor :amount

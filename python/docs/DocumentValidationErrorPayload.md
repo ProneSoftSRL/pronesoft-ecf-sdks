@@ -6,9 +6,14 @@ Payload del evento `document.validation_error`. El documento fue rechazado por v
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**encf** | **str** |  | 
-**error_code** | **str** | Código de error de validación. | 
-**message** | **str** | Descripción del error. | 
+**document_id** | **UUID** | ID interno del documento en Pronesoft. | 
+**encf** | **str** | Número e-NCF del documento (si llegó a asignarse antes del fallo de validación). | [optional] 
+**issuer_rnc** | **str** | RNC de la empresa emisora del documento. | 
+**document_type** | **str** | Tipo de comprobante (31, 32, 33, 34, etc.). | [optional] 
+**error_code** | **str** | Código del error de validación. | 
+**message** | **str** | Descripción detallada del error de validación. | 
+**error** | **str** | Mensaje de error (alias legado). | [optional] 
+**code** | **object** | Código de error (alias legado). | [optional] 
 
 ## Example
 

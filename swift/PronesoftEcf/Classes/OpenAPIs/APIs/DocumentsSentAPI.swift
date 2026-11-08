@@ -397,15 +397,15 @@ open class DocumentsSentAPI {
      - parameter ecf: (query)  (optional)
      - parameter type: (query)  (optional)
      - parameter status: (query)  (optional)
-     - parameter dateFrom: (query)  (optional)
-     - parameter dateTo: (query)  (optional)
+     - parameter dateFrom: (query) Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     - parameter dateTo: (query) Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listSentDocuments(xTenantId: UUID? = nil, env: Environment? = nil, ecf: String? = nil, type: String? = nil, status: Status_listSentDocuments? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: SentDocumentListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func listSentDocuments(xTenantId: UUID? = nil, env: Environment? = nil, ecf: String? = nil, type: String? = nil, status: Status_listSentDocuments? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: SentDocumentListResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return listSentDocumentsWithRequestBuilder(xTenantId: xTenantId, env: env, ecf: ecf, type: type, status: status, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -427,13 +427,13 @@ open class DocumentsSentAPI {
      - parameter ecf: (query)  (optional)
      - parameter type: (query)  (optional)
      - parameter status: (query)  (optional)
-     - parameter dateFrom: (query)  (optional)
-     - parameter dateTo: (query)  (optional)
+     - parameter dateFrom: (query) Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     - parameter dateTo: (query) Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<SentDocumentListResponse> 
      */
-    open class func listSentDocumentsWithRequestBuilder(xTenantId: UUID? = nil, env: Environment? = nil, ecf: String? = nil, type: String? = nil, status: Status_listSentDocuments? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<SentDocumentListResponse> {
+    open class func listSentDocumentsWithRequestBuilder(xTenantId: UUID? = nil, env: Environment? = nil, ecf: String? = nil, type: String? = nil, status: Status_listSentDocuments? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<SentDocumentListResponse> {
         let localVariablePath = "/documents/sent"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

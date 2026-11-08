@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**code** | **String** | DGII tax code (e.g. ISC, IECS) | 
+**code** | **String** | Código de impuesto DGII (ej. ISC, IECS) | 
 **amount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 
 **rate** | **Double** |  | [optional] 
 **alternativeCurrencyAmount** | **Double** |  | [optional] 

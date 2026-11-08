@@ -125,6 +125,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CreateAssociatedCompany201Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CreateTaxSequence201Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.CreateTaxSequenceRequest.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DecideCommercialApprovalRequest.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DecideCommercialApprovalResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DeleteAssociatedCompany200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DgiiMessage.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.DiscountOrSurcharge.CustomTypeAdapterFactory());
@@ -136,6 +138,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfHistoryItem.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfStatsResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfStatusResponse.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfStatusResponseGovernmentResponse.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfStatusResponseGovernmentResponseValueInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfSubmitResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.EcfSubmitResponseCompanyIdentification.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.pronesoft.ecf.model.ElectronicDocument.CustomTypeAdapterFactory());

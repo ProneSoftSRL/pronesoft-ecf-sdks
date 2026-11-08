@@ -1,7 +1,7 @@
 
 # OAuthTokenResponse
 
-Bearer token valid for 24 hours (86400 seconds).
+Token de acceso Bearer válido por 24 horas (86400 segundos).
 
 ## Properties
 

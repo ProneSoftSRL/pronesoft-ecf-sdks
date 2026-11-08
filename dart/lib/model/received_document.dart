@@ -68,7 +68,7 @@ class ReceivedDocument {
   ///
   num? totalAmount;
 
-  /// 1=Valid, 2=Voided, 3=Pending
+  /// 1=Válido, 2=Anulado, 3=Pendiente
   ReceivedDocumentStatusEnum? status;
 
   ///
@@ -299,7 +299,7 @@ class ReceivedDocument {
   };
 }
 
-/// 1=Valid, 2=Voided, 3=Pending
+/// 1=Válido, 2=Anulado, 3=Pendiente
 class ReceivedDocumentStatusEnum {
   /// Instantiate a new enum with the provided [value].
   const ReceivedDocumentStatusEnum._(this.value);

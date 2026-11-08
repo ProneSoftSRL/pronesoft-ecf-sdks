@@ -4,14 +4,14 @@
 ## Properties
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
-| **documentId** | [**java.util.UUID**](java.util.UUID.md) | Internal document ID for polling. |  |
-| **encf** | **kotlin.String** | e-NCF fiscal number. |  |
-| **issuerRnc** | **kotlin.String** | RNC of the issuing company (associated or main). |  |
-| **status** | [**inline**](#Status) | Public lifecycle status. |  |
-| **legalStatus** | [**inline**](#LegalStatus) | Fiscal result from DGII. Only present when status&#x3D;FINISHED. |  [optional] |
-| **documentType** | **kotlin.String** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) |  [optional] |
-| **trackId** | **kotlin.String** | DGII tracking ID. |  [optional] |
-| **dgiiMessage** | **kotlin.String** | Human-readable DGII response message. |  [optional] |
+| **documentId** | [**java.util.UUID**](java.util.UUID.md) | ID interno del documento para hacer polling. |  |
+| **encf** | **kotlin.String** | Número fiscal e-NCF. |  |
+| **issuerRnc** | **kotlin.String** | RNC de la empresa emisora (asociada o principal). |  |
+| **status** | [**inline**](#Status) | Estado del ciclo de vida del documento. |  |
+| **legalStatus** | [**inline**](#LegalStatus) | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. |  [optional] |
+| **documentType** | **kotlin.String** | Código del tipo de documento (31&#x3D;Factura, 32&#x3D;Nota de Crédito, etc.) |  [optional] |
+| **trackId** | **kotlin.String** | ID de seguimiento asignado por la DGII. |  [optional] |
+| **dgiiMessage** | **kotlin.String** | Mensaje legible de respuesta de la DGII. |  [optional] |
 
 
 <a id="Status"></a>

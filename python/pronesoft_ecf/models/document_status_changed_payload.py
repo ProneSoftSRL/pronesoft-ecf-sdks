@@ -27,16 +27,16 @@ from pydantic_core import to_jsonable_python
 
 class DocumentStatusChangedPayload(BaseModel):
     """
-    Payload inside `data` when event is `document.status_changed`. Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed. `issuerRnc` identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
+    Contenido del campo `data` cuando el evento es `document.status_changed`. Usa `documentId` para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. `issuerRnc` identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió). 
     """ # noqa: E501
-    document_id: UUID = Field(description="Internal document ID for polling.", alias="documentId")
-    encf: StrictStr = Field(description="e-NCF fiscal number.")
-    issuer_rnc: StrictStr = Field(description="RNC of the issuing company (associated or main).", alias="issuerRnc")
-    status: StrictStr = Field(description="Public lifecycle status.")
-    legal_status: Optional[StrictStr] = Field(default=None, description="Fiscal result from DGII. Only present when status=FINISHED.", alias="legalStatus")
-    document_type: Optional[StrictStr] = Field(default=None, description="Tipo de documento code (31=Invoice, 32=Credit Note, etc.)", alias="documentType")
-    track_id: Optional[StrictStr] = Field(default=None, description="DGII tracking ID.", alias="trackId")
-    dgii_message: Optional[StrictStr] = Field(default=None, description="Human-readable DGII response message.", alias="dgiiMessage")
+    document_id: UUID = Field(description="ID interno del documento para hacer polling.", alias="documentId")
+    encf: StrictStr = Field(description="Número fiscal e-NCF.")
+    issuer_rnc: StrictStr = Field(description="RNC de la empresa emisora (asociada o principal).", alias="issuerRnc")
+    status: StrictStr = Field(description="Estado del ciclo de vida del documento.")
+    legal_status: Optional[StrictStr] = Field(default=None, description="Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.", alias="legalStatus")
+    document_type: Optional[StrictStr] = Field(default=None, description="Código del tipo de documento (31=Factura, 32=Nota de Crédito, etc.)", alias="documentType")
+    track_id: Optional[StrictStr] = Field(default=None, description="ID de seguimiento asignado por la DGII.", alias="trackId")
+    dgii_message: Optional[StrictStr] = Field(default=None, description="Mensaje legible de respuesta de la DGII.", alias="dgiiMessage")
     __properties: ClassVar[List[str]] = ["documentId", "encf", "issuerRnc", "status", "legalStatus", "documentType", "trackId", "dgiiMessage"]
 
     @field_validator('status')

@@ -7,25 +7,21 @@ Name | Type | Description | Notes
 **Id** | **string** | ID interno del documento. Úsalo para &#x60;GET /ecf/status/{id}&#x60;. | 
 **StampDate** | Pointer to **NullableString** | Fecha de emisión del documento (YYYY-MM-DD). | [optional] 
 **Status** | **string** | Siempre &#x60;REGISTERED&#x60; al enviar. El estado fiscal llega vía webhook o polling. | 
-**LegalStatus** | Pointer to **NullableString** | Siempre &#x60;null&#x60; al enviar. Se actualiza tras la respuesta de DGII. | [optional] 
 **CompanyIdentification** | [**EcfSubmitResponseCompanyIdentification**](EcfSubmitResponseCompanyIdentification.md) |  | 
-**TrackId** | Pointer to **NullableString** | Siempre &#x60;null&#x60; al enviar. Lo asigna DGII al procesar el documento. | [optional] 
-**DocumentNumber** | Pointer to **NullableString** | Número de control electrónico (e-NCF). Igual a &#x60;encf&#x60;. | [optional] 
-**Encf** | Pointer to **NullableString** | Número e-NCF asignado al documento (ej. E310000000001). | [optional] 
+**Encf** | **string** | Número e-NCF asignado al documento (ej. E310000000001). | 
 **ContingencyMode** | Pointer to **bool** | &#x60;true&#x60; si el documento fue emitido en modo contingencia (DGII no disponible). | [optional] 
-**ContingencyMessage** | Pointer to **NullableString** | Mensaje oficial DGII cuando &#x60;contingencyMode&#x60; es &#x60;true&#x60;. | [optional] 
-**DocumentStampUrl** | Pointer to **NullableString** | URL del código QR del documento. | [optional] 
+**DocumentStampUrl** | Pointer to **string** | URL de consulta del timbre en DGII. | [optional] 
 **Pdf** | Pointer to **NullableString** | URL pre-firmada del PDF (expira en 1 hora). | [optional] 
 **XmlUrl** | Pointer to **NullableString** | URL pre-firmada del XML firmado (expira en 1 hora). | [optional] 
-**SignatureDate** | Pointer to **NullableTime** | Fecha y hora de la firma digital. | [optional] 
-**SecurityCode** | Pointer to **NullableString** | Código de seguridad del documento. | [optional] 
-**SequenceConsumed** | **bool** | Siempre &#x60;false&#x60; en el submit. Se confirma como &#x60;true&#x60; solo tras respuesta de DGII. | 
+**SignatureDate** | Pointer to **string** | Fecha y hora de la firma digital. | [optional] 
+**SecurityCode** | Pointer to **string** | Código de seguridad de 6 caracteres del documento. | [optional] 
+**SequenceConsumed** | **bool** | &#x60;false&#x60; en el submit. Se confirma como &#x60;true&#x60; solo tras respuesta de DGII. | 
 
 ## Methods
 
 ### NewEcfSubmitResponse
 
-`func NewEcfSubmitResponse(id string, status string, companyIdentification EcfSubmitResponseCompanyIdentification, sequenceConsumed bool, ) *EcfSubmitResponse`
+`func NewEcfSubmitResponse(id string, status string, companyIdentification EcfSubmitResponseCompanyIdentification, encf string, sequenceConsumed bool, ) *EcfSubmitResponse`
 
 NewEcfSubmitResponse instantiates a new EcfSubmitResponse object
 This constructor will assign default values to properties that have it defined,
@@ -115,41 +111,6 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetLegalStatus
-
-`func (o *EcfSubmitResponse) GetLegalStatus() string`
-
-GetLegalStatus returns the LegalStatus field if non-nil, zero value otherwise.
-
-### GetLegalStatusOk
-
-`func (o *EcfSubmitResponse) GetLegalStatusOk() (*string, bool)`
-
-GetLegalStatusOk returns a tuple with the LegalStatus field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLegalStatus
-
-`func (o *EcfSubmitResponse) SetLegalStatus(v string)`
-
-SetLegalStatus sets LegalStatus field to given value.
-
-### HasLegalStatus
-
-`func (o *EcfSubmitResponse) HasLegalStatus() bool`
-
-HasLegalStatus returns a boolean if a field has been set.
-
-### SetLegalStatusNil
-
-`func (o *EcfSubmitResponse) SetLegalStatusNil(b bool)`
-
- SetLegalStatusNil sets the value for LegalStatus to be an explicit nil
-
-### UnsetLegalStatus
-`func (o *EcfSubmitResponse) UnsetLegalStatus()`
-
-UnsetLegalStatus ensures that no value is present for LegalStatus, not even an explicit nil
 ### GetCompanyIdentification
 
 `func (o *EcfSubmitResponse) GetCompanyIdentification() EcfSubmitResponseCompanyIdentification`
@@ -170,76 +131,6 @@ and a boolean to check if the value has been set.
 SetCompanyIdentification sets CompanyIdentification field to given value.
 
 
-### GetTrackId
-
-`func (o *EcfSubmitResponse) GetTrackId() string`
-
-GetTrackId returns the TrackId field if non-nil, zero value otherwise.
-
-### GetTrackIdOk
-
-`func (o *EcfSubmitResponse) GetTrackIdOk() (*string, bool)`
-
-GetTrackIdOk returns a tuple with the TrackId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTrackId
-
-`func (o *EcfSubmitResponse) SetTrackId(v string)`
-
-SetTrackId sets TrackId field to given value.
-
-### HasTrackId
-
-`func (o *EcfSubmitResponse) HasTrackId() bool`
-
-HasTrackId returns a boolean if a field has been set.
-
-### SetTrackIdNil
-
-`func (o *EcfSubmitResponse) SetTrackIdNil(b bool)`
-
- SetTrackIdNil sets the value for TrackId to be an explicit nil
-
-### UnsetTrackId
-`func (o *EcfSubmitResponse) UnsetTrackId()`
-
-UnsetTrackId ensures that no value is present for TrackId, not even an explicit nil
-### GetDocumentNumber
-
-`func (o *EcfSubmitResponse) GetDocumentNumber() string`
-
-GetDocumentNumber returns the DocumentNumber field if non-nil, zero value otherwise.
-
-### GetDocumentNumberOk
-
-`func (o *EcfSubmitResponse) GetDocumentNumberOk() (*string, bool)`
-
-GetDocumentNumberOk returns a tuple with the DocumentNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDocumentNumber
-
-`func (o *EcfSubmitResponse) SetDocumentNumber(v string)`
-
-SetDocumentNumber sets DocumentNumber field to given value.
-
-### HasDocumentNumber
-
-`func (o *EcfSubmitResponse) HasDocumentNumber() bool`
-
-HasDocumentNumber returns a boolean if a field has been set.
-
-### SetDocumentNumberNil
-
-`func (o *EcfSubmitResponse) SetDocumentNumberNil(b bool)`
-
- SetDocumentNumberNil sets the value for DocumentNumber to be an explicit nil
-
-### UnsetDocumentNumber
-`func (o *EcfSubmitResponse) UnsetDocumentNumber()`
-
-UnsetDocumentNumber ensures that no value is present for DocumentNumber, not even an explicit nil
 ### GetEncf
 
 `func (o *EcfSubmitResponse) GetEncf() string`
@@ -259,22 +150,7 @@ and a boolean to check if the value has been set.
 
 SetEncf sets Encf field to given value.
 
-### HasEncf
 
-`func (o *EcfSubmitResponse) HasEncf() bool`
-
-HasEncf returns a boolean if a field has been set.
-
-### SetEncfNil
-
-`func (o *EcfSubmitResponse) SetEncfNil(b bool)`
-
- SetEncfNil sets the value for Encf to be an explicit nil
-
-### UnsetEncf
-`func (o *EcfSubmitResponse) UnsetEncf()`
-
-UnsetEncf ensures that no value is present for Encf, not even an explicit nil
 ### GetContingencyMode
 
 `func (o *EcfSubmitResponse) GetContingencyMode() bool`
@@ -300,41 +176,6 @@ SetContingencyMode sets ContingencyMode field to given value.
 
 HasContingencyMode returns a boolean if a field has been set.
 
-### GetContingencyMessage
-
-`func (o *EcfSubmitResponse) GetContingencyMessage() string`
-
-GetContingencyMessage returns the ContingencyMessage field if non-nil, zero value otherwise.
-
-### GetContingencyMessageOk
-
-`func (o *EcfSubmitResponse) GetContingencyMessageOk() (*string, bool)`
-
-GetContingencyMessageOk returns a tuple with the ContingencyMessage field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetContingencyMessage
-
-`func (o *EcfSubmitResponse) SetContingencyMessage(v string)`
-
-SetContingencyMessage sets ContingencyMessage field to given value.
-
-### HasContingencyMessage
-
-`func (o *EcfSubmitResponse) HasContingencyMessage() bool`
-
-HasContingencyMessage returns a boolean if a field has been set.
-
-### SetContingencyMessageNil
-
-`func (o *EcfSubmitResponse) SetContingencyMessageNil(b bool)`
-
- SetContingencyMessageNil sets the value for ContingencyMessage to be an explicit nil
-
-### UnsetContingencyMessage
-`func (o *EcfSubmitResponse) UnsetContingencyMessage()`
-
-UnsetContingencyMessage ensures that no value is present for ContingencyMessage, not even an explicit nil
 ### GetDocumentStampUrl
 
 `func (o *EcfSubmitResponse) GetDocumentStampUrl() string`
@@ -360,16 +201,6 @@ SetDocumentStampUrl sets DocumentStampUrl field to given value.
 
 HasDocumentStampUrl returns a boolean if a field has been set.
 
-### SetDocumentStampUrlNil
-
-`func (o *EcfSubmitResponse) SetDocumentStampUrlNil(b bool)`
-
- SetDocumentStampUrlNil sets the value for DocumentStampUrl to be an explicit nil
-
-### UnsetDocumentStampUrl
-`func (o *EcfSubmitResponse) UnsetDocumentStampUrl()`
-
-UnsetDocumentStampUrl ensures that no value is present for DocumentStampUrl, not even an explicit nil
 ### GetPdf
 
 `func (o *EcfSubmitResponse) GetPdf() string`
@@ -442,20 +273,20 @@ HasXmlUrl returns a boolean if a field has been set.
 UnsetXmlUrl ensures that no value is present for XmlUrl, not even an explicit nil
 ### GetSignatureDate
 
-`func (o *EcfSubmitResponse) GetSignatureDate() time.Time`
+`func (o *EcfSubmitResponse) GetSignatureDate() string`
 
 GetSignatureDate returns the SignatureDate field if non-nil, zero value otherwise.
 
 ### GetSignatureDateOk
 
-`func (o *EcfSubmitResponse) GetSignatureDateOk() (*time.Time, bool)`
+`func (o *EcfSubmitResponse) GetSignatureDateOk() (*string, bool)`
 
 GetSignatureDateOk returns a tuple with the SignatureDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSignatureDate
 
-`func (o *EcfSubmitResponse) SetSignatureDate(v time.Time)`
+`func (o *EcfSubmitResponse) SetSignatureDate(v string)`
 
 SetSignatureDate sets SignatureDate field to given value.
 
@@ -465,16 +296,6 @@ SetSignatureDate sets SignatureDate field to given value.
 
 HasSignatureDate returns a boolean if a field has been set.
 
-### SetSignatureDateNil
-
-`func (o *EcfSubmitResponse) SetSignatureDateNil(b bool)`
-
- SetSignatureDateNil sets the value for SignatureDate to be an explicit nil
-
-### UnsetSignatureDate
-`func (o *EcfSubmitResponse) UnsetSignatureDate()`
-
-UnsetSignatureDate ensures that no value is present for SignatureDate, not even an explicit nil
 ### GetSecurityCode
 
 `func (o *EcfSubmitResponse) GetSecurityCode() string`
@@ -500,16 +321,6 @@ SetSecurityCode sets SecurityCode field to given value.
 
 HasSecurityCode returns a boolean if a field has been set.
 
-### SetSecurityCodeNil
-
-`func (o *EcfSubmitResponse) SetSecurityCodeNil(b bool)`
-
- SetSecurityCodeNil sets the value for SecurityCode to be an explicit nil
-
-### UnsetSecurityCode
-`func (o *EcfSubmitResponse) UnsetSecurityCode()`
-
-UnsetSecurityCode ensures that no value is present for SecurityCode, not even an explicit nil
 ### GetSequenceConsumed
 
 `func (o *EcfSubmitResponse) GetSequenceConsumed() bool`

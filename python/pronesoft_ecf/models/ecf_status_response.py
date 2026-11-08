@@ -18,10 +18,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import date, datetime
+from datetime import date
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
+from pronesoft_ecf.models.ecf_status_response_government_response import EcfStatusResponseGovernmentResponse
 from pronesoft_ecf.models.ecf_submit_response_company_identification import EcfSubmitResponseCompanyIdentification
 from typing import Optional, Set
 from typing_extensions import Self
@@ -36,19 +37,16 @@ class EcfStatusResponse(BaseModel):
     status: StrictStr = Field(description="Estado del proceso de envío a DGII.")
     legal_status: Optional[StrictStr] = Field(default=None, description="Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.", alias="legalStatus")
     company_identification: EcfSubmitResponseCompanyIdentification = Field(alias="companyIdentification")
-    track_id: Optional[StrictStr] = Field(default=None, description="ID de seguimiento asignado por DGII.", alias="trackId")
-    document_number: Optional[StrictStr] = Field(default=None, description="Número de control electrónico (e-NCF).", alias="documentNumber")
+    track_id: Optional[StrictStr] = Field(default=None, description="ID de seguimiento asignado por DGII. null mientras procesa.", alias="trackId")
     encf: Optional[StrictStr] = Field(default=None, description="Número e-NCF del documento.")
-    contingency_mode: Optional[StrictBool] = Field(default=None, description="true si fue emitido en modo contingencia.", alias="contingencyMode")
-    contingency_message: Optional[StrictStr] = Field(default=None, description="Mensaje oficial DGII cuando contingencyMode es true.", alias="contingencyMessage")
-    document_stamp_url: Optional[StrictStr] = Field(default=None, description="URL del código QR del documento.", alias="documentStampUrl")
-    pdf: Optional[StrictStr] = Field(default=None, description="URL pre-firmada del PDF (expira en 1 hora).")
-    xml_url: Optional[StrictStr] = Field(default=None, description="URL pre-firmada del XML firmado (expira en 1 hora).", alias="xmlUrl")
-    signature_date: Optional[datetime] = Field(default=None, description="Fecha y hora de la firma digital.", alias="signatureDate")
-    security_code: Optional[StrictStr] = Field(default=None, description="Código de seguridad del documento.", alias="securityCode")
-    sequence_consumed: StrictBool = Field(description="true si DGII confirmó el consumo de la secuencia.", alias="sequenceConsumed")
-    government_response: Optional[Dict[str, Any]] = Field(default=None, description="Respuesta completa de DGII (disponible cuando status es FINISHED).", alias="governmentResponse")
-    __properties: ClassVar[List[str]] = ["id", "stampDate", "status", "legalStatus", "companyIdentification", "trackId", "documentNumber", "encf", "contingencyMode", "contingencyMessage", "documentStampUrl", "pdf", "xmlUrl", "signatureDate", "securityCode", "sequenceConsumed", "governmentResponse"]
+    document_stamp_url: Optional[StrictStr] = Field(default=None, description="URL de consulta del timbre en DGII.", alias="documentStampUrl")
+    pdf: Optional[StrictStr] = Field(default=None, description="URL del PDF del documento.")
+    xml_url: Optional[StrictStr] = Field(default=None, description="URL del XML firmado.", alias="xmlUrl")
+    signature_date: Optional[StrictStr] = Field(default=None, description="Fecha y hora de la firma digital.", alias="signatureDate")
+    security_code: Optional[StrictStr] = Field(default=None, description="Código de seguridad de 6 caracteres.", alias="securityCode")
+    sequence_consumed: StrictBool = Field(description="true cuando DGII confirmó el uso de la secuencia.", alias="sequenceConsumed")
+    government_response: Optional[EcfStatusResponseGovernmentResponse] = Field(default=None, alias="governmentResponse")
+    __properties: ClassVar[List[str]] = ["id", "stampDate", "status", "legalStatus", "companyIdentification", "trackId", "encf", "documentStampUrl", "pdf", "xmlUrl", "signatureDate", "securityCode", "sequenceConsumed", "governmentResponse"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -109,6 +107,9 @@ class EcfStatusResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of company_identification
         if self.company_identification:
             _dict['companyIdentification'] = self.company_identification.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of government_response
+        if self.government_response:
+            _dict['governmentResponse'] = self.government_response.to_dict()
         # set to None if stamp_date (nullable) is None
         # and model_fields_set contains the field
         if self.stamp_date is None and "stamp_date" in self.model_fields_set:
@@ -123,11 +124,6 @@ class EcfStatusResponse(BaseModel):
         # and model_fields_set contains the field
         if self.track_id is None and "track_id" in self.model_fields_set:
             _dict['trackId'] = None
-
-        # set to None if document_number (nullable) is None
-        # and model_fields_set contains the field
-        if self.document_number is None and "document_number" in self.model_fields_set:
-            _dict['documentNumber'] = None
 
         # set to None if encf (nullable) is None
         # and model_fields_set contains the field
@@ -159,6 +155,11 @@ class EcfStatusResponse(BaseModel):
         if self.security_code is None and "security_code" in self.model_fields_set:
             _dict['securityCode'] = None
 
+        # set to None if government_response (nullable) is None
+        # and model_fields_set contains the field
+        if self.government_response is None and "government_response" in self.model_fields_set:
+            _dict['governmentResponse'] = None
+
         return _dict
 
     @classmethod
@@ -177,17 +178,14 @@ class EcfStatusResponse(BaseModel):
             "legalStatus": obj.get("legalStatus"),
             "companyIdentification": EcfSubmitResponseCompanyIdentification.from_dict(obj["companyIdentification"]) if obj.get("companyIdentification") is not None else None,
             "trackId": obj.get("trackId"),
-            "documentNumber": obj.get("documentNumber"),
             "encf": obj.get("encf"),
-            "contingencyMode": obj.get("contingencyMode"),
-            "contingencyMessage": obj.get("contingencyMessage"),
             "documentStampUrl": obj.get("documentStampUrl"),
             "pdf": obj.get("pdf"),
             "xmlUrl": obj.get("xmlUrl"),
             "signatureDate": obj.get("signatureDate"),
             "securityCode": obj.get("securityCode"),
             "sequenceConsumed": obj.get("sequenceConsumed"),
-            "governmentResponse": obj.get("governmentResponse")
+            "governmentResponse": EcfStatusResponseGovernmentResponse.from_dict(obj["governmentResponse"]) if obj.get("governmentResponse") is not None else None
         })
         return _obj
 

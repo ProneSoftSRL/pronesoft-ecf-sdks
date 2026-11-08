@@ -148,6 +148,7 @@ Class | Method | HTTP request | Description
 *PronesoftEcf::CommercialApprovalsApi* | [**get_commercial_approval_by_id**](docs/CommercialApprovalsApi.md#get_commercial_approval_by_id) | **GET** /documents/approvals/{id} | Obtener aprobación comercial por ID
 *PronesoftEcf::CommercialApprovalsApi* | [**list_commercial_approvals**](docs/CommercialApprovalsApi.md#list_commercial_approvals) | **GET** /documents/approvals | Listar aprobaciones comerciales
 *PronesoftEcf::DigitalCertificatesApi* | [**upload_certificate**](docs/DigitalCertificatesApi.md#upload_certificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
+*PronesoftEcf::DocumentsReceivedApi* | [**decide_commercial_approval**](docs/DocumentsReceivedApi.md#decide_commercial_approval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
 *PronesoftEcf::DocumentsReceivedApi* | [**get_received_document_by_id**](docs/DocumentsReceivedApi.md#get_received_document_by_id) | **GET** /documents/received/{id} | Obtener documento recibido por ID
 *PronesoftEcf::DocumentsReceivedApi* | [**get_received_document_stats_by_supplier**](docs/DocumentsReceivedApi.md#get_received_document_stats_by_supplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
 *PronesoftEcf::DocumentsReceivedApi* | [**get_received_document_stats_summary**](docs/DocumentsReceivedApi.md#get_received_document_stats_summary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos
@@ -210,6 +211,8 @@ Class | Method | HTTP request | Description
  - [PronesoftEcf::CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
  - [PronesoftEcf::CreateTaxSequence201Response](docs/CreateTaxSequence201Response.md)
  - [PronesoftEcf::CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
+ - [PronesoftEcf::DecideCommercialApprovalRequest](docs/DecideCommercialApprovalRequest.md)
+ - [PronesoftEcf::DecideCommercialApprovalResponse](docs/DecideCommercialApprovalResponse.md)
  - [PronesoftEcf::DeleteAssociatedCompany200Response](docs/DeleteAssociatedCompany200Response.md)
  - [PronesoftEcf::DgiiMessage](docs/DgiiMessage.md)
  - [PronesoftEcf::DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
@@ -222,6 +225,8 @@ Class | Method | HTTP request | Description
  - [PronesoftEcf::EcfHistoryItem](docs/EcfHistoryItem.md)
  - [PronesoftEcf::EcfStatsResponse](docs/EcfStatsResponse.md)
  - [PronesoftEcf::EcfStatusResponse](docs/EcfStatusResponse.md)
+ - [PronesoftEcf::EcfStatusResponseGovernmentResponse](docs/EcfStatusResponseGovernmentResponse.md)
+ - [PronesoftEcf::EcfStatusResponseGovernmentResponseValueInner](docs/EcfStatusResponseGovernmentResponseValueInner.md)
  - [PronesoftEcf::EcfSubmitResponse](docs/EcfSubmitResponse.md)
  - [PronesoftEcf::EcfSubmitResponseCompanyIdentification](docs/EcfSubmitResponseCompanyIdentification.md)
  - [PronesoftEcf::ElectronicDocument](docs/ElectronicDocument.md)

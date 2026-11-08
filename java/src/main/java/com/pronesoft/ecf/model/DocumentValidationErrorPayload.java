@@ -21,6 +21,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.UUID;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,12 +50,27 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del evento &#x60;document.validation_error&#x60;. El documento fue rechazado por validación local antes de enviarse a la DGII.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class DocumentValidationErrorPayload {
+  public static final String SERIALIZED_NAME_DOCUMENT_ID = "documentId";
+  @SerializedName(SERIALIZED_NAME_DOCUMENT_ID)
+  @javax.annotation.Nonnull
+  private UUID documentId;
+
   public static final String SERIALIZED_NAME_ENCF = "encf";
   @SerializedName(SERIALIZED_NAME_ENCF)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String encf;
+
+  public static final String SERIALIZED_NAME_ISSUER_RNC = "issuerRnc";
+  @SerializedName(SERIALIZED_NAME_ISSUER_RNC)
+  @javax.annotation.Nonnull
+  private String issuerRnc;
+
+  public static final String SERIALIZED_NAME_DOCUMENT_TYPE = "documentType";
+  @SerializedName(SERIALIZED_NAME_DOCUMENT_TYPE)
+  @javax.annotation.Nullable
+  private String documentType;
 
   public static final String SERIALIZED_NAME_ERROR_CODE = "errorCode";
   @SerializedName(SERIALIZED_NAME_ERROR_CODE)
@@ -65,25 +82,92 @@ public class DocumentValidationErrorPayload {
   @javax.annotation.Nonnull
   private String message;
 
+  public static final String SERIALIZED_NAME_ERROR = "error";
+  @SerializedName(SERIALIZED_NAME_ERROR)
+  @javax.annotation.Nullable
+  private String error;
+
+  public static final String SERIALIZED_NAME_CODE = "code";
+  @SerializedName(SERIALIZED_NAME_CODE)
+  @javax.annotation.Nullable
+  private Object code = null;
+
   public DocumentValidationErrorPayload() {
   }
 
-  public DocumentValidationErrorPayload encf(@javax.annotation.Nonnull String encf) {
+  public DocumentValidationErrorPayload documentId(@javax.annotation.Nonnull UUID documentId) {
+    this.documentId = documentId;
+    return this;
+  }
+
+  /**
+   * ID interno del documento en Pronesoft.
+   * @return documentId
+   */
+  @javax.annotation.Nonnull
+  public UUID getDocumentId() {
+    return documentId;
+  }
+
+  public void setDocumentId(@javax.annotation.Nonnull UUID documentId) {
+    this.documentId = documentId;
+  }
+
+
+  public DocumentValidationErrorPayload encf(@javax.annotation.Nullable String encf) {
     this.encf = encf;
     return this;
   }
 
   /**
-   * Get encf
+   * Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).
    * @return encf
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getEncf() {
     return encf;
   }
 
-  public void setEncf(@javax.annotation.Nonnull String encf) {
+  public void setEncf(@javax.annotation.Nullable String encf) {
     this.encf = encf;
+  }
+
+
+  public DocumentValidationErrorPayload issuerRnc(@javax.annotation.Nonnull String issuerRnc) {
+    this.issuerRnc = issuerRnc;
+    return this;
+  }
+
+  /**
+   * RNC de la empresa emisora del documento.
+   * @return issuerRnc
+   */
+  @javax.annotation.Nonnull
+  public String getIssuerRnc() {
+    return issuerRnc;
+  }
+
+  public void setIssuerRnc(@javax.annotation.Nonnull String issuerRnc) {
+    this.issuerRnc = issuerRnc;
+  }
+
+
+  public DocumentValidationErrorPayload documentType(@javax.annotation.Nullable String documentType) {
+    this.documentType = documentType;
+    return this;
+  }
+
+  /**
+   * Tipo de comprobante (31, 32, 33, 34, etc.).
+   * @return documentType
+   */
+  @javax.annotation.Nullable
+  public String getDocumentType() {
+    return documentType;
+  }
+
+  public void setDocumentType(@javax.annotation.Nullable String documentType) {
+    this.documentType = documentType;
   }
 
 
@@ -93,7 +177,7 @@ public class DocumentValidationErrorPayload {
   }
 
   /**
-   * Código de error de validación.
+   * Código del error de validación.
    * @return errorCode
    */
   @javax.annotation.Nonnull
@@ -112,7 +196,7 @@ public class DocumentValidationErrorPayload {
   }
 
   /**
-   * Descripción del error.
+   * Descripción detallada del error de validación.
    * @return message
    */
   @javax.annotation.Nonnull
@@ -122,6 +206,44 @@ public class DocumentValidationErrorPayload {
 
   public void setMessage(@javax.annotation.Nonnull String message) {
     this.message = message;
+  }
+
+
+  public DocumentValidationErrorPayload error(@javax.annotation.Nullable String error) {
+    this.error = error;
+    return this;
+  }
+
+  /**
+   * Mensaje de error (alias legado).
+   * @return error
+   */
+  @javax.annotation.Nullable
+  public String getError() {
+    return error;
+  }
+
+  public void setError(@javax.annotation.Nullable String error) {
+    this.error = error;
+  }
+
+
+  public DocumentValidationErrorPayload code(@javax.annotation.Nullable Object code) {
+    this.code = code;
+    return this;
+  }
+
+  /**
+   * Código de error (alias legado).
+   * @return code
+   */
+  @javax.annotation.Nullable
+  public Object getCode() {
+    return code;
+  }
+
+  public void setCode(@javax.annotation.Nullable Object code) {
+    this.code = code;
   }
 
   /**
@@ -179,24 +301,45 @@ public class DocumentValidationErrorPayload {
       return false;
     }
     DocumentValidationErrorPayload documentValidationErrorPayload = (DocumentValidationErrorPayload) o;
-    return Objects.equals(this.encf, documentValidationErrorPayload.encf) &&
+    return Objects.equals(this.documentId, documentValidationErrorPayload.documentId) &&
+        Objects.equals(this.encf, documentValidationErrorPayload.encf) &&
+        Objects.equals(this.issuerRnc, documentValidationErrorPayload.issuerRnc) &&
+        Objects.equals(this.documentType, documentValidationErrorPayload.documentType) &&
         Objects.equals(this.errorCode, documentValidationErrorPayload.errorCode) &&
-        Objects.equals(this.message, documentValidationErrorPayload.message)&&
+        Objects.equals(this.message, documentValidationErrorPayload.message) &&
+        Objects.equals(this.error, documentValidationErrorPayload.error) &&
+        Objects.equals(this.code, documentValidationErrorPayload.code)&&
         Objects.equals(this.additionalProperties, documentValidationErrorPayload.additionalProperties);
+  }
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(encf, errorCode, message, additionalProperties);
+    return Objects.hash(documentId, encf, issuerRnc, documentType, errorCode, message, error, code, additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DocumentValidationErrorPayload {\n");
+    sb.append("    documentId: ").append(toIndentedString(documentId)).append("\n");
     sb.append("    encf: ").append(toIndentedString(encf)).append("\n");
+    sb.append("    issuerRnc: ").append(toIndentedString(issuerRnc)).append("\n");
+    sb.append("    documentType: ").append(toIndentedString(documentType)).append("\n");
     sb.append("    errorCode: ").append(toIndentedString(errorCode)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    error: ").append(toIndentedString(error)).append("\n");
+    sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -216,10 +359,10 @@ public class DocumentValidationErrorPayload {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("encf", "errorCode", "message"));
+    openapiFields = new HashSet<String>(Arrays.asList("documentId", "encf", "issuerRnc", "documentType", "errorCode", "message", "error", "code"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("encf", "errorCode", "message"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("documentId", "issuerRnc", "errorCode", "message"));
   }
 
   /**
@@ -242,14 +385,26 @@ public class DocumentValidationErrorPayload {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (!jsonObj.get("encf").isJsonPrimitive()) {
+      if (!jsonObj.get("documentId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentId").toString()));
+      }
+      if ((jsonObj.get("encf") != null && !jsonObj.get("encf").isJsonNull()) && !jsonObj.get("encf").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `encf` to be a primitive type in the JSON string but got `%s`", jsonObj.get("encf").toString()));
+      }
+      if (!jsonObj.get("issuerRnc").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `issuerRnc` to be a primitive type in the JSON string but got `%s`", jsonObj.get("issuerRnc").toString()));
+      }
+      if ((jsonObj.get("documentType") != null && !jsonObj.get("documentType").isJsonNull()) && !jsonObj.get("documentType").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentType").toString()));
       }
       if (!jsonObj.get("errorCode").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `errorCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("errorCode").toString()));
       }
       if (!jsonObj.get("message").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
+      }
+      if ((jsonObj.get("error") != null && !jsonObj.get("error").isJsonNull()) && !jsonObj.get("error").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `error` to be a primitive type in the JSON string but got `%s`", jsonObj.get("error").toString()));
       }
   }
 

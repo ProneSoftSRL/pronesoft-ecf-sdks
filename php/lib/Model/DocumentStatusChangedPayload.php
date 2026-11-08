@@ -36,7 +36,7 @@ use \PronesoftEcf\ObjectSerializer;
  * DocumentStatusChangedPayload Class Doc Comment
  *
  * @category Class
- * @description Payload inside &#x60;data&#x60; when event is &#x60;document.status_changed&#x60;. Use &#x60;documentId&#x60; to poll GET /{environment}/ecf/status/{id} if needed. &#x60;issuerRnc&#x60; identifies the company that issued the document (useful in multi-company setups where an associated company sent it).
+ * @description Contenido del campo &#x60;data&#x60; cuando el evento es &#x60;document.status_changed&#x60;. Usa &#x60;documentId&#x60; para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. &#x60;issuerRnc&#x60; identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió).
  * @package  PronesoftEcf
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -421,7 +421,7 @@ class DocumentStatusChangedPayload implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets document_id
      *
-     * @param string $document_id Internal document ID for polling.
+     * @param string $document_id ID interno del documento para hacer polling.
      *
      * @return self
      */
@@ -448,7 +448,7 @@ class DocumentStatusChangedPayload implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets encf
      *
-     * @param string $encf e-NCF fiscal number.
+     * @param string $encf Número fiscal e-NCF.
      *
      * @return self
      */
@@ -475,7 +475,7 @@ class DocumentStatusChangedPayload implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets issuer_rnc
      *
-     * @param string $issuer_rnc RNC of the issuing company (associated or main).
+     * @param string $issuer_rnc RNC de la empresa emisora (asociada o principal).
      *
      * @return self
      */
@@ -502,7 +502,7 @@ class DocumentStatusChangedPayload implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets status
      *
-     * @param string $status Public lifecycle status.
+     * @param string $status Estado del ciclo de vida del documento.
      *
      * @return self
      */
@@ -539,7 +539,7 @@ class DocumentStatusChangedPayload implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets legal_status
      *
-     * @param string|null $legal_status Fiscal result from DGII. Only present when status=FINISHED.
+     * @param string|null $legal_status Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
      *
      * @return self
      */
@@ -583,7 +583,7 @@ class DocumentStatusChangedPayload implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets document_type
      *
-     * @param string|null $document_type Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+     * @param string|null $document_type Código del tipo de documento (31=Factura, 32=Nota de Crédito, etc.)
      *
      * @return self
      */
@@ -617,7 +617,7 @@ class DocumentStatusChangedPayload implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets track_id
      *
-     * @param string|null $track_id DGII tracking ID.
+     * @param string|null $track_id ID de seguimiento asignado por la DGII.
      *
      * @return self
      */
@@ -651,7 +651,7 @@ class DocumentStatusChangedPayload implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets dgii_message
      *
-     * @param string|null $dgii_message Human-readable DGII response message.
+     * @param string|null $dgii_message Mensaje legible de respuesta de la DGII.
      *
      * @return self
      */

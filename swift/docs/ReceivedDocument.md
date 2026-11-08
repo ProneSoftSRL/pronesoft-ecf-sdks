@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **senderRnc** | **String** |  | [optional] 
 **receiverRnc** | **String** |  | [optional] 
 **totalAmount** | **Double** |  | [optional] 
-**status** | **Int** | 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending | [optional] 
+**status** | **Int** | 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente | [optional] 
 **statusLabel** | **String** |  | [optional] 
 **issueDate** | **Date** |  | [optional] 
 **receivedAt** | **Date** |  | [optional] 

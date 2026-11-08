@@ -548,10 +548,10 @@ async function example() {
     type: type_example,
     // 'APPROVED' | 'REJECTED' | 'IN_PROCESS' | 'CONTINGENCY' | 'ERROR' (optional)
     status: status_example,
-    // Date (optional)
-    dateFrom: 2013-10-20,
-    // Date (optional)
-    dateTo: 2013-10-20,
+    // string | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+    dateFrom: dateFrom_example,
+    // string | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
+    dateTo: dateTo_example,
     // number (optional)
     page: 56,
     // number (optional)
@@ -580,8 +580,8 @@ example().catch(console.error);
 | **ecf** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **type** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **status** | `APPROVED`, `REJECTED`, `IN_PROCESS`, `CONTINGENCY`, `ERROR` |  | [Optional] [Defaults to `undefined`] [Enum: APPROVED, REJECTED, IN_PROCESS, CONTINGENCY, ERROR] |
-| **dateFrom** | `Date` |  | [Optional] [Defaults to `undefined`] |
-| **dateTo** | `Date` |  | [Optional] [Defaults to `undefined`] |
+| **dateFrom** | `string` | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [Optional] [Defaults to `undefined`] |
+| **dateTo** | `string` | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [Optional] [Defaults to `undefined`] |
 | **page** | `number` |  | [Optional] [Defaults to `1`] |
 | **limit** | `number` |  | [Optional] [Defaults to `10`] |
 

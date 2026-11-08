@@ -30,7 +30,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * 
  *
- * @param code DGII tax code (e.g. ISC, IECS)
+ * @param code Código de impuesto DGII (ej. ISC, IECS)
  * @param amount 
  * @param rate 
  * @param alternativeCurrencyAmount 
@@ -39,7 +39,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ItemAdditionalTax (
 
-    /* DGII tax code (e.g. ISC, IECS) */
+    /* Código de impuesto DGII (ej. ISC, IECS) */
     @SerializedName("code")
     val code: kotlin.String,
 

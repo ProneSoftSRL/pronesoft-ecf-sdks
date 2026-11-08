@@ -29,24 +29,50 @@ import com.google.gson.annotations.SerializedName
 /**
  * Payload del evento `document.validation_error`. El documento fue rechazado por validación local antes de enviarse a la DGII.
  *
- * @param encf 
- * @param errorCode Código de error de validación.
- * @param message Descripción del error.
+ * @param documentId ID interno del documento en Pronesoft.
+ * @param issuerRnc RNC de la empresa emisora del documento.
+ * @param errorCode Código del error de validación.
+ * @param message Descripción detallada del error de validación.
+ * @param encf Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).
+ * @param documentType Tipo de comprobante (31, 32, 33, 34, etc.).
+ * @param error Mensaje de error (alias legado).
+ * @param code Código de error (alias legado).
  */
 
 
 data class DocumentValidationErrorPayload (
 
-    @SerializedName("encf")
-    val encf: kotlin.String,
+    /* ID interno del documento en Pronesoft. */
+    @SerializedName("documentId")
+    val documentId: java.util.UUID,
 
-    /* Código de error de validación. */
+    /* RNC de la empresa emisora del documento. */
+    @SerializedName("issuerRnc")
+    val issuerRnc: kotlin.String,
+
+    /* Código del error de validación. */
     @SerializedName("errorCode")
     val errorCode: kotlin.String,
 
-    /* Descripción del error. */
+    /* Descripción detallada del error de validación. */
     @SerializedName("message")
-    val message: kotlin.String
+    val message: kotlin.String,
+
+    /* Número e-NCF del documento (si llegó a asignarse antes del fallo de validación). */
+    @SerializedName("encf")
+    val encf: kotlin.String? = null,
+
+    /* Tipo de comprobante (31, 32, 33, 34, etc.). */
+    @SerializedName("documentType")
+    val documentType: kotlin.String? = null,
+
+    /* Mensaje de error (alias legado). */
+    @SerializedName("error")
+    val error: kotlin.String? = null,
+
+    /* Código de error (alias legado). */
+    @SerializedName("code")
+    val code: kotlin.Any? = null
 
 ) {
 

@@ -1,5 +1,4 @@
 .gitignore
-.npmignore
 docs/AccountType.md
 docs/AdditionalInfo.md
 docs/AdditionalTax.md
@@ -35,6 +34,8 @@ docs/ContingencyActivatedPayload.md
 docs/CreateAssociatedCompany201Response.md
 docs/CreateTaxSequence201Response.md
 docs/CreateTaxSequenceRequest.md
+docs/DecideCommercialApprovalRequest.md
+docs/DecideCommercialApprovalResponse.md
 docs/DeleteAssociatedCompany200Response.md
 docs/DgiiMessage.md
 docs/DigitalCertificatesApi.md
@@ -51,6 +52,8 @@ docs/ECFSubmissionApi.md
 docs/EcfHistoryItem.md
 docs/EcfStatsResponse.md
 docs/EcfStatusResponse.md
+docs/EcfStatusResponseGovernmentResponse.md
+docs/EcfStatusResponseGovernmentResponseValueInner.md
 docs/EcfSubmitResponse.md
 docs/EcfSubmitResponseCompanyIdentification.md
 docs/ElectronicDocument.md
@@ -134,7 +137,6 @@ docs/WebhookNotificationPayload.md
 docs/WebhookNotificationPayloadData.md
 docs/WebhookStats.md
 docs/WebhookStatsStats.md
-package.json
 src/apis/AssociatedCompaniesApi.ts
 src/apis/AuthenticationApi.ts
 src/apis/AutomatedCertificationApi.ts
@@ -178,6 +180,8 @@ src/models/ContingencyActivatedPayload.ts
 src/models/CreateAssociatedCompany201Response.ts
 src/models/CreateTaxSequence201Response.ts
 src/models/CreateTaxSequenceRequest.ts
+src/models/DecideCommercialApprovalRequest.ts
+src/models/DecideCommercialApprovalResponse.ts
 src/models/DeleteAssociatedCompany200Response.ts
 src/models/DgiiMessage.ts
 src/models/DiscountOrSurcharge.ts
@@ -190,6 +194,8 @@ src/models/DocumentValidationErrorPayload.ts
 src/models/EcfHistoryItem.ts
 src/models/EcfStatsResponse.ts
 src/models/EcfStatusResponse.ts
+src/models/EcfStatusResponseGovernmentResponse.ts
+src/models/EcfStatusResponseGovernmentResponseValueInner.ts
 src/models/EcfSubmitResponse.ts
 src/models/EcfSubmitResponseCompanyIdentification.ts
 src/models/ElectronicDocument.ts

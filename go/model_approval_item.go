@@ -28,7 +28,7 @@ type ApprovalItem struct {
 	BuyerRnc *string `json:"buyerRnc,omitempty"`
 	TotalAmount *float32 `json:"totalAmount,omitempty"`
 	ApprovalStatus *string `json:"approvalStatus,omitempty"`
-	// 1=Approved, 2=Rejected, 3=Pending, 4=Under Review
+	// 1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión
 	Status *int32 `json:"status,omitempty"`
 	StatusLabel *string `json:"statusLabel,omitempty"`
 	IssueDate *time.Time `json:"issueDate,omitempty"`

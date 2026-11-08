@@ -26,11 +26,11 @@ from pydantic_core import to_jsonable_python
 
 class OAuthTokenResponse(BaseModel):
     """
-    Bearer token valid for 24 hours (86400 seconds).
+    Token de acceso Bearer válido por 24 horas (86400 segundos).
     """ # noqa: E501
     access_token: Optional[StrictStr] = Field(default=None, alias="accessToken")
     token_type: Optional[StrictStr] = Field(default=None, alias="tokenType")
-    expires_in: Optional[StrictInt] = Field(default=None, description="Token lifetime in seconds (24 hours = 86400).", alias="expiresIn")
+    expires_in: Optional[StrictInt] = Field(default=None, description="Duración del token en segundos (24 horas = 86400).", alias="expiresIn")
     scope: Optional[List[StrictStr]] = None
     __properties: ClassVar[List[str]] = ["accessToken", "tokenType", "expiresIn", "scope"]
 

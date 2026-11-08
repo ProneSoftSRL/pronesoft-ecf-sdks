@@ -11,14 +11,14 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// OAuthTokenResponse : Bearer token valid for 24 hours (86400 seconds).
+/// OAuthTokenResponse : Token de acceso Bearer válido por 24 horas (86400 segundos).
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct OAuthTokenResponse {
     #[serde(rename = "accessToken", skip_serializing_if = "Option::is_none")]
     pub access_token: Option<String>,
     #[serde(rename = "tokenType", skip_serializing_if = "Option::is_none")]
     pub token_type: Option<String>,
-    /// Token lifetime in seconds (24 hours = 86400).
+    /// Duración del token en segundos (24 horas = 86400).
     #[serde(rename = "expiresIn", skip_serializing_if = "Option::is_none")]
     pub expires_in: Option<i32>,
     #[serde(rename = "scope", skip_serializing_if = "Option::is_none")]
@@ -26,7 +26,7 @@ pub struct OAuthTokenResponse {
 }
 
 impl OAuthTokenResponse {
-    /// Bearer token valid for 24 hours (86400 seconds).
+    /// Token de acceso Bearer válido por 24 horas (86400 segundos).
     pub fn new() -> OAuthTokenResponse {
         OAuthTokenResponse {
             access_token: None,

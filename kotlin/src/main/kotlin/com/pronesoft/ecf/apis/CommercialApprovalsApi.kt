@@ -159,8 +159,8 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApprovalListResponse
@@ -172,7 +172,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCommercialApprovals(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListCommercialApprovals? = null, dateFrom: java.time.LocalDate? = null, dateTo: java.time.LocalDate? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ApprovalListResponse {
+    fun listCommercialApprovals(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListCommercialApprovals? = null, dateFrom: kotlin.String? = null, dateTo: kotlin.String? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ApprovalListResponse {
         val localVarResponse = listCommercialApprovalsWithHttpInfo(xTenantId = xTenantId, ecf = ecf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -198,8 +198,8 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApiResponse<ApprovalListResponse?>
@@ -208,7 +208,7 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCommercialApprovalsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ApprovalListResponse?> {
+    fun listCommercialApprovalsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ApprovalListResponse?> {
         val localVariableConfig = listCommercialApprovalsRequestConfig(xTenantId = xTenantId, ecf = ecf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return request<Unit, ApprovalListResponse>(
@@ -223,13 +223,13 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
      * @param ecf  (optional)
      * @param type Tipo de documento (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listCommercialApprovalsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listCommercialApprovalsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListCommercialApprovals?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -243,10 +243,10 @@ open class CommercialApprovalsApi(basePath: kotlin.String = defaultBasePath, cli
                     put("status", listOf(status.toString()))
                 }
                 if (dateFrom != null) {
-                    put("dateFrom", listOf(parseDateToQueryString(dateFrom)))
+                    put("dateFrom", listOf(dateFrom.toString()))
                 }
                 if (dateTo != null) {
-                    put("dateTo", listOf(parseDateToQueryString(dateTo)))
+                    put("dateTo", listOf(dateTo.toString()))
                 }
                 if (page != null) {
                     put("page", listOf(page.toString()))

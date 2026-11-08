@@ -178,7 +178,7 @@ public class ApiClient {
             this.basePath = basePath;
         }
 
-        String tokenUrl = "/api/v1/oauth/token";
+        String tokenUrl = "/oauth/token";
         if (!"".equals(tokenUrl) && !URI.create(tokenUrl).isAbsolute()) {
             URI uri = URI.create(getBasePath());
             tokenUrl = uri.getScheme() + ":" +

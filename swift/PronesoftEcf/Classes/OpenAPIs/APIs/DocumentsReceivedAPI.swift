@@ -16,6 +16,61 @@ extension PronesoftEcfAPI {
 open class DocumentsReceivedAPI {
 
     /**
+     Aprobar o rechazar comercialmente un documento recibido
+     
+     - parameter id: (path) ID del documento recibido (TaxDocumentReceived.id) 
+     - parameter decideCommercialApprovalRequest: (body)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func decideCommercialApproval(id: UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: UUID? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: DecideCommercialApprovalResponse?, _ error: Error?) -> Void)) -> RequestTask {
+        return decideCommercialApprovalWithRequestBuilder(id: id, decideCommercialApprovalRequest: decideCommercialApprovalRequest, xTenantId: xTenantId).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Aprobar o rechazar comercialmente un documento recibido
+     - POST /documents/received/{id}/commercial-approval
+     - Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     - OAuth:
+       - type: oauth2
+       - name: oauth2
+     - parameter id: (path) ID del documento recibido (TaxDocumentReceived.id) 
+     - parameter decideCommercialApprovalRequest: (body)  
+     - parameter xTenantId: (header) UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     - returns: RequestBuilder<DecideCommercialApprovalResponse> 
+     */
+    open class func decideCommercialApprovalWithRequestBuilder(id: UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: UUID? = nil) -> RequestBuilder<DecideCommercialApprovalResponse> {
+        var localVariablePath = "/documents/received/{id}/commercial-approval"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: decideCommercialApprovalRequest)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
+            "x-tenant-id": xTenantId?.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DecideCommercialApprovalResponse>.Type = PronesoftEcfAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Obtener documento recibido por ID
      
      - parameter id: (path)  
@@ -178,15 +233,15 @@ open class DocumentsReceivedAPI {
      - parameter amountFrom: (query)  (optional)
      - parameter amountTo: (query)  (optional)
      - parameter processed: (query)  (optional)
-     - parameter dateFrom: (query)  (optional)
-     - parameter dateTo: (query)  (optional)
+     - parameter dateFrom: (query) Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     - parameter dateTo: (query) Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func listReceivedDocuments(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listReceivedDocuments? = nil, supplierRnc: String? = nil, amountFrom: Double? = nil, amountTo: Double? = nil, processed: Bool? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func listReceivedDocuments(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listReceivedDocuments? = nil, supplierRnc: String? = nil, amountFrom: Double? = nil, amountTo: Double? = nil, processed: Bool? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil, apiResponseQueue: DispatchQueue = PronesoftEcfAPI.apiResponseQueue, completion: @escaping ((_ data: ReceivedDocumentListResponse?, _ error: Error?) -> Void)) -> RequestTask {
         return listReceivedDocumentsWithRequestBuilder(xTenantId: xTenantId, ecf: ecf, type: type, status: status, supplierRnc: supplierRnc, amountFrom: amountFrom, amountTo: amountTo, processed: processed, dateFrom: dateFrom, dateTo: dateTo, page: page, limit: limit).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -211,13 +266,13 @@ open class DocumentsReceivedAPI {
      - parameter amountFrom: (query)  (optional)
      - parameter amountTo: (query)  (optional)
      - parameter processed: (query)  (optional)
-     - parameter dateFrom: (query)  (optional)
-     - parameter dateTo: (query)  (optional)
+     - parameter dateFrom: (query) Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     - parameter dateTo: (query) Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter limit: (query)  (optional, default to 10)
      - returns: RequestBuilder<ReceivedDocumentListResponse> 
      */
-    open class func listReceivedDocumentsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listReceivedDocuments? = nil, supplierRnc: String? = nil, amountFrom: Double? = nil, amountTo: Double? = nil, processed: Bool? = nil, dateFrom: Date? = nil, dateTo: Date? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ReceivedDocumentListResponse> {
+    open class func listReceivedDocumentsWithRequestBuilder(xTenantId: UUID? = nil, ecf: String? = nil, type: String? = nil, status: Status_listReceivedDocuments? = nil, supplierRnc: String? = nil, amountFrom: Double? = nil, amountTo: Double? = nil, processed: Bool? = nil, dateFrom: String? = nil, dateTo: String? = nil, page: Int? = nil, limit: Int? = nil) -> RequestBuilder<ReceivedDocumentListResponse> {
         let localVariablePath = "/documents/received"
         let localVariableURLString = PronesoftEcfAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil

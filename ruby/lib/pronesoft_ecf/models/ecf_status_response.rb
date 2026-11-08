@@ -30,40 +30,30 @@ module PronesoftEcf
 
     attr_accessor :company_identification
 
-    # ID de seguimiento asignado por DGII.
+    # ID de seguimiento asignado por DGII. null mientras procesa.
     attr_accessor :track_id
-
-    # Número de control electrónico (e-NCF).
-    attr_accessor :document_number
 
     # Número e-NCF del documento.
     attr_accessor :encf
 
-    # true si fue emitido en modo contingencia.
-    attr_accessor :contingency_mode
-
-    # Mensaje oficial DGII cuando contingencyMode es true.
-    attr_accessor :contingency_message
-
-    # URL del código QR del documento.
+    # URL de consulta del timbre en DGII.
     attr_accessor :document_stamp_url
 
-    # URL pre-firmada del PDF (expira en 1 hora).
+    # URL del PDF del documento.
     attr_accessor :pdf
 
-    # URL pre-firmada del XML firmado (expira en 1 hora).
+    # URL del XML firmado.
     attr_accessor :xml_url
 
     # Fecha y hora de la firma digital.
     attr_accessor :signature_date
 
-    # Código de seguridad del documento.
+    # Código de seguridad de 6 caracteres.
     attr_accessor :security_code
 
-    # true si DGII confirmó el consumo de la secuencia.
+    # true cuando DGII confirmó el uso de la secuencia.
     attr_accessor :sequence_consumed
 
-    # Respuesta completa de DGII (disponible cuando status es FINISHED).
     attr_accessor :government_response
 
     class EnumAttributeValidator
@@ -97,10 +87,7 @@ module PronesoftEcf
         :'legal_status' => :'legalStatus',
         :'company_identification' => :'companyIdentification',
         :'track_id' => :'trackId',
-        :'document_number' => :'documentNumber',
         :'encf' => :'encf',
-        :'contingency_mode' => :'contingencyMode',
-        :'contingency_message' => :'contingencyMessage',
         :'document_stamp_url' => :'documentStampUrl',
         :'pdf' => :'pdf',
         :'xml_url' => :'xmlUrl',
@@ -130,17 +117,14 @@ module PronesoftEcf
         :'legal_status' => :'String',
         :'company_identification' => :'EcfSubmitResponseCompanyIdentification',
         :'track_id' => :'String',
-        :'document_number' => :'String',
         :'encf' => :'String',
-        :'contingency_mode' => :'Boolean',
-        :'contingency_message' => :'String',
         :'document_stamp_url' => :'String',
         :'pdf' => :'String',
         :'xml_url' => :'String',
-        :'signature_date' => :'Time',
+        :'signature_date' => :'String',
         :'security_code' => :'String',
         :'sequence_consumed' => :'Boolean',
-        :'government_response' => :'Hash<String, Object>'
+        :'government_response' => :'EcfStatusResponseGovernmentResponse'
       }
     end
 
@@ -150,13 +134,13 @@ module PronesoftEcf
         :'stamp_date',
         :'legal_status',
         :'track_id',
-        :'document_number',
         :'encf',
         :'document_stamp_url',
         :'pdf',
         :'xml_url',
         :'signature_date',
         :'security_code',
+        :'government_response'
       ])
     end
 
@@ -206,20 +190,8 @@ module PronesoftEcf
         self.track_id = attributes[:'track_id']
       end
 
-      if attributes.key?(:'document_number')
-        self.document_number = attributes[:'document_number']
-      end
-
       if attributes.key?(:'encf')
         self.encf = attributes[:'encf']
-      end
-
-      if attributes.key?(:'contingency_mode')
-        self.contingency_mode = attributes[:'contingency_mode']
-      end
-
-      if attributes.key?(:'contingency_message')
-        self.contingency_message = attributes[:'contingency_message']
       end
 
       if attributes.key?(:'document_stamp_url')
@@ -249,9 +221,7 @@ module PronesoftEcf
       end
 
       if attributes.key?(:'government_response')
-        if (value = attributes[:'government_response']).is_a?(Hash)
-          self.government_response = value
-        end
+        self.government_response = attributes[:'government_response']
       end
     end
 
@@ -355,10 +325,7 @@ module PronesoftEcf
           legal_status == o.legal_status &&
           company_identification == o.company_identification &&
           track_id == o.track_id &&
-          document_number == o.document_number &&
           encf == o.encf &&
-          contingency_mode == o.contingency_mode &&
-          contingency_message == o.contingency_message &&
           document_stamp_url == o.document_stamp_url &&
           pdf == o.pdf &&
           xml_url == o.xml_url &&
@@ -377,7 +344,7 @@ module PronesoftEcf
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, stamp_date, status, legal_status, company_identification, track_id, document_number, encf, contingency_mode, contingency_message, document_stamp_url, pdf, xml_url, signature_date, security_code, sequence_consumed, government_response].hash
+      [id, stamp_date, status, legal_status, company_identification, track_id, encf, document_stamp_url, pdf, xml_url, signature_date, security_code, sequence_consumed, government_response].hash
     end
 
     # Builds the object from hash

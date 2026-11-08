@@ -42,7 +42,7 @@ import com.google.gson.annotations.SerializedName
  * 
  *
  * @param name 
- * @param type 1=Good, 2=Service
+ * @param type 1=Bien, 2=Servicio
  * @param billingIndicator 
  * @param quantity 
  * @param unitPrice 
@@ -76,7 +76,7 @@ data class Item (
     @SerializedName("name")
     val name: kotlin.String,
 
-    /* 1=Good, 2=Service */
+    /* 1=Bien, 2=Servicio */
     @SerializedName("type")
     val type: Item.Type,
 
@@ -158,7 +158,7 @@ data class Item (
 ) {
 
     /**
-     * 1=Good, 2=Service
+     * 1=Bien, 2=Servicio
      *
      * Values: _1,_2
      */

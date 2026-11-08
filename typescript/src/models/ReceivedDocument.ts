@@ -58,7 +58,7 @@ export interface ReceivedDocument {
      */
     totalAmount?: number;
     /**
-     * 1=Valid, 2=Voided, 3=Pending
+     * 1=Válido, 2=Anulado, 3=Pendiente
      * @type {ReceivedDocumentStatusEnum}
      * @memberof ReceivedDocument
      */

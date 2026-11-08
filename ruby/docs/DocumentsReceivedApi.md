@@ -4,10 +4,86 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
+| [**decide_commercial_approval**](DocumentsReceivedApi.md#decide_commercial_approval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido |
 | [**get_received_document_by_id**](DocumentsReceivedApi.md#get_received_document_by_id) | **GET** /documents/received/{id} | Obtener documento recibido por ID |
 | [**get_received_document_stats_by_supplier**](DocumentsReceivedApi.md#get_received_document_stats_by_supplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos |
 | [**get_received_document_stats_summary**](DocumentsReceivedApi.md#get_received_document_stats_summary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos |
 | [**list_received_documents**](DocumentsReceivedApi.md#list_received_documents) | **GET** /documents/received | Listar documentos recibidos |
+
+
+## decide_commercial_approval
+
+> <DecideCommercialApprovalResponse> decide_commercial_approval(id, decide_commercial_approval_request, opts)
+
+Aprobar o rechazar comercialmente un documento recibido
+
+Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+
+### Examples
+
+```ruby
+require 'time'
+require 'pronesoft_ecf'
+# setup authorization
+PronesoftEcf.configure do |config|
+  # Configure OAuth2 access token for authorization: oauth2
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
+
+api_instance = PronesoftEcf::DocumentsReceivedApi.new
+id = '38400000-8cf0-11bd-b23e-10b96e4ef00d' # String | ID del documento recibido (TaxDocumentReceived.id)
+decide_commercial_approval_request = PronesoftEcf::DecideCommercialApprovalRequest.new({decision: 'APPROVED'}) # DecideCommercialApprovalRequest | 
+opts = {
+  x_tenant_id: '468a4aa1-1b80-447e-9ecb-400e39f7d798' # String | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal. 
+}
+
+begin
+  # Aprobar o rechazar comercialmente un documento recibido
+  result = api_instance.decide_commercial_approval(id, decide_commercial_approval_request, opts)
+  p result
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling DocumentsReceivedApi->decide_commercial_approval: #{e}"
+end
+```
+
+#### Using the decide_commercial_approval_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<DecideCommercialApprovalResponse>, Integer, Hash)> decide_commercial_approval_with_http_info(id, decide_commercial_approval_request, opts)
+
+```ruby
+begin
+  # Aprobar o rechazar comercialmente un documento recibido
+  data, status_code, headers = api_instance.decide_commercial_approval_with_http_info(id, decide_commercial_approval_request, opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <DecideCommercialApprovalResponse>
+rescue PronesoftEcf::ApiError => e
+  puts "Error when calling DocumentsReceivedApi->decide_commercial_approval_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **id** | **String** | ID del documento recibido (TaxDocumentReceived.id) |  |
+| **decide_commercial_approval_request** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md) |  |  |
+| **x_tenant_id** | **String** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional] |
+
+### Return type
+
+[**DecideCommercialApprovalResponse**](DecideCommercialApprovalResponse.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 
 ## get_received_document_by_id
@@ -246,8 +322,8 @@ opts = {
   amount_from: 8.14, # Float | 
   amount_to: 8.14, # Float | 
   processed: true, # Boolean | 
-  date_from: Date.parse('2013-10-20'), # Date | 
-  date_to: Date.parse('2013-10-20'), # Date | 
+  date_from: 'date_from_example', # String | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+  date_to: 'date_to_example', # String | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
   page: 56, # Integer | 
   limit: 56 # Integer | 
 }
@@ -291,8 +367,8 @@ end
 | **amount_from** | **Float** |  | [optional] |
 | **amount_to** | **Float** |  | [optional] |
 | **processed** | **Boolean** |  | [optional] |
-| **date_from** | **Date** |  | [optional] |
-| **date_to** | **Date** |  | [optional] |
+| **date_from** | **String** | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
+| **date_to** | **String** | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
 | **page** | **Integer** |  | [optional][default to 1] |
 | **limit** | **Integer** |  | [optional][default to 10] |
 

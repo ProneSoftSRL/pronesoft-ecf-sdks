@@ -665,8 +665,8 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param ecf  (optional)
      * @param type  (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return SentDocumentListResponse
@@ -678,7 +678,7 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listSentDocuments(xTenantId: java.util.UUID? = null, env: Environment? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListSentDocuments? = null, dateFrom: java.time.LocalDate? = null, dateTo: java.time.LocalDate? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : SentDocumentListResponse {
+    fun listSentDocuments(xTenantId: java.util.UUID? = null, env: Environment? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListSentDocuments? = null, dateFrom: kotlin.String? = null, dateTo: kotlin.String? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : SentDocumentListResponse {
         val localVarResponse = listSentDocumentsWithHttpInfo(xTenantId = xTenantId, env = env, ecf = ecf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -705,8 +705,8 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param ecf  (optional)
      * @param type  (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApiResponse<SentDocumentListResponse?>
@@ -715,7 +715,7 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listSentDocumentsWithHttpInfo(xTenantId: java.util.UUID?, env: Environment?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListSentDocuments?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<SentDocumentListResponse?> {
+    fun listSentDocumentsWithHttpInfo(xTenantId: java.util.UUID?, env: Environment?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListSentDocuments?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<SentDocumentListResponse?> {
         val localVariableConfig = listSentDocumentsRequestConfig(xTenantId = xTenantId, env = env, ecf = ecf, type = type, status = status, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return request<Unit, SentDocumentListResponse>(
@@ -731,13 +731,13 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
      * @param ecf  (optional)
      * @param type  (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listSentDocumentsRequestConfig(xTenantId: java.util.UUID?, env: Environment?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListSentDocuments?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listSentDocumentsRequestConfig(xTenantId: java.util.UUID?, env: Environment?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListSentDocuments?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -754,10 +754,10 @@ open class DocumentsSentApi(basePath: kotlin.String = defaultBasePath, client: C
                     put("status", listOf(status.value))
                 }
                 if (dateFrom != null) {
-                    put("dateFrom", listOf(parseDateToQueryString(dateFrom)))
+                    put("dateFrom", listOf(dateFrom.toString()))
                 }
                 if (dateTo != null) {
-                    put("dateTo", listOf(parseDateToQueryString(dateTo)))
+                    put("dateTo", listOf(dateTo.toString()))
                 }
                 if (page != null) {
                     put("page", listOf(page.toString()))

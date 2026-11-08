@@ -548,7 +548,7 @@ class ReceivedDocument implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets status
      *
-     * @param int|null $status 1=Valid, 2=Voided, 3=Pending
+     * @param int|null $status 1=Válido, 2=Anulado, 3=Pendiente
      *
      * @return self
      */

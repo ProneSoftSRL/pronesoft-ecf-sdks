@@ -25,7 +25,7 @@ module PronesoftEcf
 
     attr_accessor :total_amount
 
-    # 1=Valid, 2=Voided, 3=Pending
+    # 1=Válido, 2=Anulado, 3=Pendiente
     attr_accessor :status
 
     attr_accessor :status_label

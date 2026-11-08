@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **sender_rnc** | **str** |  | [optional] 
 **receiver_rnc** | **str** |  | [optional] 
 **total_amount** | **float** |  | [optional] 
-**status** | **int** | 1&#x3D;Valid, 2&#x3D;Voided, 3&#x3D;Pending | [optional] 
+**status** | **int** | 1&#x3D;Válido, 2&#x3D;Anulado, 3&#x3D;Pendiente | [optional] 
 **status_label** | **str** |  | [optional] 
 **issue_date** | **datetime** |  | [optional] 
 **received_at** | **datetime** |  | [optional] 

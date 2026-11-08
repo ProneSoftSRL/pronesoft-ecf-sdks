@@ -94,7 +94,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-    "time"
 	openapiclient "github.com/ProneSoftSRL/pronesoft-ecf-sdks/ecf"
 )
 
@@ -103,8 +102,8 @@ func main() {
 	ecf := "ecf_example" // string |  (optional)
 	type_ := "type__example" // string | Tipo de documento (optional)
 	status := int32(56) // int32 |  (optional)
-	dateFrom := time.Now() // string |  (optional)
-	dateTo := time.Now() // string |  (optional)
+	dateFrom := "dateFrom_example" // string | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+	dateTo := "dateTo_example" // string | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
 	page := int32(56) // int32 |  (optional) (default to 1)
 	limit := int32(56) // int32 |  (optional) (default to 10)
 
@@ -135,8 +134,8 @@ Name | Type | Description  | Notes
  **ecf** | **string** |  | 
  **type_** | **string** | Tipo de documento | 
  **status** | **int32** |  | 
- **dateFrom** | **string** |  | 
- **dateTo** | **string** |  | 
+ **dateFrom** | **string** | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | 
+ **dateTo** | **string** | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | 
  **page** | **int32** |  | [default to 1]
  **limit** | **int32** |  | [default to 10]
 

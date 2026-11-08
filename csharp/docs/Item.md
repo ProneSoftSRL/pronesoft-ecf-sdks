@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Codes** | [**List&lt;ItemCodesInner&gt;**](ItemCodesInner.md) |  | [optional] 
 **Name** | **string** |  | 
 **Description** | **string** |  | [optional] 
-**Type** | **string** | 1&#x3D;Good, 2&#x3D;Service | 
+**Type** | **string** | 1&#x3D;Bien, 2&#x3D;Servicio | 
 **BillingIndicator** | **BillingIndicator** |  | 
 **WithholdingAgentIndicator** | **int** |  | [optional] 
 **WithheldITBISAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 

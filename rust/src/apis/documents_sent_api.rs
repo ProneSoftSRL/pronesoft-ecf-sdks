@@ -382,7 +382,7 @@ pub async fn get_sent_document_xml(configuration: &configuration::Configuration,
     }
 }
 
-pub async fn list_sent_documents(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, env: Option<models::Environment>, ecf: Option<&str>, r#type: Option<&str>, status: Option<&str>, date_from: Option<String>, date_to: Option<String>, page: Option<i32>, limit: Option<i32>) -> Result<models::SentDocumentListResponse, Error<ListSentDocumentsError>> {
+pub async fn list_sent_documents(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, env: Option<models::Environment>, ecf: Option<&str>, r#type: Option<&str>, status: Option<&str>, date_from: Option<&str>, date_to: Option<&str>, page: Option<i32>, limit: Option<i32>) -> Result<models::SentDocumentListResponse, Error<ListSentDocumentsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_header_x_tenant_id = x_tenant_id;
     let p_query_env = env;

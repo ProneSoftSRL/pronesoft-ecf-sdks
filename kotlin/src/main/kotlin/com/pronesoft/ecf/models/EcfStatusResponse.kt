@@ -23,6 +23,7 @@
 
 package com.pronesoft.ecf.models
 
+import com.pronesoft.ecf.models.EcfStatusResponseGovernmentResponse
 import com.pronesoft.ecf.models.EcfSubmitResponseCompanyIdentification
 
 import com.google.gson.annotations.SerializedName
@@ -33,20 +34,17 @@ import com.google.gson.annotations.SerializedName
  * @param id ID interno del documento.
  * @param status Estado del proceso de envío a DGII.
  * @param companyIdentification 
- * @param sequenceConsumed true si DGII confirmó el consumo de la secuencia.
+ * @param sequenceConsumed true cuando DGII confirmó el uso de la secuencia.
  * @param stampDate Fecha de emisión del documento (YYYY-MM-DD).
  * @param legalStatus Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
- * @param trackId ID de seguimiento asignado por DGII.
- * @param documentNumber Número de control electrónico (e-NCF).
+ * @param trackId ID de seguimiento asignado por DGII. null mientras procesa.
  * @param encf Número e-NCF del documento.
- * @param contingencyMode true si fue emitido en modo contingencia.
- * @param contingencyMessage Mensaje oficial DGII cuando contingencyMode es true.
- * @param documentStampUrl URL del código QR del documento.
- * @param pdf URL pre-firmada del PDF (expira en 1 hora).
- * @param xmlUrl URL pre-firmada del XML firmado (expira en 1 hora).
+ * @param documentStampUrl URL de consulta del timbre en DGII.
+ * @param pdf URL del PDF del documento.
+ * @param xmlUrl URL del XML firmado.
  * @param signatureDate Fecha y hora de la firma digital.
- * @param securityCode Código de seguridad del documento.
- * @param governmentResponse Respuesta completa de DGII (disponible cuando status es FINISHED).
+ * @param securityCode Código de seguridad de 6 caracteres.
+ * @param governmentResponse 
  */
 
 
@@ -63,7 +61,7 @@ data class EcfStatusResponse (
     @SerializedName("companyIdentification")
     val companyIdentification: EcfSubmitResponseCompanyIdentification,
 
-    /* true si DGII confirmó el consumo de la secuencia. */
+    /* true cuando DGII confirmó el uso de la secuencia. */
     @SerializedName("sequenceConsumed")
     val sequenceConsumed: kotlin.Boolean,
 
@@ -75,49 +73,36 @@ data class EcfStatusResponse (
     @SerializedName("legalStatus")
     val legalStatus: EcfStatusResponse.LegalStatus? = null,
 
-    /* ID de seguimiento asignado por DGII. */
+    /* ID de seguimiento asignado por DGII. null mientras procesa. */
     @SerializedName("trackId")
     val trackId: kotlin.String? = null,
-
-    /* Número de control electrónico (e-NCF). */
-    @SerializedName("documentNumber")
-    val documentNumber: kotlin.String? = null,
 
     /* Número e-NCF del documento. */
     @SerializedName("encf")
     val encf: kotlin.String? = null,
 
-    /* true si fue emitido en modo contingencia. */
-    @SerializedName("contingencyMode")
-    val contingencyMode: kotlin.Boolean? = null,
-
-    /* Mensaje oficial DGII cuando contingencyMode es true. */
-    @SerializedName("contingencyMessage")
-    val contingencyMessage: kotlin.String? = null,
-
-    /* URL del código QR del documento. */
+    /* URL de consulta del timbre en DGII. */
     @SerializedName("documentStampUrl")
     val documentStampUrl: java.net.URI? = null,
 
-    /* URL pre-firmada del PDF (expira en 1 hora). */
+    /* URL del PDF del documento. */
     @SerializedName("pdf")
     val pdf: java.net.URI? = null,
 
-    /* URL pre-firmada del XML firmado (expira en 1 hora). */
+    /* URL del XML firmado. */
     @SerializedName("xmlUrl")
     val xmlUrl: java.net.URI? = null,
 
     /* Fecha y hora de la firma digital. */
     @SerializedName("signatureDate")
-    val signatureDate: java.time.OffsetDateTime? = null,
+    val signatureDate: kotlin.String? = null,
 
-    /* Código de seguridad del documento. */
+    /* Código de seguridad de 6 caracteres. */
     @SerializedName("securityCode")
     val securityCode: kotlin.String? = null,
 
-    /* Respuesta completa de DGII (disponible cuando status es FINISHED). */
     @SerializedName("governmentResponse")
-    val governmentResponse: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null
+    val governmentResponse: EcfStatusResponseGovernmentResponse? = null
 
 ) {
 

@@ -115,10 +115,10 @@ async function example() {
     type: type_example,
     // 1 | 2 | 3 | 4 (optional)
     status: 56,
-    // Date (optional)
-    dateFrom: 2013-10-20,
-    // Date (optional)
-    dateTo: 2013-10-20,
+    // string | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+    dateFrom: dateFrom_example,
+    // string | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
+    dateTo: dateTo_example,
     // number (optional)
     page: 56,
     // number (optional)
@@ -146,8 +146,8 @@ example().catch(console.error);
 | **ecf** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **type** | `string` | Tipo de documento | [Optional] [Defaults to `undefined`] |
 | **status** | `1`, `2`, `3`, `4` |  | [Optional] [Defaults to `undefined`] [Enum: 1, 2, 3, 4] |
-| **dateFrom** | `Date` |  | [Optional] [Defaults to `undefined`] |
-| **dateTo** | `Date` |  | [Optional] [Defaults to `undefined`] |
+| **dateFrom** | `string` | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [Optional] [Defaults to `undefined`] |
+| **dateTo** | `string` | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [Optional] [Defaults to `undefined`] |
 | **page** | `number` |  | [Optional] [Defaults to `1`] |
 | **limit** | `number` |  | [Optional] [Defaults to `10`] |
 

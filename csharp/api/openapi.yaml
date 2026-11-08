@@ -128,7 +128,7 @@ paths:
     post:
       description: |
         Sube el certificado de firma digital emitido por DGII para una empresa.
-        Se almacena cifrado con AWS KMS (cifrado de sobre, AES-256-GCM). No existe endpoint de descarga.
+        Se almacena cifrado con AES-256-CBC. No existe endpoint de descarga.
         Tip Sandbox: Los RNC con prefijo SBX no requieren certificado.
       operationId: uploadCertificate
       parameters:
@@ -695,6 +695,41 @@ paths:
                   paymentForms:
                   - method: "7"
                     amount: 11800.0
+              tipo34_nota_credito_consumo:
+                description: "Reembolso o anulación de factura de consumo sin RNC\
+                  \ del cliente (< RD$ 250,000). Solo requiere buyer.name (\"CONSUMIDOR\
+                  \ FINAL\")."
+                summary: Tipo 34 — Nota de Crédito sobre Consumo (E32)
+                value:
+                  invoiceType: "34"
+                  issueDate: 2026-11-02
+                  paymentType: "1"
+                  incomeType: "01"
+                  creditNoteIndicator: "0"
+                  issuerRNC: "133190907"
+                  issuerBusinessName: Mi Empresa SRL
+                  issuerAddress: "Av. Winston Churchill 1099, Santo Domingo"
+                  referenceInfo:
+                    modifiedInvoiceNumber: E320000000001
+                    modificationCode: "1"
+                    modificationReason: Devolución de mercancía por cliente
+                  buyer:
+                    name: CONSUMIDOR FINAL
+                  items:
+                  - name: Producto Devuelto
+                    quantity: 1
+                    unitPrice: "500.00"
+                    unitOfMeasure: 1
+                    type: "1"
+                    billingIndicator: "1"
+                  totals:
+                    taxableAmount: 423.73
+                    exemptAmount: 0
+                    totalITBIS: 76.27
+                    totalAmount: 500.0
+                  paymentForms:
+                  - method: "1"
+                    amount: 500.0
               tipo41_compras:
                 description: Registro de compras a proveedores. Requiere retención
                   de ITBIS e ISR según tipo de ítem.
@@ -1143,20 +1178,20 @@ paths:
           - ERROR
           type: string
         style: form
-      - explode: true
+      - description: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        explode: true
         in: query
         name: dateFrom
         required: false
         schema:
-          format: date
           type: string
         style: form
-      - explode: true
+      - description: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        explode: true
         in: query
         name: dateTo
         required: false
         schema:
-          format: date
           type: string
         style: form
       - explode: true
@@ -1589,20 +1624,20 @@ paths:
         schema:
           type: boolean
         style: form
-      - explode: true
+      - description: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        explode: true
         in: query
         name: dateFrom
         required: false
         schema:
-          format: date
           type: string
         style: form
-      - explode: true
+      - description: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        explode: true
         in: query
         name: dateTo
         required: false
         schema:
-          format: date
           type: string
         style: form
       - explode: true
@@ -1778,6 +1813,73 @@ paths:
       summary: Obtener documento recibido por ID
       tags:
       - Documents Received
+  /documents/received/{id}/commercial-approval:
+    post:
+      description: |
+        Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte.
+        La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento.
+      operationId: decideCommercialApproval
+      parameters:
+      - description: |
+          UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa
+          en nombre de una sucursal. Omitir cuando se actúa como empresa principal.
+        explode: false
+        in: header
+        name: x-tenant-id
+        required: false
+        schema:
+          example: 468a4aa1-1b80-447e-9ecb-400e39f7d798
+          format: uuid
+          type: string
+        style: simple
+      - description: ID del documento recibido (TaxDocumentReceived.id)
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DecideCommercialApprovalRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecideCommercialApprovalResponse"
+          description: Decisión registrada y encolada para envío
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Error de validación (400). Revisa el campo message para más
+            detalles.
+        "401":
+          content:
+            application/json:
+              example:
+                statusCode: 401
+                message: Invalid client credentials
+                error: Unauthorized
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: "Token ausente, expirado o inválido. Llama a POST /oauth/token\
+            \ para renovarlo."
+        "404":
+          description: Documento recibido no encontrado
+      security:
+      - oauth2:
+        - approvals:commercial
+      summary: Aprobar o rechazar comercialmente un documento recibido
+      tags:
+      - Documents Received
   /documents/approvals:
     get:
       operationId: listCommercialApprovals
@@ -1822,20 +1924,20 @@ paths:
           - 4
           type: integer
         style: form
-      - explode: true
+      - description: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        explode: true
         in: query
         name: dateFrom
         required: false
         schema:
-          format: date
           type: string
         style: form
-      - explode: true
+      - description: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        explode: true
         in: query
         name: dateTo
         required: false
         schema:
-          format: date
           type: string
         style: form
       - explode: true
@@ -2698,8 +2800,7 @@ components:
       description: Rate limit exceeded. Retry after indicated seconds.
   schemas:
     Environment:
-      description: "TesteCF=DGII test environment (no fiscal validity), CerteCF=DGII\
-        \ certification, eCF=production"
+      description: "TesteCF=testing no DGII, CerteCF=official certification, eCF=production"
       enum:
       - TesteCF
       - CerteCF
@@ -2835,7 +2936,7 @@ components:
       - clientSecret
       type: object
     OAuthTokenResponse:
-      description: Bearer token valid for 24 hours (86400 seconds).
+      description: Token de acceso Bearer válido por 24 horas (86400 segundos).
       example:
         expiresIn: 86400
         scope:
@@ -2851,7 +2952,7 @@ components:
           example: Bearer
           type: string
         expiresIn:
-          description: Token lifetime in seconds (24 hours = 86400).
+          description: Duración del token en segundos (24 horas = 86400).
           example: 86400
           type: integer
         scope:
@@ -3422,7 +3523,7 @@ components:
           example: E310000000001
           type: string
         groupId:
-          description: Optional Group ID for batch processing
+          description: ID de grupo opcional para procesamiento en lote.
           type: string
         issueDate:
           example: 2025-01-15T10:30:00Z
@@ -3432,7 +3533,8 @@ components:
           format: date-time
           type: string
         creditNoteIndicator:
-          description: "Credit Notes only: 0=affected invoice <=30 days, 1=>30 days"
+          description: "Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30\
+            \ días"
           enum:
           - "0"
           - "1"
@@ -3447,8 +3549,8 @@ components:
           - "1"
           type: string
         incomeType:
-          description: "01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing,\
-            \ 05=Assets, 06=Other"
+          description: "01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing,\
+            \ 05=Activos, 06=Otro"
           enum:
           - "01"
           - "02"
@@ -3458,7 +3560,7 @@ components:
           - "06"
           type: string
         paymentType:
-          description: "1=Cash, 2=Credit, 3=Mixed"
+          description: "1=Contado, 2=Crédito, 3=Mixto"
           enum:
           - "1"
           - "2"
@@ -3471,8 +3573,7 @@ components:
           maxLength: 15
           type: string
         paymentForms:
-          description: "Payment breakdown. Optional; if omitted, the XML is sent without\
-            \ the payment table."
+          description: Payment breakdown. Required.
           example:
           - method: "1"
             amount: 11800.0
@@ -3496,7 +3597,7 @@ components:
         totalPages:
           type: integer
         issuerRNC:
-          description: RNC of the issuing company.
+          description: RNC de la empresa emisora.
           type: string
         issuerBusinessName:
           maxLength: 150
@@ -3578,6 +3679,8 @@ components:
       - invoiceType
       - issueDate
       - items
+      - paymentForms
+      - totals
       type: object
     Buyer:
       example:
@@ -3600,9 +3703,9 @@ components:
         internalCode: internalCode
       properties:
         taxId:
-          description: "RNC (9 digits) or cedula (11 digits). Required for type 31,\
-            \ 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer\
-            \ invoice E32 < 250k)."
+          description: "RNC (9 dígitos) o cédula (11 dígitos). Requerido para tipo\
+            \ 31 y tipo 34 que modifique crédito fiscal. Opcional para tipo 32 y tipo\
+            \ 34 que modifique factura de consumo (< RD$ 250,000)."
           example: "131415678"
           type: string
         foreignId:
@@ -3727,7 +3830,7 @@ components:
           maxLength: 1000
           type: string
         type:
-          description: "1=Good, 2=Service"
+          description: "1=Bien, 2=Servicio"
           enum:
           - "1"
           - "2"
@@ -3900,20 +4003,16 @@ components:
     EcfSubmitResponse:
       description: |
         Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente.
-        `status` siempre es `REGISTERED`. `legalStatus` y `trackId` siempre son `null` en este momento
-        — se populan una vez que la DGII procesa el documento. Usa `GET /ecf/status/{id}` o
-        escucha el webhook `document.status_changed` para obtener el resultado fiscal final.
+        `status` siempre es `REGISTERED`. Usa `GET /ecf/status/{id}` o escucha el webhook
+        `document.status_changed` para obtener el resultado fiscal final de DGII.
       example:
         id: 550e8400-e29b-41d4-a716-446655440000
         stampDate: 2025-06-04
         status: REGISTERED
-        legalStatus: null
         companyIdentification: "133190907"
-        trackId: null
-        documentNumber: null
         encf: E310000000001
         contingencyMode: false
-        documentStampUrl: null
+        documentStampUrl: https://ecf.dgii.gov.do/testecf/consultatimbre?rncemisor=09200104678&encf=E310000120016&fechaemision=2026-04-14T19%3A14%3A56.826Z&montototal=1500&fechafirma=14-04-2026%2003%3A14%3A57&codigoseguridad=cUQnoR
         pdf: https://storage.ecf.pronesoft.com/133190907/E310000000001.pdf?token=...
         xmlUrl: https://storage.ecf.pronesoft.com/133190907/E310000000001.xml?token=...
         signatureDate: 2025-06-04T14:30:00.000Z
@@ -3935,43 +4034,18 @@ components:
           enum:
           - REGISTERED
           type: string
-        legalStatus:
-          description: Siempre `null` al enviar. Se actualiza tras la respuesta de
-            DGII.
-          enum:
-          - ACCEPTED
-          - ACCEPTED_WITH_OBSERVATIONS
-          - REJECTED
-          - ERROR
-          - null
-          nullable: true
-          type: string
         companyIdentification:
           $ref: "#/components/schemas/EcfSubmitResponse_companyIdentification"
-        trackId:
-          description: Siempre `null` al enviar. Lo asigna DGII al procesar el documento.
-          nullable: true
-          type: string
-        documentNumber:
-          description: Número de control electrónico (e-NCF). Igual a `encf`.
-          nullable: true
-          type: string
         encf:
           description: Número e-NCF asignado al documento (ej. E310000000001).
-          nullable: true
           type: string
         contingencyMode:
           description: '`true` si el documento fue emitido en modo contingencia (DGII
             no disponible).'
           type: boolean
-        contingencyMessage:
-          description: Mensaje oficial DGII cuando `contingencyMode` es `true`.
-          nullable: true
-          type: string
         documentStampUrl:
-          description: URL del código QR del documento.
+          description: URL de consulta del timbre en DGII.
           format: uri
-          nullable: true
           type: string
         pdf:
           description: URL pre-firmada del PDF (expira en 1 hora).
@@ -3985,19 +4059,17 @@ components:
           type: string
         signatureDate:
           description: Fecha y hora de la firma digital.
-          format: date-time
-          nullable: true
           type: string
         securityCode:
-          description: Código de seguridad del documento.
-          nullable: true
+          description: Código de seguridad de 6 caracteres del documento.
           type: string
         sequenceConsumed:
-          description: Siempre `false` en el submit. Se confirma como `true` solo
-            tras respuesta de DGII.
+          description: '`false` en el submit. Se confirma como `true` solo tras respuesta
+            de DGII.'
           type: boolean
       required:
       - companyIdentification
+      - encf
       - id
       - sequenceConsumed
       - status
@@ -4006,24 +4078,24 @@ components:
       description: "Respuesta del endpoint GET /ecf/status/{id}. Incluye el estado\
         \ fiscal completo de DGII."
       example:
-        encf: encf
-        contingencyMessage: contingencyMessage
-        contingencyMode: true
-        documentStampUrl: https://openapi-generator.tech
-        governmentResponse:
-          key: ""
-        trackId: trackId
-        documentNumber: documentNumber
+        id: 30c7a2fe-9cc4-4048-bc62-bd2f4a546e55
+        stampDate: 2026-04-14
+        status: FINISHED
         legalStatus: ACCEPTED
-        securityCode: securityCode
+        companyIdentification: 9200104678
+        trackId: 37182af0-6951-462f-85fc-efc7143afb3c
+        encf: E310000120016
+        documentStampUrl: https://ecf.dgii.gov.do/testecf/consultatimbre?rncemisor=09200104678&encf=E310000120016&fechaemision=2026-04-14T19%3A14%3A56.826Z&montototal=1500&fechafirma=14-04-2026%2003%3A14%3A57&codigoseguridad=cUQnoR
+        pdf: https://ecf.sandbox.pronesoft.com/api/ecf/view-pdf?type=2&id=30c7a2fe-9cc4-4048-bc62-bd2f4a546e55
+        xmlUrl: https://ecf.sandbox.pronesoft.com/api/ecf/view-xml?id=30c7a2fe-9cc4-4048-bc62-bd2f4a546e55&inline=true
+        signatureDate: 14-04-2026 03:14:57
+        securityCode: cUQnoR
         sequenceConsumed: true
-        xmlUrl: https://openapi-generator.tech
-        pdf: https://openapi-generator.tech
-        signatureDate: 2000-01-23T04:56:07.000+00:00
-        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        stampDate: 2000-01-23
-        companyIdentification: EcfSubmitResponse_companyIdentification
-        status: REGISTERED
+        governmentResponse:
+          code: 1
+          value:
+          - valor: ""
+            codigo: 0
       properties:
         id:
           description: ID interno del documento.
@@ -4056,54 +4128,41 @@ components:
         companyIdentification:
           $ref: "#/components/schemas/EcfSubmitResponse_companyIdentification"
         trackId:
-          description: ID de seguimiento asignado por DGII.
-          nullable: true
-          type: string
-        documentNumber:
-          description: Número de control electrónico (e-NCF).
+          description: ID de seguimiento asignado por DGII. null mientras procesa.
           nullable: true
           type: string
         encf:
           description: Número e-NCF del documento.
           nullable: true
           type: string
-        contingencyMode:
-          description: true si fue emitido en modo contingencia.
-          type: boolean
-        contingencyMessage:
-          description: Mensaje oficial DGII cuando contingencyMode es true.
-          type: string
         documentStampUrl:
-          description: URL del código QR del documento.
+          description: URL de consulta del timbre en DGII.
           format: uri
           nullable: true
           type: string
         pdf:
-          description: URL pre-firmada del PDF (expira en 1 hora).
+          description: URL del PDF del documento.
           format: uri
           nullable: true
           type: string
         xmlUrl:
-          description: URL pre-firmada del XML firmado (expira en 1 hora).
+          description: URL del XML firmado.
           format: uri
           nullable: true
           type: string
         signatureDate:
           description: Fecha y hora de la firma digital.
-          format: date-time
           nullable: true
           type: string
         securityCode:
-          description: Código de seguridad del documento.
+          description: Código de seguridad de 6 caracteres.
           nullable: true
           type: string
         sequenceConsumed:
-          description: true si DGII confirmó el consumo de la secuencia.
+          description: true cuando DGII confirmó el uso de la secuencia.
           type: boolean
         governmentResponse:
-          additionalProperties: true
-          description: Respuesta completa de DGII (disponible cuando status es FINISHED).
-          type: object
+          $ref: "#/components/schemas/EcfStatusResponse_governmentResponse"
       required:
       - companyIdentification
       - id
@@ -4311,9 +4370,7 @@ components:
         environment:
           $ref: "#/components/schemas/Environment"
       required:
-      - environment
       - from
-      - quantity
       - to
       - type
       type: object
@@ -4609,7 +4666,7 @@ components:
           example: 15000.5
           type: number
         status:
-          description: "1=Valid, 2=Voided, 3=Pending"
+          description: "1=Válido, 2=Anulado, 3=Pendiente"
           enum:
           - 1
           - 2
@@ -4743,7 +4800,7 @@ components:
           example: APPROVED
           type: string
         status:
-          description: "1=Approved, 2=Rejected, 3=Pending, 4=Under Review"
+          description: "1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión"
           enum:
           - 1
           - 2
@@ -5048,26 +5105,26 @@ components:
       type: object
     DocumentStatusChangedPayload:
       description: |
-        Payload inside `data` when event is `document.status_changed`.
-        Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed.
-        `issuerRnc` identifies the company that issued the document
-        (useful in multi-company setups where an associated company sent it).
+        Contenido del campo `data` cuando el evento es `document.status_changed`.
+        Usa `documentId` para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas.
+        `issuerRnc` identifica la empresa que emitió el documento
+        (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió).
       properties:
         documentId:
-          description: Internal document ID for polling.
+          description: ID interno del documento para hacer polling.
           example: 550e8400-e29b-41d4-a716-446655440000
           format: uuid
           type: string
         encf:
-          description: e-NCF fiscal number.
+          description: Número fiscal e-NCF.
           example: E31000000001
           type: string
         issuerRnc:
-          description: RNC of the issuing company (associated or main).
+          description: RNC de la empresa emisora (asociada o principal).
           example: "133190907"
           type: string
         status:
-          description: Public lifecycle status.
+          description: Estado del ciclo de vida del documento.
           enum:
           - REGISTERED
           - TO_SEND
@@ -5075,7 +5132,7 @@ components:
           - FINISHED
           type: string
         legalStatus:
-          description: Fiscal result from DGII. Only present when status=FINISHED.
+          description: Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
           enum:
           - ACCEPTED
           - ACCEPTED_WITH_OBSERVATIONS
@@ -5085,16 +5142,17 @@ components:
           nullable: true
           type: string
         documentType:
-          description: "Tipo de documento code (31=Invoice, 32=Credit Note, etc.)"
+          description: "Código del tipo de documento (31=Factura, 32=Nota de Crédito,\
+            \ etc.)"
           example: "31"
           nullable: true
           type: string
         trackId:
-          description: DGII tracking ID.
+          description: ID de seguimiento asignado por la DGII.
           nullable: true
           type: string
         dgiiMessage:
-          description: Human-readable DGII response message.
+          description: Mensaje legible de respuesta de la DGII.
           nullable: true
           type: string
       required:
@@ -5154,6 +5212,47 @@ components:
       - status
       - totalAmount
       type: object
+    DecideCommercialApprovalRequest:
+      example:
+        decision: APPROVED
+        rejectionDescription: Mercancía no coincide con la orden de compra
+      properties:
+        decision:
+          description: "Decisión comercial sobre el comprobante: APPROVED (Aprobado)\
+            \ o REJECTED (Rechazado)."
+          enum:
+          - APPROVED
+          - REJECTED
+          example: APPROVED
+          type: string
+        rejectionDescription:
+          description: Motivo del rechazo. Requerido cuando decision es REJECTED.
+          example: Mercancía no coincide con la orden de compra
+          maxLength: 250
+          type: string
+      required:
+      - decision
+      type: object
+    DecideCommercialApprovalResponse:
+      example:
+        approvalStatus: APPROVED
+        id: 8a1c2e40-1234-4abc-9def-556677889900
+        message: Aprobación comercial registrada y encolada para envío.
+      properties:
+        id:
+          description: ID de la aprobación comercial generada
+          example: 8a1c2e40-1234-4abc-9def-556677889900
+          format: uuid
+          type: string
+        approvalStatus:
+          description: Estado de la aprobación
+          example: APPROVED
+          type: string
+        message:
+          description: Mensaje de confirmación
+          example: Aprobación comercial registrada y encolada para envío.
+          type: string
+      type: object
     CommercialApprovalPayload:
       description: Payload del evento `commercial.approval`. Se dispara cuando una
         aprobación comercial es actualizada.
@@ -5205,20 +5304,45 @@ components:
       description: Payload del evento `document.validation_error`. El documento fue
         rechazado por validación local antes de enviarse a la DGII.
       properties:
+        documentId:
+          description: ID interno del documento en Pronesoft.
+          example: 550e8400-e29b-41d4-a716-446655440000
+          format: uuid
+          type: string
         encf:
+          description: Número e-NCF del documento (si llegó a asignarse antes del
+            fallo de validación).
           example: E31000000001
+          nullable: true
+          type: string
+        issuerRnc:
+          description: RNC de la empresa emisora del documento.
+          example: "133190907"
+          type: string
+        documentType:
+          description: "Tipo de comprobante (31, 32, 33, 34, etc.)."
+          example: "31"
+          nullable: true
           type: string
         errorCode:
-          description: Código de error de validación.
+          description: Código del error de validación.
           example: SCHEMA_VALIDATION_FAILED
           type: string
         message:
-          description: Descripción del error.
+          description: Descripción detallada del error de validación.
           example: El campo FechaVencimientoSecuencia es requerido
           type: string
+        error:
+          description: Mensaje de error (alias legado).
+          example: El campo FechaVencimientoSecuencia es requerido
+          type: string
+        code:
+          description: Código de error (alias legado).
+          example: SCHEMA_VALIDATION_FAILED
       required:
-      - encf
+      - documentId
       - errorCode
+      - issuerRnc
       - message
       type: object
     ContingencyActivatedPayload:
@@ -5916,7 +6040,7 @@ components:
       - exchangeRate
       type: object
     ReferenceInfo:
-      description: Reference to previously issued document (for credit/debit notes).
+      description: Referencia al documento previamente emitido (para notas de crédito/débito).
       example:
         modifiedInvoiceDate: 2000-01-23T04:56:07.000+00:00
         modificationReason: modificationReason
@@ -5933,7 +6057,7 @@ components:
           format: date-time
           type: string
         modificationCode:
-          description: "1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other"
+          description: "1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro"
           enum:
           - "1"
           - "2"
@@ -5955,7 +6079,7 @@ components:
         alternativeCurrencyAmount: 6.84685269835264
       properties:
         code:
-          description: "DGII tax code (e.g. ISC, IECS)"
+          description: "Código de impuesto DGII (ej. ISC, IECS)"
           type: string
         amount:
           $ref: "#/components/schemas/Item_withheldITBISAmount"
@@ -6518,6 +6642,25 @@ components:
       oneOf:
       - type: string
       - type: integer
+    EcfStatusResponse_governmentResponse_value_inner:
+      properties:
+        valor:
+          type: string
+        codigo:
+          type: integer
+      type: object
+    EcfStatusResponse_governmentResponse:
+      description: Respuesta estructurada de DGII (disponible cuando status es FINISHED).
+      nullable: true
+      properties:
+        code:
+          description: Código de respuesta de DGII.
+          type: integer
+        value:
+          items:
+            $ref: "#/components/schemas/EcfStatusResponse_governmentResponse_value_inner"
+          type: array
+      type: object
     SentDocumentSummary_business:
       example:
         rnc: rnc
@@ -6736,6 +6879,6 @@ components:
             certification:read: Ver progreso de certificación DGII.
             certification:write: Ejecutar pruebas de certificación automática DGII.
             reports:read: Generar y exportar reportes (ej. formato 606).
-          tokenUrl: /api/v1/oauth/token
+          tokenUrl: /oauth/token
       type: oauth2
 

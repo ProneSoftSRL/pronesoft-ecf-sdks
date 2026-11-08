@@ -35,7 +35,7 @@ import com.google.gson.annotations.SerializedName
  * @param senderRnc 
  * @param receiverRnc 
  * @param totalAmount 
- * @param status 1=Valid, 2=Voided, 3=Pending
+ * @param status 1=Válido, 2=Anulado, 3=Pendiente
  * @param statusLabel 
  * @param issueDate 
  * @param receivedAt 
@@ -63,7 +63,7 @@ data class ReceivedDocument (
     @SerializedName("totalAmount")
     val totalAmount: java.math.BigDecimal? = null,
 
-    /* 1=Valid, 2=Voided, 3=Pending */
+    /* 1=Válido, 2=Anulado, 3=Pendiente */
     @SerializedName("status")
     val status: ReceivedDocument.Status? = null,
 
@@ -91,7 +91,7 @@ data class ReceivedDocument (
 ) {
 
     /**
-     * 1=Valid, 2=Voided, 3=Pending
+     * 1=Válido, 2=Anulado, 3=Pendiente
      *
      * Values: _1,_2,_3
      */

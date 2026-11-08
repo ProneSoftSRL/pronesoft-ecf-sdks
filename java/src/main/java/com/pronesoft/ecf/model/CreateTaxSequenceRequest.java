@@ -51,7 +51,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * CreateTaxSequenceRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class CreateTaxSequenceRequest {
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
@@ -70,7 +70,7 @@ public class CreateTaxSequenceRequest {
 
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
   @SerializedName(SERIALIZED_NAME_QUANTITY)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private Integer quantity;
 
   public static final String SERIALIZED_NAME_EXPIRATION = "expiration";
@@ -80,7 +80,7 @@ public class CreateTaxSequenceRequest {
 
   public static final String SERIALIZED_NAME_ENVIRONMENT = "environment";
   @SerializedName(SERIALIZED_NAME_ENVIRONMENT)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private Environment environment;
 
   public CreateTaxSequenceRequest() {
@@ -143,7 +143,7 @@ public class CreateTaxSequenceRequest {
   }
 
 
-  public CreateTaxSequenceRequest quantity(@javax.annotation.Nonnull Integer quantity) {
+  public CreateTaxSequenceRequest quantity(@javax.annotation.Nullable Integer quantity) {
     this.quantity = quantity;
     return this;
   }
@@ -152,12 +152,12 @@ public class CreateTaxSequenceRequest {
    * Get quantity
    * @return quantity
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Integer getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(@javax.annotation.Nonnull Integer quantity) {
+  public void setQuantity(@javax.annotation.Nullable Integer quantity) {
     this.quantity = quantity;
   }
 
@@ -181,7 +181,7 @@ public class CreateTaxSequenceRequest {
   }
 
 
-  public CreateTaxSequenceRequest environment(@javax.annotation.Nonnull Environment environment) {
+  public CreateTaxSequenceRequest environment(@javax.annotation.Nullable Environment environment) {
     this.environment = environment;
     return this;
   }
@@ -190,12 +190,12 @@ public class CreateTaxSequenceRequest {
    * Get environment
    * @return environment
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public Environment getEnvironment() {
     return environment;
   }
 
-  public void setEnvironment(@javax.annotation.Nonnull Environment environment) {
+  public void setEnvironment(@javax.annotation.Nullable Environment environment) {
     this.environment = environment;
   }
 
@@ -300,7 +300,7 @@ public class CreateTaxSequenceRequest {
     openapiFields = new HashSet<String>(Arrays.asList("type", "from", "to", "quantity", "expiration", "environment"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("type", "from", "to", "quantity", "environment"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("type", "from", "to"));
   }
 
   /**
@@ -325,8 +325,10 @@ public class CreateTaxSequenceRequest {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the required field `type`
       InvoiceTypeSequence.validateJsonElement(jsonObj.get("type"));
-      // validate the required field `environment`
-      Environment.validateJsonElement(jsonObj.get("environment"));
+      // validate the optional field `environment`
+      if (jsonObj.get("environment") != null && !jsonObj.get("environment").isJsonNull()) {
+        Environment.validateJsonElement(jsonObj.get("environment"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

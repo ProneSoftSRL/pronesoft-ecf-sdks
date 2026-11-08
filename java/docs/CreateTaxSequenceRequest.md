@@ -10,9 +10,9 @@
 |**type** | **InvoiceTypeSequence** |  |  |
 |**from** | **Integer** |  |  |
 |**to** | **Integer** |  |  |
-|**quantity** | **Integer** |  |  |
+|**quantity** | **Integer** |  |  [optional] |
 |**expiration** | **LocalDate** |  |  [optional] |
-|**environment** | **Environment** |  |  |
+|**environment** | **Environment** |  |  [optional] |
 
 
 

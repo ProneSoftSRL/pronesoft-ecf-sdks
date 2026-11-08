@@ -38,8 +38,8 @@ export interface ListCommercialApprovalsRequest {
     ecf?: string;
     type?: string;
     status?: ListCommercialApprovalsStatusEnum;
-    dateFrom?: Date;
-    dateTo?: Date;
+    dateFrom?: string;
+    dateTo?: string;
     page?: number;
     limit?: number;
 }
@@ -82,8 +82,8 @@ export interface CommercialApprovalsApiInterface {
      * @param {string} [ecf] 
      * @param {string} [type] Tipo de documento
      * @param {1 | 2 | 3 | 4} [status] 
-     * @param {Date} [dateFrom] 
-     * @param {Date} [dateTo] 
+     * @param {string} [dateFrom] Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+     * @param {string} [dateTo] Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
      * @param {number} [page] 
      * @param {number} [limit] 
      * @throws {RequiredError}
@@ -98,8 +98,8 @@ export interface CommercialApprovalsApiInterface {
      * @param {string} [ecf] 
      * @param {string} [type] Tipo de documento
      * @param {1 | 2 | 3 | 4} [status] 
-     * @param {Date} [dateFrom] 
-     * @param {Date} [dateTo] 
+     * @param {string} [dateFrom] Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+     * @param {string} [dateTo] Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
      * @param {number} [page] 
      * @param {number} [limit] 
      * @param {*} [options] Override http request option.
@@ -193,11 +193,11 @@ export class CommercialApprovalsApi extends runtime.BaseAPI implements Commercia
         }
 
         if (requestParameters['dateFrom'] != null) {
-            queryParameters['dateFrom'] = (requestParameters['dateFrom'] as any).toISOString().substring(0,10);
+            queryParameters['dateFrom'] = requestParameters['dateFrom'];
         }
 
         if (requestParameters['dateTo'] != null) {
-            queryParameters['dateTo'] = (requestParameters['dateTo'] as any).toISOString().substring(0,10);
+            queryParameters['dateTo'] = requestParameters['dateTo'];
         }
 
         if (requestParameters['page'] != null) {

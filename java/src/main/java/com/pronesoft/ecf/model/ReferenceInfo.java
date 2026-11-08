@@ -47,9 +47,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Reference to previously issued document (for credit/debit notes).
+ * Referencia al documento previamente emitido (para notas de crédito/débito).
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ReferenceInfo {
   public static final String SERIALIZED_NAME_MODIFIED_INVOICE_NUMBER = "modifiedInvoiceNumber";
   @SerializedName(SERIALIZED_NAME_MODIFIED_INVOICE_NUMBER)
@@ -67,7 +67,7 @@ public class ReferenceInfo {
   private OffsetDateTime modifiedInvoiceDate;
 
   /**
-   * 1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other
+   * 1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro
    */
   @JsonAdapter(ModificationCodeEnum.Adapter.class)
   public enum ModificationCodeEnum {
@@ -200,7 +200,7 @@ public class ReferenceInfo {
   }
 
   /**
-   * 1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other
+   * 1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro
    * @return modificationCode
    */
   @javax.annotation.Nonnull

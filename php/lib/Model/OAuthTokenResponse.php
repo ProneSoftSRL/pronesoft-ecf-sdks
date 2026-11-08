@@ -36,7 +36,7 @@ use \PronesoftEcf\ObjectSerializer;
  * OAuthTokenResponse Class Doc Comment
  *
  * @category Class
- * @description Bearer token valid for 24 hours (86400 seconds).
+ * @description Token de acceso Bearer válido por 24 horas (86400 segundos).
  * @package  PronesoftEcf
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -379,7 +379,7 @@ class OAuthTokenResponse implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets expires_in
      *
-     * @param int|null $expires_in Token lifetime in seconds (24 hours = 86400).
+     * @param int|null $expires_in Duración del token en segundos (24 horas = 86400).
      *
      * @return self
      */

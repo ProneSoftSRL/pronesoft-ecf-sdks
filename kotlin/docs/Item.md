@@ -5,7 +5,7 @@
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
 | **name** | **kotlin.String** |  |  |
-| **type** | [**inline**](#Type) | 1&#x3D;Good, 2&#x3D;Service |  |
+| **type** | [**inline**](#Type) | 1&#x3D;Bien, 2&#x3D;Servicio |  |
 | **billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  |  |
 | **quantity** | [**ItemQuantity**](ItemQuantity.md) |  |  |
 | **unitPrice** | [**ItemUnitPrice**](ItemUnitPrice.md) |  |  |

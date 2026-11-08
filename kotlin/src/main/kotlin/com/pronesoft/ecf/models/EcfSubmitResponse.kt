@@ -28,24 +28,20 @@ import com.pronesoft.ecf.models.EcfSubmitResponseCompanyIdentification
 import com.google.gson.annotations.SerializedName
 
 /**
- * Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. `status` siempre es `REGISTERED`. `legalStatus` y `trackId` siempre son `null` en este momento — se populan una vez que la DGII procesa el documento. Usa `GET /ecf/status/{id}` o escucha el webhook `document.status_changed` para obtener el resultado fiscal final. 
+ * Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. `status` siempre es `REGISTERED`. Usa `GET /ecf/status/{id}` o escucha el webhook `document.status_changed` para obtener el resultado fiscal final de DGII. 
  *
  * @param id ID interno del documento. Úsalo para `GET /ecf/status/{id}`.
  * @param status Siempre `REGISTERED` al enviar. El estado fiscal llega vía webhook o polling.
  * @param companyIdentification 
- * @param sequenceConsumed Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
- * @param stampDate Fecha de emisión del documento (YYYY-MM-DD).
- * @param legalStatus Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
- * @param trackId Siempre `null` al enviar. Lo asigna DGII al procesar el documento.
- * @param documentNumber Número de control electrónico (e-NCF). Igual a `encf`.
  * @param encf Número e-NCF asignado al documento (ej. E310000000001).
+ * @param sequenceConsumed `false` en el submit. Se confirma como `true` solo tras respuesta de DGII.
+ * @param stampDate Fecha de emisión del documento (YYYY-MM-DD).
  * @param contingencyMode `true` si el documento fue emitido en modo contingencia (DGII no disponible).
- * @param contingencyMessage Mensaje oficial DGII cuando `contingencyMode` es `true`.
- * @param documentStampUrl URL del código QR del documento.
+ * @param documentStampUrl URL de consulta del timbre en DGII.
  * @param pdf URL pre-firmada del PDF (expira en 1 hora).
  * @param xmlUrl URL pre-firmada del XML firmado (expira en 1 hora).
  * @param signatureDate Fecha y hora de la firma digital.
- * @param securityCode Código de seguridad del documento.
+ * @param securityCode Código de seguridad de 6 caracteres del documento.
  */
 
 
@@ -62,7 +58,11 @@ data class EcfSubmitResponse (
     @SerializedName("companyIdentification")
     val companyIdentification: EcfSubmitResponseCompanyIdentification,
 
-    /* Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII. */
+    /* Número e-NCF asignado al documento (ej. E310000000001). */
+    @SerializedName("encf")
+    val encf: kotlin.String,
+
+    /* `false` en el submit. Se confirma como `true` solo tras respuesta de DGII. */
     @SerializedName("sequenceConsumed")
     val sequenceConsumed: kotlin.Boolean,
 
@@ -70,31 +70,11 @@ data class EcfSubmitResponse (
     @SerializedName("stampDate")
     val stampDate: java.time.LocalDate? = null,
 
-    /* Siempre `null` al enviar. Se actualiza tras la respuesta de DGII. */
-    @SerializedName("legalStatus")
-    val legalStatus: EcfSubmitResponse.LegalStatus? = null,
-
-    /* Siempre `null` al enviar. Lo asigna DGII al procesar el documento. */
-    @SerializedName("trackId")
-    val trackId: kotlin.String? = null,
-
-    /* Número de control electrónico (e-NCF). Igual a `encf`. */
-    @SerializedName("documentNumber")
-    val documentNumber: kotlin.String? = null,
-
-    /* Número e-NCF asignado al documento (ej. E310000000001). */
-    @SerializedName("encf")
-    val encf: kotlin.String? = null,
-
     /* `true` si el documento fue emitido en modo contingencia (DGII no disponible). */
     @SerializedName("contingencyMode")
     val contingencyMode: kotlin.Boolean? = null,
 
-    /* Mensaje oficial DGII cuando `contingencyMode` es `true`. */
-    @SerializedName("contingencyMessage")
-    val contingencyMessage: kotlin.String? = null,
-
-    /* URL del código QR del documento. */
+    /* URL de consulta del timbre en DGII. */
     @SerializedName("documentStampUrl")
     val documentStampUrl: java.net.URI? = null,
 
@@ -108,9 +88,9 @@ data class EcfSubmitResponse (
 
     /* Fecha y hora de la firma digital. */
     @SerializedName("signatureDate")
-    val signatureDate: java.time.OffsetDateTime? = null,
+    val signatureDate: kotlin.String? = null,
 
-    /* Código de seguridad del documento. */
+    /* Código de seguridad de 6 caracteres del documento. */
     @SerializedName("securityCode")
     val securityCode: kotlin.String? = null
 
@@ -123,17 +103,6 @@ data class EcfSubmitResponse (
      */
     enum class Status(val value: kotlin.String) {
         @SerializedName(value = "REGISTERED") REGISTERED("REGISTERED");
-    }
-    /**
-     * Siempre `null` al enviar. Se actualiza tras la respuesta de DGII.
-     *
-     * Values: ACCEPTED,ACCEPTED_WITH_OBSERVATIONS,REJECTED,ERROR
-     */
-    enum class LegalStatus(val value: kotlin.String) {
-        @SerializedName(value = "ACCEPTED") ACCEPTED("ACCEPTED"),
-        @SerializedName(value = "ACCEPTED_WITH_OBSERVATIONS") ACCEPTED_WITH_OBSERVATIONS("ACCEPTED_WITH_OBSERVATIONS"),
-        @SerializedName(value = "REJECTED") REJECTED("REJECTED"),
-        @SerializedName(value = "ERROR") ERROR("ERROR");
     }
 
 }

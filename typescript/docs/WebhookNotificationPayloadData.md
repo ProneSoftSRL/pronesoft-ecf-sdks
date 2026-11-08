@@ -23,6 +23,8 @@ Name | Type
 `rejectionReason` | string
 `errorCode` | string
 `message` | string
+`error` | string
+`code` | any
 `reason` | string
 `retryAt` | Date
 `approvalStatus` | string
@@ -83,6 +85,8 @@ const example = {
   "rejectionReason": Error de Firma Digital,
   "errorCode": SCHEMA_VALIDATION_FAILED,
   "message": El campo FechaVencimientoSecuencia es requerido,
+  "error": El campo FechaVencimientoSecuencia es requerido,
+  "code": SCHEMA_VALIDATION_FAILED,
   "reason": Secuencias no utilizadas,
   "retryAt": 2025-01-15T13:00Z,
   "approvalStatus": approved,

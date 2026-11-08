@@ -28,29 +28,29 @@ type ElectronicDocument struct {
 	InvoiceType InvoiceType `json:"invoiceType"`
 	// Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`. 
 	InvoiceNumber *string `json:"invoiceNumber,omitempty"`
-	// Optional Group ID for batch processing
+	// ID de grupo opcional para procesamiento en lote.
 	GroupId *string `json:"groupId,omitempty"`
 	IssueDate time.Time `json:"issueDate"`
 	ExpirationDate *time.Time `json:"expirationDate,omitempty"`
-	// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+	// Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días
 	CreditNoteIndicator *string `json:"creditNoteIndicator,omitempty"`
 	DeferredSendingIndicator *string `json:"deferredSendingIndicator,omitempty"`
 	TaxedAmountIndicator *string `json:"taxedAmountIndicator,omitempty"`
-	// 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
+	// 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro
 	IncomeType *string `json:"incomeType,omitempty"`
-	// 1=Cash, 2=Credit, 3=Mixed
+	// 1=Contado, 2=Crédito, 3=Mixto
 	PaymentType *string `json:"paymentType,omitempty"`
 	PaymentDeadline *time.Time `json:"paymentDeadline,omitempty"`
 	PaymentTerms *string `json:"paymentTerms,omitempty"`
-	// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
-	PaymentForms []PaymentForm `json:"paymentForms,omitempty"`
+	// Payment breakdown. Required.
+	PaymentForms []PaymentForm `json:"paymentForms"`
 	PaymentAccountType *AccountType `json:"paymentAccountType,omitempty"`
 	PaymentAccountNumber *string `json:"paymentAccountNumber,omitempty"`
 	PaymentBank *string `json:"paymentBank,omitempty"`
 	ServiceStartDate *time.Time `json:"serviceStartDate,omitempty"`
 	ServiceEndDate *time.Time `json:"serviceEndDate,omitempty"`
 	TotalPages *int32 `json:"totalPages,omitempty"`
-	// RNC of the issuing company.
+	// RNC de la empresa emisora.
 	IssuerRNC *string `json:"issuerRNC,omitempty"`
 	IssuerBusinessName *string `json:"issuerBusinessName,omitempty"`
 	IssuerCommercialName *string `json:"issuerCommercialName,omitempty"`
@@ -70,7 +70,7 @@ type ElectronicDocument struct {
 	AdditionalIssuerInfo *string `json:"additionalIssuerInfo,omitempty"`
 	Buyer *Buyer `json:"buyer,omitempty"`
 	Items []Item `json:"items"`
-	Totals *Totals `json:"totals,omitempty"`
+	Totals Totals `json:"totals"`
 	Transport *Transport `json:"transport,omitempty"`
 	AdditionalInfo *AdditionalInfo `json:"additionalInfo,omitempty"`
 	AlternativeCurrency *AlternativeCurrency `json:"alternativeCurrency,omitempty"`
@@ -86,13 +86,15 @@ type _ElectronicDocument ElectronicDocument
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, items []Item) *ElectronicDocument {
+func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, paymentForms []PaymentForm, items []Item, totals Totals) *ElectronicDocument {
 	this := ElectronicDocument{}
 	var version string = "1.0"
 	this.Version = &version
 	this.InvoiceType = invoiceType
 	this.IssueDate = issueDate
+	this.PaymentForms = paymentForms
 	this.Items = items
+	this.Totals = totals
 	return &this
 }
 
@@ -506,34 +508,26 @@ func (o *ElectronicDocument) SetPaymentTerms(v string) {
 	o.PaymentTerms = &v
 }
 
-// GetPaymentForms returns the PaymentForms field value if set, zero value otherwise.
+// GetPaymentForms returns the PaymentForms field value
 func (o *ElectronicDocument) GetPaymentForms() []PaymentForm {
-	if o == nil || IsNil(o.PaymentForms) {
+	if o == nil {
 		var ret []PaymentForm
 		return ret
 	}
+
 	return o.PaymentForms
 }
 
-// GetPaymentFormsOk returns a tuple with the PaymentForms field value if set, nil otherwise
+// GetPaymentFormsOk returns a tuple with the PaymentForms field value
 // and a boolean to check if the value has been set.
 func (o *ElectronicDocument) GetPaymentFormsOk() ([]PaymentForm, bool) {
-	if o == nil || IsNil(o.PaymentForms) {
+	if o == nil {
 		return nil, false
 	}
 	return o.PaymentForms, true
 }
 
-// HasPaymentForms returns a boolean if a field has been set.
-func (o *ElectronicDocument) HasPaymentForms() bool {
-	if o != nil && !IsNil(o.PaymentForms) {
-		return true
-	}
-
-	return false
-}
-
-// SetPaymentForms gets a reference to the given []PaymentForm and assigns it to the PaymentForms field.
+// SetPaymentForms sets field value
 func (o *ElectronicDocument) SetPaymentForms(v []PaymentForm) {
 	o.PaymentForms = v
 }
@@ -1330,36 +1324,28 @@ func (o *ElectronicDocument) SetItems(v []Item) {
 	o.Items = v
 }
 
-// GetTotals returns the Totals field value if set, zero value otherwise.
+// GetTotals returns the Totals field value
 func (o *ElectronicDocument) GetTotals() Totals {
-	if o == nil || IsNil(o.Totals) {
+	if o == nil {
 		var ret Totals
 		return ret
 	}
-	return *o.Totals
+
+	return o.Totals
 }
 
-// GetTotalsOk returns a tuple with the Totals field value if set, nil otherwise
+// GetTotalsOk returns a tuple with the Totals field value
 // and a boolean to check if the value has been set.
 func (o *ElectronicDocument) GetTotalsOk() (*Totals, bool) {
-	if o == nil || IsNil(o.Totals) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Totals, true
+	return &o.Totals, true
 }
 
-// HasTotals returns a boolean if a field has been set.
-func (o *ElectronicDocument) HasTotals() bool {
-	if o != nil && !IsNil(o.Totals) {
-		return true
-	}
-
-	return false
-}
-
-// SetTotals gets a reference to the given Totals and assigns it to the Totals field.
+// SetTotals sets field value
 func (o *ElectronicDocument) SetTotals(v Totals) {
-	o.Totals = &v
+	o.Totals = v
 }
 
 // GetTransport returns the Transport field value if set, zero value otherwise.
@@ -1631,9 +1617,7 @@ func (o ElectronicDocument) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PaymentTerms) {
 		toSerialize["paymentTerms"] = o.PaymentTerms
 	}
-	if !IsNil(o.PaymentForms) {
-		toSerialize["paymentForms"] = o.PaymentForms
-	}
+	toSerialize["paymentForms"] = o.PaymentForms
 	if !IsNil(o.PaymentAccountType) {
 		toSerialize["paymentAccountType"] = o.PaymentAccountType
 	}
@@ -1707,9 +1691,7 @@ func (o ElectronicDocument) ToMap() (map[string]interface{}, error) {
 		toSerialize["buyer"] = o.Buyer
 	}
 	toSerialize["items"] = o.Items
-	if !IsNil(o.Totals) {
-		toSerialize["totals"] = o.Totals
-	}
+	toSerialize["totals"] = o.Totals
 	if !IsNil(o.Transport) {
 		toSerialize["transport"] = o.Transport
 	}
@@ -1741,7 +1723,9 @@ func (o *ElectronicDocument) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"invoiceType",
 		"issueDate",
+		"paymentForms",
 		"items",
+		"totals",
 	}
 
 	allProperties := make(map[string]interface{})

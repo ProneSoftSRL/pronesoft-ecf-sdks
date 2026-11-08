@@ -2,7 +2,7 @@
 
 eCF-Pronesoft Integration API
 - API version: 1.2.0
-  - Build date: 2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]
+  - Build date: 2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]
   - Generator version: 7.21.0
 
 ## Descripción general
@@ -182,6 +182,7 @@ Class | Method | HTTP request | Description
 *CommercialApprovalsApi* | [**getCommercialApprovalById**](docs/CommercialApprovalsApi.md#getCommercialApprovalById) | **GET** /documents/approvals/{id} | Obtener aprobación comercial por ID
 *CommercialApprovalsApi* | [**listCommercialApprovals**](docs/CommercialApprovalsApi.md#listCommercialApprovals) | **GET** /documents/approvals | Listar aprobaciones comerciales
 *DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadCertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
+*DocumentsReceivedApi* | [**decideCommercialApproval**](docs/DocumentsReceivedApi.md#decideCommercialApproval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
 *DocumentsReceivedApi* | [**getReceivedDocumentById**](docs/DocumentsReceivedApi.md#getReceivedDocumentById) | **GET** /documents/received/{id} | Obtener documento recibido por ID
 *DocumentsReceivedApi* | [**getReceivedDocumentStatsBySupplier**](docs/DocumentsReceivedApi.md#getReceivedDocumentStatsBySupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
 *DocumentsReceivedApi* | [**getReceivedDocumentStatsSummary**](docs/DocumentsReceivedApi.md#getReceivedDocumentStatsSummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos
@@ -244,6 +245,8 @@ Class | Method | HTTP request | Description
  - [CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
  - [CreateTaxSequence201Response](docs/CreateTaxSequence201Response.md)
  - [CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
+ - [DecideCommercialApprovalRequest](docs/DecideCommercialApprovalRequest.md)
+ - [DecideCommercialApprovalResponse](docs/DecideCommercialApprovalResponse.md)
  - [DeleteAssociatedCompany200Response](docs/DeleteAssociatedCompany200Response.md)
  - [DgiiMessage](docs/DgiiMessage.md)
  - [DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
@@ -256,6 +259,8 @@ Class | Method | HTTP request | Description
  - [EcfHistoryItem](docs/EcfHistoryItem.md)
  - [EcfStatsResponse](docs/EcfStatsResponse.md)
  - [EcfStatusResponse](docs/EcfStatusResponse.md)
+ - [EcfStatusResponseGovernmentResponse](docs/EcfStatusResponseGovernmentResponse.md)
+ - [EcfStatusResponseGovernmentResponseValueInner](docs/EcfStatusResponseGovernmentResponseValueInner.md)
  - [EcfSubmitResponse](docs/EcfSubmitResponse.md)
  - [EcfSubmitResponseCompanyIdentification](docs/EcfSubmitResponseCompanyIdentification.md)
  - [ElectronicDocument](docs/ElectronicDocument.md)

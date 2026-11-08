@@ -65,7 +65,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del comprobante fiscal electrónico (e-CF).  **invoiceNumber**: opcional. Si tienes una secuencia registrada en la API, el sistema asigna el siguiente e-NCF automáticamente según el &#x60;invoiceType&#x60;. Usa &#x60;GET /tax-sequences/next?invoiceType&#x3D;31&#x60; solo si necesitas conocer el número antes de enviar.  **environment**: NO va en el body. Se especifica en el path del endpoint: &#x60;POST /{environment}/ecf/submit&#x60; (ej. &#x60;TesteCF&#x60; o &#x60;eCF&#x60;). 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class ElectronicDocument {
   public static final String SERIALIZED_NAME_VERSION = "version";
   @SerializedName(SERIALIZED_NAME_VERSION)
@@ -98,7 +98,7 @@ public class ElectronicDocument {
   private OffsetDateTime expirationDate;
 
   /**
-   * Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days
+   * Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días
    */
   @JsonAdapter(CreditNoteIndicatorEnum.Adapter.class)
   public enum CreditNoteIndicatorEnum {
@@ -267,7 +267,7 @@ public class ElectronicDocument {
   private TaxedAmountIndicatorEnum taxedAmountIndicator;
 
   /**
-   * 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other
+   * 01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro
    */
   @JsonAdapter(IncomeTypeEnum.Adapter.class)
   public enum IncomeTypeEnum {
@@ -332,7 +332,7 @@ public class ElectronicDocument {
   private IncomeTypeEnum incomeType;
 
   /**
-   * 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed
+   * 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto
    */
   @JsonAdapter(PaymentTypeEnum.Adapter.class)
   public enum PaymentTypeEnum {
@@ -402,7 +402,7 @@ public class ElectronicDocument {
 
   public static final String SERIALIZED_NAME_PAYMENT_FORMS = "paymentForms";
   @SerializedName(SERIALIZED_NAME_PAYMENT_FORMS)
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private List<PaymentForm> paymentForms = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_PAYMENT_ACCOUNT_TYPE = "paymentAccountType";
@@ -532,7 +532,7 @@ public class ElectronicDocument {
 
   public static final String SERIALIZED_NAME_TOTALS = "totals";
   @SerializedName(SERIALIZED_NAME_TOTALS)
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   private Totals totals;
 
   public static final String SERIALIZED_NAME_TRANSPORT = "transport";
@@ -636,7 +636,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Optional Group ID for batch processing
+   * ID de grupo opcional para procesamiento en lote.
    * @return groupId
    */
   @javax.annotation.Nullable
@@ -693,7 +693,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days
+   * Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días
    * @return creditNoteIndicator
    */
   @javax.annotation.Nullable
@@ -750,7 +750,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other
+   * 01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro
    * @return incomeType
    */
   @javax.annotation.Nullable
@@ -769,7 +769,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed
+   * 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto
    * @return paymentType
    */
   @javax.annotation.Nullable
@@ -820,7 +820,7 @@ public class ElectronicDocument {
   }
 
 
-  public ElectronicDocument paymentForms(@javax.annotation.Nullable List<PaymentForm> paymentForms) {
+  public ElectronicDocument paymentForms(@javax.annotation.Nonnull List<PaymentForm> paymentForms) {
     this.paymentForms = paymentForms;
     return this;
   }
@@ -834,15 +834,15 @@ public class ElectronicDocument {
   }
 
   /**
-   * Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
+   * Payment breakdown. Required.
    * @return paymentForms
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   public List<PaymentForm> getPaymentForms() {
     return paymentForms;
   }
 
-  public void setPaymentForms(@javax.annotation.Nullable List<PaymentForm> paymentForms) {
+  public void setPaymentForms(@javax.annotation.Nonnull List<PaymentForm> paymentForms) {
     this.paymentForms = paymentForms;
   }
 
@@ -967,7 +967,7 @@ public class ElectronicDocument {
   }
 
   /**
-   * RNC of the issuing company.
+   * RNC de la empresa emisora.
    * @return issuerRNC
    */
   @javax.annotation.Nullable
@@ -1338,7 +1338,7 @@ public class ElectronicDocument {
   }
 
 
-  public ElectronicDocument totals(@javax.annotation.Nullable Totals totals) {
+  public ElectronicDocument totals(@javax.annotation.Nonnull Totals totals) {
     this.totals = totals;
     return this;
   }
@@ -1347,12 +1347,12 @@ public class ElectronicDocument {
    * Get totals
    * @return totals
    */
-  @javax.annotation.Nullable
+  @javax.annotation.Nonnull
   public Totals getTotals() {
     return totals;
   }
 
-  public void setTotals(@javax.annotation.Nullable Totals totals) {
+  public void setTotals(@javax.annotation.Nonnull Totals totals) {
     this.totals = totals;
   }
 
@@ -1680,7 +1680,7 @@ public class ElectronicDocument {
     openapiFields = new HashSet<String>(Arrays.asList("version", "invoiceType", "invoiceNumber", "groupId", "issueDate", "expirationDate", "creditNoteIndicator", "deferredSendingIndicator", "taxedAmountIndicator", "incomeType", "paymentType", "paymentDeadline", "paymentTerms", "paymentForms", "paymentAccountType", "paymentAccountNumber", "paymentBank", "serviceStartDate", "serviceEndDate", "totalPages", "issuerRNC", "issuerBusinessName", "issuerCommercialName", "branchName", "issuerAddress", "municipalityCode", "provinceCode", "issuerPhones", "issuerEmail", "issuerWebsite", "issuerEconomicActivity", "sellerCode", "internalInvoiceNumber", "internalOrderNumber", "salesZone", "salesRoute", "additionalIssuerInfo", "buyer", "items", "totals", "transport", "additionalInfo", "alternativeCurrency", "referenceInfo", "subtotals", "discountsOrSurcharges", "pages"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("invoiceType", "issueDate", "items"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("invoiceType", "issueDate", "paymentForms", "items", "totals"));
   }
 
   /**
@@ -1752,18 +1752,14 @@ public class ElectronicDocument {
       if ((jsonObj.get("paymentTerms") != null && !jsonObj.get("paymentTerms").isJsonNull()) && !jsonObj.get("paymentTerms").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentTerms` to be a primitive type in the JSON string but got `%s`", jsonObj.get("paymentTerms").toString()));
       }
-      if (jsonObj.get("paymentForms") != null && !jsonObj.get("paymentForms").isJsonNull()) {
+      if (jsonObj.get("paymentForms") != null) {
+        if (!jsonObj.get("paymentForms").isJsonArray()) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentForms` to be an array in the JSON string but got `%s`", jsonObj.get("paymentForms").toString()));
+        }
         JsonArray jsonArraypaymentForms = jsonObj.getAsJsonArray("paymentForms");
-        if (jsonArraypaymentForms != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("paymentForms").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `paymentForms` to be an array in the JSON string but got `%s`", jsonObj.get("paymentForms").toString()));
-          }
-
-          // validate the optional field `paymentForms` (array)
-          for (int i = 0; i < jsonArraypaymentForms.size(); i++) {
-            PaymentForm.validateJsonElement(jsonArraypaymentForms.get(i));
-          };
+        // validate the required field `paymentForms` (array)
+        for (int i = 0; i < jsonArraypaymentForms.size(); i++) {
+          PaymentForm.validateJsonElement(jsonArraypaymentForms.get(i));
         }
       }
       // validate the optional field `paymentAccountType`
@@ -1839,10 +1835,8 @@ public class ElectronicDocument {
           Item.validateJsonElement(jsonArrayitems.get(i));
         }
       }
-      // validate the optional field `totals`
-      if (jsonObj.get("totals") != null && !jsonObj.get("totals").isJsonNull()) {
-        Totals.validateJsonElement(jsonObj.get("totals"));
-      }
+      // validate the required field `totals`
+      Totals.validateJsonElement(jsonObj.get("totals"));
       // validate the optional field `transport`
       if (jsonObj.get("transport") != null && !jsonObj.get("transport").isJsonNull()) {
         Transport.validateJsonElement(jsonObj.get("transport"));

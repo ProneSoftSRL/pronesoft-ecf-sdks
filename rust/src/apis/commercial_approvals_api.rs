@@ -76,7 +76,7 @@ pub async fn get_commercial_approval_by_id(configuration: &configuration::Config
     }
 }
 
-pub async fn list_commercial_approvals(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, ecf: Option<&str>, r#type: Option<&str>, status: Option<i32>, date_from: Option<String>, date_to: Option<String>, page: Option<i32>, limit: Option<i32>) -> Result<models::ApprovalListResponse, Error<ListCommercialApprovalsError>> {
+pub async fn list_commercial_approvals(configuration: &configuration::Configuration, x_tenant_id: Option<&str>, ecf: Option<&str>, r#type: Option<&str>, status: Option<i32>, date_from: Option<&str>, date_to: Option<&str>, page: Option<i32>, limit: Option<i32>) -> Result<models::ApprovalListResponse, Error<ListCommercialApprovalsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_header_x_tenant_id = x_tenant_id;
     let p_query_ecf = ecf;

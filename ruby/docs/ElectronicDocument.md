@@ -7,24 +7,24 @@
 | **version** | **String** | Siempre \&quot;1.0\&quot;. | [optional][default to &#39;1.0&#39;] |
 | **invoice_type** | [**InvoiceType**](InvoiceType.md) |  |  |
 | **invoice_number** | **String** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;.  | [optional] |
-| **group_id** | **String** | Optional Group ID for batch processing | [optional] |
+| **group_id** | **String** | ID de grupo opcional para procesamiento en lote. | [optional] |
 | **issue_date** | **Time** |  |  |
 | **expiration_date** | **Time** |  | [optional] |
-| **credit_note_indicator** | **String** | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days | [optional] |
+| **credit_note_indicator** | **String** | Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días | [optional] |
 | **deferred_sending_indicator** | **String** |  | [optional] |
 | **taxed_amount_indicator** | **String** |  | [optional] |
-| **income_type** | **String** | 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other | [optional] |
-| **payment_type** | **String** | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed | [optional] |
+| **income_type** | **String** | 01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro | [optional] |
+| **payment_type** | **String** | 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto | [optional] |
 | **payment_deadline** | **Time** |  | [optional] |
 | **payment_terms** | **String** |  | [optional] |
-| **payment_forms** | [**Array&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional] |
+| **payment_forms** | [**Array&lt;PaymentForm&gt;**](PaymentForm.md) | Payment breakdown. Required. |  |
 | **payment_account_type** | [**AccountType**](AccountType.md) |  | [optional] |
 | **payment_account_number** | **String** |  | [optional] |
 | **payment_bank** | **String** |  | [optional] |
 | **service_start_date** | **Time** |  | [optional] |
 | **service_end_date** | **Time** |  | [optional] |
 | **total_pages** | **Integer** |  | [optional] |
-| **issuer_rnc** | **String** | RNC of the issuing company. | [optional] |
+| **issuer_rnc** | **String** | RNC de la empresa emisora. | [optional] |
 | **issuer_business_name** | **String** |  | [optional] |
 | **issuer_commercial_name** | **String** |  | [optional] |
 | **branch_name** | **String** |  | [optional] |
@@ -43,7 +43,7 @@
 | **additional_issuer_info** | **String** |  | [optional] |
 | **buyer** | [**Buyer**](Buyer.md) |  | [optional] |
 | **items** | [**Array&lt;Item&gt;**](Item.md) |  |  |
-| **totals** | [**Totals**](Totals.md) |  | [optional] |
+| **totals** | [**Totals**](Totals.md) |  |  |
 | **transport** | [**Transport**](Transport.md) |  | [optional] |
 | **additional_info** | [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] |
 | **alternative_currency** | [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] |

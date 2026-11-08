@@ -18,31 +18,57 @@ extension PronesoftEcfAPI {
 /** Payload del evento &#x60;document.validation_error&#x60;. El documento fue rechazado por validación local antes de enviarse a la DGII. */
 public struct DocumentValidationErrorPayload: Codable, JSONEncodable, Hashable {
 
-    public var encf: String
-    /** Código de error de validación. */
+    /** ID interno del documento en Pronesoft. */
+    public var documentId: UUID
+    /** Número e-NCF del documento (si llegó a asignarse antes del fallo de validación). */
+    public var encf: String?
+    /** RNC de la empresa emisora del documento. */
+    public var issuerRnc: String
+    /** Tipo de comprobante (31, 32, 33, 34, etc.). */
+    public var documentType: String?
+    /** Código del error de validación. */
     public var errorCode: String
-    /** Descripción del error. */
+    /** Descripción detallada del error de validación. */
     public var message: String
+    /** Mensaje de error (alias legado). */
+    public var error: String?
+    /** Código de error (alias legado). */
+    public var code: AnyCodable?
 
-    public init(encf: String, errorCode: String, message: String) {
+    public init(documentId: UUID, encf: String? = nil, issuerRnc: String, documentType: String? = nil, errorCode: String, message: String, error: String? = nil, code: AnyCodable? = nil) {
+        self.documentId = documentId
         self.encf = encf
+        self.issuerRnc = issuerRnc
+        self.documentType = documentType
         self.errorCode = errorCode
         self.message = message
+        self.error = error
+        self.code = code
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case documentId
         case encf
+        case issuerRnc
+        case documentType
         case errorCode
         case message
+        case error
+        case code
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(encf, forKey: .encf)
+        try container.encode(documentId, forKey: .documentId)
+        try container.encodeIfPresent(encf, forKey: .encf)
+        try container.encode(issuerRnc, forKey: .issuerRnc)
+        try container.encodeIfPresent(documentType, forKey: .documentType)
         try container.encode(errorCode, forKey: .errorCode)
         try container.encode(message, forKey: .message)
+        try container.encodeIfPresent(error, forKey: .error)
+        try container.encodeIfPresent(code, forKey: .code)
     }
 }
 

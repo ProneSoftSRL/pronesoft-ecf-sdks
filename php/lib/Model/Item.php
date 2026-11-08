@@ -648,7 +648,7 @@ class Item implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets type
      *
-     * @param string $type 1=Good, 2=Service
+     * @param string $type 1=Bien, 2=Servicio
      *
      * @return self
      */

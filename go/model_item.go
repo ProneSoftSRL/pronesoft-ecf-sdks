@@ -27,7 +27,7 @@ type Item struct {
 	Codes []ItemCodesInner `json:"codes,omitempty"`
 	Name string `json:"name"`
 	Description *string `json:"description,omitempty"`
-	// 1=Good, 2=Service
+	// 1=Bien, 2=Servicio
 	Type string `json:"type"`
 	BillingIndicator BillingIndicator `json:"billingIndicator"`
 	WithholdingAgentIndicator *int32 `json:"withholdingAgentIndicator,omitempty"`

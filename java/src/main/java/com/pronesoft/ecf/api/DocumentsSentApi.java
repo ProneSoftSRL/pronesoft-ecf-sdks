@@ -32,7 +32,6 @@ import com.pronesoft.ecf.model.Environment;
 import com.pronesoft.ecf.model.ErrorResponse;
 import com.pronesoft.ecf.model.GetSentDocumentLogs200ResponseInner;
 import com.pronesoft.ecf.model.GetSentDocumentStatusOptions200ResponseInner;
-import java.time.LocalDate;
 import com.pronesoft.ecf.model.SentDocumentDetail;
 import com.pronesoft.ecf.model.SentDocumentListResponse;
 import java.net.URI;
@@ -1043,8 +1042,8 @@ public class DocumentsSentApi {
      * @param ecf  (optional)
      * @param type  (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @param _callback Callback for upload/download progress
@@ -1058,7 +1057,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listSentDocumentsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call listSentDocumentsCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1140,7 +1139,7 @@ public class DocumentsSentApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call listSentDocumentsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call listSentDocumentsValidateBeforeCall(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
         return listSentDocumentsCall(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit, _callback);
 
     }
@@ -1153,8 +1152,8 @@ public class DocumentsSentApi {
      * @param ecf  (optional)
      * @param type  (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return SentDocumentListResponse
@@ -1167,7 +1166,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public SentDocumentListResponse listSentDocuments(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public SentDocumentListResponse listSentDocuments(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         ApiResponse<SentDocumentListResponse> localVarResp = listSentDocumentsWithHttpInfo(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit);
         return localVarResp.getData();
     }
@@ -1180,8 +1179,8 @@ public class DocumentsSentApi {
      * @param ecf  (optional)
      * @param type  (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApiResponse&lt;SentDocumentListResponse&gt;
@@ -1194,7 +1193,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<SentDocumentListResponse> listSentDocumentsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
+    public ApiResponse<SentDocumentListResponse> listSentDocumentsWithHttpInfo(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit) throws ApiException {
         okhttp3.Call localVarCall = listSentDocumentsValidateBeforeCall(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit, null);
         Type localVarReturnType = new TypeToken<SentDocumentListResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1208,8 +1207,8 @@ public class DocumentsSentApi {
      * @param ecf  (optional)
      * @param type  (optional)
      * @param status  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @param _callback The callback to be executed when the API call finishes
@@ -1223,7 +1222,7 @@ public class DocumentsSentApi {
         <tr><td> 401 </td><td> Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call listSentDocumentsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable LocalDate dateFrom, @javax.annotation.Nullable LocalDate dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<SentDocumentListResponse> _callback) throws ApiException {
+    public okhttp3.Call listSentDocumentsAsync(@javax.annotation.Nullable UUID xTenantId, @javax.annotation.Nullable Environment env, @javax.annotation.Nullable String ecf, @javax.annotation.Nullable String type, @javax.annotation.Nullable String status, @javax.annotation.Nullable String dateFrom, @javax.annotation.Nullable String dateTo, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer limit, final ApiCallback<SentDocumentListResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = listSentDocumentsValidateBeforeCall(xTenantId, env, ecf, type, status, dateFrom, dateTo, page, limit, _callback);
         Type localVarReturnType = new TypeToken<SentDocumentListResponse>(){}.getType();

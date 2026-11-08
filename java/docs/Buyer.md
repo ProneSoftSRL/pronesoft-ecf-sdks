@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**taxId** | **String** | RNC (9 digits) or cedula (11 digits). Required for type 31, 33, 41, 44, 45. Optional for type 32 and type 34 (when modifying a consumer invoice E32 &lt; 250k). |  [optional] |
+|**taxId** | **String** | RNC (9 dígitos) o cédula (11 dígitos). Requerido para tipo 31 y tipo 34 que modifique crédito fiscal. Opcional para tipo 32 y tipo 34 que modifique factura de consumo (&lt; RD$ 250,000). |  [optional] |
 |**foreignId** | **String** |  |  [optional] |
 |**name** | **String** |  |  |
 |**contact** | **String** |  |  [optional] |

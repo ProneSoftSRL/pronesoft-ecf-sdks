@@ -7,24 +7,24 @@ Name | Type | Description | Notes
 **Version** | Pointer to **string** | Siempre \&quot;1.0\&quot;. | [optional] [default to "1.0"]
 **InvoiceType** | [**InvoiceType**](InvoiceType.md) |  | 
 **InvoiceNumber** | Pointer to **string** | Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;.  | [optional] 
-**GroupId** | Pointer to **string** | Optional Group ID for batch processing | [optional] 
+**GroupId** | Pointer to **string** | ID de grupo opcional para procesamiento en lote. | [optional] 
 **IssueDate** | **time.Time** |  | 
 **ExpirationDate** | Pointer to **time.Time** |  | [optional] 
-**CreditNoteIndicator** | Pointer to **string** | Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days | [optional] 
+**CreditNoteIndicator** | Pointer to **string** | Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días | [optional] 
 **DeferredSendingIndicator** | Pointer to **string** |  | [optional] 
 **TaxedAmountIndicator** | Pointer to **string** |  | [optional] 
-**IncomeType** | Pointer to **string** | 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other | [optional] 
-**PaymentType** | Pointer to **string** | 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed | [optional] 
+**IncomeType** | Pointer to **string** | 01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro | [optional] 
+**PaymentType** | Pointer to **string** | 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto | [optional] 
 **PaymentDeadline** | Pointer to **time.Time** |  | [optional] 
 **PaymentTerms** | Pointer to **string** |  | [optional] 
-**PaymentForms** | Pointer to [**[]PaymentForm**](PaymentForm.md) | Payment breakdown. Optional; if omitted, the XML is sent without the payment table. | [optional] 
+**PaymentForms** | [**[]PaymentForm**](PaymentForm.md) | Payment breakdown. Required. | 
 **PaymentAccountType** | Pointer to [**AccountType**](AccountType.md) |  | [optional] 
 **PaymentAccountNumber** | Pointer to **string** |  | [optional] 
 **PaymentBank** | Pointer to **string** |  | [optional] 
 **ServiceStartDate** | Pointer to **time.Time** |  | [optional] 
 **ServiceEndDate** | Pointer to **time.Time** |  | [optional] 
 **TotalPages** | Pointer to **int32** |  | [optional] 
-**IssuerRNC** | Pointer to **string** | RNC of the issuing company. | [optional] 
+**IssuerRNC** | Pointer to **string** | RNC de la empresa emisora. | [optional] 
 **IssuerBusinessName** | Pointer to **string** |  | [optional] 
 **IssuerCommercialName** | Pointer to **string** |  | [optional] 
 **BranchName** | Pointer to **string** |  | [optional] 
@@ -43,7 +43,7 @@ Name | Type | Description | Notes
 **AdditionalIssuerInfo** | Pointer to **string** |  | [optional] 
 **Buyer** | Pointer to [**Buyer**](Buyer.md) |  | [optional] 
 **Items** | [**[]Item**](Item.md) |  | 
-**Totals** | Pointer to [**Totals**](Totals.md) |  | [optional] 
+**Totals** | [**Totals**](Totals.md) |  | 
 **Transport** | Pointer to [**Transport**](Transport.md) |  | [optional] 
 **AdditionalInfo** | Pointer to [**AdditionalInfo**](AdditionalInfo.md) |  | [optional] 
 **AlternativeCurrency** | Pointer to [**AlternativeCurrency**](AlternativeCurrency.md) |  | [optional] 
@@ -56,7 +56,7 @@ Name | Type | Description | Notes
 
 ### NewElectronicDocument
 
-`func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, items []Item, ) *ElectronicDocument`
+`func NewElectronicDocument(invoiceType InvoiceType, issueDate time.Time, paymentForms []PaymentForm, items []Item, totals Totals, ) *ElectronicDocument`
 
 NewElectronicDocument instantiates a new ElectronicDocument object
 This constructor will assign default values to properties that have it defined,
@@ -405,11 +405,6 @@ and a boolean to check if the value has been set.
 
 SetPaymentForms sets PaymentForms field to given value.
 
-### HasPaymentForms
-
-`func (o *ElectronicDocument) HasPaymentForms() bool`
-
-HasPaymentForms returns a boolean if a field has been set.
 
 ### GetPaymentAccountType
 
@@ -1050,11 +1045,6 @@ and a boolean to check if the value has been set.
 
 SetTotals sets Totals field to given value.
 
-### HasTotals
-
-`func (o *ElectronicDocument) HasTotals() bool`
-
-HasTotals returns a boolean if a field has been set.
 
 ### GetTransport
 

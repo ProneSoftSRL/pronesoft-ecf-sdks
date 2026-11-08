@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **senderRnc** | **String** |  | [optional] 
 **receiverRnc** | **String** |  | [optional] 
 **totalAmount** | **num** |  | [optional] 
-**status** | **int** | 1=Valid, 2=Voided, 3=Pending | [optional] 
+**status** | **int** | 1=Válido, 2=Anulado, 3=Pendiente | [optional] 
 **statusLabel** | **String** |  | [optional] 
 **issueDate** | [**DateTime**](DateTime.md) |  | [optional] 
 **receivedAt** | [**DateTime**](DateTime.md) |  | [optional] 

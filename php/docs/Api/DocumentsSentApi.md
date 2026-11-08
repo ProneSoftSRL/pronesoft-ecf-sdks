@@ -459,8 +459,8 @@ $env = new \PronesoftEcf\Model\\PronesoftEcf\Model\Environment(); // \PronesoftE
 $ecf = 'ecf_example'; // string
 $type = 'type_example'; // string
 $status = 'status_example'; // string
-$date_from = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
-$date_to = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
+$date_from = 'date_from_example'; // string | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+$date_to = 'date_to_example'; // string | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 $page = 1; // int
 $limit = 10; // int
 
@@ -481,8 +481,8 @@ try {
 | **ecf** | **string**|  | [optional] |
 | **type** | **string**|  | [optional] |
 | **status** | **string**|  | [optional] |
-| **date_from** | **\DateTime**|  | [optional] |
-| **date_to** | **\DateTime**|  | [optional] |
+| **date_from** | **string**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
+| **date_to** | **string**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
 | **page** | **int**|  | [optional] [default to 1] |
 | **limit** | **int**|  | [optional] [default to 10] |
 

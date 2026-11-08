@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DocumentId** | **string** | Internal document ID for polling. | 
-**Encf** | **string** | e-NCF fiscal number. | 
-**IssuerRnc** | **string** | RNC of the issuing company (associated or main). | 
-**Status** | **string** | Public lifecycle status. | 
-**LegalStatus** | Pointer to **NullableString** | Fiscal result from DGII. Only present when status&#x3D;FINISHED. | [optional] 
-**DocumentType** | Pointer to **NullableString** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) | [optional] 
-**TrackId** | Pointer to **NullableString** | DGII tracking ID. | [optional] 
-**DgiiMessage** | Pointer to **NullableString** | Human-readable DGII response message. | [optional] 
+**DocumentId** | **string** | ID interno del documento para hacer polling. | 
+**Encf** | **string** | Número fiscal e-NCF. | 
+**IssuerRnc** | **string** | RNC de la empresa emisora (asociada o principal). | 
+**Status** | **string** | Estado del ciclo de vida del documento. | 
+**LegalStatus** | Pointer to **NullableString** | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. | [optional] 
+**DocumentType** | Pointer to **NullableString** | Código del tipo de documento (31&#x3D;Factura, 32&#x3D;Nota de Crédito, etc.) | [optional] 
+**TrackId** | Pointer to **NullableString** | ID de seguimiento asignado por la DGII. | [optional] 
+**DgiiMessage** | Pointer to **NullableString** | Mensaje legible de respuesta de la DGII. | [optional] 
 
 ## Methods
 

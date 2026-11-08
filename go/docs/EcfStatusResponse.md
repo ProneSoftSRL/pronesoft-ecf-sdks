@@ -9,18 +9,15 @@ Name | Type | Description | Notes
 **Status** | **string** | Estado del proceso de envío a DGII. | 
 **LegalStatus** | Pointer to **NullableString** | Estado fiscal según la respuesta de DGII. null mientras no hay respuesta. | [optional] 
 **CompanyIdentification** | [**EcfSubmitResponseCompanyIdentification**](EcfSubmitResponseCompanyIdentification.md) |  | 
-**TrackId** | Pointer to **NullableString** | ID de seguimiento asignado por DGII. | [optional] 
-**DocumentNumber** | Pointer to **NullableString** | Número de control electrónico (e-NCF). | [optional] 
+**TrackId** | Pointer to **NullableString** | ID de seguimiento asignado por DGII. null mientras procesa. | [optional] 
 **Encf** | Pointer to **NullableString** | Número e-NCF del documento. | [optional] 
-**ContingencyMode** | Pointer to **bool** | true si fue emitido en modo contingencia. | [optional] 
-**ContingencyMessage** | Pointer to **string** | Mensaje oficial DGII cuando contingencyMode es true. | [optional] 
-**DocumentStampUrl** | Pointer to **NullableString** | URL del código QR del documento. | [optional] 
-**Pdf** | Pointer to **NullableString** | URL pre-firmada del PDF (expira en 1 hora). | [optional] 
-**XmlUrl** | Pointer to **NullableString** | URL pre-firmada del XML firmado (expira en 1 hora). | [optional] 
-**SignatureDate** | Pointer to **NullableTime** | Fecha y hora de la firma digital. | [optional] 
-**SecurityCode** | Pointer to **NullableString** | Código de seguridad del documento. | [optional] 
-**SequenceConsumed** | **bool** | true si DGII confirmó el consumo de la secuencia. | 
-**GovernmentResponse** | Pointer to **map[string]interface{}** | Respuesta completa de DGII (disponible cuando status es FINISHED). | [optional] 
+**DocumentStampUrl** | Pointer to **NullableString** | URL de consulta del timbre en DGII. | [optional] 
+**Pdf** | Pointer to **NullableString** | URL del PDF del documento. | [optional] 
+**XmlUrl** | Pointer to **NullableString** | URL del XML firmado. | [optional] 
+**SignatureDate** | Pointer to **NullableString** | Fecha y hora de la firma digital. | [optional] 
+**SecurityCode** | Pointer to **NullableString** | Código de seguridad de 6 caracteres. | [optional] 
+**SequenceConsumed** | **bool** | true cuando DGII confirmó el uso de la secuencia. | 
+**GovernmentResponse** | Pointer to [**NullableEcfStatusResponseGovernmentResponse**](EcfStatusResponseGovernmentResponse.md) |  | [optional] 
 
 ## Methods
 
@@ -206,41 +203,6 @@ HasTrackId returns a boolean if a field has been set.
 `func (o *EcfStatusResponse) UnsetTrackId()`
 
 UnsetTrackId ensures that no value is present for TrackId, not even an explicit nil
-### GetDocumentNumber
-
-`func (o *EcfStatusResponse) GetDocumentNumber() string`
-
-GetDocumentNumber returns the DocumentNumber field if non-nil, zero value otherwise.
-
-### GetDocumentNumberOk
-
-`func (o *EcfStatusResponse) GetDocumentNumberOk() (*string, bool)`
-
-GetDocumentNumberOk returns a tuple with the DocumentNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDocumentNumber
-
-`func (o *EcfStatusResponse) SetDocumentNumber(v string)`
-
-SetDocumentNumber sets DocumentNumber field to given value.
-
-### HasDocumentNumber
-
-`func (o *EcfStatusResponse) HasDocumentNumber() bool`
-
-HasDocumentNumber returns a boolean if a field has been set.
-
-### SetDocumentNumberNil
-
-`func (o *EcfStatusResponse) SetDocumentNumberNil(b bool)`
-
- SetDocumentNumberNil sets the value for DocumentNumber to be an explicit nil
-
-### UnsetDocumentNumber
-`func (o *EcfStatusResponse) UnsetDocumentNumber()`
-
-UnsetDocumentNumber ensures that no value is present for DocumentNumber, not even an explicit nil
 ### GetEncf
 
 `func (o *EcfStatusResponse) GetEncf() string`
@@ -276,56 +238,6 @@ HasEncf returns a boolean if a field has been set.
 `func (o *EcfStatusResponse) UnsetEncf()`
 
 UnsetEncf ensures that no value is present for Encf, not even an explicit nil
-### GetContingencyMode
-
-`func (o *EcfStatusResponse) GetContingencyMode() bool`
-
-GetContingencyMode returns the ContingencyMode field if non-nil, zero value otherwise.
-
-### GetContingencyModeOk
-
-`func (o *EcfStatusResponse) GetContingencyModeOk() (*bool, bool)`
-
-GetContingencyModeOk returns a tuple with the ContingencyMode field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetContingencyMode
-
-`func (o *EcfStatusResponse) SetContingencyMode(v bool)`
-
-SetContingencyMode sets ContingencyMode field to given value.
-
-### HasContingencyMode
-
-`func (o *EcfStatusResponse) HasContingencyMode() bool`
-
-HasContingencyMode returns a boolean if a field has been set.
-
-### GetContingencyMessage
-
-`func (o *EcfStatusResponse) GetContingencyMessage() string`
-
-GetContingencyMessage returns the ContingencyMessage field if non-nil, zero value otherwise.
-
-### GetContingencyMessageOk
-
-`func (o *EcfStatusResponse) GetContingencyMessageOk() (*string, bool)`
-
-GetContingencyMessageOk returns a tuple with the ContingencyMessage field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetContingencyMessage
-
-`func (o *EcfStatusResponse) SetContingencyMessage(v string)`
-
-SetContingencyMessage sets ContingencyMessage field to given value.
-
-### HasContingencyMessage
-
-`func (o *EcfStatusResponse) HasContingencyMessage() bool`
-
-HasContingencyMessage returns a boolean if a field has been set.
-
 ### GetDocumentStampUrl
 
 `func (o *EcfStatusResponse) GetDocumentStampUrl() string`
@@ -433,20 +345,20 @@ HasXmlUrl returns a boolean if a field has been set.
 UnsetXmlUrl ensures that no value is present for XmlUrl, not even an explicit nil
 ### GetSignatureDate
 
-`func (o *EcfStatusResponse) GetSignatureDate() time.Time`
+`func (o *EcfStatusResponse) GetSignatureDate() string`
 
 GetSignatureDate returns the SignatureDate field if non-nil, zero value otherwise.
 
 ### GetSignatureDateOk
 
-`func (o *EcfStatusResponse) GetSignatureDateOk() (*time.Time, bool)`
+`func (o *EcfStatusResponse) GetSignatureDateOk() (*string, bool)`
 
 GetSignatureDateOk returns a tuple with the SignatureDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSignatureDate
 
-`func (o *EcfStatusResponse) SetSignatureDate(v time.Time)`
+`func (o *EcfStatusResponse) SetSignatureDate(v string)`
 
 SetSignatureDate sets SignatureDate field to given value.
 
@@ -523,20 +435,20 @@ SetSequenceConsumed sets SequenceConsumed field to given value.
 
 ### GetGovernmentResponse
 
-`func (o *EcfStatusResponse) GetGovernmentResponse() map[string]interface{}`
+`func (o *EcfStatusResponse) GetGovernmentResponse() EcfStatusResponseGovernmentResponse`
 
 GetGovernmentResponse returns the GovernmentResponse field if non-nil, zero value otherwise.
 
 ### GetGovernmentResponseOk
 
-`func (o *EcfStatusResponse) GetGovernmentResponseOk() (*map[string]interface{}, bool)`
+`func (o *EcfStatusResponse) GetGovernmentResponseOk() (*EcfStatusResponseGovernmentResponse, bool)`
 
 GetGovernmentResponseOk returns a tuple with the GovernmentResponse field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGovernmentResponse
 
-`func (o *EcfStatusResponse) SetGovernmentResponse(v map[string]interface{})`
+`func (o *EcfStatusResponse) SetGovernmentResponse(v EcfStatusResponseGovernmentResponse)`
 
 SetGovernmentResponse sets GovernmentResponse field to given value.
 
@@ -546,6 +458,16 @@ SetGovernmentResponse sets GovernmentResponse field to given value.
 
 HasGovernmentResponse returns a boolean if a field has been set.
 
+### SetGovernmentResponseNil
+
+`func (o *EcfStatusResponse) SetGovernmentResponseNil(b bool)`
+
+ SetGovernmentResponseNil sets the value for GovernmentResponse to be an explicit nil
+
+### UnsetGovernmentResponse
+`func (o *EcfStatusResponse) UnsetGovernmentResponse()`
+
+UnsetGovernmentResponse ensures that no value is present for GovernmentResponse, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

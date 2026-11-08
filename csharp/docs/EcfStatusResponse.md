@@ -10,18 +10,15 @@ Name | Type | Description | Notes
 **Status** | **string** | Estado del proceso de envío a DGII. | 
 **LegalStatus** | **string** | Estado fiscal según la respuesta de DGII. null mientras no hay respuesta. | [optional] 
 **CompanyIdentification** | [**EcfSubmitResponseCompanyIdentification**](EcfSubmitResponseCompanyIdentification.md) |  | 
-**TrackId** | **string** | ID de seguimiento asignado por DGII. | [optional] 
-**DocumentNumber** | **string** | Número de control electrónico (e-NCF). | [optional] 
+**TrackId** | **string** | ID de seguimiento asignado por DGII. null mientras procesa. | [optional] 
 **Encf** | **string** | Número e-NCF del documento. | [optional] 
-**ContingencyMode** | **bool** | true si fue emitido en modo contingencia. | [optional] 
-**ContingencyMessage** | **string** | Mensaje oficial DGII cuando contingencyMode es true. | [optional] 
-**DocumentStampUrl** | **string** | URL del código QR del documento. | [optional] 
-**Pdf** | **string** | URL pre-firmada del PDF (expira en 1 hora). | [optional] 
-**XmlUrl** | **string** | URL pre-firmada del XML firmado (expira en 1 hora). | [optional] 
-**SignatureDate** | **DateTime?** | Fecha y hora de la firma digital. | [optional] 
-**SecurityCode** | **string** | Código de seguridad del documento. | [optional] 
-**SequenceConsumed** | **bool** | true si DGII confirmó el consumo de la secuencia. | 
-**GovernmentResponse** | **Dictionary&lt;string, Object&gt;** | Respuesta completa de DGII (disponible cuando status es FINISHED). | [optional] 
+**DocumentStampUrl** | **string** | URL de consulta del timbre en DGII. | [optional] 
+**Pdf** | **string** | URL del PDF del documento. | [optional] 
+**XmlUrl** | **string** | URL del XML firmado. | [optional] 
+**SignatureDate** | **string** | Fecha y hora de la firma digital. | [optional] 
+**SecurityCode** | **string** | Código de seguridad de 6 caracteres. | [optional] 
+**SequenceConsumed** | **bool** | true cuando DGII confirmó el uso de la secuencia. | 
+**GovernmentResponse** | [**EcfStatusResponseGovernmentResponse**](EcfStatusResponseGovernmentResponse.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

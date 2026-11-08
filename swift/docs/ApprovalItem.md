@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **buyerRnc** | **String** |  | [optional] 
 **totalAmount** | **Double** |  | [optional] 
 **approvalStatus** | **String** |  | [optional] 
-**status** | **Int** | 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review | [optional] 
+**status** | **Int** | 1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión | [optional] 
 **statusLabel** | **String** |  | [optional] 
 **issueDate** | **Date** |  | [optional] 
 **receivedAt** | **Date** |  | [optional] 

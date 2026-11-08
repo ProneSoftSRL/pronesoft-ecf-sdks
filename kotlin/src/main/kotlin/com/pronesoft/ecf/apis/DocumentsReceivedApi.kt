@@ -27,6 +27,8 @@ import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
+import com.pronesoft.ecf.models.DecideCommercialApprovalRequest
+import com.pronesoft.ecf.models.DecideCommercialApprovalResponse
 import com.pronesoft.ecf.models.ErrorResponse
 import com.pronesoft.ecf.models.GetReceivedDocumentStatsBySupplier200ResponseInner
 import com.pronesoft.ecf.models.ReceivedDocument
@@ -55,6 +57,87 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "https://api.ecf.sandbox.pronesoft.com/api/v1")
         }
+    }
+
+    /**
+     * POST /documents/received/{id}/commercial-approval
+     * Aprobar o rechazar comercialmente un documento recibido
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * @param id ID del documento recibido (TaxDocumentReceived.id)
+     * @param decideCommercialApprovalRequest 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return DecideCommercialApprovalResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun decideCommercialApproval(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: java.util.UUID? = null) : DecideCommercialApprovalResponse {
+        val localVarResponse = decideCommercialApprovalWithHttpInfo(id = id, decideCommercialApprovalRequest = decideCommercialApprovalRequest, xTenantId = xTenantId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as DecideCommercialApprovalResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /documents/received/{id}/commercial-approval
+     * Aprobar o rechazar comercialmente un documento recibido
+     * Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+     * @param id ID del documento recibido (TaxDocumentReceived.id)
+     * @param decideCommercialApprovalRequest 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return ApiResponse<DecideCommercialApprovalResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun decideCommercialApprovalWithHttpInfo(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: java.util.UUID?) : ApiResponse<DecideCommercialApprovalResponse?> {
+        val localVariableConfig = decideCommercialApprovalRequestConfig(id = id, decideCommercialApprovalRequest = decideCommercialApprovalRequest, xTenantId = xTenantId)
+
+        return request<DecideCommercialApprovalRequest, DecideCommercialApprovalResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation decideCommercialApproval
+     *
+     * @param id ID del documento recibido (TaxDocumentReceived.id)
+     * @param decideCommercialApprovalRequest 
+     * @param xTenantId UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+     * @return RequestConfig
+     */
+    fun decideCommercialApprovalRequestConfig(id: java.util.UUID, decideCommercialApprovalRequest: DecideCommercialApprovalRequest, xTenantId: java.util.UUID?) : RequestConfig<DecideCommercialApprovalRequest> {
+        val localVariableBody = decideCommercialApprovalRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        xTenantId?.apply { localVariableHeaders["x-tenant-id"] = this.toString() }
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/documents/received/{id}/commercial-approval".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
     }
 
     /**
@@ -312,8 +395,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * @param amountFrom  (optional)
      * @param amountTo  (optional)
      * @param processed  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ReceivedDocumentListResponse
@@ -325,7 +408,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listReceivedDocuments(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListReceivedDocuments? = null, supplierRnc: kotlin.String? = null, amountFrom: java.math.BigDecimal? = null, amountTo: java.math.BigDecimal? = null, processed: kotlin.Boolean? = null, dateFrom: java.time.LocalDate? = null, dateTo: java.time.LocalDate? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ReceivedDocumentListResponse {
+    fun listReceivedDocuments(xTenantId: java.util.UUID? = null, ecf: kotlin.String? = null, type: kotlin.String? = null, status: StatusListReceivedDocuments? = null, supplierRnc: kotlin.String? = null, amountFrom: java.math.BigDecimal? = null, amountTo: java.math.BigDecimal? = null, processed: kotlin.Boolean? = null, dateFrom: kotlin.String? = null, dateTo: kotlin.String? = null, page: kotlin.Int? = 1, limit: kotlin.Int? = 10) : ReceivedDocumentListResponse {
         val localVarResponse = listReceivedDocumentsWithHttpInfo(xTenantId = xTenantId, ecf = ecf, type = type, status = status, supplierRnc = supplierRnc, amountFrom = amountFrom, amountTo = amountTo, processed = processed, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -355,8 +438,8 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * @param amountFrom  (optional)
      * @param amountTo  (optional)
      * @param processed  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return ApiResponse<ReceivedDocumentListResponse?>
@@ -365,7 +448,7 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listReceivedDocumentsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ReceivedDocumentListResponse?> {
+    fun listReceivedDocumentsWithHttpInfo(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : ApiResponse<ReceivedDocumentListResponse?> {
         val localVariableConfig = listReceivedDocumentsRequestConfig(xTenantId = xTenantId, ecf = ecf, type = type, status = status, supplierRnc = supplierRnc, amountFrom = amountFrom, amountTo = amountTo, processed = processed, dateFrom = dateFrom, dateTo = dateTo, page = page, limit = limit)
 
         return request<Unit, ReceivedDocumentListResponse>(
@@ -384,13 +467,13 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
      * @param amountFrom  (optional)
      * @param amountTo  (optional)
      * @param processed  (optional)
-     * @param dateFrom  (optional)
-     * @param dateTo  (optional)
+     * @param dateFrom Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+     * @param dateTo Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
      * @param page  (optional, default to 1)
      * @param limit  (optional, default to 10)
      * @return RequestConfig
      */
-    fun listReceivedDocumentsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: java.time.LocalDate?, dateTo: java.time.LocalDate?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun listReceivedDocumentsRequestConfig(xTenantId: java.util.UUID?, ecf: kotlin.String?, type: kotlin.String?, status: StatusListReceivedDocuments?, supplierRnc: kotlin.String?, amountFrom: java.math.BigDecimal?, amountTo: java.math.BigDecimal?, processed: kotlin.Boolean?, dateFrom: kotlin.String?, dateTo: kotlin.String?, page: kotlin.Int?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -416,10 +499,10 @@ open class DocumentsReceivedApi(basePath: kotlin.String = defaultBasePath, clien
                     put("processed", listOf(processed.toString()))
                 }
                 if (dateFrom != null) {
-                    put("dateFrom", listOf(parseDateToQueryString(dateFrom)))
+                    put("dateFrom", listOf(dateFrom.toString()))
                 }
                 if (dateTo != null) {
-                    put("dateTo", listOf(parseDateToQueryString(dateTo)))
+                    put("dateTo", listOf(dateTo.toString()))
                 }
                 if (page != null) {
                     put("page", listOf(page.toString()))

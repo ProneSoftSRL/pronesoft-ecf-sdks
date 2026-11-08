@@ -42,7 +42,7 @@ impl Default for WebhookNotificationPayloadData {
         Self::DocumentStatusChangedPayload(Default::default())
     }
 }
-/// Fiscal result from DGII. Only present when status=FINISHED.
+/// Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum LegalStatus {
     #[serde(rename = "ACCEPTED")]

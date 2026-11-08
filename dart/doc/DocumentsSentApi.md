@@ -343,8 +343,8 @@ final env = ; // Environment |
 final ecf = ecf_example; // String | 
 final type = type_example; // String | 
 final status = status_example; // String | 
-final dateFrom = 2013-10-20; // DateTime | 
-final dateTo = 2013-10-20; // DateTime | 
+final dateFrom = dateFrom_example; // String | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+final dateTo = dateTo_example; // String | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 final page = 56; // int | 
 final limit = 56; // int | 
 
@@ -365,8 +365,8 @@ Name | Type | Description  | Notes
  **ecf** | **String**|  | [optional] 
  **type** | **String**|  | [optional] 
  **status** | **String**|  | [optional] 
- **dateFrom** | **DateTime**|  | [optional] 
- **dateTo** | **DateTime**|  | [optional] 
+ **dateFrom** | **String**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
+ **dateTo** | **String**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] 
  **page** | **int**|  | [optional] [default to 1]
  **limit** | **int**|  | [optional] [default to 10]
 

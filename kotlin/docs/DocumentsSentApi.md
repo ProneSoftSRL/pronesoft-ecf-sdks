@@ -361,8 +361,8 @@ val env : Environment =  // Environment |
 val ecf : kotlin.String = ecf_example // kotlin.String | 
 val type : kotlin.String = type_example // kotlin.String | 
 val status : kotlin.String = status_example // kotlin.String | 
-val dateFrom : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
-val dateTo : java.time.LocalDate = 2013-10-20 // java.time.LocalDate | 
+val dateFrom : kotlin.String = dateFrom_example // kotlin.String | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+val dateTo : kotlin.String = dateTo_example // kotlin.String | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 val page : kotlin.Int = 56 // kotlin.Int | 
 val limit : kotlin.Int = 56 // kotlin.Int | 
 try {
@@ -383,8 +383,8 @@ try {
 | **ecf** | **kotlin.String**|  | [optional] |
 | **type** | **kotlin.String**|  | [optional] |
 | **status** | **kotlin.String**|  | [optional] [enum: APPROVED, REJECTED, IN_PROCESS, CONTINGENCY, ERROR] |
-| **dateFrom** | **java.time.LocalDate**|  | [optional] |
-| **dateTo** | **java.time.LocalDate**|  | [optional] |
+| **dateFrom** | **kotlin.String**| Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
+| **dateTo** | **kotlin.String**| Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
 | **page** | **kotlin.Int**|  | [optional] [default to 1] |
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |

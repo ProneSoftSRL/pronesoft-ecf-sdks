@@ -1,6 +1,6 @@
 # ReferenceInfo
 
-Reference to previously issued document (for credit/debit notes).
+Referencia al documento previamente emitido (para notas de crédito/débito).
 
 ## Properties
 
@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **modified_invoice_number** | **str** |  | 
 **other_contributor_rnc** | **str** |  | [optional] 
 **modified_invoice_date** | **datetime** |  | [optional] 
-**modification_code** | **str** | 1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other | 
+**modification_code** | **str** | 1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro | 
 **modification_reason** | **str** |  | [optional] 
 
 ## Example

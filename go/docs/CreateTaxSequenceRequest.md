@@ -7,15 +7,15 @@ Name | Type | Description | Notes
 **Type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
 **From** | **int32** |  | 
 **To** | **int32** |  | 
-**Quantity** | **int32** |  | 
+**Quantity** | Pointer to **int32** |  | [optional] 
 **Expiration** | Pointer to **string** |  | [optional] 
-**Environment** | [**Environment**](Environment.md) |  | 
+**Environment** | Pointer to [**Environment**](Environment.md) |  | [optional] 
 
 ## Methods
 
 ### NewCreateTaxSequenceRequest
 
-`func NewCreateTaxSequenceRequest(type_ InvoiceTypeSequence, from int32, to int32, quantity int32, environment Environment, ) *CreateTaxSequenceRequest`
+`func NewCreateTaxSequenceRequest(type_ InvoiceTypeSequence, from int32, to int32, ) *CreateTaxSequenceRequest`
 
 NewCreateTaxSequenceRequest instantiates a new CreateTaxSequenceRequest object
 This constructor will assign default values to properties that have it defined,
@@ -109,6 +109,11 @@ and a boolean to check if the value has been set.
 
 SetQuantity sets Quantity field to given value.
 
+### HasQuantity
+
+`func (o *CreateTaxSequenceRequest) HasQuantity() bool`
+
+HasQuantity returns a boolean if a field has been set.
 
 ### GetExpiration
 
@@ -154,6 +159,11 @@ and a boolean to check if the value has been set.
 
 SetEnvironment sets Environment field to given value.
 
+### HasEnvironment
+
+`func (o *CreateTaxSequenceRequest) HasEnvironment() bool`
+
+HasEnvironment returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

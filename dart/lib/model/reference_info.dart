@@ -38,7 +38,7 @@ class ReferenceInfo {
   ///
   DateTime? modifiedInvoiceDate;
 
-  /// 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+  /// 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
   ReferenceInfoModificationCodeEnum modificationCode;
 
   ///
@@ -167,7 +167,7 @@ class ReferenceInfo {
   };
 }
 
-/// 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+/// 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
 class ReferenceInfoModificationCodeEnum {
   /// Instantiate a new enum with the provided [value].
   const ReferenceInfoModificationCodeEnum._(this.value);

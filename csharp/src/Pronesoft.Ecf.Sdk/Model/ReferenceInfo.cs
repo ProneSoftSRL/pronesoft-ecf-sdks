@@ -28,15 +28,15 @@ using OpenAPIDateConverter = Pronesoft.Ecf.Sdk.Client.OpenAPIDateConverter;
 namespace Pronesoft.Ecf.Sdk.Model
 {
     /// <summary>
-    /// Reference to previously issued document (for credit/debit notes).
+    /// Referencia al documento previamente emitido (para notas de crédito/débito).
     /// </summary>
     [DataContract(Name = "ReferenceInfo")]
     public partial class ReferenceInfo : IValidatableObject
     {
         /// <summary>
-        /// 1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other
+        /// 1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro
         /// </summary>
-        /// <value>1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other</value>
+        /// <value>1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum ModificationCodeEnum
         {
@@ -73,9 +73,9 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// 1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other
+        /// 1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro
         /// </summary>
-        /// <value>1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other</value>
+        /// <value>1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro</value>
         [DataMember(Name = "modificationCode", IsRequired = true, EmitDefaultValue = true)]
         public ModificationCodeEnum ModificationCode { get; set; }
         /// <summary>
@@ -89,7 +89,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="modifiedInvoiceNumber">modifiedInvoiceNumber (required).</param>
         /// <param name="otherContributorRNC">otherContributorRNC.</param>
         /// <param name="modifiedInvoiceDate">modifiedInvoiceDate.</param>
-        /// <param name="modificationCode">1&#x3D;Price, 2&#x3D;Quantity, 3&#x3D;Return, 4&#x3D;Tax, 5&#x3D;Other (required).</param>
+        /// <param name="modificationCode">1&#x3D;Precio, 2&#x3D;Cantidad, 3&#x3D;Devolución, 4&#x3D;Impuesto, 5&#x3D;Otro (required).</param>
         /// <param name="modificationReason">modificationReason.</param>
         public ReferenceInfo(string modifiedInvoiceNumber = default, string otherContributorRNC = default, DateTime modifiedInvoiceDate = default, ModificationCodeEnum modificationCode = default, string modificationReason = default)
         {

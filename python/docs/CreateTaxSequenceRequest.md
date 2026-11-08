@@ -8,9 +8,9 @@ Name | Type | Description | Notes
 **type** | [**InvoiceTypeSequence**](InvoiceTypeSequence.md) |  | 
 **var_from** | **int** |  | 
 **to** | **int** |  | 
-**quantity** | **int** |  | 
+**quantity** | **int** |  | [optional] 
 **expiration** | **date** |  | [optional] 
-**environment** | [**Environment**](Environment.md) |  | 
+**environment** | [**Environment**](Environment.md) |  | [optional] 
 
 ## Example
 

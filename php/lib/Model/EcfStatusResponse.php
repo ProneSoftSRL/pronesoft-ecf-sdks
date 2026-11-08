@@ -65,17 +65,14 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'legal_status' => 'string',
         'company_identification' => '\PronesoftEcf\Model\EcfSubmitResponseCompanyIdentification',
         'track_id' => 'string',
-        'document_number' => 'string',
         'encf' => 'string',
-        'contingency_mode' => 'bool',
-        'contingency_message' => 'string',
         'document_stamp_url' => 'string',
         'pdf' => 'string',
         'xml_url' => 'string',
-        'signature_date' => '\DateTime',
+        'signature_date' => 'string',
         'security_code' => 'string',
         'sequence_consumed' => 'bool',
-        'government_response' => 'array<string,mixed>'
+        'government_response' => '\PronesoftEcf\Model\EcfStatusResponseGovernmentResponse'
     ];
 
     /**
@@ -92,14 +89,11 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'legal_status' => null,
         'company_identification' => null,
         'track_id' => null,
-        'document_number' => null,
         'encf' => null,
-        'contingency_mode' => null,
-        'contingency_message' => null,
         'document_stamp_url' => 'uri',
         'pdf' => 'uri',
         'xml_url' => 'uri',
-        'signature_date' => 'date-time',
+        'signature_date' => null,
         'security_code' => null,
         'sequence_consumed' => null,
         'government_response' => null
@@ -117,17 +111,14 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'legal_status' => true,
         'company_identification' => false,
         'track_id' => true,
-        'document_number' => true,
         'encf' => true,
-        'contingency_mode' => false,
-        'contingency_message' => false,
         'document_stamp_url' => true,
         'pdf' => true,
         'xml_url' => true,
         'signature_date' => true,
         'security_code' => true,
         'sequence_consumed' => false,
-        'government_response' => false
+        'government_response' => true
     ];
 
     /**
@@ -222,10 +213,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'legal_status' => 'legalStatus',
         'company_identification' => 'companyIdentification',
         'track_id' => 'trackId',
-        'document_number' => 'documentNumber',
         'encf' => 'encf',
-        'contingency_mode' => 'contingencyMode',
-        'contingency_message' => 'contingencyMessage',
         'document_stamp_url' => 'documentStampUrl',
         'pdf' => 'pdf',
         'xml_url' => 'xmlUrl',
@@ -247,10 +235,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'legal_status' => 'setLegalStatus',
         'company_identification' => 'setCompanyIdentification',
         'track_id' => 'setTrackId',
-        'document_number' => 'setDocumentNumber',
         'encf' => 'setEncf',
-        'contingency_mode' => 'setContingencyMode',
-        'contingency_message' => 'setContingencyMessage',
         'document_stamp_url' => 'setDocumentStampUrl',
         'pdf' => 'setPdf',
         'xml_url' => 'setXmlUrl',
@@ -272,10 +257,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         'legal_status' => 'getLegalStatus',
         'company_identification' => 'getCompanyIdentification',
         'track_id' => 'getTrackId',
-        'document_number' => 'getDocumentNumber',
         'encf' => 'getEncf',
-        'contingency_mode' => 'getContingencyMode',
-        'contingency_message' => 'getContingencyMessage',
         'document_stamp_url' => 'getDocumentStampUrl',
         'pdf' => 'getPdf',
         'xml_url' => 'getXmlUrl',
@@ -388,10 +370,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
         $this->setIfExists('legal_status', $data ?? [], null);
         $this->setIfExists('company_identification', $data ?? [], null);
         $this->setIfExists('track_id', $data ?? [], null);
-        $this->setIfExists('document_number', $data ?? [], null);
         $this->setIfExists('encf', $data ?? [], null);
-        $this->setIfExists('contingency_mode', $data ?? [], null);
-        $this->setIfExists('contingency_message', $data ?? [], null);
         $this->setIfExists('document_stamp_url', $data ?? [], null);
         $this->setIfExists('pdf', $data ?? [], null);
         $this->setIfExists('xml_url', $data ?? [], null);
@@ -655,7 +634,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets track_id
      *
-     * @param string|null $track_id ID de seguimiento asignado por DGII.
+     * @param string|null $track_id ID de seguimiento asignado por DGII. null mientras procesa.
      *
      * @return self
      */
@@ -672,40 +651,6 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
             }
         }
         $this->container['track_id'] = $track_id;
-
-        return $this;
-    }
-
-    /**
-     * Gets document_number
-     *
-     * @return string|null
-     */
-    public function getDocumentNumber()
-    {
-        return $this->container['document_number'];
-    }
-
-    /**
-     * Sets document_number
-     *
-     * @param string|null $document_number Número de control electrónico (e-NCF).
-     *
-     * @return self
-     */
-    public function setDocumentNumber($document_number)
-    {
-        if (is_null($document_number)) {
-            array_push($this->openAPINullablesSetToNull, 'document_number');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('document_number', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['document_number'] = $document_number;
 
         return $this;
     }
@@ -745,60 +690,6 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     }
 
     /**
-     * Gets contingency_mode
-     *
-     * @return bool|null
-     */
-    public function getContingencyMode()
-    {
-        return $this->container['contingency_mode'];
-    }
-
-    /**
-     * Sets contingency_mode
-     *
-     * @param bool|null $contingency_mode true si fue emitido en modo contingencia.
-     *
-     * @return self
-     */
-    public function setContingencyMode($contingency_mode)
-    {
-        if (is_null($contingency_mode)) {
-            throw new \InvalidArgumentException('non-nullable contingency_mode cannot be null');
-        }
-        $this->container['contingency_mode'] = $contingency_mode;
-
-        return $this;
-    }
-
-    /**
-     * Gets contingency_message
-     *
-     * @return string|null
-     */
-    public function getContingencyMessage()
-    {
-        return $this->container['contingency_message'];
-    }
-
-    /**
-     * Sets contingency_message
-     *
-     * @param string|null $contingency_message Mensaje oficial DGII cuando contingencyMode es true.
-     *
-     * @return self
-     */
-    public function setContingencyMessage($contingency_message)
-    {
-        if (is_null($contingency_message)) {
-            throw new \InvalidArgumentException('non-nullable contingency_message cannot be null');
-        }
-        $this->container['contingency_message'] = $contingency_message;
-
-        return $this;
-    }
-
-    /**
      * Gets document_stamp_url
      *
      * @return string|null
@@ -811,7 +702,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets document_stamp_url
      *
-     * @param string|null $document_stamp_url URL del código QR del documento.
+     * @param string|null $document_stamp_url URL de consulta del timbre en DGII.
      *
      * @return self
      */
@@ -845,7 +736,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets pdf
      *
-     * @param string|null $pdf URL pre-firmada del PDF (expira en 1 hora).
+     * @param string|null $pdf URL del PDF del documento.
      *
      * @return self
      */
@@ -879,7 +770,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets xml_url
      *
-     * @param string|null $xml_url URL pre-firmada del XML firmado (expira en 1 hora).
+     * @param string|null $xml_url URL del XML firmado.
      *
      * @return self
      */
@@ -903,7 +794,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Gets signature_date
      *
-     * @return \DateTime|null
+     * @return string|null
      */
     public function getSignatureDate()
     {
@@ -913,7 +804,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets signature_date
      *
-     * @param \DateTime|null $signature_date Fecha y hora de la firma digital.
+     * @param string|null $signature_date Fecha y hora de la firma digital.
      *
      * @return self
      */
@@ -947,7 +838,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets security_code
      *
-     * @param string|null $security_code Código de seguridad del documento.
+     * @param string|null $security_code Código de seguridad de 6 caracteres.
      *
      * @return self
      */
@@ -981,7 +872,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets sequence_consumed
      *
-     * @param bool $sequence_consumed true si DGII confirmó el consumo de la secuencia.
+     * @param bool $sequence_consumed true cuando DGII confirmó el uso de la secuencia.
      *
      * @return self
      */
@@ -998,7 +889,7 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Gets government_response
      *
-     * @return array<string,mixed>|null
+     * @return \PronesoftEcf\Model\EcfStatusResponseGovernmentResponse|null
      */
     public function getGovernmentResponse()
     {
@@ -1008,14 +899,21 @@ class EcfStatusResponse implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets government_response
      *
-     * @param array<string,mixed>|null $government_response Respuesta completa de DGII (disponible cuando status es FINISHED).
+     * @param \PronesoftEcf\Model\EcfStatusResponseGovernmentResponse|null $government_response government_response
      *
      * @return self
      */
     public function setGovernmentResponse($government_response)
     {
         if (is_null($government_response)) {
-            throw new \InvalidArgumentException('non-nullable government_response cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'government_response');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('government_response', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['government_response'] = $government_response;
 

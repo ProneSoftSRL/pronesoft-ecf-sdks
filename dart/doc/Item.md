@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **codes** | [**List<ItemCodesInner>**](ItemCodesInner.md) |  | [optional] [default to const []]
 **name** | **String** |  | 
 **description** | **String** |  | [optional] 
-**type** | **String** | 1=Good, 2=Service | 
+**type** | **String** | 1=Bien, 2=Servicio | 
 **billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
 **withholdingAgentIndicator** | **int** |  | [optional] 
 **withheldITBISAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 

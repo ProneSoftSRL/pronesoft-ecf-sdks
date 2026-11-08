@@ -52,7 +52,7 @@ class ElectronicDocument {
     this.additionalIssuerInfo,
     this.buyer,
     this.items = const [],
-    this.totals,
+    required this.totals,
     this.transport,
     this.additionalInfo,
     this.alternativeCurrency,
@@ -76,7 +76,7 @@ class ElectronicDocument {
   ///
   String? invoiceNumber;
 
-  /// Optional Group ID for batch processing
+  /// ID de grupo opcional para procesamiento en lote.
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -95,17 +95,17 @@ class ElectronicDocument {
   ///
   DateTime? expirationDate;
 
-  /// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+  /// Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días
   ElectronicDocumentCreditNoteIndicatorEnum? creditNoteIndicator;
 
   ElectronicDocumentDeferredSendingIndicatorEnum? deferredSendingIndicator;
 
   ElectronicDocumentTaxedAmountIndicatorEnum? taxedAmountIndicator;
 
-  /// 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
+  /// 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro
   ElectronicDocumentIncomeTypeEnum? incomeType;
 
-  /// 1=Cash, 2=Credit, 3=Mixed
+  /// 1=Contado, 2=Crédito, 3=Mixto
   ElectronicDocumentPaymentTypeEnum? paymentType;
 
   ///
@@ -124,7 +124,7 @@ class ElectronicDocument {
   ///
   String? paymentTerms;
 
-  /// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
+  /// Payment breakdown. Required.
   List<PaymentForm> paymentForms;
 
   ///
@@ -175,7 +175,7 @@ class ElectronicDocument {
   ///
   int? totalPages;
 
-  /// RNC of the issuing company.
+  /// RNC de la empresa emisora.
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -316,13 +316,7 @@ class ElectronicDocument {
 
   List<Item> items;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  Totals? totals;
+  Totals totals;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -466,7 +460,7 @@ class ElectronicDocument {
     (additionalIssuerInfo == null ? 0 : additionalIssuerInfo!.hashCode) +
     (buyer == null ? 0 : buyer!.hashCode) +
     (items.hashCode) +
-    (totals == null ? 0 : totals!.hashCode) +
+    (totals.hashCode) +
     (transport == null ? 0 : transport!.hashCode) +
     (additionalInfo == null ? 0 : additionalInfo!.hashCode) +
     (alternativeCurrency == null ? 0 : alternativeCurrency!.hashCode) +
@@ -651,11 +645,7 @@ class ElectronicDocument {
       json[r'buyer'] = null;
     }
       json[r'items'] = this.items;
-    if (this.totals != null) {
       json[r'totals'] = this.totals;
-    } else {
-      json[r'totals'] = null;
-    }
     if (this.transport != null) {
       json[r'transport'] = this.transport;
     } else {
@@ -705,8 +695,12 @@ class ElectronicDocument {
         assert(json[r'invoiceType'] != null, 'Required key "ElectronicDocument[invoiceType]" has a null value in JSON.');
         assert(json.containsKey(r'issueDate'), 'Required key "ElectronicDocument[issueDate]" is missing from JSON.');
         assert(json[r'issueDate'] != null, 'Required key "ElectronicDocument[issueDate]" has a null value in JSON.');
+        assert(json.containsKey(r'paymentForms'), 'Required key "ElectronicDocument[paymentForms]" is missing from JSON.');
+        assert(json[r'paymentForms'] != null, 'Required key "ElectronicDocument[paymentForms]" has a null value in JSON.');
         assert(json.containsKey(r'items'), 'Required key "ElectronicDocument[items]" is missing from JSON.');
         assert(json[r'items'] != null, 'Required key "ElectronicDocument[items]" has a null value in JSON.');
+        assert(json.containsKey(r'totals'), 'Required key "ElectronicDocument[totals]" is missing from JSON.');
+        assert(json[r'totals'] != null, 'Required key "ElectronicDocument[totals]" has a null value in JSON.');
         return true;
       }());
 
@@ -752,7 +746,7 @@ class ElectronicDocument {
         additionalIssuerInfo: mapValueOfType<String>(json, r'additionalIssuerInfo'),
         buyer: Buyer.fromJson(json[r'buyer']),
         items: Item.listFromJson(json[r'items']),
-        totals: Totals.fromJson(json[r'totals']),
+        totals: Totals.fromJson(json[r'totals'])!,
         transport: Transport.fromJson(json[r'transport']),
         additionalInfo: AdditionalInfo.fromJson(json[r'additionalInfo']),
         alternativeCurrency: AlternativeCurrency.fromJson(json[r'alternativeCurrency']),
@@ -809,11 +803,13 @@ class ElectronicDocument {
   static const requiredKeys = <String>{
     'invoiceType',
     'issueDate',
+    'paymentForms',
     'items',
+    'totals',
   };
 }
 
-/// Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+/// Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días
 class ElectronicDocumentCreditNoteIndicatorEnum {
   /// Instantiate a new enum with the provided [value].
   const ElectronicDocumentCreditNoteIndicatorEnum._(this.value);
@@ -1032,7 +1028,7 @@ class ElectronicDocumentTaxedAmountIndicatorEnumTypeTransformer {
 }
 
 
-/// 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
+/// 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro
 class ElectronicDocumentIncomeTypeEnum {
   /// Instantiate a new enum with the provided [value].
   const ElectronicDocumentIncomeTypeEnum._(this.value);
@@ -1118,7 +1114,7 @@ class ElectronicDocumentIncomeTypeEnumTypeTransformer {
 }
 
 
-/// 1=Cash, 2=Credit, 3=Mixed
+/// 1=Contado, 2=Crédito, 3=Mixto
 class ElectronicDocumentPaymentTypeEnum {
   /// Instantiate a new enum with the provided [value].
   const ElectronicDocumentPaymentTypeEnum._(this.value);

@@ -118,6 +118,7 @@ Class | Method | HTTP request | Description
 *CommercialApprovalsAPI* | [**GetCommercialApprovalById**](docs/CommercialApprovalsAPI.md#getcommercialapprovalbyid) | **Get** /documents/approvals/{id} | Obtener aprobación comercial por ID
 *CommercialApprovalsAPI* | [**ListCommercialApprovals**](docs/CommercialApprovalsAPI.md#listcommercialapprovals) | **Get** /documents/approvals | Listar aprobaciones comerciales
 *DigitalCertificatesAPI* | [**UploadCertificate**](docs/DigitalCertificatesAPI.md#uploadcertificate) | **Post** /{rnc}/certificates | Subir certificado digital (P12/PFX)
+*DocumentsReceivedAPI* | [**DecideCommercialApproval**](docs/DocumentsReceivedAPI.md#decidecommercialapproval) | **Post** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
 *DocumentsReceivedAPI* | [**GetReceivedDocumentById**](docs/DocumentsReceivedAPI.md#getreceiveddocumentbyid) | **Get** /documents/received/{id} | Obtener documento recibido por ID
 *DocumentsReceivedAPI* | [**GetReceivedDocumentStatsBySupplier**](docs/DocumentsReceivedAPI.md#getreceiveddocumentstatsbysupplier) | **Get** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
 *DocumentsReceivedAPI* | [**GetReceivedDocumentStatsSummary**](docs/DocumentsReceivedAPI.md#getreceiveddocumentstatssummary) | **Get** /documents/received/stats/summary | Estadísticas de documentos recibidos
@@ -180,6 +181,8 @@ Class | Method | HTTP request | Description
  - [CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
  - [CreateTaxSequence201Response](docs/CreateTaxSequence201Response.md)
  - [CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
+ - [DecideCommercialApprovalRequest](docs/DecideCommercialApprovalRequest.md)
+ - [DecideCommercialApprovalResponse](docs/DecideCommercialApprovalResponse.md)
  - [DeleteAssociatedCompany200Response](docs/DeleteAssociatedCompany200Response.md)
  - [DgiiMessage](docs/DgiiMessage.md)
  - [DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
@@ -192,6 +195,8 @@ Class | Method | HTTP request | Description
  - [EcfHistoryItem](docs/EcfHistoryItem.md)
  - [EcfStatsResponse](docs/EcfStatsResponse.md)
  - [EcfStatusResponse](docs/EcfStatusResponse.md)
+ - [EcfStatusResponseGovernmentResponse](docs/EcfStatusResponseGovernmentResponse.md)
+ - [EcfStatusResponseGovernmentResponseValueInner](docs/EcfStatusResponseGovernmentResponseValueInner.md)
  - [EcfSubmitResponse](docs/EcfSubmitResponse.md)
  - [EcfSubmitResponseCompanyIdentification](docs/EcfSubmitResponseCompanyIdentification.md)
  - [ElectronicDocument](docs/ElectronicDocument.md)

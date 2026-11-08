@@ -40,9 +40,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         [DataMember(Name = "invoiceType", IsRequired = true, EmitDefaultValue = true)]
         public InvoiceType InvoiceType { get; set; }
         /// <summary>
-        /// Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days
+        /// Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días
         /// </summary>
-        /// <value>Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days</value>
+        /// <value>Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum CreditNoteIndicatorEnum
         {
@@ -61,9 +61,9 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days
+        /// Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días
         /// </summary>
-        /// <value>Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days</value>
+        /// <value>Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días</value>
         [DataMember(Name = "creditNoteIndicator", EmitDefaultValue = false)]
         public CreditNoteIndicatorEnum? CreditNoteIndicator { get; set; }
         /// <summary>
@@ -111,9 +111,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         [DataMember(Name = "taxedAmountIndicator", EmitDefaultValue = false)]
         public TaxedAmountIndicatorEnum? TaxedAmountIndicator { get; set; }
         /// <summary>
-        /// 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other
+        /// 01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro
         /// </summary>
-        /// <value>01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other</value>
+        /// <value>01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum IncomeTypeEnum
         {
@@ -156,15 +156,15 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// 01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other
+        /// 01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro
         /// </summary>
-        /// <value>01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other</value>
+        /// <value>01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro</value>
         [DataMember(Name = "incomeType", EmitDefaultValue = false)]
         public IncomeTypeEnum? IncomeType { get; set; }
         /// <summary>
-        /// 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed
+        /// 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto
         /// </summary>
-        /// <value>1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed</value>
+        /// <value>1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto</value>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum PaymentTypeEnum
         {
@@ -189,9 +189,9 @@ namespace Pronesoft.Ecf.Sdk.Model
 
 
         /// <summary>
-        /// 1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed
+        /// 1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto
         /// </summary>
-        /// <value>1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed</value>
+        /// <value>1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto</value>
         [DataMember(Name = "paymentType", EmitDefaultValue = false)]
         public PaymentTypeEnum? PaymentType { get; set; }
 
@@ -211,24 +211,24 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="varVersion">Siempre \&quot;1.0\&quot;. (default to &quot;1.0&quot;).</param>
         /// <param name="invoiceType">invoiceType (required).</param>
         /// <param name="invoiceNumber">Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese &#x60;invoiceType&#x60;. .</param>
-        /// <param name="groupId">Optional Group ID for batch processing.</param>
+        /// <param name="groupId">ID de grupo opcional para procesamiento en lote..</param>
         /// <param name="issueDate">issueDate (required).</param>
         /// <param name="expirationDate">expirationDate.</param>
-        /// <param name="creditNoteIndicator">Credit Notes only: 0&#x3D;affected invoice &lt;&#x3D;30 days, 1&#x3D;&gt;30 days.</param>
+        /// <param name="creditNoteIndicator">Solo Notas de Crédito: 0&#x3D;factura afectada ≤30 días, 1&#x3D;&gt;30 días.</param>
         /// <param name="deferredSendingIndicator">deferredSendingIndicator.</param>
         /// <param name="taxedAmountIndicator">taxedAmountIndicator.</param>
-        /// <param name="incomeType">01&#x3D;Operations, 02&#x3D;Financial, 03&#x3D;Extraordinary, 04&#x3D;Leasing, 05&#x3D;Assets, 06&#x3D;Other.</param>
-        /// <param name="paymentType">1&#x3D;Cash, 2&#x3D;Credit, 3&#x3D;Mixed.</param>
+        /// <param name="incomeType">01&#x3D;Operaciones, 02&#x3D;Financiero, 03&#x3D;Extraordinario, 04&#x3D;Leasing, 05&#x3D;Activos, 06&#x3D;Otro.</param>
+        /// <param name="paymentType">1&#x3D;Contado, 2&#x3D;Crédito, 3&#x3D;Mixto.</param>
         /// <param name="paymentDeadline">paymentDeadline.</param>
         /// <param name="paymentTerms">paymentTerms.</param>
-        /// <param name="paymentForms">Payment breakdown. Optional; if omitted, the XML is sent without the payment table..</param>
+        /// <param name="paymentForms">Payment breakdown. Required. (required).</param>
         /// <param name="paymentAccountType">paymentAccountType.</param>
         /// <param name="paymentAccountNumber">paymentAccountNumber.</param>
         /// <param name="paymentBank">paymentBank.</param>
         /// <param name="serviceStartDate">serviceStartDate.</param>
         /// <param name="serviceEndDate">serviceEndDate.</param>
         /// <param name="totalPages">totalPages.</param>
-        /// <param name="issuerRNC">RNC of the issuing company..</param>
+        /// <param name="issuerRNC">RNC de la empresa emisora..</param>
         /// <param name="issuerBusinessName">issuerBusinessName.</param>
         /// <param name="issuerCommercialName">issuerCommercialName.</param>
         /// <param name="branchName">branchName.</param>
@@ -247,7 +247,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <param name="additionalIssuerInfo">additionalIssuerInfo.</param>
         /// <param name="buyer">buyer.</param>
         /// <param name="items">items (required).</param>
-        /// <param name="totals">totals.</param>
+        /// <param name="totals">totals (required).</param>
         /// <param name="transport">transport.</param>
         /// <param name="additionalInfo">additionalInfo.</param>
         /// <param name="alternativeCurrency">alternativeCurrency.</param>
@@ -259,12 +259,24 @@ namespace Pronesoft.Ecf.Sdk.Model
         {
             this.InvoiceType = invoiceType;
             this.IssueDate = issueDate;
+            // to ensure "paymentForms" is required (not null)
+            if (paymentForms == null)
+            {
+                throw new ArgumentNullException("paymentForms is a required property for ElectronicDocument and cannot be null");
+            }
+            this.PaymentForms = paymentForms;
             // to ensure "items" is required (not null)
             if (items == null)
             {
                 throw new ArgumentNullException("items is a required property for ElectronicDocument and cannot be null");
             }
             this.Items = items;
+            // to ensure "totals" is required (not null)
+            if (totals == null)
+            {
+                throw new ArgumentNullException("totals is a required property for ElectronicDocument and cannot be null");
+            }
+            this.Totals = totals;
             // use default value if no "varVersion" provided
             this.VarVersion = varVersion ?? @"1.0";
             this.InvoiceNumber = invoiceNumber;
@@ -277,7 +289,6 @@ namespace Pronesoft.Ecf.Sdk.Model
             this.PaymentType = paymentType;
             this.PaymentDeadline = paymentDeadline;
             this.PaymentTerms = paymentTerms;
-            this.PaymentForms = paymentForms;
             this.PaymentAccountType = paymentAccountType;
             this.PaymentAccountNumber = paymentAccountNumber;
             this.PaymentBank = paymentBank;
@@ -302,7 +313,6 @@ namespace Pronesoft.Ecf.Sdk.Model
             this.SalesRoute = salesRoute;
             this.AdditionalIssuerInfo = additionalIssuerInfo;
             this.Buyer = buyer;
-            this.Totals = totals;
             this.Transport = transport;
             this.AdditionalInfo = additionalInfo;
             this.AlternativeCurrency = alternativeCurrency;
@@ -333,9 +343,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string InvoiceNumber { get; set; }
 
         /// <summary>
-        /// Optional Group ID for batch processing
+        /// ID de grupo opcional para procesamiento en lote.
         /// </summary>
-        /// <value>Optional Group ID for batch processing</value>
+        /// <value>ID de grupo opcional para procesamiento en lote.</value>
         [DataMember(Name = "groupId", EmitDefaultValue = false)]
         public string GroupId { get; set; }
 
@@ -367,13 +377,13 @@ namespace Pronesoft.Ecf.Sdk.Model
         public string PaymentTerms { get; set; }
 
         /// <summary>
-        /// Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
+        /// Payment breakdown. Required.
         /// </summary>
-        /// <value>Payment breakdown. Optional; if omitted, the XML is sent without the payment table.</value>
+        /// <value>Payment breakdown. Required.</value>
         /*
         <example>[{&quot;method&quot;:&quot;1&quot;,&quot;amount&quot;:11800.0}]</example>
         */
-        [DataMember(Name = "paymentForms", EmitDefaultValue = false)]
+        [DataMember(Name = "paymentForms", IsRequired = true, EmitDefaultValue = true)]
         public List<PaymentForm> PaymentForms { get; set; }
 
         /// <summary>
@@ -407,9 +417,9 @@ namespace Pronesoft.Ecf.Sdk.Model
         public int TotalPages { get; set; }
 
         /// <summary>
-        /// RNC of the issuing company.
+        /// RNC de la empresa emisora.
         /// </summary>
-        /// <value>RNC of the issuing company.</value>
+        /// <value>RNC de la empresa emisora.</value>
         [DataMember(Name = "issuerRNC", EmitDefaultValue = false)]
         public string IssuerRNC { get; set; }
 
@@ -524,7 +534,7 @@ namespace Pronesoft.Ecf.Sdk.Model
         /// <summary>
         /// Gets or Sets Totals
         /// </summary>
-        [DataMember(Name = "totals", EmitDefaultValue = false)]
+        [DataMember(Name = "totals", IsRequired = true, EmitDefaultValue = true)]
         public Totals Totals { get; set; }
 
         /// <summary>

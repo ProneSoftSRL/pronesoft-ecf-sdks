@@ -15,17 +15,11 @@ public typealias EcfSubmitResponse = PronesoftEcfAPI.EcfSubmitResponse
 
 extension PronesoftEcfAPI {
 
-/** Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. &#x60;status&#x60; siempre es &#x60;REGISTERED&#x60;. &#x60;legalStatus&#x60; y &#x60;trackId&#x60; siempre son &#x60;null&#x60; en este momento — se populan una vez que la DGII procesa el documento. Usa &#x60;GET /ecf/status/{id}&#x60; o escucha el webhook &#x60;document.status_changed&#x60; para obtener el resultado fiscal final.  */
+/** Respuesta del endpoint POST submit. El documento fue registrado y firmado localmente. &#x60;status&#x60; siempre es &#x60;REGISTERED&#x60;. Usa &#x60;GET /ecf/status/{id}&#x60; o escucha el webhook &#x60;document.status_changed&#x60; para obtener el resultado fiscal final de DGII.  */
 public struct EcfSubmitResponse: Codable, JSONEncodable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case registered = "REGISTERED"
-    }
-    public enum LegalStatus: String, Codable, CaseIterable {
-        case accepted = "ACCEPTED"
-        case acceptedWithObservations = "ACCEPTED_WITH_OBSERVATIONS"
-        case rejected = "REJECTED"
-        case error = "ERROR"
     }
     /** ID interno del documento. Úsalo para `GET /ecf/status/{id}`. */
     public var id: UUID
@@ -33,43 +27,31 @@ public struct EcfSubmitResponse: Codable, JSONEncodable, Hashable {
     public var stampDate: Date?
     /** Siempre `REGISTERED` al enviar. El estado fiscal llega vía webhook o polling. */
     public var status: Status
-    /** Siempre `null` al enviar. Se actualiza tras la respuesta de DGII. */
-    public var legalStatus: LegalStatus?
     public var companyIdentification: EcfSubmitResponseCompanyIdentification
-    /** Siempre `null` al enviar. Lo asigna DGII al procesar el documento. */
-    public var trackId: String?
-    /** Número de control electrónico (e-NCF). Igual a `encf`. */
-    public var documentNumber: String?
     /** Número e-NCF asignado al documento (ej. E310000000001). */
-    public var encf: String?
+    public var encf: String
     /** `true` si el documento fue emitido en modo contingencia (DGII no disponible). */
     public var contingencyMode: Bool?
-    /** Mensaje oficial DGII cuando `contingencyMode` es `true`. */
-    public var contingencyMessage: String?
-    /** URL del código QR del documento. */
+    /** URL de consulta del timbre en DGII. */
     public var documentStampUrl: String?
     /** URL pre-firmada del PDF (expira en 1 hora). */
     public var pdf: String?
     /** URL pre-firmada del XML firmado (expira en 1 hora). */
     public var xmlUrl: String?
     /** Fecha y hora de la firma digital. */
-    public var signatureDate: Date?
-    /** Código de seguridad del documento. */
+    public var signatureDate: String?
+    /** Código de seguridad de 6 caracteres del documento. */
     public var securityCode: String?
-    /** Siempre `false` en el submit. Se confirma como `true` solo tras respuesta de DGII. */
+    /** `false` en el submit. Se confirma como `true` solo tras respuesta de DGII. */
     public var sequenceConsumed: Bool
 
-    public init(id: UUID, stampDate: Date? = nil, status: Status, legalStatus: LegalStatus? = nil, companyIdentification: EcfSubmitResponseCompanyIdentification, trackId: String? = nil, documentNumber: String? = nil, encf: String? = nil, contingencyMode: Bool? = nil, contingencyMessage: String? = nil, documentStampUrl: String? = nil, pdf: String? = nil, xmlUrl: String? = nil, signatureDate: Date? = nil, securityCode: String? = nil, sequenceConsumed: Bool) {
+    public init(id: UUID, stampDate: Date? = nil, status: Status, companyIdentification: EcfSubmitResponseCompanyIdentification, encf: String, contingencyMode: Bool? = nil, documentStampUrl: String? = nil, pdf: String? = nil, xmlUrl: String? = nil, signatureDate: String? = nil, securityCode: String? = nil, sequenceConsumed: Bool) {
         self.id = id
         self.stampDate = stampDate
         self.status = status
-        self.legalStatus = legalStatus
         self.companyIdentification = companyIdentification
-        self.trackId = trackId
-        self.documentNumber = documentNumber
         self.encf = encf
         self.contingencyMode = contingencyMode
-        self.contingencyMessage = contingencyMessage
         self.documentStampUrl = documentStampUrl
         self.pdf = pdf
         self.xmlUrl = xmlUrl
@@ -82,13 +64,9 @@ public struct EcfSubmitResponse: Codable, JSONEncodable, Hashable {
         case id
         case stampDate
         case status
-        case legalStatus
         case companyIdentification
-        case trackId
-        case documentNumber
         case encf
         case contingencyMode
-        case contingencyMessage
         case documentStampUrl
         case pdf
         case xmlUrl
@@ -104,13 +82,9 @@ public struct EcfSubmitResponse: Codable, JSONEncodable, Hashable {
         try container.encode(id, forKey: .id)
         try container.encodeIfPresent(stampDate, forKey: .stampDate)
         try container.encode(status, forKey: .status)
-        try container.encodeIfPresent(legalStatus, forKey: .legalStatus)
         try container.encode(companyIdentification, forKey: .companyIdentification)
-        try container.encodeIfPresent(trackId, forKey: .trackId)
-        try container.encodeIfPresent(documentNumber, forKey: .documentNumber)
-        try container.encodeIfPresent(encf, forKey: .encf)
+        try container.encode(encf, forKey: .encf)
         try container.encodeIfPresent(contingencyMode, forKey: .contingencyMode)
-        try container.encodeIfPresent(contingencyMessage, forKey: .contingencyMessage)
         try container.encodeIfPresent(documentStampUrl, forKey: .documentStampUrl)
         try container.encodeIfPresent(pdf, forKey: .pdf)
         try container.encodeIfPresent(xmlUrl, forKey: .xmlUrl)

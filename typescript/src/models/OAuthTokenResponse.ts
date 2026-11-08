@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Bearer token valid for 24 hours (86400 seconds).
+ * Token de acceso Bearer válido por 24 horas (86400 segundos).
  * @export
  * @interface OAuthTokenResponse
  */
@@ -32,7 +32,7 @@ export interface OAuthTokenResponse {
      */
     tokenType?: string;
     /**
-     * Token lifetime in seconds (24 hours = 86400).
+     * Duración del token en segundos (24 horas = 86400).
      * @type {number}
      * @memberof OAuthTokenResponse
      */

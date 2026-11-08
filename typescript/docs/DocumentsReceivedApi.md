@@ -4,11 +4,92 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**decideCommercialApproval**](DocumentsReceivedApi.md#decidecommercialapprovaloperation) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido |
 | [**getReceivedDocumentById**](DocumentsReceivedApi.md#getreceiveddocumentbyid) | **GET** /documents/received/{id} | Obtener documento recibido por ID |
 | [**getReceivedDocumentStatsBySupplier**](DocumentsReceivedApi.md#getreceiveddocumentstatsbysupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos |
 | [**getReceivedDocumentStatsSummary**](DocumentsReceivedApi.md#getreceiveddocumentstatssummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos |
 | [**listReceivedDocuments**](DocumentsReceivedApi.md#listreceiveddocuments) | **GET** /documents/received | Listar documentos recibidos |
 
+
+
+## decideCommercialApproval
+
+> DecideCommercialApprovalResponse decideCommercialApproval(id, decideCommercialApprovalRequest, xTenantId)
+
+Aprobar o rechazar comercialmente un documento recibido
+
+Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DocumentsReceivedApi,
+} from '@pronesoft-rd/ecf-sdk';
+import type { DecideCommercialApprovalOperationRequest } from '@pronesoft-rd/ecf-sdk';
+
+async function example() {
+  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: oauth2 application
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new DocumentsReceivedApi(config);
+
+  const body = {
+    // string | ID del documento recibido (TaxDocumentReceived.id)
+    id: 38400000-8cf0-11bd-b23e-10b96e4ef00d,
+    // DecideCommercialApprovalRequest
+    decideCommercialApprovalRequest: ...,
+    // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
+    xTenantId: 468a4aa1-1b80-447e-9ecb-400e39f7d798,
+  } satisfies DecideCommercialApprovalOperationRequest;
+
+  try {
+    const data = await api.decideCommercialApproval(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` | ID del documento recibido (TaxDocumentReceived.id) | [Defaults to `undefined`] |
+| **decideCommercialApprovalRequest** | [DecideCommercialApprovalRequest](DecideCommercialApprovalRequest.md) |  | |
+| **xTenantId** | `string` | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**DecideCommercialApprovalResponse**](DecideCommercialApprovalResponse.md)
+
+### Authorization
+
+[oauth2 application](../README.md#oauth2-application)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Decisión registrada y encolada para envío |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+| **404** | Documento recibido no encontrado |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getReceivedDocumentById
@@ -265,10 +346,10 @@ async function example() {
     amountTo: 8.14,
     // boolean (optional)
     processed: true,
-    // Date (optional)
-    dateFrom: 2013-10-20,
-    // Date (optional)
-    dateTo: 2013-10-20,
+    // string | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional)
+    dateFrom: dateFrom_example,
+    // string | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional)
+    dateTo: dateTo_example,
     // number (optional)
     page: 56,
     // number (optional)
@@ -300,8 +381,8 @@ example().catch(console.error);
 | **amountFrom** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **amountTo** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **processed** | `boolean` |  | [Optional] [Defaults to `undefined`] |
-| **dateFrom** | `Date` |  | [Optional] [Defaults to `undefined`] |
-| **dateTo** | `Date` |  | [Optional] [Defaults to `undefined`] |
+| **dateFrom** | `string` | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [Optional] [Defaults to `undefined`] |
+| **dateTo** | `string` | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [Optional] [Defaults to `undefined`] |
 | **page** | `number` |  | [Optional] [Defaults to `1`] |
 | **limit** | `number` |  | [Optional] [Defaults to `10`] |
 

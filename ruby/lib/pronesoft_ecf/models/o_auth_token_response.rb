@@ -14,13 +14,13 @@ require 'date'
 require 'time'
 
 module PronesoftEcf
-  # Bearer token valid for 24 hours (86400 seconds).
+  # Token de acceso Bearer válido por 24 horas (86400 segundos).
   class OAuthTokenResponse < ApiModelBase
     attr_accessor :access_token
 
     attr_accessor :token_type
 
-    # Token lifetime in seconds (24 hours = 86400).
+    # Duración del token en segundos (24 horas = 86400).
     attr_accessor :expires_in
 
     attr_accessor :scope

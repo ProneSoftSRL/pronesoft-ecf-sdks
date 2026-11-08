@@ -11,7 +11,7 @@
 |**codes** | [**List&lt;ItemCodesInner&gt;**](ItemCodesInner.md) |  |  [optional] |
 |**name** | **String** |  |  |
 |**description** | **String** |  |  [optional] |
-|**type** | [**TypeEnum**](#TypeEnum) | 1&#x3D;Good, 2&#x3D;Service |  |
+|**type** | [**TypeEnum**](#TypeEnum) | 1&#x3D;Bien, 2&#x3D;Servicio |  |
 |**billingIndicator** | **BillingIndicator** |  |  |
 |**withholdingAgentIndicator** | **Integer** |  |  [optional] |
 |**withheldITBISAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  |  [optional] |

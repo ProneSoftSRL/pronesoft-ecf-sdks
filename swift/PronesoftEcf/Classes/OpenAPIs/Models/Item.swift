@@ -27,7 +27,7 @@ public struct Item: Codable, JSONEncodable, Hashable {
     public var codes: [ItemCodesInner]?
     public var name: String
     public var description: String?
-    /** 1=Good, 2=Service */
+    /** 1=Bien, 2=Servicio */
     public var type: ModelType
     public var billingIndicator: BillingIndicator
     public var withholdingAgentIndicator: Int?

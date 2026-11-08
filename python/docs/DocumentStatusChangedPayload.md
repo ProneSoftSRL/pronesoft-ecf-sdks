@@ -1,19 +1,19 @@
 # DocumentStatusChangedPayload
 
-Payload inside `data` when event is `document.status_changed`. Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed. `issuerRnc` identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
+Contenido del campo `data` cuando el evento es `document.status_changed`. Usa `documentId` para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. `issuerRnc` identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió). 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**document_id** | **UUID** | Internal document ID for polling. | 
-**encf** | **str** | e-NCF fiscal number. | 
-**issuer_rnc** | **str** | RNC of the issuing company (associated or main). | 
-**status** | **str** | Public lifecycle status. | 
-**legal_status** | **str** | Fiscal result from DGII. Only present when status&#x3D;FINISHED. | [optional] 
-**document_type** | **str** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) | [optional] 
-**track_id** | **str** | DGII tracking ID. | [optional] 
-**dgii_message** | **str** | Human-readable DGII response message. | [optional] 
+**document_id** | **UUID** | ID interno del documento para hacer polling. | 
+**encf** | **str** | Número fiscal e-NCF. | 
+**issuer_rnc** | **str** | RNC de la empresa emisora (asociada o principal). | 
+**status** | **str** | Estado del ciclo de vida del documento. | 
+**legal_status** | **str** | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. | [optional] 
+**document_type** | **str** | Código del tipo de documento (31&#x3D;Factura, 32&#x3D;Nota de Crédito, etc.) | [optional] 
+**track_id** | **str** | ID de seguimiento asignado por la DGII. | [optional] 
+**dgii_message** | **str** | Mensaje legible de respuesta de la DGII. | [optional] 
 
 ## Example
 

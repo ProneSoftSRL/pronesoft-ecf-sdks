@@ -905,11 +905,13 @@ func (r ApiListSentDocumentsRequest) Status(status string) ApiListSentDocumentsR
 	return r
 }
 
+// Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
 func (r ApiListSentDocumentsRequest) DateFrom(dateFrom string) ApiListSentDocumentsRequest {
 	r.dateFrom = &dateFrom
 	return r
 }
 
+// Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
 func (r ApiListSentDocumentsRequest) DateTo(dateTo string) ApiListSentDocumentsRequest {
 	r.dateTo = &dateTo
 	return r

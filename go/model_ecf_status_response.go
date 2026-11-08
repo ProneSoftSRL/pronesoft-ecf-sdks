@@ -13,7 +13,6 @@ package ecf
 
 import (
 	"encoding/json"
-	"time"
 	"bytes"
 	"fmt"
 )
@@ -32,30 +31,23 @@ type EcfStatusResponse struct {
 	// Estado fiscal según la respuesta de DGII. null mientras no hay respuesta.
 	LegalStatus NullableString `json:"legalStatus,omitempty"`
 	CompanyIdentification EcfSubmitResponseCompanyIdentification `json:"companyIdentification"`
-	// ID de seguimiento asignado por DGII.
+	// ID de seguimiento asignado por DGII. null mientras procesa.
 	TrackId NullableString `json:"trackId,omitempty"`
-	// Número de control electrónico (e-NCF).
-	DocumentNumber NullableString `json:"documentNumber,omitempty"`
 	// Número e-NCF del documento.
 	Encf NullableString `json:"encf,omitempty"`
-	// true si fue emitido en modo contingencia.
-	ContingencyMode *bool `json:"contingencyMode,omitempty"`
-	// Mensaje oficial DGII cuando contingencyMode es true.
-	ContingencyMessage *string `json:"contingencyMessage,omitempty"`
-	// URL del código QR del documento.
+	// URL de consulta del timbre en DGII.
 	DocumentStampUrl NullableString `json:"documentStampUrl,omitempty"`
-	// URL pre-firmada del PDF (expira en 1 hora).
+	// URL del PDF del documento.
 	Pdf NullableString `json:"pdf,omitempty"`
-	// URL pre-firmada del XML firmado (expira en 1 hora).
+	// URL del XML firmado.
 	XmlUrl NullableString `json:"xmlUrl,omitempty"`
 	// Fecha y hora de la firma digital.
-	SignatureDate NullableTime `json:"signatureDate,omitempty"`
-	// Código de seguridad del documento.
+	SignatureDate NullableString `json:"signatureDate,omitempty"`
+	// Código de seguridad de 6 caracteres.
 	SecurityCode NullableString `json:"securityCode,omitempty"`
-	// true si DGII confirmó el consumo de la secuencia.
+	// true cuando DGII confirmó el uso de la secuencia.
 	SequenceConsumed bool `json:"sequenceConsumed"`
-	// Respuesta completa de DGII (disponible cuando status es FINISHED).
-	GovernmentResponse map[string]interface{} `json:"governmentResponse,omitempty"`
+	GovernmentResponse NullableEcfStatusResponseGovernmentResponse `json:"governmentResponse,omitempty"`
 }
 
 type _EcfStatusResponse EcfStatusResponse
@@ -279,48 +271,6 @@ func (o *EcfStatusResponse) UnsetTrackId() {
 	o.TrackId.Unset()
 }
 
-// GetDocumentNumber returns the DocumentNumber field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EcfStatusResponse) GetDocumentNumber() string {
-	if o == nil || IsNil(o.DocumentNumber.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.DocumentNumber.Get()
-}
-
-// GetDocumentNumberOk returns a tuple with the DocumentNumber field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EcfStatusResponse) GetDocumentNumberOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.DocumentNumber.Get(), o.DocumentNumber.IsSet()
-}
-
-// HasDocumentNumber returns a boolean if a field has been set.
-func (o *EcfStatusResponse) HasDocumentNumber() bool {
-	if o != nil && o.DocumentNumber.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetDocumentNumber gets a reference to the given NullableString and assigns it to the DocumentNumber field.
-func (o *EcfStatusResponse) SetDocumentNumber(v string) {
-	o.DocumentNumber.Set(&v)
-}
-// SetDocumentNumberNil sets the value for DocumentNumber to be an explicit nil
-func (o *EcfStatusResponse) SetDocumentNumberNil() {
-	o.DocumentNumber.Set(nil)
-}
-
-// UnsetDocumentNumber ensures that no value is present for DocumentNumber, not even an explicit nil
-func (o *EcfStatusResponse) UnsetDocumentNumber() {
-	o.DocumentNumber.Unset()
-}
-
 // GetEncf returns the Encf field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EcfStatusResponse) GetEncf() string {
 	if o == nil || IsNil(o.Encf.Get()) {
@@ -361,70 +311,6 @@ func (o *EcfStatusResponse) SetEncfNil() {
 // UnsetEncf ensures that no value is present for Encf, not even an explicit nil
 func (o *EcfStatusResponse) UnsetEncf() {
 	o.Encf.Unset()
-}
-
-// GetContingencyMode returns the ContingencyMode field value if set, zero value otherwise.
-func (o *EcfStatusResponse) GetContingencyMode() bool {
-	if o == nil || IsNil(o.ContingencyMode) {
-		var ret bool
-		return ret
-	}
-	return *o.ContingencyMode
-}
-
-// GetContingencyModeOk returns a tuple with the ContingencyMode field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EcfStatusResponse) GetContingencyModeOk() (*bool, bool) {
-	if o == nil || IsNil(o.ContingencyMode) {
-		return nil, false
-	}
-	return o.ContingencyMode, true
-}
-
-// HasContingencyMode returns a boolean if a field has been set.
-func (o *EcfStatusResponse) HasContingencyMode() bool {
-	if o != nil && !IsNil(o.ContingencyMode) {
-		return true
-	}
-
-	return false
-}
-
-// SetContingencyMode gets a reference to the given bool and assigns it to the ContingencyMode field.
-func (o *EcfStatusResponse) SetContingencyMode(v bool) {
-	o.ContingencyMode = &v
-}
-
-// GetContingencyMessage returns the ContingencyMessage field value if set, zero value otherwise.
-func (o *EcfStatusResponse) GetContingencyMessage() string {
-	if o == nil || IsNil(o.ContingencyMessage) {
-		var ret string
-		return ret
-	}
-	return *o.ContingencyMessage
-}
-
-// GetContingencyMessageOk returns a tuple with the ContingencyMessage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EcfStatusResponse) GetContingencyMessageOk() (*string, bool) {
-	if o == nil || IsNil(o.ContingencyMessage) {
-		return nil, false
-	}
-	return o.ContingencyMessage, true
-}
-
-// HasContingencyMessage returns a boolean if a field has been set.
-func (o *EcfStatusResponse) HasContingencyMessage() bool {
-	if o != nil && !IsNil(o.ContingencyMessage) {
-		return true
-	}
-
-	return false
-}
-
-// SetContingencyMessage gets a reference to the given string and assigns it to the ContingencyMessage field.
-func (o *EcfStatusResponse) SetContingencyMessage(v string) {
-	o.ContingencyMessage = &v
 }
 
 // GetDocumentStampUrl returns the DocumentStampUrl field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -554,9 +440,9 @@ func (o *EcfStatusResponse) UnsetXmlUrl() {
 }
 
 // GetSignatureDate returns the SignatureDate field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EcfStatusResponse) GetSignatureDate() time.Time {
+func (o *EcfStatusResponse) GetSignatureDate() string {
 	if o == nil || IsNil(o.SignatureDate.Get()) {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.SignatureDate.Get()
@@ -565,7 +451,7 @@ func (o *EcfStatusResponse) GetSignatureDate() time.Time {
 // GetSignatureDateOk returns a tuple with the SignatureDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *EcfStatusResponse) GetSignatureDateOk() (*time.Time, bool) {
+func (o *EcfStatusResponse) GetSignatureDateOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -581,8 +467,8 @@ func (o *EcfStatusResponse) HasSignatureDate() bool {
 	return false
 }
 
-// SetSignatureDate gets a reference to the given NullableTime and assigns it to the SignatureDate field.
-func (o *EcfStatusResponse) SetSignatureDate(v time.Time) {
+// SetSignatureDate gets a reference to the given NullableString and assigns it to the SignatureDate field.
+func (o *EcfStatusResponse) SetSignatureDate(v string) {
 	o.SignatureDate.Set(&v)
 }
 // SetSignatureDateNil sets the value for SignatureDate to be an explicit nil
@@ -661,36 +547,46 @@ func (o *EcfStatusResponse) SetSequenceConsumed(v bool) {
 	o.SequenceConsumed = v
 }
 
-// GetGovernmentResponse returns the GovernmentResponse field value if set, zero value otherwise.
-func (o *EcfStatusResponse) GetGovernmentResponse() map[string]interface{} {
-	if o == nil || IsNil(o.GovernmentResponse) {
-		var ret map[string]interface{}
+// GetGovernmentResponse returns the GovernmentResponse field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EcfStatusResponse) GetGovernmentResponse() EcfStatusResponseGovernmentResponse {
+	if o == nil || IsNil(o.GovernmentResponse.Get()) {
+		var ret EcfStatusResponseGovernmentResponse
 		return ret
 	}
-	return o.GovernmentResponse
+	return *o.GovernmentResponse.Get()
 }
 
 // GetGovernmentResponseOk returns a tuple with the GovernmentResponse field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EcfStatusResponse) GetGovernmentResponseOk() (map[string]interface{}, bool) {
-	if o == nil || IsNil(o.GovernmentResponse) {
-		return map[string]interface{}{}, false
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *EcfStatusResponse) GetGovernmentResponseOk() (*EcfStatusResponseGovernmentResponse, bool) {
+	if o == nil {
+		return nil, false
 	}
-	return o.GovernmentResponse, true
+	return o.GovernmentResponse.Get(), o.GovernmentResponse.IsSet()
 }
 
 // HasGovernmentResponse returns a boolean if a field has been set.
 func (o *EcfStatusResponse) HasGovernmentResponse() bool {
-	if o != nil && !IsNil(o.GovernmentResponse) {
+	if o != nil && o.GovernmentResponse.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetGovernmentResponse gets a reference to the given map[string]interface{} and assigns it to the GovernmentResponse field.
-func (o *EcfStatusResponse) SetGovernmentResponse(v map[string]interface{}) {
-	o.GovernmentResponse = v
+// SetGovernmentResponse gets a reference to the given NullableEcfStatusResponseGovernmentResponse and assigns it to the GovernmentResponse field.
+func (o *EcfStatusResponse) SetGovernmentResponse(v EcfStatusResponseGovernmentResponse) {
+	o.GovernmentResponse.Set(&v)
+}
+// SetGovernmentResponseNil sets the value for GovernmentResponse to be an explicit nil
+func (o *EcfStatusResponse) SetGovernmentResponseNil() {
+	o.GovernmentResponse.Set(nil)
+}
+
+// UnsetGovernmentResponse ensures that no value is present for GovernmentResponse, not even an explicit nil
+func (o *EcfStatusResponse) UnsetGovernmentResponse() {
+	o.GovernmentResponse.Unset()
 }
 
 func (o EcfStatusResponse) MarshalJSON() ([]byte, error) {
@@ -715,17 +611,8 @@ func (o EcfStatusResponse) ToMap() (map[string]interface{}, error) {
 	if o.TrackId.IsSet() {
 		toSerialize["trackId"] = o.TrackId.Get()
 	}
-	if o.DocumentNumber.IsSet() {
-		toSerialize["documentNumber"] = o.DocumentNumber.Get()
-	}
 	if o.Encf.IsSet() {
 		toSerialize["encf"] = o.Encf.Get()
-	}
-	if !IsNil(o.ContingencyMode) {
-		toSerialize["contingencyMode"] = o.ContingencyMode
-	}
-	if !IsNil(o.ContingencyMessage) {
-		toSerialize["contingencyMessage"] = o.ContingencyMessage
 	}
 	if o.DocumentStampUrl.IsSet() {
 		toSerialize["documentStampUrl"] = o.DocumentStampUrl.Get()
@@ -743,8 +630,8 @@ func (o EcfStatusResponse) ToMap() (map[string]interface{}, error) {
 		toSerialize["securityCode"] = o.SecurityCode.Get()
 	}
 	toSerialize["sequenceConsumed"] = o.SequenceConsumed
-	if !IsNil(o.GovernmentResponse) {
-		toSerialize["governmentResponse"] = o.GovernmentResponse
+	if o.GovernmentResponse.IsSet() {
+		toSerialize["governmentResponse"] = o.GovernmentResponse.Get()
 	}
 	return toSerialize, nil
 }

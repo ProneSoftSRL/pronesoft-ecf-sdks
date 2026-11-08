@@ -22,7 +22,7 @@ var _ MappedNullable = &ItemAdditionalTax{}
 
 // ItemAdditionalTax struct for ItemAdditionalTax
 type ItemAdditionalTax struct {
-	// DGII tax code (e.g. ISC, IECS)
+	// Código de impuesto DGII (ej. ISC, IECS)
 	Code string `json:"code"`
 	Amount *ItemWithheldITBISAmount `json:"amount,omitempty"`
 	Rate *float32 `json:"rate,omitempty"`

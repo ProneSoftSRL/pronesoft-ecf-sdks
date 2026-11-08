@@ -32,7 +32,7 @@ import (
 )
 
 func main() {
-	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceTypeSequence("E31"), int32(1), int32(10000), int32(10000), openapiclient.Environment("TesteCF")) // CreateTaxSequenceRequest | 
+	createTaxSequenceRequest := *openapiclient.NewCreateTaxSequenceRequest(openapiclient.InvoiceTypeSequence("E31"), int32(1), int32(10000)) // CreateTaxSequenceRequest | 
 	xTenantId := "468a4aa1-1b80-447e-9ecb-400e39f7d798" // string | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional)
 
 	configuration := openapiclient.NewConfiguration()

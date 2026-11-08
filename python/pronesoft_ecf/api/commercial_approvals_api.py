@@ -16,7 +16,6 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from datetime import date
 from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import Optional
 from typing_extensions import Annotated
@@ -328,8 +327,8 @@ class CommercialApprovalsApi:
         ecf: Optional[StrictStr] = None,
         type: Annotated[Optional[StrictStr], Field(description="Tipo de documento")] = None,
         status: Optional[StrictInt] = None,
-        date_from: Optional[date] = None,
-        date_to: Optional[date] = None,
+        date_from: Annotated[Optional[StrictStr], Field(description="Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).")] = None,
+        date_to: Annotated[Optional[StrictStr], Field(description="Fecha fin (YYYY-MM-DD o timestamp ISO 8601).")] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
@@ -356,10 +355,10 @@ class CommercialApprovalsApi:
         :type type: str
         :param status:
         :type status: int
-        :param date_from:
-        :type date_from: date
-        :param date_to:
-        :type date_to: date
+        :param date_from: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_from: str
+        :param date_to: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_to: str
         :param page:
         :type page: int
         :param limit:
@@ -423,8 +422,8 @@ class CommercialApprovalsApi:
         ecf: Optional[StrictStr] = None,
         type: Annotated[Optional[StrictStr], Field(description="Tipo de documento")] = None,
         status: Optional[StrictInt] = None,
-        date_from: Optional[date] = None,
-        date_to: Optional[date] = None,
+        date_from: Annotated[Optional[StrictStr], Field(description="Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).")] = None,
+        date_to: Annotated[Optional[StrictStr], Field(description="Fecha fin (YYYY-MM-DD o timestamp ISO 8601).")] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
@@ -451,10 +450,10 @@ class CommercialApprovalsApi:
         :type type: str
         :param status:
         :type status: int
-        :param date_from:
-        :type date_from: date
-        :param date_to:
-        :type date_to: date
+        :param date_from: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_from: str
+        :param date_to: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_to: str
         :param page:
         :type page: int
         :param limit:
@@ -518,8 +517,8 @@ class CommercialApprovalsApi:
         ecf: Optional[StrictStr] = None,
         type: Annotated[Optional[StrictStr], Field(description="Tipo de documento")] = None,
         status: Optional[StrictInt] = None,
-        date_from: Optional[date] = None,
-        date_to: Optional[date] = None,
+        date_from: Annotated[Optional[StrictStr], Field(description="Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).")] = None,
+        date_to: Annotated[Optional[StrictStr], Field(description="Fecha fin (YYYY-MM-DD o timestamp ISO 8601).")] = None,
         page: Optional[StrictInt] = None,
         limit: Optional[Annotated[int, Field(le=100, strict=True)]] = None,
         _request_timeout: Union[
@@ -546,10 +545,10 @@ class CommercialApprovalsApi:
         :type type: str
         :param status:
         :type status: int
-        :param date_from:
-        :type date_from: date
-        :param date_to:
-        :type date_to: date
+        :param date_from: Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_from: str
+        :param date_to: Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
+        :type date_to: str
         :param page:
         :type page: int
         :param limit:
@@ -647,30 +646,12 @@ class CommercialApprovalsApi:
             _query_params.append(('status', status))
             
         if date_from is not None:
-            if isinstance(date_from, date):
-                _query_params.append(
-                    (
-                        'dateFrom',
-                        date_from.strftime(
-                            self.api_client.configuration.date_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('dateFrom', date_from))
+            
+            _query_params.append(('dateFrom', date_from))
             
         if date_to is not None:
-            if isinstance(date_to, date):
-                _query_params.append(
-                    (
-                        'dateTo',
-                        date_to.strftime(
-                            self.api_client.configuration.date_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('dateTo', date_to))
+            
+            _query_params.append(('dateTo', date_to))
             
         if page is not None:
             

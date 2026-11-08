@@ -36,7 +36,7 @@ class ReceivedDocument(BaseModel):
     sender_rnc: Optional[StrictStr] = Field(default=None, alias="senderRnc")
     receiver_rnc: Optional[StrictStr] = Field(default=None, alias="receiverRnc")
     total_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalAmount")
-    status: Optional[StrictInt] = Field(default=None, description="1=Valid, 2=Voided, 3=Pending")
+    status: Optional[StrictInt] = Field(default=None, description="1=Válido, 2=Anulado, 3=Pendiente")
     status_label: Optional[StrictStr] = Field(default=None, alias="statusLabel")
     issue_date: Optional[datetime] = Field(default=None, alias="issueDate")
     received_at: Optional[datetime] = Field(default=None, alias="receivedAt")

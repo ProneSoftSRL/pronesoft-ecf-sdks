@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **BuyerRnc** | **string** |  | [optional] 
 **TotalAmount** | **decimal** |  | [optional] 
 **ApprovalStatus** | **string** |  | [optional] 
-**Status** | **int** | 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review | [optional] 
+**Status** | **int** | 1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión | [optional] 
 **StatusLabel** | **string** |  | [optional] 
 **IssueDate** | **DateTime** |  | [optional] 
 **ReceivedAt** | **DateTime** |  | [optional] 

@@ -38,7 +38,7 @@ class ApprovalItem(BaseModel):
     buyer_rnc: Optional[StrictStr] = Field(default=None, alias="buyerRnc")
     total_amount: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="totalAmount")
     approval_status: Optional[StrictStr] = Field(default=None, alias="approvalStatus")
-    status: Optional[StrictInt] = Field(default=None, description="1=Approved, 2=Rejected, 3=Pending, 4=Under Review")
+    status: Optional[StrictInt] = Field(default=None, description="1=Aprobado, 2=Rechazado, 3=Pendiente, 4=En revisión")
     status_label: Optional[StrictStr] = Field(default=None, alias="statusLabel")
     issue_date: Optional[datetime] = Field(default=None, alias="issueDate")
     received_at: Optional[datetime] = Field(default=None, alias="receivedAt")

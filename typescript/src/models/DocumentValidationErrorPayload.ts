@@ -20,30 +20,61 @@ import { mapValues } from '../runtime';
  */
 export interface DocumentValidationErrorPayload {
     /**
-     * 
+     * ID interno del documento en Pronesoft.
      * @type {string}
      * @memberof DocumentValidationErrorPayload
      */
-    encf: string;
+    documentId: string;
     /**
-     * Código de error de validación.
+     * Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).
+     * @type {string}
+     * @memberof DocumentValidationErrorPayload
+     */
+    encf?: string | null;
+    /**
+     * RNC de la empresa emisora del documento.
+     * @type {string}
+     * @memberof DocumentValidationErrorPayload
+     */
+    issuerRnc: string;
+    /**
+     * Tipo de comprobante (31, 32, 33, 34, etc.).
+     * @type {string}
+     * @memberof DocumentValidationErrorPayload
+     */
+    documentType?: string | null;
+    /**
+     * Código del error de validación.
      * @type {string}
      * @memberof DocumentValidationErrorPayload
      */
     errorCode: string;
     /**
-     * Descripción del error.
+     * Descripción detallada del error de validación.
      * @type {string}
      * @memberof DocumentValidationErrorPayload
      */
     message: string;
+    /**
+     * Mensaje de error (alias legado).
+     * @type {string}
+     * @memberof DocumentValidationErrorPayload
+     */
+    error?: string;
+    /**
+     * Código de error (alias legado).
+     * @type {any}
+     * @memberof DocumentValidationErrorPayload
+     */
+    code?: any | null;
 }
 
 /**
  * Check if a given object implements the DocumentValidationErrorPayload interface.
  */
 export function instanceOfDocumentValidationErrorPayload(value: object): value is DocumentValidationErrorPayload {
-    if (!('encf' in value) || value['encf'] === undefined) return false;
+    if (!('documentId' in value) || value['documentId'] === undefined) return false;
+    if (!('issuerRnc' in value) || value['issuerRnc'] === undefined) return false;
     if (!('errorCode' in value) || value['errorCode'] === undefined) return false;
     if (!('message' in value) || value['message'] === undefined) return false;
     return true;
@@ -59,9 +90,14 @@ export function DocumentValidationErrorPayloadFromJSONTyped(json: any, ignoreDis
     }
     return {
         
-        'encf': json['encf'],
+        'documentId': json['documentId'],
+        'encf': json['encf'] == null ? undefined : json['encf'],
+        'issuerRnc': json['issuerRnc'],
+        'documentType': json['documentType'] == null ? undefined : json['documentType'],
         'errorCode': json['errorCode'],
         'message': json['message'],
+        'error': json['error'] == null ? undefined : json['error'],
+        'code': json['code'] == null ? undefined : json['code'],
     };
 }
 
@@ -76,9 +112,14 @@ export function DocumentValidationErrorPayloadToJSONTyped(value?: DocumentValida
 
     return {
         
+        'documentId': value['documentId'],
         'encf': value['encf'],
+        'issuerRnc': value['issuerRnc'],
+        'documentType': value['documentType'],
         'errorCode': value['errorCode'],
         'message': value['message'],
+        'error': value['error'],
+        'code': value['code'],
     };
 }
 

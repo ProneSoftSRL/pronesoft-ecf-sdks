@@ -27,10 +27,10 @@ package com.pronesoft.ecf.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Reference to previously issued document (for credit/debit notes).
+ * Referencia al documento previamente emitido (para notas de crédito/débito).
  *
  * @param modifiedInvoiceNumber 
- * @param modificationCode 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+ * @param modificationCode 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
  * @param otherContributorRNC 
  * @param modifiedInvoiceDate 
  * @param modificationReason 
@@ -42,7 +42,7 @@ data class ReferenceInfo (
     @SerializedName("modifiedInvoiceNumber")
     val modifiedInvoiceNumber: kotlin.String,
 
-    /* 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other */
+    /* 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro */
     @SerializedName("modificationCode")
     val modificationCode: ReferenceInfo.ModificationCode,
 
@@ -58,7 +58,7 @@ data class ReferenceInfo (
 ) {
 
     /**
-     * 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other
+     * 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro
      *
      * Values: _1,_2,_3,_4,_5
      */

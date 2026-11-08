@@ -701,7 +701,7 @@ catch (ApiException e)
 
 <a id="listsentdocuments"></a>
 # **ListSentDocuments**
-> SentDocumentListResponse ListSentDocuments (Guid? xTenantId = null, ModelEnvironment? env = null, string? ecf = null, string? type = null, string? status = null, DateOnly? dateFrom = null, DateOnly? dateTo = null, int? page = null, int? limit = null)
+> SentDocumentListResponse ListSentDocuments (Guid? xTenantId = null, ModelEnvironment? env = null, string? ecf = null, string? type = null, string? status = null, string? dateFrom = null, string? dateTo = null, int? page = null, int? limit = null)
 
 Listar documentos enviados
 
@@ -734,8 +734,8 @@ namespace Example
             var ecf = "ecf_example";  // string? |  (optional) 
             var type = "type_example";  // string? |  (optional) 
             var status = "APPROVED";  // string? |  (optional) 
-            var dateFrom = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
-            var dateTo = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
+            var dateFrom = "dateFrom_example";  // string? | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional) 
+            var dateTo = "dateTo_example";  // string? | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional) 
             var page = 1;  // int? |  (optional)  (default to 1)
             var limit = 10;  // int? |  (optional)  (default to 10)
 
@@ -785,8 +785,8 @@ catch (ApiException e)
 | **ecf** | **string?** |  | [optional]  |
 | **type** | **string?** |  | [optional]  |
 | **status** | **string?** |  | [optional]  |
-| **dateFrom** | **DateOnly?** |  | [optional]  |
-| **dateTo** | **DateOnly?** |  | [optional]  |
+| **dateFrom** | **string?** | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional]  |
+| **dateTo** | **string?** | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional]  |
 | **page** | **int?** |  | [optional] [default to 1] |
 | **limit** | **int?** |  | [optional] [default to 10] |
 

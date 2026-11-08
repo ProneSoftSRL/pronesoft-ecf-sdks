@@ -48,9 +48,9 @@ import java.util.Set;
 import com.pronesoft.ecf.JSON;
 
 /**
- * Bearer token valid for 24 hours (86400 seconds).
+ * Token de acceso Bearer válido por 24 horas (86400 segundos).
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class OAuthTokenResponse {
   public static final String SERIALIZED_NAME_ACCESS_TOKEN = "accessToken";
   @SerializedName(SERIALIZED_NAME_ACCESS_TOKEN)
@@ -119,7 +119,7 @@ public class OAuthTokenResponse {
   }
 
   /**
-   * Token lifetime in seconds (24 hours &#x3D; 86400).
+   * Duración del token en segundos (24 horas &#x3D; 86400).
    * @return expiresIn
    */
   @javax.annotation.Nullable

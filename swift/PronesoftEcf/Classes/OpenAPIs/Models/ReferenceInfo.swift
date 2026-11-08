@@ -15,7 +15,7 @@ public typealias ReferenceInfo = PronesoftEcfAPI.ReferenceInfo
 
 extension PronesoftEcfAPI {
 
-/** Reference to previously issued document (for credit/debit notes). */
+/** Referencia al documento previamente emitido (para notas de crédito/débito). */
 public struct ReferenceInfo: Codable, JSONEncodable, Hashable {
 
     public enum ModificationCode: String, Codable, CaseIterable {
@@ -28,7 +28,7 @@ public struct ReferenceInfo: Codable, JSONEncodable, Hashable {
     public var modifiedInvoiceNumber: String
     public var otherContributorRNC: String?
     public var modifiedInvoiceDate: Date?
-    /** 1=Price, 2=Quantity, 3=Return, 4=Tax, 5=Other */
+    /** 1=Precio, 2=Cantidad, 3=Devolución, 4=Impuesto, 5=Otro */
     public var modificationCode: ModificationCode
     public var modificationReason: String?
 

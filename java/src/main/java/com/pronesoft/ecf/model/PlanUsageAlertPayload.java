@@ -49,7 +49,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Payload del evento &#x60;plan.usage_alert&#x60;. El consumo de documentos superó el umbral configurado.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class PlanUsageAlertPayload {
   public static final String SERIALIZED_NAME_USAGE_PERCENT = "usagePercent";
   @SerializedName(SERIALIZED_NAME_USAGE_PERCENT)

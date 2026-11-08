@@ -14,30 +14,30 @@ require 'date'
 require 'time'
 
 module PronesoftEcf
-  # Payload inside `data` when event is `document.status_changed`. Use `documentId` to poll GET /{environment}/ecf/status/{id} if needed. `issuerRnc` identifies the company that issued the document (useful in multi-company setups where an associated company sent it). 
+  # Contenido del campo `data` cuando el evento es `document.status_changed`. Usa `documentId` para hacer polling en GET /{environment}/ecf/status/{id} si lo necesitas. `issuerRnc` identifica la empresa que emitió el documento (útil en configuraciones multi-empresa donde una sucursal fue quien lo envió). 
   class DocumentStatusChangedPayload < ApiModelBase
-    # Internal document ID for polling.
+    # ID interno del documento para hacer polling.
     attr_accessor :document_id
 
-    # e-NCF fiscal number.
+    # Número fiscal e-NCF.
     attr_accessor :encf
 
-    # RNC of the issuing company (associated or main).
+    # RNC de la empresa emisora (asociada o principal).
     attr_accessor :issuer_rnc
 
-    # Public lifecycle status.
+    # Estado del ciclo de vida del documento.
     attr_accessor :status
 
-    # Fiscal result from DGII. Only present when status=FINISHED.
+    # Resultado fiscal de la DGII. Solo presente cuando status=FINISHED.
     attr_accessor :legal_status
 
-    # Tipo de documento code (31=Invoice, 32=Credit Note, etc.)
+    # Código del tipo de documento (31=Factura, 32=Nota de Crédito, etc.)
     attr_accessor :document_type
 
-    # DGII tracking ID.
+    # ID de seguimiento asignado por la DGII.
     attr_accessor :track_id
 
-    # Human-readable DGII response message.
+    # Mensaje legible de respuesta de la DGII.
     attr_accessor :dgii_message
 
     class EnumAttributeValidator

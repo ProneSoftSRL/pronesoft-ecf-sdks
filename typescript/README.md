@@ -4,75 +4,59 @@ A TypeScript SDK client for the api.ecf.sandbox.pronesoft.com API.
 
 ## Usage
 
-First, install the SDK from npm.
+First, install the SDK from npm:
 
 ```bash
 npm install @pronesoft-rd/ecf-sdk --save
 ```
 
-Next, try it out.
+### Quickstart con `IntegrationClient`
 
+El SDK incluye `IntegrationClient`, que gestiona automáticamente el ciclo de vida del token OAuth 2.0 (intercambio de credenciales, almacenamiento en caché y renovación automática ante respuestas 401), además de soportar delegación multi-empresa:
 
 ```ts
-import {
-  Configuration,
-  AssociatedCompaniesApi,
-} from '@pronesoft-rd/ecf-sdk';
-import type { CreateAssociatedCompanyRequest } from '@pronesoft-rd/ecf-sdk';
+import { IntegrationClient } from '@pronesoft-rd/ecf-sdk';
 
-async function example() {
-  console.log("🚀 Testing @pronesoft-rd/ecf-sdk SDK...");
-  const config = new Configuration({ 
-    // To configure OAuth2 access token for authorization: oauth2 application
-    accessToken: "YOUR ACCESS TOKEN",
+// 1. Inicializar cliente con credenciales OAuth 2.0
+const client = new IntegrationClient({
+  baseUrl: 'https://api.ecf.sandbox.pronesoft.com/api/v1',
+  clientId: 'TU_CLIENT_ID',
+  clientSecret: 'TU_CLIENT_SECRET',
+});
+
+async function main() {
+  // 2. Crear Empresa Asociada (Sucursal)
+  // Únicamente 'name' y 'rnc' son obligatorios.
+  // 'email' y 'password' son opcionales: solo se envían si la sucursal requiere acceso independiente al portal web.
+  const sucursal = await client.associatedCompanies.createAssociatedCompany({
+    name: 'Sucursal Santiago SRL',
+    rnc: 'SBX133190907',
+    // Opcionales:
+    // email: 'admin@sucursal.com',     // Para habilitar acceso directo al portal web
+    // password: 'PasswordSeguro123!',  // Mínimo 8 caracteres
+    // phone: '809-555-0101',
+    // address: 'Av. Juan Pablo Duarte 45',
+    // city: 'Santiago',
+    // country: 'DO',
+    // printerType: 'A4',
   });
-  const api = new AssociatedCompaniesApi(config);
+  console.log('Empresa creada con ID:', sucursal.business?.id);
 
-  const body = {
-    // string
-    email: email_example,
-    // string
-    password: password_example,
-    // string
-    name: name_example,
-    // string
-    rnc: rnc_example,
-    // string
-    phone: phone_example,
-    // string
-    address: address_example,
-    // string
-    city: city_example,
-    // string
-    country: country_example,
-    // PrintFormat
-    printerType: ...,
-    // string (optional)
-    firstName: firstName_example,
-    // string (optional)
-    lastName: lastName_example,
-    // string (optional)
-    jobTitle: jobTitle_example,
-    // string (optional)
-    website: website_example,
-    // string (optional)
-    category: category_example,
-    // string (optional)
-    monthlySalesRange: monthlySalesRange_example,
-    // Blob (optional)
-    logo: BINARY_DATA_HERE,
-  } satisfies CreateAssociatedCompanyRequest;
+  // 3. Multi-empresa: Operar en nombre de una empresa asociada
+  const tenantClient = client.forTenant('SBX133190907');
+  const emitidos = await tenantClient.documentsSent.listSentDocuments({});
+  console.log('Documentos emitidos por la sucursal:', emitidos.data?.length);
 
-  try {
-    const data = await api.createAssociatedCompany(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
+  // 4. Aprobación Comercial de un documento recibido
+  await client.documentsReceived.decideCommercialApproval({
+    id: '8a1c2e40-1234-4abc-9def-556677889900',
+    decideCommercialApprovalRequest: {
+      decision: 'APPROVED',
+    },
+  });
 }
 
-// Run the test
-example().catch(console.error);
+main().catch(console.error);
 ```
 
 
@@ -98,6 +82,7 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 *CommercialApprovalsApi* | [**getCommercialApprovalById**](docs/CommercialApprovalsApi.md#getcommercialapprovalbyid) | **GET** /documents/approvals/{id} | Obtener aprobación comercial por ID
 *CommercialApprovalsApi* | [**listCommercialApprovals**](docs/CommercialApprovalsApi.md#listcommercialapprovals) | **GET** /documents/approvals | Listar aprobaciones comerciales
 *DigitalCertificatesApi* | [**uploadCertificate**](docs/DigitalCertificatesApi.md#uploadcertificate) | **POST** /{rnc}/certificates | Subir certificado digital (P12/PFX)
+*DocumentsReceivedApi* | [**decideCommercialApproval**](docs/DocumentsReceivedApi.md#decidecommercialapproval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido
 *DocumentsReceivedApi* | [**getReceivedDocumentById**](docs/DocumentsReceivedApi.md#getreceiveddocumentbyid) | **GET** /documents/received/{id} | Obtener documento recibido por ID
 *DocumentsReceivedApi* | [**getReceivedDocumentStatsBySupplier**](docs/DocumentsReceivedApi.md#getreceiveddocumentstatsbysupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos
 *DocumentsReceivedApi* | [**getReceivedDocumentStatsSummary**](docs/DocumentsReceivedApi.md#getreceiveddocumentstatssummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos
@@ -159,6 +144,8 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 - [CreateAssociatedCompany201Response](docs/CreateAssociatedCompany201Response.md)
 - [CreateTaxSequence201Response](docs/CreateTaxSequence201Response.md)
 - [CreateTaxSequenceRequest](docs/CreateTaxSequenceRequest.md)
+- [DecideCommercialApprovalRequest](docs/DecideCommercialApprovalRequest.md)
+- [DecideCommercialApprovalResponse](docs/DecideCommercialApprovalResponse.md)
 - [DeleteAssociatedCompany200Response](docs/DeleteAssociatedCompany200Response.md)
 - [DgiiMessage](docs/DgiiMessage.md)
 - [DiscountOrSurcharge](docs/DiscountOrSurcharge.md)
@@ -298,7 +285,7 @@ and is automatically generated by the
 [OpenAPI Generator](https://openapi-generator.tech) project:
 
 - API version: `1.2.0`
-- Package version: `0.0.6`
+- Package version: `0.0.12`
 - Generator version: `7.21.0`
 - Build package: `org.openapitools.codegen.languages.TypeScriptFetchClientCodegen`
 

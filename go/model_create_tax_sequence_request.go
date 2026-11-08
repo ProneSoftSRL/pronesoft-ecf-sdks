@@ -25,9 +25,9 @@ type CreateTaxSequenceRequest struct {
 	Type InvoiceTypeSequence `json:"type"`
 	From int32 `json:"from"`
 	To int32 `json:"to"`
-	Quantity int32 `json:"quantity"`
+	Quantity *int32 `json:"quantity,omitempty"`
 	Expiration *string `json:"expiration,omitempty"`
-	Environment Environment `json:"environment"`
+	Environment *Environment `json:"environment,omitempty"`
 }
 
 type _CreateTaxSequenceRequest CreateTaxSequenceRequest
@@ -36,13 +36,11 @@ type _CreateTaxSequenceRequest CreateTaxSequenceRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateTaxSequenceRequest(type_ InvoiceTypeSequence, from int32, to int32, quantity int32, environment Environment) *CreateTaxSequenceRequest {
+func NewCreateTaxSequenceRequest(type_ InvoiceTypeSequence, from int32, to int32) *CreateTaxSequenceRequest {
 	this := CreateTaxSequenceRequest{}
 	this.Type = type_
 	this.From = from
 	this.To = to
-	this.Quantity = quantity
-	this.Environment = environment
 	return &this
 }
 
@@ -126,28 +124,36 @@ func (o *CreateTaxSequenceRequest) SetTo(v int32) {
 	o.To = v
 }
 
-// GetQuantity returns the Quantity field value
+// GetQuantity returns the Quantity field value if set, zero value otherwise.
 func (o *CreateTaxSequenceRequest) GetQuantity() int32 {
-	if o == nil {
+	if o == nil || IsNil(o.Quantity) {
 		var ret int32
 		return ret
 	}
-
-	return o.Quantity
+	return *o.Quantity
 }
 
-// GetQuantityOk returns a tuple with the Quantity field value
+// GetQuantityOk returns a tuple with the Quantity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateTaxSequenceRequest) GetQuantityOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Quantity) {
 		return nil, false
 	}
-	return &o.Quantity, true
+	return o.Quantity, true
 }
 
-// SetQuantity sets field value
+// HasQuantity returns a boolean if a field has been set.
+func (o *CreateTaxSequenceRequest) HasQuantity() bool {
+	if o != nil && !IsNil(o.Quantity) {
+		return true
+	}
+
+	return false
+}
+
+// SetQuantity gets a reference to the given int32 and assigns it to the Quantity field.
 func (o *CreateTaxSequenceRequest) SetQuantity(v int32) {
-	o.Quantity = v
+	o.Quantity = &v
 }
 
 // GetExpiration returns the Expiration field value if set, zero value otherwise.
@@ -182,28 +188,36 @@ func (o *CreateTaxSequenceRequest) SetExpiration(v string) {
 	o.Expiration = &v
 }
 
-// GetEnvironment returns the Environment field value
+// GetEnvironment returns the Environment field value if set, zero value otherwise.
 func (o *CreateTaxSequenceRequest) GetEnvironment() Environment {
-	if o == nil {
+	if o == nil || IsNil(o.Environment) {
 		var ret Environment
 		return ret
 	}
-
-	return o.Environment
+	return *o.Environment
 }
 
-// GetEnvironmentOk returns a tuple with the Environment field value
+// GetEnvironmentOk returns a tuple with the Environment field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateTaxSequenceRequest) GetEnvironmentOk() (*Environment, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Environment) {
 		return nil, false
 	}
-	return &o.Environment, true
+	return o.Environment, true
 }
 
-// SetEnvironment sets field value
+// HasEnvironment returns a boolean if a field has been set.
+func (o *CreateTaxSequenceRequest) HasEnvironment() bool {
+	if o != nil && !IsNil(o.Environment) {
+		return true
+	}
+
+	return false
+}
+
+// SetEnvironment gets a reference to the given Environment and assigns it to the Environment field.
 func (o *CreateTaxSequenceRequest) SetEnvironment(v Environment) {
-	o.Environment = v
+	o.Environment = &v
 }
 
 func (o CreateTaxSequenceRequest) MarshalJSON() ([]byte, error) {
@@ -219,11 +233,15 @@ func (o CreateTaxSequenceRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize["type"] = o.Type
 	toSerialize["from"] = o.From
 	toSerialize["to"] = o.To
-	toSerialize["quantity"] = o.Quantity
+	if !IsNil(o.Quantity) {
+		toSerialize["quantity"] = o.Quantity
+	}
 	if !IsNil(o.Expiration) {
 		toSerialize["expiration"] = o.Expiration
 	}
-	toSerialize["environment"] = o.Environment
+	if !IsNil(o.Environment) {
+		toSerialize["environment"] = o.Environment
+	}
 	return toSerialize, nil
 }
 
@@ -235,8 +253,6 @@ func (o *CreateTaxSequenceRequest) UnmarshalJSON(data []byte) (err error) {
 		"type",
 		"from",
 		"to",
-		"quantity",
-		"environment",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -44,26 +44,27 @@ import com.google.gson.annotations.SerializedName
  *
  * @param invoiceType 
  * @param issueDate 
+ * @param paymentForms Payment breakdown. Required.
  * @param items 
+ * @param totals 
  * @param version Siempre \"1.0\".
  * @param invoiceNumber Número e-NCF (ej. E310000000001 — E + 2 dígitos tipo + 9 dígitos secuencia). **Opcional**: si se omite, el sistema lo asigna automáticamente desde la secuencia registrada para ese `invoiceType`. 
- * @param groupId Optional Group ID for batch processing
+ * @param groupId ID de grupo opcional para procesamiento en lote.
  * @param expirationDate 
- * @param creditNoteIndicator Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+ * @param creditNoteIndicator Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días
  * @param deferredSendingIndicator 
  * @param taxedAmountIndicator 
- * @param incomeType 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
- * @param paymentType 1=Cash, 2=Credit, 3=Mixed
+ * @param incomeType 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro
+ * @param paymentType 1=Contado, 2=Crédito, 3=Mixto
  * @param paymentDeadline 
  * @param paymentTerms 
- * @param paymentForms Payment breakdown. Optional; if omitted, the XML is sent without the payment table.
  * @param paymentAccountType 
  * @param paymentAccountNumber 
  * @param paymentBank 
  * @param serviceStartDate 
  * @param serviceEndDate 
  * @param totalPages 
- * @param issuerRNC RNC of the issuing company.
+ * @param issuerRNC RNC de la empresa emisora.
  * @param issuerBusinessName 
  * @param issuerCommercialName 
  * @param branchName 
@@ -81,7 +82,6 @@ import com.google.gson.annotations.SerializedName
  * @param salesRoute 
  * @param additionalIssuerInfo 
  * @param buyer 
- * @param totals 
  * @param transport 
  * @param additionalInfo 
  * @param alternativeCurrency 
@@ -100,8 +100,15 @@ data class ElectronicDocument (
     @SerializedName("issueDate")
     val issueDate: java.time.OffsetDateTime,
 
+    /* Payment breakdown. Required. */
+    @SerializedName("paymentForms")
+    val paymentForms: kotlin.collections.List<PaymentForm>,
+
     @SerializedName("items")
     val items: kotlin.collections.List<Item>,
+
+    @SerializedName("totals")
+    val totals: Totals,
 
     /* Siempre \"1.0\". */
     @SerializedName("version")
@@ -111,14 +118,14 @@ data class ElectronicDocument (
     @SerializedName("invoiceNumber")
     val invoiceNumber: kotlin.String? = null,
 
-    /* Optional Group ID for batch processing */
+    /* ID de grupo opcional para procesamiento en lote. */
     @SerializedName("groupId")
     val groupId: kotlin.String? = null,
 
     @SerializedName("expirationDate")
     val expirationDate: java.time.OffsetDateTime? = null,
 
-    /* Credit Notes only: 0=affected invoice <=30 days, 1=>30 days */
+    /* Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días */
     @SerializedName("creditNoteIndicator")
     val creditNoteIndicator: ElectronicDocument.CreditNoteIndicator? = null,
 
@@ -128,11 +135,11 @@ data class ElectronicDocument (
     @SerializedName("taxedAmountIndicator")
     val taxedAmountIndicator: ElectronicDocument.TaxedAmountIndicator? = null,
 
-    /* 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other */
+    /* 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro */
     @SerializedName("incomeType")
     val incomeType: ElectronicDocument.IncomeType? = null,
 
-    /* 1=Cash, 2=Credit, 3=Mixed */
+    /* 1=Contado, 2=Crédito, 3=Mixto */
     @SerializedName("paymentType")
     val paymentType: ElectronicDocument.PaymentType? = null,
 
@@ -141,10 +148,6 @@ data class ElectronicDocument (
 
     @SerializedName("paymentTerms")
     val paymentTerms: kotlin.String? = null,
-
-    /* Payment breakdown. Optional; if omitted, the XML is sent without the payment table. */
-    @SerializedName("paymentForms")
-    val paymentForms: kotlin.collections.List<PaymentForm>? = null,
 
     @SerializedName("paymentAccountType")
     val paymentAccountType: AccountType? = null,
@@ -164,7 +167,7 @@ data class ElectronicDocument (
     @SerializedName("totalPages")
     val totalPages: kotlin.Int? = null,
 
-    /* RNC of the issuing company. */
+    /* RNC de la empresa emisora. */
     @SerializedName("issuerRNC")
     val issuerRNC: kotlin.String? = null,
 
@@ -219,9 +222,6 @@ data class ElectronicDocument (
     @SerializedName("buyer")
     val buyer: Buyer? = null,
 
-    @SerializedName("totals")
-    val totals: Totals? = null,
-
     @SerializedName("transport")
     val transport: Transport? = null,
 
@@ -246,7 +246,7 @@ data class ElectronicDocument (
 ) {
 
     /**
-     * Credit Notes only: 0=affected invoice <=30 days, 1=>30 days
+     * Solo Notas de Crédito: 0=factura afectada ≤30 días, 1=>30 días
      *
      * Values: _0,_1
      */
@@ -272,7 +272,7 @@ data class ElectronicDocument (
         @SerializedName(value = "1") _1("1");
     }
     /**
-     * 01=Operations, 02=Financial, 03=Extraordinary, 04=Leasing, 05=Assets, 06=Other
+     * 01=Operaciones, 02=Financiero, 03=Extraordinario, 04=Leasing, 05=Activos, 06=Otro
      *
      * Values: _01,_02,_03,_04,_05,_06
      */
@@ -285,7 +285,7 @@ data class ElectronicDocument (
         @SerializedName(value = "06") _06("06");
     }
     /**
-     * 1=Cash, 2=Credit, 3=Mixed
+     * 1=Contado, 2=Crédito, 3=Mixto
      *
      * Values: _1,_2,_3
      */

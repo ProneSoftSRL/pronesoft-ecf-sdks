@@ -4,10 +4,116 @@ All URIs are relative to *https://api.ecf.sandbox.pronesoft.com/api/v1*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
+| [**DecideCommercialApproval**](DocumentsReceivedApi.md#decidecommercialapproval) | **POST** /documents/received/{id}/commercial-approval | Aprobar o rechazar comercialmente un documento recibido |
 | [**GetReceivedDocumentById**](DocumentsReceivedApi.md#getreceiveddocumentbyid) | **GET** /documents/received/{id} | Obtener documento recibido por ID |
 | [**GetReceivedDocumentStatsBySupplier**](DocumentsReceivedApi.md#getreceiveddocumentstatsbysupplier) | **GET** /documents/received/stats/by-supplier | Top 10 proveedores por volumen de documentos recibidos |
 | [**GetReceivedDocumentStatsSummary**](DocumentsReceivedApi.md#getreceiveddocumentstatssummary) | **GET** /documents/received/stats/summary | Estadísticas de documentos recibidos |
 | [**ListReceivedDocuments**](DocumentsReceivedApi.md#listreceiveddocuments) | **GET** /documents/received | Listar documentos recibidos |
+
+<a id="decidecommercialapproval"></a>
+# **DecideCommercialApproval**
+> DecideCommercialApprovalResponse DecideCommercialApproval (Guid id, DecideCommercialApprovalRequest decideCommercialApprovalRequest, Guid? xTenantId = null)
+
+Aprobar o rechazar comercialmente un documento recibido
+
+Registra tu decisión (aprobar o rechazar comercialmente) sobre un documento recibido, y la envía firmada a la DGII y a la contraparte. La Aprobación Comercial es opcional según la normativa DGII (Formato ACECF v1.0). El Acuse de Recibo (obligatorio) se genera automáticamente al recibir el documento. 
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Pronesoft.Ecf.Sdk.Api;
+using Pronesoft.Ecf.Sdk.Client;
+using Pronesoft.Ecf.Sdk.Model;
+
+namespace Example
+{
+    public class DecideCommercialApprovalExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.ecf.sandbox.pronesoft.com/api/v1";
+            // Configure OAuth2 access token for authorization: oauth2
+            config.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new DocumentsReceivedApi(httpClient, config, httpClientHandler);
+            var id = "id_example";  // Guid | ID del documento recibido (TaxDocumentReceived.id)
+            var decideCommercialApprovalRequest = new DecideCommercialApprovalRequest(); // DecideCommercialApprovalRequest | 
+            var xTenantId = 468a4aa1-1b80-447e-9ecb-400e39f7d798;  // Guid? | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  (optional) 
+
+            try
+            {
+                // Aprobar o rechazar comercialmente un documento recibido
+                DecideCommercialApprovalResponse result = apiInstance.DecideCommercialApproval(id, decideCommercialApprovalRequest, xTenantId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling DocumentsReceivedApi.DecideCommercialApproval: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the DecideCommercialApprovalWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Aprobar o rechazar comercialmente un documento recibido
+    ApiResponse<DecideCommercialApprovalResponse> response = apiInstance.DecideCommercialApprovalWithHttpInfo(id, decideCommercialApprovalRequest, xTenantId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling DocumentsReceivedApi.DecideCommercialApprovalWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **id** | **Guid** | ID del documento recibido (TaxDocumentReceived.id) |  |
+| **decideCommercialApprovalRequest** | [**DecideCommercialApprovalRequest**](DecideCommercialApprovalRequest.md) |  |  |
+| **xTenantId** | **Guid?** | UUID de la empresa asociada (sucursal). Incluir SOLO cuando se actúa en nombre de una sucursal. Omitir cuando se actúa como empresa principal.  | [optional]  |
+
+### Return type
+
+[**DecideCommercialApprovalResponse**](DecideCommercialApprovalResponse.md)
+
+### Authorization
+
+[oauth2](../README.md#oauth2)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Decisión registrada y encolada para envío |  -  |
+| **400** | Error de validación (400). Revisa el campo message para más detalles. |  -  |
+| **401** | Token ausente, expirado o inválido. Llama a POST /oauth/token para renovarlo. |  -  |
+| **404** | Documento recibido no encontrado |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a id="getreceiveddocumentbyid"></a>
 # **GetReceivedDocumentById**
@@ -305,7 +411,7 @@ catch (ApiException e)
 
 <a id="listreceiveddocuments"></a>
 # **ListReceivedDocuments**
-> ReceivedDocumentListResponse ListReceivedDocuments (Guid? xTenantId = null, string? ecf = null, string? type = null, int? status = null, string? supplierRnc = null, decimal? amountFrom = null, decimal? amountTo = null, bool? processed = null, DateOnly? dateFrom = null, DateOnly? dateTo = null, int? page = null, int? limit = null)
+> ReceivedDocumentListResponse ListReceivedDocuments (Guid? xTenantId = null, string? ecf = null, string? type = null, int? status = null, string? supplierRnc = null, decimal? amountFrom = null, decimal? amountTo = null, bool? processed = null, string? dateFrom = null, string? dateTo = null, int? page = null, int? limit = null)
 
 Listar documentos recibidos
 
@@ -341,8 +447,8 @@ namespace Example
             var amountFrom = 8.14D;  // decimal? |  (optional) 
             var amountTo = 8.14D;  // decimal? |  (optional) 
             var processed = true;  // bool? |  (optional) 
-            var dateFrom = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
-            var dateTo = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
+            var dateFrom = "dateFrom_example";  // string? | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). (optional) 
+            var dateTo = "dateTo_example";  // string? | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). (optional) 
             var page = 1;  // int? |  (optional)  (default to 1)
             var limit = 10;  // int? |  (optional)  (default to 10)
 
@@ -395,8 +501,8 @@ catch (ApiException e)
 | **amountFrom** | **decimal?** |  | [optional]  |
 | **amountTo** | **decimal?** |  | [optional]  |
 | **processed** | **bool?** |  | [optional]  |
-| **dateFrom** | **DateOnly?** |  | [optional]  |
-| **dateTo** | **DateOnly?** |  | [optional]  |
+| **dateFrom** | **string?** | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional]  |
+| **dateTo** | **string?** | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional]  |
 | **page** | **int?** |  | [optional] [default to 1] |
 | **limit** | **int?** |  | [optional] [default to 10] |
 

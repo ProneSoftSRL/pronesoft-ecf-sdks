@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**code** | **String** | DGII tax code (e.g. ISC, IECS) | 
+**code** | **String** | Código de impuesto DGII (ej. ISC, IECS) | 
 **amount** | Option<[**models::ItemWithheldItbisAmount**](ItemWithheldITBISAmount.md)> |  | [optional]
 **rate** | Option<**f64**> |  | [optional]
 **alternative_currency_amount** | Option<**f64**> |  | [optional]

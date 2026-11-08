@@ -4,22 +4,24 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DocumentId** | **string** | Internal document ID for polling. | 
+**DocumentId** | **string** | ID interno del documento en Pronesoft. | 
 **Encf** | **string** |  | 
-**IssuerRnc** | **string** | RNC of the issuing company (associated or main). | 
+**IssuerRnc** | **string** | RNC de la empresa emisora del documento. | 
 **Status** | **string** | Estado final del proceso. | 
-**LegalStatus** | Pointer to **NullableString** | Fiscal result from DGII. Only present when status&#x3D;FINISHED. | [optional] 
-**DocumentType** | Pointer to **NullableString** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) | [optional] 
-**TrackId** | Pointer to **NullableString** | DGII tracking ID. | [optional] 
-**DgiiMessage** | Pointer to **NullableString** | Human-readable DGII response message. | [optional] 
+**LegalStatus** | Pointer to **NullableString** | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. | [optional] 
+**DocumentType** | Pointer to **NullableString** | Tipo de comprobante (31, 32, 33, 34, etc.). | [optional] 
+**TrackId** | Pointer to **NullableString** | ID de seguimiento asignado por la DGII. | [optional] 
+**DgiiMessage** | Pointer to **NullableString** | Mensaje legible de respuesta de la DGII. | [optional] 
 **SenderRnc** | **string** |  | 
 **ReceiverRnc** | **string** |  | 
 **TotalAmount** | **float32** |  | 
 **IssueDate** | **time.Time** |  | 
 **ReceivedAt** | **time.Time** | Fecha de recepción del documento. | 
 **RejectionReason** | Pointer to **NullableString** | Razón del rechazo (solo si status es &#39;rejected&#39;). | [optional] 
-**ErrorCode** | **string** | Código de error de validación. | 
-**Message** | **string** | Descripción del error. | 
+**ErrorCode** | **string** | Código del error de validación. | 
+**Message** | **string** | Descripción detallada del error de validación. | 
+**Error** | Pointer to **string** | Mensaje de error (alias legado). | [optional] 
+**Code** | Pointer to **interface{}** | Código de error (alias legado). | [optional] 
 **Reason** | **string** | Motivo de la anulación. | 
 **RetryAt** | Pointer to **NullableTime** | Fecha estimada de reintento de envío. | [optional] 
 **ApprovalStatus** | **string** |  | 
@@ -471,6 +473,66 @@ and a boolean to check if the value has been set.
 SetMessage sets Message field to given value.
 
 
+### GetError
+
+`func (o *WebhookNotificationPayloadData) GetError() string`
+
+GetError returns the Error field if non-nil, zero value otherwise.
+
+### GetErrorOk
+
+`func (o *WebhookNotificationPayloadData) GetErrorOk() (*string, bool)`
+
+GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetError
+
+`func (o *WebhookNotificationPayloadData) SetError(v string)`
+
+SetError sets Error field to given value.
+
+### HasError
+
+`func (o *WebhookNotificationPayloadData) HasError() bool`
+
+HasError returns a boolean if a field has been set.
+
+### GetCode
+
+`func (o *WebhookNotificationPayloadData) GetCode() interface{}`
+
+GetCode returns the Code field if non-nil, zero value otherwise.
+
+### GetCodeOk
+
+`func (o *WebhookNotificationPayloadData) GetCodeOk() (*interface{}, bool)`
+
+GetCodeOk returns a tuple with the Code field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCode
+
+`func (o *WebhookNotificationPayloadData) SetCode(v interface{})`
+
+SetCode sets Code field to given value.
+
+### HasCode
+
+`func (o *WebhookNotificationPayloadData) HasCode() bool`
+
+HasCode returns a boolean if a field has been set.
+
+### SetCodeNil
+
+`func (o *WebhookNotificationPayloadData) SetCodeNil(b bool)`
+
+ SetCodeNil sets the value for Code to be an explicit nil
+
+### UnsetCode
+`func (o *WebhookNotificationPayloadData) UnsetCode()`
+
+UnsetCode ensures that no value is present for Code, not even an explicit nil
 ### GetReason
 
 `func (o *WebhookNotificationPayloadData) GetReason() string`

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AccessToken** | Pointer to **string** |  | [optional] 
 **TokenType** | Pointer to **string** |  | [optional] 
-**ExpiresIn** | Pointer to **int32** | Token lifetime in seconds (24 hours &#x3D; 86400). | [optional] 
+**ExpiresIn** | Pointer to **int32** | Duración del token en segundos (24 horas &#x3D; 86400). | [optional] 
 **Scope** | Pointer to **[]string** |  | [optional] 
 
 ## Methods

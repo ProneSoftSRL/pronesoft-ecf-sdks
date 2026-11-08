@@ -8,22 +8,24 @@ Payload específico del evento. El tipo varía según el campo `event`: - `docum
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**documentId** | **UUID** | Internal document ID for polling. |  |
+|**documentId** | **UUID** | ID interno del documento en Pronesoft. |  |
 |**encf** | **String** |  |  |
-|**issuerRnc** | **String** | RNC of the issuing company (associated or main). |  |
+|**issuerRnc** | **String** | RNC de la empresa emisora del documento. |  |
 |**status** | **String** | Estado final del proceso. |  |
-|**legalStatus** | [**LegalStatusEnum**](#LegalStatusEnum) | Fiscal result from DGII. Only present when status&#x3D;FINISHED. |  [optional] |
-|**documentType** | **String** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) |  [optional] |
-|**trackId** | **String** | DGII tracking ID. |  [optional] |
-|**dgiiMessage** | **String** | Human-readable DGII response message. |  [optional] |
+|**legalStatus** | [**LegalStatusEnum**](#LegalStatusEnum) | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. |  [optional] |
+|**documentType** | **String** | Tipo de comprobante (31, 32, 33, 34, etc.). |  [optional] |
+|**trackId** | **String** | ID de seguimiento asignado por la DGII. |  [optional] |
+|**dgiiMessage** | **String** | Mensaje legible de respuesta de la DGII. |  [optional] |
 |**senderRnc** | **String** |  |  |
 |**receiverRnc** | **String** |  |  |
 |**totalAmount** | **BigDecimal** |  |  |
 |**issueDate** | **OffsetDateTime** |  |  |
 |**receivedAt** | **OffsetDateTime** | Fecha de recepción del documento. |  |
 |**rejectionReason** | **String** | Razón del rechazo (solo si status es &#39;rejected&#39;). |  [optional] |
-|**errorCode** | **String** | Código de error de validación. |  |
-|**message** | **String** | Descripción del error. |  |
+|**errorCode** | **String** | Código del error de validación. |  |
+|**message** | **String** | Descripción detallada del error de validación. |  |
+|**error** | **String** | Mensaje de error (alias legado). |  [optional] |
+|**code** | **Object** | Código de error (alias legado). |  [optional] |
 |**reason** | **String** | Motivo de la anulación. |  |
 |**retryAt** | **OffsetDateTime** | Fecha estimada de reintento de envío. |  [optional] |
 |**approvalStatus** | [**ApprovalStatusEnum**](#ApprovalStatusEnum) |  |  |

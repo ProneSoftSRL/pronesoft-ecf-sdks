@@ -327,7 +327,7 @@ class ItemAdditionalTax implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets code
      *
-     * @param string $code DGII tax code (e.g. ISC, IECS)
+     * @param string $code Código de impuesto DGII (ej. ISC, IECS)
      *
      * @return self
      */

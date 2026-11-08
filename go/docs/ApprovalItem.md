@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **BuyerRnc** | Pointer to **string** |  | [optional] 
 **TotalAmount** | Pointer to **float32** |  | [optional] 
 **ApprovalStatus** | Pointer to **string** |  | [optional] 
-**Status** | Pointer to **int32** | 1&#x3D;Approved, 2&#x3D;Rejected, 3&#x3D;Pending, 4&#x3D;Under Review | [optional] 
+**Status** | Pointer to **int32** | 1&#x3D;Aprobado, 2&#x3D;Rechazado, 3&#x3D;Pendiente, 4&#x3D;En revisión | [optional] 
 **StatusLabel** | Pointer to **string** |  | [optional] 
 **IssueDate** | Pointer to **time.Time** |  | [optional] 
 **ReceivedAt** | Pointer to **time.Time** |  | [optional] 

@@ -64,7 +64,7 @@ import com.pronesoft.ecf.JSON;
 /**
  * Item
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T08:40:37.091743238-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-11-08T10:01:59.245650526-04:00[America/Santo_Domingo]", comments = "Generator version: 7.21.0")
 public class Item {
   public static final String SERIALIZED_NAME_LINE_NUMBER = "lineNumber";
   @SerializedName(SERIALIZED_NAME_LINE_NUMBER)
@@ -87,7 +87,7 @@ public class Item {
   private String description;
 
   /**
-   * 1&#x3D;Good, 2&#x3D;Service
+   * 1&#x3D;Bien, 2&#x3D;Servicio
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
@@ -346,7 +346,7 @@ public class Item {
   }
 
   /**
-   * 1&#x3D;Good, 2&#x3D;Service
+   * 1&#x3D;Bien, 2&#x3D;Servicio
    * @return type
    */
   @javax.annotation.Nonnull

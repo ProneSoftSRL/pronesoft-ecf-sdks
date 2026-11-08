@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **codes** | [ItemCodesInner] |  | [optional] 
 **name** | **String** |  | 
 **description** | **String** |  | [optional] 
-**type** | **String** | 1&#x3D;Good, 2&#x3D;Service | 
+**type** | **String** | 1&#x3D;Bien, 2&#x3D;Servicio | 
 **billingIndicator** | [**BillingIndicator**](BillingIndicator.md) |  | 
 **withholdingAgentIndicator** | **Int** |  | [optional] 
 **withheldITBISAmount** | [**ItemWithheldITBISAmount**](ItemWithheldITBISAmount.md) |  | [optional] 

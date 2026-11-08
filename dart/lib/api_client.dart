@@ -244,6 +244,10 @@ class ApiClient {
           return CreateTaxSequence201Response.fromJson(value);
         case 'CreateTaxSequenceRequest':
           return CreateTaxSequenceRequest.fromJson(value);
+        case 'DecideCommercialApprovalRequest':
+          return DecideCommercialApprovalRequest.fromJson(value);
+        case 'DecideCommercialApprovalResponse':
+          return DecideCommercialApprovalResponse.fromJson(value);
         case 'DeleteAssociatedCompany200Response':
           return DeleteAssociatedCompany200Response.fromJson(value);
         case 'DgiiMessage':
@@ -268,6 +272,10 @@ class ApiClient {
           return EcfStatsResponse.fromJson(value);
         case 'EcfStatusResponse':
           return EcfStatusResponse.fromJson(value);
+        case 'EcfStatusResponseGovernmentResponse':
+          return EcfStatusResponseGovernmentResponse.fromJson(value);
+        case 'EcfStatusResponseGovernmentResponseValueInner':
+          return EcfStatusResponseGovernmentResponseValueInner.fromJson(value);
         case 'EcfSubmitResponse':
           return EcfSubmitResponse.fromJson(value);
         case 'EcfSubmitResponseCompanyIdentification':

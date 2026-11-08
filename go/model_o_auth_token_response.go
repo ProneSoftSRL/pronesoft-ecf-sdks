@@ -18,11 +18,11 @@ import (
 // checks if the OAuthTokenResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &OAuthTokenResponse{}
 
-// OAuthTokenResponse Bearer token valid for 24 hours (86400 seconds).
+// OAuthTokenResponse Token de acceso Bearer válido por 24 horas (86400 segundos).
 type OAuthTokenResponse struct {
 	AccessToken *string `json:"accessToken,omitempty"`
 	TokenType *string `json:"tokenType,omitempty"`
-	// Token lifetime in seconds (24 hours = 86400).
+	// Duración del token en segundos (24 horas = 86400).
 	ExpiresIn *int32 `json:"expiresIn,omitempty"`
 	Scope []string `json:"scope,omitempty"`
 }

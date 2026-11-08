@@ -5,22 +5,24 @@ Payload específico del evento. El tipo varía según el campo `event`: - `docum
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DocumentId** | **Guid** | Internal document ID for polling. | 
+**DocumentId** | **Guid** | ID interno del documento en Pronesoft. | 
 **Encf** | **string** |  | 
-**IssuerRnc** | **string** | RNC of the issuing company (associated or main). | 
+**IssuerRnc** | **string** | RNC de la empresa emisora del documento. | 
 **Status** | **string** | Estado final del proceso. | 
-**LegalStatus** | **string** | Fiscal result from DGII. Only present when status&#x3D;FINISHED. | [optional] 
-**DocumentType** | **string** | Tipo de documento code (31&#x3D;Invoice, 32&#x3D;Credit Note, etc.) | [optional] 
-**TrackId** | **string** | DGII tracking ID. | [optional] 
-**DgiiMessage** | **string** | Human-readable DGII response message. | [optional] 
+**LegalStatus** | **string** | Resultado fiscal de la DGII. Solo presente cuando status&#x3D;FINISHED. | [optional] 
+**DocumentType** | **string** | Tipo de comprobante (31, 32, 33, 34, etc.). | [optional] 
+**TrackId** | **string** | ID de seguimiento asignado por la DGII. | [optional] 
+**DgiiMessage** | **string** | Mensaje legible de respuesta de la DGII. | [optional] 
 **SenderRnc** | **string** |  | 
 **ReceiverRnc** | **string** |  | 
 **TotalAmount** | **decimal** |  | 
 **IssueDate** | **DateTime** |  | 
 **ReceivedAt** | **DateTime** | Fecha de recepción del documento. | 
 **RejectionReason** | **string** | Razón del rechazo (solo si status es &#39;rejected&#39;). | [optional] 
-**ErrorCode** | **string** | Código de error de validación. | 
-**Message** | **string** | Descripción del error. | 
+**ErrorCode** | **string** | Código del error de validación. | 
+**Message** | **string** | Descripción detallada del error de validación. | 
+**Error** | **string** | Mensaje de error (alias legado). | [optional] 
+**Code** | **Object** | Código de error (alias legado). | [optional] 
 **Reason** | **string** | Motivo de la anulación. | 
 **RetryAt** | **DateTime?** | Fecha estimada de reintento de envío. | [optional] 
 **ApprovalStatus** | **string** |  | 

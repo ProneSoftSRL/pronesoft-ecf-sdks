@@ -59,9 +59,14 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
      * @var string[]
      */
     protected static $openAPITypes = [
+        'document_id' => 'string',
         'encf' => 'string',
+        'issuer_rnc' => 'string',
+        'document_type' => 'string',
         'error_code' => 'string',
-        'message' => 'string'
+        'message' => 'string',
+        'error' => 'string',
+        'code' => 'mixed'
     ];
 
     /**
@@ -72,9 +77,14 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
+        'document_id' => 'uuid',
         'encf' => null,
+        'issuer_rnc' => null,
+        'document_type' => null,
         'error_code' => null,
-        'message' => null
+        'message' => null,
+        'error' => null,
+        'code' => null
     ];
 
     /**
@@ -83,9 +93,14 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'encf' => false,
+        'document_id' => false,
+        'encf' => true,
+        'issuer_rnc' => false,
+        'document_type' => true,
         'error_code' => false,
-        'message' => false
+        'message' => false,
+        'error' => false,
+        'code' => true
     ];
 
     /**
@@ -174,9 +189,14 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
      * @var string[]
      */
     protected static $attributeMap = [
+        'document_id' => 'documentId',
         'encf' => 'encf',
+        'issuer_rnc' => 'issuerRnc',
+        'document_type' => 'documentType',
         'error_code' => 'errorCode',
-        'message' => 'message'
+        'message' => 'message',
+        'error' => 'error',
+        'code' => 'code'
     ];
 
     /**
@@ -185,9 +205,14 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
      * @var string[]
      */
     protected static $setters = [
+        'document_id' => 'setDocumentId',
         'encf' => 'setEncf',
+        'issuer_rnc' => 'setIssuerRnc',
+        'document_type' => 'setDocumentType',
         'error_code' => 'setErrorCode',
-        'message' => 'setMessage'
+        'message' => 'setMessage',
+        'error' => 'setError',
+        'code' => 'setCode'
     ];
 
     /**
@@ -196,9 +221,14 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
      * @var string[]
      */
     protected static $getters = [
+        'document_id' => 'getDocumentId',
         'encf' => 'getEncf',
+        'issuer_rnc' => 'getIssuerRnc',
+        'document_type' => 'getDocumentType',
         'error_code' => 'getErrorCode',
-        'message' => 'getMessage'
+        'message' => 'getMessage',
+        'error' => 'getError',
+        'code' => 'getCode'
     ];
 
     /**
@@ -258,9 +288,14 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
      */
     public function __construct(?array $data = null)
     {
+        $this->setIfExists('document_id', $data ?? [], null);
         $this->setIfExists('encf', $data ?? [], null);
+        $this->setIfExists('issuer_rnc', $data ?? [], null);
+        $this->setIfExists('document_type', $data ?? [], null);
         $this->setIfExists('error_code', $data ?? [], null);
         $this->setIfExists('message', $data ?? [], null);
+        $this->setIfExists('error', $data ?? [], null);
+        $this->setIfExists('code', $data ?? [], null);
     }
 
     /**
@@ -290,8 +325,11 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
     {
         $invalidProperties = [];
 
-        if ($this->container['encf'] === null) {
-            $invalidProperties[] = "'encf' can't be null";
+        if ($this->container['document_id'] === null) {
+            $invalidProperties[] = "'document_id' can't be null";
+        }
+        if ($this->container['issuer_rnc'] === null) {
+            $invalidProperties[] = "'issuer_rnc' can't be null";
         }
         if ($this->container['error_code'] === null) {
             $invalidProperties[] = "'error_code' can't be null";
@@ -315,9 +353,36 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
 
 
     /**
-     * Gets encf
+     * Gets document_id
      *
      * @return string
+     */
+    public function getDocumentId()
+    {
+        return $this->container['document_id'];
+    }
+
+    /**
+     * Sets document_id
+     *
+     * @param string $document_id ID interno del documento en Pronesoft.
+     *
+     * @return self
+     */
+    public function setDocumentId($document_id)
+    {
+        if (is_null($document_id)) {
+            throw new \InvalidArgumentException('non-nullable document_id cannot be null');
+        }
+        $this->container['document_id'] = $document_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets encf
+     *
+     * @return string|null
      */
     public function getEncf()
     {
@@ -327,16 +392,84 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets encf
      *
-     * @param string $encf encf
+     * @param string|null $encf Número e-NCF del documento (si llegó a asignarse antes del fallo de validación).
      *
      * @return self
      */
     public function setEncf($encf)
     {
         if (is_null($encf)) {
-            throw new \InvalidArgumentException('non-nullable encf cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'encf');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('encf', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['encf'] = $encf;
+
+        return $this;
+    }
+
+    /**
+     * Gets issuer_rnc
+     *
+     * @return string
+     */
+    public function getIssuerRnc()
+    {
+        return $this->container['issuer_rnc'];
+    }
+
+    /**
+     * Sets issuer_rnc
+     *
+     * @param string $issuer_rnc RNC de la empresa emisora del documento.
+     *
+     * @return self
+     */
+    public function setIssuerRnc($issuer_rnc)
+    {
+        if (is_null($issuer_rnc)) {
+            throw new \InvalidArgumentException('non-nullable issuer_rnc cannot be null');
+        }
+        $this->container['issuer_rnc'] = $issuer_rnc;
+
+        return $this;
+    }
+
+    /**
+     * Gets document_type
+     *
+     * @return string|null
+     */
+    public function getDocumentType()
+    {
+        return $this->container['document_type'];
+    }
+
+    /**
+     * Sets document_type
+     *
+     * @param string|null $document_type Tipo de comprobante (31, 32, 33, 34, etc.).
+     *
+     * @return self
+     */
+    public function setDocumentType($document_type)
+    {
+        if (is_null($document_type)) {
+            array_push($this->openAPINullablesSetToNull, 'document_type');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('document_type', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['document_type'] = $document_type;
 
         return $this;
     }
@@ -354,7 +487,7 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets error_code
      *
-     * @param string $error_code Código de error de validación.
+     * @param string $error_code Código del error de validación.
      *
      * @return self
      */
@@ -381,7 +514,7 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
     /**
      * Sets message
      *
-     * @param string $message Descripción del error.
+     * @param string $message Descripción detallada del error de validación.
      *
      * @return self
      */
@@ -391,6 +524,67 @@ class DocumentValidationErrorPayload implements ModelInterface, ArrayAccess, \Js
             throw new \InvalidArgumentException('non-nullable message cannot be null');
         }
         $this->container['message'] = $message;
+
+        return $this;
+    }
+
+    /**
+     * Gets error
+     *
+     * @return string|null
+     */
+    public function getError()
+    {
+        return $this->container['error'];
+    }
+
+    /**
+     * Sets error
+     *
+     * @param string|null $error Mensaje de error (alias legado).
+     *
+     * @return self
+     */
+    public function setError($error)
+    {
+        if (is_null($error)) {
+            throw new \InvalidArgumentException('non-nullable error cannot be null');
+        }
+        $this->container['error'] = $error;
+
+        return $this;
+    }
+
+    /**
+     * Gets code
+     *
+     * @return mixed|null
+     */
+    public function getCode()
+    {
+        return $this->container['code'];
+    }
+
+    /**
+     * Sets code
+     *
+     * @param mixed|null $code Código de error (alias legado).
+     *
+     * @return self
+     */
+    public function setCode($code)
+    {
+        if (is_null($code)) {
+            array_push($this->openAPINullablesSetToNull, 'code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('code', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['code'] = $code;
 
         return $this;
     }

@@ -102,8 +102,8 @@ opts = {
   ecf: 'ecf_example', # String | 
   type: 'type_example', # String | Tipo de documento
   status: 1, # Integer | 
-  date_from: Date.parse('2013-10-20'), # Date | 
-  date_to: Date.parse('2013-10-20'), # Date | 
+  date_from: 'date_from_example', # String | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601).
+  date_to: 'date_to_example', # String | Fecha fin (YYYY-MM-DD o timestamp ISO 8601).
   page: 56, # Integer | 
   limit: 56 # Integer | 
 }
@@ -143,8 +143,8 @@ end
 | **ecf** | **String** |  | [optional] |
 | **type** | **String** | Tipo de documento | [optional] |
 | **status** | **Integer** |  | [optional] |
-| **date_from** | **Date** |  | [optional] |
-| **date_to** | **Date** |  | [optional] |
+| **date_from** | **String** | Fecha inicio (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
+| **date_to** | **String** | Fecha fin (YYYY-MM-DD o timestamp ISO 8601). | [optional] |
 | **page** | **Integer** |  | [optional][default to 1] |
 | **limit** | **Integer** |  | [optional][default to 10] |
 
